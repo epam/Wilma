@@ -35,12 +35,14 @@ Wilma is a Java based proxy and stub solution. It consists of two applications:
 * Gradle, Checkstyle, Git Integration for the IDE
 
 ####Building with Gradle
-The project can be built with by executing the following command from the root directory which contains the project (the folder which contains the gradlew file):
+The project can be built by executing the following command from project root folder:
 
 `gradlew clean build`
 
+Note for Windows users: Use gradlew.bat instead of gradle.
+
 ####Running with Gradle
-The project can be run by executing the following command from the root directory which contains the project (the folder which contains the gradlew file).
+The project can be run by executing the following command from project root folder:
 
 #####Wilma application
 `gradlew -q :wilma-application:wilma-engine:run`
@@ -48,8 +50,8 @@ The project can be run by executing the following command from the root director
 #####Wilma Message Search application
 `gradlew -q :wilma-message-search:wilma-message-search-engine:run`
 
-##For further information
-* Check the Wiki and Issues in GitHub
+##Detailed information
+* Check the Wiki and Issues on GitHub
 * Check further documentation at http://epam.github.io/Wilma/
 
 ## Contact
@@ -77,4 +79,4 @@ There are three ways you can help us:
 
 * **Raise an issue.** You found something that does not work as expected? Let us know about it.
 * **Suggest a feature.** It's even better if you come up with a new feature and write us about it.
-* **Write some code.** We would love to see more pull requests to our framework, just make sure you have the latest sources.
+* **Write some code.** We would love to see pull requests to this tool, just make sure you have the latest sources.
