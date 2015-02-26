@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://evhubudsd5195.budapest.epam.com/StubConfig" targetNamespace="http://evhubudsd5195.budapest.epam.com/StubConfig"
-  xmlns:tns="http://evhubudsd5195.budapest.epam.com/StubConfig" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://epam.github.io/Wilma/xsd/StubConfig" targetNamespace="http://epam.github.io/Wilma/xsd/StubConfig"
+  xmlns:tns="http://epam.github.io/Wilma/xsd/StubConfig" elementFormDefault="qualified">
   <xs:element name="wilma-stub" type="WilmaStubType">
     <xs:keyref name="templateFormatterSetRef" refer="templateFormatterSets">
       <xs:selector xpath=".//tns:template-formatter-set-invoker" />
