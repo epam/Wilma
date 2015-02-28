@@ -7,7 +7,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    <title>Wilma Open Source / Wilma Documentation - THIS PAGE IS UNDER CONSTRUCTION, DO NOT USE IT</title>
+    <title>Introduction to Wilma</title>
 
     <link rel="stylesheet" href="static/elstyle.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -35,18 +35,73 @@
             <div class="body">
 
                 <div class="section" id="wilma-open-source">
-                    <h1>Introduction to Wilma - THIS PAGE IS UNDER CONSTRUCTION, DO NOT USE IT<a class="headerlink" href="#wilma-open-source" title="Permalink to this headline">¶</a></h1>
-                    <div class="toctree-wrapper compound">
-                    </div>
-                    <p>Wilma is a Java based proxy and stub solution. It consists of two applications:<br/>
+                    <h1>Introduction to Wilma</h1>
+                    
+                    <b>What problems does it solve?</b><br/>
+                    <p>For application/component tests, sometimes it is necessary to test a component in a separated environment without the availability of the surrounding components.<br/>
+                        In that case we need to emulate the missing components by using stubs.<br/>
+                        <p/>
+                        On the other hand sometimes such surrounding components exist, but either buggy, not reliable, or does not provide the expected messages.<br/>
+                        In these situations the connection between the components should be established, and we need to exchange the messages on-the-fly (i.e. instead of proxiing the message, a stub response need to be generated). 
+                    </p>
+                    <b>What the tool/product does?</b><br/>
+                    <p><ul style="list-style-type: square;">
+                        <li>Acts as java proxy between components those use http(s) communication. (Even 2-way SSL.)</li>
+                        <li>Captures, decodes and saves the traffic, and based on the decoded messages, - if that is necessary - it is able to give self-generated answer for a request (i.e. can act as a stub).</li>
+                        <li>The stub part is configurable, on-the-fly, to ensure its usage for both automated and manual tests.</li>
+                        <li>By using the provided interfaces, project specific extensions (special response creators/formatters) can easily be added to the tool.</li>
+                        <li>As the messages are stored, can be used for trouble shooting too (even if only the proxy feature is in use).</li>
+                        <li>And a lots of other things, please see full list of features that Wilma can do for you <a class="reference external" href="endusers/feature_list.html">here...</a></li>
+                    </ul></p>
+                    
+                    <b>How it works?</b><br/>
+                    <p>As it is a combined proxy and stub. The component that sends the request to another component, should use Wilma as a simple HTTP/HTTPS proxy. By evaluating the captured request Wilma decides whether need to act as proxy - then simply forward the request to the original target - or need to act as stub - in this case generates a response. <br/>
+                        Configuring its behavior happens via xml config, that can be uploaded (therefore changed) via UI or via service on the fly.</p>
+                    <b>So how does it help me?</b><br/>
+                    <p>Several ways:<br/>
+                    <ul style="list-style-type: square;">
+                        <li>in case there is an app that communicates to other components (SOA environment or by simply using 3rd party services) but need to be tested without the availability of other components, Wilma can act as stub. It can be a CI environment too</li>
+                        <li>in similar case, if some of the components are available but some not, Wilma can stub the missing ones, meanwhile proxying the request to the available components</li>
+                        <li>also if there is a new feature in a 3rd party component, that will be developed later, and not yet available, in case the IF is defined, Wilma can emulate the new feature of the 3rd party component, and the feature in your component can be developed without waiting for the implementation of the feature in the 3rd party component</li>
+                        <li>also it is possible to emulate special behavior of 3rd party components like: timeouts, slow or bad answers, special error answers/error codes - without doing special test environment setup changes, and even if forcing the 3rd party component to produce such special answers would be hard/impossible</li>
+                        <li>also - as it can log the messages - it helps testers/developers to analyse what kind of message transfer has happened between the components (trouble shooting) - also such recorded messages can be used as base of stub responses</li>
+                    </ul>
+                    </p>
+                    <b>Is it an application or a framework?</b>
+                    <p>It has two deployable standalone applications:<br/>
                     <ul class="simple">
                         <li>Wilma application</li>
                         <li>Wilma Message Search application</li>
-                    </ul><P/>
-                        <b>Wilma application</b> acts as a proxy between two components those are communicating over HTTP/HTTPS.
-                    It logs the messages, and makes it possible to stub/mock requests based on configuration defined in XML file(s).
-                    Also configurable via plugins.<br/><P/>
-                    <b>Wilma Message Search application</b> provides high performance searching of the request-response pairs those were logged by Wilma application..<p/>
+                    </ul><p/>
+                    <b><i>Wilma application</i></b> acts as a proxy between two components those are communicating over HTTP/HTTPS.
+                    It logs the messages, and makes it possible to stub responses based on configuration defined in XML file(s).
+                    It can be used/configured immediately. But accepts further add-ons:</p>
+                    <ul style="list-style-type: square;">
+                        <li>you may create your own class (even jar) to be used during request message evaluation if proxy or stub response should be used (by implementing the necessary condition-checker interface)</li>
+                        <li>you may create your own class (even jar) to format/generate stub responses (by implementing the necessary template-formatter interface)</li>
+                        <li>you may create your own class (even jar) to intercept and analyse the request/response messages on the fly (by implementing the necessary interceptor interface)</li>
+                        <li>(and yes, everything can be uploaded via UI / service on-the-fly)</li>
+                    </ul>
+                    <b><i>Wilma Message Search application</i></b> is a high performance search engine, offers searching of the request-response pairs those were logged by Wilma application.<p/>
+                    <b>Where I can get further info? </b>
+                    <div>
+                        <ul>
+                            <li>For Wilma developers and contributors (and whoever is interested in insights), please continue <a class="reference external" href="developers/index.html">here...</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>As a Wilma End-User, please continue <a class="reference external" href="endusers/index.html">here...</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>If you are interested in the collection of Wilma related Questions and Answers, please continue <a class="reference external" href="endusers/q_and_a.html">here...</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
