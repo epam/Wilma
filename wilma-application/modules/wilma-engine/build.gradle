@@ -1,0 +1,86 @@
+/*==========================================================================
+Copyright 2013-2015 EPAM Systems
+
+This file is part of Wilma.
+
+Wilma is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Wilma is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
+===========================================================================*/
+
+description = 'wilma engine'
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.0'
+    }
+}
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+mainClassName = 'com.epam.wilma.engine.WilmaApplication'
+
+def configFileDefaultPath = "$project.projectDir/wilma.conf.properties";
+if (!hasProperty("configFilePath")) {
+    project.ext.configFilePath = configFileDefaultPath
+}
+run{
+    args = ["$configFilePath"];
+}
+
+shadowJar {
+    append('META-INF/spring.handlers')
+    append('META-INF/spring.schemas')
+    	
+    excludes = [
+		'META-INF/*.SF',
+		'META-INF/*.DSA',
+		'META-INF/*.RSA',
+        'images/',
+        '*.txt',
+        '*.gif',
+        '*.png',
+        '*.dtd',
+        'build.properties',
+        'XPP3_1.1.4c_MIN_VERSION',
+        'activemq.xsd.*',
+        'about.html']
+
+    archiveName = "wilma-$version.$buildNumber"+'.jar'
+}
+
+jar {
+    manifest.attributes( 'provider': 'gradle')
+    manifest.attributes( 'Main-Class': mainClassName)
+    manifest.attributes( 'Implementation-Title': "$componentName-v$version"+'.'+"$buildNumber")
+    
+	finalizedBy shadowJar
+} 
+
+
+dependencies {
+    compile project(':wilma-application:wilma-browsermob-integration')
+    compile project(':wilma-application:wilma-webapp')
+    compile project(':wilma-application:wilma-message-maintainer')
+    compile project(':wilma-application:wilma-safeguard')
+    compile project(':wilma-application:wilma-domain')
+    compile project(':wilma-application:wilma-common')
+    compile project(':wilma-application:wilma-core')
+    compile project(':wilma-application:wilma-stub-configuration-parser')
+    compile project(':wilma-application:wilma-property-validation')
+    compile project(':wilma-application:wilma-properties')
+    compile group: 'jetty', name: 'jasper-compiler', version:'4.2.20RC0'
+    compile group: 'javax.servlet.jsp', name: 'jsp-api', version:'2.1'
+    compile group: 'org.eclipse.jetty', name: 'jetty-webapp', version:'7.3.0.v20110203'
+    compile group: 'ognl', name: 'ognl', version:'3.0.8'
+}

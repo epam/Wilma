@@ -1,0 +1,76 @@
+/*==========================================================================
+Copyright 2013-2015 EPAM Systems
+
+This file is part of Wilma.
+
+Wilma is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Wilma is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
+===========================================================================*/
+apply plugin: "sonar-runner"
+
+allprojects {
+    group = 'com.epam.wilma'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+
+    repositories {
+        jcenter()
+    }
+
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+
+    sourceCompatibility = 1.7
+    
+    task sourceZip(type: Zip) {
+        from 'src'
+        classifier 'sources'
+        extension 'jar'
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact sourceZip
+                pom.withXml {
+                    asNode().appendNode('description', 'Wilma - Test Stub and Proxy')
+                }
+            }
+        }
+    }
+    
+    subprojects {
+        task allDeps(type: DependencyReportTask) {}
+    }
+}
+
+sonarRunner {
+    sonarProperties {
+        property "sonar.host.url", "${sonar.host.url}"
+        property "sonar.jdbc.url", "jdbc:mysql://localhost:3306/sonar"
+        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+        property "sonar.jdbc.username", "${sonar.jdbc.username}"
+        property "sonar.jdbc.password", "${sonar.jdbc.password}"
+    }
+}
+
+project(":browsermob-proxy") {
+    sonarRunner {
+        skipProject = true
+    }
+}

@@ -1,0 +1,12 @@
+.idea
+.gradle
+.settings
+.project
+.classpath
+.checkstyle
+wilma-application/modules/wilma-engine/log
+wilma-message-search/modules/wilma-message-search-engine/log
+*.iml
+*.ipr
+*.iws
+build

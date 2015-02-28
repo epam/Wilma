@@ -1,0 +1,59 @@
+<configuration>
+<!--  Copyright 2013-2015 EPAM Systems
+      This file is part of Wilma.
+      Wilma is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
+      as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+      Wilma is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+      You should have received a copy of the GNU General Public License along with Wilma. 
+      If not, see <http://www.gnu.org/licenses/>. -->
+  <appender name="CONSOLE-APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+    <encoder>
+      <pattern>%d{HH:mm:ss} - %msg%nopex%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="EMPTY" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>INFO</level>
+      <onMatch>DENY</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <encoder>
+      <pattern>%X{messageId} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+
+  <appender name="FILE-APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>log/messagelog.txt</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>log/messagelog%d{yyyyMMdd}.txt</fileNamePattern>
+      <maxHistory>5</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="com.epam.wilma.message.search" level="INFO">
+    <appender-ref ref="CONSOLE-APPENDER" />
+  </logger>
+  
+  <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="ERROR">
+    <appender-ref ref="CONSOLE-APPENDER" />
+  </logger>
+  
+  <logger name="org.springframework.web.context.support.XmlWebApplicationContext" level="ERROR">
+    <appender-ref ref="CONSOLE-APPENDER" />
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="${logger:-EMPTY}" />
+    <appender-ref ref="FILE-APP" />
+  </root>
+
+</configuration>

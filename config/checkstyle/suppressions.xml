@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+<suppressions>
+  <!-- relax rules in unit tests, we need less docs and magic numbers are commonplace in tests -->
+  <suppress checks="JavadocMethod|IllegalInstantiation|IllegalThrows|MagicNumber|ClassFanOutComplexity|ClassDataAbstractionCoupling" files=".*Mock.*java|.*Test.java|.*TestDataProvider.java" />
+  <!-- relax rules in package info files, they are not real classes -->
+  <suppress checks="RegexpHeader" files=".*package-info.java|.*.properties" />
+  <suppress checks="VisibilityModifier" files="com.epam.wilma.message.search.engine.MessageSearchApplication.java"/>
+  <suppress checks="SuppressWarnings" files="com.epam.wilma.message.search.lucene.search.helper.IndexReaderFactory.java" />
+  <suppress checks="VisibilityModifier" files="com.epam.wilma.engine.WilmaApplication.java"/>
+  <suppress checks="ParameterNumber" files="com.epam.wilma.domain.stubconfig.response.ResponseDescriptorAttributes.java"/>
+  <suppress checks="IllegalInstantiation" files="com.epam.wilma.webapp.stub.response.formatter.json.JsonTemplateFormatter.java"/>
+</suppressions>

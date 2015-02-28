@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wilma stub config page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="css/stubconfig.css" rel="stylesheet" media="screen">
+<link href="css/bootstrap-fileupload.css" rel="stylesheet" media="screen">
+<link href="css/jquery.fileupload-ui.css" rel="stylesheet" media="screen">
+<link href="css/menu.css" rel="stylesheet" media="screen">
+<link id="favicon" rel="shortcut icon" type="image/png" href="img/icon-wilma.png" />
+</head>
+<body>
+  <div class="container">
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand">Wilma</a>
+          <ul class="nav">
+            <li id="nav-home"><a href="/index">Home</a></li>
+            <li id="nav-stub"><a href="/stubconfig">Stub Configuration</a></li>
+            <li id="nav-msg-log"><a href="/messages">Message Logs</a></li>
+            <li id="nav-wilma-log"><a href="/logs">Wilma Application Log</a></li>
+            <li id="nav-guide"><a href="/readme">Wilma User's Guide</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <h1>Wilma stub config page</h1>
+    <span id="span-version" class="badge badge-info"></span>
+    <div class="config-set">
+      <h3>Update configuration</h3><br/><br/>
+      <ul class="nav nav-tabs" id="configuration-uploader-tabs">
+        <li class="active"><a href="#stubconfig">Stub configuration file</a></li>
+          <li><a href="#interceptors">Interceptors</a></li>
+          <li><a href="#conditionCheckers">Condition checker</a></li>
+          <li><a href="#templateFormatters">Template formatter</a></li>
+          <li><a href="#templates">Template</a></li>
+          <li><a href="#sequenceHandlers">Sequence handler</a></li>
+          <li><a href="#jar">Jar</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="stubconfig">
+        <br/>
+          <fieldset class="form-horizontal">
+            <legend>Dialog descriptors of the actual stub configuration</legend>
+            <div id="tables">
+            </div>
+          </fieldset>
+          <br/>
+          <fieldset>
+            <legend>Upload a new stub configuration</legend>
+            <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select config xml</span> <input
+              name="stub-configuration" type="file" data-url="../config/admin/stub/multiPartConfigFileUpload" />
+            </span>
+          </fieldset>
+        </div>
+        <div class="tab-pane" id="interceptors">
+              <div class="config-set">
+                  <fieldset class="form-horizontal">
+                      <legend>External interceptor classes</legend>
+                      <div class="control-group">
+                          <span class="help-block">Click on a file to download its content.</span>
+                      </div>
+                      <div class="control-group">
+                          <ol id="div-interceptor-files"></ol>
+                      </div>
+                  </fieldset>
+              </div>
+              <fieldset>
+                  <legend>Upload an interceptor class</legend>
+                  <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select interceptor</span> <input
+                          name="stub-interceptor" type="file" data-url="../config/admin/stub/multiPartConfigFileUpload" />
+                  </span>
+              </fieldset>
+        </div>
+        <div class="tab-pane" id="conditionCheckers">
+          <div class="config-set">
+            <fieldset class="form-horizontal">
+              <legend>External condition checkers classes</legend>
+              <div class="control-group">
+                <span class="help-block">Click on a file to download its content.</span>
+              </div>
+              <div class="control-group">
+                <ol id="div-condition-checker-files"></ol>
+              </div>
+            </fieldset>
+          </div>
+          <fieldset>
+            <legend>Upload a condition checker class</legend>
+            <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select condition checker</span> <input
+              name="stub-condition-checker" type="file" data-url="../config/admin/stub/multiPartConfigFileUpload" />
+            </span>
+          </fieldset>
+        </div>
+        <div class="tab-pane" id="templateFormatters">
+          <div class="config-set">
+            <fieldset class="form-horizontal">
+              <legend>External template formatters classes</legend>
+              <div class="control-group">
+                <span class="help-block">Click on a file to download its content.</span>
+              </div>
+              <div class="control-group">
+                <ol id="div-template-formatter-files"></ol>
+              </div>
+            </fieldset>
+          </div>
+          <fieldset>
+            <legend>Upload a template formatter class</legend>
+            <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select template formatter</span> <input
+              name="stub-template-formatter" type="file" data-url="../config/admin/stub/multiPartConfigFileUpload" />
+            </span>
+          </fieldset>
+        </div>
+        <div class="tab-pane" id="templates">
+          <div class="config-set">
+            <fieldset class="form-horizontal">
+              <legend>Templates</legend>
+              <div class="control-group">
+                <span class="help-block">Click on a file to download its content.</span>
+              </div>
+              <div class="control-group">
+                <ol id="div-template-files"></ol>
+              </div>
+            </fieldset>
+          </div>
+          <fieldset>
+            <legend>Upload a template</legend>
+            <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select template</span> <input
+              name="stub-template" type="file" data-url="../config/admin/stub/multiPartConfigFileUpload" />
+            </span>
+          </fieldset>
+        </div>
+        <div class="tab-pane" id="jar">
+          <div class="config-set">
+            <fieldset class="form-horizontal">
+              <legend>Jar</legend>
+              <div class="control-group">
+                <span class="help-block">Click on a file to download its content.</span>
+              </div>
+              <div class="control-group">
+                <ol id="div-jar-files"></ol>
+              </div>
+            </fieldset>
+          </div>
+          <fieldset>
+            <legend>Upload a jar</legend>
+            <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select jar</span> <input
+              name="stub-jar" type="file" data-url="../config/admin/stub/multiPartConfigFileUpload" />
+            </span>
+          </fieldset>
+        </div>
+        <div class="tab-pane" id="sequenceHandlers">
+          <div class="config-set">
+            <fieldset class="form-horizontal">
+              <legend>Sequence Handler</legend>
+              <div class="control-group">
+                <span class="help-block">Click on a file to download its content.</span>
+              </div>
+              <div class="control-group">
+                <ol id="div-sequence-handler-files"></ol>
+              </div>
+            </fieldset>
+          </div>
+          <fieldset>
+            <legend>Upload a sequence handler</legend>
+            <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select a sequence handler</span> <input
+              name="stub-sequence-handler" type="file" data-url="../config/admin/stub/multiPartConfigFileUpload" />
+            </span>
+          </fieldset>
+        </div>
+      </div>
+      </div>
+      <div id="fileupload-result-div" style="padding-top: 15px">
+        <div id="fileupload-result-div" class="alert" style="display: none">
+          <button type="button" class="close">&times;</button>
+          <span class="fileupload-result-message"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery-fileupload/jquery.ui.widget.js"></script>
+  <script src="js/jquery-fileupload/jquery.fileupload.js"></script>
+  <script src="js/jquery-fileupload/jquery.iframe-transport.js"></script>
+  <script src="js/stubconfig.js"></script>
+</body>
+</html>

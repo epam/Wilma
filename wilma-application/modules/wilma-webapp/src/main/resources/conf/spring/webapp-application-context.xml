@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright 2013-2015 EPAM Systems
+      This file is part of Wilma.
+      Wilma is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
+      as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+      Wilma is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+      You should have received a copy of the GNU General Public License along with Wilma. 
+      If not, see <http://www.gnu.org/licenses/>. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+  <bean class="java.lang.String" id="resourceBase" factory-bean="resourceBaseProvider" factory-method="getResourceBase" />
+
+  <bean class="org.eclipse.jetty.server.handler.ResourceHandler" id="adminResourceHandler">
+    <property name="directoriesListed" value="true" />
+    <property name="welcomeFiles">
+      <list>
+        <value>admin.html</value>
+      </list>
+    </property>
+    <property name="resourceBase" ref="resourceBase"></property>
+  </bean>
+  <bean class="org.eclipse.jetty.server.handler.ContextHandler" id="adminPageContextHandler" p:contextPath="/index" p:handler-ref="adminResourceHandler" />
+
+  <bean class="org.eclipse.jetty.servlet.ServletHandler" id="configServletHandler">
+    <property name="servlets">
+      <list>
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="buildInformationServlet" p:name="buildInformationServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="loadInformationServlet" p:name="loadInformationServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageLoggingOnServlet" p:name="messageLoggingOnServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageLoggingOffServlet" p:name="messageLoggingOffServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageLoggingStatusServlet" p:name="messageLoggingStatusServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageHandlerServlet" p:name="messageHandlerServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="operationModeStatusServlet" p:name="operationModeStatusServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="proxyModeOnServlet" p:name="proxyModeOnServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="stubModeOnServlet" p:name="stubModeOnServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="wilmaModeOnServlet" p:name="wilmaModeOnServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="interceptorOnServlet" p:name="interceptorOnServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="interceptorOffServlet" p:name="interceptorOffServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="interceptorStatusServlet" p:name="interceptorStatusServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="blockLocalhostUsageOnServlet" p:name="blockLocalhostUsageOnServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="blockLocalhostUsageOffServlet" p:name="blockLocalhostUsageOffServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="blockLocalhostUsageStatusServlet" p:name="blockLocalhostUsageStatusServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="maintainerPropertiesServlet" p:name="maintainerPropertiesServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="schemaProviderServlet" p:name="schemaProviderServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalConditionCheckerUploadServlet" p:name="externalConditionCheckerUploadServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalInterceptorUploadServlet" p:name="externalInterceptorUploadServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalTemplateFormatterUploadServlet" p:name="externalTemplateFormatterUploadServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalJarUploadServlet" p:name="externalJarUploadServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalTemplateUploadServlet" p:name="externalTemplateUploadServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalSequenceHandlerUploadServlet" p:name="externalSequenceHandlerUploadServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalStubConfigUploadServlet" p:name="externalStubConfigUploadServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="stubConfigHandlerServlet" p:name="stubConfigHandlerServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="stubConfigurationOrderServlet" p:name="stubConfigurationOrderServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="stubConfigurationDropperServlet" p:name="stubConfigurationDropperServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="stubConfigurationStatusServlet" p:name="stubConfigurationStatusServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="stubConfigurationSaverServlet" p:name="stubConfigurationSaverServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="multiPartFormUploadServlet" p:name="multiPartFormUploadServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="stubDescriptorStatusServlet" p:name="stubDescriptorStatusServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="stubResourceHandlerServlet" p:name="stubResourceHandlerServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="wilmaLogHandlerServlet" p:name="wilmaLogHandlerServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="wilmaReadmeServlet" p:name="wilmaReadmeServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="adminStatusServlet" p:name="adminStatusServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="sequenceHandlingStatusServlet" p:name="sequenceHandlingStatusServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="sequenceHandlingOnServlet" p:name="sequenceHandlingOnServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="sequenceHandlingOffServlet" p:name="sequenceHandlingOffServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="sequenceHandlingCleanUpServlet" p:name="sequenceHandlingCleanUpServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="shutdownServlet" p:name="shutdownServlet" />
+      </list>
+    </property>
+    <property name="servletMappings">
+      <list>
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="buildInformationServlet" p:pathSpec="/public/version" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="loadInformationServlet" p:pathSpec="/public/actualload" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingOnServlet" p:pathSpec="/admin/logging/on" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingOffServlet" p:pathSpec="/admin/logging/off" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingStatusServlet" p:pathSpec="/public/logging/status" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageHandlerServlet" p:pathSpec="/public/messages/*" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="operationModeStatusServlet" p:pathSpec="/public/switch/status" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="proxyModeOnServlet" p:pathSpec="/admin/switch/proxy" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubModeOnServlet" p:pathSpec="/admin/switch/stub" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="wilmaModeOnServlet" p:pathSpec="/admin/switch/wilma" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="interceptorOnServlet" p:pathSpec="/admin/interceptor/on" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="interceptorOffServlet" p:pathSpec="/admin/interceptor/off" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="interceptorStatusServlet" p:pathSpec="/public/interceptor/status" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="blockLocalhostUsageOnServlet" p:pathSpec="/admin/localhost/on" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="blockLocalhostUsageOffServlet" p:pathSpec="/admin/localhost/off" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="blockLocalhostUsageStatusServlet" p:pathSpec="/public/localhost/status" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="maintainerPropertiesServlet" p:pathSpec="/public/maintainer" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="schemaProviderServlet" p:pathSpec="/public/schema/StubConfig.xsd" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalInterceptorUploadServlet" p:pathSpec="/admin/stub/interceptor" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalConditionCheckerUploadServlet" p:pathSpec="/admin/stub/conditionchecker" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalTemplateFormatterUploadServlet" p:pathSpec="/admin/stub/templateformatter" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalSequenceHandlerUploadServlet" p:pathSpec="/admin/stub/sequencehandler" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalJarUploadServlet" p:pathSpec="/admin/stub/jar" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalTemplateUploadServlet" p:pathSpec="/admin/stub/template" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalStubConfigUploadServlet" p:pathSpec="/admin/stub/stubconfig" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalSequenceHandlerUploadServlet" p:pathSpec="/admin/stub/sequencehandler" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigurationOrderServlet" p:pathSpec="/admin/stub/changeorder" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigurationDropperServlet" p:pathSpec="/admin/stub/drop" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigurationStatusServlet" p:pathSpec="/admin/stub/changestatus" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigurationSaverServlet" p:pathSpec="/admin/stub/save" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigHandlerServlet" p:pathSpec="/public/stub/stubconfig.xml" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="multiPartFormUploadServlet" p:pathSpec="/admin/stub/multiPartConfigFileUpload" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubDescriptorStatusServlet" p:pathSpec="/public/stubdescriptor" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubResourceHandlerServlet" p:pathSpec="/public/stubconfig/*" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="wilmaLogHandlerServlet" p:pathSpec="/public/logs/*" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="wilmaReadmeServlet" p:pathSpec="/public/readme" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="adminStatusServlet" p:pathSpec="/public/adminstatus" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="sequenceHandlingStatusServlet" p:pathSpec="/public/sequence/status" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="sequenceHandlingOnServlet" p:pathSpec="/admin/sequence/on" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="sequenceHandlingOffServlet" p:pathSpec="/admin/sequence/off" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="sequenceHandlingCleanUpServlet" p:pathSpec="/admin/sequence/cleanup" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="shutdownServlet" p:pathSpec="/admin/shutdown" />
+      </list>
+    </property>
+    <property name="filters">
+    	<list>
+    		<bean class="org.eclipse.jetty.servlet.FilterHolder" p:filter-ref="hostBasedUrlAccessSecurityFilter" p:name="hostBasedUrlAccessSecurityFilter" />
+    	</list>
+    </property>
+    <property name="filterMappings">
+    	<list>
+    		<bean class="org.eclipse.jetty.servlet.FilterMapping" p:filterName="hostBasedUrlAccessSecurityFilter" p:pathSpec="/admin/*" />
+    	</list>
+    </property>
+  </bean>
+  
+  <bean class="org.eclipse.jetty.servlet.ServletContextHandler" id="configContextHandler" p:contextPath="/config" p:servletHandler-ref="configServletHandler" />
+
+  <bean class="org.eclipse.jetty.servlet.ServletHandler" id="stubServletHandler">
+    <property name="servlets">
+      <list>
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="dispatcherServlet" p:name="dispatcherServlet" />
+      </list>
+    </property>
+    <property name="servletMappings">
+      <list>
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="dispatcherServlet" p:pathSpec="/*" />
+      </list>
+    </property>
+  </bean>
+  <bean class="org.eclipse.jetty.servlet.ServletContextHandler" id="stubContextHandler" p:contextPath="/stub" p:servletHandler-ref="stubServletHandler" />
+  
+  <bean class="org.eclipse.jetty.servlet.ServletHandler" id="blockLocalhostUsageResponseHandler" >
+  	<property name="servlets">
+      <list>
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="blockLocalhostUsageResponseServlet" p:name="blockLocalhostUsageResponseServlet" />
+      </list>
+    </property>
+    <property name="servletMappings">
+      <list>
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="blockLocalhostUsageResponseServlet" p:pathSpec="/*" />
+      </list>
+    </property>
+  </bean>
+  <bean class="org.eclipse.jetty.servlet.ServletContextHandler" id="blockLocalhostUsageResponseContextHandler" p:contextPath="/local" p:servletHandler-ref="blockLocalhostUsageResponseHandler" />
+
+  <bean id="stubResponseProcessor" class="com.epam.wilma.webapp.stub.response.processor.StubResponseProcessor">
+    <property name="responseProcessors">
+      <list>
+        <ref bean="fastInfosetCompressorProcessor" />
+        <ref bean="gzipCompressorProcessor" />
+      </list>
+    </property>
+  </bean>
+
+  <bean class="org.eclipse.jetty.server.handler.ResourceHandler" id="messagesResourceHandler">
+    <property name="directoriesListed" value="true" />
+    <property name="welcomeFiles">
+      <list>
+        <value>messages.html</value>
+      </list>
+    </property>
+    <property name="resourceBase" ref="resourceBase" />
+  </bean>
+  <bean class="org.eclipse.jetty.server.handler.ContextHandler" id="messagesPageContextHandler" p:contextPath="/messages" p:handler-ref="messagesResourceHandler" />
+
+  <bean class="org.eclipse.jetty.server.handler.ResourceHandler" id="stubconfigResourceHandler">
+    <property name="directoriesListed" value="true" />
+    <property name="welcomeFiles">
+      <list>
+        <value>stubconfig.html</value>
+      </list>
+    </property>
+    <property name="resourceBase" ref="resourceBase" />
+  </bean>
+  <bean class="org.eclipse.jetty.server.handler.ContextHandler" id="stubconfigPageContextHandler" p:contextPath="/stubconfig" p:handler-ref="stubconfigResourceHandler" />
+
+  <bean class="org.eclipse.jetty.server.handler.ResourceHandler" id="wilmaLogResourceHandler">
+    <property name="directoriesListed" value="true" />
+    <property name="welcomeFiles">
+      <list>
+        <value>logs.html</value>
+      </list>
+    </property>
+    <property name="resourceBase" ref="resourceBase" />
+  </bean>
+  <bean class="org.eclipse.jetty.server.handler.ContextHandler" id="wilmaLogPageContextHandler" p:contextPath="/logs" p:handler-ref="wilmaLogResourceHandler" />
+
+  <bean class="org.eclipse.jetty.server.handler.ResourceHandler" id="readmeResourceHandler">
+    <property name="directoriesListed" value="true" />
+    <property name="welcomeFiles">
+      <list>
+        <value>readme.html</value>
+      </list>
+    </property>
+    <property name="resourceBase" ref="resourceBase" />
+  </bean>
+  <bean class="org.eclipse.jetty.server.handler.ContextHandler" id="readmePageContextHandler" p:contextPath="/readme" p:handler-ref="readmeResourceHandler" />
+
+  <bean class="org.eclipse.jetty.server.handler.HandlerList">
+    <property name="handlers">
+      <list>
+        <ref bean="adminPageContextHandler" />
+        <ref bean="messagesPageContextHandler" />
+        <ref bean="stubconfigPageContextHandler" />
+        <ref bean="wilmaLogPageContextHandler" />
+        <ref bean="readmePageContextHandler" />
+        <ref bean="configContextHandler" />
+        <ref bean="stubContextHandler" />
+        <ref bean="blockLocalhostUsageResponseContextHandler" />
+      </list>
+    </property>
+  </bean>
+
+</beans>

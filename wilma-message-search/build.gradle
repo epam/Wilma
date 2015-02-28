@@ -1,0 +1,140 @@
+/*==========================================================================
+ Copyright 2013-2015 EPAM Systems
+
+ This file is part of Wilma.
+
+ Wilma is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Wilma is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
+===========================================================================*/
+
+description= 'wilma-message-search'
+
+
+allprojects  {
+    apply plugin: 'checkstyle'
+    apply plugin: 'jacoco'
+    group = 'com.epam.wilma.message.search'
+    version = "$wilmaVersion"
+}
+
+task docs(type: Javadoc) {
+    destinationDir = file("$buildDir/docs/all")
+    options.memberLevel = JavadocMemberLevel.PRIVATE
+    for (subproject in project.subprojects) {
+        if (subproject.plugins.hasPlugin(JavaPlugin)){
+            source += files(subproject.sourceSets.main.java)
+            classpath += files(subproject.sourceSets.main.compileClasspath)
+        }
+    }
+}
+
+task checkstyle(type: Checkstyle) {
+    dependsOn subprojects.checkstyleMain
+}
+
+configurations {
+    jacoco {
+    }
+}
+
+dependencies {
+    jacoco 'org.jacoco:org.jacoco.ant:0.6.2.201302030002'
+}
+
+task jacocoReport(type: JacocoReport) {
+    dependsOn = subprojects.test
+    subprojects.each {
+        additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
+        sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
+        classDirectories = files(subprojects.sourceSets.main.output)
+        executionData = files(subprojects.jacocoTestReport.executionData)
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            csv.enabled = false
+            html.destination "build/reports/jacoco"
+        }
+        onlyIf = {
+            true
+        }
+        doFirst {
+            executionData = files(executionData.findAll {
+                it.exists()
+            })
+        }
+    }
+}
+
+task deleteRelease(type: Delete) {
+    delete rootProject.rootDir.absolutePath + '/wilma-message-search/release'
+}
+
+task copyToRelease(type: Copy) {
+    dependsOn deleteRelease
+    from rootProject.rootDir.absolutePath + '/wilma-message-search/modules/wilma-message-search-engine/message.search.conf.properties'
+    from rootProject.rootDir.absolutePath + '/wilma-message-search/modules/wilma-message-search-engine/readme.txt'
+    from rootProject.rootDir.absolutePath + '/COPYRIGHT.txt'
+    from rootProject.rootDir.absolutePath + "/wilma-message-search/modules/wilma-message-search-engine/build/libs/wilma-message-search-$wilmaVersion.$buildNumber" + '.jar'
+    into rootProject.rootDir.absolutePath + '/wilma-message-search/release'
+}
+
+task release(type: Zip) {
+    dependsOn copyToRelease
+    from rootProject.rootDir.absolutePath + '/wilma-message-search/release'
+}
+
+subprojects {
+
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
+    repositories {
+        maven { url "http://repo.maven.apache.org/maven2" }
+        maven { url "https://repository.jboss.org/nexus/content/groups/public" }
+    }
+  
+    dependencies {
+        compile(group: 'org.springframework', name: 'spring-context', version:'3.2.4.RELEASE') {
+            exclude(module: 'commons-logging')
+        }
+	    compile group: 'org.springframework', name: 'spring-webmvc', version:'3.2.4.RELEASE'
+	    compile group: 'org.aspectj', name: 'aspectjrt', version:'1.6.9'
+	    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
+	    testCompile(group: 'org.testng', name: 'testng', version:'6.8.5') {
+            exclude(module: 'junit')
+        }
+    }
+
+    def checkstyleCommonReportDir = new File(rootProject.rootDir.absolutePath , '/wilma-message-search/build/reports/checkstyle')
+    def checkstyleSubProjectReportFile = new File(project.buildDir.absolutePath , '/reports/checkstyle/main.xml')
+    checkstyle.configFile = file("$rootProject.rootDir/config/checkstyle/checkstyle.xml")
+    checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/config/checkstyle"]
+    checkstyle.toolVersion = '5.6'
+    checkstyle.ignoreFailures = true
+    checkstyleMain.classpath += configurations.compile
+    checkstyleTest.classpath += configurations.compile
+    checkstyleMain << {
+        ant.xslt(in: reports.xml.destination,
+               style: new File("$rootProject.rootDir/config/checkstyle/checkstyle-noframes-sorted.xsl"),
+               out: new File(checkstyleCommonReportDir, project.name + '-main.html'))
+        copy {  //collect xml-s
+            from checkstyleSubProjectReportFile
+            into checkstyleCommonReportDir
+            rename { String filename -> project.name + '-main.xml' }
+        }
+    }
+    
+    test.useTestNG()
+}
+
+

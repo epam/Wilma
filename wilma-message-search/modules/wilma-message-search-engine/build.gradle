@@ -1,0 +1,75 @@
+/*==========================================================================
+ Copyright 2013-2015 EPAM Systems
+
+ This file is part of Wilma.
+
+ Wilma is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Wilma is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
+===========================================================================*/
+
+description= 'Wilma Message Search Engine'
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'application'
+
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.0'
+    }
+}
+
+mainClassName="com.epam.wilma.message.search.engine.MessageSearchApplication"
+
+def configFileDefaultPath = "$project.projectDir/message.search.conf.properties";
+if (!hasProperty("configFilePath")) {
+    project.ext.configFilePath = configFileDefaultPath
+}
+run{
+    args = ["$configFilePath"];
+}
+
+dependencies {
+    compile project(':wilma-message-search:wilma-message-search-lucene')
+    compile project(':wilma-message-search:wilma-message-search-webapp')
+    compile project(':wilma-message-search:wilma-message-search-properties')
+}
+
+jar {
+        manifest.attributes( 'provider': 'gradle')
+        manifest.attributes( 'Main-Class': 'com.epam.wilma.message.search.engine.MessageSearchApplication')
+        manifest.attributes( 'Implementation-Title': componentName + "-V" + wilmaVersion + "."+ buildNumber)
+}
+
+shadowJar {
+        append('META-INF/spring.handlers')
+        append('META-INF/spring.schemas')
+
+        excludes = [
+            'META-INF/*.SF',
+            'META-INF/*.DSA',
+            'META-INF/*.RSA',
+            'images/',
+            '*.txt',
+            '*.gif',
+            '*.png',
+            '*.dtd',
+            'build.properties',
+            'XPP3_1.1.4c_MIN_VERSION',
+            'activemq.xsd.*',
+            'about.html']
+
+        archiveName = "wilma-message-search-$wilmaVersion.$buildNumber"+'.jar'
+}
+
+jar.finalizedBy shadowJar
