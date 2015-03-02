@@ -28,7 +28,7 @@ allprojects  {
 
 ext.javaxServletApi='javax.servlet:javax.servlet-api:3.1.0'
 
-ext.componentFullName="wilma-$wilmaVersion.$buildNumber"
+ext.componentFullName=
 
 task docs(type: Javadoc) {
     destinationDir = file("$buildDir/docs/all")
@@ -91,7 +91,7 @@ def myCopySpec = project.copySpec {
      include 'config/formatters/ExampleTemplateFormatter.java'
    }
    from(rootProject.rootDir.absolutePath + '/wilma-application/modules/wilma-engine/build/libs/') {
-     include componentFullName + '.jar'
+     include "wilma-$wilmaVersion.$buildNumber" + '.jar'
    }
    from(rootProject.rootDir.absolutePath + '/wilma-application/resources/'){
      include 'certificate/wilma.cer'
@@ -119,7 +119,7 @@ task createDir {
 
 task release(type: Zip) {
 	dependsOn createDir
-	archiveName = componentFullName+'.zip'
+	archiveName = "wilma-application-$wilmaVersion.$buildNumber"+'.zip'
     from rootProject.rootDir.absolutePath + '/wilma-application/release'
 }
 
