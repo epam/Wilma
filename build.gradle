@@ -61,11 +61,11 @@ subprojects {
 
 sonarRunner {
     sonarProperties {
-        property "sonar.host.url", "${sonar.host.url}"
+        property "sonar.host.url", "${sonar_host_url}"
         property "sonar.jdbc.url", "jdbc:mysql://localhost:3306/sonar"
         property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
-        property "sonar.jdbc.username", "${sonar.jdbc.username}"
-        property "sonar.jdbc.password", "${sonar.jdbc.password}"
+        property "sonar.jdbc.username", "${sonar_jdbc_username}"
+        property "sonar.jdbc.password", "${sonar_jdbc_password}"
     }
 }
 
