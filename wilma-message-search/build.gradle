@@ -90,6 +90,7 @@ task copyToRelease(type: Copy) {
 
 task release(type: Zip) {
     dependsOn copyToRelease
+    archiveName = "wilma-message-search-$wilmaVersion.$buildNumber"+'.zip'
     from rootProject.rootDir.absolutePath + '/wilma-message-search/release'
 }
 
