@@ -10,3 +10,6 @@ wilma-message-search/modules/wilma-message-search-engine/log
 *.ipr
 *.iws
 build
+bin
+release
+
