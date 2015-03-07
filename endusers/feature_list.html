@@ -27,8 +27,59 @@
                     <h1>Wilma Feature List</h1>
                 </div>
 
-                <h2>Configuring Wilma at run time</h2>
+                <h2>Wilma Operation Modes</h2>
+                <p>Wilma can act as pure proxy, can act as pure stub, and can act in mixed mode (use both proxy and stub features).
+                    See details about it <a href="https://github.com/epam/Wilma/wiki/Wilma-Operation-Modes">here...</a>.
+                </p><p>
+                    For individual messages, it is also possible to enforce Wilma to ignore the stub settings and enforce working in proxy mode.
+                </p>
 
+                <h2>Stub - Configuration</h2>
+                <p>The Stub part of Wilma is configured via Xml file(s). Details about how the Stub Configuration should be used can be found <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here...</a>.</p>
+                <p>Wilma can handle multiple stub configurations. With this feature grouping of stub functions (by team, by stubbed application, etc.) can be used.
+                    See details about this possibility <a href="https://github.com/epam/Wilma/wiki/Multi-Stub-Configuration">here...</a>.</p>
+                <p>The schema of the stub configuration xml that is used by Wilma can be accessed at the following address:</p>
+                <p>
+                    <a href="http://epam.github.io/Wilma/xsd/StubConfig.xsd">http://epam.github.io/Wilma/xsd/StubConfig.xsd</a>
+                </p>
+
+                <h2>Stub - Condition Checkers</h2>
+                <p>The stub configuration contains several <b>dialog-descriptors</b> that describes a request-response pair.
+                    These pairs have a <b>condition-descriptor</b> and a <b>template-descriptor</b>, and the first may contain several <b>Condition Checkers</b>,
+                    those evaluate the request and help identifying the ones where stub response should be generated.
+                <p></p>
+                    Among the numerous built-in <b>Condition Checkers</b>, you may write and use your own solutions too.
+                </p>
+                <p>See details on <b>Condition Checkers</b> <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here</a>, at "<i>Element: <b>condition</b></i>" section.</p>
+                <p>See details on the <b>built-in Condition Checker classes</b> <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration,-Condition-Checkers">here.</a></p>
+
+                <h2>Stub - Templates</h2>
+                <p>When a stub response should be generated, it is easy to use a previously saved response template, and send it back.
+                    Such templates can be plain text, xml, json, or anything else you need.</p>
+                <p>To get more information on how templates are handled by Wilma, search for information <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here</a>, at "<i>Element: <b>template</b></i>" section.</p>
+
+
+                <h2>Stub - Template Formatter Classes</h2>
+                <p>In many cases the predefined response templates cannot be used as they are, but the response should be formed
+                    - fields should be changed, time stamps should be updated, and so on. To address this Wilma offers built-in template formatters,
+                    however it is possible for you to write and use your own template formatter classes.
+                <p></p>
+                It is also possible to call several template formatters before the stub response is finally sent back as answer.</p>
+                <p>See details on template formatters <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here</a>, at "<i>Element: <b>response-descriptor</b></i>" section.</p>
+                <p>See details on the <b>built-in Template Formatter classes</b> <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration,-Template-Formatters">here.</a></p>
+
+                <h2>Using Interceptor classes</h2>
+                <p>Interceptors are classes those intercept either request or response (or both) messages, and do whatever they would like to do with the intercepted messages.
+                    You may write and use your own interceptor classes. See more details on interceptors <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration,-Interceptors">here...</a> </p>
+
+                <h2>Using Message Sequences</h2>
+                Sometimes it is necessary to know not just the last request to form a stub response, but previous messages content should be known as well (like messages connected together in a session).
+                Wilma offers Sequence handling feature to address this problem, with this feature it is possible to collect and group request-response pairs into Sequences, and use such sequence to generate the stub response - as necessary.
+                meanwhile there are some built-in sequence handles, you may write your own class, therefore collect request-response pairs as you need.
+                <p></p>
+                <p>See details on this feature <a href="https://github.com/epam/Wilma/wiki/Sequence-Handling">here...</a> </p>
+
+                <h2>Configuring Wilma at run time</h2>
                 <p>Wilma has a home page, where basic configurations can be made at run time.
                     You can reach the home page under the following URL after Wilma has started: <strong>http://<em>wilma-url</em>:<em>internal-port</em>/index</strong>.
                 </p>
@@ -73,14 +124,8 @@
                         wilma, stub and proxy.
                     </li>
                 </ul>
-                <h2>Stub configuration</h2>
-                <p>The Stub part of Wilma is configured via Xml file(s). Details about how the Stub Configuration should be used can be found <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here...</a>.</p>
-                <p>Wilma can handle multiple stub configurations. With this feature grouping of stub functions (by team, by stubbed application, etc.) can be used.
-                    See details about this possibility <a href="https://github.com/epam/Wilma/wiki/Multi-Stub-Configuration">here...</a>.</p>
-                <p>The schema of the stub configuration xml that is used by Wilma can be accessed at the following address:</p>
-                <p>
-                    <a href="http://epam.github.io/Wilma/xsd/StubConfig.xsd">http://epam.github.io/Wilma/xsd/StubConfig.xsd</a>
-                </p>
+
+
                 <h2>Uploading External Resources</h2>
                 <p>There are four kinds of external resources those can be uploaded to Wilma, and each use different addresses for the upload.
                 </p>
@@ -127,9 +172,37 @@ curl -X POST --data-binary @ExternalConditionChecker.class http://wilma-url:int
 &lt;/root&gt;
                 </pre>
 
-                <h2>Shutting down Wilma</h2>
+                <h2>Blocking messages arrived from Localhost</h2>
+                <p>In certain cases, when a remotely deployed Wilma application is in use, and the original target of the request is "localhost"
+                    - as Wilma hosted on another machine from where the request is coming -
+                    Wilma is unable to determine the real target host.
+                    In this case forwarding to "localhost" would not have meaning,
+                    and it is unknown where the request should be forwarded exactly.
+                    To avoid such bad environment setup, it is possible to ask Wilma not to handle requests coming from localhost.
+                <p></p>
+                In case the localhost blocking functionality is enabled, it stops proxied requests directed to 127.0.0.1 or localhost. If it is disabled, no such restriction applied.</p>
+                <p>See details on this feature <a href="https://github.com/epam/Wilma/wiki/Localhost-Blocking">here...</a> </p>
 
-                <p>You can shutdown Wilma by sending a GET/POST request to the '/config/admin/shutdown' URL.</p>
+                <h2>Stability Rules</h2>
+                <p>Wilma is designed to protect itself in case of huge load.
+                    Therefore  - like if decoding the messages or saving it on the disk would take too much time, and the internal queries are getting full, -
+                    Wilma (on-the-fly) configures itself to turn of time consuming operations, as the load increases,
+                    first turns off decoding FIS-coded messages, and if the load is still high, it turns off saving messages to the disk. As soon as the load goes back to normal,
+                    Wilma turns back the message logging, and later the FIS decoding too. See the <b>wilma.config.properties file</b> for setting the limits (search for <i>safeguard.*</i> properties).
+                </p>
+
+                <h2>Maintaining Message Logs</h2>
+                <p>Wilma is designed to clean-up the old messages from the disk. A dedicated regular thread within Wilma checks the old messages, and delete them. This ensures that you can avoid disk full problems.
+                    How to set how old messages should be deleted? Look for such info (see <i>log.maintainer.*</i> properties) in <b>wilma.config.properties file</b>.
+                </p>
+
+                <h2>Load Information</h2>
+                <p>Both of the applications (Wilma and Wilma Message Search) provide data about their actual load and other information.
+                    These data are available on both UIs.</p>
+                <p>Get more information on the load data provided by the applications <a href="https://github.com/epam/Wilma/wiki/Load-Information">here...</a> </p>
+
+                <h2>Shutting down Wilma</h2>
+                <p>You can shutdown Wilma by sending a GET/POST request to the '/config/admin/shutdown' URL, but killing the application JVM works too ;)</p>
 
             </div>
         </div>
@@ -148,11 +221,10 @@ curl -X POST --data-binary @ExternalConditionChecker.class http://wilma-url:int
                 <li class="toctree-l1"><a class="reference internal" href="../index.html">Wilma Home page</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to
                     Wilma</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="q_and_a.html">Questions and Answers</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="index.html">End-user information</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../developers/index.html">Developer
                     information</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="../download/index.html">Downloads</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="https://github.com/epam/Wilma/releases">Downloads</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact Info</a></li>
             </ul>
         </div>
