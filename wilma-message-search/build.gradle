@@ -79,13 +79,24 @@ task deleteRelease(type: Delete) {
     delete rootProject.rootDir.absolutePath + '/wilma-message-search/release'
 }
 
+def releaseCopySpec = project.copySpec {
+   from(rootProject.rootDir.absolutePath + '/wilma-message-search/modules/wilma-message-search-engine/') {
+     include 'message.search.conf.properties'
+     include 'readme.txt'
+   }
+   from(rootProject.rootDir.absolutePath + '/wilma-message-search/modules/wilma-message-search-engine/build/libs/') {
+     include "wilma-message-search-$wilmaVersion.$buildNumber" + '.jar'
+   }
+   from(rootProject.rootDir.absolutePath + '/') {
+     include 'COPYRIGHT.txt'
+     include 'COPYRIGHTS/'
+   }
+}
+
 task copyToRelease(type: Copy) {
     dependsOn deleteRelease
-    from rootProject.rootDir.absolutePath + '/wilma-message-search/modules/wilma-message-search-engine/message.search.conf.properties'
-    from rootProject.rootDir.absolutePath + '/wilma-message-search/modules/wilma-message-search-engine/readme.txt'
-    from rootProject.rootDir.absolutePath + '/COPYRIGHT.txt'
-    from rootProject.rootDir.absolutePath + "/wilma-message-search/modules/wilma-message-search-engine/build/libs/wilma-message-search-$wilmaVersion.$buildNumber" + '.jar'
     into rootProject.rootDir.absolutePath + '/wilma-message-search/release'
+    with releaseCopySpec
 }
 
 task release(type: Zip) {
