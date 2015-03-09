@@ -186,7 +186,7 @@ curl -X POST --data-binary @ExternalConditionChecker.class http://wilma-url:int
                 <h2>Stability Rules</h2>
                 <p>Wilma is designed to protect itself in case of huge load.
                     Therefore  - like if decoding the messages or saving it on the disk would take too much time, and the internal queries are getting full, -
-                    Wilma (on-the-fly) configures itself to turn of time consuming operations, as the load increases,
+                    Wilma (on-the-fly) configures itself to turn off time consuming operations, as the load increases,
                     first turns off decoding FIS-coded messages, and if the load is still high, it turns off saving messages to the disk. As soon as the load goes back to normal,
                     Wilma turns back the message logging, and later the FIS decoding too. See the <b>wilma.config.properties file</b> for setting the limits (search for <i>safeguard.*</i> properties).
                 </p>
@@ -201,8 +201,10 @@ curl -X POST --data-binary @ExternalConditionChecker.class http://wilma-url:int
                     These data are available on both UIs.</p>
                 <p>Get more information on the load data provided by the applications <a href="https://github.com/epam/Wilma/wiki/Load-Information">here...</a> </p>
 
-                <h2>Shutting down Wilma</h2>
-                <p>You can shutdown Wilma by sending a GET/POST request to the '/config/admin/shutdown' URL, but killing the application JVM works too ;)</p>
+                <h2>Shutting down Wilma and Wilma message Search</h2>
+                <p>You can shutdown Wilma by sending a GET/POST request to the '/config/admin/shutdown' URL.</p>
+                <p>You can shutdown Wilma Message Search application by sending a GET/POST request to the '/shutdown' URL.</p>
+                <p>Both cases, killing the application JVM works too ;)</p>
 
             </div>
         </div>
