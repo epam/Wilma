@@ -51,7 +51,7 @@ dependencies {
 
 jar {
     manifest.attributes( 'provider': 'gradle')
-    manifest.attributes( 'Implementation-Title': "$componentName-v$version"+'.'+"$buildNumber")
+    manifest.attributes( 'Implementation-Title': "$componentName-$version")
 }
 
 task copyJarToDistributions (type: Copy) {
