@@ -32,6 +32,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.router.RoutingService;
+import com.epam.wilma.sequence.SequenceManager;
 import com.epam.wilma.webapp.service.command.DropCommand;
 
 /**
@@ -42,6 +43,8 @@ import com.epam.wilma.webapp.service.command.DropCommand;
 public class StubConfigurationDropperServiceTest {
     private static final String GROUPNAME_FIRST = "First";
 
+    @Mock
+    private SequenceManager sequenceManager;
     @Mock
     private RoutingService routingService;
     @Mock
@@ -62,6 +65,7 @@ public class StubConfigurationDropperServiceTest {
         underTest.dropSelectedStubConfiguration(GROUPNAME_FIRST, request);
         //THEN
         ArgumentCaptor<DropCommand> argument = ArgumentCaptor.forClass(DropCommand.class);
+        verify(sequenceManager).removeSequenceDescriptors(GROUPNAME_FIRST);
         verify(routingService, times(1)).performModification(argument.capture());
         Assert.assertEquals(argument.getValue().getGroupName(), GROUPNAME_FIRST);
         Assert.assertEquals(argument.getValue().getRequest(), request);

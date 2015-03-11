@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.router.RoutingService;
+import com.epam.wilma.sequence.SequenceManager;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import com.epam.wilma.webapp.service.command.DropCommand;
 
@@ -36,6 +37,8 @@ import com.epam.wilma.webapp.service.command.DropCommand;
 public class StubConfigurationDropperService {
 
     @Autowired
+    private SequenceManager sequenceManager;
+    @Autowired
     private RoutingService routingService;
     @Autowired
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
@@ -46,6 +49,7 @@ public class StubConfigurationDropperService {
      * @param request is only needed for {@link UrlAccessLogMessageAssembler}
      */
     public void dropSelectedStubConfiguration(final String groupName, final HttpServletRequest request) {
+        sequenceManager.removeSequenceDescriptors(groupName);
         routingService.performModification(new DropCommand(groupName, request, urlAccessLogMessageAssembler));
     }
 }
