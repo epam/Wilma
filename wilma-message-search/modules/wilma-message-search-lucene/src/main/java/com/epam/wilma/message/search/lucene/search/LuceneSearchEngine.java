@@ -1,4 +1,5 @@
 package com.epam.wilma.message.search.lucene.search;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -120,7 +121,7 @@ public class LuceneSearchEngine {
             indexReader = readerFactory.create(true);
             indexSearcher = searcherFactory.create(indexReader);
         } catch (IOException e) {
-            throw new SystemException("Could not create index reader during search");
+            throw new SystemException("Could not create index reader during search", e);
         }
     }
 
