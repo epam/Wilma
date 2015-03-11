@@ -31,6 +31,7 @@
     <property name="sessionAcknowledgeMode" value="2" />
     <property name="maxConcurrentConsumers" value="2" />
     <property name="concurrentConsumers" value="2" />
+    <property name="errorHandler" ref="loggerErrorHandler"/>
   </bean>
 
   <bean id="reponseJmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
@@ -41,6 +42,7 @@
     <property name="sessionAcknowledgeMode" value="2" />
     <property name="maxConcurrentConsumers" value="10" />
     <property name="concurrentConsumers" value="10" />
+    <property name="errorHandler" ref="responseErrorHandler"/>
   </bean>
 
   <bean class="com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor">
