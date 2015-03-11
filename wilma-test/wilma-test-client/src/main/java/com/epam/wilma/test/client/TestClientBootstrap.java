@@ -60,9 +60,12 @@ public class TestClientBootstrap {
                     String acceptHeader = properties.getProperty("accept_header");
                     String contentEncoding = properties.getProperty("content_encoding");
                     String acceptEncoding = properties.getProperty("accept_encoding");
-                    httpRequestSender.callWilmaTestServer(new RequestParameters().testServerUrl(testServerUrl).useProxy(useProxy)
-                            .wilmaHost(wilmaHost).wilmaPort(wilmaPort).xmlIS(new FileInputStream(args[1])).contentType(contentType)
-                            .acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding));
+                    boolean isEndlessLoop = properties.getProperty("endless_loop").equalsIgnoreCase("true");
+                    do {
+                        httpRequestSender.callWilmaTestServer(new RequestParameters().testServerUrl(testServerUrl).useProxy(useProxy)
+                                .wilmaHost(wilmaHost).wilmaPort(wilmaPort).xmlIS(new FileInputStream(args[1])).contentType(contentType)
+                                .acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding).allowResponseLogging(!isEndlessLoop));
+                    } while (isEndlessLoop);
                 }
             } catch (FileNotFoundException e) {
                 logger.error("Specified property file not found!", e);

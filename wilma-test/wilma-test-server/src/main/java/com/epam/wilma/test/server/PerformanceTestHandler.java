@@ -32,13 +32,13 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
 /**
- * Handler that is able to handle requests coming to /example with one of the given XMLs in the request body.
+ * Handler that is able to handle requests coming to /perfexample with one of the given XMLs in the request body.
  * @author Tunde_Kovacs
  *
  */
 public class PerformanceTestHandler extends AbstractHandler {
 
-    private static final String PATH_TO_HANDLE = "/example";
+    private static final String PATH_TO_HANDLE = "/perfexample";
 
     private final Random random = new Random();
 

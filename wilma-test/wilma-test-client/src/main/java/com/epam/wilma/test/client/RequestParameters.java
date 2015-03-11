@@ -32,6 +32,7 @@ public class RequestParameters {
     private String acceptHeader;
     private String contentEncoding;
     private String acceptEncoding;
+    private boolean allowResponseToLog;
 
     /**
      * Adds the <tt>testServerUrl</tt> to the request parameters. Part of the building process.
@@ -124,6 +125,17 @@ public class RequestParameters {
         return this;
     }
 
+    /**
+     * Defines if the response should be logged to console ro not.
+     * When endless loop is used, it is suggested to NOT allow to log the responses.
+     * @param allowResponseToLog accept or not accept the logging
+     * @return the request parameter
+     */
+    public RequestParameters allowResponseLogging(final boolean allowResponseToLog) {
+        this.allowResponseToLog = allowResponseToLog;
+        return this;
+    }
+
     public String getTestServerUrl() {
         return testServerUrl;
     }
@@ -158,5 +170,9 @@ public class RequestParameters {
 
     public String getAcceptEncoding() {
         return acceptEncoding;
+    }
+
+    public boolean getAllowResponseLogging() {
+        return allowResponseToLog;
     }
 }

@@ -49,8 +49,7 @@ public class JettyServer {
             if (isPerfTest) {
                 server.setHandler(new PerformanceTestHandler());
             } else {
-                server.setHandler(new CompositeHandler(new ExampleHandler(new InputStreamConverter()), new SequenceTestHandler(
-                        new InputStreamConverter())));
+                server.setHandler(new CompositeHandler(new ExampleHandler(new InputStreamConverter()), new SequenceTestHandler(new InputStreamConverter()), new PerformanceTestHandler()));
             }
             startServer(server);
             server.join();

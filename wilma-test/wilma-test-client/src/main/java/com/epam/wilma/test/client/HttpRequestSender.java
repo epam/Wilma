@@ -78,7 +78,9 @@ public class HttpRequestSender {
 
             int statusCode = httpClient.executeMethod(httpPost);
             logger.info("status code: " + statusCode);
-            logger.info(getInputStreamAsString(httpPost.getResponseBodyAsStream()));
+            if (requestParameters.getAllowResponseLogging()) {
+                logger.info(getInputStreamAsString(httpPost.getResponseBodyAsStream()));
+            }
         } catch (UnsupportedEncodingException e) {
             throw new SystemException("Unsupported encoding.", e);
         } catch (HttpException e) {
