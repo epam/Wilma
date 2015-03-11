@@ -172,6 +172,27 @@ public class SequenceManagerTest {
         //THEN
         verify(sequence).addResponseToPair(clonedResponse);
     }
+    
+    @Test
+    public void testTryToSaveResponseIntoSequenceShouldNotCallSequenceWhenSequenceDoesNotExists() {
+        //GIVEN
+        response = new WilmaHttpResponse();
+        String sequenceKey = "TestTeam-fistDescriptor-TestHandler|Sequence1";
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put(WilmaHttpEntity.WILMA_SEQUENCE_ID, sequenceKey);
+        Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
+        descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
+        Whitebox.setInternalState(response, "requestHeaders", requestHeaders);
+        Whitebox.setInternalState(underTest, "descriptors", descriptors);
+        given(headerUtil.resolveSequenceHeader(sequenceKey)).willReturn(new String[]{sequenceKey});
+        given(sequenceKeyResolver.getDescriptorKey(sequenceKey)).willReturn("TestTeam-fistDescriptor-TestHandler");
+        given(sequenceKeyResolver.getHandlerKey(sequenceKey)).willReturn("Sequence1");
+        given(sequenceDescriptor.getSequence("Sequence1")).willReturn(null);
+        //WHEN
+        underTest.tryToSaveResponseIntoSequence(response);
+        //THEN
+        verify(sequence,never()).addResponseToPair(clonedResponse);
+    }
 
     @Test
     public void testTryToSaveResponseIntoSequenceWhenResponseDoesNotBelongsToSequence() {

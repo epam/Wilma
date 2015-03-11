@@ -156,7 +156,9 @@ public class SequenceManager implements SequenceDescriptorHolder {
         SequenceDescriptor descriptor = descriptors.get(descriptorName);
         String handlerKey = sequenceIdUtil.getHandlerKey(sequenceId);
         WilmaSequence sequence = descriptor.getSequence(handlerKey);
-        sequence.addResponseToPair(responseCloner.cloneResponse(response));
+        if(sequence != null) {
+            sequence.addResponseToPair(responseCloner.cloneResponse(response));
+        }
     }
 
     /**
