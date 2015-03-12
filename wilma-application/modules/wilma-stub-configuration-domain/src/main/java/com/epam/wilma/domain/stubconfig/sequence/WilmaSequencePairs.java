@@ -1,4 +1,5 @@
 package com.epam.wilma.domain.stubconfig.sequence;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -32,7 +33,7 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
  */
 public class WilmaSequencePairs {
 
-    private Map<String, RequestResponsePair> messages;
+    private final Map<String, RequestResponsePair> messages;
 
     /**
      * Constructs a new instance of {@link WilmaSequencePairs}.
@@ -61,7 +62,9 @@ public class WilmaSequencePairs {
     public void putIntoMessages(final WilmaHttpResponse response) {
         String searchLoggerId = response.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant());
         RequestResponsePair pair = messages.get(searchLoggerId);
-        pair.setResponse(response);
+        if (pair != null) {
+            pair.setResponse(response);
+        }
     }
 
 }
