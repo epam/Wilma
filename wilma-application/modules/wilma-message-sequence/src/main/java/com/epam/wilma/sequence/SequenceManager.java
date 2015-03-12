@@ -20,6 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -184,5 +185,9 @@ public class SequenceManager implements SequenceDescriptorHolder {
             String descriptorKey = sequenceDescriptorKeyUtil.createDescriptorKey(sequenceDescriptor.getGroupName(), sequenceDescriptor.getName());
             addSequenceDescriptor(descriptorKey, sequenceDescriptor);
         }
+    }
+
+    public Map<String, SequenceDescriptor> getDescriptors() {
+        return new HashMap<>(descriptors);
     }
 }

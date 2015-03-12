@@ -69,12 +69,14 @@
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="sequenceHandlingOffServlet" p:name="sequenceHandlingOffServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="sequenceHandlingCleanUpServlet" p:name="sequenceHandlingCleanUpServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="shutdownServlet" p:name="shutdownServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="sequenceInformationServlet" p:name="sequenceInformationServlet" />
       </list>
     </property>
     <property name="servletMappings">
       <list>
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="buildInformationServlet" p:pathSpec="/public/version" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="loadInformationServlet" p:pathSpec="/public/actualload" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="sequenceInformationServlet" p:pathSpec="/public/livesequences" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingOnServlet" p:pathSpec="/admin/logging/on" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingOffServlet" p:pathSpec="/admin/logging/off" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingStatusServlet" p:pathSpec="/public/logging/status" />
