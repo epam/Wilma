@@ -32,7 +32,6 @@ import org.springframework.stereotype.Component;
 
 import com.epam.wilma.webapp.service.SequenceInformationCollector;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 /**
  * Servlet that provides the information of live sequences (in JSON format).
@@ -41,7 +40,6 @@ import com.google.gson.JsonObject;
  */
 @Component
 public class SequenceInformationServlet extends HttpServlet {
-    private static final String SEQUENCES = "sequences";
 
     @Autowired
     private SequenceInformationCollector sequenceInformationCollector;
@@ -50,8 +48,8 @@ public class SequenceInformationServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        Map<String, Integer> sequences = sequenceInformationCollector.collectSequences();
-        out.write(getJson(sequences));
+        Map<String, Object> informations = sequenceInformationCollector.collectInformations();
+        out.write(getJson(informations));
         out.flush();
         out.close();
     }
@@ -63,9 +61,7 @@ public class SequenceInformationServlet extends HttpServlet {
 
     private String getJson(final Object object) {
         Gson gson = new Gson();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.add(SEQUENCES, gson.toJsonTree(object));
-        String json = gson.toJson(jsonObject);
+        String json = gson.toJson(object);
         return json;
     }
 }

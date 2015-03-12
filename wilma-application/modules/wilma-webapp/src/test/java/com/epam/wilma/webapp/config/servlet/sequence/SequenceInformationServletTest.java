@@ -65,12 +65,12 @@ public class SequenceInformationServletTest {
     public void testDoGetShouldWriteJsonMessage() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
-        given(sequenceInformationCollector.collectSequences()).willReturn(new HashMap<String, Integer>());
+        given(sequenceInformationCollector.collectInformations()).willReturn(new HashMap<String, Object>());
         //WHEN
         underTest.doGet(req, resp);
         //THEN
         verify(resp).setContentType("application/json");
-        verify(printWriter).write("{\"sequences\":{}}");
+        verify(printWriter).write("{}");
         verify(printWriter).flush();
         verify(printWriter).close();
     }
@@ -79,12 +79,12 @@ public class SequenceInformationServletTest {
     public void testDoPostShouldCallDoGet() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
-        given(sequenceInformationCollector.collectSequences()).willReturn(new HashMap<String, Integer>());
+        given(sequenceInformationCollector.collectInformations()).willReturn(new HashMap<String, Object>());
         //WHEN
         underTest.doPost(req, resp);
         //THEN
         verify(resp).setContentType("application/json");
-        verify(printWriter).write("{\"sequences\":{}}");
+        verify(printWriter).write("{}");
         verify(printWriter).flush();
         verify(printWriter).close();
     }

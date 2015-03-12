@@ -21,33 +21,43 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
 import com.epam.wilma.sequence.SequenceManager;
 
 /**
- * Provides information about how much {@link WilmaSequence} object lives in each {@link SequenceDescriptor}.
+ * Provides information about how much {@link WilmaSequence} object lives.
  * @author Tibor_Kovacs
  *
  */
 @Component
 public class SequenceInformationCollector {
 
+    static final String GROUPS_KEY = "groupedbydescriptors";
+    static final String SUM_KEY = "countofsequences";
     @Autowired
     private SequenceManager sequenceManager;
 
     /**
-     * Counts the {@link WilmaSequence} objects in each {@link SequenceDescriptor}.
-     * @return a map<SequenceDescriptorKey, countofWilmaSequences>
+     * Creates a map with the count of all sequences and a map containing the count of each sequence descriptor's sequences.
+     * @return a map which contains the sum of {@link WilmaSequence} with SUM_KEY and
+     * an other map with sum of specific {@link SequenceDescriptor}'s sequences.
      */
-    public Map<String, Integer> collectSequences() {
-        Map<String, Integer> result = new HashMap<>();
+    public Map<String, Object> collectInformations() {
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Integer> countofgroups = new HashMap<>();
         Map<String, SequenceDescriptor> descriptors = sequenceManager.getDescriptors();
+        int sumSequenceCount = 0;
         for (String seqDescriptorKey : descriptors.keySet()) {
             int countOfSequences = descriptors.get(seqDescriptorKey).getSequences().size();
-            result.put(seqDescriptorKey, countOfSequences);
+            sumSequenceCount += countOfSequences;
+            countofgroups.put(seqDescriptorKey, countOfSequences);
         }
+        result.put(SUM_KEY, sumSequenceCount);
+        result.put(GROUPS_KEY, countofgroups);
         return result;
     }
 }

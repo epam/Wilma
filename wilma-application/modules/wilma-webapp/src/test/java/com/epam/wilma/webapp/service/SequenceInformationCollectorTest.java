@@ -58,17 +58,20 @@ public class SequenceInformationCollectorTest {
     }
 
     @Test
-    public void testCollectSequencesWhenThereIsNoDescriptor() {
+    public void testCollectInformationsWhenThereIsNoDescriptor() {
         //GIVEN
         given(sequenceManager.getDescriptors()).willReturn(new HashMap<String, SequenceDescriptor>());
         //WHEN
-        Map<String, Integer> result = underTest.collectSequences();
+        Map<String, Object> result = underTest.collectInformations();
         //THEN
-        Assert.assertEquals(result.size(), 0);
+        int sum = (int) result.get(SequenceInformationCollector.SUM_KEY);
+        Assert.assertEquals(sum, 0);
+        Map<String, Integer> groups = (Map<String, Integer>) result.get(SequenceInformationCollector.GROUPS_KEY);
+        Assert.assertEquals(groups.size(), 0);
     }
 
     @Test
-    public void testCollectSequencesWhenThereAreDescriptors() {
+    public void testCollectInformationsWhenThereAreDescriptors() {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new HashMap<>();
         descriptors.put("test", descriptor);
@@ -77,9 +80,11 @@ public class SequenceInformationCollectorTest {
         given(descriptor.getSequences()).willReturn(sequences);
         given(sequenceManager.getDescriptors()).willReturn(descriptors);
         //WHEN
-        Map<String, Integer> result = underTest.collectSequences();
+        Map<String, Object> result = underTest.collectInformations();
         //THEN
-        int expected = result.get("test");
-        Assert.assertEquals(1, expected);
+        int sum = (int) result.get(SequenceInformationCollector.SUM_KEY);
+        Assert.assertEquals(sum, 1);
+        Map<String, Integer> groups = (Map<String, Integer>) result.get(SequenceInformationCollector.GROUPS_KEY);
+        Assert.assertEquals(groups.size(), 1);
     }
 }
