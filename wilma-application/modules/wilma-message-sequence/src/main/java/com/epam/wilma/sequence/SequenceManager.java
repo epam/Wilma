@@ -1,4 +1,5 @@
 package com.epam.wilma.sequence;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -155,8 +156,12 @@ public class SequenceManager implements SequenceDescriptorHolder {
         String descriptorName = sequenceIdUtil.getDescriptorKey(sequenceId);
         SequenceDescriptor descriptor = descriptors.get(descriptorName);
         String handlerKey = sequenceIdUtil.getHandlerKey(sequenceId);
-        WilmaSequence sequence = descriptor.getSequence(handlerKey);
-        sequence.addResponseToPair(responseCloner.cloneResponse(response));
+        if (descriptor != null) {
+            WilmaSequence sequence = descriptor.getSequence(handlerKey);
+            if (sequence != null) {
+                sequence.addResponseToPair(responseCloner.cloneResponse(response));
+            }
+        }
     }
 
     /**
