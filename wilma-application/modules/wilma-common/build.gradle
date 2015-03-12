@@ -27,7 +27,7 @@ dependencies {
         exclude(module: 'geronimo-jms_1.1_spec')
         exclude(module: 'commons-codec')
     }
-    compile(group: 'org.apache.activemq', name: 'activemq-pool', version:'5.7.0') {
+    compile(group: 'org.apache.activemq', name: 'activemq-pool', version:'5.4.0') {
     	exclude(module: 'commons-codec')
     }
     compile group: 'org.apache.derby', name: 'derby', version:'10.1.1.0'
