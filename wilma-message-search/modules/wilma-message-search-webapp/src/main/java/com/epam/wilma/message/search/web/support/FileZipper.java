@@ -66,6 +66,7 @@ public class FileZipper {
                     String fileName = getFileName(filePath);
                     InputStream file = new FileInputStream(filePath);
                     addFileToZipStream(zipStream, fileName, file);
+                    file.close();
                 } catch (IOException ex) {
                     logger.warn("Reading or zipping is failed with file: " + filePath, ex);
                 }
