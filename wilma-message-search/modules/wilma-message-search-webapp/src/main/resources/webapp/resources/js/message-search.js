@@ -54,8 +54,8 @@ function search(e) {
                       alertBlock.addClass("alert-info");
                       alertBlock.show();
                 },
-                400: function(){
-                    $('#search-result-div .search-result-message').text("The query is not valid!");
+                400: function(xhr, status){
+                    $('#search-result-div .search-result-message').text(xhr.responseText);
                     var alertBlock = $('#search-result-div .alert');
                     alertBlock.removeClass("alert-success");
                     alertBlock.addClass("alert-error");

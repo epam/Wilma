@@ -55,6 +55,7 @@ import com.google.gson.JsonObject;
  */
 @Controller
 public class SearchController {
+    private static final String QUERY_ERROR_MESSAGE = "This query is not valid.";
     private static final String ZIP_CONTENT_TYPE = "application/zip";
     private static final String FILES = "files";
     private final Logger logger = LoggerFactory.getLogger(SearchController.class);
@@ -109,7 +110,7 @@ public class SearchController {
             }
         } catch (QueryCannotBeParsedException e) {
             logger.warn("Invalid query");
-            result = new ResponseEntity<String>("QueryParseException", HttpStatus.BAD_REQUEST);
+            result = new ResponseEntity<String>(QUERY_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
         }
         return result;
     }
