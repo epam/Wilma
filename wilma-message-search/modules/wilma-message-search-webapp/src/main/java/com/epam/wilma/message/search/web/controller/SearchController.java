@@ -1,4 +1,5 @@
 package com.epam.wilma.message.search.web.controller;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -40,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.epam.wilma.message.search.domain.IndexStatus;
+import com.epam.wilma.message.search.domain.exception.QueryCannotBeParsedException;
 import com.epam.wilma.message.search.lucene.LuceneEngine;
 import com.epam.wilma.message.search.web.support.FileChecker;
 import com.epam.wilma.message.search.web.support.FileZipper;
@@ -53,6 +55,7 @@ import com.google.gson.JsonObject;
  */
 @Controller
 public class SearchController {
+    private static final String QUERY_ERROR_MESSAGE = "This query is not valid.";
     private static final String ZIP_CONTENT_TYPE = "application/zip";
     private static final String FILES = "files";
     private final Logger logger = LoggerFactory.getLogger(SearchController.class);
@@ -74,7 +77,13 @@ public class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public void searchAndZip(@RequestParam("text") final String searchedText, final HttpServletResponse resp) {
         if (searchedText != null && !"".equals(searchedText)) {
-            List<List<String>> searchResult = searchForText(searchedText);
+            List<List<String>> searchResult;
+            try {
+                searchResult = searchForText(searchedText);
+            } catch (QueryCannotBeParsedException e) {
+                logger.warn("Invalid query");
+                searchResult = new ArrayList<List<String>>();
+            }
             zipSearchResult(searchedText, resp, searchResult);
         }
     }
@@ -88,14 +97,20 @@ public class SearchController {
     @ResponseBody
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public ResponseEntity<String> searchForFiles(@RequestParam("searchedText") final String searchedText, final HttpSession session) {
-        List<List<String>> searchResult = searchForText(searchedText);
-        addResultToSession(searchResult, session);
-        HttpHeaders responseHeaders = setHeadersForJSON();
+        List<List<String>> searchResult = new ArrayList<List<String>>();
         ResponseEntity<String> result;
-        if (!indexStatus.isReady()) {
-            result = new ResponseEntity<String>(getJson(searchResult), responseHeaders, HttpStatus.PARTIAL_CONTENT);
-        } else {
-            result = new ResponseEntity<String>(getJson(searchResult), responseHeaders, HttpStatus.CREATED);
+        HttpHeaders responseHeaders = setHeadersForJSON();
+        try {
+            searchResult = searchForText(searchedText);
+            addResultToSession(searchResult, session);
+            if (!indexStatus.isReady()) {
+                result = new ResponseEntity<String>(getJson(searchResult), responseHeaders, HttpStatus.PARTIAL_CONTENT);
+            } else {
+                result = new ResponseEntity<String>(getJson(searchResult), responseHeaders, HttpStatus.CREATED);
+            }
+        } catch (QueryCannotBeParsedException e) {
+            logger.warn("Invalid query");
+            result = new ResponseEntity<String>(QUERY_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
         }
         return result;
     }

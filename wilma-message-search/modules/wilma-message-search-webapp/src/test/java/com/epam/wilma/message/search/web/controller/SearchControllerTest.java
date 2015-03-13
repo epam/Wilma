@@ -1,4 +1,5 @@
 package com.epam.wilma.message.search.web.controller;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -42,6 +43,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.message.search.domain.IndexStatus;
+import com.epam.wilma.message.search.domain.exception.QueryCannotBeParsedException;
 import com.epam.wilma.message.search.lucene.LuceneEngine;
 import com.epam.wilma.message.search.web.support.FileChecker;
 import com.epam.wilma.message.search.web.support.FileZipper;
@@ -118,6 +120,16 @@ public class SearchControllerTest {
     }
 
     @Test
+    public void testSearchAndZipWhenQueryIsNotValid() throws IOException {
+        //GIVEN
+        given(luceneEngine.search("test")).willThrow(new QueryCannotBeParsedException("Parse Exception"));
+        //WHEN
+        underTest.searchAndZip("test", response);
+        //THEN
+        verify(fileZipper).createZipWithFiles(new ArrayList<List<String>>(), outputStream);
+    }
+
+    @Test
     public void testSearchForFilesWhenSearchedTextIsNotEmpty() throws IOException {
         //GIVEN
         //WHEN
@@ -174,5 +186,15 @@ public class SearchControllerTest {
         verify(luceneEngine).search("test");
         verify(fileChecker).checkFilesExistsWithPairs(lucineResult);
         verify(session).setAttribute("searchResult", listOfLists);
+    }
+
+    @Test
+    public void testSearchForFilesWhenQueryIsNotValid() throws IOException {
+        //GIVEN
+        given(luceneEngine.search("test")).willThrow(new QueryCannotBeParsedException("Parse Exception"));
+        //WHEN
+        ResponseEntity<String> result = underTest.searchForFiles("test", session);
+        //THEN
+        Assert.assertEquals(result.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 }

@@ -32,7 +32,9 @@ function hideElement (element) {
 }
 
 function search(e) {
-    var searchedText = $('#searchedText').val();
+	hideElement('#search-info-div .alert');
+	hideElement('#search-result-div .alert');
+	var searchedText = $('#searchedText').val();
     console.log("send text:" + searchedText);
     if (searchedText != "") {
         $.ajax({
@@ -51,6 +53,13 @@ function search(e) {
                       alertBlock.removeClass("alert-success");
                       alertBlock.addClass("alert-info");
                       alertBlock.show();
+                },
+                400: function(xhr, status){
+                    $('#search-result-div .search-result-message').text(xhr.responseText);
+                    var alertBlock = $('#search-result-div .alert');
+                    alertBlock.removeClass("alert-success");
+                    alertBlock.addClass("alert-error");
+                    alertBlock.show();
                 }
             }
             }).fail( function(xhr, status) {
