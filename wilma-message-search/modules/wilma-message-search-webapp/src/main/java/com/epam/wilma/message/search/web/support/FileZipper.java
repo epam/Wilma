@@ -56,7 +56,7 @@ public class FileZipper {
     public void createZipWithFiles(final List<List<String>> filePaths, final OutputStream result) {
         ZipOutputStream zipStream = zipOutputStreamFactory.createZipOutputStream(result);
         zipFiles(filePaths, zipStream);
-        closeStreams(result, zipStream);
+        closeZipStream(zipStream);
     }
 
     private void zipFiles(final List<List<String>> filePaths, final ZipOutputStream zipStream) {
@@ -66,6 +66,7 @@ public class FileZipper {
                     String fileName = getFileName(filePath);
                     InputStream file = new FileInputStream(filePath);
                     addFileToZipStream(zipStream, fileName, file);
+                    file.close();
                 } catch (IOException ex) {
                     logger.warn("Reading or zipping is failed with file: " + filePath, ex);
                 }
@@ -100,9 +101,8 @@ public class FileZipper {
         return result;
     }
 
-    private void closeStreams(final OutputStream result, final ZipOutputStream zipStream) {
+    private void closeZipStream(final ZipOutputStream zipStream) {
         try {
-            result.close();
             zipStream.close();
         } catch (IOException e) {
             logger.warn("Zipping search result failed", e);
