@@ -18,7 +18,7 @@
   
   <util:constant id="programArgs" static-field="com.epam.wilma.message.search.engine.MessageSearchApplication.arguments" />
   <bean id="startMessage"  class="java.lang.String">
-  <constructor-arg value="Message search application %nCopyright 2013-2015 EPAM Systems - GNU GPL-V3.0 License%nUsed port: %d %nIndex files are stored in the '%s' folder.%nThe following folders are indexed at startup '%s'."/>
+  <constructor-arg value="Wilma Message search application '%s' %nCopyright 2013-2015 EPAM Systems - GNU GPL-V3.0 License%nUsed port: %d %nIndex files are stored in the '%s' folder.%nThe following folders are indexed at startup '%s'."/>
   </bean>
 
   <import resource="classpath:conf/spring/lucene-application-context.xml" />
