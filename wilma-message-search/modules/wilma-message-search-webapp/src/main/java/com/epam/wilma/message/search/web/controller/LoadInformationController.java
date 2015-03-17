@@ -1,4 +1,5 @@
 package com.epam.wilma.message.search.web.controller;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -42,7 +43,7 @@ import com.epam.wilma.message.search.jms.helper.JmxObjectNameProvider;
 @Controller
 public class LoadInformationController {
     static final String JMS_SERVICE_URL = "service:jmx:rmi:///jndi/rmi://localhost:2015/jmxrmi";
-    static final String JMS_QUEUE_OBJECT_NAME = "org.apache.activemq:BrokerName=localhost,Type=Queue,Destination=queue";
+    static final String JMS_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=queue";
 
     private final Logger logger = LoggerFactory.getLogger(LoadInformationController.class);
 
