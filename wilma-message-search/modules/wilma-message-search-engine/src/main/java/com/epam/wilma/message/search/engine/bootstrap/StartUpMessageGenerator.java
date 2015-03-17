@@ -1,4 +1,5 @@
 package com.epam.wilma.message.search.engine.bootstrap;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 import com.epam.wilma.message.search.engine.initalize.EngineConfigurationAccess;
 import com.epam.wilma.message.search.engine.initalize.PropertyDto;
+import com.epam.wilma.message.search.web.support.VersionTitleProvider;
 
 /**
  * Logs the startup message.
@@ -41,6 +43,8 @@ public class StartUpMessageGenerator {
     private String startMessage;
     @Autowired
     private EngineConfigurationAccess configurationAccess;
+    @Autowired
+    private VersionTitleProvider versionTitleProvider;
 
     /**
      * Logs the startup message.
@@ -50,7 +54,7 @@ public class StartUpMessageGenerator {
         Integer port = properties.getPort();
         String indexFolder = properties.getIndexFolder();
         String messageFolders = properties.getMessageFolders();
-        String startUpMessage = String.format(startMessage, port, indexFolder, messageFolders);
+        String startUpMessage = String.format(startMessage, versionTitleProvider.getVersionTitle(), port, indexFolder, messageFolders);
         logger.info(startUpMessage);
 
     }
