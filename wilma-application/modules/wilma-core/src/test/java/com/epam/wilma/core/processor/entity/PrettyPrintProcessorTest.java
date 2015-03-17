@@ -1,4 +1,5 @@
 package com.epam.wilma.core.processor.entity;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -154,5 +155,16 @@ public class PrettyPrintProcessorTest {
         underTest.process(request);
         //THEN
         verify(request).setBody("{\n  \"test\": \"test\"\n}");
+    }
+
+    @Test
+    public void testProcessShouldNotSetRequestBodyJSONWhenBodyIsNull() throws ApplicationException, TransformerException {
+        //GIVEN
+        given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_JSON);
+        given(request.getBody()).willReturn(null);
+        //WHEN
+        underTest.process(request);
+        //THEN
+        verify(request, never()).setBody(Mockito.anyString());
     }
 }
