@@ -26,8 +26,9 @@ dependencies {
     compile group: 'org.apache.lucene', name: 'lucene-queryparser', version:'4.10.2'
     compile group: 'org.springframework', name: 'spring-jms', version:'3.2.2.RELEASE'
     compile group: 'javax.jms', name: 'jms', version:'1.1'
-    compile group: 'org.apache.activemq', name: 'activemq-core', version:'5.7.0'
-    compile group: 'org.apache.activemq', name: 'activemq-pool', version:'5.4.0'
+    compile group: 'org.apache.activemq', name: 'activemq-broker', version:'5.11.1'
+    compile group: 'org.apache.activemq', name: 'activemq-pool', version:'5.11.1'
+    compile group: 'org.apache.activemq', name: 'activemq-spring', version:'5.11.1'
     compile group: 'org.apache.xbean', name: 'xbean-spring', version:'3.5'
     compile project(':wilma-message-search:wilma-message-search-domain')
     compile project(':wilma-message-search:wilma-message-search-properties')
