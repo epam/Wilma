@@ -1,4 +1,5 @@
 package com.epam.wilma.core.processor.entity;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -77,9 +78,12 @@ public class PrettyPrintProcessor extends ProcessorBase {
         } else if (contentTypeHeader != null && contentTypeHeader.contains("json")) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(entity.getBody());
-            String jsonString = gson.toJson(element);
-            entity.setBody(jsonString);
+            String body = entity.getBody();
+            if (body != null) {
+                JsonElement element = parser.parse(body);
+                String jsonString = gson.toJson(element);
+                entity.setBody(jsonString);
+            }
         }
 
     }
