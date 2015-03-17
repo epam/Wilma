@@ -1,4 +1,5 @@
 package com.epam.wilma.safeguard.monitor;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -46,8 +47,8 @@ import com.epam.wilma.safeguard.monitor.helper.JmxObjectNameProvider;
 public class JmsQueueMonitorTask implements Runnable {
 
     static final String JMX_SERVICE_URL = "service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi";
-    static final String RESPONSE_QUEUE_OBJECT_NAME = "org.apache.activemq:BrokerName=localhost,Type=Queue,Destination=responseQueue";
-    static final String LOGGER_QUEUE_OBJECT_NAME = "org.apache.activemq:BrokerName=localhost,Type=Queue,Destination=loggerQueue";
+    static final String RESPONSE_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=responseQueue";
+    static final String LOGGER_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=loggerQueue";
 
     private final Logger logger = LoggerFactory.getLogger(JmsQueueMonitorTask.class);
 
