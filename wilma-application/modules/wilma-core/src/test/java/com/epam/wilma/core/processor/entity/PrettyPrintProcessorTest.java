@@ -46,7 +46,6 @@ import com.epam.wilma.common.stream.helper.StreamSourceFactory;
 import com.epam.wilma.core.processor.entity.helper.XmlTransformerFactory;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.google.gson.JsonParseException;
 
 /**
  * Provides unit tests for the class {@link PrettyPrintProcessor}.
@@ -171,7 +170,7 @@ public class PrettyPrintProcessorTest {
     }
 
     @Test
-    public void testProcessWhenJsonParserThrowsExceptionShouldLogError() throws JsonParseException, ApplicationException {
+    public void testProcessWhenJsonParserThrowsExceptionShouldLogError() throws ApplicationException {
         //GIVEN
         Whitebox.setInternalState(underTest, "logger", logger);
         //GIVEN
@@ -184,7 +183,7 @@ public class PrettyPrintProcessorTest {
     }
 
     @Test
-    public void testProcessWhenJsonParserThrowsExceptionShouldLeaveOriginalBodyAsItIs() throws JsonParseException, ApplicationException {
+    public void testProcessWhenJsonParserThrowsExceptionShouldLeaveOriginalBodyAsItIs() throws ApplicationException {
         //GIVEN
         Whitebox.setInternalState(underTest, "logger", logger);
         //GIVEN
