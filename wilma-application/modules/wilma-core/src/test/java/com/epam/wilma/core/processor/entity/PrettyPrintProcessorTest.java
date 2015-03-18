@@ -22,6 +22,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.Writer;
 
@@ -45,6 +46,7 @@ import com.epam.wilma.common.stream.helper.StreamSourceFactory;
 import com.epam.wilma.core.processor.entity.helper.XmlTransformerFactory;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.google.gson.JsonParseException;
 
 /**
  * Provides unit tests for the class {@link PrettyPrintProcessor}.
@@ -167,4 +169,31 @@ public class PrettyPrintProcessorTest {
         //THEN
         verify(request, never()).setBody(Mockito.anyString());
     }
+
+    @Test
+    public void testProcessWhenJsonParserThrowsExceptionShouldLogError() throws JsonParseException, ApplicationException {
+        //GIVEN
+        Whitebox.setInternalState(underTest, "logger", logger);
+        //GIVEN
+        given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_JSON);
+        given(request.getBody()).willReturn("invalidjson{:}");
+        //WHEN
+        underTest.process(request);
+        //THEN
+        verify(logger).error(Mockito.anyString());
+    }
+
+    @Test
+    public void testProcessWhenJsonParserThrowsExceptionShouldLeaveOriginalBodyAsItIs() throws JsonParseException, ApplicationException {
+        //GIVEN
+        Whitebox.setInternalState(underTest, "logger", logger);
+        //GIVEN
+        given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_JSON);
+        given(request.getBody()).willReturn("invalidjson{:}");
+        //WHEN
+        underTest.process(request);
+        //THEN
+        assertEquals("invalidjson{:}", request.getBody());
+    }
+
 }

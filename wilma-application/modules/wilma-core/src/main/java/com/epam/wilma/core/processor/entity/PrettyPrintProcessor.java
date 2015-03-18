@@ -72,19 +72,37 @@ public class PrettyPrintProcessor extends ProcessorBase {
                 String xmlString = result.getWriter().toString();
                 entity.setBody(xmlString);
             } catch (TransformerException e) {
-                logger.error("Error during pretty printing of message with Wilma Logger ID: "
-                        + entity.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant()) + "! Reason:" + e.getMessage());
+                logError(entity, e);
             }
         } else if (contentTypeHeader != null && contentTypeHeader.contains("json")) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonParser parser = new JsonParser();
-            String body = entity.getBody();
-            if (body != null) {
-                JsonElement element = parser.parse(body);
-                String jsonString = gson.toJson(element);
-                entity.setBody(jsonString);
-            }
+            handleJsonContent(entity);
         }
 
+    }
+
+    private void handleJsonContent(final WilmaHttpEntity entity) {
+        String body = entity.getBody();
+        if (body != null) {
+            String jsonString = tryToParseJson(entity, body);
+            entity.setBody(jsonString);
+        }
+    }
+
+    private String tryToParseJson(final WilmaHttpEntity entity, final String body) {
+        String result = body;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(body);
+            result = gson.toJson(element);
+        } catch (Exception e) {
+            logError(entity, e);
+        }
+        return result;
+    }
+
+    private void logError(final WilmaHttpEntity entity, final Exception e) {
+        logger.error("Error during pretty printing of message with Wilma Logger ID: "
+                + entity.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant()) + "! Reason:" + e.getMessage());
     }
 }
