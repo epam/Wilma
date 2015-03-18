@@ -1,4 +1,5 @@
 package com.epam.wilma.core.processor.entity;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -24,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.compression.fis.FastInfosetCompressionService;
-import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 
 /**
@@ -42,7 +42,7 @@ public class FastInfosetDecompressorProcessor extends ProcessorBase {
     private FastInfosetCompressionService fastinfosetDecompressor;
 
     @Override
-    public void process(final WilmaHttpEntity entity) throws ApplicationException {
+    public void process(final WilmaHttpEntity entity) {
         if (isContentFISCompressed(entity)) {
             ByteArrayOutputStream compressedBody = fastinfosetDecompressor.decompress(entity.getInputStream());
             entity.setBody(compressedBody.toString());

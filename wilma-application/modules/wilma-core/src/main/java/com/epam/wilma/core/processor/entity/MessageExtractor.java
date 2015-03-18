@@ -1,4 +1,5 @@
 package com.epam.wilma.core.processor.entity;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -20,14 +21,15 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.io.IOException;
 
-import com.epam.wilma.core.processor.WilmaEntityProcessorInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.epam.wilma.core.processor.WilmaEntityProcessorInterface;
 import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 
 /**
@@ -51,20 +53,20 @@ public class MessageExtractor {
      * Extract the given message.
      * @param message message to extract
      */
-    public void extract(WilmaHttpEntity message) {
+    public void extract(final WilmaHttpEntity message) {
         String body = message.getBody();
         try {
             base64DecoderProcessor.process(message);
             fastInfosetDecompressorProcessor.process(message);
-        } catch (ApplicationException e) {
-            LOGGER.warn("Failed to extract message content! Restoring original content...", e);
+        } catch (SystemException | ApplicationException e) {
+            LOGGER.info("Failed to extract message content! Restoring original content...", e);
             message.setBody(body);
         } finally {
             closeStream(message);
         }
     }
 
-    private void closeStream(WilmaHttpEntity message) {
+    private void closeStream(final WilmaHttpEntity message) {
         if (message.getInputStream() != null) {
             try {
                 message.getInputStream().close();

@@ -1,4 +1,5 @@
 package com.epam.wilma.compression.fis;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
