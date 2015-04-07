@@ -37,7 +37,6 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
  *
  */
 public class PerformanceTestHandler extends AbstractHandler {
-
     private static final String PATH_TO_HANDLE = "/perfexample";
 
     private final Random random = new Random();
@@ -46,6 +45,7 @@ public class PerformanceTestHandler extends AbstractHandler {
     private final byte[] xmlMaxAsBytes;
     private final byte[] xmlMinAsBytes;
     private final byte[] xmlSmallAsBytes;
+
 
     /**
      * Constructor reads xml from file.
@@ -63,6 +63,7 @@ public class PerformanceTestHandler extends AbstractHandler {
 
         InputStream xmlSmall = getXmlFromFile("response_small.fis");
         xmlSmallAsBytes = IOUtils.toByteArray(xmlSmall, xmlSmall.available());
+
     }
 
     @Override
@@ -84,7 +85,6 @@ public class PerformanceTestHandler extends AbstractHandler {
             response.setCharacterEncoding("UTF-8");
             response.getOutputStream().write(responseBodyAsBytes);
             response.setStatus(HttpServletResponse.SC_OK);
-            response.getOutputStream().close();
             baseRequest.setHandled(true);
             response.getOutputStream().close();
         }

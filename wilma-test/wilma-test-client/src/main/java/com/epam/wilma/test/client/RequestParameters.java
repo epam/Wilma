@@ -1,4 +1,5 @@
 package com.epam.wilma.test.client;
+
 /*==========================================================================
 Copyright 2015 EPAM Systems
 
@@ -20,7 +21,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.io.InputStream;
 
-
 public class RequestParameters {
 
     private String testServerUrl;
@@ -33,6 +33,8 @@ public class RequestParameters {
     private String contentEncoding;
     private String acceptEncoding;
     private boolean allowResponseToLog;
+    private Integer requestBufferSize;
+    private Integer responseBufferSize;
 
     /**
      * Adds the <tt>testServerUrl</tt> to the request parameters. Part of the building process.
@@ -136,6 +138,26 @@ public class RequestParameters {
         return this;
     }
 
+    /**
+     * Defines the maximum request size.
+     * @param requestBufferSize is the new size.
+     * @return the request parameter
+     */
+    public RequestParameters requestBufferSize(final Integer requestBufferSize) {
+        this.requestBufferSize = requestBufferSize;
+        return this;
+    }
+
+    /**
+     * Defines the maximum response size.
+     * @param responseBufferSize is the new size.
+     * @return the request parameter
+     */
+    public RequestParameters responseBufferSize(final Integer responseBufferSize) {
+        this.responseBufferSize = responseBufferSize;
+        return this;
+    }
+
     public String getTestServerUrl() {
         return testServerUrl;
     }
@@ -174,5 +196,13 @@ public class RequestParameters {
 
     public boolean getAllowResponseLogging() {
         return allowResponseToLog;
+    }
+
+    public Integer getRequestBufferSize() {
+        return requestBufferSize;
+    }
+
+    public Integer getResponseBufferSize() {
+        return responseBufferSize;
     }
 }

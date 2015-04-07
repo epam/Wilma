@@ -56,15 +56,24 @@ public class TestClientBootstrap {
                     Boolean useProxy = Boolean.valueOf(properties.getProperty("client.proxy"));
                     String wilmaHost = properties.getProperty("wilma.host");
                     Integer wilmaPort = Integer.parseInt(properties.getProperty("wilma.port"));
-                    String contentType = properties.getProperty("content_type");
-                    String acceptHeader = properties.getProperty("accept_header");
-                    String contentEncoding = properties.getProperty("content_encoding");
-                    String acceptEncoding = properties.getProperty("accept_encoding");
-                    boolean isEndlessLoop = properties.getProperty("endless_loop").equalsIgnoreCase("true");
+                    String contentType = properties.getProperty("content.type");
+                    String acceptHeader = properties.getProperty("accept.header");
+                    String contentEncoding = properties.getProperty("content.encoding");
+                    String acceptEncoding = properties.getProperty("accept.encoding");
+                    boolean isEndlessLoop = properties.getProperty("endless.loop").equalsIgnoreCase("true");
+                    long pauseBetweenRequests = Long.parseLong(properties.getProperty("pause.time"));
+                    Integer requestBufferSize = Integer.parseInt(properties.getProperty("http.socket.sendbuffer"));
+                    Integer responseBufferSize = Integer.parseInt(properties.getProperty("http.socket.receivebuffer"));
                     do {
                         httpRequestSender.callWilmaTestServer(new RequestParameters().testServerUrl(testServerUrl).useProxy(useProxy)
                                 .wilmaHost(wilmaHost).wilmaPort(wilmaPort).xmlIS(new FileInputStream(args[1])).contentType(contentType)
-                                .acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding).allowResponseLogging(!isEndlessLoop));
+                                .acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding).allowResponseLogging(!isEndlessLoop)
+                                .requestBufferSize(requestBufferSize).responseBufferSize(responseBufferSize));
+                        try {
+                            Thread.sleep(pauseBetweenRequests);
+                        } catch (InterruptedException e) {
+                            logger.error("InterruptedException raised in endless loop.",e);
+                        }
                     } while (isEndlessLoop);
                 }
             } catch (FileNotFoundException e) {

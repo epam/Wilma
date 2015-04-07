@@ -32,6 +32,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpVersion;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
@@ -76,6 +77,9 @@ public class HttpRequestSender {
             httpPost.addRequestHeader("Accept-Encoding", requestParameters.getAcceptEncoding());
             //httpPost.addRequestHeader("0", "WilmaBypass=true");
 
+            httpClient.getHttpConnectionManager().getParams().setParameter("http.socket.sendbuffer", requestParameters.getRequestBufferSize());
+            httpClient.getHttpConnectionManager().getParams().setParameter("http.socket.receivebuffer", requestParameters.getResponseBufferSize());
+            
             int statusCode = httpClient.executeMethod(httpPost);
             logger.info("status code: " + statusCode);
             if (requestParameters.getAllowResponseLogging()) {
