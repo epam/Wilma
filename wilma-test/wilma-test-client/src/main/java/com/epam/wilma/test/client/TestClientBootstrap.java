@@ -65,14 +65,16 @@ public class TestClientBootstrap {
                     Integer requestBufferSize = Integer.parseInt(properties.getProperty("http.socket.sendbuffer"));
                     Integer responseBufferSize = Integer.parseInt(properties.getProperty("http.socket.receivebuffer"));
                     do {
-                        httpRequestSender.callWilmaTestServer(new RequestParameters().testServerUrl(testServerUrl).useProxy(useProxy)
-                                .wilmaHost(wilmaHost).wilmaPort(wilmaPort).xmlIS(new FileInputStream(args[1])).contentType(contentType)
-                                .acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding).allowResponseLogging(!isEndlessLoop)
-                                .requestBufferSize(requestBufferSize).responseBufferSize(responseBufferSize));
+                        RequestParameters requestParameters = new RequestParameters().testServerUrl(testServerUrl).wilmaHost(wilmaHost)
+                                .wilmaPort(wilmaPort).xmlIS(new FileInputStream(args[1])).contentType(contentType).acceptHeader(acceptHeader)
+                                .contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
+                        TestClientParameters clientParameters = new TestClientParameters().useProxy(useProxy).allowResponseLogging(!isEndlessLoop)
+                                .requestBufferSize(requestBufferSize).responseBufferSize(responseBufferSize);
+                        httpRequestSender.callWilmaTestServer(requestParameters, clientParameters);
                         try {
                             Thread.sleep(pauseBetweenRequests);
                         } catch (InterruptedException e) {
-                            logger.error("InterruptedException raised in endless loop.",e);
+                            logger.error("InterruptedException raised in endless loop.", e);
                         }
                     } while (isEndlessLoop);
                 }
