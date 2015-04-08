@@ -1,4 +1,5 @@
 package com.epam.wilma.test.client;
+
 /*==========================================================================
 Copyright 2015 EPAM Systems
 
@@ -55,11 +56,11 @@ public class HttpRequestSender {
      * @param requestParameters a set of parameters that will set the content of the request
      * and specify the proxy it should go through
      */
-    public void callWilmaTestServer(final RequestParameters requestParameters) {
+    public void callWilmaTestServer(final RequestParameters requestParameters, final TestClientParameters clientParameters) {
         try {
             HttpClient httpClient = new HttpClient();
             PostMethod httpPost = new PostMethod(requestParameters.getTestServerUrl());
-            if (requestParameters.isUseProxy()) {
+            if (clientParameters.isUseProxy()) {
                 httpClient.getHostConfiguration().setProxy(requestParameters.getWilmaHost(), requestParameters.getWilmaPort());
             }
             InputStream inputStream = requestParameters.getInputStream();
@@ -76,9 +77,12 @@ public class HttpRequestSender {
             httpPost.addRequestHeader("Accept-Encoding", requestParameters.getAcceptEncoding());
             //httpPost.addRequestHeader("0", "WilmaBypass=true");
 
+            httpClient.getHttpConnectionManager().getParams().setSendBufferSize(clientParameters.getRequestBufferSize());
+            httpClient.getHttpConnectionManager().getParams().setReceiveBufferSize(clientParameters.getResponseBufferSize());
+
             int statusCode = httpClient.executeMethod(httpPost);
             logger.info("status code: " + statusCode);
-            if (requestParameters.getAllowResponseLogging()) {
+            if (clientParameters.getAllowResponseLogging()) {
                 logger.info(getInputStreamAsString(httpPost.getResponseBodyAsStream()));
             }
         } catch (UnsupportedEncodingException e) {

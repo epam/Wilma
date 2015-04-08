@@ -1,4 +1,5 @@
 package com.epam.wilma.test.client;
+
 /*==========================================================================
 Copyright 2015 EPAM Systems
 
@@ -20,11 +21,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.io.InputStream;
 
-
 public class RequestParameters {
 
     private String testServerUrl;
-    private boolean useProxy;
     private String wilmaHost;
     private Integer wilmaPort;
     private InputStream inputStream;
@@ -32,7 +31,6 @@ public class RequestParameters {
     private String acceptHeader;
     private String contentEncoding;
     private String acceptEncoding;
-    private boolean allowResponseToLog;
 
     /**
      * Adds the <tt>testServerUrl</tt> to the request parameters. Part of the building process.
@@ -41,17 +39,6 @@ public class RequestParameters {
      */
     public RequestParameters testServerUrl(final String testServerUrl) {
         this.testServerUrl = testServerUrl;
-        return this;
-    }
-
-    /**
-     * Adds the <tt>useProxy</tt> field to the request parameters. Part of the building process.
-     * @param useProxy decides whether the proxy should be used when sending
-     * the request to the server or not
-     * @return the request parameter
-     */
-    public RequestParameters useProxy(final boolean useProxy) {
-        this.useProxy = useProxy;
         return this;
     }
 
@@ -125,23 +112,8 @@ public class RequestParameters {
         return this;
     }
 
-    /**
-     * Defines if the response should be logged to console ro not.
-     * When endless loop is used, it is suggested to NOT allow to log the responses.
-     * @param allowResponseToLog accept or not accept the logging
-     * @return the request parameter
-     */
-    public RequestParameters allowResponseLogging(final boolean allowResponseToLog) {
-        this.allowResponseToLog = allowResponseToLog;
-        return this;
-    }
-
     public String getTestServerUrl() {
         return testServerUrl;
-    }
-
-    public boolean isUseProxy() {
-        return useProxy;
     }
 
     public String getWilmaHost() {
@@ -172,7 +144,4 @@ public class RequestParameters {
         return acceptEncoding;
     }
 
-    public boolean getAllowResponseLogging() {
-        return allowResponseToLog;
-    }
 }
