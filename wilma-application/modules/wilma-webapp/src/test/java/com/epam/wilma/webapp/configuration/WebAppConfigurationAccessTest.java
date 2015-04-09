@@ -46,6 +46,7 @@ public class WebAppConfigurationAccessTest {
     private static final int PROXY_PORT = 0;
     private static final int REQUEST_BUFFER_SIZE = 0;
     private static final int RESPONSE_BUFFER_SIZE = 0;
+    private static final int MAX_SIZE = 10;
 
     @InjectMocks
     private WebAppConfigurationAccess underTest;
@@ -65,6 +66,7 @@ public class WebAppConfigurationAccessTest {
         given(propertyHolder.get("wilma.readme.text")).willReturn(EXPRESSION);
         given(propertyHolder.getInt("internal.wilma.request.buffer.size")).willReturn(REQUEST_BUFFER_SIZE);
         given(propertyHolder.getInt("internal.wilma.response.buffer.size")).willReturn(RESPONSE_BUFFER_SIZE);
+        given(propertyHolder.getInt("message.log.UI.maxsize")).willReturn(MAX_SIZE);
     }
 
     @Test
@@ -102,6 +104,16 @@ public class WebAppConfigurationAccessTest {
         PropertyDTO actual = underTest.getProperties();
         assertEquals(actual.getReadme().getUrl(), EXPRESSION);
         assertEquals(actual.getReadme().getText(), EXPRESSION);
+    }
+
+    @Test
+    public void testLoadPropertiesShouldSetFileListJsonProperties() {
+        //GIVEN in setUp
+        //WHEN
+        underTest.loadProperties();
+        //THEN
+        PropertyDTO actual = underTest.getProperties();
+        assertEquals(actual.getFileListProperties().getMaximumCountOfMessages(), MAX_SIZE);
     }
 
 }

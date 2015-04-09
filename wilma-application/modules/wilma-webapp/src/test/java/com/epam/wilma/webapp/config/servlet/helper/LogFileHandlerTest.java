@@ -1,4 +1,5 @@
 package com.epam.wilma.webapp.config.servlet.helper;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -36,6 +37,10 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
+import com.epam.wilma.webapp.configuration.domain.FileListJsonProperties;
+import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
+
 /**
  * Provides unit tests for the class {@link LogFileHandler}.
  * @author Tunde_Kovacs
@@ -62,6 +67,12 @@ public class LogFileHandlerTest {
     private File file;
     @Mock
     private InputStreamUtil inputStreamConverter;
+    @Mock
+    private WebAppConfigurationAccess configurationAccess;
+    @Mock
+    private FileListJsonProperties properties;
+    @Mock
+    private PropertyDTO propertyDTO;
 
     @InjectMocks
     private LogFileHandler underTest;
@@ -77,11 +88,31 @@ public class LogFileHandlerTest {
     public final void testWriteFileNamesToResponseShouldWriteFileNames() throws IOException {
         // GIVEN
         given(path.toFile()).willReturn(file);
-        given(messageFileListJsonBuilder.buildMessageFileListJson(file)).willReturn("files");
+        given(messageFileListJsonBuilder.buildMessageFileListJson(file, null)).willReturn("files");
         given(request.getHeader("User-Agent")).willReturn("windows");
         // WHEN
         underTest.writeFileNamesToResponse(response, path);
         // THEN
+        verify(response).setContentType("application/json");
+        verify(printWriter).write("files");
+        verify(printWriter).flush();
+        verify(printWriter).close();
+    }
+
+    @Test
+    public final void testWriteFileNamesToResponseWithLimitShouldWriteFileNames() throws IOException {
+        // GIVEN
+        given(path.toFile()).willReturn(file);
+        given(messageFileListJsonBuilder.buildMessageFileListJson(file, null)).willReturn("files");
+        given(request.getHeader("User-Agent")).willReturn("windows");
+        given(configurationAccess.getProperties()).willReturn(propertyDTO);
+        given(propertyDTO.getFileListProperties()).willReturn(properties);
+        given(properties.getMaximumCountOfMessages()).willReturn(100);
+        given(messageFileListJsonBuilder.buildMessageFileListJson(path.toFile(), 100)).willReturn("files");
+        // WHEN
+        underTest.writeFileNamesToResponseWithLimit(response, path);
+        // THEN
+        verify(messageFileListJsonBuilder).buildMessageFileListJson(path.toFile(), 100);
         verify(response).setContentType("application/json");
         verify(printWriter).write("files");
         verify(printWriter).flush();

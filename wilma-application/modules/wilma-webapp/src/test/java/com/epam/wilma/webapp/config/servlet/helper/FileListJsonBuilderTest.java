@@ -68,7 +68,19 @@ public class FileListJsonBuilderTest {
         String[] fileNames = {"20130829103651.0000req.txt", "20130829103650.0000resp.txt"};
         given(file.list()).willReturn(fileNames);
         //WHEN
-        String actual = underTest.buildMessageFileListJson(file);
+        String actual = underTest.buildMessageFileListJson(file, 100);
+        //THEN
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public final void testBuildMessageFileListJsonShouldCreateProperJsonWhenLenghtIsOverTheMaximum() {
+        //GIVEN
+        String expected = "{\"files\":[\"20130829103651.0000req.txt\"]}";
+        String[] fileNames = {"20130829103651.0000req.txt", "20130829103650.0000resp.txt"};
+        given(file.list()).willReturn(fileNames);
+        //WHEN
+        String actual = underTest.buildMessageFileListJson(file, 1);
         //THEN
         assertEquals(actual, expected);
     }
@@ -80,7 +92,7 @@ public class FileListJsonBuilderTest {
         String[] fileNames = {};
         given(file.list()).willReturn(fileNames);
         //WHEN
-        String actual = underTest.buildMessageFileListJson(file);
+        String actual = underTest.buildMessageFileListJson(file, null);
         //THEN
         assertEquals(actual, expected);
     }
@@ -91,7 +103,7 @@ public class FileListJsonBuilderTest {
         String expected = "{\"files\":[]}";
         given(file.list()).willReturn(null);
         //WHEN
-        String actual = underTest.buildMessageFileListJson(file);
+        String actual = underTest.buildMessageFileListJson(file, null);
         //THEN
         assertEquals(actual, expected);
     }

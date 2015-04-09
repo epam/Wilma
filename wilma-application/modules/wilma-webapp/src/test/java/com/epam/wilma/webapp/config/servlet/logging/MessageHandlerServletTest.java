@@ -72,7 +72,7 @@ public class MessageHandlerServletTest {
         // WHEN
         underTest.doGet(request, response);
         // THEN
-        verify(messageFileHandler).writeFileNamesToResponse(response, path);
+        verify(messageFileHandler).writeFileNamesToResponseWithLimit(response, path);
     }
 
     @Test

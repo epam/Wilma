@@ -50,7 +50,7 @@ public class MessageHandlerServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         Path path = filePathProvider.getLogFilePath();
         if (pathIsEmpty(req)) {
-            messageFileHandler.writeFileNamesToResponse(resp, path);
+            messageFileHandler.writeFileNamesToResponseWithLimit(resp, path);
         } else {
             messageFileHandler.writeFileContentToResponse(req, resp, req.getPathInfo(), path);
         }
