@@ -30,9 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
-import com.epam.wilma.webapp.configuration.domain.FileListJsonProperties;
-
 /**
  * Sends as response the list of wilma logs in the application. If a particular log is
  * requested then it will send its content.
@@ -54,8 +51,7 @@ public class LogFileHandler {
     private FileReader messageFileReader;
     @Autowired
     private InputStreamUtil inputStreamConverter;
-    @Autowired
-    private WebAppConfigurationAccess configurationAccess;
+
 
     /**
      * Writes a list of file names from a given path to a {@link HttpServletResponse}.
@@ -66,23 +62,7 @@ public class LogFileHandler {
     public void writeFileNamesToResponse(final HttpServletResponse resp, final Path path) throws IOException {
         PrintWriter out = resp.getWriter();
         resp.setContentType(APPLICATION_JSON);
-        out.write(messageFileJsonBuilder.buildMessageFileListJson(path.toFile(), null));
-        out.flush();
-        out.close();
-    }
-
-    /**
-     * Writes a list of file names from a given path to a {@link HttpServletResponse}.
-     * But it uses a limit, how much files will be written out.
-     * @param resp the response to which the file names are written
-     * @param path the path where the files can be found
-     * @throws IOException if an input or output exception occurred
-     */
-    public void writeFileNamesToResponseWithLimit(final HttpServletResponse resp, final Path path) throws IOException {
-        FileListJsonProperties properties = configurationAccess.getProperties().getFileListProperties();
-        PrintWriter out = resp.getWriter();
-        resp.setContentType(APPLICATION_JSON);
-        out.write(messageFileJsonBuilder.buildMessageFileListJson(path.toFile(), properties.getMaximumCountOfMessages()));
+        out.write(messageFileJsonBuilder.buildLogFileListJson(path.toFile()));
         out.flush();
         out.close();
     }

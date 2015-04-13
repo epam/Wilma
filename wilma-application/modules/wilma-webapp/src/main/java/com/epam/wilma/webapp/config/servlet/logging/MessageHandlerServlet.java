@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.common.helper.LogFilePathProvider;
-import com.epam.wilma.webapp.config.servlet.helper.LogFileHandler;
+import com.epam.wilma.webapp.config.servlet.helper.MessageFileHandler;
 
 /**
  * This servlet reads all the names of the messages logged and returns them in json.
@@ -44,13 +44,13 @@ public class MessageHandlerServlet extends HttpServlet {
     @Autowired
     private LogFilePathProvider filePathProvider;
     @Autowired
-    private LogFileHandler messageFileHandler;
+    private MessageFileHandler messageFileHandler;
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         Path path = filePathProvider.getLogFilePath();
         if (pathIsEmpty(req)) {
-            messageFileHandler.writeFileNamesToResponseWithLimit(resp, path);
+            messageFileHandler.writeFileNamesToResponse(resp, path);
         } else {
             messageFileHandler.writeFileContentToResponse(req, resp, req.getPathInfo(), path);
         }
