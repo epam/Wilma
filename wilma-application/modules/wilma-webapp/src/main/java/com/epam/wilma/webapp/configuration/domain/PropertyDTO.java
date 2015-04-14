@@ -26,25 +26,11 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class PropertyDTO {
 
-    private final MaintainerProperties maintainerProperties;
-    private final Readme readme;
-    private final ServerProperties serverProperties;
-    private final SequenceResponseGuardProperties sequenceResponseGuardProperties;
-
-    /**
-     * Constructs a new dto with the given parameters.
-     * @param serverProperties Properties needed by the web server
-     * @param maintainerProperties Properties needed by the log maintainer
-     * @param readme the url of readme and the text of the readme url
-     * @param sequenceResponseGuardProperties properties needed by SequenceResponseGuardProperties
-     */
-    public PropertyDTO(final ServerProperties serverProperties, final MaintainerProperties maintainerProperties, final Readme readme,
-            final SequenceResponseGuardProperties sequenceResponseGuardProperties) {
-        this.serverProperties = serverProperties;
-        this.maintainerProperties = maintainerProperties;
-        this.readme = readme;
-        this.sequenceResponseGuardProperties = sequenceResponseGuardProperties;
-    }
+    private MaintainerProperties maintainerProperties;
+    private Readme readme;
+    private ServerProperties serverProperties;
+    private SequenceResponseGuardProperties sequenceResponseGuardProperties;
+    private FileListJsonProperties fileListProperties;
 
     public SequenceResponseGuardProperties getSequenceResponseGuardProperties() {
         return sequenceResponseGuardProperties;
@@ -60,6 +46,91 @@ public class PropertyDTO {
 
     public Readme getReadme() {
         return readme;
+    }
+
+    public FileListJsonProperties getFileListProperties() {
+        return fileListProperties;
+    }
+
+    /**
+     * Builder for {@link PropertyDTO} object.
+     * @author Tibor_Kovacs
+     *
+     */
+    public static class Builder {
+        private MaintainerProperties maintainerProperties;
+        private Readme readme;
+        private ServerProperties serverProperties;
+        private SequenceResponseGuardProperties sequenceResponseGuardProperties;
+        private FileListJsonProperties fileListProperties;
+
+        /**
+         * Sets the maintainerProperties value.
+         * @param maintainerProperties holds properties for maintainer.
+         * @return the {@link Builder} for chaining
+         */
+        public Builder maintainerProperties(final MaintainerProperties maintainerProperties) {
+            this.maintainerProperties = maintainerProperties;
+            return this;
+        }
+
+        /**
+         * Sets the readme value.
+         * @param readme holds properties for readme.
+         * @return the {@link Builder} for chaining
+         */
+        public Builder readme(final Readme readme) {
+            this.readme = readme;
+            return this;
+        }
+
+        /**
+         * Sets the serverProperties value.
+         * @param serverProperties holds properties for server.
+         * @return the {@link Builder} for chaining
+         */
+        public Builder serverProperties(final ServerProperties serverProperties) {
+            this.serverProperties = serverProperties;
+            return this;
+        }
+
+        /**
+         * Sets the sequenceResponseGuardProperties value.
+         * @param sequenceResponseGuardProperties holds properties for SequenceResponseGuard.
+         * @return the {@link Builder} for chaining
+         */
+        public Builder sequenceResponseGuardProperties(final SequenceResponseGuardProperties sequenceResponseGuardProperties) {
+            this.sequenceResponseGuardProperties = sequenceResponseGuardProperties;
+            return this;
+        }
+
+        /**
+         * Sets the fileListProperties value.
+         * @param fileListProperties holds properties for FileListJsonBuilder.
+         * @return the {@link Builder} for chaining
+         */
+        public Builder fileListProperties(final FileListJsonProperties fileListProperties) {
+            this.fileListProperties = fileListProperties;
+            return this;
+        }
+
+        /**
+         * Constructs a new property holding object.
+         * @return the new {@link PropertyDTO} instance.
+         */
+        public PropertyDTO build() {
+            PropertyDTO propertyDTO = new PropertyDTO();
+            setFields(propertyDTO);
+            return propertyDTO;
+        }
+
+        private void setFields(final PropertyDTO propertyDTO) {
+            propertyDTO.maintainerProperties = maintainerProperties;
+            propertyDTO.readme = readme;
+            propertyDTO.serverProperties = serverProperties;
+            propertyDTO.sequenceResponseGuardProperties = sequenceResponseGuardProperties;
+            propertyDTO.fileListProperties = fileListProperties;
+        }
     }
 
 }

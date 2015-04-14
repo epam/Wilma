@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 
 import com.epam.wilma.common.configuration.ConfigurationAccessBase;
 import com.epam.wilma.properties.PropertyHolder;
+import com.epam.wilma.webapp.configuration.domain.FileListJsonProperties;
 import com.epam.wilma.webapp.configuration.domain.MaintainerProperties;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 import com.epam.wilma.webapp.configuration.domain.Readme;
@@ -49,7 +50,10 @@ public class WebAppConfigurationAccess implements ConfigurationAccessBase {
         Readme readme = getReadme();
         ServerProperties serverProperties = getServerProperties();
         SequenceResponseGuardProperties sequenceResponseGuardProperties = getSequenceResponseGuardProperties();
-        properties = new PropertyDTO(serverProperties, maintainerProperties, readme, sequenceResponseGuardProperties);
+        FileListJsonProperties fileListProperties = getFileListJsonProperties();
+        properties = new PropertyDTO.Builder().maintainerProperties(maintainerProperties).readme(readme)
+                .sequenceResponseGuardProperties(sequenceResponseGuardProperties).serverProperties(serverProperties)
+                .fileListProperties(fileListProperties).build();
     }
 
     /**
@@ -58,6 +62,11 @@ public class WebAppConfigurationAccess implements ConfigurationAccessBase {
      */
     public PropertyDTO getProperties() {
         return properties;
+    }
+
+    private FileListJsonProperties getFileListJsonProperties() {
+        int maximumValue = propertyHolder.getInt("message.log.UI.maxsize");
+        return new FileListJsonProperties(maximumValue);
     }
 
     private SequenceResponseGuardProperties getSequenceResponseGuardProperties() {

@@ -36,7 +36,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.common.helper.LogFilePathProvider;
-import com.epam.wilma.webapp.config.servlet.helper.LogFileHandler;
+import com.epam.wilma.webapp.config.servlet.helper.MessageFileHandler;
 
 /**
  * Test class for {@link MessageHandlerServlet}.
@@ -48,7 +48,7 @@ public class MessageHandlerServletTest {
     @Mock
     private LogFilePathProvider filePathProvider;
     @Mock
-    private LogFileHandler messageFileHandler;
+    private MessageFileHandler messageFileHandler;
     @Mock
     private HttpServletRequest request;
     @Mock

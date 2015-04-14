@@ -62,36 +62,36 @@ public class FileListJsonBuilderTest {
     }
 
     @Test
-    public final void testBuildMessageFileListJsonShouldCreateProperJson() {
+    public final void testBuildLogFileListJsonShouldCreateProperJson() {
         //GIVEN
         String expected = "{\"files\":[\"20130829103650.0000resp.txt\",\"20130829103651.0000req.txt\"]}";
         String[] fileNames = {"20130829103651.0000req.txt", "20130829103650.0000resp.txt"};
         given(file.list()).willReturn(fileNames);
         //WHEN
-        String actual = underTest.buildMessageFileListJson(file);
+        String actual = underTest.buildLogFileListJson(file);
         //THEN
         assertEquals(actual, expected);
     }
 
     @Test
-    public final void testBuildMessageFileListJsonShouldCreateProperJsonWhenNoFilesAvailable() {
+    public final void testBuildLogFileListJsonShouldCreateProperJsonWhenNoFilesAvailable() {
         //GIVEN
         String expected = "{\"files\":[]}";
         String[] fileNames = {};
         given(file.list()).willReturn(fileNames);
         //WHEN
-        String actual = underTest.buildMessageFileListJson(file);
+        String actual = underTest.buildLogFileListJson(file);
         //THEN
         assertEquals(actual, expected);
     }
 
     @Test
-    public final void testBuildMessageFileListJsonShouldCreateEmptyJsonWhenDirectoryIsNotADirectory() {
+    public final void testBuildLogFileListJsonShouldCreateEmptyJsonWhenDirectoryIsNotADirectory() {
         //GIVEN
         String expected = "{\"files\":[]}";
         given(file.list()).willReturn(null);
         //WHEN
-        String actual = underTest.buildMessageFileListJson(file);
+        String actual = underTest.buildLogFileListJson(file);
         //THEN
         assertEquals(actual, expected);
     }
@@ -134,4 +134,50 @@ public class FileListJsonBuilderTest {
         assertEquals(actual, expected);
     }
 
+    @Test
+    public final void testBuildMessageFileListJson() {
+        //GIVEN
+        String expected = "{\"files\":[\"20130829103651.0000req.txt\"]}";
+        String[] fileNames = {"20130829103651.0000req.txt", "20130829103650.0000resp.txt"};
+        given(file.list()).willReturn(fileNames);
+        //WHEN
+        String actual = underTest.buildMessageFileListJson(file, 1);
+        //THEN
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public final void testBuildMessageFileListJsonWhenThereAreFewerMessagesThanTheLimit() {
+        //GIVEN
+        String expected = "{\"files\":[\"20130829103650.0000resp.txt\",\"20130829103651.0000req.txt\"]}";
+        String[] fileNames = {"20130829103651.0000req.txt", "20130829103650.0000resp.txt"};
+        given(file.list()).willReturn(fileNames);
+        //WHEN
+        String actual = underTest.buildMessageFileListJson(file, 5);
+        //THEN
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public final void testBuildMessageFileListJsonShouldCreateProperJsonWhenNoFilesAvailable() {
+        //GIVEN
+        String expected = "{\"files\":[]}";
+        String[] fileNames = {};
+        given(file.list()).willReturn(fileNames);
+        //WHEN
+        String actual = underTest.buildMessageFileListJson(file, 5);
+        //THEN
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public final void testBuildMessageFileListJsonShouldCreateEmptyJsonWhenDirectoryIsNotADirectory() {
+        //GIVEN
+        String expected = "{\"files\":[]}";
+        given(file.list()).willReturn(null);
+        //WHEN
+        String actual = underTest.buildMessageFileListJson(file, 5);
+        //THEN
+        assertEquals(actual, expected);
+    }
 }

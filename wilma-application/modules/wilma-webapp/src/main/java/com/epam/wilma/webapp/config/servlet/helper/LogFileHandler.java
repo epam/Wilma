@@ -1,4 +1,5 @@
 package com.epam.wilma.webapp.config.servlet.helper;
+
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -51,6 +52,7 @@ public class LogFileHandler {
     @Autowired
     private InputStreamUtil inputStreamConverter;
 
+
     /**
      * Writes a list of file names from a given path to a {@link HttpServletResponse}.
      * @param resp the response to which the file names are written
@@ -60,7 +62,7 @@ public class LogFileHandler {
     public void writeFileNamesToResponse(final HttpServletResponse resp, final Path path) throws IOException {
         PrintWriter out = resp.getWriter();
         resp.setContentType(APPLICATION_JSON);
-        out.write(messageFileJsonBuilder.buildMessageFileListJson(path.toFile()));
+        out.write(messageFileJsonBuilder.buildLogFileListJson(path.toFile()));
         out.flush();
         out.close();
     }

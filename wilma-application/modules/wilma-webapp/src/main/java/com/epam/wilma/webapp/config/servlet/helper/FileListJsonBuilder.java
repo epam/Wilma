@@ -54,12 +54,34 @@ public class FileListJsonBuilder {
      * @param directory the directory where the filenames should be listed in the JSON
      * @return JSON response as String
      */
-    public String buildMessageFileListJson(final File directory) {
+    public String buildLogFileListJson(final File directory) {
         String result = "{\"files\":[]}";
         String[] messageFiles = directory.list();
         if (messageFiles != null) {
             Arrays.sort(messageFiles);
             result = getJson(messageFiles);
+        } else {
+            logger.debug("The directory '" + directory + "' has not been created yet, or an I/O error occured.");
+        }
+        return result;
+    }
+
+    /**
+     * Builds a JSON response based on the filenames in a given directory.
+     * @param directory the directory where the filenames should be listed in the JSON
+     * @param maxValue is the limit, how much filenames will be listed.
+     * @return JSON response as String
+     */
+    public String buildMessageFileListJson(final File directory, final int maxValue) {
+        String result = "{\"files\":[]}";
+        String[] messageFiles = directory.list();
+        if (messageFiles != null) {
+            String[] resultFiles = messageFiles;
+            Arrays.sort(resultFiles);
+            if (messageFiles.length > maxValue) {
+                resultFiles = Arrays.copyOfRange(messageFiles, resultFiles.length - maxValue, resultFiles.length);
+            }
+            result = getJson(resultFiles);
         } else {
             logger.debug("The directory '" + directory + "' has not been created yet, or an I/O error occured.");
         }
