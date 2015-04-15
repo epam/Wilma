@@ -15,6 +15,11 @@
     <script type="text/javascript" src="static/underscore.js"></script>
     <link id="favicon" rel="shortcut icon" type="image/png" href="static/icon-wilma.png" />
     <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="apple-mobile-web-app-capable" content="YES" />
+    <meta name="author" content="Tamas Kohegyi" />
+    <meta name="Description" content="Wilma is a http/https proxy and stub" />
+    <meta name="Keywords" content="test automation, proxy, stub, wilma" />
 </head>
 <body>
 
@@ -26,7 +31,7 @@
                 <div class="section" id="wilma-open-source">
                     <h1>Wilma</h1>
                     <div class="toctree-wrapper compound"></div>
-                    <p>Wilma is a Java based proxy and stub solution. It consists of two applications:<br/>
+                    <p>Wilma is HTTP/HTTPS proxy and stub solution, written in Java. It consists of two applications:<br/>
                     <ul class="simple">
                         <li>Wilma application</li>
                         <li>Wilma Message Search application</li>
@@ -34,13 +39,13 @@
                     <p/>
                     <b>Wilma application</b> acts as a proxy between two components those are communicating over
                     HTTP/HTTPS.
-                    It logs the messages, and makes it possible to stub/mock requests based on configuration defined in
+                    It logs the messages, and makes it possible to stub responses based on configuration defined in
                     XML file(s).
                     Also configurable via plugins.<br/>
 
                     <P/>
                     <b>Wilma Message Search application</b> provides high performance searching of the request-response
-                    pairs those were logged by Wilma application..<p/>
+                    pairs those were logged by Wilma application.<p/>
 
                     <div class="section" id="documentation">
                         <h2>Detailed information</h2>
