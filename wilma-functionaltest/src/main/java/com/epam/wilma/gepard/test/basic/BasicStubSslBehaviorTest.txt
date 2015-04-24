@@ -1,0 +1,5 @@
+#NAME,CONTENT_TYPE,ACCEPT_HEADER,CONTENT_ENCODING,ACCEPT_ENCODING RESOURCE_URL,RESOURCE,STUBCONFIG_URL,STUBCONFIG_XML
+xml_toWebApp_SSL%xml%xml%no%no
+fastinfoset_toWebApp_SSL%fastinfoset%fastinfoset%no%no
+gzip_toWebApp_SSL%xml%xml%gzip%gzip
+fastinfoset_gzip_toWebApp_SSL%fastinfoset%fastinfoset%gzip%gzip

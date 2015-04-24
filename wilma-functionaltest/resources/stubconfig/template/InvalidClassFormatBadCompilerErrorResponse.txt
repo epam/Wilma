@@ -1,0 +1,1 @@
+Could not upload external template class: 'config/templates/InvalidClass.class' has invalid class format.

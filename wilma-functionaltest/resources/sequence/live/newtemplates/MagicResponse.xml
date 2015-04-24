@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<MagicResponse>
+			<Information>
+				<Boolean>false</Boolean>
+			</Information>
+			<Data>
+				<MyFavoriteString>SOMETHING</MyFavoriteString>
+			</Data>
+		</MagicResponse>
+	</soap:Body>
+</soap:Envelope>

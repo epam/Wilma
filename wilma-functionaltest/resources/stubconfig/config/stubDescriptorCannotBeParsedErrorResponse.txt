@@ -1,0 +1,1 @@
+Stub descriptor cannot be parsed.

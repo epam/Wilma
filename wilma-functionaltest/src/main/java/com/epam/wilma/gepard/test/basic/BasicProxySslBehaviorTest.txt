@@ -1,0 +1,5 @@
+#NAME,CONTENT_TYPE,ACCEPT_HEADER,CONTENT_ENCODING,ACCEPT_ENCODING
+xml_toServer_SSL%xml%xml%no%no
+fastinfoset_toServer_SSL%fastinfoset%fastinfoset%no%no
+gzip_toServer_SSL%xml%xml%gzip%gzip
+fastinfoset_gzip_toServer_SSL%fastinfoset%fastinfoset%gzip%gzip

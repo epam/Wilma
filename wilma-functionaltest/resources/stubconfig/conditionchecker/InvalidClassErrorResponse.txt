@@ -1,0 +1,1 @@
+Validation of stub descriptor failed - Referenced class not found: 'InvalidExternalConditionChecker'.

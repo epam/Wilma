@@ -1,0 +1,1 @@
+Could not upload external condition checker class: 'config/condition-checkers/InvalidClassFormatExternalConditionChecker.class' has invalid class format.

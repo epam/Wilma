@@ -1,0 +1,5 @@
+#NAME,INTERCEPTOR_ON_OFF,REQRESP_INTERCEPTOR,REQINRESP,RESPINRESP;
+ICon-ReqRes01-Expect01%on%1%no%yes
+ICon-ReqRes10-Expect10%on%2%yes%no
+ICon-ReqRes11-Expect11%on%3%yes%yes
+ICoff-ReqRes11-Expect00%off%3%no%no

@@ -1,0 +1,1 @@
+Could not upload external sequence handler: 'config/sequencehandlers/firsthandler.class' has invalid class format.

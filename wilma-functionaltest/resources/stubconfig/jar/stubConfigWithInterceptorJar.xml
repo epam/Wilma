@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
+  <dialog-descriptor name="dialog-descriptor" usage="always" comment="random comment">
+    <condition-descriptor>
+      <condition class="com.epam.sandbox" />
+    </condition-descriptor>
+    <response-descriptor code="404" delay="0" mimetype="xml" template="exampleTemplate1"/>
+  </dialog-descriptor>
+  <template-descriptor name="templateDescriptor1">
+  <template name="exampleTemplate1" type="xml" resource="templateExample.xml"/>
+  </template-descriptor>
+  <interceptors>
+  	<interceptor class="com.epam.sandbox" name="Request-Interceptor-Jared"/>
+  	<interceptor class="com.epam.sandbox" name="Response-Interceptor-Jared"/>
+  </interceptors>
+</wilma-stub>

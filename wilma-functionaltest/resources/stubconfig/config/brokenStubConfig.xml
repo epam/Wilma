@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
+  <dialog-descriptor name="dialog-descriptor" usage="always" comment="random comment">
+    <condition-descriptor>
+      <condition class="HeaderChecker" >
+       <param name="param1" value="value1"/>
+      </condition>
+    </condition-descriptor>
+    <response-descriptor code="404" delay="0" mimetype="json" template="exampleTemplate1">

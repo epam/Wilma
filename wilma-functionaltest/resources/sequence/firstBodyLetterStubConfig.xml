@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
+  
+   <sequence-descriptor name="firstBodyLetterSequenceDescriptor" class="com.epam.message.sequence.test.FirstLetterBodySequenceHandler" timeout="30000">
+        <condition-descriptor>
+            <condition class="AlwaysTrueChecker" />
+        </condition-descriptor>
+    </sequence-descriptor>
+
+  <dialog-descriptor name="super-descriptor" usage="always" comment="random comment">
+    <condition-descriptor>
+      <condition class="com.epam.message.sequence.test.ExtraHeaderExistenceChecker">
+      	<param name="extra-header-key" value="sq-end" />
+      </condition>
+    </condition-descriptor>
+    <response-descriptor code="200" delay="0" mimetype="text/plain" template="notUsedResponse" sequenceDescriptorName="firstBodyLetterSequenceDescriptor">
+      <template-formatter class="com.epam.message.sequence.test.SequenceBodyTemplateFormatter"/>
+    </response-descriptor>
+  </dialog-descriptor>
+  
+  <dialog-descriptor name="super-descriptor2" usage="always" comment="random comment">
+    <condition-descriptor>
+      <condition class="AlwaysTrueChecker" />
+    </condition-descriptor>
+    <response-descriptor code="200" delay="0" mimetype="text/plain" template="welcomeResponse" />
+  </dialog-descriptor>
+  
+  <template-descriptor name="template-descriptor_1">
+    <template name="notUsedResponse" type="text" resource="Not used :)" />
+    <template name="welcomeResponse" type="text" resource="welcome" />
+  </template-descriptor>
+</wilma-stub>

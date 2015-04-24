@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
+  <dialog-descriptor name="dialog-descriptor" usage="always" comment="random comment">
+    <condition-descriptor>
+      <condition class="OrHeaderChecker" />
+    </condition-descriptor>
+    <response-descriptor code="404" delay="0" mimetype="json" template="exampleTemplate1">
+
+      <template-formatter-set-invoker name="templateFormatterSet1"/>
+    </response-descriptor>
+  </dialog-descriptor>
+  <template-descriptor name="templateDescriptor1">
+  <template name="exampleTemplate1" type="xml" resource="something"/>
+  <template-formatter-set name="templateFormatterSet1">
+  <template-formatter class="com.epam.sandbox"/>
+  </template-formatter-set>
+  </template-descriptor>
+</wilma-stub>

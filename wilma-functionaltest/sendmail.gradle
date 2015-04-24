@@ -1,0 +1,52 @@
+/*==========================================================================
+ Copyright 2013-2015 EPAM Systems
+
+ This file is part of Wilma.
+
+ Wilma is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Wilma is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
+===========================================================================*/
+
+repositories {
+    jcenter()
+}
+
+configurations { antClasspath }
+
+dependencies {
+    antClasspath 'ant:ant-javamail:1.6.5'
+    antClasspath 'javax.activation:activation:1.1.1'
+    antClasspath 'javax.mail:mail:1.4.7'
+}
+
+ClassLoader antClassLoader = org.apache.tools.ant.Project.class.classLoader
+configurations.antClasspath.each { File jar ->
+    antClassLoader.addURL( jar.toURI().toURL() )
+}
+
+def htmlReportFile = new File(buildDir.absolutePath , '/gepard-result/html/index.html')
+
+task sendMail << {
+    def mailParams = [
+            mailhost: project.ext.mailHost,
+            subject: "[GEPARD] ${project} Test Result ${project.ext.mailinfo}",
+            messagemimetype: 'text/html',
+            user: project.ext.mailUser,
+            password: project.ext.mailPassword,
+            tolist: project.ext.receiver,
+            messagefile: htmlReportFile
+    ]
+    ant.mail( mailParams ) {
+        from( address:project.ext.sender )
+    }
+}
