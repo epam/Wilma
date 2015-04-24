@@ -10,6 +10,7 @@
  */
 rootProject.name = 'wilma'
 
+include 'wilma-functionaltest'
 include 'browsermob-proxy'
 include 'wilma-message-search'
 include 'wilma-message-search:wilma-message-search-lucene'
