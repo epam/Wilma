@@ -25,9 +25,10 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 repositories {
-     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-     maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "http://repo.maven.apache.org/maven2" }
 }
+
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-jdk14', version:'1.7.12'
     compile group: 'com.google.sitebricks', name: 'sitebricks', version:'0.8.3'
@@ -64,3 +65,11 @@ task createPom << {
     }.writeTo("$buildDir/distributions/browsermob-proxy-${version}.pom")
 }
 createPom.dependsOn(copyJarToDistributions)
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://localhost/tmp/myRepo/")
+        }
+    }
+}

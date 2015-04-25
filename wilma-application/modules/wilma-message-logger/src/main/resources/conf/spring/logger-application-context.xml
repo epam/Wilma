@@ -24,8 +24,7 @@
     <constructor-arg value="responseQueue" />
   </bean>
 
-  <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate102">
+  <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
     <constructor-arg ref="jmsConnectionFactory" />
-    <constructor-arg value="false" />
   </bean>
 </beans>

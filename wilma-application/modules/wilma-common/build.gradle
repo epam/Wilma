@@ -28,7 +28,7 @@ dependencies {
     }
     compile(group: 'org.apache.activemq', name: 'activemq-broker', version:'5.11.1');
     compile(group: 'org.apache.activemq', name: 'activemq-pool', version:'5.11.1')
-    compile group: 'org.apache.derby', name: 'derby', version:'10.1.1.0'
-    compile group: 'org.springframework', name: 'spring-jms', version:'3.2.2.RELEASE'
+    compile group: 'org.apache.derby', name: 'derby', version:'10.11.1.1'
+    compile group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
     compile group: 'org.apache.bcel', name: 'bcel', version:'5.2'
 }
