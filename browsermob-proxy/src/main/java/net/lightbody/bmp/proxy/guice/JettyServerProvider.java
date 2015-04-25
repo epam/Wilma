@@ -19,7 +19,7 @@ public class JettyServerProvider implements Provider<Server> {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
 
-        context.addFilter(GuiceFilter.class, "/*", 0);
+        context.addFilter(GuiceFilter.class, "/*", null);
         context.addServlet(DefaultServlet.class, "/");
 
         server.setHandler(context);
