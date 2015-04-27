@@ -17,9 +17,8 @@
     <constructor-arg value="queue" />
   </bean>
 
-  <bean id="jmsTemplateForIndexing" class="org.springframework.jms.core.JmsTemplate102">
+  <bean id="jmsTemplateForIndexing" class="org.springframework.jms.core.JmsTemplate">
     <constructor-arg ref="jmsConnectionFactoryForIndex" />
-    <constructor-arg value="false" />
     <property name="defaultDestination" ref="queue" />
   </bean>
 </beans>

@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -71,18 +73,12 @@ public class BrowserMobHttpRequest {
         nvps.add(new BasicNameValuePair(key, value));
     }
 
-    public void setRequestBody(final String body, final String contentType, final String charSet) {
+    public void setRequestBody(String body, String contentType, String charSet) {
         try {
-            stringEntity = new StringEntity(body, charSet);
-        } catch (UnsupportedEncodingException e) {
-            try {
-                stringEntity = new StringEntity(body, (String) null);
-            } catch (UnsupportedEncodingException e1) {
-                // this won't happen
-            }
+            stringEntity = new StringEntity(body, ContentType.create(contentType, charSet));
+        } catch (UnsupportedCharsetException e) {
+            stringEntity = new StringEntity(body, ContentType.create(contentType, (String) null));
         }
-
-        stringEntity.setContentType(contentType);
     }
 
     public void setRequestBody(final String body) {
