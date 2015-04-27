@@ -134,14 +134,14 @@ subprojects {
     
     
     dependencies {
-        compile(group: 'org.springframework', name: 'spring-context', version:'3.2.2.RELEASE')
+        compile(group: 'org.springframework', name: 'spring-context', version:'4.1.6.RELEASE')
         compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
         compile 'org.slf4j:jcl-over-slf4j:1.7.5'
         compile(group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.5')
         compile(group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.5')
         compile group: 'commons-io', name: 'commons-io', version:'2.4'
         compile group: 'janino', name: 'janino', version:'2.5.10'
-        compile group: 'net.sf.saxon', name: 'Saxon-HE', version:'9.4'
+        compile group: 'net.sf.saxon', name: 'Saxon-HE', version:'9.6.0-5'
         testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
         testCompile(group: 'org.testng', name: 'testng', version:'6.8.5') {
             exclude(module: 'junit')

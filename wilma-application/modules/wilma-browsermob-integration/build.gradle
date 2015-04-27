@@ -18,7 +18,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 repositories {
-  maven { url "file://C:/tmp/myRepo/" }
+  maven { url "${myLocalRepository}" }
 }
 
 description = 'wilma browsermob integration'

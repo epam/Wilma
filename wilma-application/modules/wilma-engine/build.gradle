@@ -68,7 +68,7 @@ jar {
 }
 
 repositories {
-    maven { url "file://C:/tmp/myRepo/" }
+    maven { url "${myLocalRepository}" }
 }
 
 dependencies {

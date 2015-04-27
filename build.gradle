@@ -18,6 +18,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 apply plugin: "sonar-runner"
 
+ext.myLocalRepository='file://C:/tmp/myRepo/'
+
 allprojects {
     group = 'com.epam.wilma'
     apply plugin: 'idea'

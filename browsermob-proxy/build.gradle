@@ -69,7 +69,7 @@ createPom.dependsOn(copyJarToDistributions)
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "file://localhost/tmp/myRepo/")
+            repository(url: "${myLocalRepository}")
         }
     }
 }
