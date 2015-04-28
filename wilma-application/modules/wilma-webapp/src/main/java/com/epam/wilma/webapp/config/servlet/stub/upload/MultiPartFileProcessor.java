@@ -65,21 +65,36 @@ public class MultiPartFileProcessor {
      * @return with the result message of the processing
      */
     public String processUploadedFile(final InputStream resource, final String contentType, final String fieldName, final String fileName) {
-        String result = "";
+        String result;
         String resFileName = extractFileNameFromAbsolutePath(fileName);
 
-        if ("stub-configuration".equals(fieldName) && XML_CONTENT_TYPE.equals(contentType)) {
-            routingService.performModification(new NewStubDescriptorCommand(resource, stubConfigurationBuilder, sequenceDescriptorHolder));
-            result = "New stub configuration was uploaded to Wilma.";
-        } else if ("stub-condition-checker".equals(fieldName) && isContentTypeJava(contentType)) {
+        String classUploadResult = processUploadedClasses(resource, contentType, fieldName, resFileName);
+        if (classUploadResult != null) {
+            result = classUploadResult;
+        } else {
+            if ("stub-configuration".equals(fieldName) && XML_CONTENT_TYPE.equals(contentType)) {
+                routingService.performModification(new NewStubDescriptorCommand(resource, stubConfigurationBuilder, sequenceDescriptorHolder));
+                result = "New stub configuration was uploaded to Wilma.";
+            } else if ("stub-template".equals(fieldName)) {
+                writeResourceToFile(resource, resFileName, stubResourcePathProvider.getTemplatesPathAsString());
+                result = "External template '" + resFileName + "' was uploaded to Wilma.";
+            } else {
+                result = "Uploading " + fileName + " failed: wrong content type or tried to upload file from unauthorized form!";
+                throw new CannotUploadExternalResourceException(result);
+            }
+        }
+        return result;
+    }
+
+    private String processUploadedClasses(final InputStream resource, final String contentType, final String fieldName, final String resFileName) {
+        String result = null;
+
+        if ("stub-condition-checker".equals(fieldName) && isContentTypeJava(contentType)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getConditionCheckerPathAsString());
             result = "External condition checker class '" + resFileName + "' was uploaded to Wilma.";
         } else if ("stub-template-formatter".equals(fieldName) && isContentTypeJava(contentType)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getTemplateFormattersPathAsString());
             result = "External template formatter class '" + resFileName + "' was uploaded to Wilma.";
-        } else if ("stub-template".equals(fieldName)) {
-            writeResourceToFile(resource, resFileName, stubResourcePathProvider.getTemplatesPathAsString());
-            result = "External template '" + resFileName + "' was uploaded to Wilma.";
         } else if ("stub-interceptor".equals(fieldName)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getInterceptorPathAsString());
             result = "External interceptor '" + resFileName + "' was uploaded to Wilma.";
@@ -89,9 +104,6 @@ public class MultiPartFileProcessor {
         } else if ("stub-sequence-handler".equals(fieldName)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getSequenceHandlerPathAsString());
             result = "External sequence handler '" + resFileName + "' was uploaded to Wilma.";
-        } else {
-            result = "Uploading " + fileName + " failed: wrong content type or tried to upload file from unauthorized form!";
-            throw new CannotUploadExternalResourceException(result);
         }
 
         return result;

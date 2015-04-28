@@ -50,7 +50,7 @@ public class SequenceAwareXslResponseGenerator {
      * @return the output xml
      */
     public byte[] generateResponse(final byte[] requestXmlResource, final byte[] xsl, final byte[] template, final Map<String, String> nameToXml) {
-        byte[] result = null;
+        byte[] result;
         InputStream requestInputStream = inputStreamFactory.createByteArrayInputStream(requestXmlResource);
         InputStream xslInputStream = inputStreamFactory.createByteArrayInputStream(xsl);
         InputStream templateInputStream = inputStreamFactory.createByteArrayInputStream(template);

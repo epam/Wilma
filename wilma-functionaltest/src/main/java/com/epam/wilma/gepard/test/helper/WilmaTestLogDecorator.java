@@ -157,7 +157,7 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
      * @param requestParameters is the requested parameters
      */
     public void logGetRequestEvent(RequestParameters requestParameters) {
-        String text = "Sending GET request to URL:" + requestParameters.getTestServerUrl();
+        String text = "Sending GET request to URL: " + requestParameters.getTestServerUrl();
         if (requestParameters.isUseProxy()) {
             text += "\nUsing proxy:" + requestParameters.getWilmaHost() + ":" + requestParameters.getWilmaPort();
         } else {
@@ -172,7 +172,7 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
      * @param url is the target
      */
     public void logGetRequestEvent(String url) {
-        String text = "Sending GET request to URL:" + url + ", without proxy.";
+        String text = "Sending GET request to URL: " + url + ", without proxy.";
         logComment(text);
     }
 
@@ -182,7 +182,7 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
      * @param requestParameters that was sent in the request.
      */
     public void logPostRequestEvent(RequestParameters requestParameters) {
-        String text = "Sending POST request to URL:" + requestParameters.getTestServerUrl();
+        String text = "Sending POST request to URL: " + requestParameters.getTestServerUrl();
         if (requestParameters.isUseProxy()) {
             text += "\nUsing proxy:" + requestParameters.getWilmaHost() + ":" + requestParameters.getWilmaPort();
         } else {
@@ -215,7 +215,7 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
      */
     public void logResourceUploadRequestEvent(final String fileName, final String fileContent, final String url) {
         String addStr = "";
-        String text = "Uploading resource:'" + fileName + "' to Wilma, using URL:" + url;
+        String text = "Uploading resource: '" + fileName + "' to Wilma, using URL: " + url;
 
         systemOutPrintLn(text);
 

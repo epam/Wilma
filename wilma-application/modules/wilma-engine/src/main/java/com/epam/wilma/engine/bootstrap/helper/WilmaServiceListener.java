@@ -70,14 +70,20 @@ public class WilmaServiceListener extends Service.Listener {
 
     private String generateStartMessage() {
         int proxyPort = getProxyPort();
+        int wilmaPort = getWilmaPort();
         String appLogPath = logFilePath.getAppLogFilePath().toAbsolutePath().toString();
         String messagesPath = logFilePath.getLogFilePath().toAbsolutePath().toString();
-        return String.format(wilmaStartMessage, versionTitleProvider.getVersionTitle(), proxyPort, appLogPath, messagesPath);
+        return String.format(wilmaStartMessage, versionTitleProvider.getVersionTitle(), proxyPort, wilmaPort, appLogPath, messagesPath);
     }
 
     private int getProxyPort() {
         PropertyDTO properties = configurationAccess.getProperties();
         return properties.getProxyPort();
+    }
+
+    private int getWilmaPort() {
+        PropertyDTO properties = configurationAccess.getProperties();
+        return properties.getWilmaPort();
     }
 
 }

@@ -91,5 +91,6 @@ public class SaveStubConfig extends WilmaTestCase {
             logger.debug(String.format(FILE_DELETION_EXCEPTION_TEMPLATE, path), e);
         }
         Files.write(path, content.getBytes(), StandardOpenOption.CREATE);
+
     }
 }

@@ -42,10 +42,11 @@ public class EngineConfigurationAccess implements ConfigurationAccessBase {
     @Override
     public void loadProperties() {
         Integer proxyPort = propertyHolder.getInt("proxy.port");
+        Integer internalWilmaPort = propertyHolder.getInt("internal.wilma.port");
         String stubConfigFolderPath = propertyHolder.get("stub.descriptors.path");
         String stubConfigPattern = propertyHolder.get("stub.descriptors.pattern");
         String stubConfigCachePath = propertyHolder.get("stub.descriptors.cache.path");
-        properties = new PropertyDTO(proxyPort, stubConfigFolderPath, stubConfigPattern, stubConfigCachePath);
+        properties = new PropertyDTO(proxyPort, internalWilmaPort, stubConfigFolderPath, stubConfigPattern, stubConfigCachePath);
     }
 
     /**

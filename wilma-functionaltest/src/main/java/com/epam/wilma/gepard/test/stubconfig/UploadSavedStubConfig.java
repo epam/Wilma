@@ -28,6 +28,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.nio.file.FileSystemException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +40,7 @@ import java.util.List;
  * Uploads the saved stub configuration back to wilma in order to keep the consistency of the
  * application.
  *
- * @author Tunde_Kovacs
+ * @author Tunde_Kovacs, tkohegyi
  */
 @TestClass(id = "StubConfig", name = "Upload saved stub configuration")
 public class UploadSavedStubConfig extends WilmaTestCase {
@@ -65,8 +69,15 @@ public class UploadSavedStubConfig extends WilmaTestCase {
      *
      * @throws Exception in case of an error.
      */
-    public void testStubConfig() throws Exception {
+    public void testUploadPreservedStubConfig() throws Exception {
         uploadStubConfigToWilma(STUB_CONFIG);
+        //if we are here, then the stub config is restored, so we can delete it
+        Path path = FileSystems.getDefault().getPath(STUB_CONFIG);
+        try {
+            Files.deleteIfExists(path);
+        } catch (FileSystemException e) {
+            logComment("Ups, cannot delete the file, reason: " + e.getLocalizedMessage());
+        }
     }
 
     private List<String> getGroupNamesFromJson(final String response) throws Exception {
