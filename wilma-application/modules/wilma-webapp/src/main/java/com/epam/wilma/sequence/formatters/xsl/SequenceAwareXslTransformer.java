@@ -49,14 +49,16 @@ import com.epam.wilma.webapp.stub.response.formatter.xsl.XslOutputProvider;
 import com.epam.wilma.webapp.stub.response.formatter.xsl.helper.QNameFactory;
 import com.epam.wilma.webapp.stub.servlet.helper.ByteArrayInputStreamFactory;
 
+//CHECKSTYLE OFF
+// class fan-out complexity is 22 meanwhile the max is 20 - unfortunately this class need to be such complex.
 /**
- * Provides transformation of an inputstream based on a template and an xsl.
+ * Provides transformation of an input stream based on a template and an xsl.
  * This transformer will attach all the previous messages from the history.
  * @author Balazs_Berkes
  */
 @Component
 public class SequenceAwareXslTransformer {
-
+//CHECKSTYLE ON
     private static final String REQUEST_PARAMETER_NAME = "request";
     @Autowired
     private XslCompiler xslCompiler;
