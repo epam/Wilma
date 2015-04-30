@@ -1,6 +1,6 @@
 Wilma
 ===========
-Wilma is a Java based proxy and stub solution. It consists of two applications:
+Wilma is a Java based proxy and stub application, or in other words, a Service Virtualization solution. It consists of two applications:
 
 * Wilma application
 * Wilma Message Search application
@@ -35,27 +35,18 @@ Wilma is a Java based proxy and stub solution. It consists of two applications:
 * Gradle, Checkstyle, Git Integration for the IDE
 
 ####Building with Gradle
-The project can be built by executing the following command from project root folder:
-
-`gradlew clean build`
-
-Note for Windows users: Use gradlew.bat instead of gradle.
+The project can be built by following the instructions described [here](https://github.com/epam/Wilma/wiki/DEV,-Build-from-Scratch).
+This way of build is recommended for contributors only, End-Users, please use the pre-built downloadable releases from [here](https://github.com/epam/Wilma/releases).
 
 ####Running with Gradle
-The project can be run by executing the following command from project root folder:
-
-#####Wilma application
-`gradlew -q :wilma-application:wilma-engine:run`
-
-#####Wilma Message Search application
-`gradlew -q :wilma-message-search:wilma-message-search-engine:run`
+Please see detailed information on how to run **Wilma** and **Wilma Message Search** applications [here](http://epam.github.io/Wilma/endusers/index.html).
 
 ##Detailed information
-* Check the Wiki and Issues on GitHub
+* Check the Wiki and Issues link on GitHub
 * Check further documentation at http://epam.github.io/Wilma/
 
-## Contact
-Follow Wilma on Twitter ([@epam-wilma](http://twitter.com/epam-wilma))
+## Contact, questions and answers
+Post your request to Wilma-Users [mailing list](https://groups.google.com/forum/#!forum/wilma-users), or send direct mail to tkohegyi2<at>gmail.com.
 
 # License
 Copyright 2013-2015 EPAM Systems
