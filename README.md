@@ -23,7 +23,7 @@ Wilma is a Java based proxy and stub application, or in other words, a Service V
 * The latest release of Wilma Message Search application.
 
 ####Running
-`java -jar wilma-message-search-x.y.z.jar wilma.message.conf.properties`
+`java -jar wilma-message-search-x.y.z.jar message.search.conf.properties`
 
 #Quick intro for developers/contributors
 
