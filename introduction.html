@@ -40,16 +40,16 @@
                     </p>
                     <b>What the tool/product does?</b><br/>
                     <p><ul style="list-style-type: square;">
-                        <li>Acts as java proxy between components those use http(s) communication. (Even 2-way SSL.)</li>
-                        <li>Captures, decodes and saves the traffic, and based on the decoded messages, - if that is necessary - it is able to give self-generated answer for a request (i.e. can act as a stub).</li>
-                        <li>The stub part is configurable, on-the-fly, to ensure its usage for both automated and manual tests.</li>
-                        <li>By using the provided interfaces, project specific extensions (special response creators/formatters) can easily be added to the tool.</li>
-                        <li>As the messages are stored, can be used for trouble shooting too (even if only the proxy feature is in use).</li>
-                        <li>And a lots of other things, please see full list of features that Wilma can do for you <a class="reference external" href="endusers/feature_list.html">here...</a></li>
+                        <li><b>Acts as proxy</b> between components those use http(s) communication. (Even 2-way SSL.)</li>
+                        <li>Captures, decodes and saves the traffic, and based on the decoded messages, - if that is necessary - it is able to give self-generated answer for a request (i.e. can <b>act as a Stub Service</b>).</li>
+                        <li>The stub part is <b>configurable, on-the-fly, </b>to ensure its usage for both automated and manual tests.</li>
+                        <li>By using the provided interfaces, <b>product specific expansions</b> (special stub response creators, stub response formatters) can easily be added to the tool.</li>
+                        <li>As the messages are stored, can be used for <b>trouble shooting</b> too (even if only the proxy feature is in use).</li>
+                        <li>And <b>a lots of other things</b>, please see full list of features that Wilma can do for you <a class="reference external" href="endusers/feature_list.html">here...</a></li>
                     </ul></p>
                     
                     <b>How it works?</b><br/>
-                    <p>As it is a combined proxy and stub. The component that sends the request to another component, should use Wilma as a simple HTTP/HTTPS proxy. By evaluating the captured request Wilma decides whether need to act as proxy - then simply forward the request to the original target - or need to act as stub - in this case generates a response. <br/>
+                    <p>As it is a combined proxy and service stub. The component that sends the request to another component, should use Wilma as a simple HTTP/HTTPS proxy. By evaluating the captured request Wilma decides whether need to act as proxy - then simply forward the request to the original target - or need to act as stub - in this case generates a response. <br/>
                         Configuring its behavior happens via xml config, that can be uploaded (therefore changed) via UI or via service on the fly.</p>
                     <b>So how does it help me?</b><br/>
                     <p>Several ways:<br/>

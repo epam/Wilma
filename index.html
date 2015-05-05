@@ -31,19 +31,19 @@
                 <div class="section" id="wilma-open-source">
                     <h1>Wilma</h1>
                     <div class="toctree-wrapper compound"></div>
-                    <p>Wilma is HTTP/HTTPS proxy and stub solution, written in Java. It consists of two applications:<br/>
+                    <p>Wilma is a combined HTTP/HTTPS <b>Service Stub and Proxy</b>, written in Java.
+                        Its main purpose is to test applications/services/components those functionality relies/depends on another - usually 3rd party - service or services.
+                        The solution consists of two applications:<br/>
                     <ul class="simple">
                         <li>Wilma application</li>
                         <li>Wilma Message Search application</li>
                     </ul>
                     <p/>
-                    <b>Wilma application</b> acts as a proxy between two components those are communicating over
-                    HTTP/HTTPS.
-                    It logs the messages, and makes it possible to stub responses based on configuration defined in
-                    XML file(s).
-                    Also configurable via plugins.<br/>
-
-                    <P/>
+                    <b>Wilma application</b> is the highly configurable <b>Service Stub and Proxy</b>.
+                    It logs the messages, and meanwhile acts as a proxy between the components, makes it possible to stub responses based on configuration defined in
+                    XML file(s). It is designed for use in test environments where test automation is in use (unit, integration, functional or end-to-end). Also can be used for manual tests.
+                    It is expandable easily via plugins.<br/>
+                    <p/>
                     <b>Wilma Message Search application</b> provides high performance searching of the request-response
                     pairs those were logged by Wilma application.<p/>
 
