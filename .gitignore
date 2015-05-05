@@ -1,2 +1,10 @@
-# Created by .ignore support plugin (hsz.mobi)
 .idea
+.gradle/
+browsermob-proxy/
+wilma-application/
+wilma-functionaltest/
+wilma-message-search/
+wilma-test/
+wilma.iml
+wilma.ipr
+wilma.iws
