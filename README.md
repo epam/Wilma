@@ -1,18 +1,24 @@
 Wilma
 ===========
-Wilma is a Java based proxy and stub application, or in other words, a Service Virtualization solution. It consists of two applications:
+Wilma is a combined HTTP/HTTPS **Service Stub and Proxy**, written in Java.
+Its main purpose is to test applications/services/components those functionality relies/depends on another - usually 3rd party - service or services.
+The solution consists of two applications:
 
-* Wilma application
-* Wilma Message Search application
+* **Wilma** application
+* **Wilma Message Search** application
 
-**Wilma application** acts as a proxy between two components those are communicating over HTTP/HTTPS. It logs the messages, and makes it possible to stub/mock requests based on the configuration defined in an XML file(s). Also configurable via plugins.
-**Wilma Message Search application** provides high performance searching of the request-response pairs that were logged by Wilma application.
+**Wilma** application is the highly configurable **Service Stub and Proxy**.
+It logs the messages, and meanwhile acts as a proxy between the components, makes it possible to stub responses based on configuration defined in XML file(s).
+It is designed for use in test environments where test automation is in use (unit, integration, functional or end-to-end).
+Also can be used for manual tests. It is expandable easily via plugins.
+
+**Wilma Message Search** application provides high performance searching of the request-response pairs that were logged by Wilma application.
 
 #Quick intro for end users
 ##Wilma application
 ####Requirements
 * JRE 7
-* The latest release of Wilma application.
+* The latest [release](https://github.com/epam/Wilma/releases) of Wilma application downloaded and extracted into a folder.
 
 ####Running
 `java -jar wilma-x.y.z.jar wilma.conf.properties`
@@ -20,15 +26,19 @@ Wilma is a Java based proxy and stub application, or in other words, a Service V
 ##Wilma Message Search application
 ####Requirements
 * JDK 7
-* The latest release of Wilma Message Search application.
+* The latest [release](https://github.com/epam/Wilma/releases) of Wilma Message Search application downloaded and extracted into a folder.
 
 ####Running
 `java -jar wilma-message-search-x.y.z.jar message.search.conf.properties`
 
+####Notes
+* Running Wilma Message Search application is optional, Wilma itself does not require it.
+* To run Wilma Message Search application, java JDK must be used. With JRE, it will not work properly.
+
 #Quick intro for developers/contributors
 
 ####Requirements
-* Java JDK 7
+* Java JDK 7 or 8
 
 ####Advised working environment
 * Eclipse / IntelliJ
@@ -42,13 +52,15 @@ This way of build is recommended for contributors only, End-Users, please use th
 Please see detailed information on how to run **Wilma** and **Wilma Message Search** applications [here](http://epam.github.io/Wilma/endusers/index.html).
 
 ##Detailed information
-* Check the Wiki and Issues link on GitHub
+* Check the [Wiki](https://github.com/epam/Wilma/wiki) and [Issues](https://github.com/epam/Wilma/issues) link on GitHub
 * Check further documentation at http://epam.github.io/Wilma/
 
 ## Contact, questions and answers
-Post your request to Wilma-Users [mailing list](https://groups.google.com/forum/#!forum/wilma-users), or send direct mail to tkohegyi2<at>gmail.com.
+In order to get the latest news, follow this project on GitHub.
 
-# License
+Feel free to contribute (send pull request), or seek for assistance/advise, or discuss usage scenarios by joining to [wilma-users](https://groups.google.com/forum/#!forum/wilma-users) mailing list.
+
+# License - GPLv3.0
 Copyright 2013-2015 EPAM Systems
 
 Wilma is free software: you can redistribute it and/or modify
@@ -68,6 +80,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 There are three ways you can help us:
 
-* **Raise an issue.** You found something that does not work as expected? Let us know about it.
-* **Suggest a feature.** It's even better if you come up with a new feature and write us about it.
+* **Raise an [issue](https://github.com/epam/Wilma/issues).** You found something that does not work as expected? Let us know about it.
+* **Suggest a [feature](https://groups.google.com/forum/#!forum/wilma-users).** It's even better if you come up with a new feature and write us about it.
 * **Write some code.** We would love to see pull requests to this tool, just make sure you have the latest sources.
