@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
@@ -54,7 +55,9 @@ public class JsonConverterTest {
         //WHEN
         String xml = underTest.convert("{\"field1\":\"value1\",\"field2\":\"value2\"}", "rootElementName");
         //THEN
-        assertEquals(xml,
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rootElementName><field2>value2</field2><field1>value1</field1></rootElementName>");
+        //two answer is accepted
+        String expectedResult1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rootElementName><field2>value2</field2><field1>value1</field1></rootElementName>";
+        String expectedResult2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rootElementName><field1>value1</field1><field2>value2</field2></rootElementName>";
+        assertTrue(xml.equals(expectedResult1) || xml.equals(expectedResult2), "Convert from JSON to XML failed, got answer:" + xml);
     }
 }
