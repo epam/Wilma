@@ -29,7 +29,6 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
@@ -62,7 +61,7 @@ public class SequenceResponseGuardTest {
     public void setUp() throws Exception {
         SequenceResponseGuardProperties properties = new SequenceResponseGuardProperties(3, 1);
         MockitoAnnotations.initMocks(this);
-        given(stubbedRequest.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(LOGGER_ID);
+        given(stubbedRequest.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(LOGGER_ID);
         given(configurationAccess.getProperties()).willReturn(propertyDto);
         given(propertyDto.getSequenceResponseGuardProperties()).willReturn(properties);
     }

@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 
 /**
@@ -50,7 +49,7 @@ public class WilmaHttpResponseWriter extends WilmaHttpEntityWriter<WilmaHttpResp
         boolean successful = false;
         String outputFile = INITIAL_FILENAME;
         try {
-            String messageId = wilmaHttpEntity.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant());
+            String messageId = wilmaHttpEntity.getRequestHeader(WilmaHttpResponse.WILMA_LOGGER_ID);
             outputFile = getOutputFileName("resp", messageId, bodyDecompressed);
             BufferedWriter writer = bufferedWriterFactory.createBufferedWriter(outputFile, OUTPUT_BUFFER_SIZE);
             if (writer != null) {

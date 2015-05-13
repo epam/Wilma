@@ -30,7 +30,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.common.helper.CurrentDateProvider;
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
 import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
@@ -61,7 +60,7 @@ public class SequenceFactoryTest {
         //GIVEN
         String testKey = "TestKey";
         String logggerId = "testId";
-        given(request.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(logggerId);
+        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(logggerId);
         //WHEN
         WilmaSequence result = underTest.createNewSequence(testKey, request, 1000L);
         //THEN

@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.common.helper.LogFilePathProvider;
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 
@@ -47,7 +46,7 @@ public class FileNameProvider {
      * @return the name of the file with absolute path
      */
     public String getFileName(final WilmaHttpRequest request) {
-        String wilmaLoggerId = request.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant());
+        String wilmaLoggerId = request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
         String path = getPath();
         return path + "/" + wilmaLoggerId + REQ_NAME_ENDING;
     }
@@ -58,7 +57,7 @@ public class FileNameProvider {
      * @return the name of the file with absolute path
      */
     public String getFileName(final WilmaHttpResponse response) {
-        String wilmaLoggerId = response.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant());
+        String wilmaLoggerId = response.getRequestHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
         String path = getPath();
         return path + "/" + wilmaLoggerId + RESP_NAME_ENDING;
     }

@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.common.stream.helper.StreamResultFactory;
 import com.epam.wilma.common.stream.helper.StreamSourceFactory;
 import com.epam.wilma.core.processor.entity.helper.XmlTransformerFactory;
@@ -103,6 +102,6 @@ public class PrettyPrintProcessor extends ProcessorBase {
 
     private void logError(final WilmaHttpEntity entity, final Exception e) {
         logger.error("Error during pretty printing of message with Wilma Logger ID: "
-                + entity.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant()) + "! Reason:" + e.getMessage());
+                + entity.getHeader(WilmaHttpEntity.WILMA_LOGGER_ID) + "! Reason:" + e.getMessage());
     }
 }

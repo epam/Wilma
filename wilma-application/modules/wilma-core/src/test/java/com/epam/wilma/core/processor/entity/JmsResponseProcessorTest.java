@@ -31,7 +31,6 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.core.processor.response.jms.JmsResponseBuilder;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
@@ -60,7 +59,7 @@ public class JmsResponseProcessorTest {
     public void testProcessShouldCallBuildMessageWhenResponseHasWilmaLoggerId() throws ApplicationException {
         //GIVEN
         Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put(WilmaConstants.WILMA_LOGGER_ID.getConstant(), "date.nnnresp");
+        requestHeaders.put(WilmaHttpResponse.WILMA_LOGGER_ID, "date.nnnresp");
         given(response.getRequestHeaders()).willReturn(requestHeaders);
         //WHEN
         underTest.process(response);

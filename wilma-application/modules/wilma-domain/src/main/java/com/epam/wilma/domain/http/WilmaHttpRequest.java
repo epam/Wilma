@@ -65,16 +65,28 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
         return extraHeaders.get(key);
     }
 
-    public String getSequenceId() {
-        return extraHeaders.get(WILMA_SEQUENCE_ID);
-    }
-
     /**
      * This method adds the given sequenceId to the extra headers.
      * @param sequenceId is the given sequence key.
      */
     public void addSequenceId(final String sequenceId) {
-        extraHeaders.put(WILMA_SEQUENCE_ID, sequenceId);
+        addExtraHeader(WILMA_SEQUENCE_ID, sequenceId);
+    }
+
+    public String getSequenceId() {
+        return extraHeaders.get(WILMA_SEQUENCE_ID);
+    }
+
+    /**
+     * This method adds the given Wilma Message ID to the request message.
+     * @param identifier is the given id.
+     */
+    public void addWilmaLoggerId(final String identifier) {
+        addExtraHeader(WILMA_LOGGER_ID, identifier);
+    }
+
+    public String getWilmaLoggerId() {
+        return extraHeaders.get(WILMA_LOGGER_ID);
     }
 
     /**

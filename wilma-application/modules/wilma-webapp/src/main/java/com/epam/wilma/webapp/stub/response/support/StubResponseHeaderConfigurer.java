@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
@@ -45,10 +44,10 @@ public class StubResponseHeaderConfigurer {
      * @param dialogDescriptorName is the name of the actually used DialogDescriptor
      */
     public void addWilmaInfoToResponseHeader(final HttpServletRequest req, final HttpServletResponse resp, final String dialogDescriptorName) {
-        String wilmaLoggerId = req.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant());
+        String wilmaLoggerId = req.getHeader(WilmaHttpEntity.WILMA_LOGGER_ID);
         String wilmaSequence = req.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID);
 
-        resp.addHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant(), wilmaLoggerId);
+        resp.addHeader(WilmaHttpEntity.WILMA_LOGGER_ID, wilmaLoggerId);
         if (wilmaSequence != null) {
             resp.addHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID, wilmaSequence + "," + dialogDescriptorName);
         } else {

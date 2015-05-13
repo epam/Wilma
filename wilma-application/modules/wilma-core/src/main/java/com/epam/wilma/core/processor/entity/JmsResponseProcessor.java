@@ -21,7 +21,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.core.processor.response.jms.JmsResponseBuilder;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
@@ -48,7 +47,7 @@ public class JmsResponseProcessor extends ProcessorBase {
     }
 
     private boolean isHeadersContainWilmaLoggerId(final WilmaHttpResponse response) {
-        return response.getRequestHeaders().containsKey(WilmaConstants.WILMA_LOGGER_ID.getConstant());
+        return response.getRequestHeaders().containsKey(WilmaHttpResponse.WILMA_LOGGER_ID);
     }
 
 }

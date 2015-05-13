@@ -31,7 +31,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.common.helper.LogFilePathProvider;
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 
@@ -64,7 +63,7 @@ public class FileNameProviderTest {
     @Test
     public void testGetFileNameShouldReturnRequestFileName() {
         //GIVEN
-        given(request.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(WILMA_LOGGER_ID);
+        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
         //WHEN
         String actual = underTest.getFileName(request);
         //THEN
@@ -74,7 +73,7 @@ public class FileNameProviderTest {
     @Test
     public void testGetFileNameShouldReturnResponseFileName() {
         //GIVEN
-        given(response.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(WILMA_LOGGER_ID);
+        given(response.getRequestHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
         //WHEN
         String actual = underTest.getFileName(response);
         //THEN

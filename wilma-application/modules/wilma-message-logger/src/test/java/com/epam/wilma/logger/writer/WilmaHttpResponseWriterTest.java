@@ -38,7 +38,6 @@ import org.slf4j.Logger;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 
 /**
@@ -81,13 +80,13 @@ public class WilmaHttpResponseWriterTest {
         //GIVEN
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
-        given(response.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(response.getRequestHeader(WilmaHttpResponse.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         given(response.getHeaders().toString()).willReturn(HEADERS);
         given(response.getBody()).willReturn(BODY);
         //WHEN
         underTest.write(response, true);
         //THEN
-        verify(bufferedWriter).append(WilmaConstants.WILMA_LOGGER_ID + ":" + MESSAGE_ID);
+        verify(bufferedWriter).append(WilmaHttpResponse.WILMA_LOGGER_ID + ":" + MESSAGE_ID);
         verify(bufferedWriter).append(BODY);
     }
 
@@ -97,7 +96,7 @@ public class WilmaHttpResponseWriterTest {
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
         given(response.getBody()).willReturn(null);
-        given(response.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(response.getRequestHeader(WilmaHttpResponse.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         given(response.getHeaders().toString()).willReturn(HEADERS);
         //WHEN
         underTest.write(response, true);
@@ -112,7 +111,7 @@ public class WilmaHttpResponseWriterTest {
         IOException e = new IOException();
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willThrow(e);
-        given(response.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(response.getRequestHeader(WilmaHttpResponse.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         //WHEN
         underTest.write(response, true);
         //THEN
@@ -126,7 +125,7 @@ public class WilmaHttpResponseWriterTest {
         IOException e = new IOException();
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
-        given(response.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(response.getRequestHeader(WilmaHttpResponse.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         willThrow(e).given(bufferedWriter).close();
         //WHEN
         underTest.write(response, true);
@@ -139,7 +138,7 @@ public class WilmaHttpResponseWriterTest {
         //GIVEN
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(null);
-        given(response.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(response.getRequestHeader(WilmaHttpResponse.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         //WHEN
         underTest.write(response, true);
         //THEN
@@ -151,7 +150,7 @@ public class WilmaHttpResponseWriterTest {
         //GIVEN
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
-        given(response.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(response.getRequestHeader(WilmaHttpResponse.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         given(response.getStatusCode()).willReturn(200);
         //WHEN
         underTest.write(response, true);

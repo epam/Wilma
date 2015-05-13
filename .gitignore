@@ -12,4 +12,5 @@ wilma-message-search/modules/wilma-message-search-engine/log
 build
 bin
 release
+wilma-functionaltest/resources/savedStubConfig.xml
 

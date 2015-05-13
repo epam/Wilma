@@ -33,7 +33,6 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 
 /**
@@ -66,11 +65,11 @@ public class BrowserMobRequestUpdaterTest {
         given(browserMobHttpRequest.getMethod()).willReturn(requestBase);
         given(wilmaHttpRequest.getUri()).willReturn(uri);
         String mockID = "WILMA-LOG-MOCK-ID";
-        given(wilmaHttpRequest.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(mockID);
+        given(wilmaHttpRequest.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(mockID);
         //WHEN
         underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);
         //THEN
-        //verify(requestBase).addHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant(), mockID);
+        //verify(requestBase).addHeader((WilmaHttpRequest.WILMA_LOGGER_ID, mockID);
         verify(requestBase).setURI(uri);
     }
 

@@ -27,7 +27,6 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.exception.TooManyRequestsException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.messagemarker.idgenerator.IdGenerator;
@@ -35,11 +34,8 @@ import com.epam.wilma.messagemarker.idgenerator.IdGenerator;
 /**
  * Test class for {@link TimestampBasedMessageMarker}.
  * @author Marton_Sereg
- *
  */
 public class TimestampBasedMessageMarkerTest {
-
-    private static final String WILMA_REQUEST_HEADER_FIELD = WilmaConstants.WILMA_LOGGER_ID.getConstant();
 
     @InjectMocks
     private TimestampBasedMessageMarker underTest;
@@ -56,14 +52,14 @@ public class TimestampBasedMessageMarkerTest {
     }
 
     @Test
-    public void testMarkMessageHeaderShouldGetIdentfierAndMarkRequest() throws TooManyRequestsException {
+    public void testMarkMessageHeaderShouldGetIdentifierAndMarkRequest() throws TooManyRequestsException {
         // GIVEN
         given(idGenerator.nextIdentifier()).willReturn("1234");
         // WHEN
         underTest.markMessageHeader(request);
         // THEN
         verify(idGenerator).nextIdentifier();
-        verify(request).addExtraHeader(WILMA_REQUEST_HEADER_FIELD, "1234");
+        verify(request).addWilmaLoggerId("1234");
     }
 
 }

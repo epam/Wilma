@@ -34,7 +34,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.common.helper.CurrentDateProvider;
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
@@ -125,8 +124,8 @@ public class SequenceServiceTest {
         given(sequenceDescriptor.getSequences()).willReturn(sequences);
         given(handler.getExistingSequence(request, sequences, null)).willReturn(sequenceKeyFirst);
         given(sequenceDescriptor.getSequence(sequenceKeyFirst)).willReturn(sequenceFirst);
-        String loggerIdConstans = WilmaConstants.WILMA_LOGGER_ID.getConstant();
-        given(request.getExtraHeader(loggerIdConstans)).willReturn("TestLoggerId");
+        String loggerIdConstants = WilmaHttpRequest.WILMA_LOGGER_ID;
+        given(request.getExtraHeader(loggerIdConstants)).willReturn("TestLoggerId");
         given(sequenceIdUtil.createSequenceId(sequenceKeyFirst, sequenceDescriptor)).willReturn("newID");
         given(request.getSequenceId()).willReturn(null);
         given(headerUtil.createSequenceHeader(null, "newID")).willReturn("newID");

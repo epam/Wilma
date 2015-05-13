@@ -32,7 +32,6 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
@@ -65,24 +64,24 @@ public class StubResponseHeaderConfigurerTest {
     @Test
     public void testAddWilmaInfoToResponseHeaderShouldAddNewHeadersToResponseWhenWilmaSequencNotExistInRequestHeader() {
         //GIVEN
-        given(request.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(WILMA_LOGGER_ID);
+        given(request.getHeader(WilmaHttpEntity.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
         given(request.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID)).willReturn(null);
         //WHEN
         underTest.addWilmaInfoToResponseHeader(request, response, DIALOG_DESCRIPTOR_NAME);
         //THEN
-        verify(response).addHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant(), WILMA_LOGGER_ID);
+        verify(response).addHeader(WilmaHttpEntity.WILMA_LOGGER_ID, WILMA_LOGGER_ID);
         verify(response).addHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID, DIALOG_DESCRIPTOR_NAME);
     }
 
     @Test
     public void testAddWilmaInfoToResponseHeaderShouldAddNewHeadersToResponseWhenWilmaSequencExistsInRequestHeader() {
         //GIVEN
-        given(request.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(WILMA_LOGGER_ID);
+        given(request.getHeader(WilmaHttpEntity.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
         given(request.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID)).willReturn(DIALOG_DESCRIPTOR_NAME);
         //WHEN
         underTest.addWilmaInfoToResponseHeader(request, response, DIALOG_DESCRIPTOR_NAME);
         //THEN
-        verify(response).addHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant(), WILMA_LOGGER_ID);
+        verify(response).addHeader(WilmaHttpEntity.WILMA_LOGGER_ID, WILMA_LOGGER_ID);
         verify(response).addHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID, DIALOG_DESCRIPTOR_NAME + "," + DIALOG_DESCRIPTOR_NAME);
     }
 

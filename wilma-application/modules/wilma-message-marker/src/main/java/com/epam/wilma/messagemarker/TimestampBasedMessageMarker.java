@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.exception.TooManyRequestsException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.messagemarker.idgenerator.IdGenerator;
@@ -36,8 +35,6 @@ import com.epam.wilma.messagemarker.idgenerator.IdGenerator;
 @Component
 public class TimestampBasedMessageMarker implements MessageMarker {
 
-    private static final String WILMA_REQUEST_HEADER_FIELD = WilmaConstants.WILMA_LOGGER_ID.getConstant();
-
     @Autowired
     @Qualifier("timestampSimpleNumber")
     private IdGenerator idGenerator;
@@ -45,7 +42,7 @@ public class TimestampBasedMessageMarker implements MessageMarker {
     @Override
     public void markMessageHeader(final WilmaHttpRequest request) throws TooManyRequestsException {
         String identifier = idGenerator.nextIdentifier();
-        request.addExtraHeader(WILMA_REQUEST_HEADER_FIELD, identifier);
+        request.addWilmaLoggerId(identifier);
     }
 
 }

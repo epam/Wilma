@@ -59,7 +59,7 @@ public class OrBodyChecker implements ConditionChecker {
     }
 
     private boolean checkInRequestHeaders(final WilmaHttpRequest request, final Parameter parameter) {
-        boolean result = false;
+        boolean result;
         String parameterValue = parameter.getValue();
         if (!"".equals(parameterValue)) {
             result = operator.checkTarget(parameterValue, request.getBody());

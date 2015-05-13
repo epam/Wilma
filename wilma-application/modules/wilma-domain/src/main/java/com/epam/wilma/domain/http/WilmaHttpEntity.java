@@ -31,6 +31,8 @@ import java.util.Map;
 public class WilmaHttpEntity implements Serializable {
 
     public static final String WILMA_SEQUENCE_ID = "Wilma-Sequence";
+    public static final String WILMA_LOGGER_ID = "Wilma-Logger-ID";
+
     private String body;
     private InputStream inputStream;
     private final Map<String, String> headers = new HashMap<>();

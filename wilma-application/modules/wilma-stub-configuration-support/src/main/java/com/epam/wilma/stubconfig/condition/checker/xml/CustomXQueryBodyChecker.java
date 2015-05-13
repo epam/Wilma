@@ -64,24 +64,24 @@ public class CustomXQueryBodyChecker implements ConditionChecker {
                     String value = paramater.getValue();
                     result = evaluateCondition(request.getBody(), value);
                 } catch (SaxonApiException e) {
-                    throw new ConditionEvaluationFailedException("XQuery evaluation failed:", e);
+                    throw new ConditionEvaluationFailedException("XQuery evaluation failed at request: " + request.getWilmaLoggerId(), e);
                 }
             }
         } else {
-            throw new ConditionEvaluationFailedException("Please provide exactly one parameter!");
+            throw new ConditionEvaluationFailedException("Please provide exactly one parameter in Stub Configuration!");
         }
         return result;
     }
 
     private boolean evaluateCondition(final String xml, final String query) throws SaxonApiException {
-        boolean result = false;
+        boolean result;
         String queryResult = queryExpressionEvaluator.evaluateXQuery(xml, query);
         String fromXQueryResult = "";
         try {
             fromXQueryResult = removeXmlDecTagFromXQueryResult(queryResult);
             result = BooleanUtils.toBooleanObject(fromXQueryResult);
         } catch (NullPointerException e) {
-            logger.debug("Expected result of the xquery evaluation was true or false, but it returned with the following:" + fromXQueryResult
+            logger.debug("Expected result of the XQuery evaluation was true or false, but it returned with the following:" + fromXQueryResult
                     + ".\n Thus the condition evaluated to true!", e);
             result = true;
         }

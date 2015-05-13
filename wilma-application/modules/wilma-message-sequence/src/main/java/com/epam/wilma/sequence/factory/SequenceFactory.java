@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.common.helper.CurrentDateProvider;
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
 import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
@@ -51,7 +50,7 @@ public class SequenceFactory {
     public WilmaSequence createNewSequence(final String sequenceKey, final WilmaHttpRequest request, final long timeout) {
         WilmaSequencePairs messageStore = new WilmaSequencePairs();
         RequestResponsePair firstPair = new RequestResponsePair(request);
-        String loggerId = request.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant());
+        String loggerId = request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
         messageStore.addStore(loggerId, firstPair);
         WilmaSequence sequence = new WilmaSequence(sequenceKey, new Timestamp(dateProvider.getCurrentTimeInMillis() + timeout), messageStore);
         return sequence;

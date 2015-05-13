@@ -23,10 +23,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import com.epam.wilma.domain.http.WilmaHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.epam.wilma.common.helper.LogFilePathProvider;
-import com.epam.wilma.common.helper.WilmaConstants;
 
 /**
  * Writes a request or a response message to a file.
@@ -45,7 +45,6 @@ public abstract class WilmaHttpEntityWriter<T> {
 
     /**
      * Writes the headers and the body of a <tt>WilmaHttpEntity</tt> to a file.
-     * @param <T>
      * @param wilmaHttpEntity the entity to be written
      * @param bodyDecompressed flags if the body of the HTTP message is decompressed
      * @return true if writing was successful, false otherwise
@@ -59,7 +58,7 @@ public abstract class WilmaHttpEntityWriter<T> {
      * @throws IOException if an I/O error occurs
      */
     protected void writeWilmaLoggerId(final BufferedWriter writer, final String loggerId) throws IOException {
-        writer.append(WilmaConstants.WILMA_LOGGER_ID + ":" + loggerId);
+        writer.append(WilmaHttpRequest.WILMA_LOGGER_ID + ":" + loggerId);
         writer.newLine();
     }
 

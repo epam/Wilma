@@ -30,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.common.helper.StackTraceToStringConverter;
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.core.MapBasedResponseDescriptorAccess;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
@@ -80,7 +79,7 @@ public class StubResponseGenerator {
      * @return with the generated response as byte array
      */
     public byte[] generateResponse(final HttpServletRequest req, final HttpServletResponse resp) {
-        String wilmaLoggerId = req.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant());
+        String wilmaLoggerId = req.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
         byte[] result = null;
         if (wilmaLoggerId != null) {
             ResponseDescriptorDTO responseDescriptorDTO = responseDescriptorAccess.getResponseDescriptor(wilmaLoggerId);

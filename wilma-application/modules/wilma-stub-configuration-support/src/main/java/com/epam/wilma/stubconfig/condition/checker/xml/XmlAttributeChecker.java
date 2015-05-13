@@ -61,7 +61,7 @@ public class XmlAttributeChecker implements ConditionChecker {
                     String value = paramater.getValue();
                     result = evaluateCondition(request.getBody(), element, value);
                 } catch (SaxonApiException e) {
-                    throw new ConditionEvaluationFailedException("XQuery evaluation failed:", e);
+                    throw new ConditionEvaluationFailedException("XQuery evaluation failed at request: " + request.getWilmaLoggerId(), e);
                 }
             }
         } else {
@@ -71,7 +71,7 @@ public class XmlAttributeChecker implements ConditionChecker {
     }
 
     private boolean evaluateCondition(final String xml, final String element, final String value) throws SaxonApiException {
-        boolean result = false;
+        boolean result;
         String node = getNode(element);
         String attribute = getAttribute(element);
         String exp = "//*[name()='" + node + "']/@" + attribute + "='" + value + "'";
@@ -89,7 +89,7 @@ public class XmlAttributeChecker implements ConditionChecker {
     }
 
     private String getPartOfElement(final String element, final int index) {
-        String result = "";
+        String result;
         String[] splitElement = element.split("/@");
         if (splitElement.length > 1) {
             result = splitElement[index];

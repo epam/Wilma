@@ -62,7 +62,7 @@ public class OrHeaderChecker implements ConditionChecker {
     }
 
     private boolean checkInRequestHeaders(final WilmaHttpRequest request, final Parameter parameter) {
-        boolean result = false;
+        boolean result;
         if (!"".equals(parameter.getValue())) {
             result = checkInHeaders(request, parameter);
         } else {

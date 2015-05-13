@@ -45,7 +45,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.common.helper.StackTraceToStringConverter;
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.core.MapBasedResponseDescriptorAccess;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
@@ -128,7 +127,7 @@ public class StubResponseGeneratorTest {
         given(responseDescriptor.getTemplateFormatters()).willReturn(templateFormatterDescriptors);
         given(requestTransformer.transformToWilmaHttpRequest(request, responseDescriptorDTO)).willReturn(wilmaRequest);
         given(stackTraceConverter.getStackTraceAsString(Matchers.any(Exception.class))).willReturn("exception-message");
-        given(request.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(WILMA_LOGGER_ID);
+        given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
         given(request.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID)).willReturn("Test");
         given(headerCreator.resolveSequenceHeader("Test")).willReturn(new String[]{"Test"});
     }
@@ -139,7 +138,7 @@ public class StubResponseGeneratorTest {
         //WHEN
         underTest.generateResponse(request, response);
         //THEN
-        verify(request).getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant());
+        verify(request).getHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
     }
 
     @Test
@@ -265,7 +264,7 @@ public class StubResponseGeneratorTest {
     @Test
     public void testGenerateResponseShouldReturnWithNullWhenNotFindWilmaLoggerIdInRequestHeader() throws Exception {
         //GIVEN
-        given(request.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(null);
+        given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(null);
         //WHEN
         byte[] result = underTest.generateResponse(request, response);
         //THEN

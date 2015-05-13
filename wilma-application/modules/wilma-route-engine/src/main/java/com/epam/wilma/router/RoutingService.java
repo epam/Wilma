@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.common.helper.OperationMode;
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.router.command.StubDescriptorModificationCommand;
@@ -66,7 +65,7 @@ public class RoutingService {
      * @return true if message should be redirected to the webapp. False otherwise.
      */
     public boolean redirectRequestToStub(final WilmaHttpRequest request) {
-        boolean redirect = false;
+        boolean redirect;
         ResponseDescriptorDTO responseDescriptorDTO = stubDescriptorEvaluator.findResponseDescriptor(stubDescriptors, request);
         if (responseDescriptorDTO == null) {
             responseDescriptorDTO = stubModeEvaluator.getResponseDescriptorForStubMode(request, operationMode);
@@ -116,7 +115,7 @@ public class RoutingService {
     }
 
     private void saveInResponseDescriptorMap(final WilmaHttpRequest request, final ResponseDescriptorDTO responseDescriptorDTO) {
-        responseDescriptorMap.put(request.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant()), responseDescriptorDTO);
+        responseDescriptorMap.put(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID), responseDescriptorDTO);
     }
 
     /**

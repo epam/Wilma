@@ -33,7 +33,7 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
  */
 public class WilmaSequence {
 
-    private final AtomicReference<Timestamp> timestamp = new AtomicReference<Timestamp>();
+    private final AtomicReference<Timestamp> timestamp = new AtomicReference<>();
     private final String sequenceKey;
     private final WilmaSequencePairs messageStore;
 

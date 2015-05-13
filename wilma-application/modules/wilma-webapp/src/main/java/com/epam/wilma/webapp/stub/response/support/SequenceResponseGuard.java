@@ -21,7 +21,6 @@ package com.epam.wilma.webapp.stub.response.support;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
@@ -49,7 +48,7 @@ public class SequenceResponseGuard {
      * @throws InterruptedException if the waiting is interrupted
      */
     public void waitForResponses(final WilmaHttpRequest stubbedRequest, final WilmaSequence actualSequence) throws InterruptedException {
-        String wilmaLoggerId = stubbedRequest.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant());
+        String wilmaLoggerId = stubbedRequest.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
         boolean allResponsesArrived = actualSequence.checkIfAllResponsesArrived(wilmaLoggerId);
         int timeWaited = 0;
         getProperties();

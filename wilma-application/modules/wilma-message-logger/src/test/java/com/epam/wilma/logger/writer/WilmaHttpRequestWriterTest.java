@@ -42,7 +42,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.common.helper.LogFilePathProvider;
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 
 /**
@@ -94,7 +93,7 @@ public class WilmaHttpRequestWriterTest {
         //GIVEN
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
-        given(request.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         given(request.getRequestLine()).willReturn(REQUEST_LINE);
         given(request.getRemoteAddr()).willReturn(REMOTE_ADDR);
         given(request.getHeaders().toString()).willReturn(HEADERS);
@@ -103,7 +102,7 @@ public class WilmaHttpRequestWriterTest {
         underTest.write(request, true);
         //THEN
         verify(bufferedWriter).append(REMOTE_ADDR + " " + REQUEST_LINE);
-        verify(bufferedWriter).append(WilmaConstants.WILMA_LOGGER_ID + ":" + MESSAGE_ID);
+        verify(bufferedWriter).append(WilmaHttpRequest.WILMA_LOGGER_ID + ":" + MESSAGE_ID);
         verify(bufferedWriter).append(BODY);
     }
 
@@ -113,7 +112,7 @@ public class WilmaHttpRequestWriterTest {
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
         given(request.getBody()).willReturn(null);
-        given(request.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         given(request.getHeaders().toString()).willReturn(HEADERS);
         given(request.getRequestLine()).willReturn(REQUEST_LINE);
         given(request.getRemoteAddr()).willReturn(REMOTE_ADDR);
@@ -129,7 +128,7 @@ public class WilmaHttpRequestWriterTest {
         IOException e = new IOException();
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willThrow(e);
-        given(request.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         //WHEN
         underTest.write(request, true);
         //THEN
@@ -142,7 +141,7 @@ public class WilmaHttpRequestWriterTest {
         IOException e = new IOException();
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
-        given(request.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         willThrow(e).given(bufferedWriter).close();
         //WHEN
         underTest.write(request, true);
@@ -155,7 +154,7 @@ public class WilmaHttpRequestWriterTest {
         //GIVEN
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(null);
-        given(request.getExtraHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         //WHEN
         underTest.write(request, true);
         //THEN
@@ -167,7 +166,7 @@ public class WilmaHttpRequestWriterTest {
         //GIVEN
         String expected = TARGET_FOLDER + "//" + TITLE + REQUEST_TYPE + ".txt";
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn(TARGET_FOLDER);
-        given(request.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         given(directoryFactory.createNewDirectory(TARGET_FOLDER)).willReturn(directory);
         given(directory.exists()).willReturn(true);
         //WHEN
@@ -182,7 +181,7 @@ public class WilmaHttpRequestWriterTest {
         //GIVEN
         String expected = TARGET_FOLDER + "//" + TITLE + REQUEST_TYPE + FI_SUFFIX + ".txt";
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn(TARGET_FOLDER);
-        given(request.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         given(directoryFactory.createNewDirectory(TARGET_FOLDER)).willReturn(directory);
         given(directory.exists()).willReturn(true);
         //WHEN
@@ -197,7 +196,7 @@ public class WilmaHttpRequestWriterTest {
         //GIVEN
         String expected = TARGET_FOLDER + "//" + TITLE + REQUEST_TYPE + ".txt";
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn(TARGET_FOLDER);
-        given(request.getHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant())).willReturn(MESSAGE_ID);
+        given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
         given(directoryFactory.createNewDirectory(TARGET_FOLDER)).willReturn(directory);
         given(directory.exists()).willReturn(false);
         //WHEN

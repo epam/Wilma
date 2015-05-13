@@ -81,7 +81,8 @@ public class XmlMessageTypeChecker implements ConditionChecker {
         try {
             result = xQueryEvaluator.evaluateXQuery(request.getBody(), "count(//*[name()='" + nodeName + "'])>0");
         } catch (SaxonApiException e) {
-            throw new ConditionEvaluationFailedException("XmlRootNodeChecker failed, when searched for root element with name: " + nodeName, e);
+            throw new ConditionEvaluationFailedException("XmlRootNodeChecker failed, when searched for root element with name: "
+                    + nodeName + " in message:" + request.getWilmaLoggerId(), e);
         }
         return removeXmlDeclarationTagFromXQueryResult(result);
     }

@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.epam.wilma.common.helper.WilmaConstants;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 
 /**
@@ -60,7 +59,7 @@ public class WilmaSequencePairs {
      * @param response is the given response
      */
     public void putIntoMessages(final WilmaHttpResponse response) {
-        String searchLoggerId = response.getRequestHeader(WilmaConstants.WILMA_LOGGER_ID.getConstant());
+        String searchLoggerId = response.getRequestHeader(WilmaHttpResponse.WILMA_LOGGER_ID);
         RequestResponsePair pair = messages.get(searchLoggerId);
         if (pair != null) {
             pair.setResponse(response);

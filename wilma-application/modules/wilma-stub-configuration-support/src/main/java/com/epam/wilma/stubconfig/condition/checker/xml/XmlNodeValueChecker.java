@@ -62,17 +62,17 @@ public class XmlNodeValueChecker implements ConditionChecker {
                     String value = paramater.getValue();
                     result = evaluateCondition(request.getBody(), element, value);
                 } catch (SaxonApiException e) {
-                    throw new ConditionEvaluationFailedException("XQuery evaluation failed:", e);
+                    throw new ConditionEvaluationFailedException("XQuery evaluation failed at request: " + request.getWilmaLoggerId(), e);
                 }
             }
         } else {
-            throw new ConditionEvaluationFailedException("Please provide exactly one parameter!");
+            throw new ConditionEvaluationFailedException("Please provide exactly one parameter in Stub Configuration!");
         }
         return result;
     }
 
     private boolean evaluateCondition(final String xml, final String element, final String value) throws SaxonApiException {
-        boolean result = false;
+        boolean result;
         String exp = "(//*[name()='" + element + "'])='" + value + "'";
         String queryResult = queryExpressionEvaluator.evaluateXQuery(xml, exp);
         result = Boolean.valueOf(removeXmlDecTagFromXQueryResult(queryResult));
