@@ -4,7 +4,7 @@ java.lang.NullPointerException
 	at com.epam.wilma.router.evaluation.StubDescriptorEvaluator.evaluateCondition(StubDescriptorEvaluator.java:106)
 	at com.epam.wilma.router.evaluation.StubDescriptorEvaluator.evaluateDialogDescriptor(StubDescriptorEvaluator.java:95)
 	at com.epam.wilma.router.evaluation.StubDescriptorEvaluator.findResponseDescriptor(StubDescriptorEvaluator.java:79)
-	at com.epam.wilma.router.RoutingService.redirectRequestToStub(RoutingService.java:70)
+	at com.epam.wilma.router.RoutingService.redirectRequestToStub(RoutingService.java:69)
 	at com.epam.wilma.router.Router.reroute(Router.java:57)
 	at com.epam.wilma.core.processor.entity.RouterProcessor.process(RouterProcessor.java:52)
 	at com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor.processRequest(WilmaHttpRequestProcessor.java:55)

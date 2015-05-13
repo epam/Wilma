@@ -1,7 +1,7 @@
 java.lang.NullPointerException
 	at something.test.TemplateFormatterWithError.formatTemplate(TemplateFormatterWithError.java:26)
-	at com.epam.wilma.webapp.stub.response.StubResponseGenerator.generate(StubResponseGenerator.java:114)
-	at com.epam.wilma.webapp.stub.response.StubResponseGenerator.generateResponse(StubResponseGenerator.java:93)
+	at com.epam.wilma.webapp.stub.response.StubResponseGenerator.generate(StubResponseGenerator.java:113)
+	at com.epam.wilma.webapp.stub.response.StubResponseGenerator.generateResponse(StubResponseGenerator.java:92)
 	at com.epam.wilma.webapp.stub.response.StubResponseWriter.writeResponse(StubResponseWriter.java:59)
 	at com.epam.wilma.webapp.stub.servlet.DispatcherServlet.doGet(DispatcherServlet.java:46)
 	at com.epam.wilma.webapp.stub.servlet.DispatcherServlet.doPost(DispatcherServlet.java:51)
