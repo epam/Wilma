@@ -18,30 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.ObjectMessage;
-
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
+import com.epam.wilma.logger.writer.WilmaHttpRequestWriter;
+import com.epam.wilma.logger.writer.WilmaHttpResponseWriter;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
-import com.epam.wilma.logger.writer.WilmaHttpRequestWriter;
-import com.epam.wilma.logger.writer.WilmaHttpResponseWriter;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.ObjectMessage;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Test for {@link FileWriterQueueListener}.
- *
  */
 public class FileWriterQueueListenerTest {
 
