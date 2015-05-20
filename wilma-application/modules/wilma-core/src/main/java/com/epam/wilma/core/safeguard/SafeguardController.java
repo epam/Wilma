@@ -18,14 +18,14 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.logger.request.jms.JmsRequestLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.core.processor.entity.FileWriterQueueListener;
 import com.epam.wilma.core.processor.response.jms.ResponseQueueListener;
 
 /**
- * Enables or disables fastInfoset and message writing safeguard on {@link FileWriterQueueListener} and {@link ResponseQueueListener}.
+ * Enables or disables fastInfoset and message writing safeguard on {@link JmsRequestLogger} and {@link ResponseQueueListener}.
  * @author Marton_Sereg
  *
  */
@@ -33,10 +33,10 @@ import com.epam.wilma.core.processor.response.jms.ResponseQueueListener;
 public class SafeguardController {
 
     @Autowired
-    private FileWriterQueueListener fileWriterQueueListener;
+    private ResponseQueueListener responseQueueListener;
 
     @Autowired
-    private ResponseQueueListener responseQueueListener;
+    private JmsRequestLogger jmsRequestLogger;
 
     /**
      * Turns FastInfoset decompression on or off.
@@ -51,7 +51,8 @@ public class SafeguardController {
      * @param messageWritingEnabled true if message writing is enabled, false otherwise
      */
     public void setMessageWritingEnabled(final boolean messageWritingEnabled) {
-        fileWriterQueueListener.setMessageLoggingEnabled(messageWritingEnabled);
+        responseQueueListener.setMessageLoggingEnabled(messageWritingEnabled);
+        jmsRequestLogger.setMessageLoggingEnabled(messageWritingEnabled);
     }
 
 }

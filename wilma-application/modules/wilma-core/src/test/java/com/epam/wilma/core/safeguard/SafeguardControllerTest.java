@@ -20,13 +20,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import static org.mockito.Mockito.verify;
 
+import com.epam.wilma.logger.request.jms.JmsRequestLogger;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.core.processor.entity.FileWriterQueueListener;
 import com.epam.wilma.core.processor.response.jms.ResponseQueueListener;
 
 /**
@@ -37,7 +37,7 @@ import com.epam.wilma.core.processor.response.jms.ResponseQueueListener;
 public class SafeguardControllerTest {
 
     @Mock
-    private FileWriterQueueListener fileWriterQueueListener;
+    private JmsRequestLogger jmsRequestLogger;
     @Mock
     private ResponseQueueListener responseQueueListener;
 
@@ -59,11 +59,12 @@ public class SafeguardControllerTest {
     }
 
     @Test
-    public void testSetMessageWritingEnabledShouldCallFileWriterListener() {
+    public void testSetMessageWritingEnabledShouldCallBothRequestAndResponseQueueListeners() {
         //GIVEN in setUp
         //WHEN
         underTest.setMessageWritingEnabled(true);
         //THEN
-        verify(fileWriterQueueListener).setMessageLoggingEnabled(true);
+        verify(responseQueueListener).setMessageLoggingEnabled(true);
+        verify(jmsRequestLogger).setMessageLoggingEnabled(true);
     }
 }

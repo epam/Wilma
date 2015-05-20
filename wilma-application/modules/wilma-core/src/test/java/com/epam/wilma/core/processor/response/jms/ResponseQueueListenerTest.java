@@ -22,6 +22,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -81,6 +82,7 @@ public class ResponseQueueListenerTest {
     public void testOnMessageShouldDecompressResponse() throws ApplicationException, JMSException {
         //GIVEN
         underTest.setFiDecompressionEnabled(true);
+        underTest.setMessageLoggingEnabled(true);
         given(objectMessage.getObject()).willReturn(response);
         //WHEN
         underTest.onMessage(objectMessage);
@@ -92,17 +94,7 @@ public class ResponseQueueListenerTest {
     public void testOnMessageShouldNotDecompressResponseWhenFISafeguardEnabled() throws ApplicationException, JMSException {
         //GIVEN
         underTest.setFiDecompressionEnabled(false);
-        given(objectMessage.getObject()).willReturn(response);
-        //WHEN
-        underTest.onMessage(objectMessage);
-        //THEN
-        verify(messageExtractor, never()).extract(response);
-    }
-
-    @Test
-    public void testOnMessageShouldNotDecompressBase64WhenFISafeguardEnabled() throws ApplicationException, JMSException {
-        //GIVEN
-        underTest.setFiDecompressionEnabled(false);
+        underTest.setMessageLoggingEnabled(true);
         given(objectMessage.getObject()).willReturn(response);
         //WHEN
         underTest.onMessage(objectMessage);
@@ -114,6 +106,7 @@ public class ResponseQueueListenerTest {
     public void testOnMessageShouldSendResponseToLoggerQueue() throws JMSException {
         //GIVEN
         given(objectMessage.getObject()).willReturn(response);
+        underTest.setMessageLoggingEnabled(true);
         //WHEN
         underTest.onMessage(objectMessage);
         //THEN
@@ -121,8 +114,9 @@ public class ResponseQueueListenerTest {
     }
 
     @Test(expectedExceptions = SystemException.class)
-    public void testOnMessageShouldThrowNewRuntimeExcpetionWhenCannotGetWilmaResponseFromMessage() throws JMSException {
+    public void testOnMessageShouldThrowNewRuntimeExceptionWhenCannotGetWilmaResponseFromMessage() throws JMSException {
         //GIVEN
+        underTest.setMessageLoggingEnabled(true);
         given(objectMessage.getObject()).willThrow(new JMSException("exception"));
         //WHEN
         underTest.onMessage(objectMessage);
@@ -132,19 +126,33 @@ public class ResponseQueueListenerTest {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testOnMessageWhenMessageIsNotObjectMessageShouldThrowIllegalArgumentException() {
         //GIVEN in setUp
+        underTest.setMessageLoggingEnabled(true);
         //WHEN
         underTest.onMessage(message);
         //THEN it should throw exception
     }
 
     @Test
-    public void testOnMessageShouldCallSequenceManagarToSaveTheResponse() throws JMSException {
+    public void testOnMessageShouldCallSequenceManagerToSaveTheResponse() throws JMSException {
         //GIVEN
+        underTest.setMessageLoggingEnabled(true);
         given(objectMessage.getObject()).willReturn(response);
         //WHEN
         underTest.onMessage(objectMessage);
         //THEN
         verify(manager).tryToSaveResponseIntoSequence(response);
     }
+
+    @Test
+    public void testLogRequestShouldNotSendMessageToQueueWhenSafeGuarded() throws JMSException {
+        //GIVEN
+        given(objectMessage.getObject()).willReturn(response);
+        underTest.setMessageLoggingEnabled(false);
+        //WHEN
+        underTest.onMessage(objectMessage);
+        //THEN
+        verifyZeroInteractions(jmsTemplate);
+    }
+
 
 }

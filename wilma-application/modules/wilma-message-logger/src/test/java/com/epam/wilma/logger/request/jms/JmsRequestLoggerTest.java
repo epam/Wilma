@@ -19,8 +19,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
+import javax.jms.JMSException;
 import javax.jms.Queue;
 
 import org.mockito.InjectMocks;
@@ -62,10 +66,22 @@ public class JmsRequestLoggerTest {
     public void testLogRequestShouldSendMessageToQueue() {
         //GIVEN
         given(jmsMessageCreatorFactory.createJmsRequestMessageCreator(request)).willReturn(jmsMessageCreator);
+        underTest.setMessageLoggingEnabled(true);
         //WHEN
         underTest.logRequest(request);
         //THEN
         verify(jmsTemplate).send(queue, jmsMessageCreator);
+    }
+
+    @Test
+    public void testLogRequestShouldNotSendMessageToQueueWhenSafeGuarded() throws JMSException {
+        //GIVEN
+        given(jmsMessageCreatorFactory.createJmsRequestMessageCreator(request)).willReturn(jmsMessageCreator);
+        underTest.setMessageLoggingEnabled(false);
+        //WHEN
+        underTest.logRequest(request);
+        //THEN
+        verifyZeroInteractions(jmsTemplate);
     }
 
 }

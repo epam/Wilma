@@ -58,6 +58,7 @@ public class ExampleHandler extends AbstractHandler {
     private static final String GZIP_TYPE = "gzip";
     private static final String FASTINFOSET_TYPE = "application/fastinfoset";
     private static final String XML_TYPE = "application/xml";
+    private static final String ANY_TYPE = "*/*";
 
     private static final String PATH_TO_HANDLE = "/example";
     private static final String PATH_TO_TIMEOUT = "/sendtimeout";
@@ -89,13 +90,14 @@ public class ExampleHandler extends AbstractHandler {
                 byteArray = gzipDecompresser.decompress(httpServletRequest.getInputStream()).toByteArray();
                 requestBody = IOUtils.toString(byteArray, "utf-8");
             }
-            if (httpServletRequest.getHeader(CONTENT_TYPE).contains(FASTINFOSET_TYPE)) {
+            String headerField = httpServletRequest.getHeader(CONTENT_TYPE);
+            if (headerField != null && headerField.contains(FASTINFOSET_TYPE)) {
                 if (byteArray != null) {
                     requestBody = fisDecompressor.decompress(new ByteArrayInputStream(byteArray));
                 } else {
                     requestBody = fisDecompressor.decompress(httpServletRequest.getInputStream());
                 }
-            } else if (httpServletRequest.getHeader(CONTENT_TYPE).contains(XML_TYPE)) {
+            } else if (headerField != null && headerField.contains(XML_TYPE)) {
                 if (byteArray == null) {
                     requestBody = inputStreamConverter.getStringFromStream(httpServletRequest.getInputStream());
                 }
@@ -133,7 +135,7 @@ public class ExampleHandler extends AbstractHandler {
             byte[] responseBodyAsBytes = null;
             if (httpServletRequest.getHeader(ACCEPT_HEADER) == null) {
                 httpServletResponse.getWriter().println("Missing accept header!");
-            } else if (httpServletRequest.getHeader(ACCEPT_HEADER).contains(XML_TYPE)) {
+            } else if (httpServletRequest.getHeader(ACCEPT_HEADER).contains(XML_TYPE) || httpServletRequest.getHeader(ACCEPT_HEADER).contains(ANY_TYPE)) {
                 InputStream xml = getXmlFromFile(EXAMPLE_XML);
                 httpServletResponse.setContentType("application/xml;charset=UTF-8");
                 responseBodyAsBytes = (inputStreamConverter.getStringFromStream(xml)).getBytes();

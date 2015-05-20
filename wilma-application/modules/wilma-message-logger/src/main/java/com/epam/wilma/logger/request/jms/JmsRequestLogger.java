@@ -48,9 +48,17 @@ public class JmsRequestLogger implements RequestLogger {
     @Autowired
     private JmsRequestMessageCreatorFactory jmsMessageCreatorFactory;
 
+    private boolean messageLoggingEnabled = true;
+
     @Override
     public void logRequest(final WilmaHttpRequest request) {
-        jmsTemplate.send(loggerQueue, jmsMessageCreatorFactory.createJmsRequestMessageCreator(request));
+        if (messageLoggingEnabled) {
+            jmsTemplate.send(loggerQueue, jmsMessageCreatorFactory.createJmsRequestMessageCreator(request));
+        }
+    }
+
+    public void setMessageLoggingEnabled(final boolean messageLoggingEnabled) {
+        this.messageLoggingEnabled = messageLoggingEnabled;
     }
 
 }

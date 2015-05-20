@@ -91,19 +91,6 @@ public class FileWriterQueueListenerTest {
         verify(responseWriter).write(response, true);
     }
 
-    @Test
-    public void testOnMessageShouldNotCallWriteOnWilmaHttpEntityWriterWhenSafeGuardIsEnabled() throws JMSException {
-        //GIVEN
-        underTest.setMessageLoggingEnabled(false);
-        given(objectMessage.getObject()).willReturn(request);
-        given(objectMessage.getBooleanProperty("bodyDecompressed")).willReturn(false);
-        doReturn(true).when(underTest).isEntityARequest(request);
-        //WHEN
-        underTest.onMessage(objectMessage);
-        //THEN
-        verify(requestWriter, never()).write(request, false);
-    }
-
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testOnMessageShouldThrowIllegalArgumentExceptionWhenMessageNotInstanceOfObjectMessage() {
         //GIVEN in setUp

@@ -18,14 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.ObjectMessage;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
@@ -33,15 +25,19 @@ import com.epam.wilma.indexing.jms.add.JmsRequestIndexingProcessor;
 import com.epam.wilma.indexing.jms.add.JmsResponseIndexingProcessor;
 import com.epam.wilma.logger.writer.WilmaHttpRequestWriter;
 import com.epam.wilma.logger.writer.WilmaHttpResponseWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
 
 /**
  * Class for processing messages from JMS logger queue.
- *
  */
 @Component("fileWriterListener")
 public class FileWriterQueueListener implements MessageListener {
-
-    private boolean messageLoggingEnabled = true;
 
     @Autowired
     private WilmaHttpRequestWriter wilmaHttpRequestWriter;
@@ -66,18 +62,12 @@ public class FileWriterQueueListener implements MessageListener {
         }
     }
 
-    public void setMessageLoggingEnabled(final boolean messageLoggingEnabled) {
-        this.messageLoggingEnabled = messageLoggingEnabled;
-    }
-
     private void writeFile(final Message message, final WilmaHttpEntity wilmaHttpEntity) throws JMSException {
-        if (messageLoggingEnabled) {
-            boolean isBodyDecompressed = getBodyDecompressedFromMessage(message);
-            if (isEntityARequest(wilmaHttpEntity)) {
-                writeRequestAndSendToIndexing((WilmaHttpRequest) wilmaHttpEntity, isBodyDecompressed);
-            } else {
-                writeResponseAndSendToIndexing((WilmaHttpResponse) wilmaHttpEntity, isBodyDecompressed);
-            }
+        boolean isBodyDecompressed = getBodyDecompressedFromMessage(message);
+        if (isEntityARequest(wilmaHttpEntity)) {
+            writeRequestAndSendToIndexing((WilmaHttpRequest) wilmaHttpEntity, isBodyDecompressed);
+        } else {
+            writeResponseAndSendToIndexing((WilmaHttpResponse) wilmaHttpEntity, isBodyDecompressed);
         }
     }
 

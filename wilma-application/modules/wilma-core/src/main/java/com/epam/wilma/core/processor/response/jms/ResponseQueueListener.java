@@ -53,6 +53,7 @@ public class ResponseQueueListener implements MessageListener {
     private SequenceManager manager;
 
     private boolean fiDecompressionEnabled = true;
+    private boolean messageLoggingEnabled = true;
 
     @Override
     public void onMessage(final Message message) {
@@ -64,7 +65,9 @@ public class ResponseQueueListener implements MessageListener {
                     messageExtractor.extract(response);
                 }
                 response.setInputStream(null);
-                jmsTemplate.send(loggerQueue, messageCreatorFactory.create(response, consistentFIDecompressionEnabled));
+                if (messageLoggingEnabled) {
+                    jmsTemplate.send(loggerQueue, messageCreatorFactory.create(response, consistentFIDecompressionEnabled));
+                }
                 manager.tryToSaveResponseIntoSequence(response);
             } catch (JMSException e) {
                 throw new SystemException("JMS Exception occurred", e);
@@ -76,6 +79,10 @@ public class ResponseQueueListener implements MessageListener {
 
     public void setFiDecompressionEnabled(final boolean fiDecompressionEnabled) {
         this.fiDecompressionEnabled = fiDecompressionEnabled;
+    }
+
+    public void setMessageLoggingEnabled(final boolean messageLoggingEnabled) {
+        this.messageLoggingEnabled = messageLoggingEnabled;
     }
 
     private WilmaHttpResponse getWilmaHttpResponseFromMessage(final Message message) throws JMSException {
