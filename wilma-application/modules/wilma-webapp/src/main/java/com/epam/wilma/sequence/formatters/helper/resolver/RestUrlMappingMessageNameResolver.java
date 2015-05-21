@@ -33,7 +33,6 @@ import java.util.regex.PatternSyntaxException;
 
 /**
  * Resolves the message name of the given {@link WilmaHttpRequest} by the given parameters.
- * <p/>
  * Definitions can be passed as {@link Parameter}:
  * <ul>
  * <li>The key: Should start with {@code type:} and continue with the name of the message or {@code typequery:} and the name will be the result of the following xpath query.</li>

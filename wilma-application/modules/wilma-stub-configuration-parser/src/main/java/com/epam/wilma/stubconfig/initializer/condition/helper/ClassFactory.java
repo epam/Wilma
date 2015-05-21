@@ -21,7 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import org.springframework.stereotype.Component;
 
 /**
- * Factory for creating new instances of {@link Class<>}.
+ * Factory for creating new instances of {@link Class}.
  *
  * @author Tunde_Kovacs
  */
