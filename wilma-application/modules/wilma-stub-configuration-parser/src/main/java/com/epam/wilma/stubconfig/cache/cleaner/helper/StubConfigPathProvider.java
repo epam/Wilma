@@ -18,20 +18,19 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.epam.wilma.common.helper.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.common.helper.FileUtils;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class check the cache folder whether it contains any saved stub configurations or not.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 @Component
 public class StubConfigPathProvider {
@@ -40,8 +39,9 @@ public class StubConfigPathProvider {
 
     /**
      * This method is dedicated for selecting files from the given cache folder with *_stubConfig.xml pattern.
+     *
      * @param cachePath is the relative path of the cache folder
-     * @return List<String> which contains paths of result files of the selecting.
+     * @return List&lt;String&gt; which contains paths of result files of the selecting.
      */
     public List<String> getConfigPathsFromCache(final String cachePath) {
         List<String> resultPaths = new ArrayList<>();
@@ -55,14 +55,15 @@ public class StubConfigPathProvider {
 
     /**
      * This method provides the paths of selecting with the given pattern. This pattern is like endsWith.
+     *
      * @param sourceFolderPath is the relative path of a folder
-     * @param pattern is a pattern, example: *something.xml -> ABsomething.xml, Asomething.xml
-     * @return List<String> which contains paths of result files of the selecting.
+     * @param pattern          is a pattern, example: *something.xml -&gt; ABsomething.xml, Asomething.xml
+     * @return List&lt;String&gt; which contains paths of result files of the selecting.
      */
     public List<String> getConfigPathsFromSpecificFolder(final String sourceFolderPath, final String pattern) {
         List<String> resultPaths = new ArrayList<>();
         if (!pattern.contains("*")) {
-            String specificFilePath = "";
+            String specificFilePath;
             if ("".equals(sourceFolderPath)) {
                 specificFilePath = pattern;
             } else {

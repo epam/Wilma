@@ -18,20 +18,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import javax.xml.parsers.SAXParserFactory;
-
 import org.springframework.stereotype.Component;
+
+import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Factory for creating a new instance of {@link SAXParserFactory}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class SAXParserFactoryCreator {
 
     /**
-     * Creates a new instance of {@link Creates a new SAXParserFactory}.
+     * Creates a new instance of {@link SAXParserFactory}.
+     *
      * @return the new instance
      */
     public SAXParserFactory createSAXParserFactory() {

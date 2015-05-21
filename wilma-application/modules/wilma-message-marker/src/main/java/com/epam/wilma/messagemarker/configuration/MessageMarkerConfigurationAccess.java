@@ -19,17 +19,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.common.configuration.ConfigurationAccessBase;
 import com.epam.wilma.messagemarker.configuration.domain.RequestLimits;
 import com.epam.wilma.properties.PropertyHolder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Provides configuration access for the module.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class MessageMarkerConfigurationAccess implements ConfigurationAccessBase {
@@ -47,7 +46,8 @@ public class MessageMarkerConfigurationAccess implements ConfigurationAccessBase
     }
 
     /**
-     * Returns a {@link PropertyDTO} holding all module specific properties.
+     * Returns a {@link RequestLimits} holding all module specific properties.
+     *
      * @return the propertiesDTO object
      */
     public RequestLimits getProperties() {

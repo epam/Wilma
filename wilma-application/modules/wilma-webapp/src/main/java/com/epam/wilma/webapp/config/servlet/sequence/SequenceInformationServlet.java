@@ -48,7 +48,7 @@ public class SequenceInformationServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        Map<String, Object> informations = sequenceInformationCollector.collectInformations();
+        Map<String, Object> informations = sequenceInformationCollector.collectInformation();
         out.write(getJson(informations));
         out.flush();
         out.close();

@@ -65,7 +65,7 @@ public class SequenceInformationServletTest {
     public void testDoGetShouldWriteJsonMessage() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
-        given(sequenceInformationCollector.collectInformations()).willReturn(new HashMap<String, Object>());
+        given(sequenceInformationCollector.collectInformation()).willReturn(new HashMap<String, Object>());
         //WHEN
         underTest.doGet(req, resp);
         //THEN
@@ -79,7 +79,7 @@ public class SequenceInformationServletTest {
     public void testDoPostShouldCallDoGet() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
-        given(sequenceInformationCollector.collectInformations()).willReturn(new HashMap<String, Object>());
+        given(sequenceInformationCollector.collectInformation()).willReturn(new HashMap<String, Object>());
         //WHEN
         underTest.doPost(req, resp);
         //THEN

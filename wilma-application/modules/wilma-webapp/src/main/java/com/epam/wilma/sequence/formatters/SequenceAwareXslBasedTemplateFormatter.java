@@ -18,15 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
@@ -39,10 +30,19 @@ import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import com.epam.wilma.sequence.formatters.helper.SequenceXmlTransformer;
 import com.epam.wilma.sequence.formatters.xsl.SequenceAwareXslResponseGenerator;
 import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 
 /**
  * XSL based version of {@link SequenceAwareXslBasedTemplateFormatter}.
- * The xsl file should be passed with key {@link SequenceAwareXslBasedTemplateFormatter#XSL_FILE_PARAM_KEY}.
+ * The xsl file should be passed with key {@link com.epam.wilma.sequence.formatters.xsl.SequenceAwareXslTransformer#REQUEST_PARAMETER_NAME}.
+ *
  * @author Balazs_Berkes
  */
 @Component
@@ -61,7 +61,7 @@ public class SequenceAwareXslBasedTemplateFormatter implements TemplateFormatter
 
     @Override
     public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final byte[] templateResource, final ParameterList params,
-            final WilmaSequence sequence) throws Exception {
+                                 final WilmaSequence sequence) throws Exception {
         Map<String, RequestResponsePair> message = sequence.getPairs();
 
         Map<String, String> nameToXml = sequenceXmlTransformer.transform(params, message);
@@ -74,7 +74,7 @@ public class SequenceAwareXslBasedTemplateFormatter implements TemplateFormatter
 
     private byte[] readXslResourceFromFileSystem(final String xslResourcePath) {
         File xslFile = fileFactory.createFile(xslResourcePath);
-        byte[] result = null;
+        byte[] result;
         try {
             result = fileUtils.getFileAsByteArray(xslFile);
         } catch (IOException e) {
@@ -86,7 +86,7 @@ public class SequenceAwareXslBasedTemplateFormatter implements TemplateFormatter
 
     private String checkAndGetXslResourcePath(final ParameterList params) {
         List<Parameter> paramList = params.getAllParameters();
-        String xslResourceName = "";
+        String xslResourceName;
         if (!paramList.isEmpty()) {
             xslResourceName = paramList.get(0).getValue();
         } else {

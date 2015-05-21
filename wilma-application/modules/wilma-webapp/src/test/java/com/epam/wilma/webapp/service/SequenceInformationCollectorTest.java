@@ -62,7 +62,7 @@ public class SequenceInformationCollectorTest {
         //GIVEN
         given(sequenceManager.getDescriptors()).willReturn(new HashMap<String, SequenceDescriptor>());
         //WHEN
-        Map<String, Object> result = underTest.collectInformations();
+        Map<String, Object> result = underTest.collectInformation();
         //THEN
         int sum = (int) result.get(SequenceInformationCollector.SUM_KEY);
         Assert.assertEquals(sum, 0);
@@ -80,7 +80,7 @@ public class SequenceInformationCollectorTest {
         given(descriptor.getSequences()).willReturn(sequences);
         given(sequenceManager.getDescriptors()).willReturn(descriptors);
         //WHEN
-        Map<String, Object> result = underTest.collectInformations();
+        Map<String, Object> result = underTest.collectInformation();
         //THEN
         int sum = (int) result.get(SequenceInformationCollector.SUM_KEY);
         Assert.assertEquals(sum, 1);

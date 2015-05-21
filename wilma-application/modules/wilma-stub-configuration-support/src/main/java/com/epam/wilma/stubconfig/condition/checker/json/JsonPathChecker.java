@@ -31,7 +31,6 @@ import com.jayway.jsonpath.JsonPath;
 /**
  * Checks whether a selected property of the captured Json request equals to the
  * expected value.
- * <p>
  * <ul>
  * <li>Expected parameter key {@link JsonPathChecker#EXPECTED_KEY}.</li>
  * <li>JSON path parameter key {@link JsonPathChecker#JSONPATH_KEY}.</li>

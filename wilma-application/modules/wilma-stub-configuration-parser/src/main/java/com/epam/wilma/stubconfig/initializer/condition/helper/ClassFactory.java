@@ -22,18 +22,18 @@ import org.springframework.stereotype.Component;
 
 /**
  * Factory for creating new instances of {@link Class<>}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class ClassFactory {
 
     /**
-     * Constructs new instances of {@link Class<>}.
+     * Constructs new instances of {@link Class}.
+     *
      * @param className the name of the class that should be created
      * @return the new class
      * @throws ClassNotFoundException if the class cannot be located
-     * @param <T> the type of the class that is instantiated
      */
     public <T> Class<T> getClassToLoad(final String className) throws ClassNotFoundException {
         Class<T> classToLoad;

@@ -18,19 +18,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Map;
-
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 
+import java.util.Map;
+
 /**
- * Those operations which want to modify the stubDescriptors collection of {@link RoutingService} need to implement this interface.
+ * Those operations which want to modify the stubDescriptors collection of {@link com.epam.wilma.router.RoutingService} need to implement this interface.
  * According to the Command Pattern.
+ *
  * @author Tibor_Kovacs
  */
 public interface StubDescriptorModificationCommand {
 
     /**
      * This is the operation.
+     *
      * @param stubDescriptors the actual collection
      * @return the modified collection
      */

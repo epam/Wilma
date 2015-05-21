@@ -18,19 +18,18 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.properties.InvalidPropertyException;
 import com.epam.wilma.properties.PropertyHolder;
 import com.epam.wilma.safeguard.configuration.domain.SafeguardLimits;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
- * Validates safeguard limits that were introduced for protecting wilma
+ * Validates safeguard limits that were introduced for protecting Wilma
  * from performance problems.
+ *
  * @author Tunde_Kovacs
  * @author Tamas_Bihari
- *
  */
 @Component
 public class SafeguardLimitValidator {
@@ -40,10 +39,12 @@ public class SafeguardLimitValidator {
 
     /**
      * Validates the {@link SafeguardLimits} against each other.
+     * <ul> 
      * <li>FIOffLimit must be larger than FIOnLimit</li>
      * <li>MWOnLimit must be larger than FIOnLimit</li>
      * <li>MWOnLimit must be larger than FIOffLimit</li>
      * <li>MWOffLimit must be larger than MWOnLimit</li>
+     * </ul>
      */
     public void validate() {
         Long fiOffLimit = propertyHolder.getLong("safeguard.responseFIdecoder.OFFlimit");

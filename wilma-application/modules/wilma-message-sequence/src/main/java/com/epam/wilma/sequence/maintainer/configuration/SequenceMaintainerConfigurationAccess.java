@@ -19,17 +19,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.common.configuration.ConfigurationAccessBase;
 import com.epam.wilma.properties.PropertyHolder;
 import com.epam.wilma.sequence.maintainer.configuration.domain.SequenceProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
- * Provides configuration access for the {@link SequenceMaintainer}.
- * @author Tibor_Kovacs
+ * Provides configuration access for the {@link com.epam.wilma.sequence.maintainer.SequenceMaintainer}.
  *
+ * @author Tibor_Kovacs
  */
 @Component
 public class SequenceMaintainerConfigurationAccess implements ConfigurationAccessBase {
@@ -46,6 +45,7 @@ public class SequenceMaintainerConfigurationAccess implements ConfigurationAcces
 
     /**
      * Returns a {@link SequenceProperties} holding all module specific properties.
+     *
      * @return with SequenceProperties object
      */
     public SequenceProperties getProperties() {

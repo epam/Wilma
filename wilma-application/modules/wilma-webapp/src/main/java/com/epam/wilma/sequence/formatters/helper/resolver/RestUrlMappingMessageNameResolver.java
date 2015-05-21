@@ -19,25 +19,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.regex.PatternSyntaxException;
-
+import com.epam.wilma.domain.http.WilmaHttpEntity;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.parameter.Parameter;
+import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.domain.http.WilmaHttpEntity;
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.parameter.Parameter;
-import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Resolves the message name of the given {@link WilmaHttpRequest} by the given parameters.
  * <p/>
  * Definitions can be passed as {@link Parameter}:
+ * <ul>
  * <li>The key: Should start with {@code type:} and continue with the name of the message or {@code typequery:} and the name will be the result of the following xpath query.</li>
  * <li>The value: Should start with {@code url:} and continue with the regexp of the URL which will be compared to the request URL.</li>
+ * </ul>
+ *
  * @author Balazs_Berkes
  */
 @Component("sequenceRestUrlMappingMessageNameResolver")
@@ -45,7 +47,7 @@ public class RestUrlMappingMessageNameResolver implements MessageNameResolver {
 
     private static final String EMPTY = "";
     private static final String TYPE_PREFIX = "type:";
-    private static final String XPATH_PREIFX = "typequery:";
+    private static final String XPATH_PREFIX = "typequery:";
     private static final String URL_PREFIX = "url:";
 
     private final Logger logger = LoggerFactory.getLogger(RestUrlMappingMessageNameResolver.class);
@@ -112,11 +114,11 @@ public class RestUrlMappingMessageNameResolver implements MessageNameResolver {
     }
 
     private String evaluateQuery(final String key, final WilmaHttpEntity entity) {
-        return xmlTypeResolver.getValue(key.substring(XPATH_PREIFX.length()), entity.getBody());
+        return xmlTypeResolver.getValue(key.substring(XPATH_PREFIX.length()), entity.getBody());
     }
 
     private boolean resolverParameters(final Parameter parameter) {
         return parameter.getValue().startsWith(URL_PREFIX)
-                && (parameter.getName().startsWith(TYPE_PREFIX) || parameter.getName().startsWith(XPATH_PREIFX));
+                && (parameter.getName().startsWith(TYPE_PREFIX) || parameter.getName().startsWith(XPATH_PREFIX));
     }
 }

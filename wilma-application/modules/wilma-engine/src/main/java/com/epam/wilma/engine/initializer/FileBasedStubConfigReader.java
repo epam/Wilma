@@ -18,21 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.domain.stubconfig.StubConfigSchema;
 import com.epam.wilma.engine.configuration.EngineConfigurationAccess;
 import com.epam.wilma.engine.configuration.domain.PropertyDTO;
 import com.epam.wilma.stubconfig.cache.cleaner.helper.StubConfigPathProvider;
 import com.epam.wilma.stubconfig.dom.parser.xsd.StubConfigSchemaParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Reads a stub descriptor from a file.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 @Component
 public class FileBasedStubConfigReader {
@@ -53,7 +52,6 @@ public class FileBasedStubConfigReader {
 
     /**
      * Reads a new stub descriptor from a file and applies the new configuration in the core module.
-     * @return
      */
     public void readStubConfiguration() {
         getXmlDescriptorPath();

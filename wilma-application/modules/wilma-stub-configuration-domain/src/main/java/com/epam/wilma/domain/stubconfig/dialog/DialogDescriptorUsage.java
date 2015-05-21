@@ -20,12 +20,14 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Defines the status of a {@link DialogDescriptor} in the stub configuration.
- * <li> always means this dialog descriptor is valid when wilma is running </li>
- * <li> timeout means that when the dialog descriptor appears, after a timeout (specified in secs in validityvalue), the dialog descriptor will be disabled </li>
- * <li> hitcount means that after this descriptor is applied N times (defined in validityvalue), the dialog descriptor will be disabled </li>
- * <li> disabled means that the dialog descriptor is not in use </li>
- * @author Tunde_Kovacs
+ * <ul>
+ * <li> ALWAYS means this dialog descriptor is valid when Wilma is running </li>
+ * <li> TIMEOUT means that when the dialog descriptor appears, after a timeout (specified in secs in validityvalue), the dialog descriptor will be disabled </li>
+ * <li> HITCOUNT means that after this descriptor is applied N times (defined in validityvalue), the dialog descriptor will be disabled </li>
+ * <li> DISABLED means that the dialog descriptor is not in use </li>
+ * </ul>
  *
+ * @author Tunde_Kovacs
  */
 public enum DialogDescriptorUsage {
     ALWAYS,

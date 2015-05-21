@@ -18,21 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.common.helper.CurrentDateProvider;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
+import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.epam.wilma.common.helper.CurrentDateProvider;
-import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
-
 /**
- * This class provides the cleaning functionality to {@link SequenceManager}.
- * @author Tibor_Kovacs
+ * This class provides the cleaning functionality to {@link com.epam.wilma.sequence.SequenceManager}.
  *
+ * @author Tibor_Kovacs
  */
 @Component
 public class SequenceCleaner {
@@ -42,6 +41,7 @@ public class SequenceCleaner {
 
     /**
      * This method removes all the expired WilmaSequences.
+     *
      * @param descriptors is the given collection of SequenceDescriptors
      */
     public void cleanTheExpiredSequences(final Map<String, SequenceDescriptor> descriptors) {

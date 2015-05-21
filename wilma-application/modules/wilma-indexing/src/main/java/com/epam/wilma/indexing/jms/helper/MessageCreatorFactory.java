@@ -18,20 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.indexing.domain.IndexMessage;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.indexing.domain.IndexMessage;
-
 /**
- * Creates a new {@link JmsRequestMessageCreator} based on an {@link IndexMessage}.
- * @author Tamas_Bihari
+ * Creates a new {@link JmsIndexMessageCreator} based on an {@link IndexMessage}.
  *
+ * @author Tamas_Bihari
  */
 @Component
 public class MessageCreatorFactory {
 
     /**
      * Creates a new {@link JmsIndexMessageCreator} based on an {@link IndexMessage}.
+     *
      * @param message the base of the {@link JmsIndexMessageCreator}
      * @return the created object
      */

@@ -20,13 +20,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * This element describes a complex condition which should be evaluated by the switch engine.
- * Method: ResponseDescriptor evaluateCondition( DialogDescriptor, RequestMessage), ->
+ * Method: ResponseDescriptor evaluateCondition(DialogDescriptor, RequestMessage), -&gt;
  * evaluates the ConditionDescriptor part and returns with the ResponseDescriptor class the condition matched,
  * or NULL in case condition failed.
- * When it has value -> stub shall be activated with the ResponseDescriptor info.
- * When it has no value (NULL) -> next DialogDescriptor, or if no such left -> proxy mode
- * @author Tunde_Kovacs
+ * When it has value -&gt; stub shall be activated with the ResponseDescriptor info.
+ * When it has no value (NULL) -&gt; next DialogDescriptor, or if no such left -&gt; proxy mode
  *
+ * @author Tunde_Kovacs
  */
 public class ConditionDescriptor {
 
@@ -36,6 +36,7 @@ public class ConditionDescriptor {
 
     /**
      * Constructs a new instance of {@link ConditionDescriptor}.
+     *
      * @param condition the condition that is matched over the request
      */
     public ConditionDescriptor(final Condition condition) {
