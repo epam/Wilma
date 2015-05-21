@@ -56,6 +56,7 @@ public class BasicStubBehaviorTest extends WilmaTestCase {
      */
     public void testBasicStubBehavior() throws Exception {
         //given
+        clearAllOldStubConfigs();
         setOperationModeTo("wilma");
         uploadTemplateToWilma(RESOURCE_FILE_NAME, EXAMPLE_3_XML);
         uploadStubConfigToWilma(STUB_CONFIG);

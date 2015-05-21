@@ -56,6 +56,7 @@ public class BasicStubSslBehaviorTest extends WilmaTestCase {
      */
     public void testBasicStubBehaviorWithSsl() throws Exception {
         //given
+        clearAllOldStubConfigs();
         setOperationModeTo("wilma");
         uploadTemplateToWilma(RESOURCE_FILE_NAME, EXAMPLE_3_XML);
         uploadStubConfigToWilma(STUB_CONFIG);

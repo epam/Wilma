@@ -58,6 +58,7 @@ public class BasicProxySslBehaviorTest extends WilmaTestCase {
 
     public void testBasicProxyBehaviorWithSsl() throws Exception {
         //given
+        clearAllOldStubConfigs();
         setLocalhostBlockingTo("off");
         uploadTemplateToWilma(RESOURCE_FILE_NAME, RESOURCE);
         uploadStubConfigToWilma(STUB_CONFIG_XML);

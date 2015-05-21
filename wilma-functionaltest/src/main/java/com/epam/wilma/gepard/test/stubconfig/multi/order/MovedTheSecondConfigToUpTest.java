@@ -18,25 +18,23 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import junit.framework.Assert;
-
 import com.epam.gepard.annotations.TestClass;
-
-import com.epam.wilma.gepard.test.stubconfig.multi.MultiStubConfigTestBase;
+import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.MultiStubRequestParameters;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
+import junit.framework.Assert;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * This class upload two new stub configurations then moves the second configuration to up and then checks if the second configuration will answer.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 @TestClass(id = "Multi_StubConfig", name = "Moves the second configuration to up once")
-public class MovedTheSecondConfigToUpTest extends MultiStubConfigTestBase {
+public class MovedTheSecondConfigToUpTest extends WilmaTestCase {
 
     private static final String STUB_CONFIG_SECOND_GROUP_NAME = "testSecond";
     private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
@@ -58,8 +56,7 @@ public class MovedTheSecondConfigToUpTest extends MultiStubConfigTestBase {
         Assert.assertEquals(expected, resultAnswer);
     }
 
-    protected MultiStubRequestParameters createChangeStatusRequestParameters(final String direction, final String groupname)
-        throws FileNotFoundException {
+    protected MultiStubRequestParameters createChangeStatusRequestParameters(final String direction, final String groupname) throws FileNotFoundException {
         String testServerUrl = getWilmaChangeStubConfigOrderUrl();
         String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));

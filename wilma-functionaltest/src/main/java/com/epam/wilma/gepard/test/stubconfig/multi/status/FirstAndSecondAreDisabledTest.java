@@ -18,25 +18,23 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import junit.framework.Assert;
-
 import com.epam.gepard.annotations.TestClass;
-
-import com.epam.wilma.gepard.test.stubconfig.multi.MultiStubConfigTestBase;
+import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.MultiStubRequestParameters;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
+import junit.framework.Assert;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * This class upload two new stub configurations then set both of them to disabled and checks if the second will answer.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 @TestClass(id = "Multi_StubConfig", name = "Both uploaded configurations are disabled. Wilma won't stub anything")
-public class FirstAndSecondAreDisabledTest extends MultiStubConfigTestBase {
+public class FirstAndSecondAreDisabledTest extends WilmaTestCase {
     private static final String STUB_CONFIG_FIRST_GROUP_NAME = "testFirst";
     private static final String STUB_CONFIG_SECOND_GROUP_NAME = "testSecond";
     private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";

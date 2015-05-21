@@ -18,24 +18,23 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import junit.framework.Assert;
-
 import com.epam.gepard.annotations.TestClass;
-
-import com.epam.wilma.gepard.test.stubconfig.multi.MultiStubConfigTestBase;
+import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.MultiStubRequestParameters;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
+import junit.framework.Assert;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * This class checks the /config/stub/changestatus servlet with wrong parameter in nextstatus.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 @TestClass(id = "Multi_StubConfig", name = "Checks the error message of response in case of wrong format in nextstatus parameter")
-public class StatusErrorResponseCheckerTest extends MultiStubConfigTestBase {
+public class StatusErrorResponseCheckerTest extends WilmaTestCase {
     private static final String STUB_CONFIG_FIRST_GROUP_NAME = "testFirst";
     private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
     private static final String ERROR_MSG = "Wrong format of direction parameter. Nextstatus must be a boolean!";
@@ -48,8 +47,7 @@ public class StatusErrorResponseCheckerTest extends MultiStubConfigTestBase {
         Assert.assertEquals(ERROR_MSG, resultAnswer);
     }
 
-    protected MultiStubRequestParameters createChangeStatusRequestParameters(final String status, final String groupname)
-        throws FileNotFoundException {
+    protected MultiStubRequestParameters createChangeStatusRequestParameters(final String status, final String groupname) throws FileNotFoundException {
         String testServerUrl = getWilmaChangeStubConfigStatusUrl();
         String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
