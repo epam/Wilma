@@ -32,6 +32,7 @@ public class ClassFactory {
      * Constructs new instances of {@link Class}.
      *
      * @param className the name of the class that should be created
+     * @param <T> is the type of the class
      * @return the new class
      * @throws ClassNotFoundException if the class cannot be located
      */

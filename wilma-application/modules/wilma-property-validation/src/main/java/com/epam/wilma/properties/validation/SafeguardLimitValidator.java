@@ -39,7 +39,7 @@ public class SafeguardLimitValidator {
 
     /**
      * Validates the {@link SafeguardLimits} against each other.
-     * <ul> 
+     * <ul>
      * <li>FIOffLimit must be larger than FIOnLimit</li>
      * <li>MWOnLimit must be larger than FIOnLimit</li>
      * <li>MWOnLimit must be larger than FIOffLimit</li>
