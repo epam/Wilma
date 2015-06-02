@@ -80,4 +80,15 @@ public class WilmaHttpEntity implements Serializable {
     public void setInputStream(final InputStream inputStream) {
         this.inputStream = inputStream;
     }
+
+    public String getWilmaMessageId() {
+        String loggerID = null;
+        if (this instanceof WilmaHttpResponse) {
+            loggerID = "resp" + ((WilmaHttpResponse) this).getWilmaLoggerId();
+        }
+        if (this instanceof WilmaHttpRequest) {
+            loggerID = "req" + ((WilmaHttpRequest) this).getWilmaLoggerId();
+        }
+        return loggerID;
+    }
 }

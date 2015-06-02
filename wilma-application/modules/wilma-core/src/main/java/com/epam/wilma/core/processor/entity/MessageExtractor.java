@@ -59,7 +59,8 @@ public class MessageExtractor {
             base64DecoderProcessor.process(message);
             fastInfosetDecompressorProcessor.process(message);
         } catch (SystemException | ApplicationException e) {
-            LOGGER.info("Failed to extract message content! Restoring original content...", e);
+            String loggerID = message.getWilmaMessageId();
+            LOGGER.info("Failed to extract message content! ID: " + loggerID + ". Restoring original content...", e);
             message.setBody(body);
         } finally {
             closeStream(message);

@@ -50,6 +50,7 @@ public class ExampleHandler extends AbstractHandler {
     private static final String PATH_BAD_GATWAY = "/sendbadgateway";
     private static final String PATH_SERVICE_UNAVAILABLE = "/sendserviceunavailable";
     private static final String PATH_INTERNAL_SERVER_ERROR = "/sendinternalservererror";
+    private static final String PATH_SEND_BAD_FIS = "/sendbadfis";
     private static final int WAIT_IN_MILLIS = 61000;
     private static final String ACCEPT_ENCODING = "Accept-Encoding";
     private static final String ACCEPT_HEADER = "Accept";
@@ -104,12 +105,36 @@ public class ExampleHandler extends AbstractHandler {
             }
             setAnswer(baseRequest, httpServletRequest, httpServletResponse, requestBody);
         } else {
-            generateErrorCode(path, httpServletResponse, baseRequest);
+            generateBadResponses(path, httpServletRequest, httpServletResponse, baseRequest);
+            generateErrorCode(path, httpServletResponse);
 
         }
     }
 
-    private void generateErrorCode(final String path, final HttpServletResponse httpServletResponse, final Request baseRequest)
+    private void generateBadResponses(String path, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Request baseRequest) throws IOException {
+        if (PATH_SEND_BAD_FIS.equals(path)) {
+            byte[] responseBodyAsBytes;
+            if (httpServletRequest.getHeader(ACCEPT_HEADER).contains(FASTINFOSET_TYPE)) {
+                InputStream xml = getXmlFromFile(EXAMPLE_XML);
+                httpServletResponse.setContentType("application/fastinfoset");
+                httpServletResponse.setCharacterEncoding("UTF-8");
+                responseBodyAsBytes = IOUtils.toByteArray(xml, xml.available());
+
+                //Encodes response body with gzip if client accepts gzip encoding
+                if (httpServletRequest.getHeader(ACCEPT_ENCODING) != null && httpServletRequest.getHeader(ACCEPT_ENCODING).contains(GZIP_TYPE)) {
+                    ByteArrayOutputStream gzipped = gzipCompressor.compress(new ByteArrayInputStream(responseBodyAsBytes));
+                    responseBodyAsBytes = gzipped.toByteArray();
+                    httpServletResponse.addHeader(CONTENT_ENCODING, GZIP_TYPE);
+                }
+
+                httpServletResponse.getOutputStream().write(responseBodyAsBytes);
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                baseRequest.setHandled(true);
+            }
+        }
+    }
+
+    private void generateErrorCode(final String path, final HttpServletResponse httpServletResponse)
         throws ServletException, IOException {
         if (PATH_TO_TIMEOUT.equals(path)) {
             try {
@@ -145,15 +170,17 @@ public class ExampleHandler extends AbstractHandler {
                 httpServletResponse.setCharacterEncoding("UTF-8");
                 responseBodyAsBytes = IOUtils.toByteArray(xml, xml.available());
             }
-            //Encodes response body with gzip if client accepts gzip encoding
-            if (httpServletRequest.getHeader(ACCEPT_ENCODING) != null && httpServletRequest.getHeader(ACCEPT_ENCODING).contains(GZIP_TYPE)) {
-                ByteArrayOutputStream gzipped = gzipCompressor.compress(new ByteArrayInputStream(responseBodyAsBytes));
-                responseBodyAsBytes = gzipped.toByteArray();
-                httpServletResponse.addHeader(CONTENT_ENCODING, GZIP_TYPE);
+            if (responseBodyAsBytes != null) {
+                //Encodes response body with gzip if client accepts gzip encoding
+                if (httpServletRequest.getHeader(ACCEPT_ENCODING) != null && httpServletRequest.getHeader(ACCEPT_ENCODING).contains(GZIP_TYPE)) {
+                    ByteArrayOutputStream gzipped = gzipCompressor.compress(new ByteArrayInputStream(responseBodyAsBytes));
+                    responseBodyAsBytes = gzipped.toByteArray();
+                    httpServletResponse.addHeader(CONTENT_ENCODING, GZIP_TYPE);
+                }
+                httpServletResponse.getOutputStream().write(responseBodyAsBytes);
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                baseRequest.setHandled(true);
             }
-            httpServletResponse.getOutputStream().write(responseBodyAsBytes);
-            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            baseRequest.setHandled(true);
         }
     }
 
