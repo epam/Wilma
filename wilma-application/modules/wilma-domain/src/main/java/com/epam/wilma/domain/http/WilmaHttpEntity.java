@@ -81,6 +81,10 @@ public class WilmaHttpEntity implements Serializable {
         this.inputStream = inputStream;
     }
 
+    /**
+     * Gets the ID added by Wilma to the message, regardless if it is a request or response.
+     * @return with the unique ID of the message.
+     */
     public String getWilmaMessageId() {
         String loggerID = null;
         if (this instanceof WilmaHttpResponse) {

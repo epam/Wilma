@@ -18,9 +18,12 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -95,4 +98,23 @@ public class WilmaHttpEntityUtilsTest {
         entity.setBody(body);
         return entity;
     }
+
+    @Test
+    public void testGetWilmaMessageIdAtRequest() throws Exception {
+        //test the request part
+        WilmaHttpRequest request = new WilmaHttpRequest();
+        request.addExtraHeader(WilmaHttpEntity.WILMA_LOGGER_ID, "test");
+        assertEquals(request.getWilmaLoggerId(), "test");
+        assertEquals(request.getWilmaMessageId(), "reqtest");
+    }
+
+    @Test
+    public void testGetWilmaMessageIdAtResponse() throws Exception {
+        //test the response part
+        WilmaHttpResponse response = new WilmaHttpResponse();
+        response.addRequestHeader(WilmaHttpEntity.WILMA_LOGGER_ID, "test");
+        assertEquals(response.getWilmaLoggerId(), "test");
+        assertEquals(response.getWilmaMessageId(), "resptest");
+    }
+
 }
