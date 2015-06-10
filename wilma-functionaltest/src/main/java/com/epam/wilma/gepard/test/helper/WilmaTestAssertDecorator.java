@@ -54,7 +54,7 @@ public abstract class WilmaTestAssertDecorator extends WilmaTestLogDecorator {
         String actual = response.replace("\n\t", "").replace("\r\n", "").replace("\n", "").replace("\r", "").replace(" ", "");
         String expected = expectedResponseMessage.replace("\n\t", "").replace("\r\n", "").replace("\n", "").replace("\r", "").replace(" ", "");
         String errorMessage = "The expected and the received messages are not equal.";
-        assertEquals(errorMessage, expected, actual);
+        assertTrue(errorMessage, actual.startsWith(expected));
     }
 
     private String whitespaceFree(final String string) {

@@ -52,7 +52,8 @@ public class UploadSavedStubConfig extends WilmaTestCase {
      *
      * @throws Exception in case of an error.
      */
-    public void testClearAllStubConfig() throws Exception {
+    public void testClearAllStubConfigAndUpload() throws Exception {
+        //clear all stubconfig
         RequestParameters requestParameters = createRequestParameters();
         ResponseHolder responseVersion = callWilmaWithPostMethod(requestParameters); //Get the actual DialogDescriptors
         String answer = responseVersion.getResponseMessage();
@@ -61,15 +62,7 @@ public class UploadSavedStubConfig extends WilmaTestCase {
             callWilmaWithPostMethod(multiStubRequestParameters); //Delete the uploaded stub configuration
             logComment(groupName + "'s config has been dropped.");
         }
-    }
-
-    /**
-     * Upload the stubconfig to Wilma, that was saved at the beginning of the tests.
-     * This test should be the last test of the functional test pack.
-     *
-     * @throws Exception in case of an error.
-     */
-    public void testUploadPreservedStubConfig() throws Exception {
+        //upload preserved stubconfig
         uploadStubConfigToWilma(STUB_CONFIG);
         //if we are here, then the stub config is restored, so we can delete it
         Path path = FileSystems.getDefault().getPath(STUB_CONFIG);
