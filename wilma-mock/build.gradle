@@ -19,17 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = "wilma-mock"
 
-buildscript {
-    repositories { jcenter() }
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.0'
-    }
-}
-
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'application'
-apply plugin: 'com.github.johnrengelman.shadow'
 
 group = 'com.epam.wilma.mock'
 version = "$wilmaVersion"
@@ -39,22 +31,10 @@ targetCompatibility = 1.7
 
 mainClassName = 'com.epam.wilma.mock.client.WilmaMockClientApplication'
 
-shadowJar {
-    excludes = [
-		'META-INF/*.SF',
-		'META-INF/*.DSA',
-		'META-INF/*.RSA'
-		]
-
-    archiveName = "wilma-mock-$version.$buildNumber"+'.jar'
-}
-
 jar {
     manifest.attributes( 'provider': 'gradle')
     manifest.attributes( 'Main-Class': mainClassName)
     manifest.attributes( 'Implementation-Title': "$componentName-v$version"+'.'+"$buildNumber")
-    
-    finalizedBy shadowJar
 } 
 
 repositories {
@@ -65,5 +45,4 @@ dependencies {
     compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.12'
     compile group: 'commons-httpclient', name: 'commons-httpclient', version:'3.1'
     compile group: 'commons-io', name: 'commons-io', version:'2.4'
-    compile group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'1.2.13'
 }
