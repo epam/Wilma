@@ -53,3 +53,7 @@ include 'wilma-test-client'
 
 project(':wilma-test-server').projectDir = file("$rootDir/wilma-test/wilma-test-server")
 project(':wilma-test-client').projectDir = file("$rootDir/wilma-test/wilma-test-client")
+
+include 'wilma-mock'
+
+project(':wilma-mock').projectDir = file("$rootDir/wilma-mock")
