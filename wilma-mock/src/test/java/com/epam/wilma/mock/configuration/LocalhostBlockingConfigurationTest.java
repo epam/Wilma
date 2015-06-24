@@ -76,7 +76,7 @@ public class LocalhostBlockingConfigurationTest {
 
     @Test
     public void shouldReturnEmptyJSONObjectIfClientReturnsOptionalAbsent() {
-        when(client.sendGetterRequest(LOCALHOST_BLOCKING_STATUS_URL)).thenReturn(Optional.<String> absent());
+        when(client.sendGetterRequest(LOCALHOST_BLOCKING_STATUS_URL)).thenReturn(Optional.<String>absent());
 
         JSONObject result = localhostBlockingConfiguration.getLocalhostBlockingStatus();
 

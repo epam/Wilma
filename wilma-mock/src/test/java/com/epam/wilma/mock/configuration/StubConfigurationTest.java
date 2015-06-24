@@ -82,7 +82,7 @@ public class StubConfigurationTest {
 
     @Test
     public void shouldReturnEmptyJSONObjectIfClientReturnsOptionalAbsent() {
-        when(client.sendGetterRequest(STUB_STATUS_URL)).thenReturn(Optional.<String> absent());
+        when(client.sendGetterRequest(STUB_STATUS_URL)).thenReturn(Optional.<String>absent());
 
         JSONObject result = stubConfiguration.getStubConfigInformation();
 
@@ -103,7 +103,7 @@ public class StubConfigurationTest {
 
     @DataProvider(name = "stubStatusConfiguration")
     public static Object[][] stubStatusConfiguration() {
-        return new Object[][] { { ENABLED, "true" }, { DISABLED, "false" } };
+        return new Object[][] {{ENABLED, "true"}, {DISABLED, "false"}};
     }
 
     @Test(dataProvider = "stubStatusConfiguration")
@@ -123,7 +123,7 @@ public class StubConfigurationTest {
 
     @DataProvider(name = "stubOrderConfiguration")
     public static Object[][] stubOrderConfiguration() {
-        return new Object[][] { { DOWN, "-1" }, { UP, "1" } };
+        return new Object[][] {{DOWN, "-1"}, {UP, "1"}};
     }
 
     @Test(dataProvider = "stubOrderConfiguration")

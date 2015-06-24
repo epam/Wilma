@@ -1,13 +1,5 @@
 package com.epam.wilma.mock.util;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
-import static org.apache.commons.collections.MapUtils.isNotEmpty;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Map;
-import java.util.Map.Entry;
-
 /*==========================================================================
  Copyright 2015 EPAM Systems
 
@@ -27,7 +19,21 @@ import java.util.Map.Entry;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-public class UrlBuilderUtils {
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static org.apache.commons.collections.MapUtils.isNotEmpty;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Map;
+import java.util.Map.Entry;
+
+/**
+ * Helper class for URL building.
+ *
+ * @author Tamas_Pinter
+ *
+ */
+public final class UrlBuilderUtils {
     public static final String COLON = ":";
     public static final String AMPERSAND = "&";
     public static final String EQUAL = "=";
@@ -44,7 +50,7 @@ public class UrlBuilderUtils {
 
     /**
      * Build absolute url with multiple parameters.
-     * 
+     *
      * @param isSecure secure or not
      * @param host the server host
      * @param port the port

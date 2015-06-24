@@ -35,9 +35,23 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
 
+/**
+ * An HTTP "user-agent" for Wilma server, containing more request methods.
+ *
+ * @author Tamas_Pinter
+ *
+ */
 public class WilmaHttpClient {
     private static final Logger LOG = LoggerFactory.getLogger(WilmaHttpClient.class);
 
+    /**
+     * Calls the given URL via HTTP GET method and returns {@code String}
+     * {@code Optional} of the response.
+     *
+     * @param url the given URL
+     * @return an {@code Optional} instance containing the HTTP method's
+     *         response; otherwise returns {@link Optional#absent}.
+     */
     public Optional<String> sendGetterRequest(String url) {
         String response = null;
 
@@ -60,6 +74,13 @@ public class WilmaHttpClient {
         return Optional.fromNullable(response);
     }
 
+    /**
+     * Calls the given URL via HTTP GET method and returns {@code true} if the
+     * request was successful.
+     *
+     * @param url the given URL
+     * @return {@code true} if the request is successful, otherwise return {@code false}
+     */
     public boolean sendSetterRequest(String url) {
         boolean requestSuccessful = false;
 
@@ -82,6 +103,14 @@ public class WilmaHttpClient {
         return requestSuccessful;
     }
 
+    /**
+     * Posting the given file to the given URL via HTTP POST method and returns
+     * {@code true} if the request was successful.
+     *
+     * @param url the given URL
+     * @param file the given file
+     * @return {@code true} if the request is successful, otherwise return {@code false}
+     */
     public boolean uploadFile(String url, File file) {
         boolean requestSuccessful = false;
 
@@ -89,9 +118,7 @@ public class WilmaHttpClient {
         PostMethod method = new PostMethod(url);
 
         try {
-            Part[] parts = {
-                    new FilePart("file", file)
-            };
+            Part[] parts = {new FilePart("file", file)};
             method.setRequestEntity(new MultipartRequestEntity(parts, method.getParams()));
 
             int statusCode = httpclient.executeMethod(method);

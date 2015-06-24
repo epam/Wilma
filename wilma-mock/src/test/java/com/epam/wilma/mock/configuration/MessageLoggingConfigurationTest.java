@@ -46,7 +46,7 @@ import com.google.common.base.Optional;
  *
  */
 public class MessageLoggingConfigurationTest {
-    
+
     private static final String HOST = "host";
     private static final Integer PORT = 1;
     private static final String LOGGING_STATUS_URL = "http://host:1/config/public/logging/status";
@@ -73,7 +73,7 @@ public class MessageLoggingConfigurationTest {
     public void shouldThrowExceptionWhenConfigIsMissing() {
         new MessageLoggingConfiguration(null);
     }
-    
+
     @Test
     public void shouldReturnEmptyJSONObjectIfClientReturnsOptionalAbsent() {
         when(client.sendGetterRequest(LOGGING_STATUS_URL)).thenReturn(Optional.<String>absent());
@@ -99,7 +99,7 @@ public class MessageLoggingConfigurationTest {
     public void shouldReturnWithProperBooleanValueForSetterRequest() {
         when(client.sendSetterRequest(LOGGING_STATUS_SETTER_URL_ON)).thenReturn(true);
         when(client.sendSetterRequest(LOGGING_STATUS_SETTER_URL_OFF)).thenReturn(false);
-        
+
         assertTrue(messageLoggingConfiguration.setMessageLoggingStatus(ON));
         assertFalse(messageLoggingConfiguration.setMessageLoggingStatus(OFF));
         verify(client, never()).sendGetterRequest(anyString());

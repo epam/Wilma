@@ -27,26 +27,54 @@ import com.epam.wilma.mock.domain.MessageLoggingControl;
 import com.epam.wilma.mock.domain.WilmaMockConfig;
 import com.epam.wilma.mock.http.WilmaHttpClient;
 
+/**
+ * Collects the message logging configuration related commands.
+ *
+ * @author Tamas_Pinter
+ *
+ */
 public class MessageLoggingConfiguration extends AbstractConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(MessageLoggingConfiguration.class);
 
     private static final String STATUS_GETTER_URL_POSTFIX = "config/public/logging/status";
     private static final String STATUS_SETTER_URL_POSTFIX_FORMAT = "config/admin/logging/%s";
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     */
     public MessageLoggingConfiguration(WilmaMockConfig config) {
         super(config);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     * @param client the Wilma HTTP client
+     */
     public MessageLoggingConfiguration(WilmaMockConfig config, WilmaHttpClient client) {
         super(config, client);
     }
 
+    /**
+     * Gets the message logging status.
+     *
+     * @return message logging status in JSONObject
+     */
     public JSONObject getMessageLoggingStatus() {
         LOG.debug("Call message logging status API.");
 
         return getterRequest(STATUS_GETTER_URL_POSTFIX);
     }
 
+    /**
+     * Sets the message logging status.
+     *
+     * @param control the new message logging status
+     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     */
     public boolean setMessageLoggingStatus(MessageLoggingControl control) {
         LOG.debug("Call message logging status setter API with value: " + control);
 

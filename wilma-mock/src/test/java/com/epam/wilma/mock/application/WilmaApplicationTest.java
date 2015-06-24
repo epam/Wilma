@@ -72,7 +72,7 @@ public class WilmaApplicationTest {
 
     @Test
     public void shouldReturnEmptyJSONObjectIfClientReturnsOptionalAbsent() {
-        when(client.sendGetterRequest(ACTUAL_LOAD_INFO_URL)).thenReturn(Optional.<String> absent());
+        when(client.sendGetterRequest(ACTUAL_LOAD_INFO_URL)).thenReturn(Optional.<String>absent());
 
         JSONObject result = wilmaApplication.getActualLoadInformation();
 
