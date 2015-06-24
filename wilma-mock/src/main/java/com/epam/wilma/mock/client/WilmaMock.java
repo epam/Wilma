@@ -21,6 +21,7 @@ package com.epam.wilma.mock.client;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import java.io.File;
 import java.util.Properties;
 
 import org.json.JSONObject;
@@ -38,6 +39,7 @@ import com.epam.wilma.mock.domain.OperationMode;
 import com.epam.wilma.mock.domain.StubConfigOrder;
 import com.epam.wilma.mock.domain.StubConfigStatus;
 import com.epam.wilma.mock.domain.WilmaMockConfig;
+import com.epam.wilma.mock.resource.Upload;
 
 public final class WilmaMock {
     private static final Logger LOG = LoggerFactory.getLogger(WilmaMock.class);
@@ -51,6 +53,7 @@ public final class WilmaMock {
     private OperationConfiguration operationConfiguration;
     private LocalhostBlockingConfiguration localhostBlockingConfiguration;
     private StubConfiguration stubConfiguration;
+    private Upload fileUpload;
 
     public WilmaMock(Properties properties) {
         LOG.debug("Initialize Wilma mock.");
@@ -61,6 +64,7 @@ public final class WilmaMock {
         this.operationConfiguration = new OperationConfiguration(wilmaConfig);
         this.localhostBlockingConfiguration = new LocalhostBlockingConfiguration(wilmaConfig);
         this.stubConfiguration = new StubConfiguration(wilmaConfig);
+        this.fileUpload = new Upload(wilmaConfig);
     }
 
     /**
@@ -211,6 +215,58 @@ public final class WilmaMock {
         LOG.debug("Persist actual stub configuration.");
 
         return stubConfiguration.persistActualStubConfig();
+    }
+
+    /**
+     * Uploads condition checker configuration.
+     *
+     * @param fileName the name of the file
+     * @param file to upload
+     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
+     */
+    public boolean uploadConditionChecker(String fileName, File file) {
+        LOG.debug("Upload condition checker configuration.");
+
+        return fileUpload.uploadConditionChecker(fileName, file);
+    }
+
+    /**
+     * Uploads template.
+     *
+     * @param fileName the name of the file
+     * @param file to upload
+     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
+     */
+    public boolean uploadTemplate(String fileName, File file) {
+        LOG.debug("Upload template.");
+
+        return fileUpload.uploadTemplate(fileName, file);
+    }
+
+    /**
+     * Uploads template formatter.
+     *
+     * @param fileName the name of the file
+     * @param file to upload
+     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
+     */
+    public boolean uploadTemplateFormatter(String fileName, File file) {
+        LOG.debug("Upload template formatter.");
+
+        return fileUpload.uploadTemplateFormatter(fileName, file);
+    }
+
+    /**
+     * Uploads stub configuration.
+     *
+     * @param fileName the name of the file
+     * @param file to upload
+     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
+     */
+    public boolean uploadStubConfiguration(String fileName, File file) {
+        LOG.debug("Upload stub configuration.");
+
+        return fileUpload.uploadStubConfiguration(fileName, file);
     }
 
     private WilmaMockConfig initializeMockConfig(Properties properties) {

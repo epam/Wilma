@@ -19,12 +19,17 @@ package com.epam.wilma.mock.http;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,6 +67,33 @@ public class WilmaHttpClient {
         GetMethod method = new GetMethod(url);
 
         try {
+            int statusCode = httpclient.executeMethod(method);
+            if (HttpStatus.SC_OK == statusCode) {
+                requestSuccessful = true;
+            }
+        } catch (HttpException e) {
+            LOG.error("Protocol exception occurred when called: " + url, e);
+        } catch (IOException e) {
+            LOG.error("I/O (transport) error occurred when called: " + url, e);
+        } finally {
+            method.releaseConnection();
+        }
+
+        return requestSuccessful;
+    }
+
+    public boolean uploadFile(String url, File file) {
+        boolean requestSuccessful = false;
+
+        HttpClient httpclient = new HttpClient();
+        PostMethod method = new PostMethod(url);
+
+        try {
+            Part[] parts = {
+                    new FilePart("file", file)
+            };
+            method.setRequestEntity(new MultipartRequestEntity(parts, method.getParams()));
+
             int statusCode = httpclient.executeMethod(method);
             if (HttpStatus.SC_OK == statusCode) {
                 requestSuccessful = true;
