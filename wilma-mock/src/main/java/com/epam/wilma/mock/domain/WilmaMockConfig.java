@@ -28,19 +28,19 @@ import com.google.common.base.Objects;
  * @author Tamas_Pinter
  *
  */
-public class WilmaMockConfig {
+public final class WilmaMockConfig {
 
-	private String host;
-	private Integer port;
+    private String host;
+    private Integer port;
 
     private WilmaMockConfig(Builder builder) {
-		this.host = builder.host;
-		this.port = builder.port;
-	}
-	
-	public static Builder getBuilder() {
-		return new Builder();
-	}
+        this.host = builder.host;
+        this.port = builder.port;
+    }
+
+    public static Builder getBuilder() {
+        return new Builder();
+    }
 
     @Override
     public int hashCode() {
@@ -66,20 +66,20 @@ public class WilmaMockConfig {
     }
 
     public String getHost() {
-		return host;
-	}
+        return host;
+    }
 
-	public void setHost(String host) {
-		this.host = host;
-	}
+    public void setHost(String host) {
+        this.host = host;
+    }
 
-	public Integer getPort() {
-		return port;
-	}
+    public Integer getPort() {
+        return port;
+    }
 
-	public void setPort(Integer port) {
-		this.port = port;
-	}
+    public void setPort(Integer port) {
+        this.port = port;
+    }
 
     /**
      * Builder for {@link WilmaMockConfig} object.
@@ -87,10 +87,10 @@ public class WilmaMockConfig {
      * @author Tamas_Pinter
      *
      */
-	public static class Builder {
+    public static class Builder {
 
-		private String host;
-		private Integer port;
+        private String host;
+        private Integer port;
 
         /**
          * Sets the host value.
@@ -98,10 +98,10 @@ public class WilmaMockConfig {
          * @param host the host of Wilma server
          * @return the {@link Builder} for chaining
          */
-		public Builder withHost(String host) {
-			this.host = host;
-			return this;
-		}
+        public Builder withHost(String host) {
+            this.host = host;
+            return this;
+        }
 
         /**
          * Sets the port value.
@@ -109,19 +109,19 @@ public class WilmaMockConfig {
          * @param port the port of Wilma server
          * @return the {@link Builder} for chaining
          */
-		public Builder withPort(Integer port) {
-			this.port = port;
-			return this;
-		}
+        public Builder withPort(Integer port) {
+            this.port = port;
+            return this;
+        }
 
         /**
          * Constructs a new object.
-         * 
+         *
          * @return the new {@link WilmaMockConfig} instance.
          */
         public WilmaMockConfig build() {
             return new WilmaMockConfig(this);
-		}
-	}
+        }
+    }
 
 }

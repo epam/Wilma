@@ -32,6 +32,12 @@ import com.epam.wilma.mock.http.WilmaHttpClient;
 import com.epam.wilma.mock.util.UrlBuilderUtils;
 import com.google.common.base.Optional;
 
+/**
+ * Abstract class for Wilma configuration related commands.
+ *
+ * @author Tamas_Pinter
+ *
+ */
 public abstract class AbstractConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractConfiguration.class);
 
@@ -40,18 +46,37 @@ public abstract class AbstractConfiguration {
     private WilmaHttpClient wilmaClient;
     private WilmaMockConfig config;
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     */
     public AbstractConfiguration(WilmaMockConfig config) {
         this(config, null);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     * @param client the Wilma HTTP client
+     */
     public AbstractConfiguration(WilmaMockConfig config, WilmaHttpClient client) {
         checkArgument(config != null, "config must not be null!");
         this.config = config;
         this.wilmaClient = client == null ? new WilmaHttpClient() : client;
     }
 
-    protected JSONObject getterRequest(String prefix) {
-        String url = buildUrl(prefix, null);
+    /**
+     * Calls Wilma server via Wilma HTTP client with URL build from the given
+     * postfix and Wilma configuration. Returns the requested information in
+     * JSONObject.
+     *
+     * @param postfix the URL postfix
+     * @return the requested information in JSONObject
+     */
+    protected JSONObject getterRequest(String postfix) {
+        String url = buildUrl(postfix, null);
 
         LOG.debug("Send getter request to: " + url);
         Optional<String> response = wilmaClient.sendGetterRequest(url);
@@ -60,8 +85,17 @@ public abstract class AbstractConfiguration {
                 : EMPTY_JSON;
     }
 
-    protected JSONObject getterRequest(String prefix, Map<String, String> params) {
-        String url = buildUrl(prefix, params);
+    /**
+     * Calls Wilma server via Wilma HTTP client with URL build from the given
+     * postfix, parameters and Wilma configuration. Returns the requested
+     * information in JSONObject.
+     *
+     * @param postfix the URL postfix
+     * @param params the URL parameters
+     * @return the requested information in JSONObject
+     */
+    protected JSONObject getterRequest(String postfix, Map<String, String> params) {
+        String url = buildUrl(postfix, params);
 
         LOG.debug("Send getter request to: " + url);
         Optional<String> response = wilmaClient.sendGetterRequest(url);
@@ -70,6 +104,14 @@ public abstract class AbstractConfiguration {
                 : EMPTY_JSON;
     }
 
+    /**
+     * Calls Wilma server via Wilma HTTP client with URL build from the given
+     * postfix and Wilma configuration. Returns <tt>true</tt> if the request was
+     * successful, otherwise returns <tt>false</tt>.
+     *
+     * @param postfix the URL postfix
+     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     */
     protected boolean setterRequest(String postfix) {
         String url = buildUrl(postfix, null);
 
@@ -77,6 +119,15 @@ public abstract class AbstractConfiguration {
         return wilmaClient.sendSetterRequest(url);
     }
 
+    /**
+     * Calls Wilma server via Wilma HTTP client with URL build from the given
+     * postfix, parameters and Wilma configuration. Returns <tt>true</tt> if the
+     * request was successful, otherwise returns <tt>false</tt>.
+     *
+     * @param postfix the URL postfix
+     * @param params the URL parameters
+     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     */
     protected boolean setterRequest(String postfix, Map<String, String> params) {
         String url = buildUrl(postfix, params);
 

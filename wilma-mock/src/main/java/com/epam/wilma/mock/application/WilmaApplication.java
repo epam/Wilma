@@ -30,6 +30,12 @@ import com.epam.wilma.mock.http.WilmaHttpClient;
 import com.epam.wilma.mock.util.UrlBuilderUtils;
 import com.google.common.base.Optional;
 
+/**
+ * Collects the Wilma server related commands.
+ *
+ * @author Tamas_Pinter
+ *
+ */
 public class WilmaApplication {
     private static final Logger LOG = LoggerFactory.getLogger(WilmaApplication.class);
 
@@ -41,16 +47,32 @@ public class WilmaApplication {
     private WilmaHttpClient wilmaClient;
     private WilmaMockConfig config;
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     */
     public WilmaApplication(WilmaMockConfig config) {
         this(config, null);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     * @param client the Wilma http client
+     */
     public WilmaApplication(WilmaMockConfig config, WilmaHttpClient client) {
         checkArgument(config != null, "config must not be null!");
         this.config = config;
         this.wilmaClient = client == null ? new WilmaHttpClient() : client;
     }
 
+    /**
+     * Gets the actual load information of the application.
+     *
+     * @return actual load information
+     */
     public JSONObject getActualLoadInformation() {
         LOG.debug("Call actual load information API.");
 
@@ -63,6 +85,11 @@ public class WilmaApplication {
                 : EMPTY_JSON;
     }
 
+    /**
+     * Shutdown the Wilma application.
+     *
+     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     */
     public boolean shutdownApplication() {
         LOG.debug("Call application shutdown API.");
 

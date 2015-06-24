@@ -1,4 +1,5 @@
 package com.epam.wilma.mock.domain;
+
 /*==========================================================================
  Copyright 2015 EPAM Systems
 
@@ -18,6 +19,12 @@ package com.epam.wilma.mock.domain;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+/**
+ * Represents the possible status of stub configuration.
+ *
+ * @author Tamas_Pinter
+ *
+ */
 public enum StubConfigStatus {
 
     ENABLED(true), DISABLED(false);
@@ -27,7 +34,7 @@ public enum StubConfigStatus {
     private StubConfigStatus(boolean nextStatus) {
         this.nextStatus = nextStatus;
     }
-    
+
     public boolean getNextStatus() {
         return nextStatus;
     }

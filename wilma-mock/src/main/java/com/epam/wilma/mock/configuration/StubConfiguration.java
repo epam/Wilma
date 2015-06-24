@@ -31,6 +31,12 @@ import com.epam.wilma.mock.domain.StubConfigStatus;
 import com.epam.wilma.mock.domain.WilmaMockConfig;
 import com.epam.wilma.mock.http.WilmaHttpClient;
 
+/**
+ * Collects the stub configuration related commands.
+ *
+ * @author Tamas_Pinter
+ *
+ */
 public class StubConfiguration extends AbstractConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(StubConfiguration.class);
 
@@ -43,20 +49,43 @@ public class StubConfiguration extends AbstractConfiguration {
     private static final String DIRECTION = "direction";
     private static final String NEXT_STATUS = "nextstatus";
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     */
     public StubConfiguration(WilmaMockConfig config) {
         super(config);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     * @param client the Wilma HTTP client
+     */
     public StubConfiguration(WilmaMockConfig config, WilmaHttpClient client) {
         super(config, client);
     }
 
+    /**
+     * Gets the stub configuration information.
+     *
+     * @return stub configuration information in JSONObject
+     */
     public JSONObject getStubConfigInformation() {
         LOG.debug("Call stub configuration API.");
 
         return getterRequest(STATUS_GETTER_URL_POSTFIX);
     }
 
+    /**
+     * Sets the status of the given stub group.
+     *
+     * @param groupName the name of the stub group
+     * @param status the new status
+     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     */
     public boolean setStubConfigStatus(String groupName, StubConfigStatus status) {
         LOG.debug("Call stub status setter API with value: {}, for group: {}", status, groupName);
 
@@ -67,6 +96,13 @@ public class StubConfiguration extends AbstractConfiguration {
         return setterRequest(STUB_CONFIG_STATUS_CHANGE_SETTER_URL_POSTFIX, params);
     }
 
+    /**
+     * Sets the new order of the given stub group.
+     *
+     * @param groupName the name of the stub group
+     * @param order the new order
+     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     */
     public boolean setStubConfigOrder(String groupName, StubConfigOrder order) {
         LOG.debug("Call stub order setter API with value: {}, for group: {}", order, groupName);
 
@@ -77,6 +113,12 @@ public class StubConfiguration extends AbstractConfiguration {
         return setterRequest(STUB_CONFIG_ORDER_CHANGE_SETTER_URL_POSTFIX, params);
     }
 
+    /**
+     * Drops the given stub group configuration.
+     *
+     * @param groupName the name of the stub group
+     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     */
     public boolean dropStubConfig(String groupName) {
         LOG.debug("Call drop stub configuration API for group: {}", groupName);
 
@@ -86,6 +128,11 @@ public class StubConfiguration extends AbstractConfiguration {
         return setterRequest(DROP_STUB_CONFIG_URL_POSTFIX, params);
     }
 
+    /**
+     * Save the actual stub configuration.
+     *
+     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     */
     public boolean persistActualStubConfig() {
         LOG.debug("Call save stub configuration API.");
 

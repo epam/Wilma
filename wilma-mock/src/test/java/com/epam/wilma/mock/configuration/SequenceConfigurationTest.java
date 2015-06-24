@@ -71,7 +71,7 @@ public class SequenceConfigurationTest {
 
     @Test
     public void shouldReturnEmptyJSONObjectIfClientReturnsOptionalAbsent() {
-        when(client.sendGetterRequest(SEQUENCES_STATUS_URL)).thenReturn(Optional.<String> absent());
+        when(client.sendGetterRequest(SEQUENCES_STATUS_URL)).thenReturn(Optional.<String>absent());
 
         JSONObject result = sequenceConfiguration.getSequencesLiveInformation();
 

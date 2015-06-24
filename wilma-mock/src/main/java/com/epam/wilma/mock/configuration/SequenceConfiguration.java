@@ -26,19 +26,41 @@ import org.slf4j.LoggerFactory;
 import com.epam.wilma.mock.domain.WilmaMockConfig;
 import com.epam.wilma.mock.http.WilmaHttpClient;
 
+/**
+ * Collects the sequence configuration related commands.
+ *
+ * @author Tamas_Pinter
+ *
+ */
 public class SequenceConfiguration extends AbstractConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(SequenceConfiguration.class);
 
     private static final String STATUS_GETTER_URL_POSTFIX = "config/public/livesequences";
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     */
     public SequenceConfiguration(WilmaMockConfig config) {
         super(config);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     * @param client the Wilma HTTP client
+     */
     public SequenceConfiguration(WilmaMockConfig config, WilmaHttpClient client) {
         super(config, client);
     }
 
+    /**
+     * Gets the sequences information.
+     *
+     * @return sequences information in JSONObject
+     */
     public JSONObject getSequencesLiveInformation() {
         LOG.debug("Call sequences status API.");
 

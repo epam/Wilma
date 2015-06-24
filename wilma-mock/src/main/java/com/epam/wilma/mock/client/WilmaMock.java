@@ -41,6 +41,12 @@ import com.epam.wilma.mock.domain.StubConfigStatus;
 import com.epam.wilma.mock.domain.WilmaMockConfig;
 import com.epam.wilma.mock.resource.Upload;
 
+/**
+ * The main class of Wilma mock project.
+ *
+ * @author Tamas_Pinter
+ *
+ */
 public final class WilmaMock {
     private static final Logger LOG = LoggerFactory.getLogger(WilmaMock.class);
 
@@ -55,6 +61,19 @@ public final class WilmaMock {
     private StubConfiguration stubConfiguration;
     private Upload fileUpload;
 
+    /**
+     * Constructor.<br>
+     * The given properties object has to contain the Wilma server
+     * configuration:
+     * <ul>
+     * <li>
+     * <b>wilma.host</b>: the Wilma server host</li>
+     * <li>
+     * <b>wilma.port</b>: the Wilma server port</li>
+     * </ul>
+     *
+     * @param properties the Wilma server configuration
+     */
     public WilmaMock(Properties properties) {
         LOG.debug("Initialize Wilma mock.");
 
@@ -170,7 +189,8 @@ public final class WilmaMock {
     }
 
     /**
-     * 
+     * Enable/disable the given group.
+     *
      * @param groupName name of the stub configuration group
      * @param status the new status
      * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>

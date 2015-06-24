@@ -27,26 +27,54 @@ import com.epam.wilma.mock.domain.OperationMode;
 import com.epam.wilma.mock.domain.WilmaMockConfig;
 import com.epam.wilma.mock.http.WilmaHttpClient;
 
+/**
+ * Collects the operation configuration related commands.
+ *
+ * @author Tamas_Pinter
+ *
+ */
 public class OperationConfiguration extends AbstractConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(MessageLoggingConfiguration.class);
 
     private static final String STATUS_GETTER_URL_POSTFIX = "config/public/switch/status";
     private static final String STATUS_SETTER_URL_POSTFIX_FORMAT = "config/admin/switch/%s";
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     */
     public OperationConfiguration(WilmaMockConfig config) {
         super(config);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param config the Wilma server configuration
+     * @param client the Wilma HTTP client
+     */
     public OperationConfiguration(WilmaMockConfig config, WilmaHttpClient client) {
         super(config, client);
     }
 
+    /**
+     * Gets the actual operation mode.
+     *
+     * @return actual operation mode in JSONObject
+     */
     public JSONObject getOperationMode() {
         LOG.debug("Call operation status API.");
 
         return getterRequest(STATUS_GETTER_URL_POSTFIX);
     }
 
+    /**
+     * Sets the operation mode.
+     *
+     * @param mode the new operation mode
+     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     */
     public boolean setOperationMode(OperationMode mode) {
         LOG.debug("Call operation mode setter API with value: " + mode);
 
