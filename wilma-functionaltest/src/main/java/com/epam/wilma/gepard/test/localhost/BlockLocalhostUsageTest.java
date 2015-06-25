@@ -25,6 +25,7 @@ import com.epam.wilma.gepard.testclient.RequestParameters;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.Inet4Address;
 
 /**
  * Tests the localhost request blocking functionality.
@@ -49,6 +50,12 @@ public class BlockLocalhostUsageTest extends WilmaTestCase {
 
     public void testLocalhostBlocking() throws Exception {
         //given
+        String actualHost = Inet4Address.getLocalHost().getHostAddress();
+        logComment("Test Environment IP: " + actualHost);
+        if (!tcTargetUrl.contains(actualHost) && !tcTargetUrl.contains("127.0.0.1")) {
+            //in case we are in foreign test environment, or not testing the localhost, this TC should be N/A
+            naTestCase("Running on unknown test environment, marking this Test as N/A.");
+        }
         setOperationModeTo(tcStubOperationState);
         setLocalhostBlockingTo(tcState);
         RequestParameters requestParameters = createRequestParameters();

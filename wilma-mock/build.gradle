@@ -19,14 +19,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = "wilma-mock"
 
-apply plugin: 'java'
-apply plugin: 'maven'
 apply plugin: 'application'
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco'
 
 group = 'com.epam.wilma.mock'
-version = "$wilmaVersion"
+version = "$wilmaVersion.$buildNumber"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -36,7 +34,8 @@ mainClassName = 'com.epam.wilma.mock.client.WilmaMock'
 jar {
     manifest.attributes( 'provider': 'gradle')
     manifest.attributes( 'Main-Class': mainClassName)
-    manifest.attributes( 'Implementation-Title': "$componentName-v$version"+'.'+"$buildNumber")
+    manifest.attributes( 'Implementation-Title': "$componentName-v$version")
+    archiveName = "$componentName-$version"+'.jar'
 } 
 
 repositories {
@@ -58,6 +57,7 @@ checkstyle.configFile = file("$rootProject.rootDir/config/checkstyle/checkstyle.
 checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/config/checkstyle"]
 checkstyle.toolVersion = '5.6'
 checkstyle.ignoreFailures = true
+
 test.useTestNG()
 
 configurations {
@@ -89,4 +89,24 @@ task jacocoReport(type: JacocoReport) {
                 it.exists()
             })
         }
+}
+
+task copyJarToDistributions (type: Copy) {
+    dependsOn(sourceZip)
+    from(rootProject.rootDir.absolutePath + '/wilma-mock/build/libs/')
+    into(rootProject.rootDir.absolutePath + '/wilma-mock/build/distributions')
+}
+
+task createPom << {
+    pom {
+    }.writeTo("$buildDir/distributions/wlima-mock-$version"+'.pom')
+}
+createPom.dependsOn(copyJarToDistributions)
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "${myLocalRepository}")
+        }
+    }
 }
