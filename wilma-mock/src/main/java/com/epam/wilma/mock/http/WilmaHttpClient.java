@@ -44,6 +44,8 @@ import com.google.common.base.Optional;
 public class WilmaHttpClient {
     private static final Logger LOG = LoggerFactory.getLogger(WilmaHttpClient.class);
 
+    private HttpClient httpclient = new HttpClient();
+
     /**
      * Calls the given URL via HTTP GET method and returns {@code String}
      * {@code Optional} of the response.
@@ -55,7 +57,6 @@ public class WilmaHttpClient {
     public Optional<String> sendGetterRequest(String url) {
         String response = null;
 
-        HttpClient httpclient = new HttpClient();
         GetMethod method = new GetMethod(url);
 
         try {
@@ -84,7 +85,6 @@ public class WilmaHttpClient {
     public boolean sendSetterRequest(String url) {
         boolean requestSuccessful = false;
 
-        HttpClient httpclient = new HttpClient();
         GetMethod method = new GetMethod(url);
 
         try {
@@ -114,7 +114,6 @@ public class WilmaHttpClient {
     public boolean uploadFile(String url, File file) {
         boolean requestSuccessful = false;
 
-        HttpClient httpclient = new HttpClient();
         PostMethod method = new PostMethod(url);
 
         try {
@@ -134,6 +133,10 @@ public class WilmaHttpClient {
         }
 
         return requestSuccessful;
+    }
+
+    public void setHttpclient(HttpClient httpclient) {
+        this.httpclient = httpclient;
     }
 
 }
