@@ -23,11 +23,13 @@ import static com.epam.wilma.mock.domain.StubConfigOrder.DOWN;
 import static com.epam.wilma.mock.domain.StubConfigOrder.UP;
 import static com.epam.wilma.mock.domain.StubConfigStatus.DISABLED;
 import static com.epam.wilma.mock.domain.StubConfigStatus.ENABLED;
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.json.JSONObject;
@@ -55,9 +57,10 @@ public class StubConfigurationTest {
     private static final String HOST = "host";
     private static final Integer PORT = 1;
     private static final String STUB_STATUS_URL = "http://host:1/config/public/stubdescriptor";
-    private static final String DROP_STUB_URL = "http://host:1/config/admin/stub/drop?groupname=testGroup1234";
+    private static final String DROP_STUB_URL1 = "http://host:1/config/admin/stub/drop?groupname=testGroup1";
+    private static final String DROP_STUB_URL2 = "http://host:1/config/admin/stub/drop?groupname=testGroup2";
     private static final String SAVE_STUB_URL = "http://host:1/config/admin/stub/save";
-    private static final String GROUP_NAME = "testGroup1234";
+    private static final String GROUP_NAME = "testGroup1";
     private static final String JSON_STRING = "{\"JSON\": \"string\"}";
 
     private static final JSONObject EMPTY_JSON_OBJECT = new JSONObject();
@@ -87,7 +90,7 @@ public class StubConfigurationTest {
         JSONObject result = stubConfiguration.getStubConfigInformation();
 
         assertTrue(EMPTY_JSON_OBJECT.similar(result));
-        assertEquals(EMPTY_JSON_OBJECT.length(), result.length());
+        assertEquals(result.length(), EMPTY_JSON_OBJECT.length());
         verify(client, never()).sendSetterRequest(anyString());
     }
 
@@ -115,7 +118,7 @@ public class StubConfigurationTest {
         verify(client).sendSetterRequest(url.capture());
 
         assertTrue(url.getValue().startsWith("http://host:1/config/admin/stub/changestatus?"));
-        assertTrue(url.getValue().contains("groupname=testGroup1234"));
+        assertTrue(url.getValue().contains("groupname=testGroup1"));
         assertTrue(url.getValue().contains("nextstatus=" + nextStatusValue));
 
         verify(client, never()).sendGetterRequest(anyString());
@@ -135,7 +138,7 @@ public class StubConfigurationTest {
         verify(client).sendSetterRequest(url.capture());
 
         assertTrue(url.getValue().startsWith("http://host:1/config/admin/stub/changeorder?"));
-        assertTrue(url.getValue().contains("groupname=testGroup1234"));
+        assertTrue(url.getValue().contains("groupname=testGroup1"));
         assertTrue(url.getValue().contains("direction=" + direction));
 
         verify(client, never()).sendGetterRequest(anyString());
@@ -148,7 +151,7 @@ public class StubConfigurationTest {
         stubConfiguration.dropStubConfig(GROUP_NAME);
 
         verify(client).sendSetterRequest(url.capture());
-        assertEquals(DROP_STUB_URL, url.getValue());
+        assertEquals(url.getValue(), DROP_STUB_URL1);
     }
 
     @Test
@@ -158,7 +161,80 @@ public class StubConfigurationTest {
         stubConfiguration.persistActualStubConfig();
 
         verify(client).sendSetterRequest(url.capture());
-        assertEquals(SAVE_STUB_URL, url.getValue());
+        assertEquals(url.getValue(), SAVE_STUB_URL);
+    }
+
+    @Test
+    public void shoudReturnTrueForDropAllStubConfigIfTheGivenJSONIsCorrect() {
+        when(client.sendGetterRequest(STUB_STATUS_URL)).thenReturn(Optional.<String>of(validJson()));
+        when(client.sendSetterRequest(DROP_STUB_URL1)).thenReturn(true);
+        when(client.sendSetterRequest(DROP_STUB_URL2)).thenReturn(true);
+
+        ArgumentCaptor<String> url = ArgumentCaptor.forClass(String.class);
+
+        boolean result = stubConfiguration.dropAllStubConfig();
+
+        assertTrue(result);
+        verify(client, times(2)).sendSetterRequest(url.capture());
+        assertEquals(url.getAllValues().get(0), DROP_STUB_URL1);
+        assertEquals(url.getAllValues().get(1), DROP_STUB_URL2);
+    }
+
+    @Test
+    public void shouldReturnFalseForDropAllStubConfigIfTheConfigIsMissing() {
+        when(client.sendGetterRequest(STUB_STATUS_URL)).thenReturn(Optional.<String>absent());
+
+        assertFalse(stubConfiguration.dropAllStubConfig());
+    }
+
+    @DataProvider(name = "testdata")
+    public Object[][] testdata() {
+        return new Object[][] {{emptyJSON()}, {jsonWithoutConfigsArray()}, {jsonWithoutGroupName()}};
+    }
+
+    @Test(dataProvider = "testdata")
+    public void shouldReturnFalseForDropAllStubConfigIfTheGivenJSONIsIncorrect(String jsonString) {
+        when(client.sendGetterRequest(STUB_STATUS_URL)).thenReturn(Optional.<String>of(jsonString));
+
+        assertFalse(stubConfiguration.dropAllStubConfig());
+    }
+
+    private String validJson() {
+        return "{\n"
+                + "   \"configs\":[\n"
+                + "      {\n"
+                + "         \"groupname\":\"testGroup1\"\n"
+                + "      },\n"
+                + "      {\n"
+                + "         \"groupname\":\"testGroup2\"\n"
+                + "      }"
+                + "   ]\n"
+                + "}";
+
+    }
+
+    private String emptyJSON() {
+        return "{}";
+    }
+
+    private String jsonWithoutConfigsArray() {
+        return "{\n"
+                + "   \"json\":[\n"
+                + "      {\n"
+                + "         \"incorrect\":\"json\"\n"
+                + "      }"
+                + "   ]\n"
+                + "}";
+    }
+
+    private String jsonWithoutGroupName() {
+        return "{\n"
+                + "   \"configs\":[\n"
+                + "      {\n"
+                + "         \"incorrect\":\"json\"\n"
+                + "      }"
+                + "   ]\n"
+                + "}";
     }
 
     private WilmaMockConfig createMockConfig() {

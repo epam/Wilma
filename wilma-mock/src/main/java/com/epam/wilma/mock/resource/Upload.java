@@ -22,7 +22,6 @@ package com.epam.wilma.mock.resource;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -31,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import com.epam.wilma.mock.domain.WilmaMockConfig;
 import com.epam.wilma.mock.http.WilmaHttpClient;
 import com.epam.wilma.mock.util.UrlBuilderUtils;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Collects the resource upload commands.
@@ -81,7 +81,7 @@ public class Upload {
     public boolean uploadConditionChecker(String fileName, File file) {
         LOG.debug("Call condition checker upload API.");
 
-        String url = buildUrl(CONDITION_CHECKER_UPLOAD_URL_POSTFIX, buildParametersWithFileName(fileName));
+        String url = buildUrl(CONDITION_CHECKER_UPLOAD_URL_POSTFIX, ImmutableMap.of(FILE_NAME, fileName));
 
         return callFileUploadMethod(url, file);
     }
@@ -96,7 +96,7 @@ public class Upload {
     public boolean uploadTemplate(String fileName, File file) {
         LOG.debug("Call template upload API.");
 
-        String url = buildUrl(TEMPLATE_UPLOAD_URL_POSTFIX, buildParametersWithFileName(fileName));
+        String url = buildUrl(TEMPLATE_UPLOAD_URL_POSTFIX, ImmutableMap.of(FILE_NAME, fileName));
 
         return callFileUploadMethod(url, file);
     }
@@ -111,7 +111,7 @@ public class Upload {
     public boolean uploadTemplateFormatter(String fileName, File file) {
         LOG.debug("Call template formatter upload API.");
 
-        String url = buildUrl(TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX, buildParametersWithFileName(fileName));
+        String url = buildUrl(TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX, ImmutableMap.of(FILE_NAME, fileName));
 
         return callFileUploadMethod(url, file);
     }
@@ -126,7 +126,7 @@ public class Upload {
     public boolean uploadStubConfiguration(String fileName, File file) {
         LOG.debug("Call stub configuration upload API.");
 
-        String url = buildUrl(STUB_CONFIGURATION_UPLOAD_URL_POSTFIX, buildParametersWithFileName(fileName));
+        String url = buildUrl(STUB_CONFIGURATION_UPLOAD_URL_POSTFIX, ImmutableMap.of(FILE_NAME, fileName));
 
         return callFileUploadMethod(url, file);
     }
@@ -135,13 +135,6 @@ public class Upload {
         LOG.debug("Send file upload request to: " + url);
 
         return wilmaClient.uploadFile(url, file);
-    }
-
-    private Map<String, String> buildParametersWithFileName(String fileName) {
-        Map<String, String> params = new HashMap<>();
-        params.put(FILE_NAME, fileName);
-
-        return params;
     }
 
     private String buildUrl(String postfix, Map<String, String> params) {

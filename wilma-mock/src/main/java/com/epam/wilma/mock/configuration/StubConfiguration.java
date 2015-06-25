@@ -19,9 +19,8 @@ package com.epam.wilma.mock.configuration;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +29,7 @@ import com.epam.wilma.mock.domain.StubConfigOrder;
 import com.epam.wilma.mock.domain.StubConfigStatus;
 import com.epam.wilma.mock.domain.WilmaMockConfig;
 import com.epam.wilma.mock.http.WilmaHttpClient;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Collects the stub configuration related commands.
@@ -89,11 +89,8 @@ public class StubConfiguration extends AbstractConfiguration {
     public boolean setStubConfigStatus(String groupName, StubConfigStatus status) {
         LOG.debug("Call stub status setter API with value: {}, for group: {}", status, groupName);
 
-        Map<String, String> params = new HashMap<>();
-        params.put(GROUP_NAME, groupName);
-        params.put(NEXT_STATUS, Boolean.toString(status.getNextStatus()));
-
-        return setterRequest(STUB_CONFIG_STATUS_CHANGE_SETTER_URL_POSTFIX, params);
+        return setterRequest(STUB_CONFIG_STATUS_CHANGE_SETTER_URL_POSTFIX,
+                ImmutableMap.of(GROUP_NAME, groupName, NEXT_STATUS, Boolean.toString(status.getNextStatus())));
     }
 
     /**
@@ -106,11 +103,8 @@ public class StubConfiguration extends AbstractConfiguration {
     public boolean setStubConfigOrder(String groupName, StubConfigOrder order) {
         LOG.debug("Call stub order setter API with value: {}, for group: {}", order, groupName);
 
-        Map<String, String> params = new HashMap<>();
-        params.put(GROUP_NAME, groupName);
-        params.put(DIRECTION, Integer.toString(order.getDirection()));
-
-        return setterRequest(STUB_CONFIG_ORDER_CHANGE_SETTER_URL_POSTFIX, params);
+        return setterRequest(STUB_CONFIG_ORDER_CHANGE_SETTER_URL_POSTFIX,
+                ImmutableMap.of(GROUP_NAME, groupName, DIRECTION, Integer.toString(order.getDirection())));
     }
 
     /**
@@ -122,10 +116,62 @@ public class StubConfiguration extends AbstractConfiguration {
     public boolean dropStubConfig(String groupName) {
         LOG.debug("Call drop stub configuration API for group: {}", groupName);
 
-        Map<String, String> params = new HashMap<>();
-        params.put(GROUP_NAME, groupName);
+        return setterRequest(DROP_STUB_CONFIG_URL_POSTFIX, ImmutableMap.of(GROUP_NAME, groupName));
+    }
 
-        return setterRequest(DROP_STUB_CONFIG_URL_POSTFIX, params);
+    /**
+     * Drops the all stub configuration.<br>
+     * Whichever drop try was unsuccessful then return {@code false} but try to
+     * drop the others. The supposed stub configuration information JSON format
+     * is the following:<br>
+     *
+     * <pre>
+     * {@code
+     * {
+     *   "configs": [
+     *     {
+     *       "sequenceDescriptors": [ { ... } ],
+     *       "dialogDescriptors": [ { ... } ],
+     *       "groupname": "Default",
+     *       "active": "true"
+     *     }
+     *   ]
+     * }
+     * </pre>
+     *
+     * @return <tt>true</tt> if all the stub configuration is dropped
+     *         successfully, otherwise return <tt>false</tt>
+     */
+    public boolean dropAllStubConfig() {
+        LOG.debug("Call drop all stub configuration.");
+        boolean droppedAllStubConfig = true;
+
+        JSONObject stubConfig = getStubConfigInformation();
+        if (stubConfig.length() > 0) {
+            try {
+                LOG.debug("Gets stub configs array from all stub configuration JSON.");
+                JSONArray configs = stubConfig.getJSONArray("configs");
+                for (int i = 0; i < configs.length(); i++) {
+                    try {
+                        LOG.debug("Get the stub group name.");
+                        String groupName = configs.getJSONObject(i).getString("groupname");
+
+                        droppedAllStubConfig &= dropStubConfig(groupName);
+                        LOG.info("Dropped stub configuration: {}", groupName);
+                    } catch (JSONException e) {
+                        LOG.error("Error occured while dropping sub configuration. ", e);
+                        droppedAllStubConfig = false;
+                    }
+                }
+            } catch (JSONException e) {
+                LOG.error("Error occured while dropping sub configuration. ", e);
+                droppedAllStubConfig = false;
+            }
+        } else {
+            droppedAllStubConfig = false;
+        }
+
+        return droppedAllStubConfig;
     }
 
     /**

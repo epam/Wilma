@@ -53,7 +53,6 @@ public final class WilmaMock {
     private static final String WILMA_HOST_KEY = "wilma.host";
     private static final String WILMA_PORT_KEY = "wilma.port";
 
-    private WilmaMockConfig wilmaConfig;
     private WilmaApplication wilmaApplication;
     private MessageLoggingConfiguration messageLoggingConfiguration;
     private OperationConfiguration operationConfiguration;
@@ -77,13 +76,13 @@ public final class WilmaMock {
     public WilmaMock(Properties properties) {
         LOG.debug("Initialize Wilma mock.");
 
-        this.wilmaConfig = initializeMockConfig(properties);
-        this.wilmaApplication = new WilmaApplication(wilmaConfig);
-        this.messageLoggingConfiguration = new MessageLoggingConfiguration(wilmaConfig);
-        this.operationConfiguration = new OperationConfiguration(wilmaConfig);
-        this.localhostBlockingConfiguration = new LocalhostBlockingConfiguration(wilmaConfig);
-        this.stubConfiguration = new StubConfiguration(wilmaConfig);
-        this.fileUpload = new Upload(wilmaConfig);
+        WilmaMockConfig config = initializeWilmaMockConfig(properties);
+        this.wilmaApplication = new WilmaApplication(config);
+        this.messageLoggingConfiguration = new MessageLoggingConfiguration(config);
+        this.operationConfiguration = new OperationConfiguration(config);
+        this.localhostBlockingConfiguration = new LocalhostBlockingConfiguration(config);
+        this.stubConfiguration = new StubConfiguration(config);
+        this.fileUpload = new Upload(config);
     }
 
     /**
@@ -289,11 +288,41 @@ public final class WilmaMock {
         return fileUpload.uploadStubConfiguration(fileName, file);
     }
 
-    private WilmaMockConfig initializeMockConfig(Properties properties) {
+    public void setWilmaApplication(WilmaApplication wilmaApplication) {
+        this.wilmaApplication = wilmaApplication;
+    }
+
+    public void setMessageLoggingConfiguration(MessageLoggingConfiguration messageLoggingConfiguration) {
+        this.messageLoggingConfiguration = messageLoggingConfiguration;
+    }
+
+    public void setOperationConfiguration(OperationConfiguration operationConfiguration) {
+        this.operationConfiguration = operationConfiguration;
+    }
+
+    public void setLocalhostBlockingConfiguration(LocalhostBlockingConfiguration localhostBlockingConfiguration) {
+        this.localhostBlockingConfiguration = localhostBlockingConfiguration;
+    }
+
+    public void setStubConfiguration(StubConfiguration stubConfiguration) {
+        this.stubConfiguration = stubConfiguration;
+    }
+
+    public void setFileUpload(Upload fileUpload) {
+        this.fileUpload = fileUpload;
+    }
+
+    /**
+     * For unit test.
+     *
+     * @param properties
+     * @return
+     */
+    private WilmaMockConfig initializeWilmaMockConfig(Properties properties) {
         checkArgument(properties != null, "properties must not be null!");
         return WilmaMockConfig.getBuilder()
                 .withHost(properties.getProperty(WILMA_HOST_KEY))
-                .withPort(Integer.parseInt(properties.getProperty(WILMA_PORT_KEY)))
+                .withPort((Integer) properties.get(WILMA_PORT_KEY))
                 .build();
     }
 
