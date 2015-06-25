@@ -288,56 +288,26 @@ public final class WilmaMock {
         return fileUpload.uploadStubConfiguration(fileName, file);
     }
 
-    /**
-     * For unit test.
-     *
-     * @param wilmaApplication
-     */
     public void setWilmaApplication(WilmaApplication wilmaApplication) {
         this.wilmaApplication = wilmaApplication;
     }
 
-    /**
-     * For unit test.
-     *
-     * @param messageLoggingConfiguration
-     */
     public void setMessageLoggingConfiguration(MessageLoggingConfiguration messageLoggingConfiguration) {
         this.messageLoggingConfiguration = messageLoggingConfiguration;
     }
 
-    /**
-     * For unit test.
-     *
-     * @param operationConfiguration
-     */
     public void setOperationConfiguration(OperationConfiguration operationConfiguration) {
         this.operationConfiguration = operationConfiguration;
     }
 
-    /**
-     * For unit test.
-     *
-     * @param localhostBlockingConfiguration
-     */
     public void setLocalhostBlockingConfiguration(LocalhostBlockingConfiguration localhostBlockingConfiguration) {
         this.localhostBlockingConfiguration = localhostBlockingConfiguration;
     }
 
-    /**
-     * For unit test.
-     *
-     * @param stubConfiguration
-     */
     public void setStubConfiguration(StubConfiguration stubConfiguration) {
         this.stubConfiguration = stubConfiguration;
     }
 
-    /**
-     * For unit test.
-     *
-     * @param fileUpload
-     */
     public void setFileUpload(Upload fileUpload) {
         this.fileUpload = fileUpload;
     }
