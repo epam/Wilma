@@ -48,10 +48,10 @@ import com.epam.wilma.mock.resource.Upload;
  *
  */
 public final class WilmaMock {
-    private static final Logger LOG = LoggerFactory.getLogger(WilmaMock.class);
+    public static final String WILMA_HOST_KEY = "wilma.host";
+    public static final String WILMA_PORT_KEY = "wilma.port";
 
-    private static final String WILMA_HOST_KEY = "wilma.host";
-    private static final String WILMA_PORT_KEY = "wilma.port";
+    private static final Logger LOG = LoggerFactory.getLogger(WilmaMock.class);
 
     private WilmaApplication wilmaApplication;
     private MessageLoggingConfiguration messageLoggingConfiguration;
@@ -61,15 +61,31 @@ public final class WilmaMock {
     private Upload fileUpload;
 
     /**
-     * Constructor.<br>
-     * The given properties object has to contain the Wilma server
-     * configuration:
-     * <ul>
-     * <li>
-     * <b>wilma.host</b>: the Wilma server host</li>
-     * <li>
-     * <b>wilma.port</b>: the Wilma server port</li>
-     * </ul>
+     * <p>
+     *   Constructor.<br>
+     *   The given properties object has to contain the Wilma server
+     *   configuration:
+     * </p>
+     * <p>
+     *   <table>
+     *     <tr>
+     *       <th>Key</th>
+     *       <th>Class Type</th>
+     *     </tr>
+     *     <tr>
+     *       <td align="center">wilma.host</td>
+     *       <td align="center"><pre>String</pre></td>
+     *     </tr>
+     *     <tr>
+     *       <td align="center">wilma.port</td>
+     *       <td align="center"><pre>String|Integer</pre></td>
+     *     </tr>
+     *   </table>
+     * </p>
+     * <p>
+     *   For properties key you can use {@code WilmaMock.WILMA_HOST_KEY} and
+     *   {@code WilmaMock.WILMA_PORT_KEY} constants.
+     * </p>
      *
      * @param properties the Wilma server configuration
      */
@@ -312,18 +328,27 @@ public final class WilmaMock {
         this.fileUpload = fileUpload;
     }
 
-    /**
-     * For unit test.
-     *
-     * @param properties
-     * @return
-     */
     private WilmaMockConfig initializeWilmaMockConfig(Properties properties) {
         checkArgument(properties != null, "properties must not be null!");
         return WilmaMockConfig.getBuilder()
                 .withHost(properties.getProperty(WILMA_HOST_KEY))
-                .withPort((Integer) properties.get(WILMA_PORT_KEY))
+                .withPort(getWilmaPort(properties))
                 .build();
+    }
+
+    private Integer getWilmaPort(Properties properties) {
+        Integer port = null;
+
+        Object object = properties.get(WILMA_PORT_KEY);
+        if (object instanceof Integer) {
+            port = (Integer) object;
+        } else if (object instanceof String) {
+            port = Integer.valueOf((String) object);
+        } else {
+            throw new IllegalArgumentException("Wilma port must be String or Integer value.");
+        }
+
+        return port;
     }
 
 }

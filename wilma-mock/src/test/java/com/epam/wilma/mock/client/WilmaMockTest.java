@@ -19,6 +19,8 @@ package com.epam.wilma.mock.client;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import static com.epam.wilma.mock.client.WilmaMock.WILMA_HOST_KEY;
+import static com.epam.wilma.mock.client.WilmaMock.WILMA_PORT_KEY;
 import static com.epam.wilma.mock.domain.MessageLoggingControl.OFF;
 import static com.epam.wilma.mock.domain.MessageLoggingControl.ON;
 import static com.epam.wilma.mock.domain.OperationMode.PROXY;
@@ -64,7 +66,7 @@ import com.epam.wilma.mock.resource.Upload;
 public class WilmaMockTest {
 
     private static final String HOST = "host";
-    private static final Integer PORT = 1;
+    private static final String PORT = "1";
     private static final String GROUP_NAME = "testGroup";
     private static final String FILE_NAME = "testFile";
     private static final File MOCK_FILE = mock(File.class);
@@ -101,6 +103,15 @@ public class WilmaMockTest {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenConfigIsMissing() {
         new WilmaMock(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void shouldThrowExceptionWhenConfigIsInvalid() {
+        Properties properties = new Properties();
+        properties.put(WILMA_HOST_KEY, HOST);
+        properties.put(WILMA_PORT_KEY, Long.valueOf("1"));
+
+        new WilmaMock(properties);
     }
 
     @Test
@@ -283,8 +294,8 @@ public class WilmaMockTest {
 
     private Properties createWilmaProperties() {
         Properties properties = new Properties();
-        properties.put("wilma.host", HOST);
-        properties.put("wilma.port", PORT);
+        properties.put(WILMA_HOST_KEY, HOST);
+        properties.put(WILMA_PORT_KEY, PORT);
         return properties;
     }
 
