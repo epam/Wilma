@@ -25,6 +25,8 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: 'eclipse'
 
+    version = "$componentVersion"+'.'+"$buildNumber"
+
     repositories {
         jcenter()
     }
