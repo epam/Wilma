@@ -22,6 +22,7 @@ import com.epam.gepard.annotations.TestClass;
 import com.epam.wilma.gepard.test.sequence.handling.SequenceHandlingTestBase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import org.apache.commons.io.FileUtils;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,6 +51,7 @@ public class SequenceHandlingTestXmlToJson extends SequenceHandlingTestBase {
      *
      * @throws Exception in case of error
      */
+    @Test
     public void testSessionBasedSequence() throws Exception {
         String realTargetUrl = getWilmaInternalUrl() + TARGET_URL;
         clearSequences();

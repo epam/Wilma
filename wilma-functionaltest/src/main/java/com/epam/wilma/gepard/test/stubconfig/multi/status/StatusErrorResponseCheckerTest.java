@@ -41,7 +41,7 @@ public class StatusErrorResponseCheckerTest extends WilmaTestCase {
     private static final String ERROR_MSG = "Wrong format of direction parameter. Nextstatus must be a boolean!";
 
     @Test
-    public void testErroResponseFromChangeStatusServlet() throws Exception {
+    public void testErrorResponseFromChangeStatusServlet() throws Exception {
         MultiStubRequestParameters parameters = createChangeStatusRequestParameters("falseeeeee", STUB_CONFIG_FIRST_GROUP_NAME);
         ResponseHolder response = callWilmaWithPostMethod(parameters);
         String resultAnswer = response.getResponseMessage();
@@ -49,7 +49,6 @@ public class StatusErrorResponseCheckerTest extends WilmaTestCase {
         Assert.assertEquals(ERROR_MSG, resultAnswer);
     }
 
-    @Test
     protected MultiStubRequestParameters createChangeStatusRequestParameters(final String status, final String groupname) throws FileNotFoundException {
         String testServerUrl = getWilmaChangeStubConfigStatusUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
