@@ -19,9 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.gepard.annotations.TestClass;
-import com.epam.gepard.annotations.TestParameter;
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,17 +37,13 @@ public class BlockLocalhostUsageTest extends WilmaTestCase {
 
     private static final String REQUEST = "resources/example2.xml";
 
-    @TestParameter(id = "PAR0")
-    private String tcName;
-    @TestParameter(id = "PAR1")
-    private String tcTargetUrl;
-    @TestParameter(id = "PAR2")
-    private String tcState;
-    @TestParameter(id = "PAR3")
-    private String tcStubOperationState;
-    @TestParameter(id = "PAR4")
-    private String tcExpectedCode;
+    private String tcName = getDataDrivenTestParameter("PAR0");
+    private String tcTargetUrl = getDataDrivenTestParameter("PAR1");
+    private String tcState = getDataDrivenTestParameter("PAR2");
+    private String tcStubOperationState = getDataDrivenTestParameter("PAR3");
+    private String tcExpectedCode = getDataDrivenTestParameter("PAR4");
 
+    @Test
     public void testLocalhostBlocking() throws Exception {
         //given
         String actualHost = Inet4Address.getLocalHost().getHostAddress();
@@ -67,8 +63,8 @@ public class BlockLocalhostUsageTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = tcTargetUrl;
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/xml";
         String acceptHeader = "application/xml";
         String contentEncoding = "no";

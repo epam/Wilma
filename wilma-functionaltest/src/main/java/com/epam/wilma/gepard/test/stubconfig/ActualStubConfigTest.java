@@ -25,6 +25,7 @@ import com.epam.gepard.annotations.TestClass;
 
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 /**
  * Checks if stub config at start is the same as at run time.
@@ -37,6 +38,7 @@ public class ActualStubConfigTest extends WilmaTestCase {
     private static final String EXAMPLE_2 = "resources/example2.xml";
     private static final String STUB_CONFIG = "resources/actualStubConfig.xml";
 
+    @Test
     public void testStubConfig() throws Exception {
         uploadStubConfigToWilma(STUB_CONFIG);
         setExpectedResponseMessageFromFile("resources/ActualStubConfigTestResource.txt");
@@ -46,8 +48,8 @@ public class ActualStubConfigTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaInternalUrl() + "config/public/stub/stubconfig.xml?groupname=Default";
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "xml";
         String acceptHeader = "xml";
         String contentEncoding = "";

@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import junit.framework.AssertionFailedError;
+import com.epam.gepard.exception.SimpleGepardException;
 
 /**
  * Uploads Wilma resources.
@@ -40,8 +40,8 @@ public class WilmaResourceUploaderDecorator extends ResourceUploaderDecorator {
      * @return with URL to internal wilma, like: http://localhost:1234/
      */
     public String getWilmaInternalUrl() {
-        return String.format("http://%s:%s/", getClassData().getEnvironment().getProperty("wilma.host"),
-                getClassData().getEnvironment().getProperty("wilma.port.internal"));
+        return String.format("http://%s:%s/", getTestClassExecutionData().getEnvironment().getProperty("wilma.host"),
+                getTestClassExecutionData().getEnvironment().getProperty("wilma.port.internal"));
     }
 
     /**
@@ -110,7 +110,7 @@ public class WilmaResourceUploaderDecorator extends ResourceUploaderDecorator {
         try {
             uploadResource(getWilmaInternalUrl() + url + fileName, filePath);
         } catch (Exception e) {
-            throw new AssertionFailedError(e.getMessage());
+            throw new SimpleGepardException(e.getMessage());
         }
     }
 

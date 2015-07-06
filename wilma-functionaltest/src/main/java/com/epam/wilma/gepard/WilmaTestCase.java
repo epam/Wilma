@@ -93,8 +93,8 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
      * @return with URL of the test server.
      */
     protected String getWilmaTestServerUrl() {
-        return String.format("http://%s:%s/example", getClassData().getEnvironment().getProperty("wilma.test.server.host"),
-                getClassData().getEnvironment().getProperty("wilma.test.server.port"));
+        return String.format("http://%s:%s/example", getTestClassExecutionData().getEnvironment().getProperty("wilma.test.server.host"),
+                getTestClassExecutionData().getEnvironment().getProperty("wilma.test.server.port"));
     }
 
     /**
@@ -103,13 +103,13 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
      * @return with URL of the ssl test server.
      */
     protected String getWilmaSSLTestServerUrl() {
-        return String.format("https://%s:%s/example", getClassData().getEnvironment().getProperty("wilma.test.server.host"),
-                getClassData().getEnvironment().getProperty("wilma.test.server.ssl.port"));
+        return String.format("https://%s:%s/example", getTestClassExecutionData().getEnvironment().getProperty("wilma.test.server.host"),
+                getTestClassExecutionData().getEnvironment().getProperty("wilma.test.server.ssl.port"));
     }
 
     protected String getWilmaTestServerUrlBase() {
-        return String.format("http://%s:%s/", getClassData().getEnvironment().getProperty("wilma.test.server.host"),
-                this.getClassData().getEnvironment().getProperty("wilma.test.server.port"));
+        return String.format("http://%s:%s/", getTestClassExecutionData().getEnvironment().getProperty("wilma.test.server.host"),
+                getTestClassExecutionData().getEnvironment().getProperty("wilma.test.server.port"));
     }
 
     /**
@@ -137,8 +137,8 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
      */
     protected RequestParameters createRequestParametersToGetAllStubDescriptors() throws FileNotFoundException {
         String testServerUrl = getWilmaStubConfigDescriptorsUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/xml";
         String acceptHeader = "application/json";
         String contentEncoding = "";
@@ -169,8 +169,8 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
      */
     protected MultiStubRequestParameters createDropRequestParameters(final String groupname) throws FileNotFoundException {
         String testServerUrl = getWilmaDropStubConfigUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/xml";
         String acceptHeader = "application/json";
         String contentEncoding = "";

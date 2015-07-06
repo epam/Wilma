@@ -71,13 +71,13 @@ public class HttpGetRequestSender {
 
         String sendBuffer;
         try {
-            sendBuffer = tc.getProperty("http.socket.sendbuffer");
+            sendBuffer = tc.getTestClassExecutionData().getEnvironment().getProperty("http.socket.sendbuffer");
         } catch (NullPointerException e) {
             sendBuffer = DEFAULT_BUFFER_SIZE_STRING;
         }
         String receiveBuffer;
         try {
-            receiveBuffer = tc.getProperty("http.socket.receivebuffer");
+            receiveBuffer = tc.getTestClassExecutionData().getEnvironment().getProperty("http.socket.receivebuffer");
         } catch (NullPointerException e) {
             receiveBuffer = DEFAULT_BUFFER_SIZE_STRING;
         }

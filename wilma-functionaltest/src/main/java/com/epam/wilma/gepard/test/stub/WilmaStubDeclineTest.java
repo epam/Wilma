@@ -18,27 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.gepard.annotations.TestClass;
+import com.epam.wilma.gepard.WilmaTestCase;
+import com.epam.wilma.gepard.testclient.RequestParameters;
+import com.epam.wilma.gepard.testclient.ResponseHolder;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import com.epam.wilma.gepard.WilmaTestCase;
-import junit.framework.Assert;
-
-import com.epam.gepard.annotations.TestClass;
-
-import com.epam.wilma.gepard.testclient.RequestParameters;
-import com.epam.wilma.gepard.testclient.ResponseHolder;
-
 /**
  * This class sends a request to that servlet which is listening at /stub/ an expects an error response with 503 code.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 @TestClass(id = "Stub", name = "Error handling when Wilma gets a request onto /stub/* mapping")
 public class WilmaStubDeclineTest extends WilmaTestCase {
 
     private static final String EXAMPLE_2 = "resources/example2.xml";
 
+    @Test
     public void testGetTheExpectedErrorCodeAndMessage() throws Exception {
         String expectedErrorMessage = "Wilma has declined this request.";
         int expectedErrorCode = 503;
@@ -54,8 +54,8 @@ public class WilmaStubDeclineTest extends WilmaTestCase {
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaInternalUrl() + "stub/";
         Boolean useProxy = false;
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "xml";
         String acceptHeader = "xml";
         String contentEncoding = "";

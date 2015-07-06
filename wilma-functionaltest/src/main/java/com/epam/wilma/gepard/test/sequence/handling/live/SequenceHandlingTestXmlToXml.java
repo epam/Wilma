@@ -84,8 +84,8 @@ public class SequenceHandlingTestXmlToXml extends SequenceHandlingTestBase {
      */
     protected RequestParameters createRequestParameters(final String resource, final String targetURL, final String contentTypePostFix)
         throws FileNotFoundException {
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/" + contentTypePostFix;
         String acceptHeader = "application/" + contentTypePostFix;
         String contentEncoding = "identity";

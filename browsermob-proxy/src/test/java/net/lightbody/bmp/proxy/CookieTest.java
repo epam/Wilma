@@ -2,7 +2,6 @@ package net.lightbody.bmp.proxy;
 
 import java.io.IOException;
 
-import junit.framework.Assert;
 import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.core.har.HarCookie;
 import net.lightbody.bmp.core.har.HarEntry;
@@ -10,6 +9,7 @@ import net.lightbody.bmp.proxy.util.IOUtils;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.cookie.BasicClientCookie;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class CookieTest extends DummyServerTest {

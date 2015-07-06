@@ -21,10 +21,10 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.io.FileNotFoundException;
 
 import com.epam.gepard.annotations.TestClass;
-import com.epam.gepard.annotations.TestParameter;
 
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 /**
  * Test resources which are expected to cause errors when uploaded.
@@ -35,23 +35,16 @@ import com.epam.wilma.gepard.testclient.RequestParameters;
 @TestClass(id = "StubConfigBadResource", name = "Stub config")
 public class StubConfigBadResourceTest extends WilmaTestCase {
 
-    @TestParameter(id = "PAR0")
-    private String tcName;
-    @TestParameter(id = "PAR1")
-    private String tcContentType;
-    @TestParameter(id = "PAR2")
-    private String tcAcceptHeader;
-    @TestParameter(id = "PAR3")
-    private String tcContentEncoding;
-    @TestParameter(id = "PAR4")
-    private String tcAcceptEncoding;
-    @TestParameter(id = "PAR5")
-    private String tcExternalResourceUrl;
-    @TestParameter(id = "PAR6")
-    private String tcResource;
-    @TestParameter(id = "PAR7")
-    private String tcResponse;
+    private String tcName = getDataDrivenTestParameter("PAR0");
+    private String tcContentType = getDataDrivenTestParameter("PAR1");
+    private String tcAcceptHeader = getDataDrivenTestParameter("PAR2");
+    private String tcContentEncoding = getDataDrivenTestParameter("PAR3");
+    private String tcAcceptEncoding = getDataDrivenTestParameter("PAR4");
+    private String tcExternalResourceUrl = getDataDrivenTestParameter("PAR5");
+    private String tcResource = getDataDrivenTestParameter("PAR6");
+    private String tcResponse = getDataDrivenTestParameter("PAR7");
 
+    @Test
     public void testStubConfigBadResource() throws Exception {
         //given
         setExpectedResponseMessageFromFile(tcResponse);
@@ -64,8 +57,8 @@ public class StubConfigBadResourceTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaInternalUrl() + STUB_CONFIG_URL;
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/" + tcContentType;
         String acceptHeader = "application/" + tcAcceptHeader;
         String contentEncoding = tcContentEncoding;

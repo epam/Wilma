@@ -20,9 +20,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.gepard.annotations.TestClass;
-import com.epam.gepard.annotations.TestParameter;
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,16 +36,11 @@ public class BasicStubBehaviorTest extends WilmaTestCase {
     private static final String RESOURCE_FILE_NAME = "example3.xml";
     private static final String STUB_CONFIG = "resources/stubConfig.xml";
 
-    @TestParameter(id = "PAR0")
-    private String tcName;
-    @TestParameter(id = "PAR1")
-    private String tcContentType;
-    @TestParameter(id = "PAR2")
-    private String tcAcceptHeader;
-    @TestParameter(id = "PAR3")
-    private String tcContentEncoding;
-    @TestParameter(id = "PAR4")
-    private String tcAcceptEncoding;
+    private String tcName = getDataDrivenTestParameter("PAR0");
+    private String tcContentType = getDataDrivenTestParameter("PAR1");
+    private String tcAcceptHeader = getDataDrivenTestParameter("PAR2");
+    private String tcContentEncoding = getDataDrivenTestParameter("PAR3");
+    private String tcAcceptEncoding = getDataDrivenTestParameter("PAR4");
 
     /**
      * B, send the req2-xml message to Apache (use wilma as proxy), but when the this request arrives to Wilma,
@@ -54,6 +49,7 @@ public class BasicStubBehaviorTest extends WilmaTestCase {
      *
      * @throws Exception
      */
+    @Test
     public void testBasicStubBehavior() throws Exception {
         //given
         clearAllOldStubConfigs();
@@ -72,8 +68,8 @@ public class BasicStubBehaviorTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaTestServerUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/" + tcContentType;
         String acceptHeader = "application/" + tcAcceptHeader;
         String contentEncoding = tcContentEncoding;

@@ -21,6 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.gepard.annotations.TestClass;
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,6 +41,7 @@ public class DDUsageTest extends WilmaTestCase {
     private static final String STUB_RESPONSE = "resources/stub/usage/stubResponse.txt";
     private static final String TEST_SERVER_RESPONSE = "resources/uc3_1TestResponse.txt";
 
+    @Test
     public void testStubDDHitCount() throws Exception {
         uploadStubConfigToWilma(STUB_CONFIG_WITH_HIT_COUNT);
         RequestParameters requestParameters1 = createRequest(STUB_RESPONSE);
@@ -48,6 +50,7 @@ public class DDUsageTest extends WilmaTestCase {
         callWilmaWithPostMethodAndAssertResponse(requestParameters2);
     }
 
+    @Test
     public void testStubDDTimeout() throws Exception {
         uploadStubConfigToWilma(STUB_CONFIG_WITH_TIMEOUT);
         RequestParameters requestParameters1 = createRequest(STUB_RESPONSE);
@@ -57,6 +60,7 @@ public class DDUsageTest extends WilmaTestCase {
         callWilmaWithPostMethodAndAssertResponse(requestParameters2);
     }
 
+    @Test
     public void testStubDDDisabled() throws Exception {
         uploadStubConfigToWilma(STUB_CONFIG_WITH_DISABLED);
         RequestParameters requestParameters2 = createRequest(TEST_SERVER_RESPONSE);
@@ -75,8 +79,8 @@ public class DDUsageTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaTestServerUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/xml";
         String acceptHeader = "application/xml";
         String contentEncoding = "";

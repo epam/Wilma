@@ -19,7 +19,9 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.gepard.common.TestClassExecutionData;
+import com.epam.gepard.generic.GepardTestClass;
+import com.epam.gepard.logger.HtmlRunReporter;
+import com.epam.gepard.logger.LogFileWriter;
 import com.epam.gepard.util.Util;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
@@ -41,7 +43,7 @@ import java.util.Date;
  *
  * @author Tamas Kohegyi
  */
-public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
+public abstract class WilmaTestLogDecorator implements GepardTestClass {
 
     private static int dumpFileCount;
     private final Charset utf8Charset = Charset.forName("UTF-8");
@@ -51,6 +53,7 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
     private int actualResponseCode;
     private String actualResponseContentType;
     private String actualDialogDescriptor;
+    private int step; // as soon as HtmlRunReporter.step become accessible, it can be removed
 
     /**
      * Constructor, use this for Wilma tests.
@@ -182,6 +185,9 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
      * @param requestParameters that was sent in the request.
      */
     public void logPostRequestEvent(RequestParameters requestParameters) {
+        HtmlRunReporter reporter = getTestClassExecutionData().getHtmlRunReporter();
+        LogFileWriter logWriter = reporter.getTestMethodHtmlLog();
+
         String text = "Sending POST request to URL: " + requestParameters.getTestServerUrl();
         if (requestParameters.isUseProxy()) {
             text += "\nUsing proxy:" + requestParameters.getWilmaHost() + ":" + requestParameters.getWilmaPort();
@@ -189,10 +195,10 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
             text += "\nWithout any proxy.";
         }
 
-        systemOutPrintLn(getStep() + ". " + text);
+        reporter.systemOutPrintLn(getStep() + ". " + text);
 
         String addStr = "";
-        if (getMainTestLogger() != null) {
+        if (logWriter != null) {
             try {
                 String dumpFileName = dumpSource(originalRequestMessage);
                 File dumpFile = new File(dumpFileName);
@@ -202,7 +208,9 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
                         + "</pre></small></code></small>";
             }
         }
-        getMainTestLogger().insertText("<tr><td align=\"center\">&nbsp;&nbsp;" + getStep() + ".&nbsp;&nbsp;</td><td bgcolor=\"#F0F0F0\">" + text + addStr + "</td></tr>\n");
+        if (logWriter != null) {
+            logWriter.insertText("<tr><td align=\"center\">&nbsp;&nbsp;" + getStep() + ".&nbsp;&nbsp;</td><td bgcolor=\"#F0F0F0\">" + text + addStr + "</td></tr>\n");
+        }
         increaseStep();
     }
 
@@ -214,12 +222,15 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
      * @param url         is the target url
      */
     public void logResourceUploadRequestEvent(final String fileName, final String fileContent, final String url) {
+        HtmlRunReporter reporter = getTestClassExecutionData().getHtmlRunReporter();
+        LogFileWriter logWriter = reporter.getTestMethodHtmlLog();
+
         String addStr = "";
         String text = "Uploading resource: '" + fileName + "' to Wilma, using URL: " + url;
 
-        systemOutPrintLn(text);
+        reporter.systemOutPrintLn(text);
 
-        if (getMainTestLogger() != null) {
+        if (logWriter != null) {
             try {
                 String dumpFileName = dumpSource(fileContent);
                 File dumpFile = new File(dumpFileName);
@@ -229,7 +240,9 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
                         + "</pre></small></code></small>";
             }
         }
-        getMainTestLogger().insertText("<tr><td align=\"center\">&nbsp;</td><td bgcolor=\"#F0F0F0\">" + text + addStr + "</td></tr>\n");
+        if (logWriter != null) {
+            logWriter.insertText("<tr><td align=\"center\">&nbsp;</td><td bgcolor=\"#F0F0F0\">" + text + addStr + "</td></tr>\n");
+        }
     }
 
     /**
@@ -238,13 +251,16 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
      * @param responseMessage that was received
      */
     public void logResponseEvent(ResponseHolder responseMessage) {
+        HtmlRunReporter reporter = getTestClassExecutionData().getHtmlRunReporter();
+        LogFileWriter logWriter = reporter.getTestMethodHtmlLog();
+
         String addStr = "";
         String text = "Receiving response, response code: " + responseMessage.getResponseCode();
         String message = responseMessage.getResponseMessage();
 
-        systemOutPrintLn(text);
+        reporter.systemOutPrintLn(text);
 
-        if (getMainTestLogger() != null) {
+        if (logWriter != null) {
             try {
                 String dumpFileName = dumpSource(message);
                 File dumpFile = new File(dumpFileName);
@@ -254,7 +270,9 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
                         + "</pre></small></code></small>";
             }
         }
-        getMainTestLogger().insertText("<tr><td>&nbsp;</td><td bgcolor=\"#F0F0F0\">" + text + addStr + "</td></tr>\n");
+        if (logWriter != null) {
+            logWriter.insertText("<tr><td>&nbsp;</td><td bgcolor=\"#F0F0F0\">" + text + addStr + "</td></tr>\n");
+        }
     }
 
     /**
@@ -265,7 +283,7 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
      */
     private String dumpSource(final String message) throws Exception {
         String newFilePath;
-        String logPath = getMainTestLogger().getLogPath();
+        String logPath = getTestClassExecutionData().getHtmlRunReporter().getTestMethodHtmlLog().getLogPath();
         String logPathCanonical = logPath.replace('\\', '/');
         int pos = logPathCanonical.lastIndexOf('/');
         int dumpFileID = dumpFileCount++;
@@ -303,8 +321,32 @@ public abstract class WilmaTestLogDecorator extends WilmaTestCaseBase {
         out.close();
     }
 
-    public TestClassExecutionData getClassData() {
-        return super.getClassData();
+    /**
+     * Temp method, as soon as HtmlRunreporter.getStep method become available, this can be removed.
+     *
+     * @return with step value
+     */
+    private int getStep() {
+        return step;
+    }
+
+    /**
+     * Temp method, as soon as HtmlRunreporter.increaseStep method become available, this can be removed.
+     */
+    private void increaseStep() {
+        step++;
+    }
+
+    /**
+     * Gets the full stack trace of a Throwable and returns it in HTML format.
+     * Temp method, as soon as Util.getFullStackTrace method become available, this can be removed.
+     *
+     * @param t is the throwable exception itself.
+     * @return with the full stack trace, escaped for use in HTML.
+     */
+    protected String getFullStackTrace(final Throwable t) {
+        Util u = new Util();
+        return u.escapeHTML(Util.getStackTrace(t));
     }
 
 }

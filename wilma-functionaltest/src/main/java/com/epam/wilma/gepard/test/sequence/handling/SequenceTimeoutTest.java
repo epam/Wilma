@@ -25,6 +25,7 @@ import java.io.InputStream;
 
 import com.epam.gepard.annotations.TestClass;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 /**
  * Tests if the timed out sequences are cleared correctly.
@@ -39,6 +40,7 @@ import com.epam.wilma.gepard.testclient.RequestParameters;
 @TestClass(id = "SequenceHandling", name = "Sequence Timeout - 1st request should be cleared from sequence before 2nd request")
 public class SequenceTimeoutTest extends SequenceHandlingTestBase {
 
+    @Test
     public void testSequenceHandling() throws Exception {
         uploadJarToWilma("message-sequence.jar", "resources/sequence/message-sequence.jar");
         uploadStubConfigToWilma("resources/sequence/timeoutStubConfig.xml");
@@ -60,8 +62,8 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
     protected RequestParameters createRequestParametersWithBody(final String text) throws FileNotFoundException {
         InputStream requestBody = new ByteArrayInputStream(text.getBytes());
         String testServerUrl = getWilmaVersionInfoUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "text/plain";
         String acceptHeader = "xml";
         String contentEncoding = "no";
@@ -73,8 +75,8 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         InputStream requestBody = new ByteArrayInputStream("".getBytes());
         String testServerUrl = getWilmaInternalUrl() + "config/admin/sequence/cleanup";
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "text/plain";
         String acceptHeader = "xml";
         String contentEncoding = "no";

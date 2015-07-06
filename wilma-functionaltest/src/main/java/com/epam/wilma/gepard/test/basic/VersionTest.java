@@ -23,6 +23,7 @@ import com.epam.gepard.annotations.TestClass;
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
+import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,6 +37,7 @@ import java.io.FileNotFoundException;
 public class VersionTest extends WilmaTestCase {
     private static final String EXAMPLE_2 = "resources/example2.xml";
 
+    @Test
     public void testWilmaVersion() throws Exception {
         //given
         RequestParameters requestParameters = createRequestParameters();
@@ -54,8 +56,8 @@ public class VersionTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaVersionInfoUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "xml";
         String acceptHeader = "xml";
         String contentEncoding = "";

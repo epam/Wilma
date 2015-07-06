@@ -20,12 +20,15 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.gepard.annotations.TestClass;
-import com.epam.gepard.annotations.TestParameter;
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
+import org.junit.Test;
 
 import java.io.FileNotFoundException;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Functional tests for Interceptor functionality.
@@ -40,16 +43,11 @@ public class InterceptorTest extends WilmaTestCase {
     private static final String INTERCEPTOR_REQ_CLASS = "DummyReqInterceptor.class";
     private static final String INTERCEPTOR_RESP_CLASS = "DummyRespInterceptor.class";
 
-    @TestParameter(id = "PAR0")
-    private String tcName;
-    @TestParameter(id = "PAR1")
-    private String tcInterceptorOnOff;
-    @TestParameter(id = "PAR2")
-    private String tcReqRespInterceptor;
-    @TestParameter(id = "PAR3")
-    private String tcReqInResp;
-    @TestParameter(id = "PAR4")
-    private String tcRespInResp;
+    private String tcName = getDataDrivenTestParameter("PAR0");
+    private String tcInterceptorOnOff = getDataDrivenTestParameter("PAR1");
+    private String tcReqRespInterceptor = getDataDrivenTestParameter("PAR2");
+    private String tcReqInResp = getDataDrivenTestParameter("PAR3");
+    private String tcRespInResp = getDataDrivenTestParameter("PAR4");
 
     private RequestParameters createRequest(final String response) throws Exception {
         setOriginalRequestMessageEmpty();
@@ -59,8 +57,8 @@ public class InterceptorTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaTestServerUrlBase() + "resetsequences";
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "text/plain;charset=UTF-8";
         String acceptHeader = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
         String contentEncoding = "";
@@ -91,6 +89,7 @@ public class InterceptorTest extends WilmaTestCase {
         setInterceptorMode();
     }
 
+    @Test
     public void testInterceptorUsage() throws Exception {
         setLocalhostBlockingTo("off");
         setOperationModeTo("wilma");

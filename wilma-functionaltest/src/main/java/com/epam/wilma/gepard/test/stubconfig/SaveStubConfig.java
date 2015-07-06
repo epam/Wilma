@@ -23,6 +23,7 @@ import com.epam.gepard.annotations.TestClass;
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +56,7 @@ public class SaveStubConfig extends WilmaTestCase {
      *
      * @throws Exception in case of problem
      */
+    @Test
     public void testSaveStubConfig() throws Exception {
         RequestParameters requestParameters = createRequestParameters();
         ResponseHolder result = callWilmaWithPostMethod(requestParameters);
@@ -71,8 +73,8 @@ public class SaveStubConfig extends WilmaTestCase {
      */
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaInternalUrl() + "config/public/stub/stubconfig.xml?groupname=Default";
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "xml";
         String acceptHeader = "xml";
         String contentEncoding = "";

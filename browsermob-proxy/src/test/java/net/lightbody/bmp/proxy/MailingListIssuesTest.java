@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
-import junit.framework.Assert;
 import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.core.har.HarContent;
 import net.lightbody.bmp.core.har.HarEntry;
@@ -30,6 +29,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class MailingListIssuesTest extends DummyServerTest {

@@ -22,7 +22,7 @@ package com.epam.wilma.mock.configuration;
 import static com.epam.wilma.mock.domain.OperationMode.PROXY;
 import static com.epam.wilma.mock.domain.OperationMode.STUB;
 import static com.epam.wilma.mock.domain.OperationMode.WILMA;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;

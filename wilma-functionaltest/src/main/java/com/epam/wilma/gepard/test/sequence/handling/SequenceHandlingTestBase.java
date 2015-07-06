@@ -79,8 +79,8 @@ public abstract class SequenceHandlingTestBase extends WilmaTestCase {
     protected RequestParameters createRequestParametersForSequenceHandlingMode(final String option) {
         InputStream requestBody = new ByteArrayInputStream("".getBytes());
         String testServerUrl = getWilmaInternalUrl() + "config/admin/sequence/" + option;
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "text/plain";
         String acceptHeader = "xml";
         String contentEncoding = "no";
@@ -110,8 +110,8 @@ public abstract class SequenceHandlingTestBase extends WilmaTestCase {
      */
     protected MultiStubRequestParameters createMultiStubRequestParameters(final String groupname, final String resourcePath) throws FileNotFoundException {
         String testServerUrl = getWilmaDropStubConfigUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/xml";
         String acceptHeader = "application/json";
         String contentEncoding = "";

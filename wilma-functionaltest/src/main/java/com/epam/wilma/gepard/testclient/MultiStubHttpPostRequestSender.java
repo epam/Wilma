@@ -63,8 +63,10 @@ public class MultiStubHttpPostRequestSender {
             httpClient.getHostConfiguration().setProxy(requestParameters.getWilmaHost(), requestParameters.getWilmaPort());
         }
         createRequest(requestParameters, httpPost);
-        httpClient.getHttpConnectionManager().getParams().setSendBufferSize(Integer.valueOf(tc.getProperty("http.socket.sendbuffer")));
-        httpClient.getHttpConnectionManager().getParams().setReceiveBufferSize(Integer.valueOf(tc.getProperty("http.socket.receivebuffer")));
+        httpClient.getHttpConnectionManager().getParams()
+                .setSendBufferSize(Integer.valueOf(tc.getTestClassExecutionData().getEnvironment().getProperty("http.socket.sendbuffer")));
+        httpClient.getHttpConnectionManager().getParams()
+                .setReceiveBufferSize(Integer.valueOf(tc.getTestClassExecutionData().getEnvironment().getProperty("http.socket.receivebuffer")));
         int statusCode;
         statusCode = httpClient.executeMethod(httpPost);
         responseCode = "status code: " + statusCode + "\n";

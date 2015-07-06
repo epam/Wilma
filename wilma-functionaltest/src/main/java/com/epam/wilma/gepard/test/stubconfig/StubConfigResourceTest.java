@@ -22,10 +22,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import com.epam.gepard.annotations.TestClass;
-import com.epam.gepard.annotations.TestParameter;
 
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 /**
  * Tests wilma's stub config.
@@ -37,25 +37,17 @@ public class StubConfigResourceTest extends WilmaTestCase {
 
     private String stubConfigXml;
 
-    @TestParameter(id = "PAR0")
-    private String tcName;
-    @TestParameter(id = "PAR1")
-    private String tcContentType;
-    @TestParameter(id = "PAR2")
-    private String tcAcceptHeader;
-    @TestParameter(id = "PAR3")
-    private String tcContentEncoding;
-    @TestParameter(id = "PAR4")
-    private String tcAcceptEncoding;
-    @TestParameter(id = "PAR5")
-    private String tcExternalResourceUrl;
-    @TestParameter(id = "PAR6")
-    private String tcRequest;
-    @TestParameter(id = "PAR7")
-    private String tcResource;
-    @TestParameter(id = "PAR8")
-    private String tcResponse;
+    private String tcName = getDataDrivenTestParameter("PAR0");
+    private String tcContentType = getDataDrivenTestParameter("PAR1");
+    private String tcAcceptHeader = getDataDrivenTestParameter("PAR2");
+    private String tcContentEncoding = getDataDrivenTestParameter("PAR3");
+    private String tcAcceptEncoding = getDataDrivenTestParameter("PAR4");
+    private String tcExternalResourceUrl = getDataDrivenTestParameter("PAR5");
+    private String tcRequest = getDataDrivenTestParameter("PAR6");
+    private String tcResource = getDataDrivenTestParameter("PAR7");
+    private String tcResponse = getDataDrivenTestParameter("PAR8");
 
+    @Test
     public void testStubConfigResource() throws Exception {
         uploadResource(getWilmaInternalUrl() + tcExternalResourceUrl, tcResource);
         stubConfigXml = tcRequest;
@@ -67,8 +59,8 @@ public class StubConfigResourceTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaInternalUrl() + STUB_CONFIG_URL;
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/" + tcContentType;
         String acceptHeader = "application/" + tcAcceptHeader;
         String contentEncoding = tcContentEncoding;

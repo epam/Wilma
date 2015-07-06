@@ -24,8 +24,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import com.epam.gepard.annotations.TestClass;
-import com.epam.gepard.annotations.TestParameter;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 /**
  * Tests that the template formatter gets the referenced sequence descriptor's sequence.
@@ -45,17 +45,13 @@ import com.epam.wilma.gepard.testclient.RequestParameters;
 @TestClass(id = "SequenceHandling", name = "Multiple SequenceDescriptors")
 public class MultipleSequenceDescriptorsTest extends SequenceHandlingTestBase {
 
-    @TestParameter(id = "PAR0")
-    private String tcNama;
-    @TestParameter(id = "PAR1")
-    private String tcRequestBody;
-    @TestParameter(id = "PAR2")
-    private String tcJarFile;
-    @TestParameter(id = "PAR3")
-    private String tcStubConfigFile;
-    @TestParameter(id = "PAR4")
-    private String tcFinalResponseFile;
+    private String tcNama = getDataDrivenTestParameter("PAR0");
+    private String tcRequestBody = getDataDrivenTestParameter("PAR1");
+    private String tcJarFile = getDataDrivenTestParameter("PAR2");
+    private String tcStubConfigFile = getDataDrivenTestParameter("PAR3");
+    private String tcFinalResponseFile = getDataDrivenTestParameter("PAR4");
 
+    @Test
     public void testSequenceHandling() throws Exception {
         clearSequences();
         uploadJarToWilma("message-sequence.jar", tcJarFile);
@@ -85,8 +81,8 @@ public class MultipleSequenceDescriptorsTest extends SequenceHandlingTestBase {
     protected RequestParameters createRequestParameters(final String text) throws FileNotFoundException {
         InputStream requestBody = new ByteArrayInputStream(text.getBytes());
         String testServerUrl = getWilmaVersionInfoUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "text/plain";
         String acceptHeader = "xml";
         String contentEncoding = "no";

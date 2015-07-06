@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.gepard.test.helper.WilmaTestCaseBase;
+import com.epam.gepard.generic.GepardTestClass;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 
@@ -37,7 +37,7 @@ public class InterceptorModeSwitch {
      * @return with the response code
      * @throws Exception in case of problem
      */
-    public String switchInterceptorMode(final WilmaTestCaseBase tc, final String url) throws Exception {
+    public String switchInterceptorMode(final GepardTestClass tc, final String url) throws Exception {
         String responseCode;
         HttpClient httpClient = new HttpClient();
         GetMethod httpGet = new GetMethod(url);

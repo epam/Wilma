@@ -25,9 +25,12 @@ import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Provides functional test for checking the loadInformations of wilma.
@@ -39,6 +42,7 @@ public class LoadInformationTest extends WilmaTestCase {
 
     private static final String EXAMPLE_2_XML = "resources/example2.xml";
 
+    @Test
     public void testLoadInformation() throws Exception {
         setLocalhostBlockingTo("off");
         RequestParameters requestParameters = createRequestParameters();
@@ -77,8 +81,8 @@ public class LoadInformationTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaInternalUrl() + "config/public/actualload";
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/xml";
         String acceptHeader = "application/json";
         String contentEncoding = "";

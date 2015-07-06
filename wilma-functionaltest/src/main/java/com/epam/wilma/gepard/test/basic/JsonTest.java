@@ -23,10 +23,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import com.epam.gepard.annotations.TestClass;
-import com.epam.gepard.annotations.TestParameter;
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
+import org.junit.Test;
 
 /**
  * Test the JSON path based condition checking and template formatting.
@@ -42,12 +42,9 @@ public class JsonTest extends WilmaTestCase {
     private static final String TEMPLATE_JSON = "resources/stub/JSON/template.json";
     private static final String TEMPLATE_FILE_NAME = "template.json";
 
-    @TestParameter(id = "PAR0")
-    private String tcName;
-    @TestParameter(id = "PAR1")
-    private String tcContentType;
-    @TestParameter(id = "PAR2")
-    private String tcAcceptHeader;
+    private String tcName = getDataDrivenTestParameter("PAR0");
+    private String tcContentType = getDataDrivenTestParameter("PAR1");
+    private String tcAcceptHeader = getDataDrivenTestParameter("PAR2");
 
     /**
      * A, send the req1-xml message to Apache (use wilma as proxy), but when the
@@ -57,6 +54,7 @@ public class JsonTest extends WilmaTestCase {
      *
      * @throws Exception
      */
+    @Test
     public void testJsonStubbing() throws Exception {
         uploadTemplateToWilma(TEMPLATE_FILE_NAME, TEMPLATE_JSON);
         uploadStubConfigToWilma(STUB_CONFIG_XML);
@@ -69,8 +67,8 @@ public class JsonTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaTestServerUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/" + tcContentType;
         String acceptHeader = "application/" + tcAcceptHeader;
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)

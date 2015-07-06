@@ -22,10 +22,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import com.epam.gepard.annotations.TestClass;
-import com.epam.gepard.annotations.TestParameter;
 
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 /**
  * Tests for Test Server error cases, i.e. if Wilma can handle incoming Exxx messages.
@@ -37,18 +37,16 @@ public class ServerErrorTest extends WilmaTestCase {
     private static final String BYPASS = "WilmaBypass=true";
     private static final String AVAIL_SUMMARY_REQUEST_1_XML = "resources/dummy_file.txt";
 
-    @TestParameter(id = "PAR0")
-    private String tcName;
-    @TestParameter(id = "PAR1")
-    private String tcRequestedErrorCode;
-    @TestParameter(id = "PAR2")
-    private String tcRequestedUrl;
+    private String tcName = getDataDrivenTestParameter("PAR0");
+    private String tcRequestedErrorCode = getDataDrivenTestParameter("PAR1");
+    private String tcRequestedUrl = getDataDrivenTestParameter("PAR2");
 
     /**
      * Test if Wilma can properly handle incoming Exxx error messages from the server.
      *
      * @throws Exception in case of error
      */
+    @Test
     public void testServerError() throws Exception {
         RequestParameters requestParameters = createRequestParameters();
         callWilmaWithGetMethod(requestParameters);
@@ -57,8 +55,8 @@ public class ServerErrorTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaTestServerUrlBase() + tcRequestedUrl;
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "text/plain";
         String acceptHeader = "";
         String contentEncoding = "";

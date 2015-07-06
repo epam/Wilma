@@ -19,41 +19,37 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.gepard.annotations.TestClass;
+import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import com.epam.gepard.annotations.TestClass;
-import com.epam.gepard.annotations.TestParameter;
-import com.epam.wilma.gepard.testclient.RequestParameters;
-
 /**
  * Tests that requests will only build sequences when they are evaluated as true.
- *
+ * <p>
  * First test:
- *  Uploads a stubconfig with a sequence descriptor that uses an AlwaysTrueChecker as
- *  a ConditionChecker sends four requests then checks if they are in the sequence.
- *
+ * Uploads a stubconfig with a sequence descriptor that uses an AlwaysTrueChecker as
+ * a ConditionChecker sends four requests then checks if they are in the sequence.
+ * <p>
  * Second test:
- *  Uploads a stubconfig with a sequence descriptor that uses an AlwaysFalseChecker as
- *  a ConditionChecker sends four requests then checks if the sequence is null.
- * @author Adam_Csaba_Kiraly
+ * Uploads a stubconfig with a sequence descriptor that uses an AlwaysFalseChecker as
+ * a ConditionChecker sends four requests then checks if the sequence is null.
  *
+ * @author Adam_Csaba_Kiraly
  */
 @TestClass(id = "SequenceHandling", name = "Sequence Evaluation")
 public class SequenceEvaluationTest extends SequenceHandlingTestBase {
 
-    @TestParameter(id = "PAR0")
-    private String tcName;
-    @TestParameter(id = "PAR1")
-    private String tcRequestBody;
-    @TestParameter(id = "PAR2")
-    private String tcJarFile;
-    @TestParameter(id = "PAR3")
-    private String tcStubConfigFile;
-    @TestParameter(id = "PAR4")
-    private String tcFinalResponseFile;
+    private String tcName = getDataDrivenTestParameter("PAR0");
+    private String tcRequestBody = getDataDrivenTestParameter("PAR1");
+    private String tcJarFile = getDataDrivenTestParameter("PAR2");
+    private String tcStubConfigFile = getDataDrivenTestParameter("PAR3");
+    private String tcFinalResponseFile = getDataDrivenTestParameter("PAR4");
 
+    @Test
     public void testSequenceHandling() throws Exception {
         clearSequences();
         uploadJarToWilma("message-sequence.jar", tcJarFile);
@@ -83,8 +79,8 @@ public class SequenceEvaluationTest extends SequenceHandlingTestBase {
     protected RequestParameters createRequestParameters(final String text) throws FileNotFoundException {
         InputStream requestBody = new ByteArrayInputStream(text.getBytes());
         String testServerUrl = getWilmaVersionInfoUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "text/plain";
         String acceptHeader = "xml";
         String contentEncoding = "no";

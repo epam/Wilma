@@ -25,6 +25,7 @@ import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -52,6 +53,7 @@ public class UploadSavedStubConfig extends WilmaTestCase {
      *
      * @throws Exception in case of an error.
      */
+    @Test
     public void testClearAllStubConfigAndUpload() throws Exception {
         //clear all stubconfig
         RequestParameters requestParameters = createRequestParameters();
@@ -93,8 +95,8 @@ public class UploadSavedStubConfig extends WilmaTestCase {
      */
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaStubConfigDescriptorsUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/xml";
         String acceptHeader = "application/json";
         String contentEncoding = "";
@@ -113,8 +115,8 @@ public class UploadSavedStubConfig extends WilmaTestCase {
      */
     protected MultiStubRequestParameters createMultiStubRequestParameters(final String groupName) throws FileNotFoundException {
         String testServerUrl = getWilmaDropStubConfigUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/xml";
         String acceptHeader = "application/json";
         String contentEncoding = "";

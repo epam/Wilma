@@ -24,6 +24,7 @@ import java.io.InputStream;
 
 import com.epam.gepard.annotations.TestClass;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 /**
  * Tests that multiple sequences of a sequence descriptor can be built simultaneously.
@@ -41,6 +42,7 @@ public class MultipleSequencesTest extends SequenceHandlingTestBase {
     private static final String EXPECTED_FIRST_RESPONSE_FILE_LOCATION = "resources/sequence/firstBodyLetterExpectedResponse1.txt";
     private static final String EXPECTED_SECOND_RESPONSE_FILE_LOCATION = "resources/sequence/firstBodyLetterExpectedResponse2.txt";
 
+    @Test
     public void testSequenceHandling() throws Exception {
         clearSequences();
         uploadJarToWilma("message-sequence.jar", JAR_FILE_LOCATION);
@@ -68,8 +70,8 @@ public class MultipleSequencesTest extends SequenceHandlingTestBase {
     protected RequestParameters createRequestParameters(final String text) throws FileNotFoundException {
         InputStream requestBody = new ByteArrayInputStream(text.getBytes());
         String testServerUrl = getWilmaVersionInfoUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "text/plain";
         String acceptHeader = "xml";
         String contentEncoding = "no";

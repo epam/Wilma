@@ -20,6 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.gepard.annotations.TestClass;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -37,6 +38,7 @@ public class SequenceDialogDescriptorTest extends SequenceHandlingTestBase {
     private static final String STUB_CONFIG_LOCATION = "resources/sequence/sequenceDialogDescriptorStubConfig.xml";
     private static final String JAR_FILE_LOCATION = "resources/sequence/message-sequence.jar";
 
+    @Test
     public void testSequenceHandling() throws Exception {
         clearSequences();
         uploadJarToWilma("message-sequence.jar", JAR_FILE_LOCATION);
@@ -52,8 +54,8 @@ public class SequenceDialogDescriptorTest extends SequenceHandlingTestBase {
     protected RequestParameters createRequestParametersWithBody(final String text) throws FileNotFoundException {
         InputStream requestBody = new ByteArrayInputStream(text.getBytes());
         String testServerUrl = getWilmaVersionInfoUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "text/plain";
         String acceptHeader = "xml";
         String contentEncoding = "no";

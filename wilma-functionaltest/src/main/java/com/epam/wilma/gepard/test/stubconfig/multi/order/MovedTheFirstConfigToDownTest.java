@@ -23,7 +23,8 @@ import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.MultiStubRequestParameters;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -41,6 +42,7 @@ public class MovedTheFirstConfigToDownTest extends WilmaTestCase {
     private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
     private static final String STUB_CONFIG_SECOND = "resources/enabledisable/stubConfigSecond.xml";
 
+    @Test
     public void testChangeTheOrderOneTimes() throws Exception {
         clearAllOldStubConfigs();
         uploadStubConfigToWilma(STUB_CONFIG_FIRST);
@@ -59,8 +61,8 @@ public class MovedTheFirstConfigToDownTest extends WilmaTestCase {
 
     protected MultiStubRequestParameters createChangeStatusRequestParameters(final String direction, final String groupname) throws FileNotFoundException {
         String testServerUrl = getWilmaChangeStubConfigOrderUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/xml";
         String acceptHeader = "application/json";
         String contentEncoding = "";
@@ -72,8 +74,8 @@ public class MovedTheFirstConfigToDownTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaStubConfigDescriptorsUrl();
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "application/xml";
         String acceptHeader = "application/json";
         String contentEncoding = "";

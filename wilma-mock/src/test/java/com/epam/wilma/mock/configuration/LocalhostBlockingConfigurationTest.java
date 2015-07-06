@@ -21,7 +21,7 @@ package com.epam.wilma.mock.configuration;
 
 import static com.epam.wilma.mock.domain.LocalhostControl.OFF;
 import static com.epam.wilma.mock.domain.LocalhostControl.ON;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;

@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import com.epam.gepard.annotations.TestClass;
 import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.RequestParameters;
+import org.junit.Test;
 
 /**
  * Test Case to test class uploader function of Wilma.
@@ -37,6 +38,7 @@ public class PackagedClassUploadingTest extends WilmaTestCase {
     private static final String CONDITION_CHECKER_NAME = "MyAlwaysTrueChecker.class";
     private static final String PACKAGED_CONDITION_CHECKER_PATH = "resources/classloader/MyAlwaysTrueChecker.class";
 
+    @Test
     public void testExternalPackagedClassUploading() throws Exception {
         uploadConditionCheckerToWilma(CONDITION_CHECKER_NAME, PACKAGED_CONDITION_CHECKER_PATH);
         uploadStubConfigToWilma(STUB_CONFIG);
@@ -47,8 +49,8 @@ public class PackagedClassUploadingTest extends WilmaTestCase {
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
         String testServerUrl = getWilmaInternalUrl() + "config/stub/stubconfig.xml";
-        String wilmaHost = getClassData().getEnvironment().getProperty("wilma.host");
-        Integer wilmaPort = Integer.parseInt(getClassData().getEnvironment().getProperty("wilma.port.external"));
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "xml";
         String acceptHeader = "xml";
         String contentEncoding = "";
