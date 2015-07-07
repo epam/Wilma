@@ -19,6 +19,15 @@ package com.epam.wilma.mock.application;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import com.epam.wilma.mock.domain.WilmaMockConfig;
+import com.epam.wilma.mock.http.WilmaHttpClient;
+import com.google.common.base.Optional;
+import org.json.JSONObject;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
@@ -26,20 +35,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertTrue;
 
-import org.json.JSONObject;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.mock.domain.WilmaMockConfig;
-import com.epam.wilma.mock.http.WilmaHttpClient;
-import com.google.common.base.Optional;
-
 /**
  * Unit test for {@link WilmaApplication}.
  *
- * @author Tamas_Pinter
+ * @author Tamas_Pinter, Tamas_Kohegyi
  *
  */
 public class WilmaApplicationTest {
@@ -47,6 +46,7 @@ public class WilmaApplicationTest {
     private static final String HOST = "host";
     private static final Integer PORT = 1;
     private static final String ACTUAL_LOAD_INFO_URL = "http://host:1/config/public/actualload";
+    private static final String VERSION_INFO_URL = "http://host:1/config/public/version";
     private static final String SHUTDOWN_URL = "http://host:1/config/admin/shutdown";
     private static final String JSON_STRING = "{\"JSON\": \"string\"}";
 
@@ -71,7 +71,7 @@ public class WilmaApplicationTest {
     }
 
     @Test
-    public void shouldReturnEmptyJSONObjectIfClientReturnsOptionalAbsent() {
+    public void shouldReturnEmptyJSONObjectIfClientReturnsOptionalAbsentForLoadInformation() {
         when(client.sendGetterRequest(ACTUAL_LOAD_INFO_URL)).thenReturn(Optional.<String>absent());
 
         JSONObject result = wilmaApplication.getActualLoadInformation();
@@ -82,10 +82,31 @@ public class WilmaApplicationTest {
     }
 
     @Test
-    public void shouldReturnJSONObjectWithProperValue() {
+    public void shouldReturnJSONObjectWithProperValueForLoadInformation() {
         when(client.sendGetterRequest(ACTUAL_LOAD_INFO_URL)).thenReturn(Optional.of(JSON_STRING));
 
         JSONObject result = wilmaApplication.getActualLoadInformation();
+
+        assertTrue(new JSONObject(JSON_STRING).similar(result), "The two JSON object should be similar.");
+        verify(client, never()).sendSetterRequest(anyString());
+    }
+
+    @Test
+    public void shouldReturnEmptyJSONObjectIfClientReturnsOptionalAbsentForVersionInformation() {
+        when(client.sendGetterRequest(VERSION_INFO_URL)).thenReturn(Optional.<String>absent());
+
+        JSONObject result = wilmaApplication.getVersionInformation();
+
+        assertTrue(EMPTY_JSON_OBJECT.similar(result));
+        assertEquals(EMPTY_JSON_OBJECT.length(), result.length());
+        verify(client, never()).sendSetterRequest(anyString());
+    }
+
+    @Test
+    public void shouldReturnJSONObjectWithProperValueForVersionInformation() {
+        when(client.sendGetterRequest(VERSION_INFO_URL)).thenReturn(Optional.of(JSON_STRING));
+
+        JSONObject result = wilmaApplication.getVersionInformation();
 
         assertTrue(new JSONObject(JSON_STRING).similar(result), "The two JSON object should be similar.");
         verify(client, never()).sendSetterRequest(anyString());

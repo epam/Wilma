@@ -23,9 +23,6 @@ apply plugin: 'application'
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco'
 
-group = 'com.epam.wilma.mock'
-version = "$wilmaVersion.$buildNumber"
-
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 

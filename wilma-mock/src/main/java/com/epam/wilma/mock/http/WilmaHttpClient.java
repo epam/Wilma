@@ -135,7 +135,7 @@ public class WilmaHttpClient {
         return requestSuccessful;
     }
 
-    public void setHttpclient(HttpClient httpclient) {
+    public void setHttpClient(HttpClient httpclient) {
         this.httpclient = httpclient;
     }
 

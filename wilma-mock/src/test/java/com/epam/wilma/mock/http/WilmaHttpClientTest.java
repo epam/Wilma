@@ -68,7 +68,7 @@ public class WilmaHttpClientTest {
         HttpClient httpClient = mock(HttpClient.class);
         when(httpClient.executeMethod(any(GetMethod.class))).thenThrow(new HttpException());
 
-        wilmaHttpClient.setHttpclient(httpClient);
+        wilmaHttpClient.setHttpClient(httpClient);
         Optional<String> result = wilmaHttpClient.sendGetterRequest(TEST_URL);
 
         assertEquals(result, Optional.<String>absent());
@@ -79,7 +79,7 @@ public class WilmaHttpClientTest {
         HttpClient httpClient = mock(HttpClient.class);
         when(httpClient.executeMethod(any(GetMethod.class))).thenThrow(new IOException());
 
-        wilmaHttpClient.setHttpclient(httpClient);
+        wilmaHttpClient.setHttpClient(httpClient);
         Optional<String> result = wilmaHttpClient.sendGetterRequest(TEST_URL);
 
         assertEquals(result, Optional.<String>absent());
@@ -88,7 +88,7 @@ public class WilmaHttpClientTest {
     @Test
     public void shouldReturnOptionalOfResponseForGetterMethod() throws Exception {
         HttpClient httpClient = new MockHttpClient(200, RESPONSE);
-        wilmaHttpClient.setHttpclient(httpClient);
+        wilmaHttpClient.setHttpClient(httpClient);
 
         Optional<String> result = wilmaHttpClient.sendGetterRequest(TEST_URL);
 
@@ -100,7 +100,7 @@ public class WilmaHttpClientTest {
         HttpClient httpClient = mock(HttpClient.class);
         when(httpClient.executeMethod(any(GetMethod.class))).thenThrow(new HttpException());
 
-        wilmaHttpClient.setHttpclient(httpClient);
+        wilmaHttpClient.setHttpClient(httpClient);
         boolean result = wilmaHttpClient.sendSetterRequest(TEST_URL);
 
         assertFalse(result);
@@ -111,7 +111,7 @@ public class WilmaHttpClientTest {
         HttpClient httpClient = mock(HttpClient.class);
         when(httpClient.executeMethod(any(GetMethod.class))).thenThrow(new IOException());
 
-        wilmaHttpClient.setHttpclient(httpClient);
+        wilmaHttpClient.setHttpClient(httpClient);
         boolean result = wilmaHttpClient.sendSetterRequest(TEST_URL);
 
         assertFalse(result);
@@ -120,7 +120,7 @@ public class WilmaHttpClientTest {
     @Test
     public void shouldReturnTrueForSetterMethod() throws Exception {
         HttpClient httpClient = new MockHttpClient(200, RESPONSE);
-        wilmaHttpClient.setHttpclient(httpClient);
+        wilmaHttpClient.setHttpClient(httpClient);
 
         boolean result = wilmaHttpClient.sendSetterRequest(TEST_URL);
 
@@ -132,7 +132,7 @@ public class WilmaHttpClientTest {
         HttpClient httpClient = mock(HttpClient.class);
         when(httpClient.executeMethod(any(PostMethod.class))).thenThrow(new HttpException());
 
-        wilmaHttpClient.setHttpclient(httpClient);
+        wilmaHttpClient.setHttpClient(httpClient);
         boolean result = wilmaHttpClient.uploadFile(TEST_URL, TEST_FILE);
 
         assertFalse(result);
@@ -143,7 +143,7 @@ public class WilmaHttpClientTest {
         HttpClient httpClient = mock(HttpClient.class);
         when(httpClient.executeMethod(any(PostMethod.class))).thenThrow(new IOException());
 
-        wilmaHttpClient.setHttpclient(httpClient);
+        wilmaHttpClient.setHttpClient(httpClient);
         boolean result = wilmaHttpClient.uploadFile(TEST_URL, TEST_FILE);
 
         assertFalse(result);
@@ -152,7 +152,7 @@ public class WilmaHttpClientTest {
     @Test
     public void shouldReturnTrueForFileUploadMethod() throws Exception {
         HttpClient httpClient = new MockHttpClient(200, RESPONSE);
-        wilmaHttpClient.setHttpclient(httpClient);
+        wilmaHttpClient.setHttpClient(httpClient);
 
         boolean result = wilmaHttpClient.uploadFile(TEST_URL, TEST_FILE);
 

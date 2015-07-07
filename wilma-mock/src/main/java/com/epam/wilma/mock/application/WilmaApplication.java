@@ -19,21 +19,20 @@ package com.epam.wilma.mock.application;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.epam.wilma.mock.domain.WilmaMockConfig;
 import com.epam.wilma.mock.http.WilmaHttpClient;
 import com.epam.wilma.mock.util.UrlBuilderUtils;
 import com.google.common.base.Optional;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Collects the Wilma server related commands.
  *
- * @author Tamas_Pinter
+ * @author Tamas_Pinter, Tamas_Kohegyi
  *
  */
 public class WilmaApplication {
@@ -41,6 +40,7 @@ public class WilmaApplication {
 
     private static final JSONObject EMPTY_JSON = new JSONObject();
 
+    private static final String VERSION_INFO_URL_POSTFIX = "config/public/version";
     private static final String ACTUAL_LOAD_INFO_URL_POSTFIX = "config/public/actualload";
     private static final String SHUTDOWN_URL_POSTFIX = "config/admin/shutdown";
 
@@ -66,6 +66,23 @@ public class WilmaApplication {
         checkArgument(config != null, "config must not be null!");
         this.config = config;
         this.wilmaClient = client == null ? new WilmaHttpClient() : client;
+    }
+
+    /**
+     * Gets the version information from Wilma.
+     *
+     * @return the actual version information
+     */
+    public JSONObject getVersionInformation() {
+        LOG.debug("Call version information API.");
+
+        String url = buildUrl(VERSION_INFO_URL_POSTFIX);
+
+        LOG.debug("Send getter request to: " + url);
+        Optional<String> response = wilmaClient.sendGetterRequest(url);
+        return response.isPresent()
+                ? new JSONObject(response.get())
+                : EMPTY_JSON;
     }
 
     /**

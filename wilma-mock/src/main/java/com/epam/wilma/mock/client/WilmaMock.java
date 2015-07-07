@@ -19,15 +19,6 @@ package com.epam.wilma.mock.client;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import java.io.File;
-import java.util.Properties;
-
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.epam.wilma.mock.application.WilmaApplication;
 import com.epam.wilma.mock.configuration.LocalhostBlockingConfiguration;
 import com.epam.wilma.mock.configuration.MessageLoggingConfiguration;
@@ -40,6 +31,14 @@ import com.epam.wilma.mock.domain.StubConfigOrder;
 import com.epam.wilma.mock.domain.StubConfigStatus;
 import com.epam.wilma.mock.domain.WilmaMockConfig;
 import com.epam.wilma.mock.resource.Upload;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.Properties;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * The main class of Wilma mock project.
@@ -49,7 +48,8 @@ import com.epam.wilma.mock.resource.Upload;
  */
 public final class WilmaMock {
     public static final String WILMA_HOST_KEY = "wilma.host";
-    public static final String WILMA_PORT_KEY = "wilma.port";
+    public static final String WILMA_INTERNAL_PORT_KEY = "wilma.port.internal";  //this is the Wilma internal WebApp port
+    public static final String WILMA_EXTERNAL_PORT_KEY = "wilma.port.external";  //this is the Wilma Proxy port
 
     private static final Logger LOG = LoggerFactory.getLogger(WilmaMock.class);
 
@@ -84,7 +84,7 @@ public final class WilmaMock {
      * </p>
      * <p>
      *   For properties key you can use {@code WilmaMock.WILMA_HOST_KEY} and
-     *   {@code WilmaMock.WILMA_PORT_KEY} constants.
+     *   {@code WilmaMock.WILMA_INTERNAL_PORT_KEY} constants.
      * </p>
      *
      * @param properties the Wilma server configuration
@@ -99,6 +99,17 @@ public final class WilmaMock {
         this.localhostBlockingConfiguration = new LocalhostBlockingConfiguration(config);
         this.stubConfiguration = new StubConfiguration(config);
         this.fileUpload = new Upload(config);
+    }
+
+    /**
+     * Gets the version of Wilma.
+     *
+     * @return with the version information
+     */
+    public JSONObject getVersionInformation() {
+        LOG.debug("Request application's version information.");
+
+        return wilmaApplication.getVersionInformation();
     }
 
     /**
@@ -339,7 +350,7 @@ public final class WilmaMock {
     private Integer getWilmaPort(Properties properties) {
         Integer port = null;
 
-        Object object = properties.get(WILMA_PORT_KEY);
+        Object object = properties.get(WILMA_INTERNAL_PORT_KEY);
         if (object instanceof Integer) {
             port = (Integer) object;
         } else if (object instanceof String) {
