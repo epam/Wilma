@@ -20,7 +20,7 @@ package com.epam.wilma.mock.client;
  ===========================================================================*/
 
 import static com.epam.wilma.mock.client.WilmaMock.WILMA_HOST_KEY;
-import static com.epam.wilma.mock.client.WilmaMock.WILMA_PORT_KEY;
+import static com.epam.wilma.mock.client.WilmaMock.WILMA_INTERNAL_PORT_KEY;
 import static com.epam.wilma.mock.domain.MessageLoggingControl.OFF;
 import static com.epam.wilma.mock.domain.MessageLoggingControl.ON;
 import static com.epam.wilma.mock.domain.OperationMode.PROXY;
@@ -109,7 +109,7 @@ public class WilmaMockTest {
     public void shouldThrowExceptionWhenConfigIsInvalid() {
         Properties properties = new Properties();
         properties.put(WILMA_HOST_KEY, HOST);
-        properties.put(WILMA_PORT_KEY, Long.valueOf("1"));
+        properties.put(WILMA_INTERNAL_PORT_KEY, Long.valueOf("1"));
 
         new WilmaMock(properties);
     }
@@ -295,7 +295,7 @@ public class WilmaMockTest {
     private Properties createWilmaProperties() {
         Properties properties = new Properties();
         properties.put(WILMA_HOST_KEY, HOST);
-        properties.put(WILMA_PORT_KEY, PORT);
+        properties.put(WILMA_INTERNAL_PORT_KEY, PORT);
         return properties;
     }
 
