@@ -58,7 +58,9 @@ public final class UrlBuilderUtils {
      * @param params parameters
      * @return url
      */
+    //CHECKSTYLE.OFF
     public static String buildAbsoluteURL(boolean isSecure, String host, String port, String uri, Map<String, String> params) {
+        //CHECKSTYLE.ON
         StringBuilder result = new StringBuilder();
 
         if (isSecure) {

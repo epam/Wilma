@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * Test some wilma-mock.jar functionality.
+ *
  * @author Tamas_Kohegyi
  */
 @TestClass(id = "Mock.jar", name = "General test")
@@ -24,7 +26,7 @@ public class WilmaMockTest implements GepardTestClass {
     }
 
     @Test
-    void getWilmaVersionViaMock() {
+    public void getWilmaVersionViaMock() {
         JSONObject o = wilmaMock.getVersionInformation();
         Assert.assertNotNull(o);
         String version = o.getString("wilmaVersion");
@@ -32,7 +34,7 @@ public class WilmaMockTest implements GepardTestClass {
     }
 
     @Test
-    void getWilmaLoadInformationViaMock() {
+    public void getWilmaLoadInformationViaMock() {
         JSONObject o = wilmaMock.getActualLoadInformation();
         Assert.assertNotNull(o);
         String loggerQueueSize = o.getString("loggerQueueSize");
