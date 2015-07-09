@@ -18,14 +18,14 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-
-import javax.management.AttributeNotFoundException;
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectName;
-
+import com.epam.wilma.core.safeguard.SafeguardController;
+import com.epam.wilma.domain.exception.SystemException;
+import com.epam.wilma.safeguard.configuration.SafeguardConfigurationAccess;
+import com.epam.wilma.safeguard.configuration.domain.PropertyDTO;
+import com.epam.wilma.safeguard.configuration.domain.QueueSizeProvider;
+import com.epam.wilma.safeguard.configuration.domain.SafeguardLimits;
+import com.epam.wilma.safeguard.monitor.helper.JmxConnectionBuilder;
+import com.epam.wilma.safeguard.monitor.helper.JmxObjectNameProvider;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -35,14 +35,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.core.safeguard.SafeguardController;
-import com.epam.wilma.domain.exception.SystemException;
-import com.epam.wilma.safeguard.configuration.SafeguardConfigurationAccess;
-import com.epam.wilma.safeguard.configuration.domain.PropertyDTO;
-import com.epam.wilma.safeguard.configuration.domain.QueueSizeProvider;
-import com.epam.wilma.safeguard.configuration.domain.SafeguardLimits;
-import com.epam.wilma.safeguard.monitor.helper.JmxConnectionBuilder;
-import com.epam.wilma.safeguard.monitor.helper.JmxObjectNameProvider;
+import javax.management.AttributeNotFoundException;
+import javax.management.MBeanServerConnection;
+import javax.management.ObjectName;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides tests for the class {@link JmsQueueMonitorTask}.
@@ -63,6 +62,8 @@ public class JmsQueueMonitorTaskTest {
     private ObjectName responseQueue;
     @Mock
     private ObjectName loggerQueue;
+    @Mock
+    private ObjectName dlqQueue;
     @Mock
     private Logger logger;
     @Mock
@@ -89,6 +90,7 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
         // WHEN
         underTest.run();
         // THEN
@@ -105,6 +107,7 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(191));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
         // WHEN
         underTest.run();
         // THEN
@@ -121,6 +124,7 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(11));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
         // WHEN
         underTest.run();
         // THEN
@@ -137,6 +141,7 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", false);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(111));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
         // WHEN
         underTest.run();
         // THEN
@@ -153,6 +158,7 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", false);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(58));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
         // WHEN
         underTest.run();
         // THEN
@@ -169,6 +175,7 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", false);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(2));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(3));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
         // WHEN
         underTest.run();
         // THEN
@@ -185,6 +192,7 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willThrow(new AttributeNotFoundException());
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
         // WHEN
         underTest.run();
         // THEN exception is thrown
@@ -236,6 +244,7 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
         // WHEN
         underTest.run();
         // THEN
@@ -252,6 +261,7 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
         // WHEN
         underTest.run();
         // THEN
@@ -261,18 +271,37 @@ public class JmsQueueMonitorTaskTest {
         Assert.assertEquals(responseQueueSize, 12);
     }
 
+    @Test
+    public final void testRunShouldPurgeDlqQueue() throws Exception {
+        // GIVEN
+        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
+        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
+        QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
+        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(1));
+        // WHEN
+        underTest.run();
+        // THEN
+        verify(mBeanServerConnection).invoke(dlqQueue, "purge", null, null);
+    }
+
     private void givenJmxConnectionBuilder() throws Exception {
         given(jmxConnectionBuilder.buildMBeanServerConnection(JmsQueueMonitorTask.JMX_SERVICE_URL)).willReturn(mBeanServerConnection);
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.RESPONSE_QUEUE_OBJECT_NAME)).willReturn(responseQueue);
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.LOGGER_QUEUE_OBJECT_NAME)).willReturn(loggerQueue);
+        given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.DLQ_QUEUE_OBJECT_NAME)).willReturn(dlqQueue);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(2));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(3));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
     }
 
     private void verifyConnectionBuilder() {
         verify(jmxConnectionBuilder).buildMBeanServerConnection(JmsQueueMonitorTask.JMX_SERVICE_URL);
         verify(jmxObjectNameProvider).getObjectName(JmsQueueMonitorTask.RESPONSE_QUEUE_OBJECT_NAME);
         verify(jmxObjectNameProvider).getObjectName(JmsQueueMonitorTask.LOGGER_QUEUE_OBJECT_NAME);
+        verify(jmxObjectNameProvider).getObjectName(JmsQueueMonitorTask.DLQ_QUEUE_OBJECT_NAME);
     }
 
 }
