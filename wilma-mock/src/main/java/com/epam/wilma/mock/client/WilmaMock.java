@@ -62,12 +62,11 @@ public final class WilmaMock {
 
     /**
      * <p>
-     *   Constructor.<br>
+     *   Constructor.
      *   The given properties object has to contain the Wilma server
      *   configuration:
      * </p>
-     * <p>
-     *   <table>
+     *   <table summary="">
      *     <tr>
      *       <th>Key</th>
      *       <th>Class Type</th>
@@ -81,7 +80,6 @@ public final class WilmaMock {
      *       <td align="center"><pre>String|Integer</pre></td>
      *     </tr>
      *   </table>
-     * </p>
      * <p>
      *   For properties key you can use {@code WilmaMock.WILMA_HOST_KEY} and
      *   {@code WilmaMock.WILMA_INTERNAL_PORT_KEY} constants.

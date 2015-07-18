@@ -121,3 +121,10 @@ sonarRunner {
         property "sonar.jdbc.password", "${sonar_jdbc_password}"
     }
 }
+
+task docs(type: Javadoc) {
+    destinationDir = file("$buildDir/docs/all")
+    options.memberLevel = JavadocMemberLevel.PRIVATE
+    source += files(sourceSets.main.java)
+    classpath += files(sourceSets.main.compileClasspath)
+}

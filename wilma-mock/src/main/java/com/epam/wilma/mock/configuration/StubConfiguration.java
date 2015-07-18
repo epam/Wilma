@@ -126,7 +126,6 @@ public class StubConfiguration extends AbstractConfiguration {
      * is the following:<br>
      *
      * <pre>
-     * {@code
      * {
      *   "configs": [
      *     {
