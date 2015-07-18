@@ -21,6 +21,10 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ext.myLocalRepository='file://C:/tmp/myRepo/'
 ext.wilmaVersion=1.1
 
+if ( hasProperty('localRepository') ) {
+    myLocalRepository = "${project.ext.localRepository}"
+}
+
 group = 'com.epam.wilma'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
