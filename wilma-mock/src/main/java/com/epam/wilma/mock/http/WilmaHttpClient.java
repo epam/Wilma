@@ -21,6 +21,7 @@ package com.epam.wilma.mock.http;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -30,6 +31,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +64,8 @@ public class WilmaHttpClient {
         try {
             int statusCode = httpclient.executeMethod(method);
             if (HttpStatus.SC_OK == statusCode) {
-                response = method.getResponseBodyAsString();
+                InputStream inputResponse = method.getResponseBodyAsStream();
+                response = IOUtils.toString(inputResponse, "UTF-8");
             }
         } catch (HttpException e) {
             LOG.error("Protocol exception occurred when called: " + url, e);

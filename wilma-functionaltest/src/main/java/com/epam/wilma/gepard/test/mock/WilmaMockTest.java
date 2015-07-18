@@ -26,7 +26,7 @@ public class WilmaMockTest implements GepardTestClass {
     }
 
     @Test
-    public void getWilmaVersionViaMock() {
+    public void getWilmaVersionViaAPI() {
         JSONObject o = wilmaMock.getVersionInformation();
         Assert.assertNotNull(o);
         String version = o.getString("wilmaVersion");
@@ -34,10 +34,10 @@ public class WilmaMockTest implements GepardTestClass {
     }
 
     @Test
-    public void getWilmaLoadInformationViaMock() {
+    public void getWilmaLoadInformationViaAPI() {
         JSONObject o = wilmaMock.getActualLoadInformation();
         Assert.assertNotNull(o);
-        String loggerQueueSize = o.getString("loggerQueueSize");
+        Integer loggerQueueSize = (Integer) o.get("loggerQueueSize");
         logComment("Wilma Logger Queue size is: " + loggerQueueSize);
     }
 
