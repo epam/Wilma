@@ -17,11 +17,7 @@
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 apply plugin: 'application'
-apply plugin: 'checkstyle'
-
-repositories {
-    maven { url "${myLocalRepository}" }
-}
+apply from: '../common.gradle'
 
 dependencies {
     compile "com.epam.gepard:gepard-core:4.0.35"
@@ -32,11 +28,6 @@ dependencies {
     compile 'com.sun.xml.fastinfoset:FastInfoset:1.2.13'
     compile "com.epam.wilma:wilma-mock:$version"
 }
-
-checkstyle.configFile = file("$rootProject.rootDir/config/checkstyle/checkstyle.xml")
-checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/config/checkstyle"]
-checkstyle.toolVersion = '5.6'
-checkstyle.ignoreFailures = true
 
 mainClassName = "com.epam.gepard.AllTestRunner"
 

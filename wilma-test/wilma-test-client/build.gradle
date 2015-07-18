@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-description = "Wilma Test Client"
+ext.componentDescription = "Wilma Test Client"
 
 buildscript {
     repositories { jcenter() }
@@ -26,16 +26,9 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
-
-group = 'com.epam.wilma'
-version = "$wilmaVersion"
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+apply plugin: 'application'
+apply from: '../../common.gradle'
 
 mainClassName = 'com.epam.wilma.test.client.WilmaTestClientApplication'
 
@@ -46,20 +39,18 @@ shadowJar {
 		'META-INF/*.RSA'
 		]
 
-    archiveName = "wilma-test-client-$version.$buildNumber"+'.jar'
+    archiveName = "$componentName-$version"+'.jar'
 }
 
 jar {
     manifest.attributes( 'provider': 'gradle')
     manifest.attributes( 'Main-Class': mainClassName)
-    manifest.attributes( 'Implementation-Title': "$componentName-v$version"+'.'+"$buildNumber")
-    
-    finalizedBy shadowJar
-} 
+    manifest.attributes( 'Implementation-Title': "$componentDescription - V$version")
+    archiveName = "$componentName-$version"+'.jar'
 
-repositories {
-     maven { url "http://repo.maven.apache.org/maven2" }
+    finalizedBy shadowJar
 }
+
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
     compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.12'

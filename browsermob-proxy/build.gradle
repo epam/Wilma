@@ -17,16 +17,12 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-//version = "2.0-beta-8-wilma-${wilmaVersion}.${buildId}" - used only at CI release job
+ext.componentDescription = "BrowserMob Proxy - tuned for Wilma"
 
-description = """BrowserMob Proxy for Wilma"""
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+apply from: '../common.gradle'
 
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    maven { url "http://repo.maven.apache.org/maven2" }
 }
 
 dependencies {
@@ -52,17 +48,19 @@ dependencies {
 
 jar {
     manifest.attributes( 'provider': 'gradle')
-    manifest.attributes( 'Implementation-Title': "$componentName-$version")
+    manifest.attributes( 'Implementation-Title': "$componentDescription - V$version")
+    archiveName = "$componentName-$version"+'.jar'
 }
 
 task copyJarToDistributions (type: Copy) {
-    from(rootProject.rootDir.absolutePath + '/browsermob-proxy/build/libs/')
-	into(rootProject.rootDir.absolutePath + '/browsermob-proxy/build/distributions')
+    dependsOn(sourceZip)
+    from("$buildDir/libs/")
+	into("$buildDir/distributions")
 }
 
 task createPom << {
     pom {
-    }.writeTo("$buildDir/distributions/browsermob-proxy-${version}.pom")
+    }.writeTo("$buildDir/distributions/$componentName-${version}.pom")
 }
 createPom.dependsOn(copyJarToDistributions)
 

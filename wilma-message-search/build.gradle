@@ -21,10 +21,7 @@ description= 'wilma-message-search'
 
 
 allprojects  {
-    apply plugin: 'checkstyle'
     apply plugin: 'jacoco'
-    group = 'com.epam.wilma.message.search'
-    version = "$wilmaVersion"
 }
 
 task docs(type: Javadoc) {
@@ -107,11 +104,7 @@ task release(type: Zip) {
 
 subprojects {
 
-    sourceCompatibility = 1.7
-    targetCompatibility = 1.7
-
     repositories {
-        maven { url "http://repo.maven.apache.org/maven2" }
         maven { url "https://repository.jboss.org/nexus/content/groups/public" }
     }
   

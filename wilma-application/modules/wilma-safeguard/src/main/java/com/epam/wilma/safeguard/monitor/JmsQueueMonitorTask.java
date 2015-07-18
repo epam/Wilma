@@ -93,7 +93,7 @@ public class JmsQueueMonitorTask implements Runnable {
 
     private void resetDlqAsNecessary() {
         boolean sizeIsValid = false;
-        Long dlqSize = new Long(0);
+        Long dlqSize = Long.valueOf(0);
         try {
             dlqSize = (Long) mBeanServerConnection.getAttribute(dlqQueue, "QueueSize");
             sizeIsValid = true;
@@ -108,14 +108,6 @@ public class JmsQueueMonitorTask implements Runnable {
                 throw new SystemException("Message found in ActiveMQ.DLQ. Queue size cannot be detected.", e);
             }
         }
-    }
-
-    public boolean isSafeguardFIEnabled() {
-        return fIDecompressionEnabled;
-    }
-
-    public boolean isSafeguardMWEnabled() {
-        return messageWritingEnabled;
     }
 
     private void getSafeguardLimits() {

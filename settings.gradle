@@ -10,8 +10,6 @@
  */
 rootProject.name = 'wilma'
 
-include 'wilma-functionaltest'
-include 'browsermob-proxy'
 include 'wilma-message-search'
 include 'wilma-message-search:wilma-message-search-lucene'
 include 'wilma-message-search:wilma-message-search-webapp'
@@ -47,13 +45,3 @@ include 'wilma-application:wilma-message-sequence'
 for (subproject in (project(':wilma-application')).children){
 	subproject.projectDir = file("$rootDir/wilma-application/modules/$subproject.name")
 }
-
-include 'wilma-test-server'
-include 'wilma-test-client'
-
-project(':wilma-test-server').projectDir = file("$rootDir/wilma-test/wilma-test-server")
-project(':wilma-test-client').projectDir = file("$rootDir/wilma-test/wilma-test-client")
-
-include 'wilma-mock'
-
-project(':wilma-mock').projectDir = file("$rootDir/wilma-mock")
