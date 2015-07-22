@@ -25,6 +25,7 @@ import java.io.InputStream;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -56,7 +57,7 @@ public class WilmaHttpClient {
      * @return an {@code Optional} instance containing the HTTP method's
      *         response; otherwise returns {@link Optional#absent}.
      */
-    public Optional<String> sendGetterRequest(String url) {
+    public Optional<String> sendGetterRequest(final String url) {
         String response = null;
 
         GetMethod method = new GetMethod(url);
@@ -85,13 +86,20 @@ public class WilmaHttpClient {
      * @param url the given URL
      * @return {@code true} if the request is successful, otherwise return {@code false}
      */
-    public boolean sendSetterRequest(String url) {
-        boolean requestSuccessful = false;
+    public boolean sendSetterRequest(final String url) {
+        boolean requestSuccessful;
 
         GetMethod method = new GetMethod(url);
+        requestSuccessful = executeCall(method, url);
+        method.releaseConnection();
 
+        return requestSuccessful;
+    }
+
+    private boolean executeCall(final HttpMethodBase methodBase, final String url) {
+        boolean requestSuccessful = false;
         try {
-            int statusCode = httpclient.executeMethod(method);
+            int statusCode = httpclient.executeMethod(methodBase);
             if (HttpStatus.SC_OK == statusCode) {
                 requestSuccessful = true;
             }
@@ -99,8 +107,6 @@ public class WilmaHttpClient {
             LOG.error("Protocol exception occurred when called: " + url, e);
         } catch (IOException e) {
             LOG.error("I/O (transport) error occurred when called: " + url, e);
-        } finally {
-            method.releaseConnection();
         }
 
         return requestSuccessful;
