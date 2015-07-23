@@ -1,18 +1,19 @@
 package net.lightbody.bmp.proxy;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Singleton
 public class ProxyManager {
+    public static final int PROXY_TIMEOUT = 240000; //4 minutes
     private final AtomicInteger portCounter = new AtomicInteger(9090);
     private final Provider<ProxyServer> proxyServerProvider;
-    private final Map<Integer, ProxyServer> proxies = new ConcurrentHashMap<Integer, ProxyServer>();
+    private final Map<Integer, ProxyServer> proxies = new ConcurrentHashMap<>();
 
     @Inject
     public ProxyManager(final Provider<ProxyServer> proxyServerProvider) {
@@ -22,7 +23,7 @@ public class ProxyManager {
     public ProxyServer create(final Map<String, String> options, final int port) throws Exception {
         ProxyServer proxy = proxyServerProvider.get();
         proxy.setPort(port);
-        proxy.start(60000);
+        proxy.start(PROXY_TIMEOUT);
         proxy.setOptions(options);
         proxies.put(port, proxy);
         return proxy;
@@ -33,7 +34,7 @@ public class ProxyManager {
         ProxyServer proxy = proxyServerProvider.get();
 
         proxy.setPort(port);
-        proxy.start(60000);
+        proxy.start(PROXY_TIMEOUT);
         proxy.setOptions(options);
 
         proxies.put(port, proxy);

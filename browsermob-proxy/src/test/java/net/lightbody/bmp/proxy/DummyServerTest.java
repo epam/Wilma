@@ -17,7 +17,7 @@ public class DummyServerTest {
     @Before
     public void startServer() throws Exception {
         dummy.start();
-        proxy.start(60000);
+        proxy.start(ProxyManager.PROXY_TIMEOUT);
 
         HttpHost proxyHost = new HttpHost("127.0.0.1", 8081, "http");
         client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);

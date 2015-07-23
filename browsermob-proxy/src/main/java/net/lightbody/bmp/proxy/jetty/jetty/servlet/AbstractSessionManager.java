@@ -15,6 +15,7 @@
 
 package net.lightbody.bmp.proxy.jetty.jetty.servlet;
 
+import net.lightbody.bmp.proxy.ProxyManager;
 import net.lightbody.bmp.proxy.jetty.http.HttpOnlyCookie;
 import net.lightbody.bmp.proxy.jetty.log.LogFactory;
 import net.lightbody.bmp.proxy.jetty.util.LazyList;
@@ -360,17 +361,17 @@ public abstract class AbstractSessionManager implements SessionManager
         
         int old_period=_scavengePeriodMs;
         int period = seconds*1000;
-        if (period>60000)
-            period=60000;
-        if (period<1000)
-            period=1000;
+        if (period > ProxyManager.PROXY_TIMEOUT)
+            period = ProxyManager.PROXY_TIMEOUT;
+        if (period < 1000)
+            period = 1000;
         
-        if (period!=old_period)
+        if (period != old_period)
         {
             synchronized(this)
             {
-                _scavengePeriodMs=period;
-                if (_scavenger!=null)
+                _scavengePeriodMs = period;
+                if (_scavenger != null)
                     _scavenger.interrupt();
             }
         }

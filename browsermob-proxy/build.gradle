@@ -21,6 +21,8 @@ ext.componentDescription = "BrowserMob Proxy - tuned for Wilma"
 
 apply from: '../common.gradle'
 
+version = "2.0-beta-8-wilma-" + "$wilmaVersion"+'.'+"$buildNumber"
+
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }

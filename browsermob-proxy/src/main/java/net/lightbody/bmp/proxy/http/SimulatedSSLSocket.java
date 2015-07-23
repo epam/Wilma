@@ -1,5 +1,6 @@
 package net.lightbody.bmp.proxy.http;
 
+import net.lightbody.bmp.proxy.ProxyManager;
 import org.java_bandwidthlimiter.StreamManager;
 
 import javax.net.ssl.*;
@@ -124,7 +125,7 @@ public class SimulatedSSLSocket extends SSLSocket {
 
     @Override
     public void connect(SocketAddress endpoint) throws IOException {
-        this.connect(endpoint, 60000);
+        this.connect(endpoint, ProxyManager.PROXY_TIMEOUT);
     }
 
     @Override
