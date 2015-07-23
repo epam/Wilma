@@ -10,7 +10,7 @@ java.lang.NullPointerException
 	at com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor.processRequest(WilmaHttpRequestProcessor.java:55)
 	at com.epam.wilma.browsermob.interceptor.BrowserMobRequestInterceptor.process(BrowserMobRequestInterceptor.java:58)
 	at net.lightbody.bmp.proxy.http.BrowserMobHttpClient.execute(BrowserMobHttpClient.java:465)
-	at net.lightbody.bmp.proxy.http.BrowserMobHttpRequest.execute(BrowserMobHttpRequest.java:158)
+	at net.lightbody.bmp.proxy.http.BrowserMobHttpRequest.execute(BrowserMobHttpRequest.java:154)
 	at net.lightbody.bmp.proxy.BrowserMobProxyHandler.proxyPlainTextRequest(BrowserMobProxyHandler.java:296)
 	at net.lightbody.bmp.proxy.selenium.SeleniumProxyHandler.handle(SeleniumProxyHandler.java:185)
 	at net.lightbody.bmp.proxy.jetty.http.HttpContext.handle(HttpContext.java:1509)
