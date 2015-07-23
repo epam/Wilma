@@ -19,23 +19,21 @@ package com.epam.wilma.mock.configuration;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import com.epam.wilma.mock.domain.StubConfigOrder;
+import com.epam.wilma.mock.domain.StubConfigStatus;
+import com.epam.wilma.mock.domain.WilmaMockConfig;
+import com.epam.wilma.mock.http.WilmaHttpClient;
+import com.google.common.collect.ImmutableMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.epam.wilma.mock.domain.StubConfigOrder;
-import com.epam.wilma.mock.domain.StubConfigStatus;
-import com.epam.wilma.mock.domain.WilmaMockConfig;
-import com.epam.wilma.mock.http.WilmaHttpClient;
-import com.google.common.collect.ImmutableMap;
-
 /**
  * Collects the stub configuration related commands.
  *
  * @author Tamas_Pinter
- *
  */
 public class StubConfiguration extends AbstractConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(StubConfiguration.class);
@@ -83,7 +81,7 @@ public class StubConfiguration extends AbstractConfiguration {
      * Sets the status of the given stub group.
      *
      * @param groupName the name of the stub group
-     * @param status the new status
+     * @param status    the new status
      * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
      */
     public boolean setStubConfigStatus(String groupName, StubConfigStatus status) {
@@ -97,7 +95,7 @@ public class StubConfiguration extends AbstractConfiguration {
      * Sets the new order of the given stub group.
      *
      * @param groupName the name of the stub group
-     * @param order the new order
+     * @param order     the new order
      * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
      */
     public boolean setStubConfigOrder(String groupName, StubConfigOrder order) {
@@ -124,7 +122,6 @@ public class StubConfiguration extends AbstractConfiguration {
      * Whichever drop try was unsuccessful then return {@code false} but try to
      * drop the others. The supposed stub configuration information JSON format
      * is the following:<br>
-     *
      * <pre>
      * {
      *   "configs": [
@@ -139,7 +136,7 @@ public class StubConfiguration extends AbstractConfiguration {
      * </pre>
      *
      * @return <tt>true</tt> if all the stub configuration is dropped
-     *         successfully, otherwise return <tt>false</tt>
+     * successfully (or was empty and nothing to be dropped), otherwise return <tt>false</tt>
      */
     public boolean dropAllStubConfig() {
         LOG.debug("Call drop all stub configuration.");
@@ -151,19 +148,14 @@ public class StubConfiguration extends AbstractConfiguration {
                 LOG.debug("Gets stub configs array from all stub configuration JSON.");
                 JSONArray configs = stubConfig.getJSONArray("configs");
                 for (int i = 0; i < configs.length(); i++) {
-                    try {
-                        LOG.debug("Get the stub group name.");
-                        String groupName = configs.getJSONObject(i).getString("groupname");
+                    LOG.debug("Get the stub group name.");
+                    String groupName = configs.getJSONObject(i).getString("groupname");
 
-                        droppedAllStubConfig &= dropStubConfig(groupName);
-                        LOG.info("Dropped stub configuration: {}", groupName);
-                    } catch (JSONException e) {
-                        LOG.error("Error occured while dropping sub configuration. ", e);
-                        droppedAllStubConfig = false;
-                    }
+                    droppedAllStubConfig &= dropStubConfig(groupName);
+                    LOG.info("Dropped stub configuration: {}", groupName);
                 }
             } catch (JSONException e) {
-                LOG.error("Error occured while dropping sub configuration. ", e);
+                LOG.error("Error occurred while dropping sub configuration. ", e);
                 droppedAllStubConfig = false;
             }
         } else {

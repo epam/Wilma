@@ -165,8 +165,8 @@ public class StubConfigurationTest {
     }
 
     @Test
-    public void shoudReturnTrueForDropAllStubConfigIfTheGivenJSONIsCorrect() {
-        when(client.sendGetterRequest(STUB_STATUS_URL)).thenReturn(Optional.<String>of(validJson()));
+    public void shouldReturnTrueForDropAllStubConfigIfTheGivenJSONIsCorrect() {
+        when(client.sendGetterRequest(STUB_STATUS_URL)).thenReturn(Optional.<String>of(validNotEmptyJson()));
         when(client.sendSetterRequest(DROP_STUB_URL1)).thenReturn(true);
         when(client.sendSetterRequest(DROP_STUB_URL2)).thenReturn(true);
 
@@ -181,6 +181,18 @@ public class StubConfigurationTest {
     }
 
     @Test
+    public void shouldReturnTrueForDropAllStubConfigIfTheGivenJSONIsCorrectEvenIfEmpty() {
+        when(client.sendGetterRequest(STUB_STATUS_URL)).thenReturn(Optional.<String>of(validEmptyJson()));
+
+        ArgumentCaptor<String> url = ArgumentCaptor.forClass(String.class);
+
+        boolean result = stubConfiguration.dropAllStubConfig();
+
+        assertTrue(result);
+        verify(client, times(0)).sendSetterRequest(url.capture());
+    }
+
+    @Test
     public void shouldReturnFalseForDropAllStubConfigIfTheConfigIsMissing() {
         when(client.sendGetterRequest(STUB_STATUS_URL)).thenReturn(Optional.<String>absent());
 
@@ -189,7 +201,7 @@ public class StubConfigurationTest {
 
     @DataProvider(name = "testdata")
     public Object[][] testdata() {
-        return new Object[][] {{emptyJSON()}, {jsonWithoutConfigsArray()}, {jsonWithoutGroupName()}};
+        return new Object[][] {{invalidEmptyJson()}, {jsonWithoutConfigsArray()}, {jsonWithoutGroupName()}};
     }
 
     @Test(dataProvider = "testdata")
@@ -199,7 +211,11 @@ public class StubConfigurationTest {
         assertFalse(stubConfiguration.dropAllStubConfig());
     }
 
-    private String validJson() {
+    private String validEmptyJson() {
+        return "{\"configs\":[]}";
+    }
+
+    private String validNotEmptyJson() {
         return "{\n"
                 + "   \"configs\":[\n"
                 + "      {\n"
@@ -213,7 +229,7 @@ public class StubConfigurationTest {
 
     }
 
-    private String emptyJSON() {
+    private String invalidEmptyJson() {
         return "{}";
     }
 

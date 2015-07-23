@@ -91,7 +91,7 @@ public final class UrlBuilderUtils {
             try {
                 url.append(URLEncoder.encode(value, ENCODE));
             } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
+                throw new WilmaMockException("Unable to encode value: " + value, e);
             }
         }
     }
