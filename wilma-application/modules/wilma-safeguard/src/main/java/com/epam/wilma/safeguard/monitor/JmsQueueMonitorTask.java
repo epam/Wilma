@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.management.InstanceNotFoundException;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 
@@ -102,10 +103,12 @@ public class JmsQueueMonitorTask implements Runnable {
                 logger.info("Message found in ActiveMQ.DLQ. Queue size is: " + dlqSize + ", queue purged successfully.");
             }
         } catch (Exception e) {
-            if (sizeIsValid) {
-                throw new SystemException("Message found in ActiveMQ.DLQ. Queue size is: " + dlqSize + ", QUEUE PURGE FAILED.", e);
-            } else {
-                throw new SystemException("Message found in ActiveMQ.DLQ. Queue size cannot be detected.", e);
+            if (!(e instanceof InstanceNotFoundException)) {
+                if (sizeIsValid) {
+                    throw new SystemException("Message found in ActiveMQ.DLQ. Queue size is: " + dlqSize + ", QUEUE PURGE FAILED.", e);
+                } else {
+                    throw new SystemException("Message found in ActiveMQ.DLQ. Queue size cannot be detected.", e);
+                } //otherwise no DLQ exists, and that is fine
             }
         }
     }
