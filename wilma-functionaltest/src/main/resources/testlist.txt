@@ -45,5 +45,5 @@ com.epam.wilma.gepard.test.stubconfig.multi.order.MovedTheSecondConfigToUpTest,,
 com.epam.wilma.gepard.test.stubconfig.multi.order.MovedTheFirstConfigToDownTest,,STUBCONFIG
 com.epam.wilma.gepard.test.stubconfig.multi.order.ChangeTheOrderOfUploadingTwoTimesTest,,STUBCONFIG
 com.epam.wilma.gepard.test.stubconfig.multi.order.OrderErrorResponseCheckerTest,,STUBCONFIG
-com.epam.wilma.gepard.test.service.WilmaMockTest,,STUBCONFIG
+com.epam.wilma.gepard.test.service.WilmaServiceTest,,STUBCONFIG
 com.epam.wilma.gepard.test.stubconfig.UploadSavedStubConfig,,STUBCONFIG
