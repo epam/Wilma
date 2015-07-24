@@ -39,8 +39,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class WilmaApplication {
     private static final Logger LOG = LoggerFactory.getLogger(WilmaApplication.class);
 
-    private static final JSONObject EMPTY_JSON = new JSONObject();
-
     private static final String VERSION_INFO_URL_POSTFIX = "config/public/version";
     private static final String ACTUAL_LOAD_INFO_URL_POSTFIX = "config/public/actualload";
     private static final String SHUTDOWN_URL_POSTFIX = "config/admin/shutdown";

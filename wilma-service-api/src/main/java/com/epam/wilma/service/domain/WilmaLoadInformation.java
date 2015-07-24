@@ -42,9 +42,20 @@ public class WilmaLoadInformation {
         loggerQueueSize = (Integer) jsonObject.get("loggerQueueSize");
     }
 
-    public Integer getDeletedFilesCount() { return deletedFilesCount; }
-    public Integer getCountOfMessages() { return countOfMessages; }
-    public Integer getResponseQueueSize() { return responseQueueSize; }
-    public Integer getLoggerQueueSize() { return loggerQueueSize; }
+    public Integer getDeletedFilesCount() {
+        return deletedFilesCount;
+    }
+
+    public Integer getCountOfMessages() {
+        return countOfMessages;
+    }
+
+    public Integer getResponseQueueSize() {
+        return responseQueueSize;
+    }
+
+    public Integer getLoggerQueueSize() {
+        return loggerQueueSize;
+    }
 
 }

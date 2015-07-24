@@ -53,7 +53,9 @@ public class OperationConfigurationTest {
     private static final String OPERATION_MODE_SETTER_URL_WILMA = "http://host:1/config/admin/switch/wilma";
     private static final String OPERATION_MODE_SETTER_URL_STUB = "http://host:1/config/admin/switch/stub";
     private static final String OPERATION_MODE_SETTER_URL_PROXY = "http://host:1/config/admin/switch/proxy";
-    private static final String JSON_STRING = "{\"proxyMode\":false,\"stubMode\":false,\"wilmaMode\":true}";
+    private static final String JSON_STRING_WILMA_MODE = "{\"proxyMode\":false,\"stubMode\":false,\"wilmaMode\":true}";
+    private static final String JSON_STRING_STUB_MODE = "{\"proxyMode\":false,\"stubMode\":true,\"wilmaMode\":false}";
+    private static final String JSON_STRING_PROXY_MODE = "{\"proxyMode\":true,\"stubMode\":false,\"wilmaMode\":false}";
 
     @Mock
     private WilmaHttpClient client;
@@ -84,12 +86,32 @@ public class OperationConfigurationTest {
     }
 
     @Test
-    public void shouldReturnWithProperValue() {
-        when(client.sendGetterRequest(OPERATION_MODE_STATUS_URL)).thenReturn(Optional.of(JSON_STRING));
+    public void shouldReturnWithProperValueWilma() {
+        when(client.sendGetterRequest(OPERATION_MODE_STATUS_URL)).thenReturn(Optional.of(JSON_STRING_WILMA_MODE));
 
         OperationMode result = operationConfiguration.getOperationMode();
 
-        assertTrue(result == OperationMode.WILMA, "The two JSON objects should be similar.");
+        assertTrue(result == OperationMode.WILMA, "The operation mode should be WILMA.");
+        verify(client, never()).sendSetterRequest(anyString());
+    }
+
+    @Test
+    public void shouldReturnWithProperValueStub() {
+        when(client.sendGetterRequest(OPERATION_MODE_STATUS_URL)).thenReturn(Optional.of(JSON_STRING_STUB_MODE));
+
+        OperationMode result = operationConfiguration.getOperationMode();
+
+        assertTrue(result == OperationMode.STUB, "The operation mode should be STUB.");
+        verify(client, never()).sendSetterRequest(anyString());
+    }
+
+    @Test
+    public void shouldReturnWithProperValueProxy() {
+        when(client.sendGetterRequest(OPERATION_MODE_STATUS_URL)).thenReturn(Optional.of(JSON_STRING_PROXY_MODE));
+
+        OperationMode result = operationConfiguration.getOperationMode();
+
+        assertTrue(result == OperationMode.PROXY, "The operation mode should be PROXY.");
         verify(client, never()).sendSetterRequest(anyString());
     }
 

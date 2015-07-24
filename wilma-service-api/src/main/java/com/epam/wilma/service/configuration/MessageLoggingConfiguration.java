@@ -72,7 +72,7 @@ public class MessageLoggingConfiguration extends AbstractConfiguration {
             Boolean requestLogging = (Boolean) o.get("requestLogging");
             Boolean responseLogging = (Boolean) o.get("responseLogging");
 
-            if (requestLogging & responseLogging) {
+            if (requestLogging && responseLogging) {
                 status = MessageLoggingControlStatus.ON;
             } else {
                 status = MessageLoggingControlStatus.OFF;
