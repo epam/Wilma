@@ -26,7 +26,7 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile 'com.sun.xml.fastinfoset:FastInfoset:1.2.13'
-    compile "com.epam.wilma:wilma-mock:$version"
+    compile "com.epam.wilma:wilma-service-api:$version"
 }
 
 mainClassName = "com.epam.gepard.AllTestRunner"
