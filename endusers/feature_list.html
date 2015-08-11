@@ -18,8 +18,8 @@
     <meta name="HandheldFriendly" content="true" />
     <meta name="apple-mobile-web-app-capable" content="YES" />
     <meta name="author" content="Tamas Kohegyi" />
-    <meta name="Description" content="Wilma is a http/https proxy and stub" />
-    <meta name="Keywords" content="test automation, proxy, stub, wilma" />
+    <meta name="Description" content="Wilma is a http/https Transparent Proxy and Service Stub" />
+    <meta name="Keywords" content="test automation, proxy, stub, wilma, microservices" />
 </head>
 <body>
 
@@ -41,7 +41,7 @@
 
                 <h2>Stub - Configuration</h2>
                 <p>The Stub part of Wilma is configured via Xml file(s). Details about how the Stub Configuration should be used can be found <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here...</a>.</p>
-                <p>Wilma can handle multiple stub configurations. With this feature grouping of stub functions (by team, by stubbed application, etc.) can be used.
+                <p>Wilma can handle multiple stub configurations. With this feature grouping of stub functions (by team, by stubbed application, by individual services, etc.) can be used.
                     See details about this possibility <a href="https://github.com/epam/Wilma/wiki/Multi-Stub-Configuration">here...</a>.</p>
                 <p>The schema of the stub configuration xml that is used by Wilma can be accessed at the following address:</p>
                 <p>
@@ -49,9 +49,9 @@
                 </p>
 
                 <h2>Stub - Condition Checkers</h2>
-                <p>The stub configuration contains several <b>dialog-descriptors</b> that describes a request-response pair.
+                <p>The stub configuration contains several <b>dialog-descriptors</b> that describes a stub request-response pair.
                     These pairs have a <b>condition-descriptor</b> and a <b>template-descriptor</b>, and the first may contain several <b>Condition Checkers</b>,
-                    those evaluate the request and help identifying the ones where stub response should be generated.
+                    those evaluate the request and help identifying the ones where stub response should be generated (based on the template-descriptor).
                 <p></p>
                     Among the numerous built-in <b>Condition Checkers</b>, you may write and use your own solutions too.
                 </p>

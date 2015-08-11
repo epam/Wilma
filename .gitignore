@@ -5,6 +5,8 @@ wilma-application/
 wilma-functionaltest/
 wilma-message-search/
 wilma-test/
+wilma-service-api/
+build/
 wilma.iml
 wilma.ipr
 wilma.iws
