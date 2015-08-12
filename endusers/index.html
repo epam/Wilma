@@ -307,7 +307,7 @@ Request-response pairs are stored in 'D:\wilma\messages' folder.
 
                 <h2>Configuring a Java client application to use Wilma as a proxy</h2>
 
-                <p>If you want to use Wilma as a proxy in a Java client application, you must configure it to go through
+                <p>If you want to use Wilma as a proxy for a Java client application, you must configure it to go through
                     Wilma.</p>
 
                 <p>The most simple way to do this is by adding a few<strong> VM arguments </strong>to the run
@@ -333,7 +333,7 @@ Request-response pairs are stored in 'D:\wilma\messages' folder.
                 </ul>
                 <p>The first 2 arguments mean that the application should use a proxy on the given host and port, the
                     third argument specifies a Java Key Store (JKS) file that contains the certificates trusted by the
-                    client application.</p>
+                    client application. Depending of the HTTP/S client used by your application, other parameters might also need to be set.</p>
 
                 <p>Wilma uses an unsigned certificate contained by <code>wilma.jks </code>to be able to proxy HTTPS
                     connections too<code>.</code>
