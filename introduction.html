@@ -54,7 +54,7 @@
                     <b>So how does it help me?</b><br/>
                     <p>Several ways:<br/>
                     <ul style="list-style-type: square;">
-                        <li>in case there is an app that communicates to other components (SOA environment or by simply using 3rd party services/microservices) but need to be tested without the availability of other components, Wilma can act as stub. It can be - among others - a local development environmnet or a CI environment</li>
+                        <li>in case there is an app that communicates to other components (SOA environment or by simply using 3rd party services/microservices) but need to be tested without the availability of other components, Wilma can act as stub. It can be - among others - a local development environment or a CI environment</li>
                         <li>in similar case, if some of the components are available but some not, Wilma can stub the missing ones, meanwhile proxying the request to the available components</li>
                         <li>also if there is a new feature in a 3rd party component/service, that will be developed later, and not yet available, and if the IF is defined, Wilma can emulate the new feature of the 3rd party component/service, and the feature in your component can be developed without waiting for the implementation of the feature in the 3rd party component/service</li>
                         <li>also it is possible to emulate special behavior of 3rd party components/services like: timeouts, slow or bad answers, special error answers/error codes - without doing special test environment setup changes, and even if forcing the 3rd party component/service to produce such special answers would be hard/impossible</li>
