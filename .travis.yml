@@ -4,10 +4,10 @@ jdk:
 before_install:
  - chmod +x gradlew
 install:
- - mkdir $HOME/opt/wilma/repo/
+ - mkdir $HOME/localrepo/
 script:
- - ./gradlew -b browsermob-proxy/build.gradle build createPom uploadArchives -x checkstyleMain -x checkstyleTest -PlocalRepository=file:///$HOME/opt/wilma/repo/ -PbuildNumber=TRAVIS_BUILD_NUMBER
- - ./gradlew build release -PlocalRepository=file:///$HOME/opt/wilma/repo/
+ - ./gradlew -b browsermob-proxy/build.gradle build createPom uploadArchives -x checkstyleMain -x checkstyleTest -PlocalRepository=file:///$HOME/localrepo/ -PbuildNumber=TRAVIS_BUILD_NUMBER
+ - ./gradlew build release -PlocalRepository=file:///$HOME/localrepo/
  - ./gradlew -b wilma-mock/build.gradle build createPom uploadArchives -PbuildNumber=TRAVIS_BUILD_NUMBER
  - ./gradlew -b wilma-test/wilma-test-client/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=TRAVIS_BUILD_NUMBER
  - ./gradlew -b wilma-test/wilma-test-server/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=TRAVIS_BUILD_NUMBER
