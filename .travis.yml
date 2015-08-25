@@ -3,13 +3,14 @@ jdk:
  - oraclejdk7
 before_install:
  - chmod +x gradlew
+install:
+ - mkdir $HOME/opt/wilma/repo/
 script:
- - mkdir /opt/wilma/repo/
- - ./gradlew -b browsermob-proxy/build.gradle build createPom uploadArchives -x checkstyleMain -x checkstyleTest -PlocalRepository=file:///opt/wilma/repo/ -PbuildNumber=$TRAVIS_BUILD_ID
- - ./gradlew build release -PlocalRepository=file:///opt/wilma/repo/
- - ./gradlew -b wilma-mock/build.gradle build createPom uploadArchives -PbuildNumber=$TRAVIS_BUILD_ID
- - ./gradlew -b wilma-test/wilma-test-client/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=$TRAVIS_BUILD_ID
- - ./gradlew -b wilma-test/wilma-test-server/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=$TRAVIS_BUILD_ID
+ - ./gradlew -b browsermob-proxy/build.gradle build createPom uploadArchives -x checkstyleMain -x checkstyleTest -PlocalRepository=file:///$HOME/opt/wilma/repo/ -PbuildNumber=TRAVIS_BUILD_NUMBER
+ - ./gradlew build release -PlocalRepository=file:///$HOME/opt/wilma/repo/
+ - ./gradlew -b wilma-mock/build.gradle build createPom uploadArchives -PbuildNumber=TRAVIS_BUILD_NUMBER
+ - ./gradlew -b wilma-test/wilma-test-client/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=TRAVIS_BUILD_NUMBER
+ - ./gradlew -b wilma-test/wilma-test-server/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=TRAVIS_BUILD_NUMBER
  - ./gradlew -b wilma-mock/build.gradle clean build createPom uploadArchives
  - ./gradlew -b wilma-functionaltest/build.gradle build
 branches:
