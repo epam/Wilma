@@ -1,0 +1,18 @@
+language: java
+script:
+  - mkdir /opt/wilma/repo/
+  - ./gradlew -b browsermob-proxy/build.gradle build createPom uploadArchives -x checkstyleMain -x checkstyleTest -PlocalRepository=file:///opt/wilma/repo/
+  - ./gradlew build release -PlocalRepository=file:///opt/wilma/repo/
+  - ./gradlew -b wilma-mock/build.gradle build createPom uploadArchives
+  - ./gradlew -b wilma-test/wilma-test-client/build.gradle build -x checkstyleMain -x checkstyleTest
+  - ./gradlew -b wilma-test/wilma-test-server/build.gradle build -x checkstyleMain -x checkstyleTest
+  - ./gradlew -b wilma-functionaltest/build.gradle build
+jdk:
+  - oraclejdk7
+  - oraclejdk8
+branches:
+  only:
+  - master
+notifications:
+  email:
+  - tkohegyi2@gmail.com
