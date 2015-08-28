@@ -1,0 +1,32 @@
+FROM debian
+
+MAINTAINER Tamas Kohegyi <tkohegyi2@gmail.com>
+
+RUN \
+  mkdir /data && \
+  cd /data && \
+  apt-get update && \
+  apt-get upgrade && \
+  apt-get install -y apt-utils && \
+  apt-get install -y unzip && \
+  apt-get install -y openjdk-7-jre && \
+  apt-get install -y wget && \
+  rm -rf /var/lib/apt/lists/* && \
+  wget https://github.com/epam/Wilma/releases/download/V1.1.73/wilma-application-1.1.73.zip && \
+  unzip wilma-application-1.1.73.zip && \
+  rm -f wilma-application-1.1.73.zip
+
+COPY start_wilma.sh /data/
+RUN \
+  cd /data && \
+  chmod 777 *.sh
+
+WORKDIR /data
+
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+
+# you may start wilma with default settings by /data/start_wilma.sh
+CMD ["bash"]
+
+# expose UI port, proxy port and jmx port
+EXPOSE 1234 9092 9011
