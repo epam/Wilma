@@ -17,6 +17,8 @@ echo "[INFO] Docker image IP information:"
 cat /etc/hosts
 
 echo "[INFO] Starting Wilma Application..."
+cd wilma
 eval ${WILMA_START_CMD}
+cd -
 echo "[INFO] Wilma Application was started, process id is $(cat ${WILMA_PID_FILE})"
 

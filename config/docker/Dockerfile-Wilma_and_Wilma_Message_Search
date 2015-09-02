@@ -4,13 +4,16 @@ FROM epam/wilma
 MAINTAINER Tamas Kohegyi <tkohegyi2@gmail.com>
 
 RUN \
+  mkdir /data/wilma-ms && \
+  mkdir /data/wilma/messages && \
+  cd /data/wilma-ms && \
   apt-get update && \
   apt-get upgrade && \
   apt-get install -y openjdk-7-jdk && \
   rm -rf /var/libs/apt/lists/* && \
   wget https://github.com/epam/Wilma/releases/download/V1.1.73/wilma-message-search-1.1.73.zip && \
   unzip -o wilma-message-search-1.1.73.zip && \
-  rm -f wilma-message-search-application-1.1.73.zip
+  rm -f wilma-message-search-1.1.73.zip
 
 COPY start_wilma_and_message_search.sh /data/
 RUN \

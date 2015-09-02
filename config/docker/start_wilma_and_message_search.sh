@@ -26,13 +26,17 @@ echo
 echo "[INFO] Cleaning up lucene indexes..."
 rm -f ./index/*
 echo "[INFO] Starting Wilma Message Search Application..."
+cd wilma-ms
 eval ${WILMA_MS_START_CMD}
+cd -
 echo "[INFO] Wilma Message Search Application was started, process id is $(cat ${WILMA_MS_PID_FILE})"
 
 echo "[INFO] Waiting $WILMA_MS_START_TIME seconds..."
 sleep $WILMA_MS_START_TIME
 
 echo "[INFO] Starting Wilma Application..."
+cd wilma
 eval ${WILMA_START_CMD}
+cd -
 echo "[INFO] Wilma Application was started, process id is $(cat ${WILMA_PID_FILE})"
 

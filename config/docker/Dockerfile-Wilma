@@ -4,7 +4,8 @@ MAINTAINER Tamas Kohegyi <tkohegyi2@gmail.com>
 
 RUN \
   mkdir /data && \
-  cd /data && \
+  mkdir /data/wilma && \
+  cd /data/wilma && \
   apt-get update && \
   apt-get upgrade && \
   apt-get install -y apt-utils && \
