@@ -25,9 +25,14 @@ RUN \
 WORKDIR /data
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+#ENV WILMA_MX_SIZE - it has no default value
+#ENV WILMA_KEYSTORE - it has no default value
+#ENV WILMA_KEYSTORE_PASSWORD - it has no default value
+ENV WILMA_CONFIGURATION wilma.conf.properties
+#ENV WILMA_JMX_PORT 9011 - note, if you use it, the port should be exposed too!
 
 # you may start wilma with default settings by /data/start_wilma.sh
-CMD ["bash"]
+CMD ["./start_wilma.sh"]
 
-# expose UI port, proxy port and jmx port
-EXPOSE 1234 9092 9011
+# expose UI port and proxy port
+EXPOSE 1234 9092
