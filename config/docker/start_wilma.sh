@@ -1,12 +1,12 @@
 #!/bin/bash
 
 WILMA_BUILD=wilma-1.1.73.jar
-WILMA_PID_FILE=/tmp/wilma.pid
+#WILMA_CONFIGURATION is an external environment variable, usually: wilma.conf.properties
 #WILMA_MX_SIZE is an external environment variable, for example: -Xmx8G
 #WILMA_KEPYSTORE is an external environment variable, for example: -Djavax.net.ssl.keyStore=certificate/your.jks
-#WILMA_CONFIGURATION is an external environment variable, usually: wilma.conf.properties
-#WILMA_KEYSTORE_PASSWORD=is an external environment variable, example: -Djavax.net.ssl.keyStorePassword=password_for_your_jks
-#WILMA_JMX_PORT - if empty, no JMX used, otherwise the JMX port is fully opened
+#WILMA_KEYSTORE_PASSWORD is an external environment variable, example: -Djavax.net.ssl.keyStorePassword=password_for_your_jks
+#WILMA_JMX_PORT - Wilma JMX port, if empty, no JMX used, otherwise the JMX port is fully opened
+
 if [ -n "$WILMA_JMX_PORT" ]; then
     WILMA_JMX="-Dcom.sun.management.jmxremote.port=$WILMA_JMX_PORT -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
 fi
