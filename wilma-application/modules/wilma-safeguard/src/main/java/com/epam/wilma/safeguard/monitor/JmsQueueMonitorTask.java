@@ -52,6 +52,8 @@ public class JmsQueueMonitorTask implements Runnable {
     static final String RESPONSE_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=responseQueue";
     static final String LOGGER_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=loggerQueue";
     static final String DLQ_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=ActiveMQ.DLQ";
+    static final String AMQ_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost";
+    static final Long MAX_AMQ_MEMORY_USAGE = Long.valueOf(95); //over this memory usage (in percent) we have to reset the AMQ
 
     private final Logger logger = LoggerFactory.getLogger(JmsQueueMonitorTask.class);
 
@@ -72,17 +74,19 @@ public class JmsQueueMonitorTask implements Runnable {
     private ObjectName responseQueue;
     private ObjectName loggerQueue;
     private ObjectName dlqQueue;
+    private ObjectName amqObject;
 
     private boolean fIDecompressionEnabled = true;
     private boolean messageWritingEnabled = true;
 
     @Override
     public void run() {
-        if (mBeanServerConnection == null || responseQueue == null || loggerQueue == null || dlqQueue == null) {
+        if (mBeanServerConnection == null || responseQueue == null || loggerQueue == null || dlqQueue == null || amqObject == null) {
             mBeanServerConnection = jmxConnectionBuilder.buildMBeanServerConnection(JMX_SERVICE_URL);
             responseQueue = jmxObjectNameProvider.getObjectName(RESPONSE_QUEUE_OBJECT_NAME);
             loggerQueue = jmxObjectNameProvider.getObjectName(LOGGER_QUEUE_OBJECT_NAME);
             dlqQueue = jmxObjectNameProvider.getObjectName(DLQ_QUEUE_OBJECT_NAME);
+            amqObject = jmxObjectNameProvider.getObjectName(AMQ_OBJECT_NAME);
         }
         Long totalQueueSize = retrieveQuerySize();
 
@@ -90,6 +94,7 @@ public class JmsQueueMonitorTask implements Runnable {
         setSafeguardFlags(totalQueueSize);
 
         resetDlqAsNecessary();
+        resetAMQueueAsNecessary();
     }
 
     private void resetDlqAsNecessary() {
@@ -111,6 +116,32 @@ public class JmsQueueMonitorTask implements Runnable {
                 } //otherwise no DLQ exists, and that is fine
             }
         }
+    }
+
+    /**
+     * Need to restart whole AMQ in case the used memory is over 100%
+     * In extreme cases it may happen (very large messages), and the only possibility to survive is to reset the AMQ.
+     */
+    private void resetAMQueueAsNecessary() {
+        boolean valueIsValid = false;
+        Long memoryPercentUsage = Long.valueOf(0);
+        try {
+            memoryPercentUsage = (Long) mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage");
+            valueIsValid = true;
+            if (memoryPercentUsage > MAX_AMQ_MEMORY_USAGE) {
+                mBeanServerConnection.invoke(amqObject, "restart", null, null);
+                logger.info("ActiveMQ Memory usage is too high:" + memoryPercentUsage + "%, AMQ reset was successful.");
+            }
+        } catch (Exception e) {
+            if (!(e instanceof InstanceNotFoundException)) {
+                if (valueIsValid) {
+                    throw new SystemException("ActiveMQ Memory usage is too high:" + memoryPercentUsage + "%, AMQ RESET FAILED.", e);
+                } else {
+                    throw new SystemException("ActiveMQ Memory usage cannot be detected.", e);
+                }
+            }
+        }
+
     }
 
     private void getSafeguardLimits() {
