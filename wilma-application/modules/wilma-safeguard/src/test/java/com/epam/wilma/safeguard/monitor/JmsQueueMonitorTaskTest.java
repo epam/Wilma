@@ -93,7 +93,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN
@@ -111,7 +111,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(191));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN
@@ -129,7 +129,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(11));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN
@@ -147,7 +147,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(111));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN
@@ -165,7 +165,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(58));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN
@@ -183,7 +183,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(2));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(3));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN
@@ -201,7 +201,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willThrow(new AttributeNotFoundException());
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN exception is thrown
@@ -281,7 +281,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN
@@ -299,7 +299,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN
@@ -319,7 +319,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(0));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(0));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(1));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN
@@ -336,7 +336,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(0));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(0));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(1));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(JmsQueueMonitorTask.MAX_AMQ_MEMORY_USAGE+1));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(JmsQueueMonitorTask.MAX_AMQ_MEMORY_USAGE + 1));
         // WHEN
         underTest.run();
         // THEN
@@ -354,7 +354,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(queueSizeIsTooBig);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(0));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
         // WHEN
         underTest.run();
         // THEN
@@ -370,7 +370,7 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(2));
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(3));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
     }
 
     private void verifyConnectionBuilder() {

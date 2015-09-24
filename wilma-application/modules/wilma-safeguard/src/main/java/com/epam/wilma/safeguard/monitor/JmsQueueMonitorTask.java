@@ -53,7 +53,7 @@ public class JmsQueueMonitorTask implements Runnable {
     static final String LOGGER_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=loggerQueue";
     static final String DLQ_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=ActiveMQ.DLQ";
     static final String AMQ_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost";
-    static final Long MAX_AMQ_MEMORY_USAGE = Long.valueOf(95); //over this memory usage (in percent) we have to reset the AMQ
+    static final Integer MAX_AMQ_MEMORY_USAGE = Integer.valueOf(95); //over this memory usage (in percent) we have to reset the AMQ
     static final Long MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT = Long.valueOf(4); // in case totla message queue size is > Msg queue off limit * this value, we have to reset the AMQ
 
     private final Logger logger = LoggerFactory.getLogger(JmsQueueMonitorTask.class);
@@ -127,7 +127,7 @@ public class JmsQueueMonitorTask implements Runnable {
      */
     private void resetAMQueueAsNecessary(final Long totalQueueSize) {
         boolean valueIsValid = false;
-        Long memoryPercentUsage = Long.valueOf(0);
+        Integer memoryPercentUsage = Integer.valueOf(0);
         Long totalQueueSizeLimit = MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT * safeguardLimits.getMwOffLimit();
         if (totalQueueSize > totalQueueSizeLimit) {
             try {
@@ -138,7 +138,7 @@ public class JmsQueueMonitorTask implements Runnable {
             }
         }
         try {
-            memoryPercentUsage = (Long) mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage");
+            memoryPercentUsage = (Integer) mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage");
             valueIsValid = true;
             if (memoryPercentUsage > MAX_AMQ_MEMORY_USAGE) {
                 mBeanServerConnection.invoke(amqObject, "restart", null, null);
