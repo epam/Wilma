@@ -104,7 +104,7 @@ public class JmsQueueMonitorTaskTest {
     }
 
     @Test
-    public final void testRunShouldSwitchFIAndMWOffeWhenFIandMwOffLimitExceeded() throws Exception {
+    public final void testRunShouldSwitchFIAndMWOffWhenFIAndMwOffLimitExceeded() throws Exception {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
@@ -122,7 +122,7 @@ public class JmsQueueMonitorTaskTest {
     }
 
     @Test
-    public final void testRunShouldntSwitchOffAnythingWhenLimitsAreNotExceeded() throws Exception {
+    public final void testRunShouldNotSwitchOffAnythingWhenLimitsAreNotExceeded() throws Exception {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
@@ -327,7 +327,7 @@ public class JmsQueueMonitorTaskTest {
     }
 
     @Test
-    public final void testRunShouldRestartAmq() throws Exception {
+    public final void testRunShouldRestartAmqWhenAmqMemoryIsFull() throws Exception {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
@@ -337,6 +337,24 @@ public class JmsQueueMonitorTaskTest {
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(0));
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(1));
         given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(JmsQueueMonitorTask.MAX_AMQ_MEMORY_USAGE+1));
+        // WHEN
+        underTest.run();
+        // THEN
+        verify(mBeanServerConnection).invoke(amqObject, "restart", null, null);
+    }
+
+    @Test
+    public final void testRunShouldRestartAmqWhenTotalQueueSizeIsTooBig() throws Exception {
+        // GIVEN
+        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
+        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
+        QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
+        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        Long queueSizeIsTooBig = JmsQueueMonitorTask.MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT * propertyDTO.getSafeguardLimits().getMwOffLimit() + 1;
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(queueSizeIsTooBig);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Long(0));
         // WHEN
         underTest.run();
         // THEN

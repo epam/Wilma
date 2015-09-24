@@ -54,6 +54,7 @@ public class JmsQueueMonitorTask implements Runnable {
     static final String DLQ_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=ActiveMQ.DLQ";
     static final String AMQ_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost";
     static final Long MAX_AMQ_MEMORY_USAGE = Long.valueOf(95); //over this memory usage (in percent) we have to reset the AMQ
+    static final Long MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT = Long.valueOf(4); // in case totla message queue size is > Msg queue off limit * this value, we have to reset the AMQ
 
     private final Logger logger = LoggerFactory.getLogger(JmsQueueMonitorTask.class);
 
@@ -94,7 +95,7 @@ public class JmsQueueMonitorTask implements Runnable {
         setSafeguardFlags(totalQueueSize);
 
         resetDlqAsNecessary();
-        resetAMQueueAsNecessary();
+        resetAMQueueAsNecessary(totalQueueSize);
     }
 
     private void resetDlqAsNecessary() {
@@ -119,23 +120,34 @@ public class JmsQueueMonitorTask implements Runnable {
     }
 
     /**
-     * Need to restart whole AMQ in case the used memory is over 100%
+     * Need to restart whole AMQ in case
+     * - the used memory is over MAX_AMQ_MEMORY_USAGE percent OR
+     * - the totalQueueSize is higher than MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT * Message OFF Limit
      * In extreme cases it may happen (very large messages), and the only possibility to survive is to reset the AMQ.
      */
-    private void resetAMQueueAsNecessary() {
+    private void resetAMQueueAsNecessary(final Long totalQueueSize) {
         boolean valueIsValid = false;
         Long memoryPercentUsage = Long.valueOf(0);
+        Long totalQueueSizeLimit = MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT * safeguardLimits.getMwOffLimit();
+        if (totalQueueSize > totalQueueSizeLimit) {
+            try {
+                mBeanServerConnection.invoke(amqObject, "restart", null, null);
+                logger.info("ActiveMQ Total Queue Size is too high (" + totalQueueSize + ">" + totalQueueSizeLimit + "), AMQ restart initiated.");
+            } catch (Exception e) {
+                throw new SystemException("ActiveMQ Total Queue Size is too high (\" + totalQueueSize + \">\" + totalQueueSizeLimit + \"), AMQ RESTART FAILED.", e);
+            }
+        }
         try {
             memoryPercentUsage = (Long) mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage");
             valueIsValid = true;
             if (memoryPercentUsage > MAX_AMQ_MEMORY_USAGE) {
                 mBeanServerConnection.invoke(amqObject, "restart", null, null);
-                logger.info("ActiveMQ Memory usage is too high:" + memoryPercentUsage + "%, AMQ reset was successful.");
+                logger.info("ActiveMQ Memory usage is too high:" + memoryPercentUsage + "%, AMQ restart initiated.");
             }
         } catch (Exception e) {
             if (!(e instanceof InstanceNotFoundException)) {
                 if (valueIsValid) {
-                    throw new SystemException("ActiveMQ Memory usage is too high:" + memoryPercentUsage + "%, AMQ RESET FAILED.", e);
+                    throw new SystemException("ActiveMQ Memory usage is too high:" + memoryPercentUsage + "%, AMQ RESTART FAILED.", e);
                 } else {
                     throw new SystemException("ActiveMQ Memory usage cannot be detected.", e);
                 }
