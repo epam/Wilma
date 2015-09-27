@@ -19,17 +19,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.common.stream.helper.StreamResultFactory;
 import com.epam.wilma.common.stream.helper.StreamSourceFactory;
 import com.epam.wilma.core.processor.entity.helper.XmlTransformerFactory;
@@ -39,11 +28,23 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.StringReader;
 
 /**
  * Indents a request/response body in order to make it readable.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class PrettyPrintProcessor extends ProcessorBase {
@@ -60,7 +61,7 @@ public class PrettyPrintProcessor extends ProcessorBase {
     @Override
     public void process(final WilmaHttpEntity entity) throws ApplicationException {
         String contentTypeHeader = entity.getHeader("Content-Type");
-        if (contentTypeHeader != null && contentTypeHeader.contains("xml")) {
+        if (contentTypeHeader != null && contentTypeHeader.contains("xml") && !contentTypeHeader.contains("image/svg+xml")) {
             try {
                 Transformer transformer = transformerFactory.createTransformer();
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -90,9 +91,11 @@ public class PrettyPrintProcessor extends ProcessorBase {
     private String tryToParseJson(final WilmaHttpEntity entity, final String body) {
         String result = body;
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
             JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(body);
+            JsonReader reader = new JsonReader(new StringReader(body));
+            reader.setLenient(true);
+            JsonElement element = parser.parse(reader);
             result = gson.toJson(element);
         } catch (Exception e) {
             logError(entity, e);

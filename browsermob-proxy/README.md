@@ -1,12 +1,20 @@
-BrowserMob Proxy
-================
+BrowserMob Proxy - FOR WILMA
+============================
 
 BrowserMob Proxy is a simple utility that makes it easy to capture performance data from browsers, typically written using automation toolkits such as Selenium and Watir.
+
+WARNING!!! Major Changes
+------------------------
+**This version of browsermob-proxy is exclusively altered for using it with Wilma.**
+
+Therefore none of the original browsermob-proxy features (those described below) should be expected as working, 
+because the main purpose is just proxying the messages and by intercepting them do what Wilma wants to do with the messages.
 
 Features
 --------
 
-The proxy is programmatically controlled via a REST interface or by being embedded directly inside Java-based programs and unit tests. It captures performance data the [HAR format](http://groups.google.com/group/http-archive-specification). It addition it also can actually control HTTP traffic, such as:
+The proxy is programmatically controlled via a REST interface or by being embedded directly inside Java-based programs and unit tests. 
+It captures performance data the [HAR format](http://groups.google.com/group/http-archive-specification). It addition it also can actually control HTTP traffic, such as:
 
  - blacklisting and whitelisting certain URL patterns
  - simulating various bandwidth and latency

@@ -56,6 +56,7 @@ public class PrettyPrintProcessorTest {
 
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String CONTENT_TYPE_SOAPXML = "application/soap+xml";
+    private static final String CONTENT_TYPE_SVGXML = "image/svg+xml";
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String BODY = "body";
     @Mock
@@ -98,6 +99,16 @@ public class PrettyPrintProcessorTest {
         underTest.process(request);
         //THEN
         verify(transformer).transform(streamSource, streamResult);
+    }
+
+    @Test
+    public void testProcessShouldNotCallTransformWhenImageXml() throws ApplicationException, TransformerException {
+        //GIVEN
+        given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_SVGXML);
+        //WHEN
+        underTest.process(request);
+        //THEN
+        verify(request, never()).setBody(Mockito.anyString());
     }
 
     @Test
@@ -175,7 +186,7 @@ public class PrettyPrintProcessorTest {
         Whitebox.setInternalState(underTest, "logger", logger);
         //GIVEN
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_JSON);
-        given(request.getBody()).willReturn("invalidjson{:}");
+        given(request.getBody()).willReturn("{foo: ['bar', 'baz',]*/*-}");
         //WHEN
         underTest.process(request);
         //THEN
