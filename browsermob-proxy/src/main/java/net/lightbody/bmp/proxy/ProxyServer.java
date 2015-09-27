@@ -1,7 +1,5 @@
 package net.lightbody.bmp.proxy;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -23,14 +21,13 @@ import net.lightbody.bmp.proxy.jetty.jetty.Server;
 import net.lightbody.bmp.proxy.jetty.util.InetAddrPort;
 import net.lightbody.bmp.proxy.util.Log;
 
-import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.HttpResponseInterceptor;
 import org.java_bandwidthlimiter.BandwidthLimiter;
 import org.java_bandwidthlimiter.StreamManager;
-import org.openqa.selenium.Proxy;
 
 public class ProxyServer {
-    private static final HarNameVersion CREATOR = new HarNameVersion("BrowserMob Proxy", "2.0");
+    public static final int PROXY_TIMEOUT = 240000; //4 minutes
+
+    private static final HarNameVersion CREATOR = new HarNameVersion("BrowserMob Proxy - for Wilma", "2.0");
     private static final Log LOG = new Log();
 
     private Server server;
@@ -77,16 +74,6 @@ public class ProxyServer {
         server.start();
 
         setPort(listener.getPort());
-    }
-
-    public org.openqa.selenium.Proxy seleniumProxy() throws UnknownHostException {
-        Proxy proxy = new Proxy();
-        proxy.setProxyType(Proxy.ProxyType.MANUAL);
-        String proxyStr = String.format("%s:%d", InetAddress.getLocalHost().getCanonicalHostName(), getPort());
-        proxy.setHttpProxy(proxyStr);
-        proxy.setSslProxy(proxyStr);
-
-        return proxy;
     }
 
     public void cleanup() {
@@ -167,18 +154,8 @@ public class ProxyServer {
         client.remapHost(source, target);
     }
 
-    @Deprecated
-    public void addRequestInterceptor(final HttpRequestInterceptor i) {
-        client.addRequestInterceptor(i);
-    }
-
     public void addRequestInterceptor(final RequestInterceptor interceptor) {
         client.addRequestInterceptor(interceptor);
-    }
-
-    @Deprecated
-    public void addResponseInterceptor(final HttpResponseInterceptor i) {
-        client.addResponseInterceptor(i);
     }
 
     public void addResponseInterceptor(final ResponseInterceptor interceptor) {
@@ -187,27 +164,6 @@ public class ProxyServer {
 
     public StreamManager getStreamManager() {
         return streamManager;
-    }
-
-    //use getStreamManager().setDownstreamKbps instead
-    @Deprecated
-    public void setDownstreamKbps(final long downstreamKbps) {
-        streamManager.setDownstreamKbps(downstreamKbps);
-        streamManager.enable();
-    }
-
-    //use getStreamManager().setUpstreamKbps instead
-    @Deprecated
-    public void setUpstreamKbps(final long upstreamKbps) {
-        streamManager.setUpstreamKbps(upstreamKbps);
-        streamManager.enable();
-    }
-
-    //use getStreamManager().setLatency instead
-    @Deprecated
-    public void setLatency(final long latency) {
-        streamManager.setLatency(latency);
-        streamManager.enable();
     }
 
     public void setRequestTimeout(final int requestTimeout) {
@@ -263,7 +219,6 @@ public class ProxyServer {
     }
 
     public void waitForNetworkTrafficToStop(final long quietPeriodInMs, final long timeoutInMs) {
-        long start = System.currentTimeMillis();
         boolean result = ThreadUtils.waitFor(new ThreadUtils.WaitCondition() {
             @Override
             public boolean checkCondition(final long elapsedTimeInMs) {
@@ -290,8 +245,6 @@ public class ProxyServer {
                 return lastCompleted != null && System.currentTimeMillis() - lastCompleted.getTime() >= quietPeriodInMs;
             }
         }, TimeUnit.MILLISECONDS, timeoutInMs);
-        long end = System.currentTimeMillis();
-        long time = (end - start);
 
         if (!result) {
             throw new RuntimeException("Timed out after " + timeoutInMs + " ms while waiting for network traffic to stop");

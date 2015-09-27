@@ -14,7 +14,7 @@ public class ProxyServerTest {
 
     @Before
     public void startServer() throws Exception {
-        server.start(ProxyManager.PROXY_TIMEOUT);
+        server.start(ProxyServer.PROXY_TIMEOUT);
     }
 
     @After
