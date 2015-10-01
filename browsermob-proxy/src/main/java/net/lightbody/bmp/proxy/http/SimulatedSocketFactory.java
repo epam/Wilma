@@ -26,13 +26,15 @@ public class SimulatedSocketFactory implements SchemeSocketFactory {
 
     private HostNameResolver hostNameResolver;
     private StreamManager streamManager;
+    private int requestTimeout;
 
-    public SimulatedSocketFactory(HostNameResolver hostNameResolver, StreamManager streamManager) {
+    public SimulatedSocketFactory(HostNameResolver hostNameResolver, StreamManager streamManager, int requestTimeout) {
         super();
         assert hostNameResolver != null;
         assert streamManager != null;
         this.hostNameResolver = hostNameResolver;
         this.streamManager = streamManager;
+        this.requestTimeout = requestTimeout;
     }
 
     public static <T extends Socket> void configure(T sock) {

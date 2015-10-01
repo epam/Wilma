@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
  * rest. This is useful for solving a JVM heap starvation issue (see MOB-216).
  */
 public class CappedByteArrayOutputStream extends ByteArrayOutputStream {
+    private static final Log LOG = new Log();
     private int maxBytes;
     private boolean writeable = true;
 
@@ -33,6 +34,7 @@ public class CappedByteArrayOutputStream extends ByteArrayOutputStream {
     private void checkWritable() {
         if (count > maxBytes) {
             writeable = false;
+            LOG.warn("BUFFER OVERLOAD!");
         }
     }
 }

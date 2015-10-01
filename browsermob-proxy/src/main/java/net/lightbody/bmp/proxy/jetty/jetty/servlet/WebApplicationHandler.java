@@ -819,23 +819,4 @@ public class WebApplicationHandler extends ServletHandler
         }
     }
     
-    
-    public static void main(String[] arg)
-    {
-
-        ServletHandler mServletHandler = new ServletHandler();
-
-        ServletHolder servletHolder = mServletHandler.addServlet("/mPath",
-           "wicket.protocol.http.WicketServlet");
-        servletHolder.getServletContext().setAttribute("webApplication",  "mWebApplication");
-        servletHolder.getServletContext().setAttribute ("applicationContext", "mApplicationContext");
-
-        WebApplicationHandler mWebApplicationHandler = new  WebApplicationHandler();
-
-        ServletHolder servletHolder2 = mWebApplicationHandler.addServlet("/mpath",
-           "wicket.protocol.http.WicketServlet");
-        servletHolder2.getServletContext().setAttribute("webApplication",  "mWebApplication");
-        servletHolder2.getServletContext().setAttribute ("applicationContext", "mApplicationContext");
-
-    }
 }

@@ -1,10 +1,5 @@
 package net.lightbody.bmp.proxy;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.core.har.HarEntry;
 import net.lightbody.bmp.core.har.HarLog;
@@ -20,12 +15,16 @@ import net.lightbody.bmp.proxy.jetty.http.SocketListener;
 import net.lightbody.bmp.proxy.jetty.jetty.Server;
 import net.lightbody.bmp.proxy.jetty.util.InetAddrPort;
 import net.lightbody.bmp.proxy.util.Log;
-
 import org.java_bandwidthlimiter.BandwidthLimiter;
 import org.java_bandwidthlimiter.StreamManager;
 
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class ProxyServer {
-    public static final int PROXY_TIMEOUT = 240000; //4 minutes
+    public static int PROXY_TIMEOUT = 240000; //4 minutes, by default will be set during ProxyServer.start()
 
     private static final HarNameVersion CREATOR = new HarNameVersion("BrowserMob Proxy - for Wilma", "2.0");
     private static final Log LOG = new Log();
@@ -51,6 +50,7 @@ public class ProxyServer {
             throw new IllegalStateException("Must set port before starting");
         }
 
+        PROXY_TIMEOUT = requestTimeOut;
         //create a stream manager that will be capped to 100 Megabits
         //remember that by default it is disabled!
         streamManager = new StreamManager(100 * BandwidthLimiter.OneMbps);

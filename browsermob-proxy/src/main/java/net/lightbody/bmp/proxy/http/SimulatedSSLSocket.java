@@ -1,9 +1,12 @@
 package net.lightbody.bmp.proxy.http;
 
-import net.lightbody.bmp.proxy.ProxyServer;
 import org.java_bandwidthlimiter.StreamManager;
 
-import javax.net.ssl.*;
+import javax.net.ssl.HandshakeCompletedEvent;
+import javax.net.ssl.HandshakeCompletedListener;
+import javax.net.ssl.SSLParameters;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,10 +20,12 @@ public class SimulatedSSLSocket extends SSLSocket {
     private SSLSocket socket;
     private StreamManager streamManager;
     private Date handshakeStart;
+    private int timeout;
 
-    public SimulatedSSLSocket(SSLSocket socket, StreamManager streamManager) {
+    public SimulatedSSLSocket(SSLSocket socket, StreamManager streamManager, int timeout) {
         this.socket = socket;
         this.streamManager = streamManager;
+        this.timeout = timeout;
     }
 
     @Override
@@ -125,7 +130,7 @@ public class SimulatedSSLSocket extends SSLSocket {
 
     @Override
     public void connect(SocketAddress endpoint) throws IOException {
-        this.connect(endpoint, ProxyServer.PROXY_TIMEOUT);
+        this.connect(endpoint, timeout);
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.junit.Before;
 
 public class DummyServerTest {
     private static final int DUMMY_SERVER_PORT = 4510;
+    public static final int PROXY_TIMEOUT = 60000; //1 minute
     public static final String BASE_URL = "http://127.0.0.1:" + DUMMY_SERVER_PORT;
 
     protected DummyServer dummy = new DummyServer(DUMMY_SERVER_PORT);
@@ -17,7 +18,7 @@ public class DummyServerTest {
     @Before
     public void startServer() throws Exception {
         dummy.start();
-        proxy.start(ProxyServer.PROXY_TIMEOUT);
+        proxy.start(PROXY_TIMEOUT);
 
         HttpHost proxyHost = new HttpHost("127.0.0.1", 8081, "http");
         client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);

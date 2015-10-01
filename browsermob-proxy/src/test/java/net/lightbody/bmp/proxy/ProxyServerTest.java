@@ -9,12 +9,13 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
 public class ProxyServerTest {
+    public static final int PROXY_TIMEOUT = 60000; //1 minute
 
     private final ProxyServer server = new ProxyServer(0);
 
     @Before
     public void startServer() throws Exception {
-        server.start(ProxyServer.PROXY_TIMEOUT);
+        server.start(PROXY_TIMEOUT);
     }
 
     @After

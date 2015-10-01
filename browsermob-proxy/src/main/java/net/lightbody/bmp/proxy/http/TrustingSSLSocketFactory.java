@@ -1,5 +1,14 @@
 package net.lightbody.bmp.proxy.http;
 
+import net.lightbody.bmp.proxy.util.Log;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.scheme.HostNameResolver;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.params.HttpParams;
+import org.java_bandwidthlimiter.StreamManager;
+
+import javax.net.ssl.SSLSocket;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,17 +23,6 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-import javax.net.ssl.SSLSocket;
-
-import net.lightbody.bmp.proxy.util.Log;
-
-import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.conn.scheme.HostNameResolver;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.params.HttpParams;
-import org.java_bandwidthlimiter.StreamManager;
-
 public class TrustingSSLSocketFactory extends SSLSocketFactory {
 
     public enum SSLAlgorithm {
@@ -36,6 +34,7 @@ public class TrustingSSLSocketFactory extends SSLSocketFactory {
     private static TrustStrategy trustStrategy;
     private static KeyStore keyStore;
     private final StreamManager streamManager;
+    private final int timeout;
     private static String keyStorePassword;
 
     static {
@@ -67,12 +66,13 @@ public class TrustingSSLSocketFactory extends SSLSocketFactory {
         };
     }
 
-    public TrustingSSLSocketFactory(final HostNameResolver nameResolver, final StreamManager streamManager) throws KeyManagementException,
+    public TrustingSSLSocketFactory(final HostNameResolver nameResolver, final StreamManager streamManager, int timeout) throws KeyManagementException,
         UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
         super(SSL, keyStore, keyStorePassword, null, null, trustStrategy, ALLOW_ALL_HOSTNAME_VERIFIER);
         assert nameResolver != null;
         assert streamManager != null;
         this.streamManager = streamManager;
+        this.timeout = timeout;
     }
 
     //just an helper function to wrap a normal sslSocket into a simulated one so we can do throttling
@@ -80,7 +80,7 @@ public class TrustingSSLSocketFactory extends SSLSocketFactory {
         SimulatedSocketFactory.configure(socket);
         socket.setEnabledProtocols(new String[]{SSLAlgorithm.SSLv3.name(), SSLAlgorithm.TLSv1.name()});
         //socket.setEnabledCipherSuites(new String[] { "SSL_RSA_WITH_RC4_128_MD5" });
-        return new SimulatedSSLSocket(socket, streamManager);
+        return new SimulatedSSLSocket(socket, streamManager, timeout);
     }
 
     @SuppressWarnings("deprecation")

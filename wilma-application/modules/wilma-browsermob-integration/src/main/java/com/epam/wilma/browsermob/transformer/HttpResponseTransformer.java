@@ -18,15 +18,13 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.browsermob.transformer.helper.WilmaResponseFactory;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
 import net.lightbody.bmp.core.har.HarNameValuePair;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
-
 import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.epam.wilma.browsermob.transformer.helper.WilmaResponseFactory;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
 
 /**
  * Executes transformations between a BrowserMob specific HTTP response and Wilma's own representation of an HTTP response.
@@ -52,10 +50,14 @@ public class HttpResponseTransformer {
         }
 
         for (HarNameValuePair header : response.getEntry().getRequest().getHeaders()) {
-            result.addRequestHeader(header.getName(), header.getValue());
+//      for (Header header : response.getRequestHeaders()) {
+                result.addRequestHeader(header.getName(), header.getValue());
         }
+
         String body = response.getEntry().getResponse().getContent().getText();
+//      String body = response.getBody();
         int status = response.getEntry().getResponse().getStatus();
+//      int status = response.getStatus();
         result.setBody(body);
         result.setContentType(response.getContentType());
         result.setStatusCode(status);

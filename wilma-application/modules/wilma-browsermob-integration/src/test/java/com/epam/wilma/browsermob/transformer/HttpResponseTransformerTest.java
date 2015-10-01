@@ -18,16 +18,10 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.epam.wilma.browsermob.transformer.helper.WilmaResponseFactory;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
 import net.lightbody.bmp.core.har.HarNameValuePair;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
-
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.mockito.Answers;
@@ -37,8 +31,12 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.browsermob.transformer.helper.WilmaResponseFactory;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the <tt>HttpResponseTransformer</tt> class.
@@ -50,6 +48,7 @@ public class HttpResponseTransformerTest {
     private static final String RESPONSE_BODY = "response";
     private static final String CONTENT_TYPE = "application/xml";
     private Header[] responseHeaders;
+    //private Header[] requestHeaders;
     private List<HarNameValuePair> requestHeaders;
 
     @Mock
@@ -66,17 +65,25 @@ public class HttpResponseTransformerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(responseFactory.createNewWilmaHttpResponse()).willReturn(response);
-        responseHeaders = new Header[1];
+        //requestHeaders = new Header[1];
         requestHeaders = new ArrayList<>();
-        responseHeaders[0] = new BasicHeader("respName", "respValue");
+        responseHeaders = new Header[1];
+        //requestHeaders[0] = new BasicHeader("reqName", "reqValue");
         requestHeaders.add(new HarNameValuePair("reqName", "reqValue"));
+        responseHeaders[0] = new BasicHeader("respName", "respValue");
     }
 
     @Test
     public void testTransformShouldSetRequestHeader() {
         //GIVEN
         given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
+        //given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
         given(browserMobHttpResponse.getEntry().getRequest().getHeaders()).willReturn(requestHeaders);
+        //given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
+        given(browserMobHttpResponse.getEntry().getResponse().getContent().getText()).willReturn(RESPONSE_BODY);
+        //given(browserMobHttpResponse.getStatus()).willReturn(200);
+        given(browserMobHttpResponse.getEntry().getResponse().getStatus()).willReturn(200);
+
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
         //THEN
@@ -86,7 +93,12 @@ public class HttpResponseTransformerTest {
     @Test
     public void testTransformShouldSetResponseHeader() {
         given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
+        //given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
         given(browserMobHttpResponse.getEntry().getRequest().getHeaders()).willReturn(requestHeaders);
+        //given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
+        given(browserMobHttpResponse.getEntry().getResponse().getContent().getText()).willReturn(RESPONSE_BODY);
+        //given(browserMobHttpResponse.getStatus()).willReturn(200);
+        given(browserMobHttpResponse.getEntry().getResponse().getStatus()).willReturn(200);
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
         //THEN
@@ -96,7 +108,12 @@ public class HttpResponseTransformerTest {
     @Test
     public void testTransformShouldNotSetResponseHeaderWhenRawResponseIsNull() {
         given(browserMobHttpResponse.getRawResponse()).willReturn(null);
+        //given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
         given(browserMobHttpResponse.getEntry().getRequest().getHeaders()).willReturn(requestHeaders);
+        //given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
+        given(browserMobHttpResponse.getEntry().getResponse().getContent().getText()).willReturn(RESPONSE_BODY);
+        //given(browserMobHttpResponse.getStatus()).willReturn(200);
+        given(browserMobHttpResponse.getEntry().getResponse().getStatus()).willReturn(200);
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
         //THEN
@@ -106,8 +123,12 @@ public class HttpResponseTransformerTest {
     @Test
     public void testTransformShouldSetBody() {
         given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
+        //given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
         given(browserMobHttpResponse.getEntry().getRequest().getHeaders()).willReturn(requestHeaders);
+        //given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
         given(browserMobHttpResponse.getEntry().getResponse().getContent().getText()).willReturn(RESPONSE_BODY);
+        //given(browserMobHttpResponse.getStatus()).willReturn(200);
+        given(browserMobHttpResponse.getEntry().getResponse().getStatus()).willReturn(200);
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
         //THEN
@@ -117,7 +138,12 @@ public class HttpResponseTransformerTest {
     @Test
     public void testTransformShouldSetContentType() {
         given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
+        //given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
         given(browserMobHttpResponse.getEntry().getRequest().getHeaders()).willReturn(requestHeaders);
+        //given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
+        given(browserMobHttpResponse.getEntry().getResponse().getContent().getText()).willReturn(RESPONSE_BODY);
+        //given(browserMobHttpResponse.getStatus()).willReturn(200);
+        given(browserMobHttpResponse.getEntry().getResponse().getStatus()).willReturn(200);
         given(browserMobHttpResponse.getContentType()).willReturn(CONTENT_TYPE);
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
@@ -128,7 +154,11 @@ public class HttpResponseTransformerTest {
     @Test
     public void testTransformShouldSetStatusCode() {
         given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
+        //given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
         given(browserMobHttpResponse.getEntry().getRequest().getHeaders()).willReturn(requestHeaders);
+        //given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
+        given(browserMobHttpResponse.getEntry().getResponse().getContent().getText()).willReturn(RESPONSE_BODY);
+        //given(browserMobHttpResponse.getStatus()).willReturn(200);
         given(browserMobHttpResponse.getEntry().getResponse().getStatus()).willReturn(200);
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);

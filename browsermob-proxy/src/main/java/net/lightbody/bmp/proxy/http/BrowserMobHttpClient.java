@@ -1,36 +1,8 @@
 package net.lightbody.bmp.proxy.http;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.Inflater;
-import java.util.zip.InflaterInputStream;
-
+import cz.mallat.uasparser.CachingOnlineUpdateUASparser;
+import cz.mallat.uasparser.UASparser;
+import cz.mallat.uasparser.UserAgentInfo;
 import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.core.har.HarCookie;
 import net.lightbody.bmp.core.har.HarEntry;
@@ -46,7 +18,6 @@ import net.lightbody.bmp.proxy.util.CappedByteArrayOutputStream;
 import net.lightbody.bmp.proxy.util.ClonedOutputStream;
 import net.lightbody.bmp.proxy.util.IOUtils;
 import net.lightbody.bmp.proxy.util.Log;
-
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpClientConnection;
@@ -111,12 +82,40 @@ import org.java_bandwidthlimiter.StreamManager;
 import org.xbill.DNS.Cache;
 import org.xbill.DNS.DClass;
 
-import cz.mallat.uasparser.CachingOnlineUpdateUASparser;
-import cz.mallat.uasparser.UASparser;
-import cz.mallat.uasparser.UserAgentInfo;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.Inflater;
+import java.util.zip.InflaterInputStream;
 
 public class BrowserMobHttpClient {
     private static final Log LOG = new Log();
+    private static final int MAX_BUFFER_SIZE = 1024 * 1024; // MOB-216 don't buffer more than 1 MB
     public static UASparser PARSER = null;
 
     static {
@@ -173,12 +172,13 @@ public class BrowserMobHttpClient {
 
     public BrowserMobHttpClient(final StreamManager streamManager, final AtomicInteger requestCounter, final int requestTimeOut) {
         this.requestCounter = requestCounter;
+        this.requestTimeout = requestTimeOut;
         SchemeRegistry schemeRegistry = new SchemeRegistry();
         hostNameResolver = new BrowserMobHostNameResolver(new Cache(DClass.ANY));
 
-        socketFactory = new SimulatedSocketFactory(hostNameResolver, streamManager);
+        socketFactory = new SimulatedSocketFactory(hostNameResolver, streamManager, requestTimeout);
         try {
-            sslSocketFactory = new TrustingSSLSocketFactory(hostNameResolver, streamManager);
+            sslSocketFactory = new TrustingSSLSocketFactory(hostNameResolver, streamManager, requestTimeout);
         } catch (KeyManagementException e) {
             throw new RuntimeException(e);
         } catch (UnrecoverableKeyException e) {
@@ -585,7 +585,7 @@ public class BrowserMobHttpClient {
         boolean contentMatched = true;
         OutputStream os = req.getOutputStream();
         if (os == null) {
-            os = new CappedByteArrayOutputStream(1024 * 1024); // MOB-216 don't buffer more than 1 MB
+            os = new CappedByteArrayOutputStream(MAX_BUFFER_SIZE);
         }
         if (verificationText != null) {
             contentMatched = false;
@@ -942,7 +942,8 @@ public class BrowserMobHttpClient {
             }
         }
 
-        return new BrowserMobHttpResponse(entry, method, response, contentMatched, verificationText, errorMessage, responseBody, contentType, charSet);
+        return new BrowserMobHttpResponse(statusCode, entry, method, response, contentMatched, verificationText, errorMessage,
+                entry.getResponse().getContent().getText(), contentType, charSet);
     }
 
     public void shutdown() {

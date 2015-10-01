@@ -15,8 +15,9 @@ public class BrowserMobHttpResponse {
     private String body;
     private String contentType;
     private String charSet;
+    private int status;
 
-    public BrowserMobHttpResponse(HarEntry entry, HttpRequestBase method, HttpResponse response, boolean contentMatched, String verificationText, String errorMessage, String body, String contentType, String charSet) {
+    public BrowserMobHttpResponse(int status, HarEntry entry, HttpRequestBase method, HttpResponse response, boolean contentMatched, String verificationText, String errorMessage, String body, String contentType, String charSet) {
         this.entry = entry;
         this.method = method;
         this.response = response;
@@ -26,6 +27,7 @@ public class BrowserMobHttpResponse {
         this.body = body;
         this.contentType = contentType;
         this.charSet = charSet;
+        this.status = status;
     }
 
     public boolean isContentMatched() {
@@ -55,6 +57,17 @@ public class BrowserMobHttpResponse {
         }
 
         return header.getValue();
+    }
+
+    public Header[] getHeaders() {
+        return response.getAllHeaders();
+    }
+
+    public Header[] getRequestHeaders() {
+        return method.getAllHeaders();
+    }
+    public int getStatus() {
+        return status;
     }
 
     public HttpResponse getRawResponse() {
