@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Executes transformations between a BrowserMob specific HTTP response and Wilma's own representation of an HTTP response.
+ *
  * @author Tunde_Kovacs
  */
 @Component
@@ -37,6 +38,7 @@ public class HttpResponseTransformer {
 
     /**
      * Transforms a BrowserMob specific HTTP response to Wilma's own representation of an HTTP response.
+     *
      * @param response the BrowserMob specific HTTP response to transform
      * @return Wilma's own representation of the HTTP response
      */
@@ -48,12 +50,12 @@ public class HttpResponseTransformer {
             }
         }
 
-      for (Header header : response.getRequestHeaders()) {
-                result.addRequestHeader(header.getName(), header.getValue());
+        for (Header header : response.getRequestHeaders()) {
+            result.addRequestHeader(header.getName(), header.getValue());
         }
 
-      String body = response.getBody();
-      int status = response.getStatus();
+        String body = response.getBody();
+        int status = response.getStatus();
         result.setBody(body);
         result.setContentType(response.getContentType());
         result.setStatusCode(status);
