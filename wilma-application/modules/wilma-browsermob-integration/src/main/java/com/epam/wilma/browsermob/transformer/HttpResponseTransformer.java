@@ -20,7 +20,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.browsermob.transformer.helper.WilmaResponseFactory;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
-import net.lightbody.bmp.core.har.HarNameValuePair;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
 import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,15 +48,12 @@ public class HttpResponseTransformer {
             }
         }
 
-        for (HarNameValuePair header : response.getEntry().getRequest().getHeaders()) {
-//      for (Header header : response.getRequestHeaders()) {
+      for (Header header : response.getRequestHeaders()) {
                 result.addRequestHeader(header.getName(), header.getValue());
         }
 
-        String body = response.getEntry().getResponse().getContent().getText();
-//      String body = response.getBody();
-        int status = response.getEntry().getResponse().getStatus();
-//      int status = response.getStatus();
+      String body = response.getBody();
+      int status = response.getStatus();
         result.setBody(body);
         result.setContentType(response.getContentType());
         result.setStatusCode(status);
