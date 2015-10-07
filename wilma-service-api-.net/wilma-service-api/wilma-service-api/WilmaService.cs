@@ -9,31 +9,51 @@ namespace epam.wilma_service_api
 {
     public class WilmaService
     {
-           public enum MessageLoggingControlStatus 
-           {
-               On, 
-               Off,
-           }
+        #region ENUMS
 
-           public enum OperationMode
-           {
-               ERROR,
-               WILMA, 
-               STUB, 
-               PROXY
-           }
+        public enum MessageLoggingControlStatus
+        {
+            On,
+            Off,
+        }
+
+        public enum OperationMode
+        {
+            ERROR,
+            WILMA,
+            STUB,
+            PROXY
+        }
+
+        #endregion ENUMS
+
+        #region PRIVATES
 
         private readonly WilmaServiceConfig _config;
+        private string GetUrl(string postfix)
+        {
+            return string.Format("{0}:{1}/{2}", _config.Host, _config.Port, postfix);
+        }
+        private string GetUrl(string postfixFormat, params object[] prms)
+        {
+            return string.Format("{0}:{1}/{2}", _config.Host, _config.Port, string.Format(postfixFormat, prms));
+        }
+
+        #endregion PRIVATES
+
+        #region URL_POSTFIXES
 
         private const string VERSION_INFO_URL_POSTFIX = "config/public/version";
         private const string ACTUAL_LOAD_INFO_URL_POSTFIX = "config/public/actualload";
         private const string SHUTDOWN_URL_POSTFIX = "config/admin/shutdown";
 
-         private const string  STATUS_GETTER_URL_POSTFIX = "config/public/logging/status";
-         private const string STATUS_SETTER_URL_POSTFIX_FORMAT = "config/admin/logging/{0}";
+        private const string STATUS_GETTER_URL_POSTFIX = "config/public/logging/status";
+        private const string STATUS_SETTER_URL_POSTFIX_FORMAT = "config/admin/logging/{0}";
 
         private const string OPERATION_GETTER_URL_POSTFIX = "config/public/switch/status";
         private const string OPERATION_SETTER_URL_POSTFIX_FORMAT = "config/admin/switch/{0}";
+
+        #endregion URL_POSTFIXES
 
         public WilmaService(WilmaServiceConfig config)
         {
@@ -49,13 +69,15 @@ namespace epam.wilma_service_api
             _config = config;
         }
 
+        #region PUBLIC METHODES
+
         public async Task<string> GetVersionInformationAsync()
         {
             Debug.WriteLine("WilmaService GetVersionInformationAsync enter...");
 
             using (var client = new HttpClient())
             {
-                var resp = await client.GetAsync(string.Format("{0}:{1}/{2}", _config.Host, _config.Port, VERSION_INFO_URL_POSTFIX));
+                var resp = await client.GetAsync(GetUrl(VERSION_INFO_URL_POSTFIX));
 
                 if (resp.IsSuccessStatusCode)
                 {
@@ -75,7 +97,7 @@ namespace epam.wilma_service_api
 
             using (var client = new HttpClient())
             {
-                var resp = await client.GetAsync(string.Format("{0}:{1}/{2}", _config.Host, _config.Port, ACTUAL_LOAD_INFO_URL_POSTFIX));
+                var resp = await client.GetAsync(GetUrl(ACTUAL_LOAD_INFO_URL_POSTFIX));
 
                 if (resp.IsSuccessStatusCode)
                 {
@@ -96,7 +118,7 @@ namespace epam.wilma_service_api
 
             using (var client = new HttpClient())
             {
-                var resp = await client.GetAsync(string.Format("{0}:{1}/{2}", _config.Host, _config.Port, SHUTDOWN_URL_POSTFIX));
+                var resp = await client.GetAsync(GetUrl(SHUTDOWN_URL_POSTFIX));
 
                 if (resp.IsSuccessStatusCode)
                 {
@@ -109,13 +131,13 @@ namespace epam.wilma_service_api
             }
         }
 
-        public  async Task<MessageLoggingControlStatus> GetMessageLoggingStatusAsync()
+        public async Task<MessageLoggingControlStatus> GetMessageLoggingStatusAsync()
         {
             Debug.WriteLine("WilmaService GetMessageLoggingStatusAsync enter...");
 
             using (var client = new HttpClient())
             {
-                var resp = await client.GetAsync(string.Format("{0}:{1}/{2}", _config.Host, _config.Port, STATUS_GETTER_URL_POSTFIX));
+                var resp = await client.GetAsync(GetUrl(STATUS_GETTER_URL_POSTFIX));
 
                 if (resp.IsSuccessStatusCode)
                 {
@@ -143,7 +165,7 @@ namespace epam.wilma_service_api
 
             using (var client = new HttpClient())
             {
-                var resp = await client.GetAsync(string.Format("{0}:{1}/{2}", _config.Host, _config.Port, string.Format(STATUS_SETTER_URL_POSTFIX_FORMAT, control.ToString().ToLower())));
+                var resp = await client.GetAsync(GetUrl(STATUS_SETTER_URL_POSTFIX_FORMAT, control.ToString().ToLower()));
 
                 if (resp.IsSuccessStatusCode)
                 {
@@ -162,7 +184,7 @@ namespace epam.wilma_service_api
 
             using (var client = new HttpClient())
             {
-                var resp = await client.GetAsync(string.Format("{0}:{1}/{2}", _config.Host, _config.Port, OPERATION_GETTER_URL_POSTFIX));
+                var resp = await client.GetAsync(GetUrl(OPERATION_GETTER_URL_POSTFIX));
 
                 if (resp.IsSuccessStatusCode)
                 {
@@ -202,7 +224,7 @@ namespace epam.wilma_service_api
 
             using (var client = new HttpClient())
             {
-                var resp = await client.GetAsync(string.Format("{0}:{1}/{2}", _config.Host, _config.Port, string.Format(OPERATION_SETTER_URL_POSTFIX_FORMAT, mode.ToString().ToLower())));
+                var resp = await client.GetAsync(GetUrl(OPERATION_SETTER_URL_POSTFIX_FORMAT, mode.ToString().ToLower()));
 
                 if (resp.IsSuccessStatusCode)
                 {
@@ -214,5 +236,7 @@ namespace epam.wilma_service_api
                 return false;
             }
         }
+
+        #endregion PUBLIC METHODES
     }
 }
