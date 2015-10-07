@@ -7,14 +7,20 @@ using System.Collections.Generic;
 
 namespace epam.wilma_service_api
 {
- 
-
     public class WilmaService
     {
            public enum MessageLoggingControlStatus 
            {
                On, 
                Off,
+           }
+
+           public enum OperationMode
+           {
+               ERROR,
+               WILMA, 
+               STUB, 
+               PROXY
            }
 
         private readonly WilmaServiceConfig _config;
@@ -25,6 +31,9 @@ namespace epam.wilma_service_api
 
          private const string  STATUS_GETTER_URL_POSTFIX = "config/public/logging/status";
          private const string STATUS_SETTER_URL_POSTFIX_FORMAT = "config/admin/logging/{0}";
+
+        private const string OPERATION_GETTER_URL_POSTFIX = "config/public/switch/status";
+        private const string OPERATION_SETTER_URL_POSTFIX_FORMAT = "config/admin/switch/{0}";
 
         public WilmaService(WilmaServiceConfig config)
         {
@@ -143,6 +152,65 @@ namespace epam.wilma_service_api
                 }
 
                 Debug.WriteLine("WilmaService SetMessageLoggingStatus failed: {0}", resp.StatusCode);
+                return false;
+            }
+        }
+
+        public async Task<OperationMode> GetOperationModeAsync()
+        {
+            Debug.WriteLine("WilmaService GetOperationMode enter...");
+
+            using (var client = new HttpClient())
+            {
+                var resp = await client.GetAsync(string.Format("{0}:{1}/{2}", _config.Host, _config.Port, OPERATION_GETTER_URL_POSTFIX));
+
+                if (resp.IsSuccessStatusCode)
+                {
+                    var jsonStr = await resp.Content.ReadAsStringAsync();
+                    Debug.WriteLine("WilmaService GetOperationMode success, with result: {0}", jsonStr);
+
+                    var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(jsonStr);
+
+                    bool proxyMode = dic["proxyMode"];
+                    bool stubMode = dic["stubMode"];
+                    bool wilmaMode = dic["wilmaMode"];
+
+                    if (proxyMode)
+                    {
+                        return OperationMode.PROXY;
+                    }
+                    if (stubMode)
+                    {
+                        return OperationMode.STUB;
+                    }
+                    if (wilmaMode)
+                    {
+                        return OperationMode.WILMA;
+                    }
+
+                    return OperationMode.ERROR;
+                }
+
+                Debug.WriteLine("WilmaService GetOperationMode failed: {0}", resp.StatusCode);
+                return OperationMode.ERROR;
+            }
+        }
+
+        public async Task<bool> SetOperationModeAsync(OperationMode mode)
+        {
+            Debug.WriteLine("WilmaService SetOperationMode enter with value: " + mode);
+
+            using (var client = new HttpClient())
+            {
+                var resp = await client.GetAsync(string.Format("{0}:{1}/{2}", _config.Host, _config.Port, string.Format(OPERATION_SETTER_URL_POSTFIX_FORMAT, mode.ToString().ToLower())));
+
+                if (resp.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("WilmaService SetOperationMode success.");
+                    return true;
+                }
+
+                Debug.WriteLine("WilmaService SetOperationMode failed: {0}", resp.StatusCode);
                 return false;
             }
         }

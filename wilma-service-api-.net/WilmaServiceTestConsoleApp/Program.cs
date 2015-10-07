@@ -19,7 +19,9 @@ namespace WilmaServiceTestConsoleApp
             ws.GetActualLoadInformationAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
             ws.GetMessageLoggingStatusAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
 
-            ws.SetMessageLoggingStatusAsync(WilmaService.MessageLoggingControlStatus.Off).ContinueWith(res => { if (res.Result) { ws.GetMessageLoggingStatusAsync().ContinueWith(res1 => { Console.WriteLine(res1.Result); }); } });
+            ws.SetMessageLoggingStatusAsync(WilmaService.MessageLoggingControlStatus.On).ContinueWith(res => { if (res.Result) { ws.GetMessageLoggingStatusAsync().ContinueWith(res1 => { Console.WriteLine(res1.Result); }); } });
+
+            ws.SetOperationModeAsync(WilmaService.OperationMode.WILMA).ContinueWith(res1 => { ws.GetOperationModeAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
 
            // ws.ShutdownApplicationAsync().ContinueWith(res => { Console.WriteLine("Wilma shuted down: {0}", res.Result);});
 
