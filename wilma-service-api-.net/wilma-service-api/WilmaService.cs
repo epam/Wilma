@@ -62,23 +62,6 @@ namespace epam.wilma_service_api
 
         #endregion PRIVATES
 
-        #region URL_POSTFIXES
-
-        private const string VERSION_INFO_URL_POSTFIX = "config/public/version";
-        private const string ACTUAL_LOAD_INFO_URL_POSTFIX = "config/public/actualload";
-        private const string SHUTDOWN_URL_POSTFIX = "config/admin/shutdown";
-
-        private const string STATUS_GETLOGGING_URL_POSTFIX = "config/public/logging/status";
-        private const string STATUS_SETLOGGING_URL_POSTFIX_FORMAT = "config/admin/logging/{0}";
-
-        private const string STATUS_GETLOCALHOST_URL_POSTFIX = "config/public/localhost/status";
-        private const string STATUS_SETLOCALHOST_URL_POSTFIX_FORMAT = "config/admin/localhost/{0}";
-
-        private const string OPERATION_GETTER_URL_POSTFIX = "config/public/switch/status";
-        private const string OPERATION_SETTER_URL_POSTFIX_FORMAT = "config/admin/switch/{0}";
-
-        #endregion URL_POSTFIXES
-
         public WilmaService(WilmaServiceConfig config)
         {
             Debug.WriteLine("WilmaService created.");
@@ -93,7 +76,11 @@ namespace epam.wilma_service_api
             _config = config;
         }
 
-        #region PUBLIC METHODES
+        #region APP RELATED
+
+        private const string VERSION_INFO_URL_POSTFIX = "config/public/version";
+        private const string ACTUAL_LOAD_INFO_URL_POSTFIX = "config/public/actualload";
+        private const string SHUTDOWN_URL_POSTFIX = "config/admin/shutdown";
 
         public async Task<string> GetVersionInformationAsync()
         {
@@ -155,6 +142,13 @@ namespace epam.wilma_service_api
             }
         }
 
+        #endregion APP RELATED
+
+        #region LOGGING STATUS
+
+        private const string STATUS_GETLOGGING_URL_POSTFIX = "config/public/logging/status";
+        private const string STATUS_SETLOGGING_URL_POSTFIX_FORMAT = "config/admin/logging/{0}";
+
         public async Task<MessageLoggingControlStatus> GetMessageLoggingStatusAsync()
         {
             Debug.WriteLine("WilmaService GetMessageLoggingStatusAsync enter...");
@@ -201,6 +195,13 @@ namespace epam.wilma_service_api
                 return false;
             }
         }
+
+        #endregion LOGGIN STATUS
+
+        #region OPERATION MODE
+
+        private const string OPERATION_GETTER_URL_POSTFIX = "config/public/switch/status";
+        private const string OPERATION_SETTER_URL_POSTFIX_FORMAT = "config/admin/switch/{0}";
 
         public async Task<OperationMode> GetOperationModeAsync()
         {
@@ -261,6 +262,13 @@ namespace epam.wilma_service_api
             }
         }
 
+        #endregion OPERATION MODE
+
+        #region LOCALHOST 
+
+        private const string STATUS_GETLOCALHOST_URL_POSTFIX = "config/public/localhost/status";
+        private const string STATUS_SETLOCALHOST_URL_POSTFIX_FORMAT = "config/admin/localhost/{0}";
+
         public async Task<LocalhostControlStatus> GetLocalhostBlockingStatusAsync()
         {
             Debug.WriteLine("WilmaService GetLocalhostBlockingStatusAsync enter...");
@@ -309,6 +317,9 @@ namespace epam.wilma_service_api
             }
         }
 
+        #endregion LOCALHOST
+
+        #region STUB RELATED
 
         private const string GET_STUB_INFO_URL_POSTFIX = "config/public/stubdescriptor";
         private const string CHANGE_STUB_CONFIG_STATUS_URL_POSTFIX = "config/admin/stub/changestatus?groupname={0}&nextstatus={1}";
@@ -415,6 +426,10 @@ namespace epam.wilma_service_api
             }
         }
 
+        #endregion STUB RELATED
+
+        #region UPLOADS
+
 
         //    /**
         //* Uploads condition checker configuration.
@@ -471,6 +486,7 @@ namespace epam.wilma_service_api
 
         //        return fileUpload.uploadStubConfiguration(fileName, file);
         //    }
-        #endregion PUBLIC METHODES
+
+        #endregion UPLOADS
     }
 }
