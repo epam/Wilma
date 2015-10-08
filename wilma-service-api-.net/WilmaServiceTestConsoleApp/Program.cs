@@ -43,26 +43,6 @@ namespace WilmaServiceTestConsoleApp
 
     public class Logger : WilmaService.ILogger
     {
-        public void DebugFormat(string format, params object[] prs)
-        {
-            Console.WriteLine(format, prs);
-        }
-
-        public void WarningFormat(string format, params object[] prs)
-        {
-            Console.WriteLine(format, prs);
-        }
-
-        public void ErrorFormat(string format, params object[] prs)
-        {
-            Console.WriteLine(format, prs);
-        }
-
-        public void InfoFormat(string format, params object[] prs)
-        {
-            Console.WriteLine(format, prs);
-        }
-
         public void Debug(string format, params object[] prs)
         {
             Console.WriteLine(format);
