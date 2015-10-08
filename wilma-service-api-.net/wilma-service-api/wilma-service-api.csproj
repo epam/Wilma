@@ -34,8 +34,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="StubClasses\Condition.cs" />
+    <Compile Include="StubClasses\ConditionDescriptor.cs" />
+    <Compile Include="StubClasses\DialogDescriptor.cs" />
+    <Compile Include="StubClasses\InterceptorDescriptor.cs" />
+    <Compile Include="StubClasses\Parameter.cs" />
+    <Compile Include="StubClasses\RequestInterceptor.cs" />
+    <Compile Include="StubClasses\ResponseDescriptor.cs" />
+    <Compile Include="StubClasses\ResponseInterceptor.cs" />
+    <Compile Include="StubClasses\SequenceDescriptor.cs" />
+    <Compile Include="StubClasses\StubDescriptor.cs" />
+    <Compile Include="StubClasses\StubConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WilmaLoadInformation.cs" />
+    <Compile Include="ServiceCommClasses\LoadInformation.cs" />
+    <Compile Include="StubClasses\Template.cs" />
+    <Compile Include="StubClasses\TemplateFormatter.cs" />
+    <Compile Include="StubClasses\TemplateFormatterDescriptor.cs" />
+    <Compile Include="StubClasses\WilmaSequence.cs" />
+    <Compile Include="StubClasses\WilmaSequencePairs.cs" />
     <Compile Include="WilmaService.cs" />
     <Compile Include="WilmaServiceConfig.cs" />
   </ItemGroup>
@@ -85,6 +101,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

@@ -23,8 +23,18 @@ namespace WilmaServiceTestConsoleApp
 
             ws.SetOperationModeAsync(WilmaService.OperationMode.WILMA).ContinueWith(res1 => { ws.GetOperationModeAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
 
-           // ws.ShutdownApplicationAsync().ContinueWith(res => { Console.WriteLine("Wilma shuted down: {0}", res.Result);});
+            ws.SetLocalhostBlockingStatusAsync(WilmaService.LocalhostControlStatus.On).ContinueWith(res1 => { ws.GetLocalhostBlockingStatusAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
 
+           // ws.ShutdownApplicationAsync().ContinueWith(res => { Console.WriteLine("Wilma shuted down: {0}", res.Result);});
+            ws.GetStubConfigInformationAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
+
+            //ws.ChangeStubConfigStatusAsync("EPAMNEWS", WilmaService.StubConfigStatus.ENABLED).ContinueWith(res => { Console.WriteLine(res.Result); });
+            //ws.ChangeStubConfigOrderAsync("EPAMNEWS", WilmaService.StubConfigOrder.Up).ContinueWith(res => { Console.WriteLine(res.Result); });
+            //ws.DropStubConfigAsync("EPAMNEWS").ContinueWith(res => { Console.WriteLine(res.Result); });
+
+            ws.PersistActualStubConfigAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
+            
+           
             Console.ReadLine();
         }
     }
