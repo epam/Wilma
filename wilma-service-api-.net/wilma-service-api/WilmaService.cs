@@ -4,12 +4,28 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Net.NetworkInformation;
 using epam.wilma_service_api.ServiceCommClasses;
 
 namespace epam.wilma_service_api
 {
     public class WilmaService
     {
+        public interface ILogger
+        {
+            void DebugFormat(string format, params object[] prs);
+            void WarningFormat(string format, params object[] prs);
+            void ErrorFormat(string format, params object[] prs);
+            void InfoFormat(string format, params object[] prs);
+
+            void Debug(string msg, params object[] prs);
+            void Warning(string msg, params object[] prs);
+            void Error(string msg, params object[] prs);
+            void Info(string msg, params object[] prs);
+        }
+
+
         #region ENUMS
 
         public enum MessageLoggingControlStatus
@@ -60,15 +76,23 @@ namespace epam.wilma_service_api
             return string.Format("{0}:{1}/{2}", _config.Host, _config.Port, string.Format(postfixFormat, prms));
         }
 
+        private ILogger _logger;
+
         #endregion PRIVATES
 
-        public WilmaService(WilmaServiceConfig config)
+        public WilmaService(WilmaServiceConfig config, ILogger logger)
         {
-            Debug.WriteLine("WilmaService created.");
+            _logger = logger;
+            if (_logger == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            _logger.Info("WilmaService created.");
 
             if (config == null)
             {
-                Debug.WriteLine("WilmaServiceConfig is NULL.");
+                _logger.Error("WilmaServiceConfig is NULL.");
 
                 throw new ArgumentNullException();
             }
@@ -84,7 +108,7 @@ namespace epam.wilma_service_api
 
         public async Task<string> GetVersionInformationAsync()
         {
-            Debug.WriteLine("WilmaService GetVersionInformationAsync enter...");
+            _logger.Debug("WilmaService GetVersionInformationAsync enter...");
 
             using (var client = new HttpClient())
             {
@@ -92,19 +116,19 @@ namespace epam.wilma_service_api
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("WilmaService GetVersionInformationAsync success.");
+                    _logger.DebugFormat("WilmaService GetVersionInformationAsync success.");
 
                     return await resp.Content.ReadAsStringAsync();
                 }
 
-                Debug.WriteLine("WilmaService GetVersionInformationAsync failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService GetVersionInformationAsync failed: {0}", resp.StatusCode);
                 return null;
             }
         }
 
         public async Task<LoadInformation> GetActualLoadInformationAsync()
         {
-            Debug.WriteLine("WilmaService GetActualLoadInformation enter...");
+            _logger.Debug("WilmaService GetActualLoadInformation enter...");
 
             using (var client = new HttpClient())
             {
@@ -113,19 +137,19 @@ namespace epam.wilma_service_api
                 if (resp.IsSuccessStatusCode)
                 {
                     var jsonStr = await resp.Content.ReadAsStringAsync();
-                    Debug.WriteLine("WilmaService GetActualLoadInformation success, with result: {0}", jsonStr);
+                    _logger.DebugFormat("WilmaService GetActualLoadInformation success, with result: {0}", jsonStr);
 
                     return JsonConvert.DeserializeObject<LoadInformation>(jsonStr);
                 }
 
-                Debug.WriteLine("WilmaService GetActualLoadInformation failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService GetActualLoadInformation failed: {0}", resp.StatusCode);
                 return null;
             }
         }
 
         public async Task<bool> ShutdownApplicationAsync()
         {
-            Debug.WriteLine("WilmaService ShutdownApplication enter...");
+            _logger.Debug("WilmaService ShutdownApplication enter...");
 
             using (var client = new HttpClient())
             {
@@ -133,11 +157,11 @@ namespace epam.wilma_service_api
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("WilmaService ShutdownApplication success.");
+                    _logger.Debug("WilmaService ShutdownApplication success.");
                     return true;
                 }
 
-                Debug.WriteLine("WilmaService ShutdownApplication failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService ShutdownApplication failed: {0}", resp.StatusCode);
                 return false;
             }
         }
@@ -151,7 +175,7 @@ namespace epam.wilma_service_api
 
         public async Task<MessageLoggingControlStatus> GetMessageLoggingStatusAsync()
         {
-            Debug.WriteLine("WilmaService GetMessageLoggingStatusAsync enter...");
+            _logger.Debug("WilmaService GetMessageLoggingStatusAsync enter...");
 
             using (var client = new HttpClient())
             {
@@ -160,7 +184,7 @@ namespace epam.wilma_service_api
                 if (resp.IsSuccessStatusCode)
                 {
                     var jsonStr = await resp.Content.ReadAsStringAsync();
-                    Debug.WriteLine("WilmaService GetMessageLoggingStatusAsync success, with result: {0}", jsonStr);
+                    _logger.DebugFormat("WilmaService GetMessageLoggingStatusAsync success, with result: {0}", jsonStr);
 
                     var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(jsonStr);
 
@@ -172,14 +196,14 @@ namespace epam.wilma_service_api
                     return MessageLoggingControlStatus.Off;
                 }
 
-                Debug.WriteLine("WilmaService GetMessageLoggingStatusAsync failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService GetMessageLoggingStatusAsync failed: {0}", resp.StatusCode);
                 return MessageLoggingControlStatus.Off;
             }
         }
 
         public async Task<bool> SetMessageLoggingStatusAsync(MessageLoggingControlStatus control)
         {
-            Debug.WriteLine("WilmaService GetMessageLoggingStatusAsync enter with value: " + control);
+            _logger.DebugFormat("WilmaService GetMessageLoggingStatusAsync enter with value: " + control);
 
             using (var client = new HttpClient())
             {
@@ -187,11 +211,11 @@ namespace epam.wilma_service_api
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("WilmaService SetMessageLoggingStatus success.");
+                    _logger.Debug("WilmaService SetMessageLoggingStatus success.");
                     return true;
                 }
 
-                Debug.WriteLine("WilmaService SetMessageLoggingStatus failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService SetMessageLoggingStatus failed: {0}", resp.StatusCode);
                 return false;
             }
         }
@@ -205,7 +229,7 @@ namespace epam.wilma_service_api
 
         public async Task<OperationMode> GetOperationModeAsync()
         {
-            Debug.WriteLine("WilmaService GetOperationMode enter...");
+            _logger.DebugFormat("WilmaService GetOperationMode enter...");
 
             using (var client = new HttpClient())
             {
@@ -214,7 +238,7 @@ namespace epam.wilma_service_api
                 if (resp.IsSuccessStatusCode)
                 {
                     var jsonStr = await resp.Content.ReadAsStringAsync();
-                    Debug.WriteLine("WilmaService GetOperationMode success, with result: {0}", jsonStr);
+                    _logger.DebugFormat("WilmaService GetOperationMode success, with result: {0}", jsonStr);
 
                     var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(jsonStr);
 
@@ -238,14 +262,14 @@ namespace epam.wilma_service_api
                     return OperationMode.ERROR;
                 }
 
-                Debug.WriteLine("WilmaService GetOperationMode failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService GetOperationMode failed: {0}", resp.StatusCode);
                 return OperationMode.ERROR;
             }
         }
 
         public async Task<bool> SetOperationModeAsync(OperationMode mode)
         {
-            Debug.WriteLine("WilmaService SetOperationMode enter with value: " + mode);
+            _logger.DebugFormat("WilmaService SetOperationMode enter with value: " + mode);
 
             using (var client = new HttpClient())
             {
@@ -253,11 +277,11 @@ namespace epam.wilma_service_api
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("WilmaService SetOperationMode success.");
+                    _logger.Debug("WilmaService SetOperationMode success.");
                     return true;
                 }
 
-                Debug.WriteLine("WilmaService SetOperationMode failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService SetOperationMode failed: {0}", resp.StatusCode);
                 return false;
             }
         }
@@ -271,7 +295,7 @@ namespace epam.wilma_service_api
 
         public async Task<LocalhostControlStatus> GetLocalhostBlockingStatusAsync()
         {
-            Debug.WriteLine("WilmaService GetLocalhostBlockingStatusAsync enter...");
+            _logger.Debug("WilmaService GetLocalhostBlockingStatusAsync enter...");
 
             using (var client = new HttpClient())
             {
@@ -279,7 +303,7 @@ namespace epam.wilma_service_api
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("WilmaService GetLocalhostBlockingStatusAsync success.");
+                    _logger.Debug("WilmaService GetLocalhostBlockingStatusAsync success.");
 
                     var jsonStr = await resp.Content.ReadAsStringAsync();
                     var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(jsonStr);
@@ -294,14 +318,14 @@ namespace epam.wilma_service_api
                     return LocalhostControlStatus.Off;
                 }
 
-                Debug.WriteLine("WilmaService GetLocalhostBlockingStatusAsync failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService GetLocalhostBlockingStatusAsync failed: {0}", resp.StatusCode);
                 return LocalhostControlStatus.Error;
             }
         }
 
         public async Task<bool> SetLocalhostBlockingStatusAsync(LocalhostControlStatus control)
         {
-            Debug.WriteLine("WilmaService SetLocalhostBlockingStatusAsync enter with value: " + control);
+            _logger.DebugFormat("WilmaService SetLocalhostBlockingStatusAsync enter with value: " + control);
 
             using (var client = new HttpClient())
             {
@@ -312,7 +336,7 @@ namespace epam.wilma_service_api
                     return true;
                 }
 
-                Debug.WriteLine("WilmaService GetLocalhostBlockingStatusAsync failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService GetLocalhostBlockingStatusAsync failed: {0}", resp.StatusCode);
                 return false;
             }
         }
@@ -329,7 +353,7 @@ namespace epam.wilma_service_api
 
         public async Task<object> GetStubConfigInformationAsync()
         {
-            Debug.WriteLine("WilmaService GetStubConfigInformationAsync enter...");
+            _logger.Debug("WilmaService GetStubConfigInformationAsync enter...");
 
             using (var client = new HttpClient())
             {
@@ -339,20 +363,20 @@ namespace epam.wilma_service_api
                 {
                     var jsonStr = await resp.Content.ReadAsStringAsync();
 
-                    Debug.WriteLine("WilmaService GetStubConfigInformationAsync success: {0}", jsonStr);
+                    _logger.DebugFormat("WilmaService GetStubConfigInformationAsync success: {0}", jsonStr);
 
                     var res = JsonConvert.DeserializeObject(jsonStr);
                     return res;
                 }
 
-                Debug.WriteLine("WilmaService GetLocalhostBlockingStatusAsync failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService GetLocalhostBlockingStatusAsync failed: {0}", resp.StatusCode);
                 return null;
             }
         }
 
         public async Task<bool> ChangeStubConfigStatusAsync(string groupName, StubConfigStatus status)
         {
-            Debug.WriteLine("WilmaService ChangeStubConfigStatusAsync to: {0} for: {1}", status, groupName);
+            _logger.DebugFormat("WilmaService ChangeStubConfigStatusAsync to: {0} for: {1}", status, groupName);
 
             using (var client = new HttpClient())
             {
@@ -360,18 +384,18 @@ namespace epam.wilma_service_api
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("WilmaService ChangeStubConfigStatusAsync success.");
+                    _logger.Debug("WilmaService ChangeStubConfigStatusAsync success.");
                     return true;
                 }
 
-                Debug.WriteLine("WilmaService ChangeStubConfigStatusAsync failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService ChangeStubConfigStatusAsync failed: {0}", resp.StatusCode);
                 return false;
             }
         }
 
         public async Task<bool> ChangeStubConfigOrderAsync(String groupName, StubConfigOrder order)
         {
-            Debug.WriteLine("WilmaService ChangeStubConfigOrderAsync to: {0} for: {1}", order, groupName);
+            _logger.DebugFormat("WilmaService ChangeStubConfigOrderAsync to: {0} for: {1}", order, groupName);
 
             using (var client = new HttpClient())
             {
@@ -379,18 +403,18 @@ namespace epam.wilma_service_api
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("WilmaService ChangeStubConfigOrderAsync success.");
+                    _logger.Debug("WilmaService ChangeStubConfigOrderAsync success.");
                     return true;
                 }
 
-                Debug.WriteLine("WilmaService ChangeStubConfigOrderAsync failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService ChangeStubConfigOrderAsync failed: {0}", resp.StatusCode);
                 return false;
             }
         }
 
         public async Task<bool> DropStubConfigAsync(String groupName)
         {
-            Debug.WriteLine("WilmaService DropStubConfigAsync: {0}", groupName);
+            _logger.DebugFormat("WilmaService DropStubConfigAsync: {0}", groupName);
 
             using (var client = new HttpClient())
             {
@@ -398,18 +422,18 @@ namespace epam.wilma_service_api
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("WilmaService DropStubConfigAsync success.");
+                    _logger.Debug("WilmaService DropStubConfigAsync success.");
                     return true;
                 }
 
-                Debug.WriteLine("WilmaService DropStubConfigAsync failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService DropStubConfigAsync failed: {0}", resp.StatusCode);
                 return false;
             }
         }
 
         public async Task<bool> PersistActualStubConfigAsync()
         {
-            Debug.WriteLine("WilmaService PersistActualStubConfigAsync.");
+            _logger.Debug("WilmaService PersistActualStubConfigAsync.");
 
             using (var client = new HttpClient())
             {
@@ -417,11 +441,11 @@ namespace epam.wilma_service_api
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("WilmaService PersistActualStubConfigAsync success.");
+                    _logger.Debug("WilmaService PersistActualStubConfigAsync success.");
                     return true;
                 }
 
-                Debug.WriteLine("WilmaService PersistActualStubConfigAsync failed: {0}", resp.StatusCode);
+                _logger.DebugFormat("WilmaService PersistActualStubConfigAsync failed: {0}", resp.StatusCode);
                 return false;
             }
         }

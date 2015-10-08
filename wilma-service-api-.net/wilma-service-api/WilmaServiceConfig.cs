@@ -9,7 +9,6 @@ namespace epam.wilma_service_api
 
         public WilmaServiceConfig(string host, uint port)
         {
-            Debug.WriteLine("WilmaServiceConfig cretaed host: {0}, port: {1}", host, port);
             Host = host;
             Port = port;
         }
