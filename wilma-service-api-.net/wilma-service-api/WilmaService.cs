@@ -5,6 +5,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Net.NetworkInformation;
 using epam.wilma_service_api.ServiceCommClasses;
 
@@ -283,7 +284,7 @@ namespace epam.wilma_service_api
 
         #endregion OPERATION MODE
 
-        #region LOCALHOST 
+        #region LOCALHOST
 
         private const string STATUS_GETLOCALHOST_URL_POSTFIX = "config/public/localhost/status";
         private const string STATUS_SETLOCALHOST_URL_POSTFIX_FORMAT = "config/admin/localhost/{0}";
@@ -449,62 +450,86 @@ namespace epam.wilma_service_api
 
         #region UPLOADS
 
+        private const string CONDITION_CHECKER_UPLOAD_URL_POSTFIX = "config/admin/stub/conditionchecker?fileName={0}";
+        private const string STUB_CONFIGURATION_UPLOAD_URL_POSTFIX = "config/admin/stub/templates?fileName={0}";
+        private const string TEMPLATE_UPLOAD_URL_POSTFIX = "config/admin/stub/templateformatter?fileName={0}";
+        private const string TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX = "config/admin/stub/stubconfig?fileName={0}";
 
-        //    /**
-        //* Uploads condition checker configuration.
-        //*
-        //* @param fileName the name of the file
-        //* @param file to upload
-        //* @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
-        //*/
-        //    public boolean uploadConditionChecker(String fileName, File file)
-        //    {
-        //        LOG.debug("Upload condition checker configuration.");
+        public async Task<bool> UploadConditionCheckerAsync(string fileName, Stream stream)
+        {
+            _logger.Debug("WilmaService UploadConditionChecker: {0}", fileName);
 
-        //        return fileUpload.uploadConditionChecker(fileName, file);
-        //    }
+            using (var client = new HttpClient())
+            {
+                var resp = await client.PostAsync(GetUrl(CONDITION_CHECKER_UPLOAD_URL_POSTFIX, fileName), new StreamContent(stream));
 
-        //    /**
-        //     * Uploads template.
-        //     *
-        //     * @param fileName the name of the file
-        //     * @param file to upload
-        //     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
-        //     */
-        //    public boolean uploadTemplate(String fileName, File file)
-        //    {
-        //        LOG.debug("Upload template.");
+                if (resp.IsSuccessStatusCode)
+                {
+                    _logger.Debug("WilmaService UploadConditionChecker success.");
+                    return true;
+                }
 
-        //        return fileUpload.uploadTemplate(fileName, file);
-        //    }
+                _logger.Debug("WilmaService UploadConditionChecker failed: {0}", resp.StatusCode);
+                return false;
+            }
+        }
 
-        //    /**
-        //     * Uploads template formatter.
-        //     *
-        //     * @param fileName the name of the file
-        //     * @param file to upload
-        //     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
-        //     */
-        //    public boolean uploadTemplateFormatter(String fileName, File file)
-        //    {
-        //        LOG.debug("Upload template formatter.");
+        public async Task<bool> UploadTemplateAsync(string fileName, Stream stream)
+        {
+            _logger.Debug("WilmaService UploadTemplateAsync: {0}", fileName);
 
-        //        return fileUpload.uploadTemplateFormatter(fileName, file);
-        //    }
+            using (var client = new HttpClient())
+            {
+                var resp = await client.PostAsync(GetUrl(TEMPLATE_UPLOAD_URL_POSTFIX, fileName), new StreamContent(stream));
 
-        //    /**
-        //     * Uploads stub configuration.
-        //     *
-        //     * @param fileName the name of the file
-        //     * @param file to upload
-        //     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
-        //     */
-        //    public boolean uploadStubConfiguration(String fileName, File file)
-        //    {
-        //        LOG.debug("Upload stub configuration.");
+                if (resp.IsSuccessStatusCode)
+                {
+                    _logger.Debug("WilmaService UploadTemplateAsync success.");
+                    return true;
+                }
 
-        //        return fileUpload.uploadStubConfiguration(fileName, file);
-        //    }
+                _logger.Debug("WilmaService UploadTemplateAsync failed: {0}", resp.StatusCode);
+                return false;
+            }
+        }
+
+        public async Task<bool> UploadTemplateFormatterAsync(string fileName, Stream stream)
+        {
+            _logger.Debug("WilmaService UploadTemplateFormatterAsync: {0}", fileName);
+
+            using (var client = new HttpClient())
+            {
+                var resp = await client.PostAsync(GetUrl(TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX, fileName), new StreamContent(stream));
+
+                if (resp.IsSuccessStatusCode)
+                {
+                    _logger.Debug("WilmaService UploadTemplateFormatterAsync success.");
+                    return true;
+                }
+
+                _logger.Debug("WilmaService UploadTemplateFormatterAsync failed: {0}", resp.StatusCode);
+                return false;
+            }
+        }
+
+        public async Task<bool> UploadStubConfigurationAsync(string fileName, Stream stream)
+        {
+            _logger.Debug("WilmaService UploadStubConfigurationAsync: {0}", fileName);
+
+            using (var client = new HttpClient())
+            {
+                var resp = await client.PostAsync(GetUrl(STUB_CONFIGURATION_UPLOAD_URL_POSTFIX, fileName), new StreamContent(stream));
+
+                if (resp.IsSuccessStatusCode)
+                {
+                    _logger.Debug("WilmaService UploadStubConfigurationAsync success.");
+                    return true;
+                }
+
+                _logger.Debug("WilmaService UploadStubConfigurationAsync failed: {0}", resp.StatusCode);
+                return false;
+            }
+        }
 
         #endregion UPLOADS
     }
