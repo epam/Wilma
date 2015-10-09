@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ServiceCommClasses\LocalhostControlStatus.cs" />
+    <Compile Include="ServiceCommClasses\LoggingStatus.cs" />
+    <Compile Include="ServiceCommClasses\OperationMode.cs" />
     <Compile Include="StubClasses\Condition.cs" />
     <Compile Include="StubClasses\ConditionDescriptor.cs" />
     <Compile Include="StubClasses\DialogDescriptor.cs" />

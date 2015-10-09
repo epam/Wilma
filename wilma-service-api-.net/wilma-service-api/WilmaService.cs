@@ -30,7 +30,7 @@ namespace epam.wilma_service_api
             Off,
         }
 
-        public enum OperationMode
+        public enum OperationModes
         {
             ERROR,
             WILMA,
@@ -38,7 +38,7 @@ namespace epam.wilma_service_api
             PROXY
         }
 
-        public enum LocalhostControlStatus
+        public enum LocalhostControlStatuses
         {
             Error,
             On,
@@ -182,9 +182,9 @@ namespace epam.wilma_service_api
                     var jsonStr = await resp.Content.ReadAsStringAsync();
                     _logger.Debug("WilmaService GetMessageLoggingStatusAsync success, with result: {0}", jsonStr);
 
-                    var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(jsonStr);
+                    var ls = JsonConvert.DeserializeObject<LoggingStatus>(jsonStr);
 
-                    if (dic["requestLogging"] && dic["responseLogging"])
+                    if (ls.RequestLogging && ls.ResponseLogging)
                     {
                         return MessageLoggingControlStatus.On;
                     }
@@ -199,7 +199,7 @@ namespace epam.wilma_service_api
 
         public async Task<bool> SetMessageLoggingStatusAsync(MessageLoggingControlStatus control)
         {
-            _logger.Debug("WilmaService GetMessageLoggingStatusAsync enter with value: " + control);
+            _logger.Debug("WilmaService SetMessageLoggingStatusAsync enter with value: " + control);
 
             using (var client = new HttpClient())
             {
@@ -223,7 +223,7 @@ namespace epam.wilma_service_api
         private const string OPERATION_GETTER_URL_POSTFIX = "config/public/switch/status";
         private const string OPERATION_SETTER_URL_POSTFIX_FORMAT = "config/admin/switch/{0}";
 
-        public async Task<OperationMode> GetOperationModeAsync()
+        public async Task<OperationModes> GetOperationModeAsync()
         {
             _logger.Debug("WilmaService GetOperationMode enter...");
 
@@ -236,40 +236,36 @@ namespace epam.wilma_service_api
                     var jsonStr = await resp.Content.ReadAsStringAsync();
                     _logger.Debug("WilmaService GetOperationMode success, with result: {0}", jsonStr);
 
-                    var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(jsonStr);
+                    var om = JsonConvert.DeserializeObject<OperationMode>(jsonStr);
 
-                    bool proxyMode = dic["proxyMode"];
-                    bool stubMode = dic["stubMode"];
-                    bool wilmaMode = dic["wilmaMode"];
-
-                    if (proxyMode)
+                    if (om.ProxyMode)
                     {
-                        return OperationMode.PROXY;
+                        return OperationModes.PROXY;
                     }
-                    if (stubMode)
+                    if (om.StubMode)
                     {
-                        return OperationMode.STUB;
+                        return OperationModes.STUB;
                     }
-                    if (wilmaMode)
+                    if (om.WilmaMode)
                     {
-                        return OperationMode.WILMA;
+                        return OperationModes.WILMA;
                     }
 
-                    return OperationMode.ERROR;
+                    return OperationModes.ERROR;
                 }
 
                 _logger.Debug("WilmaService GetOperationMode failed: {0}", resp.StatusCode);
-                return OperationMode.ERROR;
+                return OperationModes.ERROR;
             }
         }
 
-        public async Task<bool> SetOperationModeAsync(OperationMode mode)
+        public async Task<bool> SetOperationModeAsync(OperationModes modes)
         {
-            _logger.Debug("WilmaService SetOperationMode enter with value: " + mode);
+            _logger.Debug("WilmaService SetOperationMode enter with value: " + modes);
 
             using (var client = new HttpClient())
             {
-                var resp = await client.GetAsync(GetUrl(OPERATION_SETTER_URL_POSTFIX_FORMAT, mode.ToString().ToLower()));
+                var resp = await client.GetAsync(GetUrl(OPERATION_SETTER_URL_POSTFIX_FORMAT, modes.ToString().ToLower()));
 
                 if (resp.IsSuccessStatusCode)
                 {
@@ -289,7 +285,7 @@ namespace epam.wilma_service_api
         private const string STATUS_GETLOCALHOST_URL_POSTFIX = "config/public/localhost/status";
         private const string STATUS_SETLOCALHOST_URL_POSTFIX_FORMAT = "config/admin/localhost/{0}";
 
-        public async Task<LocalhostControlStatus> GetLocalhostBlockingStatusAsync()
+        public async Task<LocalhostControlStatuses> GetLocalhostBlockingStatusAsync()
         {
             _logger.Debug("WilmaService GetLocalhostBlockingStatusAsync enter...");
 
@@ -302,24 +298,22 @@ namespace epam.wilma_service_api
                     _logger.Debug("WilmaService GetLocalhostBlockingStatusAsync success.");
 
                     var jsonStr = await resp.Content.ReadAsStringAsync();
-                    var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(jsonStr);
+                    var lcs = JsonConvert.DeserializeObject<LocalhostControlStatus>(jsonStr);
 
-                    bool localhostMode = dic["localhostMode"];
-
-                    if (localhostMode)
+                    if (lcs.LocalhostMode)
                     {
-                        return LocalhostControlStatus.On;
+                        return LocalhostControlStatuses.On;
                     }
 
-                    return LocalhostControlStatus.Off;
+                    return LocalhostControlStatuses.Off;
                 }
 
                 _logger.Debug("WilmaService GetLocalhostBlockingStatusAsync failed: {0}", resp.StatusCode);
-                return LocalhostControlStatus.Error;
+                return LocalhostControlStatuses.Error;
             }
         }
 
-        public async Task<bool> SetLocalhostBlockingStatusAsync(LocalhostControlStatus control)
+        public async Task<bool> SetLocalhostBlockingStatusAsync(LocalhostControlStatuses control)
         {
             _logger.Debug("WilmaService SetLocalhostBlockingStatusAsync enter with value: " + control);
 
