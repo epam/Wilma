@@ -13,7 +13,7 @@ namespace WilmaServiceTestConsoleApp
     {
         private static void Main(string[] args)
         {
-            var wsConf = new WilmaServiceConfig("http://ESYJPB-SZG", 1234);
+            var wsConf = new WilmaServiceConfig("ESYJPB-SZG", 1234);
             var ws = new WilmaService(wsConf, new Logger());
 
             ws.GetVersionInformationAsync().ContinueWith(res => { Console.WriteLine(res.Result); });

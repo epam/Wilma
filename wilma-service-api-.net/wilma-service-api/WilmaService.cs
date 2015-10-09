@@ -11,8 +11,14 @@ using epam.wilma_service_api.ServiceCommClasses;
 
 namespace epam.wilma_service_api
 {
+    /// <summary>
+    /// WilmaService class to acccess and manipulate programmatically WilmaApp.
+    /// </summary>
     public class WilmaService
     {
+        /// <summary>
+        /// ILogger interface. Implement this to support WilmaService logging.
+        /// </summary>
         public interface ILogger
         {
             void Debug(string format, params object[] prs);
@@ -26,6 +32,7 @@ namespace epam.wilma_service_api
 
         public enum MessageLoggingControlStatus
         {
+            Error,
             On,
             Off,
         }
@@ -65,23 +72,29 @@ namespace epam.wilma_service_api
         private readonly WilmaServiceConfig _config;
         private string GetUrl(string postfix)
         {
-            return string.Format("{0}:{1}/{2}", _config.Host, _config.Port, postfix);
+            return string.Format("http://{0}:{1}/{2}", _config.Host, _config.Port, postfix);
         }
         private string GetUrl(string postfixFormat, params object[] prms)
         {
-            return string.Format("{0}:{1}/{2}", _config.Host, _config.Port, string.Format(postfixFormat, prms));
+            return string.Format("http://{0}:{1}/{2}", _config.Host, _config.Port, string.Format(postfixFormat, prms));
         }
 
         private ILogger _logger;
 
         #endregion PRIVATES
 
+        /// <summary>
+        /// WilmaService constructor.
+        /// </summary>
+        /// <param name="config">WilmaServiceConfig stores host and port.</param>
+        /// <param name="logger">Object implements ILogger interface, this methods are called for logging.</param>
+        /// <exception cref="System.ArgumentNullException">Thrown when config or logger is null.</exception>
         public WilmaService(WilmaServiceConfig config, ILogger logger)
         {
             _logger = logger;
             if (_logger == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("ILogger is null.");
             }
 
             _logger.Info("WilmaService created.");
@@ -90,7 +103,7 @@ namespace epam.wilma_service_api
             {
                 _logger.Error("WilmaServiceConfig is NULL.");
 
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("WilmaServiceConfig is NULL.");
             }
 
             _config = config;
@@ -102,6 +115,10 @@ namespace epam.wilma_service_api
         private const string ACTUAL_LOAD_INFO_URL_POSTFIX = "config/public/actualload";
         private const string SHUTDOWN_URL_POSTFIX = "config/admin/shutdown";
 
+        /// <summary>
+        /// Gets the version of Wilma.
+        /// </summary>
+        /// <returns>The version information, or null in case of communication problem.</returns>
         public async Task<string> GetVersionInformationAsync()
         {
             _logger.Debug("WilmaService GetVersionInformationAsync enter...");
@@ -122,6 +139,10 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        /// Gets the actual load information of the application.
+        /// </summary>
+        /// <returns>Actual load information, or null in case of communication problem.</returns>
         public async Task<LoadInformation> GetActualLoadInformationAsync()
         {
             _logger.Debug("WilmaService GetActualLoadInformation enter...");
@@ -143,6 +164,10 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        /// Shutdown the Wilma application.
+        /// </summary>
+        /// <returns>True if the request is successful, otherwise returns false</returns>
         public async Task<bool> ShutdownApplicationAsync()
         {
             _logger.Debug("WilmaService ShutdownApplication enter...");
@@ -169,6 +194,10 @@ namespace epam.wilma_service_api
         private const string STATUS_GETLOGGING_URL_POSTFIX = "config/public/logging/status";
         private const string STATUS_SETLOGGING_URL_POSTFIX_FORMAT = "config/admin/logging/{0}";
 
+        /// <summary>
+        /// Gets the message logging status.
+        /// </summary>
+        /// <returns>Message logging status, or MessageLoggingControlStatus.Error in case of communication problem.</returns>
         public async Task<MessageLoggingControlStatus> GetMessageLoggingStatusAsync()
         {
             _logger.Debug("WilmaService GetMessageLoggingStatusAsync enter...");
@@ -193,10 +222,15 @@ namespace epam.wilma_service_api
                 }
 
                 _logger.Debug("WilmaService GetMessageLoggingStatusAsync failed: {0}", resp.StatusCode);
-                return MessageLoggingControlStatus.Off;
+                return MessageLoggingControlStatus.Error;
             }
         }
 
+        /// <summary>
+        /// Turns on/off the message logging status.
+        /// </summary>
+        /// <param name="control">Control on/off</param>
+        /// <returns>True if the request is successful, otherwise returns false.</returns>
         public async Task<bool> SetMessageLoggingStatusAsync(MessageLoggingControlStatus control)
         {
             _logger.Debug("WilmaService SetMessageLoggingStatusAsync enter with value: " + control);
@@ -223,6 +257,10 @@ namespace epam.wilma_service_api
         private const string OPERATION_GETTER_URL_POSTFIX = "config/public/switch/status";
         private const string OPERATION_SETTER_URL_POSTFIX_FORMAT = "config/admin/switch/{0}";
 
+        /// <summary>
+        /// Gets the operation mode status.
+        /// </summary>
+        /// <returns>Operation mode status, or OperationModes.ERROR in case of communication problem.</returns>
         public async Task<OperationModes> GetOperationModeAsync()
         {
             _logger.Debug("WilmaService GetOperationMode enter...");
@@ -259,6 +297,11 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        /// Switch the operation mode.
+        /// </summary>
+        /// <param name="modes">Mode: wilma/stub/proxy</param>
+        /// <returns>True if the request is successful, otherwise returns false.</returns>
         public async Task<bool> SetOperationModeAsync(OperationModes modes)
         {
             _logger.Debug("WilmaService SetOperationMode enter with value: " + modes);
@@ -285,6 +328,10 @@ namespace epam.wilma_service_api
         private const string STATUS_GETLOCALHOST_URL_POSTFIX = "config/public/localhost/status";
         private const string STATUS_SETLOCALHOST_URL_POSTFIX_FORMAT = "config/admin/localhost/{0}";
 
+        /// <summary>
+        /// Gets the localhost blocking status.
+        /// </summary>
+        /// <returns>Localhost blocking status if successful, otherwise LocalhostControlStatuses.Error.</returns>
         public async Task<LocalhostControlStatuses> GetLocalhostBlockingStatusAsync()
         {
             _logger.Debug("WilmaService GetLocalhostBlockingStatusAsync enter...");
@@ -313,6 +360,11 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        /// Turns on/off the localhost blocking.
+        /// </summary>
+        /// <param name="control">Control on/off</param>
+        /// <returns>True if the request is successful, otherwise returns false.</returns>
         public async Task<bool> SetLocalhostBlockingStatusAsync(LocalhostControlStatuses control)
         {
             _logger.Debug("WilmaService SetLocalhostBlockingStatusAsync enter with value: " + control);
@@ -341,6 +393,10 @@ namespace epam.wilma_service_api
         private const string DROP_STUB_CONFIG_URL_POSTFIX = "config/admin/stub/drop?groupname={0}";
         private const string SAVE_STUB_CONFIG_URL = "config/admin/stub/save";
 
+        /// <summary>
+        /// Gets the stub configuration information.
+        /// </summary>
+        /// <returns>Stub configuration as JsonObject.</returns>
         public async Task<object> GetStubConfigInformationAsync()
         {
             _logger.Debug("WilmaService GetStubConfigInformationAsync enter...");
@@ -364,6 +420,12 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        /// Enable/disable the given group.
+        /// </summary>
+        /// <param name="groupName">Name of the Group.</param>
+        /// <param name="status">Status to set: Enabled/Disabled</param>
+        /// <returns>True if succesful, otherwise returns false.</returns>
         public async Task<bool> ChangeStubConfigStatusAsync(string groupName, StubConfigStatus status)
         {
             _logger.Debug("WilmaService ChangeStubConfigStatusAsync to: {0} for: {1}", status, groupName);
@@ -383,6 +445,12 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        ///  Sets new order for the given group, move up or down in the list.
+        /// </summary>
+        /// <param name="groupName">Name of Group to move.</param>
+        /// <param name="order">Move direction: Up/Down</param>
+        /// <returns>True if success, otherwise returns false.</returns>
         public async Task<bool> ChangeStubConfigOrderAsync(String groupName, StubConfigOrder order)
         {
             _logger.Debug("WilmaService ChangeStubConfigOrderAsync to: {0} for: {1}", order, groupName);
@@ -402,6 +470,11 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        /// Drops the given stub configuration.
+        /// </summary>
+        /// <param name="groupName">Name of Group to drop.</param>
+        /// <returns>True if succes, otherwise returns false.</returns>
         public async Task<bool> DropStubConfigAsync(String groupName)
         {
             _logger.Debug("WilmaService DropStubConfigAsync: {0}", groupName);
@@ -421,6 +494,10 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        /// Persists the actual stub configuration.
+        /// </summary>
+        /// <returns>True if success, otherwise returns false.</returns>
         public async Task<bool> PersistActualStubConfigAsync()
         {
             _logger.Debug("WilmaService PersistActualStubConfigAsync.");
@@ -449,6 +526,12 @@ namespace epam.wilma_service_api
         private const string TEMPLATE_UPLOAD_URL_POSTFIX = "config/admin/stub/templateformatter?fileName={0}";
         private const string TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX = "config/admin/stub/stubconfig?fileName={0}";
 
+        /// <summary>
+        /// Uploads condition checker configuration.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="stream">FileStream to upload.</param>
+        /// <returns>True if success, otherwise returns false.</returns>
         public async Task<bool> UploadConditionCheckerAsync(string fileName, Stream stream)
         {
             _logger.Debug("WilmaService UploadConditionChecker: {0}", fileName);
@@ -468,6 +551,12 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        /// Uploads template.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="stream">FileStream to upload.</param>
+        /// <returns>True if success, otherwise returns false.</returns>
         public async Task<bool> UploadTemplateAsync(string fileName, Stream stream)
         {
             _logger.Debug("WilmaService UploadTemplateAsync: {0}", fileName);
@@ -487,6 +576,12 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        /// Uploads template formatter.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="stream">FileStream to upload.</param>
+        /// <returns>True if success, otherwise returns false.</returns>
         public async Task<bool> UploadTemplateFormatterAsync(string fileName, Stream stream)
         {
             _logger.Debug("WilmaService UploadTemplateFormatterAsync: {0}", fileName);
@@ -506,6 +601,12 @@ namespace epam.wilma_service_api
             }
         }
 
+        /// <summary>
+        /// Uploads Stub Configuration.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="stream">FileStream to upload.</param>
+        /// <returns>True if success, otherwise returns false.</returns>
         public async Task<bool> UploadStubConfigurationAsync(string fileName, Stream stream)
         {
             _logger.Debug("WilmaService UploadStubConfigurationAsync: {0}", fileName);
