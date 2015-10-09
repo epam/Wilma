@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WILMA_BUILD=wilma-1.1.73.jar
+WILMA_BUILD=wilma-1.2.83.jar
 #WILMA_CONFIGURATION is an external environment variable, usually: wilma.conf.properties
 #WILMA_MX_SIZE is an external environment variable, for example: -Xmx8G
 #WILMA_KEPYSTORE is an external environment variable, for example: -Djavax.net.ssl.keyStore=certificate/your.jks
