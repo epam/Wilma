@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace epam.wilma_service_api
 {
@@ -24,6 +25,10 @@ namespace epam.wilma_service_api
         /// <param name="port">WilmaApp port.</param>
         public WilmaServiceConfig(string host, uint port)
         {
+            if (string.IsNullOrEmpty(host))
+            {
+                throw new ArgumentNullException("WilmaServiceConfig host is null or empty.");
+            }
             Host = host;
             Port = port;
         }
