@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using epam.wilma_service_api;
 
@@ -34,46 +30,23 @@ namespace WilmaServiceTestConsoleApp
 
             ws.PersistActualStubConfigAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
 
-            UpLoadFile(@"c:\wilma\proba.json", ws.UploadConditionCheckerAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            UpLoadFile(@"c:\wilma\proba.json", ws.UploadTemplateAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            UpLoadFile(@"c:\wilma\proba.json", ws.UploadTemplateFormatterAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            UpLoadFile(@"c:\wilma\proba.json", ws.UploadStubConfigurationAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            UploadFile(@"c:\wilmaaa\proba.json", ws.UploadConditionCheckerAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            UploadFile(@"c:\wilmaaa\proba.json", ws.UploadTemplateAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            UploadFile(@"c:\wilmaaa\proba.json", ws.UploadTemplateFormatterAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            UploadFile(@"c:\wilmaaa\proba.json", ws.UploadStubConfigurationAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
 
             // ws.ShutdownApplicationAsync().ContinueWith(res => { Console.WriteLine("Wilma shuted down: {0}", res.Result);});
 
             Console.ReadLine();
         }
 
-        private static async Task<bool> UpLoadFile(string filePath, Func<string, Stream, Task<bool>> func)
+        private static async Task<bool> UploadFile(string filePath, Func<string, Stream, Task<bool>> func)
         {
             using (var fs = File.OpenRead(filePath))
             {
                 var res = await func(Path.GetFileName(filePath), fs);
                 return res;
             }
-        }
-    }
-
-    public class Logger : WilmaService.ILogger
-    {
-        public void Debug(string format, params object[] prs)
-        {
-            Console.WriteLine(format, prs);
-        }
-
-        public void Warning(string format, params object[] prs)
-        {
-            Console.WriteLine(format, prs);
-        }
-
-        public void Error(string format, params object[] prs)
-        {
-            Console.WriteLine(format, prs);
-        }
-
-        public void Info(string format, params object[] prs)
-        {
-            Console.WriteLine(format, prs);
         }
     }
 }

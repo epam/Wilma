@@ -12,7 +12,6 @@ namespace wilma_service_api_tests
         public void HostAndPort_CreateWilamServiceConfig_Success()
         {
             var res = new WilmaServiceConfig("alma", 0);
-            res.Should().NotBe(null);
         }
 
         [Test]
@@ -33,7 +32,7 @@ namespace wilma_service_api_tests
         public void GivenHostAndPort_CreateWilamServiceConfig_StoredHostAndPortEqual()
         {
             var host = "alma.hu";
-            uint port = 98765;
+            ushort port = 9875;
             var res = new WilmaServiceConfig(host, port);
 
             res.Host.ShouldBeEquivalentTo(host);

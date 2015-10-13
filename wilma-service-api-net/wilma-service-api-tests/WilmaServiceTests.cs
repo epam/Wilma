@@ -2,8 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using epam.wilma_service_api;
 using epam.wilma_service_api.ServiceCommClasses;
 using FluentAssertions;
@@ -20,7 +18,7 @@ namespace wilma_service_api_tests
         {
             var wsc = new WilmaServiceConfig("host", 1);
 
-            Action ac = () => { new WilmaService(wsc, (WilmaService.ILogger)null); };
+            Action ac = () => { new WilmaService(wsc, (ILogger)null); };
             ac.ShouldThrow<ArgumentNullException>();
         }
 
@@ -37,27 +35,8 @@ namespace wilma_service_api_tests
             var host = "alma";
             var port = 12;
             var res = new WilmaService(new WilmaServiceConfig(host, 1), new LoggerImpl());
-            res.Should().NotBe(null);
         }
-
-
-        public class FakeHttpMessageHandler : HttpMessageHandler
-        {
-            private HttpResponseMessage response;
-
-            public FakeHttpMessageHandler(HttpResponseMessage response)
-            {
-                this.response = response;
-            }
-
-            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-            {
-                var responseTask = new TaskCompletionSource<HttpResponseMessage>();
-                responseTask.SetResult(response);
-
-                return responseTask.Task;
-            }
-        }
+        
 
         private WilmaService PrepareWilmaGet(string strContent)
         {
@@ -263,25 +242,6 @@ namespace wilma_service_api_tests
             var res = ws.UploadStubConfigurationAsync("", new MemoryStream()).Result;
 
             res.ShouldBeEquivalentTo(true);
-        }
-    }
-
-    public class LoggerImpl : WilmaService.ILogger
-    {
-        public void Debug(string format, params object[] prs)
-        {
-        }
-
-        public void Warning(string format, params object[] prs)
-        {
-        }
-
-        public void Error(string format, params object[] prs)
-        {
-        }
-
-        public void Info(string format, params object[] prs)
-        {
         }
     }
 }

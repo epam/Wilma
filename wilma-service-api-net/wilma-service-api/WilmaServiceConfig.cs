@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace epam.wilma_service_api
 {
@@ -16,14 +15,14 @@ namespace epam.wilma_service_api
         /// <summary>
         /// WilmaApp port.
         /// </summary>
-        public uint Port { get; private set; }
+        public ushort Port { get; private set; }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="host">WilmaApp host.</param>
         /// <param name="port">WilmaApp port.</param>
-        public WilmaServiceConfig(string host, uint port)
+        public WilmaServiceConfig(string host, ushort port)
         {
             if (string.IsNullOrEmpty(host))
             {

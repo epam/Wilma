@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
-using System.Net.NetworkInformation;
 using epam.wilma_service_api.ServiceCommClasses;
 
 namespace epam.wilma_service_api
@@ -16,18 +12,6 @@ namespace epam.wilma_service_api
     /// </summary>
     public class WilmaService
     {
-        /// <summary>
-        /// ILogger interface. Implement this to support WilmaService logging.
-        /// </summary>
-        public interface ILogger
-        {
-            void Debug(string format, params object[] prs);
-            void Warning(string format, params object[] prs);
-            void Error(string format, params object[] prs);
-            void Info(string format, params object[] prs);
-        }
-
-
         #region ENUMS
 
         public enum MessageLoggingControlStatus
@@ -81,9 +65,9 @@ namespace epam.wilma_service_api
             return string.Format("http://{0}:{1}/{2}", _config.Host, _config.Port, string.Format(postfixFormat, prms));
         }
 
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
-        private HttpClient _httpClient { get; set; }
+        private readonly HttpClient _httpClient;
 
         #endregion PRIVATES
 
