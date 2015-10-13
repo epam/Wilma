@@ -13,7 +13,7 @@ namespace WilmaServiceTestConsoleApp
     {
         private static void Main(string[] args)
         {
-            var wsConf = new WilmaServiceConfig("ESYJPB-SZG", 1234);
+            var wsConf = new WilmaServiceConfig("EPHUBUDW2039T1.budapest.epam.com", 1234);
             var ws = new WilmaService(wsConf, new Logger());
 
             ws.GetVersionInformationAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
@@ -34,10 +34,10 @@ namespace WilmaServiceTestConsoleApp
 
             ws.PersistActualStubConfigAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
 
-            UpLoadFile(@"d:\wilma\proba.json", ws.UploadConditionCheckerAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            UpLoadFile(@"d:\wilma\proba.json", ws.UploadTemplateAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            UpLoadFile(@"d:\wilma\proba.json", ws.UploadTemplateFormatterAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            UpLoadFile(@"d:\wilma\proba.json", ws.UploadStubConfigurationAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            UpLoadFile(@"c:\wilma\proba.json", ws.UploadConditionCheckerAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            UpLoadFile(@"c:\wilma\proba.json", ws.UploadTemplateAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            UpLoadFile(@"c:\wilma\proba.json", ws.UploadTemplateFormatterAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            UpLoadFile(@"c:\wilma\proba.json", ws.UploadStubConfigurationAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
 
             // ws.ShutdownApplicationAsync().ContinueWith(res => { Console.WriteLine("Wilma shuted down: {0}", res.Result);});
 
