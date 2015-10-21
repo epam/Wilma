@@ -8,11 +8,11 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>epam.wilma_service_api</RootNamespace>
-    <AssemblyName>wilma-service-api</AssemblyName>
+    <AssemblyName>wilma-service-api-net</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>c8136fe0</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>45303ea2</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\wilma-service-api.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\wilma-service-api-net.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,7 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\wilma-service-api.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\wilma-service-api-net.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ILogger.cs" />
@@ -119,6 +119,9 @@
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)$(ProjectName).xml $(SolutionDir)README-API.md</PostBuildEvent>
+  </PropertyGroup>
   <Import Project="..\packages\Vsxmd.1.1.0\build\Vsxmd.targets" Condition="Exists('..\packages\Vsxmd.1.1.0\build\Vsxmd.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -126,9 +129,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Vsxmd.1.1.0\build\Vsxmd.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Vsxmd.1.1.0\build\Vsxmd.targets'))" />
   </Target>
-  <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)$(ProjectName).md $(SolutionDir)README-API.md</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
