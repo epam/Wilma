@@ -76,13 +76,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\wilma-service-api\wilma-service-api-net.csproj">
       <Project>{ac17ac7c-bf61-4750-951d-a1c09b32b5a1}</Project>
       <Name>wilma-service-api-net</Name>
-	<Properties>SkipValidatePackageReferences=true</Properties>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
