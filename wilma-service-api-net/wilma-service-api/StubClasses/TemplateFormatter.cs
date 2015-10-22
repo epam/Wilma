@@ -5,7 +5,7 @@ using System.Text;
 
 namespace epam.wilma_service_api.StubClasses
 {
-    public class TemplateFormatter
+    internal class TemplateFormatter
     {
     }
 }

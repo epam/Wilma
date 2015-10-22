@@ -6,8 +6,14 @@ using Newtonsoft.Json;
 
 namespace epam.wilma_service_api.ServiceCommClasses
 {
+    /// <summary>
+    /// LocalhostControlStatus class.
+    /// </summary>
     public class LocalhostControlStatus
     {
+        /// <summary>
+        /// LocalhostMode
+        /// </summary>
         [JsonProperty("localhostMode")]
         public bool LocalhostMode { get; set; }
     }

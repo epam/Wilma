@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace epam.wilma_service_api.StubClasses
 {
-    public class TemplateFormatterDescriptor
+    internal class TemplateFormatterDescriptor
     {
         [JsonProperty("templateFormatter")]
         public TemplateFormatter TemplateFormatter { get; set; }

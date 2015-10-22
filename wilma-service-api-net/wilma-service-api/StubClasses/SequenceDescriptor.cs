@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace epam.wilma_service_api.StubClasses
 {
-    public class SequenceDescriptor
+    internal class SequenceDescriptor
     {
         [JsonProperty("name")]
         public string Name { get; set; }

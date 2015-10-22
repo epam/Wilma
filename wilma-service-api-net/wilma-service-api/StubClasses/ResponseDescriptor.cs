@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace epam.wilma_service_api.StubClasses
 {
-    public class ResponseDescriptor
+    internal class ResponseDescriptor
     {
         [JsonProperty("delay")]
         public int Delay { get; set; }

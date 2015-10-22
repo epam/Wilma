@@ -1,4 +1,23 @@
-﻿using System;
+﻿/*==========================================================================
+ Copyright 2015 EPAM Systems
+
+ This file is part of Wilma.
+
+ Wilma is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Wilma is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
+ ===========================================================================*/
+
+using System;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
@@ -14,37 +33,94 @@ namespace epam.wilma_service_api
     {
         #region ENUMS
 
+        /// <summary>
+        /// MessageLoggingControlStatus
+        /// </summary>
         public enum MessageLoggingControlStatus
         {
+            /// <summary>
+            /// Communication error.
+            /// </summary>
             Error,
+            /// <summary>
+            /// On.
+            /// </summary>
             On,
+            /// <summary>
+            /// Off.
+            /// </summary>
             Off,
         }
 
+        /// <summary>
+        /// OperationModes
+        /// </summary>
         public enum OperationModes
         {
+            /// <summary>
+            /// Communication error.
+            /// </summary>
             ERROR,
+            /// <summary>
+            /// Wilma.
+            /// </summary>
             WILMA,
+            /// <summary>
+            /// Stub.
+            /// </summary>
             STUB,
+            /// <summary>
+            /// Proxy.
+            /// </summary>
             PROXY
         }
 
+        /// <summary>
+        /// LocalhostControlStatuses
+        /// </summary>
         public enum LocalhostControlStatuses
         {
+            /// <summary>
+            /// Communication error.
+            /// </summary>
             Error,
+            /// <summary>
+            /// On.
+            /// </summary>
             On,
+            /// <summary>
+            /// Off.
+            /// </summary>
             Off
         }
 
+        /// <summary>
+        /// StubConfigStatus
+        /// </summary>
         public enum StubConfigStatus
         {
+            /// <summary>
+            /// Enabled.
+            /// </summary>
             Enabled,
+            /// <summary>
+            /// Disabled.
+            /// </summary>
             Disabled
         }
 
+        /// <summary>
+        /// StubConfigOrder
+        /// </summary>
         public enum StubConfigOrder
         {
+            /// <summary>
+            /// Up.
+            /// </summary>
             Up = 1,
+            /// <summary>
+            /// Down.
+            /// </summary>
             Down = -1
         }
 

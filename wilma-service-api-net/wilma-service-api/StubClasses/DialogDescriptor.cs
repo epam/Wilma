@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace epam.wilma_service_api.StubClasses
 {
-    public class DialogDescriptor
+    internal class DialogDescriptor
     {
         public string Name { get; set; }
         public UsageTypes Usage { get; set; }

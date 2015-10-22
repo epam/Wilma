@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace epam.wilma_service_api.StubClasses
 {
-    public class ConditionDescriptor
+    internal class ConditionDescriptor
     {
         [JsonProperty("condition")]
         public Condition Condition { get; set; }

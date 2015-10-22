@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace epam.wilma_service_api.StubClasses
 {
-    public class Template
+    internal class Template
     {
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -18,7 +18,7 @@ namespace epam.wilma_service_api.StubClasses
         public byte[] Resource { get; set; }
     }
 
-    public enum TemplateTypes
+    internal enum TemplateTypes
     {
         XML,
         TEXT,

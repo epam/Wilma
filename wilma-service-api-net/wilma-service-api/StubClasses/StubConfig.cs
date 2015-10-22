@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace epam.wilma_service_api.StubClasses
 {
-    public class StubConfig
+    internal class StubConfig
     {
         [JsonProperty("configs")]
         public List<StubDescriptor> StubDescriptors { get; set; }

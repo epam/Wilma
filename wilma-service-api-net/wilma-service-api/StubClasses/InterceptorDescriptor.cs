@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace epam.wilma_service_api.StubClasses
 {
-    public class InterceptorDescriptor
+    internal class InterceptorDescriptor
     {
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -15,7 +15,7 @@ namespace epam.wilma_service_api.StubClasses
         public RequestInterceptor RequestInterceptor { get; set; }
 
         [JsonProperty("responseInterceptor")]
-        public ResponseInterceptor ResponseInterceptor;
+        public ResponseInterceptor ResponseInterceptor { get; set; }
 
         [JsonProperty("params")]
         public List<Parameter> Parameters { get; set; }

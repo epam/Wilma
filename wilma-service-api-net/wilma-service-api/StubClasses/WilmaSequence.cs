@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace epam.wilma_service_api.StubClasses
 {
-    public class WilmaSequence
+    internal class WilmaSequence
     {
         [JsonProperty("timestamp")]
         public TimeSpan TimeStamp { get; set; }
