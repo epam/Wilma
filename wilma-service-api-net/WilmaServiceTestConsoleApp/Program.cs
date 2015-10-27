@@ -49,21 +49,21 @@ namespace WilmaServiceTestConsoleApp
 
             ws.PersistActualStubConfigAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
 
-            UploadFile(@"c:\wilmaaa\proba.json", ws.UploadConditionCheckerAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            UploadFile(@"c:\wilmaaa\proba.json", ws.UploadTemplateAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            UploadFile(@"c:\wilmaaa\proba.json", ws.UploadTemplateFormatterAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            UploadFile(@"c:\wilmaaa\proba.json", ws.UploadStubConfigurationAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            Upload(@"trial", ws.UploadConditionCheckerAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            Upload(@"trial", ws.UploadTemplateAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            Upload(@"trial", ws.UploadTemplateFormatterAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            Upload(@"trial", ws.UploadStubConfigurationAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
 
             // ws.ShutdownApplicationAsync().ContinueWith(res => { Console.WriteLine("Wilma shuted down: {0}", res.Result);});
 
             Console.ReadLine();
         }
 
-        private static async Task<bool> UploadFile(string filePath, Func<string, Stream, Task<bool>> func)
+        private static async Task<bool> Upload(string text, Func<string, Stream, Task<bool>> func)
         {
-            using (var fs = File.OpenRead(filePath))
+            using (var ms = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(text)))
             {
-                var res = await func(Path.GetFileName(filePath), fs);
+                var res = await func("", ms);
                 return res;
             }
         }

@@ -53,7 +53,7 @@ namespace wilma_service_api_tests
         {
             var host = "alma";
             ushort port = 12;
-            var res = new WilmaService(new WilmaServiceConfig(host, port), new LoggerImpl());
+            new WilmaService(new WilmaServiceConfig(host, port), new LoggerImpl());
         }
         
 
