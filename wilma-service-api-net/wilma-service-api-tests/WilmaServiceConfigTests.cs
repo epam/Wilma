@@ -30,7 +30,7 @@ namespace wilma_service_api_tests
         [Test]
         public void HostAndPort_CreateWilamServiceConfig_Success()
         {
-            var res = new WilmaServiceConfig("alma", 0);
+            new WilmaServiceConfig("alma", 0);
         }
 
         [Test]
