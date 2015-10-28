@@ -18,6 +18,7 @@
  ===========================================================================*/
 
 using System;
+using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
 using epam.wilma_service_api;
@@ -28,7 +29,10 @@ namespace WilmaServiceTestConsoleApp
     {
         private static void Main(string[] args)
         {
-            var wsConf = new WilmaServiceConfig("EPHUBUDW2039T1.budapest.epam.com", 1234);
+            var host = ConfigurationManager.AppSettings["host"];
+            var port = Convert.ToUInt16(ConfigurationManager.AppSettings["port"]);
+
+            var wsConf = new WilmaServiceConfig(host, port);
             var ws = new WilmaService(wsConf, new Logger());
 
             ws.GetVersionInformationAsync().ContinueWith(res => { Console.WriteLine(res.Result); });

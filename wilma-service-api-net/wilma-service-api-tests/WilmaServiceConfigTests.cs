@@ -28,27 +28,27 @@ namespace wilma_service_api_tests
     public class WilmaServiceConfigTests
     {
         [Test]
-        public void HostAndPort_CreateWilamServiceConfig_Success()
+        public void HostAndPort_CreateWilmaServiceConfig_Success()
         {
             new WilmaServiceConfig("alma", 0);
         }
 
         [Test]
-        public void HostIsNull_CreateWilamServiceConfig_ThrowArgumentNullException()
+        public void HostIsNull_CreateWilmaServiceConfig_ThrowArgumentNullException()
         {
             Action ac = () => { new WilmaServiceConfig(null, 0); };
             ac.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void HostIsEmpty_CreateWilamServiceConfig_ThrowArgumentNullException()
+        public void HostIsEmpty_CreateWilmaServiceConfig_ThrowArgumentNullException()
         {
             Action ac = () => { new WilmaServiceConfig("", 0); };
             ac.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void GivenHostAndPort_CreateWilamServiceConfig_StoredHostAndPortEqual()
+        public void GivenHostAndPort_CreateWilmaServiceConfig_StoredHostAndPortEqual()
         {
             var host = "alma.hu";
             ushort port = 9875;
