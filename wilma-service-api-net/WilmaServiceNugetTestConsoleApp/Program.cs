@@ -18,11 +18,10 @@
  ===========================================================================*/
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Configuration;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 using epam.wilma_service_api;
 
 namespace WilmaServiceNugetTestConsoleApp
@@ -67,7 +66,7 @@ namespace WilmaServiceNugetTestConsoleApp
 
         private static async Task<bool> Upload(string text, Func<string, Stream, Task<bool>> func)
         {
-            using (var ms = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(text)))
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(text)))
             {
                 var res = await func("", ms);
                 return res;
