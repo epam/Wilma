@@ -2,7 +2,7 @@ Wilma
 ===========
 Wilma is a combined HTTP/HTTPS **Service Stub and Transparent Proxy**, written in Java. 
 Its main purpose is to test applications/services/components those functionality relies/depends on another - usually 3rd party - service or services. 
-The selected architecture approach makes it capable to use it in environment that contains microservices. 
+The selected architecture approach makes it capable to use it in performance test environment and environment that contains microservices. 
 The solution consists of two standalone applications:
 
 * **Wilma** application
@@ -35,6 +35,9 @@ In case of Java components/services, this can be done by adding a few VM argumen
 
 See [this page](http://epam.github.io/Wilma/endusers/index.html) for more detailed information on how to configure Wilma, and Component/Service that uses Wilma.
 
+####Notes
+* **Docker image** of Wilma is available on DockerHub, see details [here](https://github.com/epam/Wilma/wiki/Docker-image-of-Wilma)
+
 ##Wilma Message Search application
 ####Requirements
 * JDK 7 or 8
@@ -47,6 +50,7 @@ See [this page](http://epam.github.io/Wilma/endusers/index.html) for more detail
 * Running Wilma Message Search application is optional, Wilma itself does not require it.
 * To run Wilma Message Search application, java JDK must be used. With JRE, it will not work properly.
 * Wilma Message Search application must be started before any Wilma instance that provides messages for the search
+* **Docker image** of combined Wilma and Wilma Message Search application is available on DockerHub, see details [here](https://github.com/epam/Wilma/wiki/Docker-image-of-Wilma)
 
 #Quick intro for developers/contributors
 

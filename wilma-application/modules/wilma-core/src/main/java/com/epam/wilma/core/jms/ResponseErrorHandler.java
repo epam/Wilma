@@ -36,7 +36,7 @@ public class ResponseErrorHandler implements ErrorHandler {
 
     @Override
     public void handleError(final Throwable t) {
-        logger.info(ERROR_MESSAGE, t);
+        logger.warn(ERROR_MESSAGE, t);
     }
 
 }
