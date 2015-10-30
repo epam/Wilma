@@ -1,18 +1,10 @@
 package net.lightbody.bmp.proxy.http;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.UnsupportedCharsetException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.epam.browsermob.messagemarker.idgenerator.TimeStampBasedIdGenerator;
 import net.lightbody.bmp.proxy.jetty.http.HttpRequest;
 import net.lightbody.bmp.proxy.util.Base64;
 import net.lightbody.bmp.proxy.util.ClonedInputStream;
 import net.lightbody.bmp.proxy.util.Log;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -27,8 +19,17 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.UnsupportedCharsetException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class BrowserMobHttpRequest {
     private static final Log LOG = new Log();
+    private static final TimeStampBasedIdGenerator TIME_STAMP_BASED_ID_GENERATOR = new TimeStampBasedIdGenerator();
 
     private final HttpRequestBase method;
     private final BrowserMobHttpClient client;
@@ -47,6 +48,8 @@ public class BrowserMobHttpRequest {
     private String expectedLocation;
     private boolean multiPart;
     private InputStream playGround;
+    private String wilmaLoggerId = TIME_STAMP_BASED_ID_GENERATOR.nextIdentifier();
+
 
     protected BrowserMobHttpRequest(final HttpRequestBase method, final BrowserMobHttpClient client, final int expectedStatusCode,
             final boolean collectAdditionalInfo, final HttpRequest proxyRequest) {
@@ -151,6 +154,9 @@ public class BrowserMobHttpRequest {
             }
         }
 
+        //temporary add header
+        addRequestHeader("WilmaExtraID", wilmaLoggerId);
+
         return client.execute(this);
     }
 
@@ -189,4 +195,6 @@ public class BrowserMobHttpRequest {
     public void setPlayGround(final InputStream playGround) {
         this.playGround = playGround;
     }
+
+    public String getWilmaLoggerId() { return wilmaLoggerId; }
 }

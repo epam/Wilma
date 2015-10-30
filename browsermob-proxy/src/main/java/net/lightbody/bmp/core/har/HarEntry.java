@@ -17,13 +17,15 @@ public class HarEntry {
     private HarCache cache = new HarCache();
     private HarTimings timings;
     private String serverIPAddress;
+    private String wilmaEntryId;
 
     public HarEntry() {
     }
 
-    public HarEntry(String pageref) {
+    public HarEntry(String pageref, String wilmaEntryId) {
         this.pageref = pageref;
         this.startedDateTime = new Date();
+        this.wilmaEntryId = wilmaEntryId;
     }
 
     public String getPageref() {
@@ -90,4 +92,8 @@ public class HarEntry {
     public void setServerIPAddress(String serverIPAddress) {
         this.serverIPAddress = serverIPAddress;
     }
+
+    public void setWilmaEntryId(final String wilmaEntryId) { this.wilmaEntryId = wilmaEntryId; }
+
+    public String getWilmaEntryId() { return wilmaEntryId; }
 }
