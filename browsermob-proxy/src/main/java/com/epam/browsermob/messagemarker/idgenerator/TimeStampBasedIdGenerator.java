@@ -23,6 +23,10 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * The purpose is to generate Wilma Message ID that is used to mark the messages.
+ * Same ID is used for a request and response pairs. Usually it is a timestamp + a 4 digit number.
+ * More than 4 digit is possible, but in theory only, as that would mean we have over 10K message pairs in a sec.
+ *
  * @author Tamas_Kohegyi
  */
 public class TimeStampBasedIdGenerator {
@@ -34,7 +38,6 @@ public class TimeStampBasedIdGenerator {
 
     private SimpleDateFormat fileSimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
-
     public synchronized String nextIdentifier() {
         currentSimpleDate = getCurrentDateFormattedForFiles();
         checkPreviousDate(currentSimpleDate);
@@ -45,9 +48,9 @@ public class TimeStampBasedIdGenerator {
         return fileSimpleDateFormat.format(new Date());
     }
 
-    private void checkPreviousDate(final String currentsimpleDate) {
-        if (previousSimpleDate == null || !currentsimpleDate.equals(previousSimpleDate)) {
-            previousSimpleDate = currentsimpleDate;
+    private void checkPreviousDate(final String currentSimpleDate) {
+        if (previousSimpleDate == null || !currentSimpleDate.equals(previousSimpleDate)) {
+            previousSimpleDate = currentSimpleDate;
             currentNumber.set(0);
         }
     }

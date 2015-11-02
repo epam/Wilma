@@ -29,7 +29,7 @@ import java.util.List;
 
 public class BrowserMobHttpRequest {
     private static final Log LOG = new Log();
-    private static final TimeStampBasedIdGenerator TIME_STAMP_BASED_ID_GENERATOR = new TimeStampBasedIdGenerator();
+    public static final TimeStampBasedIdGenerator TIME_STAMP_BASED_ID_GENERATOR = new TimeStampBasedIdGenerator();
 
     private final HttpRequestBase method;
     private final BrowserMobHttpClient client;
@@ -48,8 +48,7 @@ public class BrowserMobHttpRequest {
     private String expectedLocation;
     private boolean multiPart;
     private InputStream playGround;
-    private String wilmaLoggerId = TIME_STAMP_BASED_ID_GENERATOR.nextIdentifier();
-
+    private String wilmaMessageId = TIME_STAMP_BASED_ID_GENERATOR.nextIdentifier();
 
     protected BrowserMobHttpRequest(final HttpRequestBase method, final BrowserMobHttpClient client, final int expectedStatusCode,
             final boolean collectAdditionalInfo, final HttpRequest proxyRequest) {
@@ -154,9 +153,6 @@ public class BrowserMobHttpRequest {
             }
         }
 
-        //temporary add header
-        addRequestHeader("WilmaExtraID", wilmaLoggerId);
-
         return client.execute(this);
     }
 
@@ -196,5 +192,5 @@ public class BrowserMobHttpRequest {
         this.playGround = playGround;
     }
 
-    public String getWilmaLoggerId() { return wilmaLoggerId; }
+    public String getWilmaMessageId() { return wilmaMessageId; }
 }

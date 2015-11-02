@@ -433,7 +433,7 @@ public class BrowserMobHttpClient {
 
     private RuntimeException reportBadURI(final String url, final String method) {
         if (har != null && harPageRef != null) {
-            HarEntry entry = new HarEntry(harPageRef, "");
+            HarEntry entry = new HarEntry(harPageRef, BrowserMobHttpRequest.TIME_STAMP_BASED_ID_GENERATOR.nextIdentifier());
             entry.setTime(0);
             entry.setRequest(new HarRequest(method, url, "HTTP/1.1"));
             entry.setResponse(new HarResponse(-998, "Bad URI", "HTTP/1.1"));
@@ -594,7 +594,7 @@ public class BrowserMobHttpClient {
 
         // link the object up now, before we make the request, so that if we get cut off (ie: favicon.ico request and browser shuts down)
         // we still have the attempt associated, even if we never got a response
-        HarEntry entry = new HarEntry(harPageRef, req.getWilmaLoggerId());
+        HarEntry entry = new HarEntry(harPageRef, req.getWilmaMessageId());
 
         // clear out any connection-related information so that it's not stale from previous use of this thread.
         RequestInfo.clear(url, entry);
@@ -664,8 +664,6 @@ public class BrowserMobHttpClient {
                 }});
             } else {
                 response = httpClient.execute(method, ctx);
-                //temporary measure to check new wilma id approach
-                response.addHeader("WilmaExtraRespID", entry.getWilmaEntryId());
 
                 statusLine = response.getStatusLine();
                 statusCode = statusLine.getStatusCode();

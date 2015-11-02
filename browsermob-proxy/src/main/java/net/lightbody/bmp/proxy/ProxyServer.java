@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ProxyServer {
     public static int PROXY_TIMEOUT = 240000; //4 minutes, by default will be set during ProxyServer.start()
 
-    private static final HarNameVersion CREATOR = new HarNameVersion("BrowserMob Proxy - for Wilma", "2.0");
+    private static final HarNameVersion CREATOR = new HarNameVersion("BrowserMob Proxy - for Wilma", "2.1");
     private static final Log LOG = new Log();
 
     private Server server;
