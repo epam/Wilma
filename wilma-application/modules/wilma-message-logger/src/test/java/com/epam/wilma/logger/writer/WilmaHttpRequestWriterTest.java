@@ -18,19 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-
+import com.epam.wilma.common.helper.LogFilePathProvider;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -41,8 +30,18 @@ import org.slf4j.Logger;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.LogFilePathProvider;
-import com.epam.wilma.domain.http.WilmaHttpRequest;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Provides unit tests for the {@link WilmaHttpRequestWriter} class.
@@ -93,7 +92,7 @@ public class WilmaHttpRequestWriterTest {
         //GIVEN
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
-        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
         given(request.getRequestLine()).willReturn(REQUEST_LINE);
         given(request.getRemoteAddr()).willReturn(REMOTE_ADDR);
         given(request.getHeaders().toString()).willReturn(HEADERS);
@@ -112,7 +111,7 @@ public class WilmaHttpRequestWriterTest {
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
         given(request.getBody()).willReturn(null);
-        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
         given(request.getHeaders().toString()).willReturn(HEADERS);
         given(request.getRequestLine()).willReturn(REQUEST_LINE);
         given(request.getRemoteAddr()).willReturn(REMOTE_ADDR);
@@ -128,7 +127,7 @@ public class WilmaHttpRequestWriterTest {
         IOException e = new IOException();
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willThrow(e);
-        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
         //WHEN
         underTest.write(request, true);
         //THEN
@@ -141,7 +140,7 @@ public class WilmaHttpRequestWriterTest {
         IOException e = new IOException();
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
-        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
         willThrow(e).given(bufferedWriter).close();
         //WHEN
         underTest.write(request, true);
@@ -154,7 +153,7 @@ public class WilmaHttpRequestWriterTest {
         //GIVEN
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(null);
-        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
         //WHEN
         underTest.write(request, true);
         //THEN
@@ -162,11 +161,11 @@ public class WilmaHttpRequestWriterTest {
     }
 
     @Test
-    public void testGetOutpuFileNameShouldReturnCorrectNameWhenBodyIsDecompressed() {
+    public void testGetOutputFileNameShouldReturnCorrectNameWhenBodyIsDecompressed() {
         //GIVEN
         String expected = TARGET_FOLDER + "//" + TITLE + REQUEST_TYPE + ".txt";
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn(TARGET_FOLDER);
-        given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
         given(directoryFactory.createNewDirectory(TARGET_FOLDER)).willReturn(directory);
         given(directory.exists()).willReturn(true);
         //WHEN
@@ -177,11 +176,11 @@ public class WilmaHttpRequestWriterTest {
     }
 
     @Test
-    public void testGetOutpuFileNameShouldReturnCorrectNameWhenBodyIsNotDecompressed() {
+    public void testGetOutputFileNameShouldReturnCorrectNameWhenBodyIsNotDecompressed() {
         //GIVEN
         String expected = TARGET_FOLDER + "//" + TITLE + REQUEST_TYPE + FI_SUFFIX + ".txt";
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn(TARGET_FOLDER);
-        given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
         given(directoryFactory.createNewDirectory(TARGET_FOLDER)).willReturn(directory);
         given(directory.exists()).willReturn(true);
         //WHEN
@@ -192,11 +191,11 @@ public class WilmaHttpRequestWriterTest {
     }
 
     @Test
-    public void testGetOutpuFileNameShouldMakeDirIfDoesNotExist() {
+    public void testGetOutputFileNameShouldMakeDirIfDoesNotExist() {
         //GIVEN
         String expected = TARGET_FOLDER + "//" + TITLE + REQUEST_TYPE + ".txt";
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn(TARGET_FOLDER);
-        given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
         given(directoryFactory.createNewDirectory(TARGET_FOLDER)).willReturn(directory);
         given(directory.exists()).willReturn(false);
         //WHEN

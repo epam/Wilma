@@ -48,7 +48,7 @@ public class SequenceResponseGuard {
      * @throws InterruptedException if the waiting is interrupted
      */
     public void waitForResponses(final WilmaHttpRequest stubbedRequest, final WilmaSequence actualSequence) throws InterruptedException {
-        String wilmaLoggerId = stubbedRequest.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
+        String wilmaLoggerId = stubbedRequest.getWilmaMessageId();
         boolean allResponsesArrived = actualSequence.checkIfAllResponsesArrived(wilmaLoggerId);
         int timeWaited = 0;
         getProperties();

@@ -19,22 +19,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 import com.epam.wilma.webapp.configuration.domain.SequenceResponseGuardProperties;
 import com.epam.wilma.webapp.stub.response.exception.ResponseTimeoutException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link SequenceResponseGuard}.
@@ -61,7 +60,7 @@ public class SequenceResponseGuardTest {
     public void setUp() throws Exception {
         SequenceResponseGuardProperties properties = new SequenceResponseGuardProperties(3, 1);
         MockitoAnnotations.initMocks(this);
-        given(stubbedRequest.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(LOGGER_ID);
+        given(stubbedRequest.getWilmaMessageId()).willReturn(LOGGER_ID);
         given(configurationAccess.getProperties()).willReturn(propertyDto);
         given(propertyDto.getSequenceResponseGuardProperties()).willReturn(properties);
     }

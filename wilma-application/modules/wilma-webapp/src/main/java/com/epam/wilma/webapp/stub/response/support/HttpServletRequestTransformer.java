@@ -18,16 +18,14 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 /**
  * Transforms a {@link HttpServletRequest} to the appropriate object.
@@ -43,14 +41,16 @@ public class HttpServletRequestTransformer {
     /**
      * Transforms a {@link HttpServletRequest} to {@link WilmaHttpRequest} using a {@link ResponseDescriptorDTO} to get
      * previously uncompressed request's components.
+     * param wilmaLoggerId is the internal id of the message
      * @param request is the {@link HttpServletRequest}, what will be transformed
      * @param responseDescriptorDTO contains the previously uncompressed request body
      * @return with the transformation result as {@link WilmaHttpRequest}
      */
-    public WilmaHttpRequest transformToWilmaHttpRequest(final HttpServletRequest request, final ResponseDescriptorDTO responseDescriptorDTO) {
+    public WilmaHttpRequest transformToWilmaHttpRequest(final String wilmaLoggerId, final HttpServletRequest request, final ResponseDescriptorDTO responseDescriptorDTO) {
         WilmaHttpRequest wilmaRequest = new WilmaHttpRequest();
         copyServletHeadersIntoWilmaRequest(request, wilmaRequest);
         copyUnCompressedBodyIntoWilmaRequest(responseDescriptorDTO, wilmaRequest);
+        wilmaRequest.setWilmaMessageId(wilmaLoggerId);
         return requestCloner.cloneRequest(wilmaRequest);
     }
 

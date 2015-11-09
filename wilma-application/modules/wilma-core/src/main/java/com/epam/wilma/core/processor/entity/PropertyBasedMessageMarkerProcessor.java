@@ -18,13 +18,12 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.domain.exception.TooManyRequestsException;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.messagemarker.TimestampBasedMessageMarker;
+import com.epam.wilma.messagemarker.PropertyBasedMessageMarker;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Processes a {@link WilmaHttpEntity} by marking its message header.
@@ -32,10 +31,10 @@ import com.epam.wilma.messagemarker.TimestampBasedMessageMarker;
  *
  */
 @Component
-public class TimestampBasedMessageMarkerProcessor extends ProcessorBase {
+public class PropertyBasedMessageMarkerProcessor extends ProcessorBase {
 
     @Autowired
-    private TimestampBasedMessageMarker marker;
+    private PropertyBasedMessageMarker marker;
 
     @Override
     public void process(final WilmaHttpEntity entity) throws TooManyRequestsException {

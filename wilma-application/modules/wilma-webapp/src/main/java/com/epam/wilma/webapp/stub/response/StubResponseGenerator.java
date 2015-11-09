@@ -19,16 +19,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.common.helper.StackTraceToStringConverter;
 import com.epam.wilma.core.MapBasedResponseDescriptorAccess;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
@@ -44,6 +34,14 @@ import com.epam.wilma.webapp.stub.response.support.HttpServletRequestTransformer
 import com.epam.wilma.webapp.stub.response.support.SequenceResponseGuard;
 import com.epam.wilma.webapp.stub.response.support.StubResponseHeaderConfigurer;
 import com.epam.wilma.webapp.stub.servlet.helper.WaitProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Set;
 
 /**
  * Generates the appropriate response for a request.
@@ -85,7 +83,7 @@ public class StubResponseGenerator {
             ResponseDescriptorDTO responseDescriptorDTO = responseDescriptorAccess.getResponseDescriptor(wilmaLoggerId);
             Set<TemplateFormatterDescriptor> templateFormatterDescriptors = responseDescriptorDTO.getResponseDescriptor().getTemplateFormatters();
             //generate pure WilmaHttpRequest
-            WilmaHttpRequest wilmaRequest = requestTransformer.transformToWilmaHttpRequest(req, responseDescriptorDTO);
+            WilmaHttpRequest wilmaRequest = requestTransformer.transformToWilmaHttpRequest(wilmaLoggerId, req, responseDescriptorDTO);
             //add wilma information to response header
             headerConfigurer.addWilmaInfoToResponseHeader(req, resp, responseDescriptorDTO.getDialogDescriptorName());
             //set headers generate response body

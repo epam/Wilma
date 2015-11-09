@@ -33,6 +33,9 @@
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageLoggingOnServlet" p:name="messageLoggingOnServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageLoggingOffServlet" p:name="messageLoggingOffServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageLoggingStatusServlet" p:name="messageLoggingStatusServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageMarkingOnServlet" p:name="messageMarkingOnServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageMarkingOffServlet" p:name="messageMarkingOffServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageMarkingStatusServlet" p:name="messageMarkingStatusServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageHandlerServlet" p:name="messageHandlerServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="operationModeStatusServlet" p:name="operationModeStatusServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="proxyModeOnServlet" p:name="proxyModeOnServlet" />
@@ -80,6 +83,9 @@
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingOnServlet" p:pathSpec="/admin/logging/on" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingOffServlet" p:pathSpec="/admin/logging/off" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingStatusServlet" p:pathSpec="/public/logging/status" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageMarkingOnServlet" p:pathSpec="/admin/messagemarking/on" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageMarkingOffServlet" p:pathSpec="/admin/messagemarking/off" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageMarkingStatusServlet" p:pathSpec="/public/messagemarking/status" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageHandlerServlet" p:pathSpec="/public/messages/*" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="operationModeStatusServlet" p:pathSpec="/public/switch/status" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="proxyModeOnServlet" p:pathSpec="/admin/switch/proxy" />

@@ -18,15 +18,14 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.common.helper.LogFilePathProvider;
+import com.epam.wilma.domain.http.WilmaHttpEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.epam.wilma.common.helper.LogFilePathProvider;
 
 /**
  * Writes a request or a response message to a file.
@@ -58,7 +57,7 @@ public abstract class WilmaHttpEntityWriter<T> {
      * @throws IOException if an I/O error occurs
      */
     protected void writeWilmaLoggerId(final BufferedWriter writer, final String loggerId) throws IOException {
-        writer.append(WilmaHttpRequest.WILMA_LOGGER_ID + ":" + loggerId);
+        writer.append(WilmaHttpEntity.WILMA_LOGGER_ID + ":" + loggerId);
         writer.newLine();
     }
 

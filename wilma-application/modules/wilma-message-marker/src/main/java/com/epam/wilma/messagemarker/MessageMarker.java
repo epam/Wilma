@@ -18,12 +18,11 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.exception.TooManyRequestsException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 
 /**
  * Interface for marking messages by Wilma. Marking is used to map requests and corresponding responses in Wilma.
- * @author Marton_Sereg
+ * @author Marton_Sereg, Tamas Kohegyi
  *
  */
 public interface MessageMarker {
@@ -31,8 +30,7 @@ public interface MessageMarker {
     /**
      * Marks a message by adding a new field to its header.
      * @param request The request to mark
-     * @throws TooManyRequestsException if there are too many incoming requests in one second.
      */
-    void markMessageHeader(WilmaHttpRequest request) throws TooManyRequestsException;
+    void markMessageHeader(WilmaHttpRequest request);
 
 }

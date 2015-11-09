@@ -18,22 +18,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import com.epam.wilma.core.processor.response.jms.JmsResponseBuilder;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.core.processor.response.jms.JmsResponseBuilder;
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link JmsResponseProcessor}.
@@ -58,24 +52,10 @@ public class JmsResponseProcessorTest {
     @Test
     public void testProcessShouldCallBuildMessageWhenResponseHasWilmaLoggerId() throws ApplicationException {
         //GIVEN
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put(WilmaHttpResponse.WILMA_LOGGER_ID, "date.nnnresp");
-        given(response.getRequestHeaders()).willReturn(requestHeaders);
         //WHEN
         underTest.process(response);
         //THEN
         verify(jmsResponseBuilder).buildResponse(response);
-    }
-
-    @Test
-    public void testProcessShouldNotCallBuildMessageWhenResponseDoesNotHaveWilmaLoggerId() throws ApplicationException {
-        //GIVEN
-        Map<String, String> requestHeaders = new HashMap<>();
-        given(response.getRequestHeaders()).willReturn(requestHeaders);
-        //WHEN
-        underTest.process(response);
-        //THEN
-        verify(jmsResponseBuilder, never()).buildResponse(response);
     }
 
 }

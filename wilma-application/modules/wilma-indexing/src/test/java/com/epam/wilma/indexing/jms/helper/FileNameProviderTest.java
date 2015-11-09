@@ -18,11 +18,9 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
-import java.nio.file.Path;
-
+import com.epam.wilma.common.helper.LogFilePathProvider;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -30,9 +28,10 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.LogFilePathProvider;
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
+import java.nio.file.Path;
+
+import static org.mockito.BDDMockito.given;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit tests for the class {@link FileNameProvider}.
@@ -63,7 +62,7 @@ public class FileNameProviderTest {
     @Test
     public void testGetFileNameShouldReturnRequestFileName() {
         //GIVEN
-        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
+        given(request.getWilmaMessageId()).willReturn(WILMA_LOGGER_ID);
         //WHEN
         String actual = underTest.getFileName(request);
         //THEN
@@ -73,7 +72,7 @@ public class FileNameProviderTest {
     @Test
     public void testGetFileNameShouldReturnResponseFileName() {
         //GIVEN
-        given(response.getRequestHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
+        given(response.getWilmaMessageId()).willReturn(WILMA_LOGGER_ID);
         //WHEN
         String actual = underTest.getFileName(response);
         //THEN

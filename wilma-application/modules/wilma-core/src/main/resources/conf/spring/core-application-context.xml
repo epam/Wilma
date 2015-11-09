@@ -48,7 +48,7 @@
   <bean class="com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor">
     <property name="processors">
       <list>
-        <ref bean="timestampBasedMessageMarkerProcessor" />
+        <ref bean="propertyBasedMessageMarkerProcessor" />
         <ref bean="gzipDecompressorProcessor" />
         <ref bean="fastInfosetDecompressorProcessor" />
         <ref bean="prettyPrintProcessor" />

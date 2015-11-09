@@ -18,13 +18,11 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.verify;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.epam.wilma.domain.http.WilmaHttpEntity;
+import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
+import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
+import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import org.mockito.Answers;
 import org.mockito.Matchers;
 import org.mockito.Mock;
@@ -32,11 +30,12 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.http.WilmaHttpEntity;
-import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
-import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
-import com.epam.wilma.router.domain.ResponseDescriptorDTO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for {@link StubResponseHeaderConfigurer}.
@@ -64,24 +63,20 @@ public class StubResponseHeaderConfigurerTest {
     @Test
     public void testAddWilmaInfoToResponseHeaderShouldAddNewHeadersToResponseWhenWilmaSequencNotExistInRequestHeader() {
         //GIVEN
-        given(request.getHeader(WilmaHttpEntity.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
         given(request.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID)).willReturn(null);
         //WHEN
         underTest.addWilmaInfoToResponseHeader(request, response, DIALOG_DESCRIPTOR_NAME);
         //THEN
-        verify(response).addHeader(WilmaHttpEntity.WILMA_LOGGER_ID, WILMA_LOGGER_ID);
         verify(response).addHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID, DIALOG_DESCRIPTOR_NAME);
     }
 
     @Test
     public void testAddWilmaInfoToResponseHeaderShouldAddNewHeadersToResponseWhenWilmaSequencExistsInRequestHeader() {
         //GIVEN
-        given(request.getHeader(WilmaHttpEntity.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
         given(request.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID)).willReturn(DIALOG_DESCRIPTOR_NAME);
         //WHEN
         underTest.addWilmaInfoToResponseHeader(request, response, DIALOG_DESCRIPTOR_NAME);
         //THEN
-        verify(response).addHeader(WilmaHttpEntity.WILMA_LOGGER_ID, WILMA_LOGGER_ID);
         verify(response).addHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID, DIALOG_DESCRIPTOR_NAME + "," + DIALOG_DESCRIPTOR_NAME);
     }
 

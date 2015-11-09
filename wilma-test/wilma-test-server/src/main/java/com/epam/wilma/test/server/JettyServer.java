@@ -41,7 +41,7 @@ public class JettyServer {
      * @param isPerfTest determines whether server is started in performance test mode or not
      * @throws Exception
      */
-    public void configureAndstart(final Server server, final Integer httpPort, final Integer httpsPort, final Boolean isPerfTest) {
+    public void configureAndStart(final Server server, final Integer httpPort, final Integer httpsPort, final Boolean isPerfTest) {
         try {
             SelectChannelConnector httpConnector = createHttpConnector(httpPort);
             SslSelectChannelConnector sslConnector = createSslConnector(httpsPort);

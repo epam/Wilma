@@ -18,16 +18,15 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.sql.Timestamp;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
 import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.sequence.WilmaSequencePairs;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
 
 /**
  * This class creates new {@link WilmaSequence} objects.
@@ -50,7 +49,7 @@ public class SequenceFactory {
     public WilmaSequence createNewSequence(final String sequenceKey, final WilmaHttpRequest request, final long timeout) {
         WilmaSequencePairs messageStore = new WilmaSequencePairs();
         RequestResponsePair firstPair = new RequestResponsePair(request);
-        String loggerId = request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
+        String loggerId = request.getWilmaMessageId();
         messageStore.addStore(loggerId, firstPair);
         WilmaSequence sequence = new WilmaSequence(sequenceKey, new Timestamp(dateProvider.getCurrentTimeInMillis() + timeout), messageStore);
         return sequence;

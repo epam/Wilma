@@ -62,6 +62,7 @@ public class SaveStubConfig extends WilmaTestCase {
         ResponseHolder result = callWilmaWithPostMethod(requestParameters);
         logComment("Actual Stub Config Arrived");
         saveInFile(result.getResponseMessage());
+        setMessageMarkingTo("off");
     }
 
     /**

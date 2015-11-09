@@ -18,19 +18,17 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.InputStream;
-
+import com.epam.wilma.browsermob.transformer.helper.InputStreamConverter;
+import com.epam.wilma.browsermob.transformer.helper.WilmaRequestFactory;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
-
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.browsermob.transformer.helper.InputStreamConverter;
-import com.epam.wilma.browsermob.transformer.helper.WilmaRequestFactory;
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpRequest;
+import java.io.InputStream;
 
 /**
  * Executes transformations between a BrowserMob specific HTTP request and Wilma's own representation of an HTTP request.
@@ -62,6 +60,7 @@ public class HttpRequestTransformer {
         result.setInputStream(clonedInputStream);
         result.setBody(inputStreamConverter.getStringFromStream(clonedInputStream));
         result.setUri(requestBase.getURI());
+        result.setWilmaMessageId(browserMobHttpRequest.getWilmaMessageId());
 
         //set remote addr
         String ipAddress = browserMobHttpRequest.getProxyRequest().getRemoteAddr();

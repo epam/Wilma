@@ -59,6 +59,7 @@ public class HttpResponseTransformer {
         result.setBody(body);
         result.setContentType(response.getContentType());
         result.setStatusCode(status);
+        result.setWilmaMessageId(response.getEntry().getWilmaEntryId());
         return result;
     }
 }

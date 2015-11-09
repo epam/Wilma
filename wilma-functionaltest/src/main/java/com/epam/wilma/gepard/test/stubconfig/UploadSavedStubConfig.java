@@ -47,6 +47,8 @@ import java.util.List;
 public class UploadSavedStubConfig extends WilmaTestCase {
 
     private static final String STUB_CONFIG = "resources/savedStubConfig.xml";
+    private static final int ACCEPTED = 200;
+    private static final int ALMOST_ACCEPTED = 500;
 
     /**
      * Clears all the existing stub configurations of Wilma.
@@ -65,7 +67,7 @@ public class UploadSavedStubConfig extends WilmaTestCase {
             logComment(groupName + "'s config has been dropped.");
         }
         //upload preserved stubconfig
-        uploadStubConfigToWilma(STUB_CONFIG);
+        uploadStubConfigToWilmaAndAllowEmptyStuvConfig(STUB_CONFIG);
         //if we are here, then the stub config is restored, so we can delete it
         Path path = FileSystems.getDefault().getPath(STUB_CONFIG);
         try {
@@ -124,6 +126,30 @@ public class UploadSavedStubConfig extends WilmaTestCase {
         return new MultiStubRequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
                 .xmlIS(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding).groupName(groupName);
+    }
+
+    /**
+     * Upload Stub Configuration file to Wilma, also accept uploading empty stub config.
+     *
+     * @param stubConfig is the file
+     * @throws Exception if any problem occurs
+     */
+    public void uploadStubConfigToWilmaAndAllowEmptyStuvConfig(final String stubConfig) throws Exception {
+        logStep("Upload Stub Configuration to Wilma.");
+        String url = getWilmaInternalUrl() + STUB_CONFIG_URL;
+
+        ResponseData responseData = uploadResourceWithExpectedError(url, stubConfig);
+
+        if (ACCEPTED == responseData.getStatusCode()) {
+            logComment("Preserved StubConfig loaded back.");
+            return;
+        }
+        if (ALMOST_ACCEPTED == responseData.getStatusCode() && responseData.getMessage().startsWith("Please provide a non-empty stub descriptor!")) {
+            logComment("Preserved EMPTY StubConfig loaded back.");
+            return;
+        }
+        throw new Exception("Cannot upload resource " + stubConfig + " to " + url);
+
     }
 
 }

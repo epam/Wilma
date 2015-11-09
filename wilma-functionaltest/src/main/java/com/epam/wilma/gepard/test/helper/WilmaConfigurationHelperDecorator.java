@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.gepard.test.localhost.BlockLocalhostUsageSwitch;
+import com.epam.wilma.gepard.test.messagemarker.MessageMarkingSwitch;
 import com.epam.wilma.gepard.test.operation.OperationModeSwitch;
 import com.epam.wilma.gepard.test.sequence.InterceptorModeSwitch;
 
@@ -32,6 +33,7 @@ public class WilmaConfigurationHelperDecorator extends WilmaResourceUploaderDeco
     private final BlockLocalhostUsageSwitch blockLocalhostUsageSwitch;
     private final OperationModeSwitch operationModeSwitch;
     private final InterceptorModeSwitch interceptorModeSwitch;
+    private final MessageMarkingSwitch messageMarkingSwitch;
 
     /**
      * This class adds configuration helper methods to the Test Class.
@@ -40,6 +42,7 @@ public class WilmaConfigurationHelperDecorator extends WilmaResourceUploaderDeco
         blockLocalhostUsageSwitch = new BlockLocalhostUsageSwitch();
         operationModeSwitch = new OperationModeSwitch();
         interceptorModeSwitch = new InterceptorModeSwitch();
+        messageMarkingSwitch = new MessageMarkingSwitch();
     }
 
     /**
@@ -69,6 +72,16 @@ public class WilmaConfigurationHelperDecorator extends WilmaResourceUploaderDeco
      */
     public void setInterceptorModeTo(final String state) throws Exception {
         interceptorModeSwitch.switchInterceptorMode(this, getWilmaInternalUrl() + "config/admin/interceptor/" + state);
+        Thread.sleep(1500); //need to have delay here, seems turning on interceptor usage is not an immediate event
+    }
+
+    /**
+     * Set Wilma message marking mode.
+     * @param state can be "on", "off"
+     * @throws Exception in case of error
+     */
+    public void setMessageMarkingTo(final String state) throws Exception {
+        messageMarkingSwitch.setMessageMarkingModeTo(this, getWilmaInternalUrl(), state);
     }
 
     /**

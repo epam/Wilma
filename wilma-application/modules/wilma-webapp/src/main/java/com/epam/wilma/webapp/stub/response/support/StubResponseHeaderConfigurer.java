@@ -18,15 +18,14 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Writes different kind of information into the response header.
@@ -37,17 +36,15 @@ import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 public class StubResponseHeaderConfigurer {
 
     /**
-     * Gets the WilmaLoggerId and the WilmaSequence(if exists) from the request headers
+     * Gets the WilmaSequence(if exists) from the request headers
      * and write the necessary information into the response header.
      * @param req is the request
      * @param resp is the response in what the new information will be added
      * @param dialogDescriptorName is the name of the actually used DialogDescriptor
      */
     public void addWilmaInfoToResponseHeader(final HttpServletRequest req, final HttpServletResponse resp, final String dialogDescriptorName) {
-        String wilmaLoggerId = req.getHeader(WilmaHttpEntity.WILMA_LOGGER_ID);
         String wilmaSequence = req.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID);
 
-        resp.addHeader(WilmaHttpEntity.WILMA_LOGGER_ID, wilmaLoggerId);
         if (wilmaSequence != null) {
             resp.addHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID, wilmaSequence + "," + dialogDescriptorName);
         } else {

@@ -18,13 +18,12 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-import com.epam.wilma.domain.exception.TooManyRequestsException;
+import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.messagemarker.idgenerator.IdGenerator;
+import com.epam.wilma.messagemarker.configuration.MessageMarkerConfigurationAccess;
+import com.epam.wilma.messagemarker.configuration.domain.MessageMarkerRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Marks a HTTP message by adding a new request header to it.
@@ -33,16 +32,17 @@ import com.epam.wilma.messagemarker.idgenerator.IdGenerator;
  *
  */
 @Component
-public class TimestampBasedMessageMarker implements MessageMarker {
+public class PropertyBasedMessageMarker implements MessageMarker {
 
     @Autowired
-    @Qualifier("timestampSimpleNumber")
-    private IdGenerator idGenerator;
+    private MessageMarkerConfigurationAccess configurationAccess;
 
     @Override
-    public void markMessageHeader(final WilmaHttpRequest request) throws TooManyRequestsException {
-        String identifier = idGenerator.nextIdentifier();
-        request.addWilmaLoggerId(identifier);
+    public void markMessageHeader(final WilmaHttpRequest request) {
+        MessageMarkerRequest messageMarkerRequest = configurationAccess.getProperties();
+        if (messageMarkerRequest.getNeedMessageMarker()) {
+            request.addExtraHeader(WilmaHttpEntity.WILMA_LOGGER_ID, request.getWilmaMessageId());
+        }
     }
 
 }

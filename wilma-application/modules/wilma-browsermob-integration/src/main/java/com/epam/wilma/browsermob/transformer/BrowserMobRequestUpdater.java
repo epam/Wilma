@@ -44,7 +44,7 @@ public class BrowserMobRequestUpdater {
             browserMobHttpRequest.getMethod().abort();
         } else {
             // update the headers of the original request with extra headers added by Req interceptors
-            // one interceptor always generates such value: ID for logging the messages
+            // when we redirect the request to the stub, we always add the message id to the extra headers part
             Map<String, String> extraHeaders = wilmaRequest.getExtraHeaders();
             for (Map.Entry<String, String> stringStringEntry : extraHeaders.entrySet()) {
                 browserMobHttpRequest.getMethod().addHeader(stringStringEntry.getKey(), stringStringEntry.getValue());

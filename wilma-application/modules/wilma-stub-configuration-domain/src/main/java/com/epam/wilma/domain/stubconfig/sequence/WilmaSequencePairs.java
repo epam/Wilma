@@ -19,11 +19,11 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.domain.http.WilmaHttpResponse;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.epam.wilma.domain.http.WilmaHttpResponse;
 
 /**
  * This class stores the messages of a sequence in a collection and provides some method to modify this collection.
@@ -59,7 +59,7 @@ public class WilmaSequencePairs {
      * @param response is the given response
      */
     public void putIntoMessages(final WilmaHttpResponse response) {
-        String searchLoggerId = response.getRequestHeader(WilmaHttpResponse.WILMA_LOGGER_ID);
+        String searchLoggerId = response.getWilmaMessageId();
         RequestResponsePair pair = messages.get(searchLoggerId);
         if (pair != null) {
             pair.setResponse(response);

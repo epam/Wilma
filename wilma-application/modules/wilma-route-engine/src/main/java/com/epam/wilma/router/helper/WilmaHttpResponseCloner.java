@@ -18,9 +18,10 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Map.Entry;
-import org.springframework.stereotype.Component;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
+import org.springframework.stereotype.Component;
+
+import java.util.Map.Entry;
 
 /**
  * Copies a {@link WilmaHttpResponse}.
@@ -40,6 +41,7 @@ public class WilmaHttpResponseCloner {
         result.setContentType(response.getContentType());
         result.setBody(response.getBody());
         copyHeaders(response, result);
+        result.setWilmaMessageId(response.getWilmaMessageId());
         return result;
     }
 

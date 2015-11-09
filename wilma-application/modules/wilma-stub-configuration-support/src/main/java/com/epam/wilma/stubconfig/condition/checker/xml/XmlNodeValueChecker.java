@@ -18,19 +18,17 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.List;
-
-import net.sf.saxon.s9api.SaxonApiException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.xml.helper.XQueryExpressionEvaluator;
 import com.epam.wilma.stubconfig.domain.exception.ConditionEvaluationFailedException;
+import net.sf.saxon.s9api.SaxonApiException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Checks the message body as XML with the given conditions.
@@ -62,7 +60,7 @@ public class XmlNodeValueChecker implements ConditionChecker {
                     String value = paramater.getValue();
                     result = evaluateCondition(request.getBody(), element, value);
                 } catch (SaxonApiException e) {
-                    throw new ConditionEvaluationFailedException("XQuery evaluation failed at request: " + request.getWilmaLoggerId(), e);
+                    throw new ConditionEvaluationFailedException("XQuery evaluation failed at request: " + request.getWilmaMessageLoggerId(), e);
                 }
             }
         } else {

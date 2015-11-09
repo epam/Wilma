@@ -46,7 +46,7 @@ public class FileNameProvider {
      * @return the name of the file with absolute path
      */
     public String getFileName(final WilmaHttpRequest request) {
-        String wilmaLoggerId = request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
+        String wilmaLoggerId = request.getWilmaMessageId();
         String path = getPath();
         return path + "/" + wilmaLoggerId + REQ_NAME_ENDING;
     }
@@ -57,7 +57,7 @@ public class FileNameProvider {
      * @return the name of the file with absolute path
      */
     public String getFileName(final WilmaHttpResponse response) {
-        String wilmaLoggerId = response.getRequestHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
+        String wilmaLoggerId = response.getWilmaMessageId();
         String path = getPath();
         return path + "/" + wilmaLoggerId + RESP_NAME_ENDING;
     }

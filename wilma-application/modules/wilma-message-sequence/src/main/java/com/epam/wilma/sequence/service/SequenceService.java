@@ -18,11 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.sql.Timestamp;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
@@ -35,6 +30,10 @@ import com.epam.wilma.sequence.factory.SequenceFactory;
 import com.epam.wilma.sequence.helper.SequenceHeaderUtil;
 import com.epam.wilma.sequence.helper.SequenceIdUtil;
 import com.epam.wilma.sequence.validator.HandlerKeyValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
 
 /**
  * This contains the logic of sequence handling process.
@@ -86,7 +85,7 @@ public class SequenceService {
     private void appendSequence(final String sequenceKey, final WilmaHttpRequest request, final SequenceDescriptor sequenceDescriptor) {
         WilmaSequence sequence = sequenceDescriptor.getSequence(sequenceKey);
         if (sequence != null) {
-            String loggerId = request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
+            String loggerId = request.getWilmaMessageId();
             RequestResponsePair pair = new RequestResponsePair(requestCloner.cloneRequest(request));
             sequence.setTimeout(new Timestamp(dateProvider.getCurrentTimeInMillis() + sequenceDescriptor.getDefaultTimeout()));
             sequence.addPair(loggerId, pair);

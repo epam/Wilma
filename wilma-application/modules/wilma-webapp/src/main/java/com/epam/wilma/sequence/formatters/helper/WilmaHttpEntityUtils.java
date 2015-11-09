@@ -53,7 +53,7 @@ public class WilmaHttpEntityUtils {
             new JSONObject(body);
             isJson = true;
         } catch (JSONException ex) {
-            logger.debug("Request (" + request.getWilmaMessageId() + ") body is not of JSON type or has invalid syntax: " + body, ex);
+            logger.debug("Request (" + request.getWilmaMessageLoggerId() + ") body is not of JSON type or has invalid syntax: " + body, ex);
             isJson = false;
         }
         return isJson;

@@ -19,18 +19,17 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.IOException;
-
+import com.epam.wilma.core.processor.WilmaEntityProcessorInterface;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.exception.SystemException;
+import com.epam.wilma.domain.http.WilmaHttpEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.core.processor.WilmaEntityProcessorInterface;
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.exception.SystemException;
-import com.epam.wilma.domain.http.WilmaHttpEntity;
+import java.io.IOException;
 
 /**
  * Extract the compressed Wilma messages.
@@ -59,7 +58,7 @@ public class MessageExtractor {
             base64DecoderProcessor.process(message);
             fastInfosetDecompressorProcessor.process(message);
         } catch (SystemException | ApplicationException e) {
-            String loggerID = message.getWilmaMessageId();
+            String loggerID = message.getWilmaMessageLoggerId();
             LOGGER.info("Failed to extract message content! ID: " + loggerID + ". Restoring original content...", e);
             message.setBody(body);
         } finally {

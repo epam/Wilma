@@ -47,8 +47,11 @@ public class FirstAndSecondAreDisabledTest extends WilmaTestCase {
         uploadStubConfigToWilma(STUB_CONFIG_FIRST);
         uploadStubConfigToWilma(STUB_CONFIG_SECOND);
 
-        MultiStubRequestParameters parameters = createChangeStatusRequestParameters("false", STUB_CONFIG_FIRST_GROUP_NAME);
+        MultiStubRequestParameters parameters;
+        // turn off first config group
+        parameters = createChangeStatusRequestParameters("false", STUB_CONFIG_FIRST_GROUP_NAME);
         callWilmaWithPostMethod(parameters);
+        // turn off second config group
         parameters = createChangeStatusRequestParameters("false", STUB_CONFIG_SECOND_GROUP_NAME);
         callWilmaWithPostMethod(parameters);
 

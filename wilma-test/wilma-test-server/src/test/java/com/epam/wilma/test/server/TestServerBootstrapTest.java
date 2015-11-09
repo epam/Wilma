@@ -84,7 +84,7 @@ public class TestServerBootstrapTest {
         //WHEN
         underTest.bootstrap(args, properties, jettyServer);
         //THEN
-        verify(jettyServer).configureAndstart(any(Server.class), eq(9090), eq(8443), eq(false));
+        verify(jettyServer).configureAndStart(any(Server.class), eq(9090), eq(8443), eq(false));
     }
 
     @Test
@@ -125,7 +125,7 @@ public class TestServerBootstrapTest {
         String[] args = {"wilma.testserver.properties"};
         given(properties.getProperty("server.port.http")).willReturn("9090");
         given(properties.getProperty("server.port.https")).willReturn("8443");
-        willThrow(systemException).given(jettyServer).configureAndstart(any(Server.class), eq(9090), eq(8443), eq(false));
+        willThrow(systemException).given(jettyServer).configureAndStart(any(Server.class), eq(9090), eq(8443), eq(false));
         //WHEN
         underTest.bootstrap(args, properties, jettyServer);
         //THEN

@@ -1,4 +1,4 @@
-package com.epam.wilma.messagemarker.idgenerator;
+package com.epam.wilma.messagemarker.configuration.domain;
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 
@@ -18,19 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.exception.TooManyRequestsException;
-
 /**
- * Interface for generating identifiers for requests.
- * @author Marton_Sereg
+ * Holds module specific properties.
+ * @author Tamas Kohegyi
  *
  */
-public interface IdGenerator {
+public class MessageMarkerRequest {
+
+    private boolean needMessageMarker;
 
     /**
-     * Generates and returns a new identifier.
-     * @return generated id
-     * @throws TooManyRequestsException if there are too many incoming requests in one second
+     * Constructs a new property holding object with the given fields.
+     * @param needMessageMarker if Wilma Message ID should be added to the message requests or not
      */
-    String nextIdentifier() throws TooManyRequestsException;
+    public MessageMarkerRequest(final String needMessageMarker) {
+        this.needMessageMarker = !"off".equals(needMessageMarker);
+    }
+
+    public boolean getNeedMessageMarker() {
+        return needMessageMarker;
+    }
+
+    public void setNeedMessageMarker(final boolean needMessageMarker) {
+        this.needMessageMarker = needMessageMarker;
+    }
+
 }

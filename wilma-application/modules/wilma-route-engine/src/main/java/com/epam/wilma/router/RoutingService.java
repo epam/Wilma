@@ -19,14 +19,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.common.helper.OperationMode;
+import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.router.command.StubDescriptorModificationCommand;
@@ -35,6 +29,12 @@ import com.epam.wilma.router.configuration.domain.PropertyDTO;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.router.evaluation.StubDescriptorEvaluator;
 import com.epam.wilma.router.evaluation.StubModeEvaluator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Contains route logic of request messages.
@@ -72,6 +72,8 @@ public class RoutingService {
         }
         redirect = responseDescriptorDTO != null;
         if (redirect) {
+            //need to add this extra header, helping the stub to identify the response
+            request.addExtraHeader(WilmaHttpEntity.WILMA_LOGGER_ID, request.getWilmaMessageId());
             saveInResponseDescriptorMap(request, responseDescriptorDTO);
         }
         return redirect;
@@ -115,7 +117,7 @@ public class RoutingService {
     }
 
     private void saveInResponseDescriptorMap(final WilmaHttpRequest request, final ResponseDescriptorDTO responseDescriptorDTO) {
-        responseDescriptorMap.put(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID), responseDescriptorDTO);
+        responseDescriptorMap.put(request.getWilmaMessageId(), responseDescriptorDTO);
     }
 
     /**

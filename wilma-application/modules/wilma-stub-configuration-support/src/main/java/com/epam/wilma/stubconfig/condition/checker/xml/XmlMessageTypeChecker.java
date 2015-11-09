@@ -18,19 +18,17 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.List;
-
-import net.sf.saxon.s9api.SaxonApiException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.xml.helper.XQueryExpressionEvaluator;
 import com.epam.wilma.stubconfig.domain.exception.ConditionEvaluationFailedException;
+import net.sf.saxon.s9api.SaxonApiException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Class for checking for a node. In the stub configuration file the {@link XmlMessageTypeChecker}
@@ -82,7 +80,7 @@ public class XmlMessageTypeChecker implements ConditionChecker {
             result = xQueryEvaluator.evaluateXQuery(request.getBody(), "count(//*[name()='" + nodeName + "'])>0");
         } catch (SaxonApiException e) {
             throw new ConditionEvaluationFailedException("XmlRootNodeChecker failed, when searched for root element with name: "
-                    + nodeName + " in message:" + request.getWilmaLoggerId(), e);
+                    + nodeName + " in message:" + request.getWilmaMessageLoggerId(), e);
         }
         return removeXmlDeclarationTagFromXQueryResult(result);
     }

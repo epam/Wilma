@@ -54,7 +54,7 @@ public class JsonPathChecker implements ConditionChecker {
             String actualValue = JsonPath.read(request.getBody(), path);
             equals = evaluate(expected, actualValue);
         } catch (Exception e) {
-            logger.debug("Request body isn't of JSON format, message:" + request.getWilmaLoggerId(), e);
+            logger.debug("Request body isn't of JSON format, message:" + request.getWilmaMessageLoggerId(), e);
             equals = false;
         }
         return equals;

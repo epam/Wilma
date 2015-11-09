@@ -110,8 +110,4 @@ public class WilmaHttpResponse extends WilmaHttpEntity {
         return requestHeaders.get(WILMA_SEQUENCE_ID);
     }
 
-    public String getWilmaLoggerId() {
-        return getRequestHeader(WilmaHttpEntity.WILMA_LOGGER_ID);
-    }
-
 }

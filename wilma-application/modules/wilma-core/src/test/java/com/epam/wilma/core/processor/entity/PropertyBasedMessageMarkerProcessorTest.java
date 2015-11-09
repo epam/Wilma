@@ -18,32 +18,31 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.verify;
-
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.messagemarker.PropertyBasedMessageMarker;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.messagemarker.TimestampBasedMessageMarker;
+import static org.mockito.Mockito.verify;
 
 /**
- * Provides unit tests for the class {@link TimestampBasedMessageMarkerProcessor}.
+ * Provides unit tests for the class {@link PropertyBasedMessageMarkerProcessor}.
  * @author Tunde_Kovacs
  *
  */
-public class TimestampBasedMessageMarkerProcessorTest {
+public class PropertyBasedMessageMarkerProcessorTest {
 
     @Mock
     private WilmaHttpRequest request;
     @Mock
-    private TimestampBasedMessageMarker marker;
+    private PropertyBasedMessageMarker marker;
 
     @InjectMocks
-    private TimestampBasedMessageMarkerProcessor underTest;
+    private PropertyBasedMessageMarkerProcessor underTest;
 
     @BeforeMethod
     public void setUp() {

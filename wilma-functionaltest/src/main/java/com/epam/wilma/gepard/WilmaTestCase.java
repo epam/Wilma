@@ -118,6 +118,7 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
      * @throws Exception in case problem occurs.
      */
     public void clearAllOldStubConfigs() throws Exception {
+        logStep("Clear all Stub Configurations.");
         RequestParameters requestParameters = createRequestParametersToGetAllStubDescriptors();
         ResponseHolder responseVersion = callWilmaWithGetMethod(requestParameters);
         String answer = responseVersion.getResponseMessage();

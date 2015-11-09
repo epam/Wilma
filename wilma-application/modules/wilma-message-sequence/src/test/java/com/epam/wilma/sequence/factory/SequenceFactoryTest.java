@@ -18,10 +18,10 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-
-import java.sql.Timestamp;
-
+import com.epam.wilma.common.helper.CurrentDateProvider;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
+import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -29,10 +29,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.CurrentDateProvider;
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import java.sql.Timestamp;
+
+import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link SequenceFactory}.
@@ -60,7 +59,7 @@ public class SequenceFactoryTest {
         //GIVEN
         String testKey = "TestKey";
         String logggerId = "testId";
-        given(request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(logggerId);
+        given(request.getWilmaMessageId()).willReturn(logggerId);
         //WHEN
         WilmaSequence result = underTest.createNewSequence(testKey, request, 1000L);
         //THEN

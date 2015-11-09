@@ -18,15 +18,14 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-
+import com.epam.wilma.domain.http.WilmaHttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.domain.http.WilmaHttpRequest;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 /**
  * Writes a {@link WilmaHttpRequest} to a file.
@@ -48,7 +47,7 @@ public class WilmaHttpRequestWriter extends WilmaHttpEntityWriter<WilmaHttpReque
         boolean successful = false;
         String outputFile = INITIAL_FILENAME;
         try {
-            String messageId = request.getExtraHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
+            String messageId = request.getWilmaMessageId();
             outputFile = getOutputFileName("req", messageId, bodyDecompressed);
             BufferedWriter writer = bufferedWriterFactory.createBufferedWriter(outputFile, OUTPUT_BUFFER_SIZE);
             if (writer != null) {

@@ -18,14 +18,9 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
-
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.router.domain.ResponseDescriptorDTO;
+import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
 import org.apache.tools.ant.util.VectorSet;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
@@ -36,9 +31,12 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.router.domain.ResponseDescriptorDTO;
-import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for {@link HttpServletRequestTransformer} class.
@@ -47,6 +45,7 @@ import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
  */
 public class HttpServletRequestTransformerTest {
     private static final String REQUEST_BODY = "REQUEST_BODY";
+    private static final String WILMA_LOGGER_ID = "test";
 
     @Mock
     private WilmaHttpRequest wilmaRequest;
@@ -76,7 +75,7 @@ public class HttpServletRequestTransformerTest {
         //GIVEN
         given(request.getHeaderNames()).willReturn(enumeration);
         //WHEN
-        underTest.transformToWilmaHttpRequest(request, responseDescriptorDTO);
+        underTest.transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO);
         //THEN
         verify(request, Mockito.times(0)).getHeader(Matchers.anyString());
     }
@@ -85,10 +84,10 @@ public class HttpServletRequestTransformerTest {
     public void testTransformToWilmaHttpRequestShouldGetHeadersToCopyIntoResultWhenOneHeader() {
         //GIVEN
         headers.add("Content-type");
-        headers.add("Wilma-Logger-ID");
+        headers.add("Any-other-header");
         given(request.getHeaderNames()).willReturn(enumeration);
         //WHEN
-        underTest.transformToWilmaHttpRequest(request, responseDescriptorDTO);
+        underTest.transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO);
         //THEN
         verify(request, Mockito.times(2)).getHeader(Matchers.anyString());
     }
@@ -99,7 +98,7 @@ public class HttpServletRequestTransformerTest {
         given(request.getHeaderNames()).willReturn(enumeration);
         given(responseDescriptorDTO.getRequestBody()).willReturn(REQUEST_BODY);
         //WHEN
-        WilmaHttpRequest actual = underTest.transformToWilmaHttpRequest(request, responseDescriptorDTO);
+        WilmaHttpRequest actual = underTest.transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO);
         //THEN
         Assert.assertEquals(actual, wilmaRequest);
     }

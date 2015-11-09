@@ -36,6 +36,7 @@ public class WilmaHttpEntity implements Serializable {
     private String body;
     private InputStream inputStream;
     private final Map<String, String> headers = new HashMap<>();
+    private String wilmaMessageId;
 
     /**
      * Adds a WilmaHttpHeader to the list of headers.
@@ -81,17 +82,21 @@ public class WilmaHttpEntity implements Serializable {
         this.inputStream = inputStream;
     }
 
+    public void setWilmaMessageId(final String wilmaMessageId) { this.wilmaMessageId = wilmaMessageId; }
+
+    public String getWilmaMessageId() { return wilmaMessageId; }
+
     /**
      * Gets the ID added by Wilma to the message, regardless if it is a request or response.
      * @return with the unique ID of the message.
      */
-    public String getWilmaMessageId() {
+    public String getWilmaMessageLoggerId() {
         String loggerID = null;
         if (this instanceof WilmaHttpResponse) {
-            loggerID = "resp" + ((WilmaHttpResponse) this).getWilmaLoggerId();
+            loggerID = getWilmaMessageId() + "resp";
         }
         if (this instanceof WilmaHttpRequest) {
-            loggerID = "req" + ((WilmaHttpRequest) this).getWilmaLoggerId();
+            loggerID = getWilmaMessageId() + "req";
         }
         return loggerID;
     }

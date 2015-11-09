@@ -70,7 +70,7 @@ public class JettyServerTest {
         given(sslSelectChannelConnector.getSslContextFactory()).willReturn(sslContextFactory);
         doNothing().when(underTest).startServer(server);
         // WHEN
-        underTest.configureAndstart(server, 9090, 8443, false);
+        underTest.configureAndStart(server, 9090, 8443, false);
         // THEN
         verify(selectChannelConnector).setPort(9090);
         verify(sslSelectChannelConnector).setPort(8443);
@@ -88,7 +88,7 @@ public class JettyServerTest {
         given(sslSelectChannelConnector.getSslContextFactory()).willReturn(sslContextFactory);
         doNothing().when(underTest).startServer(server);
         // WHEN
-        underTest.configureAndstart(server, 9090, 8443, false);
+        underTest.configureAndStart(server, 9090, 8443, false);
         // THEN
         verify(underTest).startServer(server);
         verify(server).join();
@@ -102,7 +102,7 @@ public class JettyServerTest {
         given(sslSelectChannelConnector.getSslContextFactory()).willReturn(sslContextFactory);
         doNothing().when(underTest).startServer(server);
         // WHEN
-        underTest.configureAndstart(server, 9090, 8443, true);
+        underTest.configureAndStart(server, 9090, 8443, true);
         // THEN
         verify(server).setHandler(Matchers.any(PerformanceTestHandler.class));
     }
@@ -115,7 +115,7 @@ public class JettyServerTest {
         given(sslSelectChannelConnector.getSslContextFactory()).willReturn(sslContextFactory);
         willThrow(new Exception()).given(underTest).startServer(server);
         // WHEN
-        underTest.configureAndstart(server, 9090, 8443, false);
+        underTest.configureAndStart(server, 9090, 8443, false);
         // THEN exception is thrown
     }
 }

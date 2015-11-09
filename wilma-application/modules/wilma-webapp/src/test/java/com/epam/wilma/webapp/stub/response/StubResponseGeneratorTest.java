@@ -19,31 +19,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.mockito.InjectMocks;
-import org.mockito.Matchers;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.slf4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.common.helper.StackTraceToStringConverter;
 import com.epam.wilma.core.MapBasedResponseDescriptorAccess;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
@@ -64,6 +39,29 @@ import com.epam.wilma.webapp.stub.response.support.HttpServletRequestTransformer
 import com.epam.wilma.webapp.stub.response.support.SequenceResponseGuard;
 import com.epam.wilma.webapp.stub.response.support.StubResponseHeaderConfigurer;
 import com.epam.wilma.webapp.stub.servlet.helper.WaitProvider;
+import org.mockito.InjectMocks;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.slf4j.Logger;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for {@link StubResponseGenerator} class.
@@ -125,7 +123,7 @@ public class StubResponseGeneratorTest {
                 .template(template).sequenceDescriptorKey(SEQUENCE_DESCRIPTOR_KEY).build();
         given(responseDescriptor.getAttributes()).willReturn(attributes);
         given(responseDescriptor.getTemplateFormatters()).willReturn(templateFormatterDescriptors);
-        given(requestTransformer.transformToWilmaHttpRequest(request, responseDescriptorDTO)).willReturn(wilmaRequest);
+        given(requestTransformer.transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO)).willReturn(wilmaRequest);
         given(stackTraceConverter.getStackTraceAsString(Matchers.any(Exception.class))).willReturn("exception-message");
         given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
         given(request.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID)).willReturn("Test");
@@ -166,7 +164,7 @@ public class StubResponseGeneratorTest {
         //WHEN
         underTest.generateResponse(request, response);
         //THEN
-        verify(requestTransformer).transformToWilmaHttpRequest(request, responseDescriptorDTO);
+        verify(requestTransformer).transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO);
     }
 
     @Test

@@ -92,6 +92,9 @@ public class InterceptorTest extends WilmaTestCase {
     @Test
     public void testInterceptorUsage() throws Exception {
         setLocalhostBlockingTo("off");
+
+        setMessageMarkingTo("on");
+
         setOperationModeTo("wilma");
         /* given - setup interceptors, set interceptor usage on/off, set session on/off */
         setupInterceptors();
@@ -102,6 +105,9 @@ public class InterceptorTest extends WilmaTestCase {
         /* then - receive and analyze response */
         //identify the message id first
         String[] lines = response.getResponseMessage().split("\n");
+
+        setMessageMarkingTo("off");
+
         assertNotNull(lines);
         assertTrue(lines.length == 3);
         String id = lines[2].substring(26);

@@ -18,18 +18,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.IOException;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.epam.wilma.webapp.stub.response.processor.StubResponseProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.webapp.stub.response.processor.StubResponseProcessor;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Writes stub generated response to the {@link HttpServletResponse}'s {@link ServletOutputStream}.
@@ -39,7 +37,7 @@ import com.epam.wilma.webapp.stub.response.processor.StubResponseProcessor;
 @Component
 public class StubResponseWriter {
 
-    private static final String ERROR_MESSAGE_FOR_UNWANTED_RESQUESTS = "Wilma has declined this request.";
+    private static final String ERROR_MESSAGE_FOR_UNWANTED_REQUESTS = "Wilma has declined this request.";
     private final Logger logger = LoggerFactory.getLogger(StubResponseWriter.class);
     @Autowired
     private StubResponseGenerator stubResponseGenerator;
@@ -77,7 +75,7 @@ public class StubResponseWriter {
     private void writeErrorResponse(final HttpServletResponse resp) throws IOException {
         ServletOutputStream out = resp.getOutputStream();
         resp.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-        out.write(ERROR_MESSAGE_FOR_UNWANTED_RESQUESTS.getBytes());
+        out.write(ERROR_MESSAGE_FOR_UNWANTED_REQUESTS.getBytes());
         out.close();
     }
 }

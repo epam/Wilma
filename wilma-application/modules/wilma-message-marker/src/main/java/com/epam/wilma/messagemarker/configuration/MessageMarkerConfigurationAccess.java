@@ -20,7 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.common.configuration.ConfigurationAccessBase;
-import com.epam.wilma.messagemarker.configuration.domain.RequestLimits;
+import com.epam.wilma.messagemarker.configuration.domain.MessageMarkerRequest;
 import com.epam.wilma.properties.PropertyHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,30 +28,37 @@ import org.springframework.stereotype.Component;
 /**
  * Provides configuration access for the module.
  *
- * @author Tunde_Kovacs
+ * @author Tamas Kohegyi
  */
 @Component
 public class MessageMarkerConfigurationAccess implements ConfigurationAccessBase {
 
-    private RequestLimits requestLimit;
+    private MessageMarkerRequest markerRequest;
 
     @Autowired
     private PropertyHolder propertyHolder;
 
     @Override
     public void loadProperties() {
-        Integer errorLimit = propertyHolder.getInt("request.error.limit");
-        Integer warningLimit = propertyHolder.getInt("request.warning.limit");
-        requestLimit = new RequestLimits(errorLimit, warningLimit);
+        String messageMarking = propertyHolder.get("message.marking");
+        markerRequest = new MessageMarkerRequest(messageMarking);
     }
 
     /**
-     * Returns a {@link RequestLimits} holding all module specific properties.
+     * Returns a {@link MessageMarkerRequest} holding all module specific properties.
      *
      * @return the propertiesDTO object
      */
-    public RequestLimits getProperties() {
-        return requestLimit;
+    public MessageMarkerRequest getProperties() {
+        return markerRequest;
+    }
+
+    /**
+     * Sets the message marker status.
+     * @param messageMarkerRequest to "on" in case of true, otherwise "off"
+     */
+    public void setMessageMarkerRequest(final boolean messageMarkerRequest) {
+        markerRequest.setNeedMessageMarker(messageMarkerRequest);
     }
 
 }

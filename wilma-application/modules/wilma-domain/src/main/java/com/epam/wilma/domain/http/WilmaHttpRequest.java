@@ -18,15 +18,15 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.domain.evaluation.Evaluable;
+
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.epam.wilma.domain.evaluation.Evaluable;
-
 /**
  * This class is Wilma's representation of an HTTP request.
- * @author Marton_Sereg
+ * @author Marton_Sereg, Tamas Kohegyi
  *
  */
 public class WilmaHttpRequest extends WilmaHttpEntity {
@@ -75,18 +75,6 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
 
     public String getSequenceId() {
         return extraHeaders.get(WILMA_SEQUENCE_ID);
-    }
-
-    /**
-     * This method adds the given Wilma Message ID to the request message.
-     * @param identifier is the given id.
-     */
-    public void addWilmaLoggerId(final String identifier) {
-        addExtraHeader(WILMA_LOGGER_ID, identifier);
-    }
-
-    public String getWilmaLoggerId() {
-        return extraHeaders.get(WILMA_LOGGER_ID);
     }
 
     /**

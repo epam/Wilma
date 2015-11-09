@@ -54,7 +54,7 @@ public class TestServerBootstrap {
                     Integer httpPort = Integer.parseInt(properties.getProperty("server.port.http"));
                     Integer httpsPort = Integer.parseInt(properties.getProperty("server.port.https"));
                     Boolean isPerfTest = Boolean.valueOf(properties.getProperty("perftest"));
-                    jettyServer.configureAndstart(new Server(), httpPort, httpsPort, isPerfTest);
+                    jettyServer.configureAndStart(new Server(), httpPort, httpsPort, isPerfTest);
                 } else {
                     logger.error("Specified property file's extension is not \"properties\"!");
                 }

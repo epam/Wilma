@@ -20,10 +20,10 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 description='wilma core'
 dependencies {
     compile project(':wilma-application:wilma-domain')
-    compile project(':wilma-application:wilma-message-marker')
     compile project(':wilma-application:wilma-compression')
     compile project(':wilma-application:wilma-route-engine')
     compile project(':wilma-application:wilma-message-logger')
+    compile project(':wilma-application:wilma-message-marker')
     compile project(':wilma-application:wilma-stub-configuration-domain')
     compile project(':wilma-application:wilma-indexing')
     compile project(':wilma-application:wilma-message-maintainer')
