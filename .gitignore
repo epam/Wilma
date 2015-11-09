@@ -15,6 +15,11 @@ bin
 release
 wilma-functionaltest/resources/savedStubConfig.xml
 wilma-functionaltest/gepard-run.log
+wilma-functionaltest/gradle
+wilma-functionaltest/gradlew*
 browsermob-proxy/gradlew
 browsermob-proxy/gradlew.bat
 browsermob-proxy/gradle
+wilma-test/wilma-test-server/gradle
+wilma-test/wilma-test-server/gradlew*
+

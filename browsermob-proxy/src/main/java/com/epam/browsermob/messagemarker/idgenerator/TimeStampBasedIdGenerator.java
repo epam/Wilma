@@ -19,7 +19,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -35,6 +34,7 @@ public class TimeStampBasedIdGenerator {
     private final AtomicInteger currentNumber = new AtomicInteger();
     private String previousSimpleDate;
     private String currentSimpleDate;
+    private CurrentDateProvider currentDateProvider = new CurrentDateProvider();
 
     private SimpleDateFormat fileSimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -45,7 +45,7 @@ public class TimeStampBasedIdGenerator {
     }
 
     private String getCurrentDateFormattedForFiles() {
-        return fileSimpleDateFormat.format(new Date());
+        return fileSimpleDateFormat.format(currentDateProvider.getCurrentDate());
     }
 
     private void checkPreviousDate(final String currentSimpleDate) {
