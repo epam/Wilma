@@ -42,6 +42,7 @@ public class HttpServletRequestTransformer {
      * Transforms a {@link HttpServletRequest} to {@link WilmaHttpRequest} using a {@link ResponseDescriptorDTO} to get
      * previously uncompressed request's components.
      * param wilmaLoggerId is the internal id of the message
+     * @param wilmaLoggerId is the internal ID of the message
      * @param request is the {@link HttpServletRequest}, what will be transformed
      * @param responseDescriptorDTO contains the previously uncompressed request body
      * @return with the transformation result as {@link WilmaHttpRequest}

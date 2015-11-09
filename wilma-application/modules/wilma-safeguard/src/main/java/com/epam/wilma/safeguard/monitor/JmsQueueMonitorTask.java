@@ -40,9 +40,9 @@ import javax.management.ObjectName;
  * This task is scheduled to run periodically. The period is given in the safeguard.guardperiod external property.
  * It queries the sizes of the JMS queues through JMX, and disables/enables FI decompression or the complete message logging based on the limits given in the properties files.
  * Disabling/Enabling is achieved through 2 boolean flags, that are checked before every decompression/message logging.
- * @author Marton_Sereg
+ * It also takes care about the ActiveMQ.DLQ (so called dead letter queue), and eliminates such messages as necessary.
  *
- * It also takes care about the ActiveMQ.DLQ (so called dead letter queue), and eliminates such messages as necessary,
+ * @author Marton_Sereg
  * @author Tamas_Kohegyi
  */
 @Component
@@ -53,6 +53,7 @@ public class JmsQueueMonitorTask implements Runnable {
     static final String LOGGER_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=loggerQueue";
     static final String DLQ_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=ActiveMQ.DLQ";
     static final String AMQ_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost";
+    static final String QUEUE_SIZE_TEXT = "QueueSize";
     static final Integer MAX_AMQ_MEMORY_USAGE = Integer.valueOf(95); //over this memory usage (in percent) we have to reset the AMQ
     static final Long MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT = Long.valueOf(4); // in case totla message queue size is > Msg queue off limit * this value, we have to reset the AMQ
 
@@ -102,7 +103,7 @@ public class JmsQueueMonitorTask implements Runnable {
         boolean sizeIsValid = false;
         Long dlqSize = Long.valueOf(0);
         try {
-            dlqSize = (Long) mBeanServerConnection.getAttribute(dlqQueue, "QueueSize");
+            dlqSize = (Long) mBeanServerConnection.getAttribute(dlqQueue, QUEUE_SIZE_TEXT);
             sizeIsValid = true;
             if (dlqSize > 0) {
                 mBeanServerConnection.invoke(dlqQueue, "purge", null, null);
@@ -124,6 +125,8 @@ public class JmsQueueMonitorTask implements Runnable {
      * - the used memory is over MAX_AMQ_MEMORY_USAGE percent OR
      * - the totalQueueSize is higher than MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT * Message OFF Limit
      * In extreme cases it may happen (very large messages), and the only possibility to survive is to reset the AMQ.
+     *
+     * @param totalQueueSize actual total size of the queues
      */
     private void resetAMQueueAsNecessary(final Long totalQueueSize) {
         boolean valueIsValid = false;
@@ -188,8 +191,8 @@ public class JmsQueueMonitorTask implements Runnable {
 
     private Long retrieveQuerySize() {
         try {
-            Long responseQueueSize = (Long) mBeanServerConnection.getAttribute(responseQueue, "QueueSize");
-            Long loggerQueueSize = (Long) mBeanServerConnection.getAttribute(loggerQueue, "QueueSize");
+            Long responseQueueSize = (Long) mBeanServerConnection.getAttribute(responseQueue, QUEUE_SIZE_TEXT);
+            Long loggerQueueSize = (Long) mBeanServerConnection.getAttribute(loggerQueue, QUEUE_SIZE_TEXT);
             queueSizeProvider.setResponseQueueSize(responseQueueSize);
             queueSizeProvider.setLoggerQueueSize(loggerQueueSize);
             return responseQueueSize + loggerQueueSize;

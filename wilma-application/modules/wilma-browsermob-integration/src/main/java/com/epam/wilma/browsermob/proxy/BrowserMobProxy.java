@@ -79,7 +79,7 @@ public class BrowserMobProxy implements Proxy {
         try {
             stopServer();
         } catch (Exception e) {
-            logger.error("Proxy can not be stopped: " + e.getMessage());
+            logger.error("Proxy can not be stopped: " + e.getMessage(), e);
         }
     }
 

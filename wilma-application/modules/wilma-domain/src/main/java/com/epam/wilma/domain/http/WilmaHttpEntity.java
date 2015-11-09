@@ -25,22 +25,22 @@ import java.util.Map;
 
 /**
  * This class is Wilma's representation of HTTP package.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class WilmaHttpEntity implements Serializable {
 
     public static final String WILMA_SEQUENCE_ID = "Wilma-Sequence";
     public static final String WILMA_LOGGER_ID = "Wilma-Logger-ID";
-
+    private final Map<String, String> headers = new HashMap<>();
     private String body;
     private InputStream inputStream;
-    private final Map<String, String> headers = new HashMap<>();
     private String wilmaMessageId;
 
     /**
      * Adds a WilmaHttpHeader to the list of headers.
-     * @param key key of the HTTP header
+     *
+     * @param key   key of the HTTP header
      * @param value value of the HTTP header
      */
     public void addHeader(final String key, final String value) {
@@ -49,6 +49,7 @@ public class WilmaHttpEntity implements Serializable {
 
     /**
      * Returns the header with the given key.
+     *
      * @param key key of the header to get
      * @return the header value
      */
@@ -58,6 +59,7 @@ public class WilmaHttpEntity implements Serializable {
 
     /**
      * Returns a copy of the headers.
+     *
      * @return the map that holds the headers
      */
     public Map<String, String> getHeaders() {
@@ -82,12 +84,17 @@ public class WilmaHttpEntity implements Serializable {
         this.inputStream = inputStream;
     }
 
-    public void setWilmaMessageId(final String wilmaMessageId) { this.wilmaMessageId = wilmaMessageId; }
+    public String getWilmaMessageId() {
+        return wilmaMessageId;
+    }
 
-    public String getWilmaMessageId() { return wilmaMessageId; }
+    public void setWilmaMessageId(final String wilmaMessageId) {
+        this.wilmaMessageId = wilmaMessageId;
+    }
 
     /**
      * Gets the ID added by Wilma to the message, regardless if it is a request or response.
+     *
      * @return with the unique ID of the message.
      */
     public String getWilmaMessageLoggerId() {

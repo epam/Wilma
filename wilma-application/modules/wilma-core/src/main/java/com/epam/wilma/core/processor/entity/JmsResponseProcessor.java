@@ -18,25 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.core.processor.response.jms.JmsResponseBuilder;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Processes a {@link WilmaHttpEntity} by sending it to the JMS queue.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 @Component
 public class JmsResponseProcessor extends ProcessorBase {
-
-    private final Logger logger = LoggerFactory.getLogger(JmsResponseProcessor.class);
 
     @Autowired
     private JmsResponseBuilder jmsResponseBuilder;
@@ -44,7 +39,7 @@ public class JmsResponseProcessor extends ProcessorBase {
     @Override
     public void process(final WilmaHttpEntity entity) throws ApplicationException {
         WilmaHttpResponse response = (WilmaHttpResponse) entity;
-            jmsResponseBuilder.buildResponse(entity);
+        jmsResponseBuilder.buildResponse(response);
     }
 
 }
