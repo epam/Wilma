@@ -28,8 +28,8 @@ dependencies {
   compile project(':wilma-application:wilma-core')
   compile project(':wilma-application:wilma-properties')
 
-  compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.2.55'){
-//    compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.2.DEV'){
+  compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.3.62'){
+//    compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.3.DEV'){
   	exclude (module:'slf4j-jdk14')
   	exclude (module:'commons-logging')
   	exclude (module:'dom4j')
