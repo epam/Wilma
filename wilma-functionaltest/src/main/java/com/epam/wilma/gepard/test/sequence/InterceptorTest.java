@@ -140,16 +140,16 @@ public class InterceptorTest extends WilmaTestCase {
         requestParameters2.testServerUrl(getUrl);
         ResponseHolder wilmaResp = null;
         // however messages should be written to disc first by wilma, so we need to wait a bit - first - this is a SLOW test...
-        int waitingForMax15Secs = 15;
-        while (waitingForMax15Secs > 0) {
+        int waitingForMax25Secs = 25;
+        while (waitingForMax25Secs > 0) {
             wilmaResp = callWilmaWithGetMethod(requestParameters2);
             if (wilmaResp.getResponseMessage().contains("Requested file not found.")) {
                 Thread.sleep(1000); //1 sec wait and then retry
-                waitingForMax15Secs--;
+                waitingForMax25Secs--;
             } else {
-                int inSec = 15 - waitingForMax15Secs;
+                int inSec = 25 - waitingForMax25Secs;
                 logComment("Message arrived in " + inSec + " secs.");
-                waitingForMax15Secs = 0; //exit from the loop, as we got the answer
+                waitingForMax25Secs = 0; //exit from the loop, as we got the answer
             }
         }
         return wilmaResp;

@@ -72,7 +72,6 @@ public class WilmaConfigurationHelperDecorator extends WilmaResourceUploaderDeco
      */
     public void setInterceptorModeTo(final String state) throws Exception {
         interceptorModeSwitch.switchInterceptorMode(this, getWilmaInternalUrl() + "config/admin/interceptor/" + state);
-        Thread.sleep(1500); //need to have delay here, seems turning on interceptor usage is not an immediate event
     }
 
     /**

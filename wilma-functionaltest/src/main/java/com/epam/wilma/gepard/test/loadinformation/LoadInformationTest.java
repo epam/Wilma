@@ -33,7 +33,7 @@ import java.io.FileNotFoundException;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Provides functional test for checking the loadInformations of wilma.
+ * Provides functional test for checking the loadInformation of wilma.
  *
  * @author Tibor_Kovacs
  */

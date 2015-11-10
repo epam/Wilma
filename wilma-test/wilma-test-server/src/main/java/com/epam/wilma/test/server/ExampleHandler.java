@@ -45,6 +45,7 @@ public class ExampleHandler extends AbstractHandler {
 
     private static final String FIS_RESPONSE = "example.xml.fis";
     private static final String EXAMPLE_XML = "example.xml";
+    private static final String WILMA_LOGGER_ID = "Wilma-Logger-ID";
 
     private static final String PATH_NOT_IMPLEMENTED = "/sendnotimplemented";
     private static final String PATH_BAD_GATWAY = "/sendbadgateway";
@@ -171,6 +172,10 @@ public class ExampleHandler extends AbstractHandler {
                 responseBodyAsBytes = IOUtils.toByteArray(xml, xml.available());
             }
             if (responseBodyAsBytes != null) {
+                //first copy wilma message id to the response, if necessary
+                if (httpServletRequest.getHeader(WILMA_LOGGER_ID) != null) {
+                    httpServletResponse.addHeader(WILMA_LOGGER_ID, httpServletRequest.getHeader(WILMA_LOGGER_ID));
+                }
                 //Encodes response body with gzip if client accepts gzip encoding
                 if (httpServletRequest.getHeader(ACCEPT_ENCODING) != null && httpServletRequest.getHeader(ACCEPT_ENCODING).contains(GZIP_TYPE)) {
                     ByteArrayOutputStream gzipped = gzipCompressor.compress(new ByteArrayInputStream(responseBodyAsBytes));

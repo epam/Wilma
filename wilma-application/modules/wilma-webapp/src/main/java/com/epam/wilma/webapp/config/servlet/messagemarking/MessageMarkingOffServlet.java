@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * This servlet that is used to switch off message logging when called.
+ * This servlet that is used to switch off message marking when called.
  * @author Tamas_Kohegyi
  *
  */
@@ -49,7 +49,7 @@ public class MessageMarkingOffServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        logger.info(urlAccessLogMessageAssembler.assembleMessage(req, "Interceptor usage: OFF"));
+        logger.info(urlAccessLogMessageAssembler.assembleMessage(req, "Message Marking: OFF"));
         configurationAccess.setMessageMarkerRequest(false);
     }
 

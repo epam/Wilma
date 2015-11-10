@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * This servlet is used to get the status of the message logging (on/off),
+ * This servlet is used to get the status of the message marking (on/off),
  * and returns the information in JSON format.
  * @author Marton_Sereg
  *

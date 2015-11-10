@@ -21,6 +21,7 @@ com.epam.wilma.gepard.test.stub.StubContentTypeTest,4,STUBCONFIG
 com.epam.wilma.gepard.test.stub.StubExceptionTest,2,STUBCONFIG
 com.epam.wilma.gepard.test.stub.DDUsageTest,,STUBCONFIG
 com.epam.wilma.gepard.test.operation.SwitchTest,8,STUBCONFIG
+com.epam.wilma.gepard.test.messagemarker.MessageMarkingTest,,STUBCONFIG
 com.epam.wilma.gepard.test.sequence.InterceptorTest,4,STUBCONFIG
 com.epam.wilma.gepard.test.sequence.handling.SequenceKeyTest,2,STUBCONFIG
 com.epam.wilma.gepard.test.sequence.handling.live.SequenceHandlingTestXmlToJson,,STUBCONFIG

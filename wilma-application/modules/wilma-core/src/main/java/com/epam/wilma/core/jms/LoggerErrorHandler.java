@@ -36,7 +36,7 @@ public class LoggerErrorHandler implements ErrorHandler {
 
     @Override
     public void handleError(final Throwable t) {
-        logger.warn(ERROR_MESSAGE, t);
+        logger.warn(ERROR_MESSAGE + t.getLocalizedMessage(), t);
     }
 
 }
