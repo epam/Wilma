@@ -22,4 +22,8 @@ browsermob-proxy/gradlew.bat
 browsermob-proxy/gradle
 wilma-test/wilma-test-server/gradle
 wilma-test/wilma-test-server/gradlew*
+wilma-test/wilma-test-client/gradle
+wilma-test/wilma-test-client/gradlew*
+wilma-service-api/gradle
+wilma-service-api/gradlew*
 
