@@ -82,6 +82,7 @@
     <Compile Include="ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceCommClasses\LoadInformation.cs" />
+    <Compile Include="ServiceCommClasses\MessageMarkingStatus.cs" />
     <Compile Include="ServiceCommClasses\LocalhostControlStatus.cs" />
     <Compile Include="ServiceCommClasses\LoggingStatus.cs" />
     <Compile Include="ServiceCommClasses\OperationMode.cs" />

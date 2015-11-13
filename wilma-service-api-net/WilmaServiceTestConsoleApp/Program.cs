@@ -39,16 +39,18 @@ namespace WilmaServiceTestConsoleApp
             ws.GetActualLoadInformationAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
             ws.GetMessageLoggingStatusAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
 
-            ws.SetMessageLoggingStatusAsync(WilmaService.MessageLoggingControlStatus.On).ContinueWith(res => { if (res.Result) { ws.GetMessageLoggingStatusAsync().ContinueWith(res1 => { Console.WriteLine(res1.Result); }); } });
+            ws.SetMessageLoggingStatusAsync(WilmaService.MessageLoggingStatusEnum.On).ContinueWith(res => { if (res.Result) { ws.GetMessageLoggingStatusAsync().ContinueWith(res1 => { Console.WriteLine(res1.Result); }); } });
 
-            ws.SetOperationModeAsync(WilmaService.OperationModes.WILMA).ContinueWith(res1 => { ws.GetOperationModeAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
+            ws.SetOperationModeAsync(WilmaService.OperationModeEnum.WILMA).ContinueWith(res1 => { ws.GetOperationModeAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
 
-            ws.SetLocalhostBlockingStatusAsync(WilmaService.LocalhostControlStatuses.On).ContinueWith(res1 => { ws.GetLocalhostBlockingStatusAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
+            ws.SetLocalhostBlockingStatusAsync(WilmaService.LocalhostControlStatusEnum.On).ContinueWith(res1 => { ws.GetLocalhostBlockingStatusAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
+
+            ws.SetMessageMarkingStatusAsync(WilmaService.MessageMarkingStatusEnum.On).ContinueWith(res1 => { ws.GetMessageMarkingStatusAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
 
             ws.GetStubConfigInformationAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
 
-            ws.ChangeStubConfigStatusAsync("EPAMNEWS", WilmaService.StubConfigStatus.Enabled).ContinueWith(res => { Console.WriteLine(res.Result); });
-            ws.ChangeStubConfigOrderAsync("EPAMNEWS", WilmaService.StubConfigOrder.Up).ContinueWith(res => { Console.WriteLine(res.Result); });
+            ws.ChangeStubConfigStatusAsync("EPAMNEWS", WilmaService.StubConfigStatusEnum.Enabled).ContinueWith(res => { Console.WriteLine(res.Result); });
+            ws.ChangeStubConfigOrderAsync("EPAMNEWS", WilmaService.StubConfigOrderEnum.Up).ContinueWith(res => { Console.WriteLine(res.Result); });
             ws.DropStubConfigAsync("EPAMNEWS").ContinueWith(res => { Console.WriteLine(res.Result); });
 
             ws.PersistActualStubConfigAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
@@ -71,5 +73,7 @@ namespace WilmaServiceTestConsoleApp
                 return res;
             }
         }
+
+
     }
 }

@@ -119,7 +119,7 @@ namespace wilma_service_api_tests
 
             var res = ws.GetMessageLoggingStatusAsync().Result;
 
-            res.ShouldBeEquivalentTo(WilmaService.MessageLoggingControlStatus.Off);
+            res.ShouldBeEquivalentTo(WilmaService.MessageLoggingStatusEnum.Off);
         } 
         
         [Test]
@@ -127,7 +127,7 @@ namespace wilma_service_api_tests
         {
             var ws = PrepareWilmaGet("");
 
-            var res = ws.SetMessageLoggingStatusAsync(WilmaService.MessageLoggingControlStatus.On).Result;
+            var res = ws.SetMessageLoggingStatusAsync(WilmaService.MessageLoggingStatusEnum.On).Result;
 
             res.ShouldBeEquivalentTo(true);
         }
@@ -139,7 +139,7 @@ namespace wilma_service_api_tests
 
             var res = ws.GetOperationModeAsync().Result;
 
-            res.ShouldBeEquivalentTo(WilmaService.OperationModes.ERROR);
+            res.ShouldBeEquivalentTo(WilmaService.OperationModeEnum.ERROR);
         }
 
         [Test]
@@ -147,7 +147,7 @@ namespace wilma_service_api_tests
         {
             var ws = PrepareWilmaGet("");
 
-            var res = ws.SetOperationModeAsync(WilmaService.OperationModes.STUB).Result;
+            var res = ws.SetOperationModeAsync(WilmaService.OperationModeEnum.STUB).Result;
 
             res.ShouldBeEquivalentTo(true);
         }
@@ -159,7 +159,7 @@ namespace wilma_service_api_tests
 
             var res = ws.GetLocalhostBlockingStatusAsync().Result;
 
-            res.ShouldBeEquivalentTo(WilmaService.LocalhostControlStatuses.Off);
+            res.ShouldBeEquivalentTo(WilmaService.LocalhostControlStatusEnum.Off);
         } 
         
         [Test]
@@ -167,11 +167,31 @@ namespace wilma_service_api_tests
         {
             var ws = PrepareWilmaGet("");
 
-            var res = ws.SetLocalhostBlockingStatusAsync(WilmaService.LocalhostControlStatuses.On).Result;
+            var res = ws.SetLocalhostBlockingStatusAsync(WilmaService.LocalhostControlStatusEnum.On).Result;
 
             res.ShouldBeEquivalentTo(true);
         }
-        
+
+        [Test]
+        public void CreateWilmaService_CallGetMessageMarkingStatusAsync_Off()
+        {
+            var ws = PrepareWilmaGet(JsonConvert.SerializeObject(new MessageMarkingStatus()));
+
+            var res = ws.GetMessageMarkingStatusAsync().Result;
+
+            res.ShouldBeEquivalentTo(WilmaService.MessageMarkingStatusEnum.Off);
+        }
+
+        [Test]
+        public void CreateWilmaService_CallSetMessageMarkingStatusAsync_Success()
+        {
+            var ws = PrepareWilmaGet("");
+
+            var res = ws.SetMessageMarkingStatusAsync(WilmaService.MessageMarkingStatusEnum.On).Result;
+
+            res.ShouldBeEquivalentTo(true);
+        }
+
         [Test]
         public void CreateWilmaService_CallGetStubConfigInformationAsync_Success()
         {
@@ -188,7 +208,7 @@ namespace wilma_service_api_tests
         {
             var ws = PrepareWilmaGet("");
 
-            var res = ws.ChangeStubConfigStatusAsync("", WilmaService.StubConfigStatus.Enabled).Result;
+            var res = ws.ChangeStubConfigStatusAsync("", WilmaService.StubConfigStatusEnum.Enabled).Result;
 
             res.ShouldBeEquivalentTo(true);
         }
@@ -198,7 +218,7 @@ namespace wilma_service_api_tests
         {
             var ws = PrepareWilmaGet("");
 
-            var res = ws.ChangeStubConfigOrderAsync("", WilmaService.StubConfigOrder.Up).Result;
+            var res = ws.ChangeStubConfigOrderAsync("", WilmaService.StubConfigOrderEnum.Up).Result;
 
             res.ShouldBeEquivalentTo(true);
         }
