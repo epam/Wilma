@@ -32,6 +32,7 @@ This README is about an example test environment, right now used for continuous 
      #copy scripts
      rm -f /opt/wilma/bin/*.sh
      cp /var/lib/jenkins/jobs/wilma-continuous/workspace/config/environment/*.sh /opt/wilma/bin
+     chmod 755 /opt/wilma/bin/*.sh
 
      #execute scripts
      /opt/wilma/bin/stop-wilma-environment.sh
