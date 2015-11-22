@@ -31,5 +31,8 @@ sonarRunner {
         property "sonar.jdbc.password", "${sonar_jdbc_password}"
         property "sonar.language", "cs"
         property "sonar.dotnet.visualstudio.solution.file", "wilma-service-api-tests-console.sln"
+        property "sonar.dotnet.excludeGeneratedCode", "true"
+        property "sonar.dotnet.4.0.sdk.directory", "/usr/lib/mono/4.0"
+        property "sonar.dotnet.version", "4.0"
     }
 }
