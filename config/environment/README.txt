@@ -5,7 +5,6 @@ This README is about an example test environment, right now used for continuous 
 - Latest stable Debian Linux
 - extract jdk1.8.0_45 to /opt ( so you will have /opt/jdk1.8.0_45 folder)
 - create folder /opt/wilma
-- get *environment.sh files from repo, put them into /opt/bin folder and ensure their executability rights
 - Jenkins installed
 - Sonar installed
 
