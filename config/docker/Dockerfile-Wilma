@@ -13,9 +13,9 @@ RUN \
   apt-get install -y openjdk-7-jre && \
   apt-get install -y wget && \
   rm -rf /var/lib/apt/lists/* && \
-  wget https://github.com/epam/Wilma/releases/download/V1.2.83/wilma-application-1.2.83.zip && \
-  unzip wilma-application-1.2.83.zip && \
-  rm -f wilma-application-1.2.83.zip
+  wget https://github.com/epam/Wilma/releases/download/V1.3.111/wilma-application-1.3.111.zip && \
+  unzip wilma-application-1.3.111.zip && \
+  rm -f wilma-application-1.3.111.zip
 
 COPY start_wilma.sh /data/
 RUN \

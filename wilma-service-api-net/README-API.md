@@ -13,48 +13,56 @@
   - [ResponseQueueSize](#P-epam-wilma_service_api-ServiceCommClasses-LoadInformation-ResponseQueueSize 'epam.wilma_service_api.ServiceCommClasses.LoadInformation.ResponseQueueSize')
 - [LocalhostControlStatus](#T-epam-wilma_service_api-ServiceCommClasses-LocalhostControlStatus 'epam.wilma_service_api.ServiceCommClasses.LocalhostControlStatus')
   - [LocalhostMode](#P-epam-wilma_service_api-ServiceCommClasses-LocalhostControlStatus-LocalhostMode 'epam.wilma_service_api.ServiceCommClasses.LocalhostControlStatus.LocalhostMode')
-- [LocalhostControlStatuses](#T-epam-wilma_service_api-WilmaService-LocalhostControlStatuses 'epam.wilma_service_api.WilmaService.LocalhostControlStatuses')
-  - [Error](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatuses-Error 'epam.wilma_service_api.WilmaService.LocalhostControlStatuses.Error')
-  - [Off](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatuses-Off 'epam.wilma_service_api.WilmaService.LocalhostControlStatuses.Off')
-  - [On](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatuses-On 'epam.wilma_service_api.WilmaService.LocalhostControlStatuses.On')
+- [LocalhostControlStatusEnum](#T-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum 'epam.wilma_service_api.WilmaService.LocalhostControlStatusEnum')
+  - [Error](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum-Error 'epam.wilma_service_api.WilmaService.LocalhostControlStatusEnum.Error')
+  - [Off](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum-Off 'epam.wilma_service_api.WilmaService.LocalhostControlStatusEnum.Off')
+  - [On](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum-On 'epam.wilma_service_api.WilmaService.LocalhostControlStatusEnum.On')
 - [LoggingStatus](#T-epam-wilma_service_api-ServiceCommClasses-LoggingStatus 'epam.wilma_service_api.ServiceCommClasses.LoggingStatus')
   - [RequestLogging](#P-epam-wilma_service_api-ServiceCommClasses-LoggingStatus-RequestLogging 'epam.wilma_service_api.ServiceCommClasses.LoggingStatus.RequestLogging')
   - [ResponseLogging](#P-epam-wilma_service_api-ServiceCommClasses-LoggingStatus-ResponseLogging 'epam.wilma_service_api.ServiceCommClasses.LoggingStatus.ResponseLogging')
-- [MessageLoggingControlStatus](#T-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus 'epam.wilma_service_api.WilmaService.MessageLoggingControlStatus')
-  - [Error](#F-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus-Error 'epam.wilma_service_api.WilmaService.MessageLoggingControlStatus.Error')
-  - [Off](#F-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus-Off 'epam.wilma_service_api.WilmaService.MessageLoggingControlStatus.Off')
-  - [On](#F-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus-On 'epam.wilma_service_api.WilmaService.MessageLoggingControlStatus.On')
+- [MessageLoggingStatusEnum](#T-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum 'epam.wilma_service_api.WilmaService.MessageLoggingStatusEnum')
+  - [Error](#F-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum-Error 'epam.wilma_service_api.WilmaService.MessageLoggingStatusEnum.Error')
+  - [Off](#F-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum-Off 'epam.wilma_service_api.WilmaService.MessageLoggingStatusEnum.Off')
+  - [On](#F-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum-On 'epam.wilma_service_api.WilmaService.MessageLoggingStatusEnum.On')
+- [MessageMarkingStatus](#T-epam-wilma_service_api-ServiceCommClasses-MessageMarkingStatus 'epam.wilma_service_api.ServiceCommClasses.MessageMarkingStatus')
+  - [MessageMarking](#P-epam-wilma_service_api-ServiceCommClasses-MessageMarkingStatus-MessageMarking 'epam.wilma_service_api.ServiceCommClasses.MessageMarkingStatus.MessageMarking')
+- [MessageMarkingStatusEnum](#T-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum 'epam.wilma_service_api.WilmaService.MessageMarkingStatusEnum')
+  - [Error](#F-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum-Error 'epam.wilma_service_api.WilmaService.MessageMarkingStatusEnum.Error')
+  - [Off](#F-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum-Off 'epam.wilma_service_api.WilmaService.MessageMarkingStatusEnum.Off')
+  - [On](#F-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum-On 'epam.wilma_service_api.WilmaService.MessageMarkingStatusEnum.On')
 - [OperationMode](#T-epam-wilma_service_api-ServiceCommClasses-OperationMode 'epam.wilma_service_api.ServiceCommClasses.OperationMode')
   - [ProxyMode](#P-epam-wilma_service_api-ServiceCommClasses-OperationMode-ProxyMode 'epam.wilma_service_api.ServiceCommClasses.OperationMode.ProxyMode')
   - [StubMode](#P-epam-wilma_service_api-ServiceCommClasses-OperationMode-StubMode 'epam.wilma_service_api.ServiceCommClasses.OperationMode.StubMode')
   - [WilmaMode](#P-epam-wilma_service_api-ServiceCommClasses-OperationMode-WilmaMode 'epam.wilma_service_api.ServiceCommClasses.OperationMode.WilmaMode')
-- [OperationModes](#T-epam-wilma_service_api-WilmaService-OperationModes 'epam.wilma_service_api.WilmaService.OperationModes')
-  - [ERROR](#F-epam-wilma_service_api-WilmaService-OperationModes-ERROR 'epam.wilma_service_api.WilmaService.OperationModes.ERROR')
-  - [PROXY](#F-epam-wilma_service_api-WilmaService-OperationModes-PROXY 'epam.wilma_service_api.WilmaService.OperationModes.PROXY')
-  - [STUB](#F-epam-wilma_service_api-WilmaService-OperationModes-STUB 'epam.wilma_service_api.WilmaService.OperationModes.STUB')
-  - [WILMA](#F-epam-wilma_service_api-WilmaService-OperationModes-WILMA 'epam.wilma_service_api.WilmaService.OperationModes.WILMA')
-- [StubConfigOrder](#T-epam-wilma_service_api-WilmaService-StubConfigOrder 'epam.wilma_service_api.WilmaService.StubConfigOrder')
-  - [Down](#F-epam-wilma_service_api-WilmaService-StubConfigOrder-Down 'epam.wilma_service_api.WilmaService.StubConfigOrder.Down')
-  - [Up](#F-epam-wilma_service_api-WilmaService-StubConfigOrder-Up 'epam.wilma_service_api.WilmaService.StubConfigOrder.Up')
-- [StubConfigStatus](#T-epam-wilma_service_api-WilmaService-StubConfigStatus 'epam.wilma_service_api.WilmaService.StubConfigStatus')
-  - [Disabled](#F-epam-wilma_service_api-WilmaService-StubConfigStatus-Disabled 'epam.wilma_service_api.WilmaService.StubConfigStatus.Disabled')
-  - [Enabled](#F-epam-wilma_service_api-WilmaService-StubConfigStatus-Enabled 'epam.wilma_service_api.WilmaService.StubConfigStatus.Enabled')
+- [OperationModeEnum](#T-epam-wilma_service_api-WilmaService-OperationModeEnum 'epam.wilma_service_api.WilmaService.OperationModeEnum')
+  - [ERROR](#F-epam-wilma_service_api-WilmaService-OperationModeEnum-ERROR 'epam.wilma_service_api.WilmaService.OperationModeEnum.ERROR')
+  - [PROXY](#F-epam-wilma_service_api-WilmaService-OperationModeEnum-PROXY 'epam.wilma_service_api.WilmaService.OperationModeEnum.PROXY')
+  - [STUB](#F-epam-wilma_service_api-WilmaService-OperationModeEnum-STUB 'epam.wilma_service_api.WilmaService.OperationModeEnum.STUB')
+  - [WILMA](#F-epam-wilma_service_api-WilmaService-OperationModeEnum-WILMA 'epam.wilma_service_api.WilmaService.OperationModeEnum.WILMA')
+- [StubConfigOrderEnum](#T-epam-wilma_service_api-WilmaService-StubConfigOrderEnum 'epam.wilma_service_api.WilmaService.StubConfigOrderEnum')
+  - [Down](#F-epam-wilma_service_api-WilmaService-StubConfigOrderEnum-Down 'epam.wilma_service_api.WilmaService.StubConfigOrderEnum.Down')
+  - [Up](#F-epam-wilma_service_api-WilmaService-StubConfigOrderEnum-Up 'epam.wilma_service_api.WilmaService.StubConfigOrderEnum.Up')
+- [StubConfigStatusEnum](#T-epam-wilma_service_api-WilmaService-StubConfigStatusEnum 'epam.wilma_service_api.WilmaService.StubConfigStatusEnum')
+  - [Disabled](#F-epam-wilma_service_api-WilmaService-StubConfigStatusEnum-Disabled 'epam.wilma_service_api.WilmaService.StubConfigStatusEnum.Disabled')
+  - [Enabled](#F-epam-wilma_service_api-WilmaService-StubConfigStatusEnum-Enabled 'epam.wilma_service_api.WilmaService.StubConfigStatusEnum.Enabled')
 - [WilmaService](#T-epam-wilma_service_api-WilmaService 'epam.wilma_service_api.WilmaService')
   - [#ctor(config,logger,httpClient)](#M-epam-wilma_service_api-WilmaService-#ctor-epam-wilma_service_api-WilmaServiceConfig,epam-wilma_service_api-ILogger,System-Net-Http-HttpClient- 'epam.wilma_service_api.WilmaService.#ctor(epam.wilma_service_api.WilmaServiceConfig,epam.wilma_service_api.ILogger,System.Net.Http.HttpClient)')
   - [#ctor(config,logger)](#M-epam-wilma_service_api-WilmaService-#ctor-epam-wilma_service_api-WilmaServiceConfig,epam-wilma_service_api-ILogger- 'epam.wilma_service_api.WilmaService.#ctor(epam.wilma_service_api.WilmaServiceConfig,epam.wilma_service_api.ILogger)')
-  - [ChangeStubConfigOrderAsync(groupName,order)](#M-epam-wilma_service_api-WilmaService-ChangeStubConfigOrderAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigOrder- 'epam.wilma_service_api.WilmaService.ChangeStubConfigOrderAsync(System.String,epam.wilma_service_api.WilmaService.StubConfigOrder)')
-  - [ChangeStubConfigStatusAsync(groupName,status)](#M-epam-wilma_service_api-WilmaService-ChangeStubConfigStatusAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigStatus- 'epam.wilma_service_api.WilmaService.ChangeStubConfigStatusAsync(System.String,epam.wilma_service_api.WilmaService.StubConfigStatus)')
+  - [ChangeStubConfigOrderAsync(groupName,order)](#M-epam-wilma_service_api-WilmaService-ChangeStubConfigOrderAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigOrderEnum- 'epam.wilma_service_api.WilmaService.ChangeStubConfigOrderAsync(System.String,epam.wilma_service_api.WilmaService.StubConfigOrderEnum)')
+  - [ChangeStubConfigStatusAsync(groupName,status)](#M-epam-wilma_service_api-WilmaService-ChangeStubConfigStatusAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigStatusEnum- 'epam.wilma_service_api.WilmaService.ChangeStubConfigStatusAsync(System.String,epam.wilma_service_api.WilmaService.StubConfigStatusEnum)')
   - [DropStubConfigAsync(groupName)](#M-epam-wilma_service_api-WilmaService-DropStubConfigAsync-System-String- 'epam.wilma_service_api.WilmaService.DropStubConfigAsync(System.String)')
   - [GetActualLoadInformationAsync()](#M-epam-wilma_service_api-WilmaService-GetActualLoadInformationAsync 'epam.wilma_service_api.WilmaService.GetActualLoadInformationAsync')
   - [GetLocalhostBlockingStatusAsync()](#M-epam-wilma_service_api-WilmaService-GetLocalhostBlockingStatusAsync 'epam.wilma_service_api.WilmaService.GetLocalhostBlockingStatusAsync')
   - [GetMessageLoggingStatusAsync()](#M-epam-wilma_service_api-WilmaService-GetMessageLoggingStatusAsync 'epam.wilma_service_api.WilmaService.GetMessageLoggingStatusAsync')
+  - [GetMessageMarkingStatusAsync()](#M-epam-wilma_service_api-WilmaService-GetMessageMarkingStatusAsync 'epam.wilma_service_api.WilmaService.GetMessageMarkingStatusAsync')
   - [GetOperationModeAsync()](#M-epam-wilma_service_api-WilmaService-GetOperationModeAsync 'epam.wilma_service_api.WilmaService.GetOperationModeAsync')
   - [GetStubConfigInformationAsync()](#M-epam-wilma_service_api-WilmaService-GetStubConfigInformationAsync 'epam.wilma_service_api.WilmaService.GetStubConfigInformationAsync')
   - [GetVersionInformationAsync()](#M-epam-wilma_service_api-WilmaService-GetVersionInformationAsync 'epam.wilma_service_api.WilmaService.GetVersionInformationAsync')
   - [PersistActualStubConfigAsync()](#M-epam-wilma_service_api-WilmaService-PersistActualStubConfigAsync 'epam.wilma_service_api.WilmaService.PersistActualStubConfigAsync')
-  - [SetLocalhostBlockingStatusAsync(control)](#M-epam-wilma_service_api-WilmaService-SetLocalhostBlockingStatusAsync-epam-wilma_service_api-WilmaService-LocalhostControlStatuses- 'epam.wilma_service_api.WilmaService.SetLocalhostBlockingStatusAsync(epam.wilma_service_api.WilmaService.LocalhostControlStatuses)')
-  - [SetMessageLoggingStatusAsync(control)](#M-epam-wilma_service_api-WilmaService-SetMessageLoggingStatusAsync-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus- 'epam.wilma_service_api.WilmaService.SetMessageLoggingStatusAsync(epam.wilma_service_api.WilmaService.MessageLoggingControlStatus)')
-  - [SetOperationModeAsync(modes)](#M-epam-wilma_service_api-WilmaService-SetOperationModeAsync-epam-wilma_service_api-WilmaService-OperationModes- 'epam.wilma_service_api.WilmaService.SetOperationModeAsync(epam.wilma_service_api.WilmaService.OperationModes)')
+  - [SetLocalhostBlockingStatusAsync(control)](#M-epam-wilma_service_api-WilmaService-SetLocalhostBlockingStatusAsync-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum- 'epam.wilma_service_api.WilmaService.SetLocalhostBlockingStatusAsync(epam.wilma_service_api.WilmaService.LocalhostControlStatusEnum)')
+  - [SetMessageLoggingStatusAsync(control)](#M-epam-wilma_service_api-WilmaService-SetMessageLoggingStatusAsync-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum- 'epam.wilma_service_api.WilmaService.SetMessageLoggingStatusAsync(epam.wilma_service_api.WilmaService.MessageLoggingStatusEnum)')
+  - [SetMessageMarkingStatusAsync(control)](#M-epam-wilma_service_api-WilmaService-SetMessageMarkingStatusAsync-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum- 'epam.wilma_service_api.WilmaService.SetMessageMarkingStatusAsync(epam.wilma_service_api.WilmaService.MessageMarkingStatusEnum)')
+  - [SetOperationModeAsync(modes)](#M-epam-wilma_service_api-WilmaService-SetOperationModeAsync-epam-wilma_service_api-WilmaService-OperationModeEnum- 'epam.wilma_service_api.WilmaService.SetOperationModeAsync(epam.wilma_service_api.WilmaService.OperationModeEnum)')
   - [ShutdownApplicationAsync()](#M-epam-wilma_service_api-WilmaService-ShutdownApplicationAsync 'epam.wilma_service_api.WilmaService.ShutdownApplicationAsync')
   - [UploadConditionCheckerAsync(fileName,stream)](#M-epam-wilma_service_api-WilmaService-UploadConditionCheckerAsync-System-String,System-IO-Stream- 'epam.wilma_service_api.WilmaService.UploadConditionCheckerAsync(System.String,System.IO.Stream)')
   - [UploadStubConfigurationAsync(fileName,stream)](#M-epam-wilma_service_api-WilmaService-UploadStubConfigurationAsync-System-String,System-IO-Stream- 'epam.wilma_service_api.WilmaService.UploadStubConfigurationAsync(System.String,System.IO.Stream)')
@@ -192,8 +200,8 @@ LocalhostControlStatus class.
 
 LocalhostMode
 
-<a name='T-epam-wilma_service_api-WilmaService-LocalhostControlStatuses'></a>
-## LocalhostControlStatuses [#](#T-epam-wilma_service_api-WilmaService-LocalhostControlStatuses 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum'></a>
+## LocalhostControlStatusEnum [#](#T-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -203,22 +211,22 @@ epam.wilma_service_api.WilmaService
 
 LocalhostControlStatuses
 
-<a name='F-epam-wilma_service_api-WilmaService-LocalhostControlStatuses-Error'></a>
-### Error `constants` [#](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatuses-Error 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum-Error'></a>
+### Error `constants` [#](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum-Error 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Communication error.
 
-<a name='F-epam-wilma_service_api-WilmaService-LocalhostControlStatuses-Off'></a>
-### Off `constants` [#](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatuses-Off 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum-Off'></a>
+### Off `constants` [#](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum-Off 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Off.
 
-<a name='F-epam-wilma_service_api-WilmaService-LocalhostControlStatuses-On'></a>
-### On `constants` [#](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatuses-On 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum-On'></a>
+### On `constants` [#](#F-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum-On 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -249,8 +257,8 @@ Request logging
 
 Response logging
 
-<a name='T-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus'></a>
-## MessageLoggingControlStatus [#](#T-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum'></a>
+## MessageLoggingStatusEnum [#](#T-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -258,24 +266,74 @@ epam.wilma_service_api.WilmaService
 
 ##### Summary
 
-MessageLoggingControlStatus
+MessageLoggingStatusEnum
 
-<a name='F-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus-Error'></a>
-### Error `constants` [#](#F-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus-Error 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum-Error'></a>
+### Error `constants` [#](#F-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum-Error 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Communication error.
 
-<a name='F-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus-Off'></a>
-### Off `constants` [#](#F-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus-Off 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum-Off'></a>
+### Off `constants` [#](#F-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum-Off 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Off.
 
-<a name='F-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus-On'></a>
-### On `constants` [#](#F-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus-On 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum-On'></a>
+### On `constants` [#](#F-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum-On 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+On.
+
+<a name='T-epam-wilma_service_api-ServiceCommClasses-MessageMarkingStatus'></a>
+## MessageMarkingStatus [#](#T-epam-wilma_service_api-ServiceCommClasses-MessageMarkingStatus 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+epam.wilma_service_api.ServiceCommClasses
+
+##### Summary
+
+MessageMarkingStatus class.
+
+<a name='P-epam-wilma_service_api-ServiceCommClasses-MessageMarkingStatus-MessageMarking'></a>
+### MessageMarking `property` [#](#P-epam-wilma_service_api-ServiceCommClasses-MessageMarkingStatus-MessageMarking 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+MessageMarking Mode
+
+<a name='T-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum'></a>
+## MessageMarkingStatusEnum [#](#T-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+epam.wilma_service_api.WilmaService
+
+##### Summary
+
+MessageMarkingStatusEnum
+
+<a name='F-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum-Error'></a>
+### Error `constants` [#](#F-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum-Error 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Communication error.
+
+<a name='F-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum-Off'></a>
+### Off `constants` [#](#F-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum-Off 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Off.
+
+<a name='F-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum-On'></a>
+### On `constants` [#](#F-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum-On 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -313,8 +371,8 @@ Stub
 
 Wilma
 
-<a name='T-epam-wilma_service_api-WilmaService-OperationModes'></a>
-## OperationModes [#](#T-epam-wilma_service_api-WilmaService-OperationModes 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-epam-wilma_service_api-WilmaService-OperationModeEnum'></a>
+## OperationModeEnum [#](#T-epam-wilma_service_api-WilmaService-OperationModeEnum 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -322,38 +380,38 @@ epam.wilma_service_api.WilmaService
 
 ##### Summary
 
-OperationModes
+OperationModeEnum
 
-<a name='F-epam-wilma_service_api-WilmaService-OperationModes-ERROR'></a>
-### ERROR `constants` [#](#F-epam-wilma_service_api-WilmaService-OperationModes-ERROR 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-OperationModeEnum-ERROR'></a>
+### ERROR `constants` [#](#F-epam-wilma_service_api-WilmaService-OperationModeEnum-ERROR 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Communication error.
 
-<a name='F-epam-wilma_service_api-WilmaService-OperationModes-PROXY'></a>
-### PROXY `constants` [#](#F-epam-wilma_service_api-WilmaService-OperationModes-PROXY 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-OperationModeEnum-PROXY'></a>
+### PROXY `constants` [#](#F-epam-wilma_service_api-WilmaService-OperationModeEnum-PROXY 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Proxy.
 
-<a name='F-epam-wilma_service_api-WilmaService-OperationModes-STUB'></a>
-### STUB `constants` [#](#F-epam-wilma_service_api-WilmaService-OperationModes-STUB 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-OperationModeEnum-STUB'></a>
+### STUB `constants` [#](#F-epam-wilma_service_api-WilmaService-OperationModeEnum-STUB 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Stub.
 
-<a name='F-epam-wilma_service_api-WilmaService-OperationModes-WILMA'></a>
-### WILMA `constants` [#](#F-epam-wilma_service_api-WilmaService-OperationModes-WILMA 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-OperationModeEnum-WILMA'></a>
+### WILMA `constants` [#](#F-epam-wilma_service_api-WilmaService-OperationModeEnum-WILMA 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Wilma.
 
-<a name='T-epam-wilma_service_api-WilmaService-StubConfigOrder'></a>
-## StubConfigOrder [#](#T-epam-wilma_service_api-WilmaService-StubConfigOrder 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-epam-wilma_service_api-WilmaService-StubConfigOrderEnum'></a>
+## StubConfigOrderEnum [#](#T-epam-wilma_service_api-WilmaService-StubConfigOrderEnum 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -361,24 +419,24 @@ epam.wilma_service_api.WilmaService
 
 ##### Summary
 
-StubConfigOrder
+StubConfigOrderEnum
 
-<a name='F-epam-wilma_service_api-WilmaService-StubConfigOrder-Down'></a>
-### Down `constants` [#](#F-epam-wilma_service_api-WilmaService-StubConfigOrder-Down 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-StubConfigOrderEnum-Down'></a>
+### Down `constants` [#](#F-epam-wilma_service_api-WilmaService-StubConfigOrderEnum-Down 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Down.
 
-<a name='F-epam-wilma_service_api-WilmaService-StubConfigOrder-Up'></a>
-### Up `constants` [#](#F-epam-wilma_service_api-WilmaService-StubConfigOrder-Up 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-StubConfigOrderEnum-Up'></a>
+### Up `constants` [#](#F-epam-wilma_service_api-WilmaService-StubConfigOrderEnum-Up 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Up.
 
-<a name='T-epam-wilma_service_api-WilmaService-StubConfigStatus'></a>
-## StubConfigStatus [#](#T-epam-wilma_service_api-WilmaService-StubConfigStatus 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-epam-wilma_service_api-WilmaService-StubConfigStatusEnum'></a>
+## StubConfigStatusEnum [#](#T-epam-wilma_service_api-WilmaService-StubConfigStatusEnum 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -386,17 +444,17 @@ epam.wilma_service_api.WilmaService
 
 ##### Summary
 
-StubConfigStatus
+StubConfigStatusEnum
 
-<a name='F-epam-wilma_service_api-WilmaService-StubConfigStatus-Disabled'></a>
-### Disabled `constants` [#](#F-epam-wilma_service_api-WilmaService-StubConfigStatus-Disabled 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-StubConfigStatusEnum-Disabled'></a>
+### Disabled `constants` [#](#F-epam-wilma_service_api-WilmaService-StubConfigStatusEnum-Disabled 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Disabled.
 
-<a name='F-epam-wilma_service_api-WilmaService-StubConfigStatus-Enabled'></a>
-### Enabled `constants` [#](#F-epam-wilma_service_api-WilmaService-StubConfigStatus-Enabled 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-epam-wilma_service_api-WilmaService-StubConfigStatusEnum-Enabled'></a>
+### Enabled `constants` [#](#F-epam-wilma_service_api-WilmaService-StubConfigStatusEnum-Enabled 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -454,8 +512,8 @@ WilmaService constructor.
 | ---- | ----------- |
 | [System.ArgumentNullException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentNullException 'System.ArgumentNullException') | Thrown when config or logger is null. |
 
-<a name='M-epam-wilma_service_api-WilmaService-ChangeStubConfigOrderAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigOrder-'></a>
-### ChangeStubConfigOrderAsync(groupName,order) `method` [#](#M-epam-wilma_service_api-WilmaService-ChangeStubConfigOrderAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigOrder- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-epam-wilma_service_api-WilmaService-ChangeStubConfigOrderAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigOrderEnum-'></a>
+### ChangeStubConfigOrderAsync(groupName,order) `method` [#](#M-epam-wilma_service_api-WilmaService-ChangeStubConfigOrderAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigOrderEnum- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -470,10 +528,10 @@ True if success, otherwise returns false.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | groupName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Name of Group to move. |
-| order | [epam.wilma_service_api.WilmaService.StubConfigOrder](#T-epam-wilma_service_api-WilmaService-StubConfigOrder 'epam.wilma_service_api.WilmaService.StubConfigOrder') | Move direction: Up/Down |
+| order | [epam.wilma_service_api.WilmaService.StubConfigOrderEnum](#T-epam-wilma_service_api-WilmaService-StubConfigOrderEnum 'epam.wilma_service_api.WilmaService.StubConfigOrderEnum') | Move direction: Up/Down |
 
-<a name='M-epam-wilma_service_api-WilmaService-ChangeStubConfigStatusAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigStatus-'></a>
-### ChangeStubConfigStatusAsync(groupName,status) `method` [#](#M-epam-wilma_service_api-WilmaService-ChangeStubConfigStatusAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigStatus- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-epam-wilma_service_api-WilmaService-ChangeStubConfigStatusAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigStatusEnum-'></a>
+### ChangeStubConfigStatusAsync(groupName,status) `method` [#](#M-epam-wilma_service_api-WilmaService-ChangeStubConfigStatusAsync-System-String,epam-wilma_service_api-WilmaService-StubConfigStatusEnum- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -488,7 +546,7 @@ True if succesful, otherwise returns false.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | groupName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Name of the Group. |
-| status | [epam.wilma_service_api.WilmaService.StubConfigStatus](#T-epam-wilma_service_api-WilmaService-StubConfigStatus 'epam.wilma_service_api.WilmaService.StubConfigStatus') | Status to set: Enabled/Disabled |
+| status | [epam.wilma_service_api.WilmaService.StubConfigStatusEnum](#T-epam-wilma_service_api-WilmaService-StubConfigStatusEnum 'epam.wilma_service_api.WilmaService.StubConfigStatusEnum') | Status to set: Enabled/Disabled |
 
 <a name='M-epam-wilma_service_api-WilmaService-DropStubConfigAsync-System-String-'></a>
 ### DropStubConfigAsync(groupName) `method` [#](#M-epam-wilma_service_api-WilmaService-DropStubConfigAsync-System-String- 'Go To Here') [=](#contents 'Back To Contents')
@@ -546,7 +604,22 @@ Gets the message logging status.
 
 ##### Returns
 
-Message logging status, or MessageLoggingControlStatus.Error in case of communication problem.
+Message logging status, or MessageLoggingControlStatusEnum.Error in case of communication problem.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-epam-wilma_service_api-WilmaService-GetMessageMarkingStatusAsync'></a>
+### GetMessageMarkingStatusAsync() `method` [#](#M-epam-wilma_service_api-WilmaService-GetMessageMarkingStatusAsync 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the message marking status.
+
+##### Returns
+
+Message marking status, or MessageMarkingStatusEnum.Error in case of communication problem.
 
 ##### Parameters
 
@@ -561,7 +634,7 @@ Gets the operation mode status.
 
 ##### Returns
 
-Operation mode status, or OperationModes.ERROR in case of communication problem.
+Operation mode status, or OperationModesEnum.ERROR in case of communication problem.
 
 ##### Parameters
 
@@ -612,8 +685,8 @@ True if success, otherwise returns false.
 
 This method has no parameters.
 
-<a name='M-epam-wilma_service_api-WilmaService-SetLocalhostBlockingStatusAsync-epam-wilma_service_api-WilmaService-LocalhostControlStatuses-'></a>
-### SetLocalhostBlockingStatusAsync(control) `method` [#](#M-epam-wilma_service_api-WilmaService-SetLocalhostBlockingStatusAsync-epam-wilma_service_api-WilmaService-LocalhostControlStatuses- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-epam-wilma_service_api-WilmaService-SetLocalhostBlockingStatusAsync-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum-'></a>
+### SetLocalhostBlockingStatusAsync(control) `method` [#](#M-epam-wilma_service_api-WilmaService-SetLocalhostBlockingStatusAsync-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -627,10 +700,10 @@ True if the request is successful, otherwise returns false.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| control | [epam.wilma_service_api.WilmaService.LocalhostControlStatuses](#T-epam-wilma_service_api-WilmaService-LocalhostControlStatuses 'epam.wilma_service_api.WilmaService.LocalhostControlStatuses') | Control on/off |
+| control | [epam.wilma_service_api.WilmaService.LocalhostControlStatusEnum](#T-epam-wilma_service_api-WilmaService-LocalhostControlStatusEnum 'epam.wilma_service_api.WilmaService.LocalhostControlStatusEnum') | Control on/off |
 
-<a name='M-epam-wilma_service_api-WilmaService-SetMessageLoggingStatusAsync-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus-'></a>
-### SetMessageLoggingStatusAsync(control) `method` [#](#M-epam-wilma_service_api-WilmaService-SetMessageLoggingStatusAsync-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-epam-wilma_service_api-WilmaService-SetMessageLoggingStatusAsync-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum-'></a>
+### SetMessageLoggingStatusAsync(control) `method` [#](#M-epam-wilma_service_api-WilmaService-SetMessageLoggingStatusAsync-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -644,10 +717,27 @@ True if the request is successful, otherwise returns false.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| control | [epam.wilma_service_api.WilmaService.MessageLoggingControlStatus](#T-epam-wilma_service_api-WilmaService-MessageLoggingControlStatus 'epam.wilma_service_api.WilmaService.MessageLoggingControlStatus') | Control on/off |
+| control | [epam.wilma_service_api.WilmaService.MessageLoggingStatusEnum](#T-epam-wilma_service_api-WilmaService-MessageLoggingStatusEnum 'epam.wilma_service_api.WilmaService.MessageLoggingStatusEnum') | Control on/off |
 
-<a name='M-epam-wilma_service_api-WilmaService-SetOperationModeAsync-epam-wilma_service_api-WilmaService-OperationModes-'></a>
-### SetOperationModeAsync(modes) `method` [#](#M-epam-wilma_service_api-WilmaService-SetOperationModeAsync-epam-wilma_service_api-WilmaService-OperationModes- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-epam-wilma_service_api-WilmaService-SetMessageMarkingStatusAsync-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum-'></a>
+### SetMessageMarkingStatusAsync(control) `method` [#](#M-epam-wilma_service_api-WilmaService-SetMessageMarkingStatusAsync-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Turns on/off the message marking status.
+
+##### Returns
+
+True if the request is successful, otherwise returns false.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| control | [epam.wilma_service_api.WilmaService.MessageMarkingStatusEnum](#T-epam-wilma_service_api-WilmaService-MessageMarkingStatusEnum 'epam.wilma_service_api.WilmaService.MessageMarkingStatusEnum') | Control on/off |
+
+<a name='M-epam-wilma_service_api-WilmaService-SetOperationModeAsync-epam-wilma_service_api-WilmaService-OperationModeEnum-'></a>
+### SetOperationModeAsync(modes) `method` [#](#M-epam-wilma_service_api-WilmaService-SetOperationModeAsync-epam-wilma_service_api-WilmaService-OperationModeEnum- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -661,7 +751,7 @@ True if the request is successful, otherwise returns false.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| modes | [epam.wilma_service_api.WilmaService.OperationModes](#T-epam-wilma_service_api-WilmaService-OperationModes 'epam.wilma_service_api.WilmaService.OperationModes') | Mode: wilma/stub/proxy |
+| modes | [epam.wilma_service_api.WilmaService.OperationModeEnum](#T-epam-wilma_service_api-WilmaService-OperationModeEnum 'epam.wilma_service_api.WilmaService.OperationModeEnum') | Mode: wilma/stub/proxy |
 
 <a name='M-epam-wilma_service_api-WilmaService-ShutdownApplicationAsync'></a>
 ### ShutdownApplicationAsync() `method` [#](#M-epam-wilma_service_api-WilmaService-ShutdownApplicationAsync 'Go To Here') [=](#contents 'Back To Contents')
