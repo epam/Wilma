@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.exception.TooManyRequestsException;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.messagemarker.configuration.MessageMarkerConfigurationAccess;
@@ -57,7 +56,7 @@ public class PropertyBasedMessageMarkerTest {
     }
 
     @Test
-    public void testMarkMessageHeaderWhenRequested() throws TooManyRequestsException {
+    public void testMarkMessageHeaderWhenRequested() {
         // GIVEN
         given(configurationAccess.getProperties()).willReturn(messageMarkerRequest);
         given(messageMarkerRequest.getNeedMessageMarker()).willReturn(true);
@@ -69,7 +68,7 @@ public class PropertyBasedMessageMarkerTest {
     }
 
     @Test
-    public void testDontMarkMessageHeaderWhenNotRequested() throws TooManyRequestsException {
+    public void testDontMarkMessageHeaderWhenNotRequested() {
         // GIVEN
         given(configurationAccess.getProperties()).willReturn(messageMarkerRequest);
         given(messageMarkerRequest.getNeedMessageMarker()).willReturn(false);

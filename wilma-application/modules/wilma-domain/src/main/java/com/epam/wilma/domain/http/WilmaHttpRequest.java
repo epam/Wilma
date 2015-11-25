@@ -35,8 +35,6 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
 
     private URI uri;
 
-    private boolean aborted;
-
     private boolean rerouted;
 
     // ip of the source/client
@@ -102,14 +100,6 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
 
     public void setUri(final URI uri) {
         this.uri = uri;
-    }
-
-    public boolean isAborted() {
-        return aborted;
-    }
-
-    public void setAborted(final boolean aborted) {
-        this.aborted = aborted;
     }
 
     public String getRemoteAddr() {

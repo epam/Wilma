@@ -19,50 +19,41 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.epam.wilma.core.processor.WilmaEntityProcessorInterface;
 import com.epam.wilma.core.processor.entity.ProcessorBase;
 import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.exception.TooManyRequestsException;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 
+import java.util.List;
+
 /**
  * Class for calling processors with {@link WilmaHttpRequest} in given order.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class WilmaHttpRequestProcessor {
 
-    private static final String ABORT_REQUEST_MESSAGE = "Aborting request";
-    private final Logger logger = LoggerFactory.getLogger(WilmaHttpRequestProcessor.class);
     private List<ProcessorBase> processors;
 
     /**
      * Calls processors with the given {@link WilmaHttpEntity} in the given order.
+     *
      * @param entity is the handled request
      * @throws ApplicationException when an exception occurs in a processor
      */
     public void processRequest(final WilmaHttpEntity entity) throws ApplicationException {
         WilmaHttpRequest request = (WilmaHttpRequest) entity;
-        try {
-            for (ProcessorBase processor : processors) {
-                if (processor.isEnabled()) {
-                    processor.process(request);
-                }
+        for (ProcessorBase processor : processors) {
+            if (processor.isEnabled()) {
+                processor.process(request);
             }
-        } catch (TooManyRequestsException e) {
-            logger.debug(ABORT_REQUEST_MESSAGE, e);
-            request.setAborted(true);
         }
     }
 
     /**
      * Disabales a processor in the processor chain if the chain contained the processor.
+     *
      * @param processor the processor that should be removed
      */
     public void disableProcessor(final ProcessorBase processor) {
@@ -73,6 +64,7 @@ public class WilmaHttpRequestProcessor {
 
     /**
      * Disabales a processor in the processor chain if the chain contained the processor.
+     *
      * @param processor the processor that should be removed
      */
     public void enableProcessor(final ProcessorBase processor) {
@@ -83,6 +75,7 @@ public class WilmaHttpRequestProcessor {
 
     /**
      * Gets if a specific processor is enabled or not.
+     *
      * @param processor the processor that should be investigated.
      * @return true if enabled, otherwise false.
      */
@@ -96,6 +89,7 @@ public class WilmaHttpRequestProcessor {
 
     /**
      * Adds a processor to the processor chain.
+     *
      * @param processor the processor to add
      */
     public void addProcessor(final ProcessorBase processor) {
@@ -106,6 +100,7 @@ public class WilmaHttpRequestProcessor {
 
     /**
      * Returns true if the chain of processors contain the given processor.
+     *
      * @param processor processor to check
      * @return true if contains
      */

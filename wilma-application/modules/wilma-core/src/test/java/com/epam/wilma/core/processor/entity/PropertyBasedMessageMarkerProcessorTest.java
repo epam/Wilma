@@ -38,6 +38,7 @@ public class PropertyBasedMessageMarkerProcessorTest {
 
     @Mock
     private WilmaHttpRequest request;
+
     @Mock
     private PropertyBasedMessageMarker marker;
 
@@ -50,7 +51,7 @@ public class PropertyBasedMessageMarkerProcessorTest {
     }
 
     @Test
-    public void testProcessShouldCallDecompressor() throws ApplicationException {
+    public void testProcessShouldCallMessageMarker() throws ApplicationException {
         //GIVEN in setUp
         //WHEN
         underTest.process(request);

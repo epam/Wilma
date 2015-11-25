@@ -56,10 +56,9 @@ public class BrowserMobRequestUpdaterTest {
     }
 
     @Test
-    public void testUpdateRequestShouldCallBrowsermobRequestsMethodsWhenIsNotAborted() throws URISyntaxException {
+    public void testUpdateRequestShouldCallBrowsermobRequestsMethods() throws URISyntaxException {
         //GIVEN
         URI uri = new URI("MOCK");
-        given(wilmaHttpRequest.isAborted()).willReturn(false);
         given(browserMobHttpRequest.getMethod()).willReturn(requestBase);
         given(wilmaHttpRequest.getUri()).willReturn(uri);
         String mockID = "WILMA-LOG-MOCK-ID";
@@ -70,14 +69,4 @@ public class BrowserMobRequestUpdaterTest {
         verify(requestBase).setURI(uri);
     }
 
-    @Test
-    public void testMobRequestShouldAbortRequestWhenIsAborted() {
-        //GIVEN
-        given(wilmaHttpRequest.isAborted()).willReturn(true);
-        given(browserMobHttpRequest.getMethod()).willReturn(requestBase);
-        //WHEN
-        underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);
-        //THEN
-        verify(requestBase).abort();
-    }
 }

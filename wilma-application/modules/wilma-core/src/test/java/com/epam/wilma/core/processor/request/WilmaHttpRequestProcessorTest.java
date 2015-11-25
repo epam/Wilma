@@ -19,7 +19,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 import static org.testng.Assert.assertFalse;
@@ -35,7 +34,6 @@ import org.testng.annotations.Test;
 
 import com.epam.wilma.core.processor.entity.ProcessorBase;
 import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.exception.TooManyRequestsException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 
 /**
@@ -74,18 +72,7 @@ public class WilmaHttpRequestProcessorTest {
     }
 
     @Test
-    public void testProcessRequestShouldAbortMessageWhenTooManyRequestsExceptionIsThrown() throws ApplicationException {
-        //GIVEN
-        given(requestProcessor.isEnabled()).willReturn(true);
-        willThrow(new TooManyRequestsException("too many requests", "time_stamp")).given(requestProcessor).process(request);
-        //WHEN
-        underTest.processRequest(request);
-        //THEN
-        verify(request).setAborted(true);
-    }
-
-    @Test
-    public void testdisableProcessorShouldDisableProcessorWhenListContainsProcessor() {
+    public void testDisableProcessorShouldDisableProcessorWhenListContainsProcessor() {
         //GIVEN
         int initialSize = processors.size();
         //WHEN

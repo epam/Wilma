@@ -73,7 +73,7 @@ public class WilmaHttpResponseProcessorTest {
     }
 
     @Test
-    public void testdisableProcessorShouldDisableProcessorWhenListcontainsProcessor() {
+    public void testDisableProcessorShouldDisableProcessorWhenListContainsProcessor() {
         //GIVEN
         int initialSize = processors.size();
         //WHEN
@@ -83,7 +83,7 @@ public class WilmaHttpResponseProcessorTest {
     }
 
     @Test
-    public void testaddProcessorShouldaddProcessorWhenListDoesNotContainProcessor() {
+    public void testAddProcessorShouldAddProcessorWhenListDoesNotContainProcessor() {
         //GIVEN
         processors.remove(0);
         int initialSize = processors.size();
@@ -94,7 +94,7 @@ public class WilmaHttpResponseProcessorTest {
     }
 
     @Test
-    public void testaddProcessorShouldNotaddProcessorAgainWhenListcontainsProcessor() {
+    public void testAddProcessorShouldNotAddProcessorAgainWhenListContainsProcessor() {
         //GIVEN
         int initialSize = processors.size();
         //WHEN
@@ -104,7 +104,7 @@ public class WilmaHttpResponseProcessorTest {
     }
 
     @Test
-    public void testcontainsProcessorShouldReturnTrueWhenProcessorIsInList() {
+    public void testContainsProcessorShouldReturnTrueWhenProcessorIsInList() {
         //GIVEN in setup
         //WHEN
         boolean actual = underTest.containsProcessor(responseProcessor);
@@ -113,7 +113,7 @@ public class WilmaHttpResponseProcessorTest {
     }
 
     @Test
-    public void testcontainsProcessorShouldReturnFalseWhenProcessorIsNotInList() {
+    public void testContainsProcessorShouldReturnFalseWhenProcessorIsNotInList() {
         //GIVEN
         processors.remove(0);
         //WHEN

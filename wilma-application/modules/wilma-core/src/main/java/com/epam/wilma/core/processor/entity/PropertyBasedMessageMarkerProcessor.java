@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.exception.TooManyRequestsException;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.messagemarker.PropertyBasedMessageMarker;
@@ -37,7 +36,7 @@ public class PropertyBasedMessageMarkerProcessor extends ProcessorBase {
     private PropertyBasedMessageMarker marker;
 
     @Override
-    public void process(final WilmaHttpEntity entity) throws TooManyRequestsException {
+    public void process(final WilmaHttpEntity entity) {
         WilmaHttpRequest request = (WilmaHttpRequest) entity;
         marker.markMessageHeader(request);
     }
