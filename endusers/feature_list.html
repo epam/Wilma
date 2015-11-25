@@ -114,6 +114,7 @@
                 </ul>
 
                 <p>Note: <b>Switch changes has immediate affect on Wilma operation!</b></p>
+                <p>Note2: There is an additional switch: <b>Message Marking</b>, that is not exposed onto the UI, but available by using direct url.</p>
 
                 <p>Configuring switches via direct url:</p>
                 <ul style="list-style-type: square;">
@@ -126,7 +127,13 @@
                     <li>Get status of operation mode: <pre>http://wilma-url:internal-port/config/public/switch/status</pre>
                     </li>
                     <li>Set operation mode: <pre>http://wilma-url:internal-port/config/admin/switch/[MODE]</pre> where MODE can be
-                        wilma, stub and proxy.
+                        wilma, stub and proxy.<p/>
+                    </li>
+                    <li>Get status of message marking: <pre>http://wilma-url:internal-port/config/public/messagemarking/status</pre>
+                    </li>
+                    <li>Turn ON message marking: <pre>http://wilma-url:internal-port/config/admin/messagemarking/on</pre>
+                    </li>
+                    <li>Turn OFF message marking: <pre>http://wilma-url:internal-port/config/admin/messagemarking/off</pre>
                     </li>
                 </ul>
 
@@ -136,7 +143,7 @@
                 </p>
                 <ul>
                     <li><b>condition checkers:</b><br/>An external condition checker class can be uploaded to the following
-                        url, with a file name parameter: <pre>http://wilma-url:internal-port/config/admin/stub/conditionchecker</pre> 
+                        url, with a file name parameter: <pre>http://wilma-url:internal-port/config/admin/stub/conditionchecker</pre>
                     </li>
                     <li><b>templates</b><br/>A response template can be uploaded to the following url, with a file name parameter: <pre>http://wilma-url:internal-port/config/admin/stub/templates</pre>
                     </li>
@@ -205,6 +212,11 @@ curl -X POST --data-binary @ExternalConditionChecker.class http://wilma-url:int
                 <p>Both of the applications (Wilma and Wilma Message Search) provide data about their actual load and other information.
                     These data are available on both UIs.</p>
                 <p>Get more information on the load data provided by the applications <a href="https://github.com/epam/Wilma/wiki/Load-Information">here...</a> </p>
+
+                <h2>Java and .NET Service Libraries for Wilma</h2>
+                <p>Wilma has service libraries in order to ease the communication/configuration of Wilma from your own code.</p>
+                <p><b>Java Service Library for Wilma</b> is available via <b>JCenter</b>. See more info <a href="https://github.com/epam/Wilma/wiki/Wilma-Service-API-library-for-Java">here...</a> </p>
+                <p><b>.NET Service Library for Wilma</b> is available via <b>NuGet</b>. See more info <a href="https://github.com/epam/Wilma/wiki/Wilma-Service-API-library-for-.NET">here...</a> </p>
 
                 <h2>Shutting down Wilma and Wilma Message Search applications</h2>
                 <p>You can shutdown Wilma application by sending a GET/POST request to the '/config/admin/shutdown' URL.</p>

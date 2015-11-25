@@ -65,9 +65,10 @@ proxy.port=9092
 # internal jetty port on which web application is deployed
 internal.wilma.port=1234
 
-#the size of the request buffer used by the web application in bytes
+# the size of the request buffer used by the web application in bytes
 internal.wilma.request.buffer.size=81920
-#the size of the response buffer used by the web application in bytes
+
+# the size of the response buffer used by the web application in bytes
 internal.wilma.response.buffer.size=204800
 
 # port used to communicate with the indexing application
@@ -79,11 +80,14 @@ proxy.request.timeout=20000
 
 # the number of requests that can go through the proxy per second
 # without a warning
+# DEPRECATED since V1.3 of Wilma
 request.warning.limit=9000
 
 # the number of requests that can go through the proxy per second without an error.
 # Requests above this limit are aborted.
+# DEPRECATED since V1.3 of Wilma
 request.error.limit=9999
+
 
 # maintainer is executed periodically. Time period can be given with cron expression.
 log.maintainer.cron=0 0/30 * * * *
@@ -124,6 +128,10 @@ safeguard.responseMessageWriter.ONlimit=1000
 
 # turns message logging on/off when Wilma starts
 message.logging=on
+
+# should Wilma Message ID be added to the message request headers or not
+# available since V1.3
+message.marking=off
 
 # Relative folder path of the stub descriptor XML configuration files from project root.
 stub.descriptors.path=
@@ -225,7 +233,7 @@ java [-Dlogger=DEV]
                     </li>
                     <li>The VM argument <code>-Xmx</code> specifies the max heap space that Wilma can use.
                         It is recommended to set it based on the measured memory usage that is in connection to the traffic load that goes through Wilma.
-                        It is recommended to use 4G as starting point, and increase it as necessary.
+                        It is recommended to use 4G as starting point, and increase/decrease it as the actual use requires.
                     </li>
                     <li>The VM argument <code>-Djavax.net.ssl.keyStore</code> specifies the Java Key Store file that
                         holds the client certificates that are needed for two-way SSL. 
@@ -244,7 +252,7 @@ java [-Dlogger=DEV]
                 <p>If the tool starts successfully, you should see something similar on the console:</p>
                 <code><pre>
 11:35:41 - Timelimit method is used to maintain log files with parameters: timelimit: 1H
-11:35:41 - Wilma-v1.1.24
+11:35:41 - Wilma-v1.3.111
 Copyright 2013-2015 EPAM Systems - GNU GPL-V3.0 License
 Used proxy port: 9092
 Wilma UI is available via URL: http://localhost:1234/index/
