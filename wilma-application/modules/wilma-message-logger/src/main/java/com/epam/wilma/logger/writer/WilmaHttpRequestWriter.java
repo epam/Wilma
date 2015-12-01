@@ -47,8 +47,9 @@ public class WilmaHttpRequestWriter extends WilmaHttpEntityWriter<WilmaHttpReque
         boolean successful = false;
         String outputFile = INITIAL_FILENAME;
         try {
+            String messageLoggerId = request.getWilmaMessageLoggerId();
             String messageId = request.getWilmaMessageId();
-            outputFile = getOutputFileName("req", messageId, bodyDecompressed);
+            outputFile = getOutputFileName(messageLoggerId, bodyDecompressed);
             BufferedWriter writer = bufferedWriterFactory.createBufferedWriter(outputFile, OUTPUT_BUFFER_SIZE);
             if (writer != null) {
                 String requestLine = request.getRemoteAddr() + " " + request.getRequestLine();

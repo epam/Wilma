@@ -54,7 +54,7 @@ public class BrowserMobRequestInterceptor implements RequestInterceptor {
     @Override
     public void process(final BrowserMobHttpRequest request) {
         try {
-            WilmaHttpRequest wilmaHttpRequest = httpRequestTransformer.transfromRequest(request);
+            WilmaHttpRequest wilmaHttpRequest = httpRequestTransformer.transformRequest(request);
             wilmaHttpRequestProcessor.processRequest(wilmaHttpRequest);
             browserMobRequestUpdater.updateRequest(request, wilmaHttpRequest);
         } catch (ApplicationException e) {

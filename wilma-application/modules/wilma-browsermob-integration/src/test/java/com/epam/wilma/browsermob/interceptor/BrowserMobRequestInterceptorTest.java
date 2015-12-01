@@ -77,7 +77,7 @@ public class BrowserMobRequestInterceptorTest {
     public void testProcessShouldLogErrorWhenRequestTransformerThrowsApplicationException() throws ApplicationException {
         // GIVEN
         ApplicationException e = new ApplicationException(EMPTY_STRING);
-        given(httpRequestTransformer.transfromRequest(bmRequest)).willThrow(e);
+        given(httpRequestTransformer.transformRequest(bmRequest)).willThrow(e);
         // WHEN
         underTest.process(bmRequest);
         // THEN
@@ -88,7 +88,7 @@ public class BrowserMobRequestInterceptorTest {
     public void testProcessShouldLogErrorWhenHandleRequestThrowsApplicationException() throws ApplicationException {
         // GIVEN
         ApplicationException e = new ApplicationException(EMPTY_STRING);
-        given(httpRequestTransformer.transfromRequest(bmRequest)).willReturn(wilmaRequest);
+        given(httpRequestTransformer.transformRequest(bmRequest)).willReturn(wilmaRequest);
         willThrow(e).given(wilmaHttpRequestHandler).processRequest(wilmaRequest);
         // WHEN
         underTest.process(bmRequest);
@@ -99,7 +99,7 @@ public class BrowserMobRequestInterceptorTest {
     @Test
     public void testProcessShouldReturnProperly() throws ApplicationException {
         // GIVEN
-        given(httpRequestTransformer.transfromRequest(bmRequest)).willReturn(wilmaRequest);
+        given(httpRequestTransformer.transformRequest(bmRequest)).willReturn(wilmaRequest);
         // WHEN
         underTest.process(bmRequest);
         // THEN

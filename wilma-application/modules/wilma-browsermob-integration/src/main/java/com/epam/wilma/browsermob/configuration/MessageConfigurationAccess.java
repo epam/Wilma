@@ -19,38 +19,36 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
+import com.epam.wilma.common.configuration.ConfigurationAccessBase;
+import com.epam.wilma.properties.PropertyHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
-import com.epam.wilma.common.configuration.ConfigurationAccessBase;
-import com.epam.wilma.properties.PropertyHolder;
-
 /**
  * Configures the module with different properties.
- * @author Tunde_Kovacs
+ * @author Tamas Kohegyi
  *
  */
 @Component
-public class BrowserMobConfigurationAccess implements ConfigurationAccessBase {
+public class MessageConfigurationAccess implements ConfigurationAccessBase {
 
-    private ProxyPropertyDTO properties;
+    private MessagePropertyDTO properties;
 
     @Autowired
     private PropertyHolder propertyHolder;
 
     @Override
     public void loadProperties() {
-        Integer proxyPort = propertyHolder.getInt("proxy.port");
-        Integer requestTimeout = propertyHolder.getInt("proxy.request.timeout");
-        properties = new ProxyPropertyDTO(proxyPort, requestTimeout);
+        String instancePrefix = propertyHolder.get("wilma.instance.prefix");
+        properties = new MessagePropertyDTO(instancePrefix);
     }
 
     /**
-     * Returns a {@link ProxyPropertyDTO} holding all proxy specific properties.
+     * Returns a {@link MessagePropertyDTO} holding message specific properties.
      * @return the propertiesDTO object
      */
-    public ProxyPropertyDTO getProperties() {
+    public MessagePropertyDTO getProperties() {
         return properties;
     }
 }

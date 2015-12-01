@@ -35,7 +35,7 @@ import java.nio.file.Path;
  */
 public abstract class WilmaHttpEntityWriter<T> {
 
-    private static final String FI_SUFFIX = "FI";
+    private static final String FI_PREFIX = "FI";
 
     @Autowired
     private LogFilePathProvider logFilePath;
@@ -85,15 +85,14 @@ public abstract class WilmaHttpEntityWriter<T> {
         }
     }
 
-    String getOutputFileName(final String type, final String messageId, final boolean bodyDecompressed) {
+    String getOutputFileName(final String messageLoggerId, final boolean bodyDecompressed) {
         StringBuilder result = new StringBuilder();
         createTargetFolder();
         result.append(getTargetFolderPath()).append("//");
-        result.append(messageId);
-        result.append(type);
         if (!bodyDecompressed) {
-            result.append(FI_SUFFIX);
+            result.append(FI_PREFIX);
         }
+        result.append(messageLoggerId);
         result.append(".txt");
         return result.toString();
     }

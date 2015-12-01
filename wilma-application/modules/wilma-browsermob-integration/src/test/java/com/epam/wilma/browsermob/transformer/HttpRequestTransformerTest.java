@@ -18,14 +18,13 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.InputStream;
-
+import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
+import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
+import com.epam.wilma.browsermob.transformer.helper.InputStreamConverter;
+import com.epam.wilma.browsermob.transformer.helper.WilmaRequestFactory;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
-
 import org.apache.http.Header;
 import org.apache.http.RequestLine;
 import org.mockito.Answers;
@@ -36,17 +35,20 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.browsermob.transformer.helper.InputStreamConverter;
-import com.epam.wilma.browsermob.transformer.helper.WilmaRequestFactory;
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpRequest;
+import java.io.InputStream;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Provides unit tests for the <tt>HttpRequestTransformer</tt> class.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class HttpRequestTransformerTest {
+
+    private static final String PREFIX = "prefix";
 
     private Header[] headers;
     @Mock
@@ -62,6 +64,8 @@ public class HttpRequestTransformerTest {
     @Mock
     private Header header;
     @Mock
+    private MessageConfigurationAccess configurationAccess;
+    @Mock
     private WilmaRequestFactory requestFactory;
 
     @InjectMocks
@@ -74,11 +78,12 @@ public class HttpRequestTransformerTest {
     }
 
     @Test
-    public void testTransfromRequestShouldAddHeaders() throws ApplicationException {
+    public void testTransformRequestShouldAddHeaders() throws ApplicationException {
         //GIVEN
         setMocksForHeader();
+        setMocksForMessageConfiguration();
         //WHEN
-        WilmaHttpRequest actual = underTest.transfromRequest(browserMobHttpRequest);
+        WilmaHttpRequest actual = underTest.transformRequest(browserMobHttpRequest);
         //THEN
         verify(wilmaHttpRequest).addHeader(Mockito.anyString(), Mockito.anyString());
         assertEquals(actual.getRequestLine(), wilmaHttpRequest.getRequestLine());
@@ -86,25 +91,39 @@ public class HttpRequestTransformerTest {
     }
 
     @Test
-    public void testTransfromRequestShouldSetBody() throws ApplicationException {
+    public void testTransformRequestShouldSetWilmaMessageId() throws ApplicationException {
         //GIVEN
         setMocksForHeader();
+        setMocksForMessageConfiguration();
+        given(browserMobHttpRequest.getWilmaMessageId()).willReturn(PREFIX);
+        //WHEN
+        WilmaHttpRequest actual = underTest.transformRequest(browserMobHttpRequest);
+        //THEN
+        verify(wilmaHttpRequest).setWilmaMessageId(PREFIX + "_" + PREFIX);
+    }
+
+    @Test
+    public void testTransformRequestShouldSetBody() throws ApplicationException {
+        //GIVEN
+        setMocksForHeader();
+        setMocksForMessageConfiguration();
         String body = setMocksForBody();
         //WHEN
-        WilmaHttpRequest actual = underTest.transfromRequest(browserMobHttpRequest);
+        WilmaHttpRequest actual = underTest.transformRequest(browserMobHttpRequest);
         //THEN
         verify(wilmaHttpRequest).setBody(body);
         assertEquals(actual.getBody(), wilmaHttpRequest.getBody());
     }
 
     @Test
-    public void testTransfromRequestShouldSetInputStream() throws ApplicationException {
+    public void testTransformRequestShouldSetInputStream() throws ApplicationException {
         //GIVEN
         setMocksForHeader();
+        setMocksForMessageConfiguration();
         setMocksForBody();
         given(wilmaHttpRequest.getInputStream()).willReturn(clonedInputStream);
         //WHEN
-        WilmaHttpRequest actual = underTest.transfromRequest(browserMobHttpRequest);
+        WilmaHttpRequest actual = underTest.transformRequest(browserMobHttpRequest);
         //THEN
         verify(wilmaHttpRequest).setInputStream(clonedInputStream);
         assertEquals(actual.getInputStream(), clonedInputStream);
@@ -122,5 +141,11 @@ public class HttpRequestTransformerTest {
         given(browserMobHttpRequest.getPlayGround()).willReturn(clonedInputStream);
         given(inputStreamConverter.getStringFromStream(clonedInputStream)).willReturn(body);
         return body;
+    }
+
+    private void setMocksForMessageConfiguration() {
+        String instancePrefix = PREFIX;
+        MessagePropertyDTO propertiesDTO = new MessagePropertyDTO(instancePrefix);
+        given(configurationAccess.getProperties()).willReturn(propertiesDTO);
     }
 }

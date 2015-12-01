@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 
 import com.epam.wilma.browsermob.Proxy;
 import com.epam.wilma.browsermob.configuration.BrowserMobConfigurationAccess;
-import com.epam.wilma.browsermob.configuration.domain.PropertyDTO;
+import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.browsermob.domain.exception.ProxyCannotBeStartedException;
 import com.epam.wilma.browsermob.interceptor.BrowserMobRequestInterceptor;
 import com.epam.wilma.browsermob.interceptor.BrowserMobResponseInterceptor;
@@ -69,7 +69,7 @@ public class BrowserMobProxy implements Proxy {
     }
 
     private void getProperties() {
-        PropertyDTO properties = configurationAccess.getProperties();
+        ProxyPropertyDTO properties = configurationAccess.getProperties();
         proxyPort = properties.getProxyPort();
         requestTimeout = properties.getRequestTimeout();
     }

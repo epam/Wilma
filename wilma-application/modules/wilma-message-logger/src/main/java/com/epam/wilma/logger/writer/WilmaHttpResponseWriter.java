@@ -44,23 +44,24 @@ public class WilmaHttpResponseWriter extends WilmaHttpEntityWriter<WilmaHttpResp
     private BufferedWriterFactory bufferedWriterFactory;
 
     @Override
-    public boolean write(final WilmaHttpResponse wilmaHttpEntity, final boolean bodyDecompressed) {
+    public boolean write(final WilmaHttpResponse response, final boolean bodyDecompressed) {
         boolean successful = false;
         String outputFile = INITIAL_FILENAME;
         try {
-            String messageId = wilmaHttpEntity.getWilmaMessageId();
-            outputFile = getOutputFileName("resp", messageId, bodyDecompressed);
+            String messageLoggerId = response.getWilmaMessageLoggerId();
+            String messageId = response.getWilmaMessageId();
+            outputFile = getOutputFileName(messageLoggerId, bodyDecompressed);
             BufferedWriter writer = bufferedWriterFactory.createBufferedWriter(outputFile, OUTPUT_BUFFER_SIZE);
             if (writer != null) {
                 writeWilmaLoggerId(writer, messageId);
-                String headers = wilmaHttpEntity.getHeaders().toString();
-                if (wilmaHttpEntity.getExtraHeaders() != null) {
-                    headers = headers + wilmaHttpEntity.getExtraHeaders().toString();
+                String headers = response.getHeaders().toString();
+                if (response.getExtraHeaders() != null) {
+                    headers = headers + response.getExtraHeaders().toString();
                 }
                 writeHeaders(writer, headers);
-                int statusCode = wilmaHttpEntity.getStatusCode();
+                int statusCode = response.getStatusCode();
                 writeStatusCode(statusCode, writer);
-                String body = wilmaHttpEntity.getBody();
+                String body = response.getBody();
                 writeBody(writer, body);
                 writer.close();
                 successful = true;

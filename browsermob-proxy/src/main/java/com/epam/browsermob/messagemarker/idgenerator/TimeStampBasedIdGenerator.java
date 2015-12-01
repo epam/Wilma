@@ -33,13 +33,12 @@ public class TimeStampBasedIdGenerator {
     private static final int NO_DIGITS = 4;
     private final AtomicInteger currentNumber = new AtomicInteger();
     private String previousSimpleDate;
-    private String currentSimpleDate;
     private CurrentDateProvider currentDateProvider = new CurrentDateProvider();
 
     private SimpleDateFormat fileSimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
     public synchronized String nextIdentifier() {
-        currentSimpleDate = getCurrentDateFormattedForFiles();
+        String currentSimpleDate = getCurrentDateFormattedForFiles();
         checkPreviousDate(currentSimpleDate);
         return currentSimpleDate + "." + fourDigitString();
     }

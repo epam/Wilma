@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
+import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.browsermob.transformer.helper.InputStreamConverter;
 import com.epam.wilma.browsermob.transformer.helper.WilmaRequestFactory;
 import com.epam.wilma.domain.exception.ApplicationException;
@@ -32,8 +34,8 @@ import java.io.InputStream;
 
 /**
  * Executes transformations between a BrowserMob specific HTTP request and Wilma's own representation of an HTTP request.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 @Component
 public class HttpRequestTransformer {
@@ -42,14 +44,17 @@ public class HttpRequestTransformer {
     private InputStreamConverter inputStreamConverter;
     @Autowired
     private WilmaRequestFactory requestFactory;
+    @Autowired
+    private MessageConfigurationAccess configurationAccess;
 
     /**
      * Transforms a BrowserMob specific HTTP request to Wilma's own representation of an HTTP request.
+     *
      * @param browserMobHttpRequest the BrowserMob specific HTTP request to transform
      * @return Wilma's own representation of the HTTP request
      * @throws ApplicationException when request body cannot be read
      */
-    public WilmaHttpRequest transfromRequest(final BrowserMobHttpRequest browserMobHttpRequest) throws ApplicationException {
+    public WilmaHttpRequest transformRequest(final BrowserMobHttpRequest browserMobHttpRequest) throws ApplicationException {
         WilmaHttpRequest result = requestFactory.createNewWilmaHttpRequest();
         HttpRequestBase requestBase = browserMobHttpRequest.getMethod();
         result.setRequestLine(requestBase.getRequestLine().toString());
@@ -60,7 +65,18 @@ public class HttpRequestTransformer {
         result.setInputStream(clonedInputStream);
         result.setBody(inputStreamConverter.getStringFromStream(clonedInputStream));
         result.setUri(requestBase.getURI());
-        result.setWilmaMessageId(browserMobHttpRequest.getWilmaMessageId());
+
+        //prepare instance prefix
+        MessagePropertyDTO properties = configurationAccess.getProperties();
+        String instancePrefix = properties.getInstancePrefix();
+        if (instancePrefix != null) {
+            instancePrefix += "_";  // "prefix_"
+        } else {
+            instancePrefix = "";
+        }
+
+        //set Wilma Message Id
+        result.setWilmaMessageId(instancePrefix + browserMobHttpRequest.getWilmaMessageId());
 
         //set remote addr
         String ipAddress = browserMobHttpRequest.getProxyRequest().getRemoteAddr();

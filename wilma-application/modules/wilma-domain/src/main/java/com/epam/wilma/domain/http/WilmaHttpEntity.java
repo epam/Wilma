@@ -36,6 +36,7 @@ public class WilmaHttpEntity implements Serializable {
     private String body;
     private InputStream inputStream;
     private String wilmaMessageId;
+    private String wilmaMessageCustomPostfix;
 
     /**
      * Adds a WilmaHttpHeader to the list of headers.
@@ -95,16 +96,34 @@ public class WilmaHttpEntity implements Serializable {
     /**
      * Gets the ID added by Wilma to the message, regardless if it is a request or response.
      *
-     * @return with the unique ID of the message.
+     * @return with the unique ID of the message to be logged.
      */
     public String getWilmaMessageLoggerId() {
         String loggerID = null;
         if (this instanceof WilmaHttpResponse) {
-            loggerID = getWilmaMessageId() + "resp";
+            loggerID = getWilmaMessageId() + "resp" + generatePostfix();
         }
         if (this instanceof WilmaHttpRequest) {
-            loggerID = getWilmaMessageId() + "req";
+            loggerID = getWilmaMessageId() + "req" + generatePostfix();
         }
         return loggerID;
+    }
+
+    private String generatePostfix() {
+        String postfix = getWilmaMessageCustomPostfix();
+        if (postfix != null) {
+            postfix = "_" + postfix;  // "_postfix
+        } else {
+            postfix = "";
+        }
+        return postfix;
+    }
+
+    public String getWilmaMessageCustomPostfix() {
+        return wilmaMessageCustomPostfix;
+    }
+
+    public void setWilmaMessageCustomPostfix(final String wilmaMessageCustomPostfix) {
+        this.wilmaMessageCustomPostfix = wilmaMessageCustomPostfix;
     }
 }

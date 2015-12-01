@@ -20,31 +20,23 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Holds module specific properties.
- * @author Tunde_Kovacs
+ * @author Tamas Kohegyi
  *
  */
-public class PropertyDTO {
+public class MessagePropertyDTO {
 
-    private final Integer proxyPort;
-    private final Integer requestTimeout;
+    private final String instancePrefix;
 
     /**
      * Constructs a new property holding object with the given fields.
-     * @param proxyPort the port used by the proxy
-     * @param requestTimeout the value of a request timeout in milliseconds
+     * @param instancePrefix is used as Wilma instance prefix for logging the messages
      */
-    public PropertyDTO(final Integer proxyPort, final Integer requestTimeout) {
+    public MessagePropertyDTO(String instancePrefix) {
         super();
-        this.proxyPort = proxyPort;
-        this.requestTimeout = requestTimeout;
+        this.instancePrefix = instancePrefix;
     }
 
-    public Integer getProxyPort() {
-        return proxyPort;
+    public String getInstancePrefix() {
+        return instancePrefix;
     }
-
-    public Integer getRequestTimeout() {
-        return requestTimeout;
-    }
-
 }

@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
+import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.browsermob.transformer.helper.WilmaResponseFactory;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
@@ -43,6 +45,7 @@ public class HttpResponseTransformerTest {
 
     private static final String RESPONSE_BODY = "response";
     private static final String CONTENT_TYPE = "application/xml";
+    private static final String PREFIX = "prefix";
     private Header[] responseHeaders;
     private Header[] requestHeaders;
 
@@ -50,6 +53,8 @@ public class HttpResponseTransformerTest {
     private WilmaHttpResponse response;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private BrowserMobHttpResponse browserMobHttpResponse;
+    @Mock
+    private MessageConfigurationAccess configurationAccess;
     @Mock
     private WilmaResponseFactory responseFactory;
 
@@ -69,11 +74,8 @@ public class HttpResponseTransformerTest {
     @Test
     public void testTransformShouldSetRequestHeader() {
         //GIVEN
-        given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
-        given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
-        given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
-        given(browserMobHttpResponse.getStatus()).willReturn(200);
-
+        setMocksForMessageContent();
+        setMocksForMessageConfiguration();
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
         //THEN
@@ -82,10 +84,8 @@ public class HttpResponseTransformerTest {
 
     @Test
     public void testTransformShouldSetResponseHeader() {
-        given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
-        given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
-        given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
-        given(browserMobHttpResponse.getStatus()).willReturn(200);
+        setMocksForMessageContent();
+        setMocksForMessageConfiguration();
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
         //THEN
@@ -93,11 +93,21 @@ public class HttpResponseTransformerTest {
     }
 
     @Test
+    public void testTransformShouldSetResponseWilmaMessageId() {
+        setMocksForMessageContent();
+        setMocksForMessageConfiguration();
+        given(browserMobHttpResponse.getEntry().getWilmaEntryId()).willReturn(PREFIX);
+        //WHEN
+        underTest.transformResponse(browserMobHttpResponse);
+        //THEN
+        verify(response).setWilmaMessageId(PREFIX + "_" + PREFIX);
+    }
+
+    @Test
     public void testTransformShouldNotSetResponseHeaderWhenRawResponseIsNull() {
+        setMocksForMessageContent();
         given(browserMobHttpResponse.getRawResponse()).willReturn(null);
-        given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
-        given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
-        given(browserMobHttpResponse.getStatus()).willReturn(200);
+        setMocksForMessageConfiguration();
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
         //THEN
@@ -106,10 +116,8 @@ public class HttpResponseTransformerTest {
 
     @Test
     public void testTransformShouldSetBody() {
-        given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
-        given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
-        given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
-        given(browserMobHttpResponse.getStatus()).willReturn(200);
+        setMocksForMessageContent();
+        setMocksForMessageConfiguration();
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
         //THEN
@@ -118,10 +126,8 @@ public class HttpResponseTransformerTest {
 
     @Test
     public void testTransformShouldSetContentType() {
-        given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
-        given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
-        given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
-        given(browserMobHttpResponse.getStatus()).willReturn(200);
+        setMocksForMessageContent();
+        setMocksForMessageConfiguration();
         given(browserMobHttpResponse.getContentType()).willReturn(CONTENT_TYPE);
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
@@ -131,13 +137,25 @@ public class HttpResponseTransformerTest {
 
     @Test
     public void testTransformShouldSetStatusCode() {
-        given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
-        given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
-        given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
-        given(browserMobHttpResponse.getStatus()).willReturn(200);
+        setMocksForMessageContent();
+        setMocksForMessageConfiguration();
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
         //THEN
         verify(response).setStatusCode(200);
     }
+
+    private void setMocksForMessageConfiguration() {
+        String instancePrefix = PREFIX;
+        MessagePropertyDTO propertiesDTO = new MessagePropertyDTO(instancePrefix);
+        given(configurationAccess.getProperties()).willReturn(propertiesDTO);
+    }
+
+    private void setMocksForMessageContent() {
+        given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
+        given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
+        given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
+        given(browserMobHttpResponse.getStatus()).willReturn(200);
+    }
+
 }

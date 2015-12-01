@@ -34,8 +34,7 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 @Component
 public class FileNameProvider {
 
-    private static final String REQ_NAME_ENDING = "req.txt";
-    private static final String RESP_NAME_ENDING = "resp.txt";
+    private static final String NAME_ENDING = ".txt";
 
     @Autowired
     private LogFilePathProvider logFilePathProvider;
@@ -46,9 +45,9 @@ public class FileNameProvider {
      * @return the name of the file with absolute path
      */
     public String getFileName(final WilmaHttpRequest request) {
-        String wilmaLoggerId = request.getWilmaMessageId();
+        String wilmaMessageLoggerId = request.getWilmaMessageLoggerId();
         String path = getPath();
-        return path + "/" + wilmaLoggerId + REQ_NAME_ENDING;
+        return path + "/" + wilmaMessageLoggerId + NAME_ENDING;
     }
 
     /**
@@ -57,9 +56,9 @@ public class FileNameProvider {
      * @return the name of the file with absolute path
      */
     public String getFileName(final WilmaHttpResponse response) {
-        String wilmaLoggerId = response.getWilmaMessageId();
+        String wilmaMessageLoggerId = response.getWilmaMessageLoggerId();
         String path = getPath();
-        return path + "/" + wilmaLoggerId + RESP_NAME_ENDING;
+        return path + "/" + wilmaMessageLoggerId + NAME_ENDING;
     }
 
     private String getPath() {

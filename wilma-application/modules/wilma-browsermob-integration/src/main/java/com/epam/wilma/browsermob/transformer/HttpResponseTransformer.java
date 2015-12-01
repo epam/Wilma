@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
+import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.browsermob.transformer.helper.WilmaResponseFactory;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
@@ -35,6 +37,8 @@ public class HttpResponseTransformer {
 
     @Autowired
     private WilmaResponseFactory responseFactory;
+    @Autowired
+    private MessageConfigurationAccess configurationAccess;
 
     /**
      * Transforms a BrowserMob specific HTTP response to Wilma's own representation of an HTTP response.
@@ -59,7 +63,19 @@ public class HttpResponseTransformer {
         result.setBody(body);
         result.setContentType(response.getContentType());
         result.setStatusCode(status);
-        result.setWilmaMessageId(response.getEntry().getWilmaEntryId());
+
+        //prepare instance prefix
+        MessagePropertyDTO properties = configurationAccess.getProperties();
+        String instancePrefix = properties.getInstancePrefix();
+        if (instancePrefix != null) {
+            instancePrefix += "_";  // "prefix_"
+        } else {
+            instancePrefix = "";
+        }
+
+        //set Wilma Message Id
+        result.setWilmaMessageId(instancePrefix + response.getEntry().getWilmaEntryId());
+
         return result;
     }
 }

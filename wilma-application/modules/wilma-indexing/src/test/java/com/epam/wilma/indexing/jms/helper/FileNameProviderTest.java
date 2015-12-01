@@ -40,7 +40,7 @@ import static org.testng.Assert.assertEquals;
  */
 public class FileNameProviderTest {
 
-    private static final String WILMA_LOGGER_ID = "wilma_logger_id";
+    private static final String WILMA_MESSAGE_LOGGER_ID = "wilma_message_logger_id";
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private LogFilePathProvider logFilePathProvider;
     @Mock
@@ -62,21 +62,21 @@ public class FileNameProviderTest {
     @Test
     public void testGetFileNameShouldReturnRequestFileName() {
         //GIVEN
-        given(request.getWilmaMessageId()).willReturn(WILMA_LOGGER_ID);
+        given(request.getWilmaMessageLoggerId()).willReturn(WILMA_MESSAGE_LOGGER_ID + "req");
         //WHEN
         String actual = underTest.getFileName(request);
         //THEN
-        assertEquals(actual, "path/" + WILMA_LOGGER_ID + "req.txt");
+        assertEquals(actual, "path/" + WILMA_MESSAGE_LOGGER_ID + "req.txt");
     }
 
     @Test
     public void testGetFileNameShouldReturnResponseFileName() {
         //GIVEN
-        given(response.getWilmaMessageId()).willReturn(WILMA_LOGGER_ID);
+        given(response.getWilmaMessageLoggerId()).willReturn(WILMA_MESSAGE_LOGGER_ID + "resp");
         //WHEN
         String actual = underTest.getFileName(response);
         //THEN
-        assertEquals(actual, "path/" + WILMA_LOGGER_ID + "resp.txt");
+        assertEquals(actual, "path/" + WILMA_MESSAGE_LOGGER_ID + "resp.txt");
     }
 
 }

@@ -39,7 +39,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.browsermob.configuration.BrowserMobConfigurationAccess;
-import com.epam.wilma.browsermob.configuration.domain.PropertyDTO;
+import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.browsermob.domain.exception.ProxyCannotBeStartedException;
 import com.epam.wilma.browsermob.interceptor.BrowserMobRequestInterceptor;
 import com.epam.wilma.browsermob.interceptor.BrowserMobResponseInterceptor;
@@ -52,7 +52,7 @@ import com.epam.wilma.browsermob.interceptor.BrowserMobResponseInterceptor;
 public class BrowserMobProxyTest {
 
     private static final String EXCPEPTION_MESSAGE = "excpeption message";
-    private PropertyDTO propertiesDTO;
+    private ProxyPropertyDTO propertiesDTO;
 
     @InjectMocks
     private BrowserMobProxy underTest;
@@ -84,7 +84,7 @@ public class BrowserMobProxyTest {
         // GIVEN
         int requestTimeout = 30000;
         int proxyPort = 9092;
-        propertiesDTO = new PropertyDTO(proxyPort, requestTimeout);
+        propertiesDTO = new ProxyPropertyDTO(proxyPort, requestTimeout);
         given(configurationAccess.getProperties()).willReturn(propertiesDTO);
         // WHEN
         underTest.start();
@@ -99,7 +99,7 @@ public class BrowserMobProxyTest {
     public void testStartShouldThrowExceptionWhenTheProxyCannotBeStarted() throws Exception {
         // GIVEN
         int requestTimeout = 30000;
-        propertiesDTO = new PropertyDTO(0, requestTimeout);
+        propertiesDTO = new ProxyPropertyDTO(0, requestTimeout);
         given(configurationAccess.getProperties()).willReturn(propertiesDTO);
         doThrow(Exception.class).when(server).start(requestTimeout);
         // WHEN

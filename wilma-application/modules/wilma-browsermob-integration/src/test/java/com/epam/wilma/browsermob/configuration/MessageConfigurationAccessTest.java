@@ -19,59 +19,46 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
+import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
+import com.epam.wilma.properties.PropertyHolder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
-import com.epam.wilma.properties.PropertyHolder;
+import static org.mockito.BDDMockito.given;
+import static org.testng.Assert.assertEquals;
 
 /**
- * Provides unit tests for the class {@link BrowserMobConfigurationAccess}.
- * @author Tunde_Kovacs
+ * Provides unit tests for the class {@link MessageConfigurationAccess}.
+ * @author Tamas Kohegyi
  *
  */
-public class BrowserMobConfigurationAccessTest {
+public class MessageConfigurationAccessTest {
 
-    private static final int REQUEST_TIMEOUT = 30000;
-
-    private static final int PROXY_PORT = 1234;
+    private static final String PREFIX = "prefix";
 
     @Mock
     private PropertyHolder propertyHolder;
 
     @InjectMocks
-    private BrowserMobConfigurationAccess underTest;
+    private MessageConfigurationAccess underTest;
 
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        given(propertyHolder.getInt("proxy.request.timeout")).willReturn(REQUEST_TIMEOUT);
-        given(propertyHolder.getInt("proxy.port")).willReturn(PROXY_PORT);
+        given(propertyHolder.get("wilma.instance.prefix")).willReturn(PREFIX);
     }
 
     @Test
-    public void testLoadPropertiesShouldSetProxyPort() {
+    public void testLoadPropertiesShouldSetInstancePrefix() {
         //GIVEN in setUp
         //WHEN
         underTest.loadProperties();
         //THENs
-        ProxyPropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getProxyPort(), Integer.valueOf(PROXY_PORT));
+        MessagePropertyDTO actual = underTest.getProperties();
+        assertEquals(actual.getInstancePrefix(), PREFIX);
     }
 
-    @Test
-    public void testLoadPropertiesShouldSetRequestTimeout() {
-        //GIVEN in setUp
-        //WHEN
-        underTest.loadProperties();
-        //THENs
-        ProxyPropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getRequestTimeout(), Integer.valueOf(REQUEST_TIMEOUT));
-    }
 }

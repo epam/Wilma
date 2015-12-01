@@ -53,13 +53,13 @@ public class WilmaHttpRequestWriterTest {
     private static final String COULD_NOT_WRITE_MESSAGE_ERROR = "Could not write message to file:src/test/resources/outputFile.txt!";
     private static final String OUTPUT_FILE = "src/test/resources/outputFile.txt";
     private static final String REQUEST_TYPE = "req";
-    private static final String TITLE = "201306271455.0001";
+    private static final String MESSAGE_ID = "201306271455.0001";
     private static final String REQUEST_LINE = "request line";
     private static final String REMOTE_ADDR = "remote.addr";
     private static final String HEADERS = "headers";
     private static final String BODY = "body";
-    private static final String MESSAGE_ID = "201306271455.0001";
-    private static final String FI_SUFFIX = "FI";
+    private static final String MESSAGE_LOGGER_ID = "w_201306271455.0001";
+    private static final String FI_PREFIX = "FI";
     private static final int OUTPUT_BUFFER_SIZE = 262144;
 
     @Mock
@@ -90,8 +90,9 @@ public class WilmaHttpRequestWriterTest {
     @Test
     public void testWriteShouldWriteContentToWriter() throws IOException {
         //GIVEN
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_LOGGER_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
+        given(request.getWilmaMessageLoggerId()).willReturn(MESSAGE_LOGGER_ID);
         given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
         given(request.getRequestLine()).willReturn(REQUEST_LINE);
         given(request.getRemoteAddr()).willReturn(REMOTE_ADDR);
@@ -108,10 +109,10 @@ public class WilmaHttpRequestWriterTest {
     @Test
     public void testWriteShouldNotAppendBodyWhenItIsNull() throws IOException {
         //GIVEN
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_LOGGER_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
         given(request.getBody()).willReturn(null);
-        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageLoggerId()).willReturn(MESSAGE_LOGGER_ID);
         given(request.getHeaders().toString()).willReturn(HEADERS);
         given(request.getRequestLine()).willReturn(REQUEST_LINE);
         given(request.getRemoteAddr()).willReturn(REMOTE_ADDR);
@@ -125,9 +126,9 @@ public class WilmaHttpRequestWriterTest {
     public void testWriteWhenBufferedWriterThrowsIOExceptionShouldLogError() throws IOException {
         //GIVEN
         IOException e = new IOException();
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_LOGGER_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willThrow(e);
-        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageLoggerId()).willReturn(MESSAGE_LOGGER_ID);
         //WHEN
         underTest.write(request, true);
         //THEN
@@ -138,9 +139,9 @@ public class WilmaHttpRequestWriterTest {
     public void testWriteWhenCannotCloseFileShouldLogError() throws IOException {
         //GIVEN
         IOException e = new IOException();
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_LOGGER_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
-        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageLoggerId()).willReturn(MESSAGE_LOGGER_ID);
         willThrow(e).given(bufferedWriter).close();
         //WHEN
         underTest.write(request, true);
@@ -151,9 +152,9 @@ public class WilmaHttpRequestWriterTest {
     @Test
     public void testWriteWhenWriterIsNullShouldDoNothing() throws IOException {
         //GIVEN
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_LOGGER_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(null);
-        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageLoggerId()).willReturn(MESSAGE_LOGGER_ID);
         //WHEN
         underTest.write(request, true);
         //THEN
@@ -163,13 +164,13 @@ public class WilmaHttpRequestWriterTest {
     @Test
     public void testGetOutputFileNameShouldReturnCorrectNameWhenBodyIsDecompressed() {
         //GIVEN
-        String expected = TARGET_FOLDER + "//" + TITLE + REQUEST_TYPE + ".txt";
+        String expected = TARGET_FOLDER + "//w_" + MESSAGE_ID + REQUEST_TYPE + ".txt";
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn(TARGET_FOLDER);
-        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageLoggerId()).willReturn(MESSAGE_LOGGER_ID);
         given(directoryFactory.createNewDirectory(TARGET_FOLDER)).willReturn(directory);
         given(directory.exists()).willReturn(true);
         //WHEN
-        String actual = underTest.getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
+        String actual = underTest.getOutputFileName(MESSAGE_LOGGER_ID + REQUEST_TYPE, true);
         //THEN
         assertEquals(actual, expected);
         verify(directory, times(0)).mkdir();
@@ -178,13 +179,13 @@ public class WilmaHttpRequestWriterTest {
     @Test
     public void testGetOutputFileNameShouldReturnCorrectNameWhenBodyIsNotDecompressed() {
         //GIVEN
-        String expected = TARGET_FOLDER + "//" + TITLE + REQUEST_TYPE + FI_SUFFIX + ".txt";
+        String expected = TARGET_FOLDER + "//" + FI_PREFIX + "w_" + MESSAGE_ID + REQUEST_TYPE + ".txt";
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn(TARGET_FOLDER);
-        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageLoggerId()).willReturn(MESSAGE_LOGGER_ID);
         given(directoryFactory.createNewDirectory(TARGET_FOLDER)).willReturn(directory);
         given(directory.exists()).willReturn(true);
         //WHEN
-        String actual = underTest.getOutputFileName(REQUEST_TYPE, MESSAGE_ID, false);
+        String actual = underTest.getOutputFileName(MESSAGE_LOGGER_ID + REQUEST_TYPE, false);
         //THEN
         assertEquals(actual, expected);
         verify(directory, times(0)).mkdir();
@@ -193,13 +194,13 @@ public class WilmaHttpRequestWriterTest {
     @Test
     public void testGetOutputFileNameShouldMakeDirIfDoesNotExist() {
         //GIVEN
-        String expected = TARGET_FOLDER + "//" + TITLE + REQUEST_TYPE + ".txt";
+        String expected = TARGET_FOLDER + "//w_" + MESSAGE_ID + REQUEST_TYPE + ".txt";
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn(TARGET_FOLDER);
-        given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(request.getWilmaMessageLoggerId()).willReturn(MESSAGE_LOGGER_ID);
         given(directoryFactory.createNewDirectory(TARGET_FOLDER)).willReturn(directory);
         given(directory.exists()).willReturn(false);
         //WHEN
-        String actual = underTest.getOutputFileName(REQUEST_TYPE, MESSAGE_ID, true);
+        String actual = underTest.getOutputFileName(MESSAGE_LOGGER_ID + REQUEST_TYPE, true);
         //THEN
         assertEquals(actual, expected);
         verify(directory, times(1)).mkdir();

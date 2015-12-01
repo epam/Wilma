@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
@@ -48,10 +49,9 @@ public class WilmaHttpResponseWriterTest {
 
     private static final String COULD_NOT_WRITE_MESSAGE_ERROR = "Could not write message to file:src/test/resources/outputFile.txt!";
     private static final String OUTPUT_FILE = "src/test/resources/outputFile.txt";
-    private static final String RESPONSE_TYPE = "resp";
     private static final String HEADERS = "headers";
     private static final String BODY = "body";
-    private static final String MESSAGE_ID = "201306271455.0001";
+    private static final String MESSAGE_ID = "w_201306271455.0001";
     private static final int OUTPUT_BUFFER_SIZE = 262144;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -77,24 +77,26 @@ public class WilmaHttpResponseWriterTest {
     @Test
     public void testWriteShouldContentToWriter() throws IOException {
         //GIVEN
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
+        given(response.getWilmaMessageLoggerId()).willReturn(MESSAGE_ID);
         given(response.getWilmaMessageId()).willReturn(MESSAGE_ID);
         given(response.getHeaders().toString()).willReturn(HEADERS);
         given(response.getBody()).willReturn(BODY);
         //WHEN
         underTest.write(response, true);
         //THEN
+        verify(bufferedWriter).append(WilmaHttpRequest.WILMA_LOGGER_ID + ":" + MESSAGE_ID);
         verify(bufferedWriter).append(BODY);
     }
 
     @Test
     public void testWriteShouldNotAppendBodyWhenItIsNull() throws IOException {
         //GIVEN
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
         given(response.getBody()).willReturn(null);
-        given(response.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(response.getWilmaMessageLoggerId()).willReturn(MESSAGE_ID);
         given(response.getHeaders().toString()).willReturn(HEADERS);
         //WHEN
         underTest.write(response, true);
@@ -107,9 +109,9 @@ public class WilmaHttpResponseWriterTest {
         //GIVEN
         Whitebox.setInternalState(underTest, "logger", logger);
         IOException e = new IOException();
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willThrow(e);
-        given(response.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(response.getWilmaMessageLoggerId()).willReturn(MESSAGE_ID);
         //WHEN
         underTest.write(response, true);
         //THEN
@@ -121,9 +123,9 @@ public class WilmaHttpResponseWriterTest {
         //GIVEN
         Whitebox.setInternalState(underTest, "logger", logger);
         IOException e = new IOException();
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
-        given(response.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(response.getWilmaMessageLoggerId()).willReturn(MESSAGE_ID);
         willThrow(e).given(bufferedWriter).close();
         //WHEN
         underTest.write(response, true);
@@ -134,9 +136,9 @@ public class WilmaHttpResponseWriterTest {
     @Test
     public void testWriteWhenWriterIsNullShouldDoNothing() throws IOException {
         //GIVEN
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(null);
-        given(response.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(response.getWilmaMessageLoggerId()).willReturn(MESSAGE_ID);
         //WHEN
         underTest.write(response, true);
         //THEN
@@ -146,9 +148,9 @@ public class WilmaHttpResponseWriterTest {
     @Test
     public void testWriteShouldAppendStatusCodeToWriter() throws IOException {
         //GIVEN
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(RESPONSE_TYPE, MESSAGE_ID, true);
+        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
-        given(response.getWilmaMessageId()).willReturn(MESSAGE_ID);
+        given(response.getWilmaMessageLoggerId()).willReturn(MESSAGE_ID);
         given(response.getStatusCode()).willReturn(200);
         //WHEN
         underTest.write(response, true);
