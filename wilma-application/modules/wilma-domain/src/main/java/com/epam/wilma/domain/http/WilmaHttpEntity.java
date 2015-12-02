@@ -37,6 +37,8 @@ public class WilmaHttpEntity implements Serializable {
     private InputStream inputStream;
     private String wilmaMessageId;
     private String wilmaMessageCustomPostfix;
+    // ip of the source/client
+    private String remoteAddr;
 
     /**
      * Adds a WilmaHttpHeader to the list of headers.
@@ -83,6 +85,14 @@ public class WilmaHttpEntity implements Serializable {
 
     public void setInputStream(final InputStream inputStream) {
         this.inputStream = inputStream;
+    }
+
+    public String getRemoteAddr() {
+        return remoteAddr;
+    }
+
+    public void setRemoteAddr(final String remoteAddr) {
+        this.remoteAddr = remoteAddr;
     }
 
     public String getWilmaMessageId() {

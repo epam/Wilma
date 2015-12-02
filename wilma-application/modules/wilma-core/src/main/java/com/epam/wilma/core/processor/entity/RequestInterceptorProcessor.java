@@ -18,27 +18,31 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.domain.stubconfig.interceptor.InterceptorDescriptor;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
+import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.router.RoutingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Calls all {@link RequestInterceptor}s configured in the stub configuration.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class RequestInterceptorProcessor extends ProcessorBase {
+
+    private final Logger logger = LoggerFactory.getLogger(RequestInterceptorProcessor.class);
 
     @Autowired
     private RoutingService routingService;
@@ -52,10 +56,21 @@ public class RequestInterceptorProcessor extends ProcessorBase {
             for (InterceptorDescriptor interceptorDescriptor : interceptorDescriptors) {
                 RequestInterceptor interceptor = interceptorDescriptor.getRequestInterceptor();
                 if (interceptor != null) {
-                    interceptor.onRequestReceive((WilmaHttpRequest) entity, interceptorDescriptor.getParams());
+                    try {
+                        interceptor.onRequestReceive((WilmaHttpRequest) entity, interceptorDescriptor.getParams());
+                    } catch (Exception e) {
+                        logError(interceptor, entity, interceptorDescriptor.getParams(), e);
+                    }
                 }
             }
         }
+    }
+
+    private void logError(final RequestInterceptor interceptor, final WilmaHttpEntity entity, final ParameterList parameters, final Exception e) {
+        logger.error("Error during call to request interceptor: " + interceptor.getClass().getSimpleName()
+                + " with parameters: " + parameters.getAllParameters().toString()
+                + " at message: " + entity.getWilmaMessageLoggerId()
+                + "! Reason:" + e.getMessage(), e);
     }
 
 }

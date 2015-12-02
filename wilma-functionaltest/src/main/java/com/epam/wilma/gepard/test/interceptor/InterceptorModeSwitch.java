@@ -1,4 +1,4 @@
-package com.epam.wilma.gepard.test.sequence;
+package com.epam.wilma.gepard.test.interceptor;
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
 

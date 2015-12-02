@@ -1,4 +1,4 @@
-package com.epam.wilma.gepard.test.sequence;
+package com.epam.wilma.gepard.test.interceptor;
 
 /*==========================================================================
 Copyright 2013-2015 EPAM Systems
@@ -116,6 +116,7 @@ public class InterceptorTest extends WilmaTestCase {
         // url is similar like http://wilma.server.url:1234/config/messages/20140620121508.0000req.txt?source=true
         String reqRequestUrl = getWilmaInternalUrl() + "config/public/messages/" + id + "req.txt?source=true";
         String respRequestUrl = getWilmaInternalUrl() + "config/public/messages/" + id + "resp.txt?source=true";
+        requestParameters2.useProxy(false);
         ResponseHolder wilmaReq = getSlowMessageFromWilma(reqRequestUrl, requestParameters2);
         ResponseHolder wilmaResp = getSlowMessageFromWilma(respRequestUrl, requestParameters2);
         //now we can analyse

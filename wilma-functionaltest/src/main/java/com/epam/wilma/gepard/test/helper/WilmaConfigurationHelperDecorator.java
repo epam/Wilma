@@ -21,7 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.gepard.test.localhost.BlockLocalhostUsageSwitch;
 import com.epam.wilma.gepard.test.messagemarker.MessageMarkingSwitch;
 import com.epam.wilma.gepard.test.operation.OperationModeSwitch;
-import com.epam.wilma.gepard.test.sequence.InterceptorModeSwitch;
+import com.epam.wilma.gepard.test.interceptor.InterceptorModeSwitch;
 
 /**
  * Helper class to configure Wilma.

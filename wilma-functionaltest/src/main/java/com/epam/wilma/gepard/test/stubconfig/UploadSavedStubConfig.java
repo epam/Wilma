@@ -137,18 +137,22 @@ public class UploadSavedStubConfig extends WilmaTestCase {
     public void uploadStubConfigToWilmaAndAllowEmptyStuvConfig(final String stubConfig) throws Exception {
         logStep("Upload Stub Configuration to Wilma.");
         String url = getWilmaInternalUrl() + STUB_CONFIG_URL;
+        boolean loaded = false;
 
         ResponseData responseData = uploadResourceWithExpectedError(url, stubConfig);
 
         if (ACCEPTED == responseData.getStatusCode()) {
             logComment("Preserved StubConfig loaded back.");
-            return;
+            loaded = true;
         }
         if (ALMOST_ACCEPTED == responseData.getStatusCode() && responseData.getMessage().startsWith("Please provide a non-empty stub descriptor!")) {
             logComment("Preserved EMPTY StubConfig loaded back.");
-            return;
+            loaded = true;
         }
-        throw new Exception("Cannot upload resource " + stubConfig + " to " + url);
+
+        if (!loaded) {
+            throw new Exception("Cannot upload resource " + stubConfig + " to " + url);
+        }
 
     }
 

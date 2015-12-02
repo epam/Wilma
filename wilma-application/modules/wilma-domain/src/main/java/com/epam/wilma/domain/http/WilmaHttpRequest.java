@@ -37,9 +37,6 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
 
     private boolean rerouted;
 
-    // ip of the source/client
-    private String remoteAddr;
-
     //holder of extra headers to be added to the request
     private final Map<String, String> extraHeaders = new HashMap<>();
 
@@ -100,14 +97,6 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
 
     public void setUri(final URI uri) {
         this.uri = uri;
-    }
-
-    public String getRemoteAddr() {
-        return remoteAddr;
-    }
-
-    public void setRemoteAddr(final String remoteAddr) {
-        this.remoteAddr = remoteAddr;
     }
 
     public boolean isRerouted() {

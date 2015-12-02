@@ -110,7 +110,7 @@ public class WilmaResourceUploaderDecorator extends ResourceUploaderDecorator {
         try {
             uploadResource(getWilmaInternalUrl() + url + fileName, filePath);
         } catch (Exception e) {
-            throw new SimpleGepardException(e.getMessage());
+            throw new SimpleGepardException(e.getMessage(), e);
         }
     }
 

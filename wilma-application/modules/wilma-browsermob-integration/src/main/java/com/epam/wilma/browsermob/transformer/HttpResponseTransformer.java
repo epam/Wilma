@@ -76,6 +76,10 @@ public class HttpResponseTransformer {
         //set Wilma Message Id
         result.setWilmaMessageId(instancePrefix + response.getEntry().getWilmaEntryId());
 
+        //set remote addr
+        String ipAddress = response.getEntry().getServerIPAddress();
+        result.setRemoteAddr(ipAddress);
+
         return result;
     }
 }
