@@ -15,11 +15,11 @@ cp /var/lib/jenkins/jobs/wilma-continuous/workspace/wilma-application/build/dist
 
 cp /var/lib/jenkins/jobs/wilma-continuous/workspace/wilma-message-search/build/distributions/*.zip testenv/wilma-ms
 
-cp /var/lib/jenkins/jobs/wilma-continuous/workspace/wilma-test/wilma-test-server/build/libs/wilma-test-server-1.3.*.jar testenv/test-server/wilma-test-server.jar
+cp /var/lib/jenkins/jobs/wilma-continuous/workspace/wilma-test/wilma-test-server/build/libs/*.jar testenv/test-server/wilma-test-server.jar
 cp /var/lib/jenkins/jobs/wilma-continuous/workspace/wilma-test/wilma-test-server/wilma.testserver.properties testenv/test-server
 cp -r /var/lib/jenkins/jobs/wilma-continuous/workspace/wilma-test/wilma-test-server/certificate testenv/test-server
 
-cp /var/lib/jenkins/jobs/wilma-continuous/workspace/wilma-test/wilma-test-client/build/libs/wilma-test-client-1.3.*.jar testenv/test-client/wilma-test-client.jar
+cp /var/lib/jenkins/jobs/wilma-continuous/workspace/wilma-test/wilma-test-client/build/libs/*.jar testenv/test-client/wilma-test-client.jar
 cp /var/lib/jenkins/jobs/wilma-continuous/workspace/wilma-test/wilma-test-client/wilma.testclient.properties testenv/test-client
 
 # extract and prepare release
