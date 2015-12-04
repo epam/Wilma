@@ -29,6 +29,8 @@ import org.testng.annotations.Test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -67,6 +69,23 @@ public class BrowserMobRequestUpdaterTest {
         underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);
         //THEN
         verify(requestBase).setURI(uri);
+    }
+
+    @Test
+    public void testUpdateRequestShouldUpdateHeaders() throws URISyntaxException {
+        //GIVEN
+        Map<String, String> extraHeaders = new HashMap<>();
+        extraHeaders.put("A", "B");
+        URI uri = new URI("MOCK");
+        given(browserMobHttpRequest.getMethod()).willReturn(requestBase);
+        given(wilmaHttpRequest.getUri()).willReturn(uri);
+        String mockID = "WILMA-LOG-MOCK-ID";
+        given(wilmaHttpRequest.getExtraHeaders()).willReturn(extraHeaders);
+        given(wilmaHttpRequest.getWilmaMessageId()).willReturn(mockID);
+        //WHEN
+        underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);
+        //THEN
+        verify(requestBase).addHeader("A", "B");
     }
 
 }

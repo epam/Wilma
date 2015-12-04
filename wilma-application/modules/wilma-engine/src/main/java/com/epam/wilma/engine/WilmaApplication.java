@@ -28,7 +28,7 @@ import com.epam.wilma.engine.bootstrap.helper.ApplicationContextFactory;
  */
 public final class WilmaApplication {
 
-    public static String[] arguments;
+    public static String[] arguments; //NOSONAR
 
     private WilmaApplication() {
     }
@@ -38,7 +38,7 @@ public final class WilmaApplication {
      * @param args The program needs the path of wilma.conf.properties to run.
      */
     public static void main(final String[] args) {
-        arguments = args;
+        arguments = args; //NOSONAR
         new WilmaBootstrap(ApplicationContextFactory.getInstance()).bootstrap();
     }
 

@@ -55,13 +55,17 @@ public class RequestInterceptorProcessor extends ProcessorBase {
             List<InterceptorDescriptor> interceptorDescriptors = stubDescriptor.getInterceptorDescriptors();
             for (InterceptorDescriptor interceptorDescriptor : interceptorDescriptors) {
                 RequestInterceptor interceptor = interceptorDescriptor.getRequestInterceptor();
-                if (interceptor != null) {
-                    try {
-                        interceptor.onRequestReceive((WilmaHttpRequest) entity, interceptorDescriptor.getParams());
-                    } catch (Exception e) {
-                        logError(interceptor, entity, interceptorDescriptor.getParams(), e);
-                    }
-                }
+                callInterceptor(interceptor, entity, interceptorDescriptor);
+            }
+        }
+    }
+
+    private void callInterceptor(RequestInterceptor interceptor, WilmaHttpEntity entity, InterceptorDescriptor interceptorDescriptor) {
+        if (interceptor != null) {
+            try {
+                interceptor.onRequestReceive((WilmaHttpRequest) entity, interceptorDescriptor.getParams());
+            } catch (Exception e) {
+                logError(interceptor, entity, interceptorDescriptor.getParams(), e);
             }
         }
     }

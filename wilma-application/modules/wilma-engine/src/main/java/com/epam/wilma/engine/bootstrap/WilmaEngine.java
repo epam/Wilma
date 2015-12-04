@@ -74,7 +74,7 @@ public class WilmaEngine extends AbstractIdleService implements WilmaService {
     public void start() {
         try {
             startAsync().awaitRunning();
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException e) {  //NOSONAR - we don't need to log this exception
             stopEverything();
         }
     }

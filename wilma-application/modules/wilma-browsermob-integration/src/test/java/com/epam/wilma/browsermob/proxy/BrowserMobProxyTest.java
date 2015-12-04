@@ -18,18 +18,15 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-
-import java.nio.file.Path;
-
+import com.epam.wilma.browsermob.configuration.BrowserMobConfigurationAccess;
+import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
+import com.epam.wilma.browsermob.domain.exception.ProxyCannotBeStartedException;
+import com.epam.wilma.browsermob.interceptor.BrowserMobRequestInterceptor;
+import com.epam.wilma.browsermob.interceptor.BrowserMobResponseInterceptor;
 import net.lightbody.bmp.proxy.ProxyServer;
 import net.lightbody.bmp.proxy.jetty.http.SocketListener;
-
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -38,16 +35,16 @@ import org.slf4j.Logger;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.browsermob.configuration.BrowserMobConfigurationAccess;
-import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
-import com.epam.wilma.browsermob.domain.exception.ProxyCannotBeStartedException;
-import com.epam.wilma.browsermob.interceptor.BrowserMobRequestInterceptor;
-import com.epam.wilma.browsermob.interceptor.BrowserMobResponseInterceptor;
+import java.nio.file.Path;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.*;
 
 /**
  * Test class for BrowserMobProxy.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class BrowserMobProxyTest {
 
@@ -114,7 +111,7 @@ public class BrowserMobProxyTest {
         //WHEN
         underTest.stop();
         //THEN
-        verify(logger).error("Proxy can not be stopped: " + EXCPEPTION_MESSAGE);
+        verify(logger).error(eq("Proxy can not be stopped: " + EXCPEPTION_MESSAGE), Matchers.any(Exception.class));
     }
 
     @Test
