@@ -28,6 +28,7 @@ public class PropertyDto {
     private final Integer port;
     private final String messageFolders;
     private final String indexFolder;
+    private final String jmsBrokerHost;
     private final Integer jmsBrokerPort;
 
     /**
@@ -36,14 +37,17 @@ public class PropertyDto {
      * @param messageFolders the comma separated list of directories that will
      * be indexed by the application
      * @param indexFolder the folder the application stores the index files
+     * @param jmsBrokerHost port used to communicate with message producers via an activemq broker
      * @param jmsBrokerPort port used to communicate with message producers via an activemq broker
-     *
      */
-    public PropertyDto(final Integer port, final String messageFolders, final String indexFolder, final Integer jmsBrokerPort) {
+    //CHECKSTYLE OFF - too many parameters
+    public PropertyDto(final Integer port, final String messageFolders, final String indexFolder, final String jmsBrokerHost, final Integer jmsBrokerPort) {
+        //CHECKSTYLE ON
         super();
         this.port = port;
         this.messageFolders = messageFolders;
         this.indexFolder = indexFolder;
+        this.jmsBrokerHost = jmsBrokerHost;
         this.jmsBrokerPort = jmsBrokerPort;
     }
 
@@ -57,6 +61,10 @@ public class PropertyDto {
 
     public String getIndexFolder() {
         return indexFolder;
+    }
+
+    public String getJmsBrokerHost() {
+        return jmsBrokerHost;
     }
 
     public Integer getJmsBrokerPort() {

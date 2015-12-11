@@ -52,6 +52,10 @@ public class EngineConfigurationAccess implements ConfigurationAccessBase {
         String messageDirectories = propertyHolder.get("message.folders");
         String indexFolder = propertyHolder.get("lucene.index.folder");
         Integer jmsBrokerPort = propertyHolder.getInt("jms.broker.port");
-        properties = new PropertyDto(port, messageDirectories, indexFolder, jmsBrokerPort);
+        String jmsBrokerHost = propertyHolder.get("jms.broker.host");
+        if ((jmsBrokerHost == null) || ("".equals(jmsBrokerHost.trim()))) {
+            jmsBrokerHost = "localhost";
+        }
+        properties = new PropertyDto(port, messageDirectories, indexFolder, jmsBrokerHost, jmsBrokerPort);
     }
 }

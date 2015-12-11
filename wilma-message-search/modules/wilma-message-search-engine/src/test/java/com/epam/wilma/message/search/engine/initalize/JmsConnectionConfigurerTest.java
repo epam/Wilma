@@ -63,6 +63,7 @@ public class JmsConnectionConfigurerTest {
     public void testSetBrokerUrlShouldSetConnectionFactoryBrokerUrl() {
         //GIVEN
         given(configurationAccess.getProperties()).willReturn(properties);
+        given(properties.getJmsBrokerHost()).willReturn("localhost");
         given(properties.getJmsBrokerPort()).willReturn(16161);
         //WHEN
         underTest.setBrokerUrl();
@@ -74,6 +75,7 @@ public class JmsConnectionConfigurerTest {
     public void testSetBrokerUrlShouldSetTransportConnectorBrokerUrl() {
         //GIVEN
         given(configurationAccess.getProperties()).willReturn(properties);
+        given(properties.getJmsBrokerHost()).willReturn("localhost");
         given(properties.getJmsBrokerPort()).willReturn(16161);
         //WHEN
         underTest.setBrokerUrl();

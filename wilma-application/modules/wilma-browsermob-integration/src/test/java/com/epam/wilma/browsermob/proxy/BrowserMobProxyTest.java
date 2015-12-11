@@ -39,7 +39,6 @@ import java.nio.file.Path;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.*;
 
 /**
  * Test class for BrowserMobProxy.
@@ -86,10 +85,10 @@ public class BrowserMobProxyTest {
         // WHEN
         underTest.start();
         // THEN
-        verify(server).setPort(proxyPort);
-        verify(server).start(requestTimeout);
-        verify(server).addRequestInterceptor(loggingRequestInterceptor);
-        verify(server).addResponseInterceptor(loggingResponseInterceptor);
+        Mockito.verify(server).setPort(proxyPort);
+        Mockito.verify(server).start(requestTimeout);
+        Mockito.verify(server).addRequestInterceptor(loggingRequestInterceptor);
+        Mockito.verify(server).addResponseInterceptor(loggingResponseInterceptor);
     }
 
     @Test(expectedExceptions = ProxyCannotBeStartedException.class)
@@ -98,7 +97,7 @@ public class BrowserMobProxyTest {
         int requestTimeout = 30000;
         propertiesDTO = new ProxyPropertyDTO(0, requestTimeout);
         given(configurationAccess.getProperties()).willReturn(propertiesDTO);
-        doThrow(Exception.class).when(server).start(requestTimeout);
+        Mockito.doThrow(Exception.class).when(server).start(requestTimeout);
         // WHEN
         underTest.start();
         // THEN exception thrown
@@ -111,17 +110,17 @@ public class BrowserMobProxyTest {
         //WHEN
         underTest.stop();
         //THEN
-        verify(logger).error(eq("Proxy can not be stopped: " + EXCPEPTION_MESSAGE), Matchers.any(Exception.class));
+        Mockito.verify(logger).error(Mockito.eq("Proxy can not be stopped: " + EXCPEPTION_MESSAGE), Matchers.any(Exception.class));
     }
 
     @Test
     public void testStopShouldCallStopJettyServer() throws Exception {
         //GIVEN
-        doNothing().when(underTest).stopServer();
+        Mockito.doNothing().when(underTest).stopServer();
         //WHEN
         underTest.stop();
         //THEN
-        verify(underTest).stopServer();
+        Mockito.verify(underTest).stopServer();
     }
 
 }

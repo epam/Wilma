@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
 /**
  * Configures the {@link JmsConnectionConfigurer} and {@link TransportConnector} with a broker url.
  * The jms queue is used to recieve messages to be indexed by the application.
- * @author Tunde_Kovacs
+ * @author Tunde_Kovacs, Tamas Kohegyi
  *
  */
 @Component
@@ -57,18 +57,25 @@ public class JmsConnectionConfigurer {
      * Configures the jms broker url.
      */
     public void setBrokerUrl() {
+        String jmsBrokerHost = getJmsBrokerHost();
         Integer jmsBrokerPort = getJmsBrokerPort();
-        connectionFactory.setBrokerURL("tcp://localhost:" + jmsBrokerPort);
+        connectionFactory.setBrokerURL("tcp://" + jmsBrokerHost + ":" + jmsBrokerPort);
         pooledConnectionFactory.setConnectionFactory(connectionFactory);
-        configureTransportConnector(jmsBrokerPort);
+        configureTransportConnector(jmsBrokerHost, jmsBrokerPort);
     }
 
-    private void configureTransportConnector(final Integer jmsBrokerPort) {
+    private void configureTransportConnector(final String jmsBrokerHost, final Integer jmsBrokerPort) {
         try {
-            transportConnector.setUri(new URI("tcp://localhost:" + jmsBrokerPort));
+            transportConnector.setUri(new URI("tcp://" + jmsBrokerHost + ":" + jmsBrokerPort));
         } catch (URISyntaxException e) {
             logger.error(e.getMessage());
         }
+    }
+
+    private String getJmsBrokerHost() {
+        PropertyDto properties = configurationAccess.getProperties();
+        String jmsBrokerHost = properties.getJmsBrokerHost();
+        return jmsBrokerHost;
     }
 
     private Integer getJmsBrokerPort() {

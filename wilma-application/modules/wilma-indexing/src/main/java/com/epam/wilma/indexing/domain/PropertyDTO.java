@@ -25,19 +25,26 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class PropertyDTO {
 
+    private final String brokerHost;
     private final Integer brokerPort;
 
     /**
      * Constructs a new property holding object with the given fields.
-     * @param brokerPort port used to communicate with the indexing application via an activemq broker
+     * @param brokerHost is the host used to communicate with the indexing application via an activemq broker
+     * @param brokerPort is the port used to communicate with the indexing application via an activemq broker
      */
-    public PropertyDTO(final Integer brokerPort) {
+    public PropertyDTO(final String brokerHost, final Integer brokerPort) {
         super();
+        this.brokerHost = brokerHost;
         this.brokerPort = brokerPort;
     }
 
     public Integer getBrokerPort() {
         return brokerPort;
+    }
+
+    public String getBrokerHost() {
+        return brokerHost;
     }
 
 }

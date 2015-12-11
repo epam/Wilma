@@ -19,17 +19,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
+import com.epam.wilma.indexing.domain.PropertyDTO;
+import com.epam.wilma.properties.PropertyHolder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.indexing.domain.PropertyDTO;
-import com.epam.wilma.properties.PropertyHolder;
+import static org.mockito.BDDMockito.given;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit tests for the class {@link IndexingConfigurationAccess}.
@@ -38,6 +37,7 @@ import com.epam.wilma.properties.PropertyHolder;
  */
 public class IndexingConfigurationAccessTest {
 
+    private final String host = "local";
     private final Integer port = 1234;
 
     @Mock
@@ -53,12 +53,37 @@ public class IndexingConfigurationAccessTest {
     }
 
     @Test
-    public void testLoadPropertiesShouldSetProxyPort() {
+    public void testLoadPropertiesShouldSetProxyHostAndPort() {
         //GIVEN in setUp
+        given(propertyHolder.get("jms.queue.host")).willReturn(host);
         //WHEN
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
+        assertEquals(actual.getBrokerHost(), host);
         assertEquals(actual.getBrokerPort(), port);
     }
+
+    @Test
+    public void testLoadPropertiesWhenHostIsMissingNull() {
+        //GIVEN in setUp
+        given(propertyHolder.get("jms.queue.host")).willReturn(null);
+        //WHEN
+        underTest.loadProperties();
+        //THEN
+        PropertyDTO actual = underTest.getProperties();
+        assertEquals(actual.getBrokerHost(), "localhost");
+    }
+
+    @Test
+    public void testLoadPropertiesWhenHostIsMissingEmpty() {
+        //GIVEN in setUp
+        given(propertyHolder.get("jms.queue.host")).willReturn("");
+        //WHEN
+        underTest.loadProperties();
+        //THEN
+        PropertyDTO actual = underTest.getProperties();
+        assertEquals(actual.getBrokerHost(), "localhost");
+    }
+
 }

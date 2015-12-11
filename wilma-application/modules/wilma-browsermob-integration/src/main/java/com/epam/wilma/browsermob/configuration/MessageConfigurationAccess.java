@@ -41,6 +41,9 @@ public class MessageConfigurationAccess implements ConfigurationAccessBase {
     @Override
     public void loadProperties() {
         String instancePrefix = propertyHolder.get("wilma.instance.prefix");
+        if ((instancePrefix == null) || ("".equals(instancePrefix.trim()))) {
+            instancePrefix = null;
+        }
         properties = new MessagePropertyDTO(instancePrefix);
     }
 

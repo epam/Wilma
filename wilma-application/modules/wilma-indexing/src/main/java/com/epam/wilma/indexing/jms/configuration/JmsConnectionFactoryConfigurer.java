@@ -47,7 +47,8 @@ public class JmsConnectionFactoryConfigurer implements ApplicationListener<Conte
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
         PropertyDTO properties = configurationAccess.getProperties();
+        String brokerHost = properties.getBrokerHost();
         Integer brokerPort = properties.getBrokerPort();
-        connectionFactory.setBrokerURL("tcp://localhost:" + brokerPort);
+        connectionFactory.setBrokerURL("tcp://" + brokerHost + ":" + brokerPort);
     }
 }

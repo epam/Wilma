@@ -41,8 +41,12 @@ public class IndexingConfigurationAccess implements ConfigurationAccessBase {
 
     @Override
     public void loadProperties() {
+        String brokerHost = propertyHolder.get("jms.queue.host");
+        if ((brokerHost == null) || ("".equals(brokerHost.trim()))) {
+            brokerHost = "localhost"; //defaults to "localhost" in order to preserve backward compatibility with Wilma <1.4
+        }
         Integer brokerPort = propertyHolder.getInt("jms.queue.port");
-        properties = new PropertyDTO(brokerPort);
+        properties = new PropertyDTO(brokerHost, brokerPort);
     }
 
     /**

@@ -18,9 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
+import com.epam.wilma.indexing.IndexingConfigurationAccess;
+import com.epam.wilma.indexing.domain.PropertyDTO;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,8 +28,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.indexing.IndexingConfigurationAccess;
-import com.epam.wilma.indexing.domain.PropertyDTO;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link JmsConnectionFactoryConfigurer}.
@@ -60,11 +59,12 @@ public class JmsConnectionFactoryConfigurerTest {
     public void testOnApplicationEvent() {
         //GIVEN
         given(configurationAccess.getProperties()).willReturn(properties);
+        given(properties.getBrokerHost()).willReturn("blah");
         given(properties.getBrokerPort()).willReturn(16161);
         //WHEN
         underTest.onApplicationEvent(event);
         //THEN
-        verify(connectionFactory).setBrokerURL("tcp://localhost:" + 16161);
+        verify(connectionFactory).setBrokerURL("tcp://blah:" + 16161);
     }
 
 }
