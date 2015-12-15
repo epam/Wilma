@@ -52,7 +52,7 @@ public class JmsRequestLogger implements RequestLogger {
 
     @Override
     public void logRequest(final WilmaHttpRequest request) {
-        if (messageLoggingEnabled) {
+        if (messageLoggingEnabled && request.isLoggingEnabled()) {
             jmsTemplate.send(loggerQueue, jmsMessageCreatorFactory.createJmsRequestMessageCreator(request));
         }
     }

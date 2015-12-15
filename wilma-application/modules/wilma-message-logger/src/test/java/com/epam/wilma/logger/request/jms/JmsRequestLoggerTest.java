@@ -64,6 +64,7 @@ public class JmsRequestLoggerTest {
     public void testLogRequestShouldSendMessageToQueue() {
         //GIVEN
         given(jmsMessageCreatorFactory.createJmsRequestMessageCreator(request)).willReturn(jmsMessageCreator);
+        given(request.isLoggingEnabled()).willReturn(true);
         underTest.setMessageLoggingEnabled(true);
         //WHEN
         underTest.logRequest(request);
@@ -75,6 +76,19 @@ public class JmsRequestLoggerTest {
     public void testLogRequestShouldNotSendMessageToQueueWhenSafeGuarded() throws JMSException {
         //GIVEN
         given(jmsMessageCreatorFactory.createJmsRequestMessageCreator(request)).willReturn(jmsMessageCreator);
+        given(request.isLoggingEnabled()).willReturn(true);
+        underTest.setMessageLoggingEnabled(false);
+        //WHEN
+        underTest.logRequest(request);
+        //THEN
+        verifyZeroInteractions(jmsTemplate);
+    }
+
+    @Test
+    public void testLogRequestShouldNotSendMessageToQueueWhenIndividualLoggingDisabled() throws JMSException {
+        //GIVEN
+        given(jmsMessageCreatorFactory.createJmsRequestMessageCreator(request)).willReturn(jmsMessageCreator);
+        given(request.isLoggingEnabled()).willReturn(false);
         underTest.setMessageLoggingEnabled(false);
         //WHEN
         underTest.logRequest(request);

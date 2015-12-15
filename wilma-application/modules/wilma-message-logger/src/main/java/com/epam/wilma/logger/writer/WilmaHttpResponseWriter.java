@@ -70,7 +70,6 @@ public class WilmaHttpResponseWriter extends WilmaHttpEntityWriter<WilmaHttpResp
             logger.error("Could not write message to file:" + outputFile + "!", e);
         }
         return successful;
-
     }
 
     private void writeStatusCode(final int statusCode, final BufferedWriter writer) throws IOException {

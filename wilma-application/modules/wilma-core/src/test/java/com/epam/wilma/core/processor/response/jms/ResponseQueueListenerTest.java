@@ -83,6 +83,7 @@ public class ResponseQueueListenerTest {
         //GIVEN
         underTest.setFiDecompressionEnabled(true);
         underTest.setMessageLoggingEnabled(true);
+        given(response.isLoggingEnabled()).willReturn(true);
         given(objectMessage.getObject()).willReturn(response);
         //WHEN
         underTest.onMessage(objectMessage);
@@ -96,6 +97,7 @@ public class ResponseQueueListenerTest {
         underTest.setFiDecompressionEnabled(false);
         underTest.setMessageLoggingEnabled(true);
         given(objectMessage.getObject()).willReturn(response);
+        given(response.isLoggingEnabled()).willReturn(true);
         //WHEN
         underTest.onMessage(objectMessage);
         //THEN
@@ -106,6 +108,7 @@ public class ResponseQueueListenerTest {
     public void testOnMessageShouldSendResponseToLoggerQueue() throws JMSException {
         //GIVEN
         given(objectMessage.getObject()).willReturn(response);
+        given(response.isLoggingEnabled()).willReturn(true);
         underTest.setMessageLoggingEnabled(true);
         //WHEN
         underTest.onMessage(objectMessage);
@@ -117,6 +120,7 @@ public class ResponseQueueListenerTest {
     public void testOnMessageShouldThrowNewRuntimeExceptionWhenCannotGetWilmaResponseFromMessage() throws JMSException {
         //GIVEN
         underTest.setMessageLoggingEnabled(true);
+        given(response.isLoggingEnabled()).willReturn(true);
         given(objectMessage.getObject()).willThrow(new JMSException("exception"));
         //WHEN
         underTest.onMessage(objectMessage);
@@ -136,6 +140,7 @@ public class ResponseQueueListenerTest {
     public void testOnMessageShouldCallSequenceManagerToSaveTheResponse() throws JMSException {
         //GIVEN
         underTest.setMessageLoggingEnabled(true);
+        given(response.isLoggingEnabled()).willReturn(true);
         given(objectMessage.getObject()).willReturn(response);
         //WHEN
         underTest.onMessage(objectMessage);
@@ -147,6 +152,7 @@ public class ResponseQueueListenerTest {
     public void testLogRequestShouldNotSendMessageToQueueWhenSafeGuarded() throws JMSException {
         //GIVEN
         given(objectMessage.getObject()).willReturn(response);
+        given(response.isLoggingEnabled()).willReturn(true);
         underTest.setMessageLoggingEnabled(false);
         //WHEN
         underTest.onMessage(objectMessage);
@@ -154,5 +160,16 @@ public class ResponseQueueListenerTest {
         verifyZeroInteractions(jmsTemplate);
     }
 
+    @Test
+    public void testLogRequestShouldNotSendMessageToQueueWhenIndividualLoggingDisabled() throws JMSException {
+        //GIVEN
+        given(objectMessage.getObject()).willReturn(response);
+        given(response.isLoggingEnabled()).willReturn(false);
+        underTest.setMessageLoggingEnabled(true);
+        //WHEN
+        underTest.onMessage(objectMessage);
+        //THEN
+        verifyZeroInteractions(jmsTemplate);
+    }
 
 }

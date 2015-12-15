@@ -61,7 +61,6 @@ public class WilmaHttpRequestWriter extends WilmaHttpEntityWriter<WilmaHttpReque
                 writeBody(writer, body);
                 writer.close();
                 successful = true;
-
             }
         } catch (IOException e) {
             logger.error("Could not write message to file:" + outputFile + "!", e);

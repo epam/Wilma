@@ -39,6 +39,7 @@ public class WilmaHttpEntity implements Serializable {
     private String wilmaMessageCustomPostfix;
     // ip of the source/client
     private String remoteAddr;
+    private boolean loggingEnabled = true; //whether the logging of this specific message is enabled or not, default: enabled
 
     /**
      * Adds a WilmaHttpHeader to the list of headers.
@@ -135,5 +136,13 @@ public class WilmaHttpEntity implements Serializable {
 
     public void setWilmaMessageCustomPostfix(final String wilmaMessageCustomPostfix) {
         this.wilmaMessageCustomPostfix = wilmaMessageCustomPostfix;
+    }
+
+    public boolean isLoggingEnabled() {
+        return loggingEnabled;
+    }
+
+    public void setLoggingEnabled(final boolean loggingEnabled) {
+        this.loggingEnabled = loggingEnabled;
     }
 }

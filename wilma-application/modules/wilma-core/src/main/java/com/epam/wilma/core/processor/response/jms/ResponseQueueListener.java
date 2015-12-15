@@ -65,7 +65,7 @@ public class ResponseQueueListener implements MessageListener {
                     messageExtractor.extract(response);
                 }
                 response.setInputStream(null);
-                if (messageLoggingEnabled) {
+                if (messageLoggingEnabled  && response.isLoggingEnabled()) {
                     jmsTemplate.send(loggerQueue, messageCreatorFactory.create(response, consistentFIDecompressionEnabled));
                 }
                 manager.tryToSaveResponseIntoSequence(response);
