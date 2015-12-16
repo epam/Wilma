@@ -452,6 +452,7 @@ public class BrowserMobHttpClient {
         }
     }
 
+    //MAIN METHOD TO HANDLE A REQUEST AND PREPARE A RESULT
     public BrowserMobHttpResponse execute(final BrowserMobHttpRequest req) {
         if (!allowNewRequests.get()) {
             throw new RuntimeException("No more requests allowed");
@@ -488,6 +489,7 @@ public class BrowserMobHttpClient {
 
     //
     //If we were making cake, this would be the filling :)
+    //Sending the prepared - maybe altered - request to the server, and getting back the result
     //
     private BrowserMobHttpResponse execute(final BrowserMobHttpRequest req, int depth) {
         if (depth >= MAX_REDIRECT) {

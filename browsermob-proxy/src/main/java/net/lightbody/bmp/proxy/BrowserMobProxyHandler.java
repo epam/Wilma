@@ -185,7 +185,7 @@ public class BrowserMobProxyHandler extends SeleniumProxyHandler {
                 return -1;
             }
 
-            // this request must have come in just as we were shutting down, since there is no more associted http client
+            // this request must have come in just as we were shutting down, since there is no more associated http client
             // so let's just handle it like we do any other request we don't know what to do with :)
             if (httpClient == null) {
                 // don't even xfer these!

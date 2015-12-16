@@ -124,32 +124,33 @@ public class BrowserMobHttpRequest {
         }
     }
 
+    //MAIN METHOD
     public BrowserMobHttpResponse execute() {
         // deal with PUT/POST requests
         if (method instanceof HttpEntityEnclosingRequestBase) {
-            HttpEntityEnclosingRequestBase enclodingRequest = (HttpEntityEnclosingRequestBase) method;
+            HttpEntityEnclosingRequestBase enclosingRequest = (HttpEntityEnclosingRequestBase) method;
 
             if (!nvps.isEmpty()) {
                 try {
                     if (!multiPart) {
-                        enclodingRequest.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
+                        enclosingRequest.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
                     } else {
                         for (NameValuePair nvp : nvps) {
                             multipartEntity.addPart(nvp.getName(), new StringBody(nvp.getValue()));
                         }
-                        enclodingRequest.setEntity(multipartEntity);
+                        enclosingRequest.setEntity(multipartEntity);
                     }
                 } catch (UnsupportedEncodingException e) {
                     LOG.severe("Could not find UTF-8 encoding, something is really wrong", e);
                 }
             } else if (multipartEntity != null) {
-                enclodingRequest.setEntity(multipartEntity);
+                enclosingRequest.setEntity(multipartEntity);
             } else if (byteArrayEntity != null) {
-                enclodingRequest.setEntity(byteArrayEntity);
+                enclosingRequest.setEntity(byteArrayEntity);
             } else if (stringEntity != null) {
-                enclodingRequest.setEntity(stringEntity);
+                enclosingRequest.setEntity(stringEntity);
             } else if (inputStreamEntity != null) {
-                enclodingRequest.setEntity(inputStreamEntity);
+                enclosingRequest.setEntity(inputStreamEntity);
             }
         }
 
