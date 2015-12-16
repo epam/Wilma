@@ -85,8 +85,8 @@ public class ExampleHandler extends AbstractHandler {
     public void handle(final String path, final Request baseRequest, final HttpServletRequest httpServletRequest,
             final HttpServletResponse httpServletResponse) throws IOException, ServletException {
         if (PATH_TO_HANDLE.equals(path)) {
-            String requestBody = "";
             byte[] byteArray = null;
+            String requestBody = "";
             String contentEncodingHeader = httpServletRequest.getHeader(CONTENT_ENCODING);
             if (contentEncodingHeader != null && contentEncodingHeader.contains(GZIP_TYPE)) {
                 byteArray = gzipDecompresser.decompress(httpServletRequest.getInputStream()).toByteArray();
@@ -103,6 +103,12 @@ public class ExampleHandler extends AbstractHandler {
                 if (byteArray == null) {
                     requestBody = inputStreamConverter.getStringFromStream(httpServletRequest.getInputStream());
                 }
+            }
+            if ("".equals(requestBody)) {
+                ByteArrayOutputStream writer = new ByteArrayOutputStream();
+                IOUtils.copy(httpServletRequest.getInputStream(), writer);
+                String requestSafeBody = IOUtils.toString(writer.toByteArray(), "utf-8"); //default request body content
+                requestBody = requestSafeBody;
             }
             setAnswer(baseRequest, httpServletRequest, httpServletResponse, requestBody);
         } else {
@@ -159,7 +165,16 @@ public class ExampleHandler extends AbstractHandler {
             final String requestBody) throws IOException {
         if (answerShouldBeSent(requestBody)) {
             byte[] responseBodyAsBytes = null;
-            if (httpServletRequest.getHeader(ACCEPT_HEADER) == null) {
+            if ((httpServletRequest.getHeader(CONTENT_TYPE) != null) && (httpServletRequest.getHeader(CONTENT_TYPE).contains("text/plain"))) {
+                //just send the request back + Wilma-Logger-ID in front, if exists
+                String answer = requestBody;
+                if (httpServletRequest.getHeader(WILMA_LOGGER_ID) != null) {
+                    answer = httpServletRequest.getHeader(WILMA_LOGGER_ID) + " " + requestBody;
+                }
+                httpServletResponse.setContentType("text/plain");
+                httpServletResponse.setCharacterEncoding("UTF-8");
+                responseBodyAsBytes = answer.getBytes();
+            } else if (httpServletRequest.getHeader(ACCEPT_HEADER) == null) {
                 httpServletResponse.getWriter().println("Missing accept header!");
             } else if (httpServletRequest.getHeader(ACCEPT_HEADER).contains(XML_TYPE) || httpServletRequest.getHeader(ACCEPT_HEADER).contains(ANY_TYPE)) {
                 InputStream xml = getXmlFromFile(EXAMPLE_XML);
@@ -191,7 +206,7 @@ public class ExampleHandler extends AbstractHandler {
 
     private boolean answerShouldBeSent(final String requestBody) {
         return requestBody.contains("exampleID=\"123\"") || requestBody.contains("exampleID=\"456\"")
-                || requestBody.contains("<exampleID2>101</exampleID2>");
+                || requestBody.contains("<exampleID2>101</exampleID2>") || requestBody.contains("NEED_ANSWER");
     }
 
     InputStream getXmlFromFile(final String filename) {

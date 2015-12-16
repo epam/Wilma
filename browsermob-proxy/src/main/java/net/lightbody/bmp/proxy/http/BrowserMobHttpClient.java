@@ -721,7 +721,7 @@ public class BrowserMobHttpClient {
 
             // only log it if we're not shutdown (otherwise, errors that happen during a shutdown can likely be ignored)
             if (!shutdown) {
-                LOG.info(String.format("%s when requesting %s", errorMessage, url), e);
+                LOG.info(String.format("%s when requesting %s", errorMessage, url));
             }
         } finally {
             // the request is done, get it out of here
