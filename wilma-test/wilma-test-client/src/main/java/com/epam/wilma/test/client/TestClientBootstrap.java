@@ -48,8 +48,8 @@ public class TestClientBootstrap {
             try {
                 if (!args[0].endsWith(".properties")) {
                     logger.error("First argument should be a properties file!");
-                } else if ((!args[1].endsWith(".xml")) && (!args[1].endsWith(".fis") && (!args[1].endsWith(".json")))) {
-                    logger.error("Second argument should be an xml, json or fastinfoset file!");
+                } else if ((!args[1].endsWith(".xml")) && (!args[1].endsWith(".fis") && (!args[1].endsWith(".json")) && (!args[1].endsWith(".txt")))) {
+                    logger.error("Second argument should be an xml, json, fastinfoset or txt file!");
                 } else {
                     properties.load(getFileInputStream(args[0]));
                     String testServerUrl = properties.getProperty("testserver.url");

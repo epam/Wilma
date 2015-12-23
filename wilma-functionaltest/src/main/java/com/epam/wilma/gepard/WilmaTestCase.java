@@ -42,7 +42,8 @@ import java.util.List;
 public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
 
     public static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
-
+    protected static final String MESSAGE_NOT_YET_AVAILABLE = "Requested file not found.";
+    private static final int WAIT_PERIOD_FOR_MESSAGE_LOG = 25;
     /**
      * Sends a POST request to Wilma.
      *
@@ -179,6 +180,45 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
         return new MultiStubRequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
                 .xmlIS(new FileInputStream(STUB_CONFIG_FIRST)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding).groupName(groupname);
+    }
+
+    private RequestParameters createGetRequestParameters(final String getUrl) throws FileNotFoundException {
+        String testServerUrl = getUrl;
+        String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
+        Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
+        String contentType = "text/plain";
+        String contentEncoding = "";
+        String acceptEncoding = "";
+        return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
+                .contentType(contentType).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
+    }
+
+    /**
+     * Method to wait till Wilma saves a message, and return with it.
+     *
+     * @param getUrl url is similar like http://wilma.server.url:1234/config/messages/20140620121508.0000req.txt?source=true
+     * @return with the Response
+     * @throws Exception in case of problem
+     */
+    protected ResponseHolder getSlowMessageFromWilma(final String getUrl) throws Exception {
+        logComment("Getting message from:" + getUrl);
+        RequestParameters requestParameters = createGetRequestParameters(getUrl);
+        ResponseHolder wilmaResp = null;
+        // however messages should be written to disc first by wilma, so we need to wait a bit - first - this is a SLOW test...
+        int waitingForMaxNSecs = WAIT_PERIOD_FOR_MESSAGE_LOG;
+        while (waitingForMaxNSecs > 0) {
+            wilmaResp = callWilmaWithGetMethod(requestParameters);
+            if (wilmaResp.getResponseMessage().contains(MESSAGE_NOT_YET_AVAILABLE)) {
+                logComment("Message is not yet arrived...");
+                Thread.sleep(1000); //1 sec wait and then retry
+                waitingForMaxNSecs--;
+            } else {
+                int inSec = WAIT_PERIOD_FOR_MESSAGE_LOG - waitingForMaxNSecs;
+                logComment("Message arrived in " + inSec + " secs.");
+                waitingForMaxNSecs = 0; //exit from the loop, as we got the answer
+            }
+        }
+        return wilmaResp;
     }
 
 }

@@ -59,29 +59,42 @@ public class HttpRequestSender {
     public void callWilmaTestServer(final RequestParameters requestParameters, final TestClientParameters clientParameters) {
         try {
             HttpClient httpClient = new HttpClient();
-            PostMethod httpPost = new PostMethod(requestParameters.getTestServerUrl());
+            String serverUrl = requestParameters.getTestServerUrl();
+            logger.info("Server URL: " + serverUrl);
+            PostMethod httpPost = new PostMethod(serverUrl);
             if (clientParameters.isUseProxy()) {
-                httpClient.getHostConfiguration().setProxy(requestParameters.getWilmaHost(), requestParameters.getWilmaPort());
+                String proxyHost = requestParameters.getWilmaHost();
+                Integer proxyPort = requestParameters.getWilmaPort();
+                logger.info("Proxy: " + proxyHost + ":" + proxyPort);
+                httpClient.getHostConfiguration().setProxy(proxyHost, proxyPort);
             }
             InputStream inputStream = requestParameters.getInputStream();
             if (requestParameters.getContentType().contains("fastinfoset")) {
+                logger.info("Compressing it by using FIS.");
                 inputStream = compress(inputStream);
             }
             if (requestParameters.getContentEncoding().contains("gzip")) {
+                logger.info("Encoding it by using gzip.");
                 inputStream = encode(inputStream);
                 httpPost.setRequestHeader("Content-Encoding", requestParameters.getContentEncoding());
             }
             InputStreamRequestEntity entity = new InputStreamRequestEntity(inputStream, requestParameters.getContentType());
             httpPost.setRequestEntity(entity);
-            httpPost.setRequestHeader("Accept", requestParameters.getAcceptHeader());
-            httpPost.addRequestHeader("Accept-Encoding", requestParameters.getAcceptEncoding());
+            String acceptHeader = requestParameters.getAcceptHeader();
+            logger.info("Accept (header): " + acceptHeader);
+            httpPost.setRequestHeader("Accept", acceptHeader);
+            String acceptEncoding = requestParameters.getAcceptEncoding();
+            logger.info("Accept-Encoding: " + acceptEncoding);
+            httpPost.addRequestHeader("Accept-Encoding", acceptEncoding);
+            logger.info("Add 'AlterMessage' header.");
+            httpPost.addRequestHeader("AlterMessage", "true"); //always request alter message from Wilma
             //httpPost.addRequestHeader("0", "WilmaBypass=true");
 
             httpClient.getHttpConnectionManager().getParams().setSendBufferSize(clientParameters.getRequestBufferSize());
             httpClient.getHttpConnectionManager().getParams().setReceiveBufferSize(clientParameters.getResponseBufferSize());
 
             int statusCode = httpClient.executeMethod(httpPost);
-            logger.info("status code: " + statusCode);
+            logger.info("Response Status Code: " + statusCode);
             if (clientParameters.getAllowResponseLogging()) {
                 logger.info(getInputStreamAsString(httpPost.getResponseBodyAsStream()));
             }

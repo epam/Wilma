@@ -20,24 +20,34 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
+//import org.apache.http.entity.StringEntity;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+//import java.io.IOException;
+//import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
  * Updates BrowserMob specific HTTP request using {@link com.epam.wilma.domain.http.WilmaHttpRequest}.
- * @author Tamas Kohegyi
  *
+ * @author Tamas Kohegyi
  */
 @Component
 public class BrowserMobResponseUpdater {
 
+//    private final Logger logger = LoggerFactory.getLogger(BrowserMobResponseUpdater.class);
+
     /**
      * Updates BrowserMob specific HTTP response. Adds extra headers to the response only.
+     *
      * @param browserMobHttpResponse what will be updated
-     * @param wilmaResponse contains refresher data
+     * @param wilmaResponse          contains refresher data
      */
     public void updateResponse(final BrowserMobHttpResponse browserMobHttpResponse, final WilmaHttpResponse wilmaResponse) {
+
+        //Note: update (proxy) response is an experimental feature only, has chance to work with proxy version >= 1.4
         // update the headers of the original response with extra headers added by Resp interceptors
         Map<String, String> extraHeaders = wilmaResponse.getExtraHeaders();
         if (extraHeaders != null) { //many cases there is nothing to add
@@ -45,5 +55,19 @@ public class BrowserMobResponseUpdater {
                 browserMobHttpResponse.getRawResponse().addHeader(stringStringEntry.getKey(), stringStringEntry.getValue());
             }
         }
+
+        //this part can be compiled only with proxy >= v1.4
+        /*
+        String newBody = wilmaResponse.getNewBody();
+        if (newBody != null) {
+            try {
+                browserMobHttpResponse.setAnswer(newBody.getBytes(StandardCharsets.UTF_8));
+                browserMobHttpResponse.getRawResponse().setEntity(new StringEntity(wilmaResponse.getNewBody(), StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                //ups, were unable to set new response correctly ...
+                logger.warn("Message ont-the-fly update was failed for message: " + wilmaResponse.getWilmaMessageId(), e);
+            }
+        }
+        */
     }
 }

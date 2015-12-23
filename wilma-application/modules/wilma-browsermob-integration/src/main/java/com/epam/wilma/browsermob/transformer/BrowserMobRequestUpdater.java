@@ -20,14 +20,17 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.entity.StringEntity;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
  * Updates BrowserMob specific HTTP request using {@link WilmaHttpRequest}.
  *
- * @author Tunde_Kovacs
+ * @author Tunde_Kovacs, Tamas Kohegyi
  */
 @Component
 public class BrowserMobRequestUpdater {
@@ -44,6 +47,14 @@ public class BrowserMobRequestUpdater {
         Map<String, String> extraHeaders = wilmaRequest.getExtraHeaders();
         for (Map.Entry<String, String> stringStringEntry : extraHeaders.entrySet()) {
             browserMobHttpRequest.getMethod().addHeader(stringStringEntry.getKey(), stringStringEntry.getValue());
+        }
+        //update the body
+        String newBody = wilmaRequest.getNewBody();
+        if (newBody != null) {
+            if (browserMobHttpRequest.getMethod() instanceof HttpEntityEnclosingRequestBase) {
+                HttpEntityEnclosingRequestBase enclosingRequest = (HttpEntityEnclosingRequestBase) browserMobHttpRequest.getMethod();
+                enclosingRequest.setEntity(new StringEntity(wilmaRequest.getNewBody(), StandardCharsets.UTF_8));
+            }
         }
         //switch between original uri (proxy mode selected) or wilma internal uri (stub mode selected)
         browserMobHttpRequest.getMethod().setURI(wilmaRequest.getUri());

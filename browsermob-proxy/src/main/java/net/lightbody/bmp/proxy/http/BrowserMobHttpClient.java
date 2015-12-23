@@ -81,6 +81,7 @@ import org.eclipse.jetty.util.UrlEncoded;
 import org.java_bandwidthlimiter.StreamManager;
 import org.xbill.DNS.Cache;
 import org.xbill.DNS.DClass;
+import sun.nio.ch.IOUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -480,7 +481,7 @@ public class BrowserMobHttpClient {
 
             //            long responseEnd = System.currentTimeMillis();
             //            System.out.println("RESPONSE-INTERCEPTORS: " + (responseEnd - respStart));
-
+            response.doAnswer();
             return response;
         } finally {
             requestCounter.decrementAndGet();
@@ -637,6 +638,7 @@ public class BrowserMobHttpClient {
         }
 
         StatusLine statusLine = null;
+        ByteArrayOutputStream bos = null;
         try {
             // set the User-Agent if it's not already set
             if (method.getHeaders("User-Agent").length == 0) {
@@ -705,11 +707,13 @@ public class BrowserMobHttpClient {
 
                     if (captureContent) {
                         // todo - something here?
-                        os = new ClonedOutputStream(os);
+                        //os = new ClonedOutputStream(os);
 
                     }
-
-                    bytes = copyWithStats(is, os);
+                    bytes = is.available();
+                    bos = new ByteArrayOutputStream();
+                    org.apache.commons.io.IOUtils.copy(is, bos);
+                    //bytes = copyWithStatsDynamic(is, os); //if copied to os, then response gone back
                 }
             }
         } catch (Exception e) {
@@ -825,8 +829,8 @@ public class BrowserMobHttpClient {
                     contentType = contentTypeHdr.getValue();
                     entry.getResponse().getContent().setMimeType(contentType);
 
-                    if (captureContent && os != null && os instanceof ClonedOutputStream) {
-                        ByteArrayOutputStream copy = ((ClonedOutputStream) os).getOutput();
+                    if (captureContent && bos != null) {
+                        ByteArrayOutputStream copy = bos;
 
                         if (entry.getResponse().getBodySize() != 0 && (gzipping || deflating)) {
                             // ok, we need to decompress it before we can put it in the har file
@@ -946,7 +950,48 @@ public class BrowserMobHttpClient {
         }
 
         return new BrowserMobHttpResponse(statusCode, entry, method, response, contentMatched, verificationText, errorMessage,
-                entry.getResponse().getContent().getText(), contentType, charSet);
+                entry.getResponse().getContent().getText(), contentType, charSet, bos, os);
+    }
+
+    private long copyWithStatsDynamic(InputStream is, OutputStream os) throws IOException {
+        long bytesCopied = 0;
+        byte[] buffer = new byte[BUFFER];
+        int length;
+
+        try {
+            // read the first byte
+            int firstByte = is.read();
+
+            if (firstByte == -1) {
+                return 0;
+            }
+
+            os.write(firstByte);
+            bytesCopied++;
+
+            do {
+                length = is.read(buffer, 0, BUFFER);
+                if (length != -1) {
+                    bytesCopied += length;
+                    os.write(buffer, 0, length);
+                    os.flush();
+                }
+            } while (length != -1);
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                // ok to ignore
+            }
+
+            try {
+                os.close();
+            } catch (IOException e) {
+                // ok to ignore
+            }
+        }
+
+        return bytesCopied;
     }
 
     public void shutdown() {
@@ -1090,7 +1135,7 @@ public class BrowserMobHttpClient {
 
             AuthState authState = (AuthState) context.getAttribute(ClientContext.TARGET_AUTH_STATE);
 
-            // If no auth scheme avaialble yet, try to initialize it preemptively
+            // If no auth scheme available yet, try to initialize it preemptively
             if (authState.getAuthScheme() == null) {
                 AuthScheme authScheme = (AuthScheme) context.getAttribute("preemptive-auth");
                 CredentialsProvider credsProvider = (CredentialsProvider) context.getAttribute(ClientContext.CREDS_PROVIDER);

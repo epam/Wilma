@@ -35,6 +35,8 @@ import com.epam.wilma.test.server.compress.Decompressor;
 import com.epam.wilma.test.server.compress.fis.FastInfosetDecompressor;
 import com.epam.wilma.test.server.compress.gzip.GzipCompressor;
 import com.epam.wilma.test.server.compress.gzip.GzipDecompressor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Jetty handler that is able to handle requests coming to /example with one of the given XMLs in the request body.
@@ -42,7 +44,7 @@ import com.epam.wilma.test.server.compress.gzip.GzipDecompressor;
  *
  */
 public class ExampleHandler extends AbstractHandler {
-
+    private final Logger logger = LoggerFactory.getLogger(ExampleHandler.class);
     private static final String FIS_RESPONSE = "example.xml.fis";
     private static final String EXAMPLE_XML = "example.xml";
     private static final String WILMA_LOGGER_ID = "Wilma-Logger-ID";
@@ -174,6 +176,7 @@ public class ExampleHandler extends AbstractHandler {
                 httpServletResponse.setContentType("text/plain");
                 httpServletResponse.setCharacterEncoding("UTF-8");
                 responseBodyAsBytes = answer.getBytes();
+                logger.info("Received message:\n-----------\n" + requestBody + "\n-----------");
             } else if (httpServletRequest.getHeader(ACCEPT_HEADER) == null) {
                 httpServletResponse.getWriter().println("Missing accept header!");
             } else if (httpServletRequest.getHeader(ACCEPT_HEADER).contains(XML_TYPE) || httpServletRequest.getHeader(ACCEPT_HEADER).contains(ANY_TYPE)) {

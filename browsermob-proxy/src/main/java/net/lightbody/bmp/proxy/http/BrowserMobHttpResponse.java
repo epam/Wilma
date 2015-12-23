@@ -1,9 +1,14 @@
 package net.lightbody.bmp.proxy.http;
 
 import net.lightbody.bmp.core.har.HarEntry;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class BrowserMobHttpResponse {
     private HarEntry entry;
@@ -16,8 +21,10 @@ public class BrowserMobHttpResponse {
     private String contentType;
     private String charSet;
     private int status;
+    private ByteArrayOutputStream bos;
+    private OutputStream os;
 
-    public BrowserMobHttpResponse(int status, HarEntry entry, HttpRequestBase method, HttpResponse response, boolean contentMatched, String verificationText, String errorMessage, String body, String contentType, String charSet) {
+    public BrowserMobHttpResponse(int status, HarEntry entry, HttpRequestBase method, HttpResponse response, boolean contentMatched, String verificationText, String errorMessage, String body, String contentType, String charSet, ByteArrayOutputStream bos, OutputStream os) {
         this.entry = entry;
         this.method = method;
         this.response = response;
@@ -28,6 +35,8 @@ public class BrowserMobHttpResponse {
         this.contentType = contentType;
         this.charSet = charSet;
         this.status = status;
+        this.bos = bos;
+        this.os = os;
     }
 
     public boolean isContentMatched() {
@@ -82,5 +91,28 @@ public class BrowserMobHttpResponse {
 
     public HarEntry getEntry() {
         return entry;
+    }
+
+    public void doAnswer() {
+        //from bos write to os
+        byte[] answer = bos.toByteArray();
+        try {
+            os.write(answer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(bos);
+            IOUtils.closeQuietly(os);
+        }
+    }
+
+    public byte[] getAnswer() {
+        return bos.toByteArray();
+    }
+
+    public void setAnswer(byte[] bytes) throws IOException {
+        IOUtils.closeQuietly(bos);
+        bos = new ByteArrayOutputStream(bytes.length);
+        IOUtils.write(bytes, bos);
     }
 }

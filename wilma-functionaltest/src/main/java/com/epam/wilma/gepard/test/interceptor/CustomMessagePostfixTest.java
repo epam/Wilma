@@ -39,7 +39,6 @@ public class CustomMessagePostfixTest extends WilmaTestCase {
     private static final String TEST_SERVER_RESPONSE = "resources/interceptor/usage/resetSequenceResponse.txt";
     private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/custompostfix/";
     private static final String INTERCEPTOR_CLASS = "CustomMessagePostfixInterceptor.class";
-    private static final String MESSAGE_NOT_YET_AVAILABLE = "Requested file not found.";
 
     private RequestParameters createRequest(final String response) throws Exception {
         setOriginalRequestMessageEmpty();
@@ -85,34 +84,13 @@ public class CustomMessagePostfixTest extends WilmaTestCase {
         // url is similar like http://wilma.server.url:1234/config/messages/20140620121508.0000req.txt?source=true
         String reqRequestUrl = getWilmaInternalUrl() + "config/public/messages/" + id + "req_APOST.txt?source=true";
         String respRequestUrl = getWilmaInternalUrl() + "config/public/messages/" + id + "resp_BPOST.txt?source=true";
-        requestParameters2.useProxy(false);
-        ResponseHolder wilmaReq = getSlowMessageFromWilma(reqRequestUrl, requestParameters2);
-        ResponseHolder wilmaResp = getSlowMessageFromWilma(respRequestUrl, requestParameters2);
+        ResponseHolder wilmaReq = getSlowMessageFromWilma(reqRequestUrl);
+        ResponseHolder wilmaResp = getSlowMessageFromWilma(respRequestUrl);
         //now we can analyse
         assertNotNull("Problem during waiting for the request.", wilmaReq);
         assertNotNull("Problem during waiting for the response.", wilmaResp);
         assertTrue("Request was not arrived.", !wilmaReq.getResponseMessage().contains(MESSAGE_NOT_YET_AVAILABLE));
         assertTrue("Response was not arrived.", !wilmaResp.getResponseMessage().contains(MESSAGE_NOT_YET_AVAILABLE));
-    }
-
-    private ResponseHolder getSlowMessageFromWilma(final String getUrl, final RequestParameters requestParameters2) throws Exception {
-        logComment("Getting message from:" + getUrl);
-        requestParameters2.testServerUrl(getUrl);
-        ResponseHolder wilmaResp = null;
-        // however messages should be written to disc first by wilma, so we need to wait a bit - first - this is a SLOW test...
-        int waitingForMax25Secs = 25;
-        while (waitingForMax25Secs > 0) {
-            wilmaResp = callWilmaWithGetMethod(requestParameters2);
-            if (wilmaResp.getResponseMessage().contains(MESSAGE_NOT_YET_AVAILABLE)) {
-                Thread.sleep(1000); //1 sec wait and then retry
-                waitingForMax25Secs--;
-            } else {
-                int inSec = 25 - waitingForMax25Secs;
-                logComment("Message arrived in " + inSec + " secs.");
-                waitingForMax25Secs = 0; //exit from the loop, as we got the answer
-            }
-        }
-        return wilmaResp;
     }
 
 }

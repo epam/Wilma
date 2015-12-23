@@ -34,6 +34,7 @@ public class WilmaHttpEntity implements Serializable {
     public static final String WILMA_LOGGER_ID = "Wilma-Logger-ID";
     private final Map<String, String> headers = new HashMap<>();
     private String body;
+    private String newBody;
     private InputStream inputStream;
     private String wilmaMessageId;
     private String wilmaMessageCustomPostfix;
@@ -144,5 +145,20 @@ public class WilmaHttpEntity implements Serializable {
 
     public void setLoggingEnabled(final boolean loggingEnabled) {
         this.loggingEnabled = loggingEnabled;
+    }
+
+    public String getNewBody() {
+        return newBody;
+    }
+
+    /**
+     * Modifies the message body on-the-fly. Works with limitations only (plain text request was tested only,
+     * without any compression method.
+     *
+     * @param newBody is the new message content
+     */
+    public void setNewBody(String newBody) {
+        this.newBody = newBody;
+        this.body = this.newBody;
     }
 }

@@ -93,9 +93,8 @@ public class DisableIndividualMessageLoggingTest extends WilmaTestCase {
         // url is similar like http://wilma.server.url:1234/config/messages/20140620121508.0000req.txt?source=true
         String reqRequestUrl = getWilmaInternalUrl() + "config/public/messages/" + id3 + "req.txt?source=true";
         String respRequestUrl = getWilmaInternalUrl() + "config/public/messages/" + id3 + "resp.txt?source=true";
-        requestParameters3.useProxy(false);
-        ResponseHolder wilmaReq = getSlowMessageFromWilma(reqRequestUrl, requestParameters3);
-        ResponseHolder wilmaResp = getSlowMessageFromWilma(respRequestUrl, requestParameters3);
+        ResponseHolder wilmaReq = getSlowMessageFromWilma(reqRequestUrl);
+        ResponseHolder wilmaResp = getSlowMessageFromWilma(respRequestUrl);
         //now we can analyse that the second is arrived
         assertNotNull("Problem during waiting for the request.", wilmaReq);
         assertNotNull("Problem during waiting for the response.", wilmaResp);
@@ -115,26 +114,6 @@ public class DisableIndividualMessageLoggingTest extends WilmaTestCase {
         if (!wilmaResp.getResponseMessage().contains(MESSAGE_NOT_YET_AVAILABLE)) {
             fail("Unfortunately we found the Response file logged, however it should not be logged.");
         }
-    }
-
-    private ResponseHolder getSlowMessageFromWilma(final String getUrl, final RequestParameters requestParameters2) throws Exception {
-        logComment("Getting message from:" + getUrl);
-        requestParameters2.testServerUrl(getUrl);
-        ResponseHolder wilmaResp = null;
-        // however messages should be written to disc first by wilma, so we need to wait a bit - first - this is a SLOW test...
-        int waitingForMax25Secs = 25;
-        while (waitingForMax25Secs > 0) {
-            wilmaResp = callWilmaWithGetMethod(requestParameters2);
-            if (wilmaResp.getResponseMessage().contains(MESSAGE_NOT_YET_AVAILABLE)) {
-                Thread.sleep(1000); //1 sec wait and then retry
-                waitingForMax25Secs--;
-            } else {
-                int inSec = 25 - waitingForMax25Secs;
-                logComment("Message arrived in " + inSec + " secs.");
-                waitingForMax25Secs = 0; //exit from the loop, as we got the answer
-            }
-        }
-        return wilmaResp;
     }
 
 }
