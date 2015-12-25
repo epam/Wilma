@@ -43,6 +43,7 @@ public class BrowserMobProxy implements Proxy {
     private final Logger logger = LoggerFactory.getLogger(BrowserMobProxy.class);
     private Integer proxyPort;
     private Integer requestTimeout;
+    private Boolean responseVolatile;
 
     @Autowired
     private ProxyServer server;
@@ -59,6 +60,7 @@ public class BrowserMobProxy implements Proxy {
             getProperties();
             server.setPort(proxyPort);
             server.start(requestTimeout);
+            server.setResponseVolatile(responseVolatile);
             server.setCaptureContent(true);
             server.setCaptureBinaryContent(true);
             server.addRequestInterceptor(requestInterceptor);
@@ -72,6 +74,7 @@ public class BrowserMobProxy implements Proxy {
         ProxyPropertyDTO properties = configurationAccess.getProperties();
         proxyPort = properties.getProxyPort();
         requestTimeout = properties.getRequestTimeout();
+        responseVolatile = properties.getAllowResponseUpdate();
     }
 
     @Override

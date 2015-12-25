@@ -80,7 +80,7 @@ public class BrowserMobProxyTest {
         // GIVEN
         int requestTimeout = 30000;
         int proxyPort = 9092;
-        propertiesDTO = new ProxyPropertyDTO(proxyPort, requestTimeout);
+        propertiesDTO = new ProxyPropertyDTO(proxyPort, requestTimeout, false);
         given(configurationAccess.getProperties()).willReturn(propertiesDTO);
         // WHEN
         underTest.start();
@@ -95,7 +95,7 @@ public class BrowserMobProxyTest {
     public void testStartShouldThrowExceptionWhenTheProxyCannotBeStarted() throws Exception {
         // GIVEN
         int requestTimeout = 30000;
-        propertiesDTO = new ProxyPropertyDTO(0, requestTimeout);
+        propertiesDTO = new ProxyPropertyDTO(0, requestTimeout, false);
         given(configurationAccess.getProperties()).willReturn(propertiesDTO);
         Mockito.doThrow(Exception.class).when(server).start(requestTimeout);
         // WHEN

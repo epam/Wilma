@@ -20,23 +20,26 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Holds module specific properties.
- * @author Tunde_Kovacs
+ * @author Tunde_Kovacs, Tamas Kohegyi
  *
  */
 public class ProxyPropertyDTO {
 
     private final Integer proxyPort;
     private final Integer requestTimeout;
+    private final Boolean allowResponseUpdate;
 
     /**
      * Constructs a new property holding object with the given fields.
      * @param proxyPort the port used by the proxy
      * @param requestTimeout the value of a request timeout in milliseconds
+     * @param allowResponseUpdate wether proxy should work in mode that allows response update (slower), or not (faster)
      */
-    public ProxyPropertyDTO(final Integer proxyPort, final Integer requestTimeout) {
+    public ProxyPropertyDTO(final Integer proxyPort, final Integer requestTimeout, final Boolean allowResponseUpdate) {
         super();
         this.proxyPort = proxyPort;
         this.requestTimeout = requestTimeout;
+        this.allowResponseUpdate = allowResponseUpdate;
     }
 
     public Integer getProxyPort() {
@@ -47,4 +50,7 @@ public class ProxyPropertyDTO {
         return requestTimeout;
     }
 
+    public Boolean getAllowResponseUpdate() {
+        return allowResponseUpdate;
+    }
 }

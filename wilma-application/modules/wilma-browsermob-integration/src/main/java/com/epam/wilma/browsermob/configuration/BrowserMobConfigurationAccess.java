@@ -43,7 +43,12 @@ public class BrowserMobConfigurationAccess implements ConfigurationAccessBase {
     public void loadProperties() {
         Integer proxyPort = propertyHolder.getInt("proxy.port");
         Integer requestTimeout = propertyHolder.getInt("proxy.request.timeout");
-        properties = new ProxyPropertyDTO(proxyPort, requestTimeout);
+        String responseVolatileString = propertyHolder.get("proxy.response.volatile");
+        Boolean responseVolatile = false;
+        if (responseVolatileString != null && "true".equals(responseVolatileString)) {
+            responseVolatile = true;
+        }
+        properties = new ProxyPropertyDTO(proxyPort, requestTimeout, responseVolatile);
     }
 
     /**

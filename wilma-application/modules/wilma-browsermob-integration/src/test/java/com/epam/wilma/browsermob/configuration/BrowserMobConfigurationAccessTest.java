@@ -53,6 +53,7 @@ public class BrowserMobConfigurationAccessTest {
         MockitoAnnotations.initMocks(this);
         given(propertyHolder.getInt("proxy.request.timeout")).willReturn(REQUEST_TIMEOUT);
         given(propertyHolder.getInt("proxy.port")).willReturn(PROXY_PORT);
+        given(propertyHolder.get("proxy.response.volatile")).willReturn(null);
     }
 
     @Test
@@ -73,5 +74,37 @@ public class BrowserMobConfigurationAccessTest {
         //THENs
         ProxyPropertyDTO actual = underTest.getProperties();
         assertEquals(actual.getRequestTimeout(), Integer.valueOf(REQUEST_TIMEOUT));
+    }
+
+    @Test
+    public void testLoadPropertiesShouldSetDefaultResponseUpdateVolatileAsFalse() {
+        //GIVEN in setUp
+        //WHEN
+        underTest.loadProperties();
+        //THENs
+        ProxyPropertyDTO actual = underTest.getProperties();
+        assertEquals(actual.getAllowResponseUpdate(), Boolean.valueOf(false));
+    }
+
+    @Test
+    public void testLoadPropertiesShouldSetResponseUpdateVolatileAsFalse() {
+        //GIVEN in setUp
+        given(propertyHolder.get("proxy.response.volatile")).willReturn("false");
+        //WHEN
+        underTest.loadProperties();
+        //THENs
+        ProxyPropertyDTO actual = underTest.getProperties();
+        assertEquals(actual.getAllowResponseUpdate(), Boolean.valueOf(false));
+    }
+    @Test
+
+    public void testLoadPropertiesShouldSetResponseUpdateVolatileAsTrue() {
+        //GIVEN in setUp
+        given(propertyHolder.get("proxy.response.volatile")).willReturn("true");
+        //WHEN
+        underTest.loadProperties();
+        //THENs
+        ProxyPropertyDTO actual = underTest.getProperties();
+        assertEquals(actual.getAllowResponseUpdate(), Boolean.valueOf(true));
     }
 }
