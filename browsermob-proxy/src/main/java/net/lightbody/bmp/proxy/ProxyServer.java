@@ -26,8 +26,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ProxyServer {
     public static int PROXY_TIMEOUT = 240000; //4 minutes, by default will be set during ProxyServer.start()
 
-    private static final HarNameVersion CREATOR = new HarNameVersion("BrowserMob Proxy - for Wilma", "2.1");
+    private static final HarNameVersion CREATOR = new HarNameVersion("BrowserMob Proxy - for Wilma", "2.2");
     private static final Log LOG = new Log();
+    private static Boolean responseVolatile = new Boolean(false);
 
     private Server server;
     private int port = -1;
@@ -255,5 +256,13 @@ public class ProxyServer {
         if (options.containsKey("httpProxy")) {
             client.setHttpProxy(options.get("httpProxy"));
         }
+    }
+
+    public static Boolean getResponseVolatile() {
+        return responseVolatile;
+    }
+
+    public static void setResponseVolatile(Boolean responseVolatile) {
+        ProxyServer.responseVolatile = responseVolatile;
     }
 }

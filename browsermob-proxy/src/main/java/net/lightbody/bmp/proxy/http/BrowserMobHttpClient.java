@@ -13,6 +13,7 @@ import net.lightbody.bmp.core.har.HarPostDataParam;
 import net.lightbody.bmp.core.har.HarRequest;
 import net.lightbody.bmp.core.har.HarResponse;
 import net.lightbody.bmp.core.har.HarTimings;
+import net.lightbody.bmp.proxy.ProxyServer;
 import net.lightbody.bmp.proxy.util.Base64;
 import net.lightbody.bmp.proxy.util.CappedByteArrayOutputStream;
 import net.lightbody.bmp.proxy.util.ClonedOutputStream;
@@ -461,6 +462,7 @@ public class BrowserMobHttpClient {
 
         try {
             //            long start = System.currentTimeMillis();
+            boolean isResponseVolatile = ProxyServer.getResponseVolatile(); //this shall determine the whole communication
 
             requestCounter.incrementAndGet();
             for (RequestInterceptor interceptor : requestInterceptors) {
@@ -470,7 +472,7 @@ public class BrowserMobHttpClient {
             //            long request = System.currentTimeMillis();
             //            System.out.println("REQUEST-INTERCEPTORS: " + (request - start));
 
-            BrowserMobHttpResponse response = execute(req, 1);
+            BrowserMobHttpResponse response = execute(req, 1, isResponseVolatile);
 
             //            long respStart = System.currentTimeMillis();
             //            System.out.println("REQUEST-EXECUTION-RESPONSE: " + (respStart - request));
@@ -481,7 +483,9 @@ public class BrowserMobHttpClient {
 
             //            long responseEnd = System.currentTimeMillis();
             //            System.out.println("RESPONSE-INTERCEPTORS: " + (responseEnd - respStart));
-            response.doAnswer();
+            if (isResponseVolatile) {
+                response.doAnswer();
+            }
             return response;
         } finally {
             requestCounter.decrementAndGet();
@@ -492,7 +496,7 @@ public class BrowserMobHttpClient {
     //If we were making cake, this would be the filling :)
     //Sending the prepared - maybe altered - request to the server, and getting back the result
     //
-    private BrowserMobHttpResponse execute(final BrowserMobHttpRequest req, int depth) {
+    private BrowserMobHttpResponse execute(final BrowserMobHttpRequest req, int depth, boolean isResponseVolatile) {
         if (depth >= MAX_REDIRECT) {
             throw new IllegalStateException("Max number of redirects (" + MAX_REDIRECT + ") reached");
         }
@@ -639,6 +643,7 @@ public class BrowserMobHttpClient {
 
         StatusLine statusLine = null;
         ByteArrayOutputStream bos = null;
+
         try {
             // set the User-Agent if it's not already set
             if (method.getHeaders("User-Agent").length == 0) {
@@ -705,15 +710,20 @@ public class BrowserMobHttpClient {
                             }
                     }
 
-                    if (captureContent) {
-                        // todo - something here?
-                        //os = new ClonedOutputStream(os);
+                    if (isResponseVolatile) {
+                        //response content is volatile
+                        bytes = is.available();
+                        bos = new ByteArrayOutputStream();
+                        org.apache.commons.io.IOUtils.copy(is, bos);
+                    } else {
+                        //response content is not volatile
+                        if (captureContent) {
+                            // todo - something here?
+                            os = new ClonedOutputStream(os);
 
+                        }
+                        bytes = copyWithStatsDynamic(is, os); //if copied to os, then response gone back
                     }
-                    bytes = is.available();
-                    bos = new ByteArrayOutputStream();
-                    org.apache.commons.io.IOUtils.copy(is, bos);
-                    //bytes = copyWithStatsDynamic(is, os); //if copied to os, then response gone back
                 }
             }
         } catch (Exception e) {
@@ -829,9 +839,14 @@ public class BrowserMobHttpClient {
                     contentType = contentTypeHdr.getValue();
                     entry.getResponse().getContent().setMimeType(contentType);
 
-                    if (captureContent && bos != null) {
-                        ByteArrayOutputStream copy = bos;
-
+                    ByteArrayOutputStream copy = null;
+                    if (!isResponseVolatile && captureContent && os != null && os instanceof ClonedOutputStream) {
+                        copy = ((ClonedOutputStream) os).getOutput();
+                    }
+                    if (isResponseVolatile && captureContent && bos != null) {
+                        copy = bos;
+                    }
+                    if (captureContent) {
                         if (entry.getResponse().getBodySize() != 0 && (gzipping || deflating)) {
                             // ok, we need to decompress it before we can put it in the har file
                             try {
@@ -842,7 +857,7 @@ public class BrowserMobHttpClient {
                                 else if (deflating) {
                                     //RAW deflate only
                                     // WARN : if system is using zlib<=1.1.4 the stream must be append with a dummy byte
-                                    // that is not requiered for zlib>1.1.4 (not mentioned on current Inflater javadoc)
+                                    // that is not required for zlib>1.1.4 (not mentioned on current Inflater javadoc)
                                     temp = new InflaterInputStream(new ByteArrayInputStream(copy.toByteArray()), new Inflater(true));
                                 }
                                 copy = new ByteArrayOutputStream();
@@ -943,7 +958,7 @@ public class BrowserMobHttpClient {
                 URI newUri = method.getURI().resolve(redirectUri);
                 method.setURI(newUri);
 
-                return execute(req, ++depth);
+                return execute(req, ++depth, isResponseVolatile);
             } catch (URISyntaxException e) {
                 LOG.warn("Could not parse URL", e);
             }
@@ -1234,44 +1249,4 @@ public class BrowserMobHttpClient {
         hostNameResolver.setCacheTimeout(timeout);
     }
 
-    public static long copyWithStats(final InputStream is, final OutputStream os) throws IOException {
-        long bytesCopied = 0;
-        byte[] buffer = new byte[BUFFER];
-        int length;
-
-        try {
-            // read the first byte
-            int firstByte = is.read();
-
-            if (firstByte == -1) {
-                return 0;
-            }
-
-            os.write(firstByte);
-            bytesCopied++;
-
-            do {
-                length = is.read(buffer, 0, BUFFER);
-                if (length != -1) {
-                    bytesCopied += length;
-                    os.write(buffer, 0, length);
-                    os.flush();
-                }
-            } while (length != -1);
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                // ok to ignore
-            }
-
-            try {
-                os.close();
-            } catch (IOException e) {
-                // ok to ignore
-            }
-        }
-
-        return bytesCopied;
-    }
 }

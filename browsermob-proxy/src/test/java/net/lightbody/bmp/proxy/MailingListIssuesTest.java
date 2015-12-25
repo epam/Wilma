@@ -40,7 +40,18 @@ public class MailingListIssuesTest extends DummyServerTest {
     private static final String A_TXT_URL = BASE_URL + "/a.txt";
 
     @Test
-    public void testThatInterceptorIsCalled() throws IOException, InterruptedException {
+    public void testThatInterceptorIsCalledAndResponseNotVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(false);
+        coreTestThatInterceptorIsCalled();
+    }
+
+    @Test
+    public void testThatInterceptorIsCalledAndResponseVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(true);
+        coreTestThatInterceptorIsCalled();
+    }
+
+    public void coreTestThatInterceptorIsCalled() throws IOException, InterruptedException {
         final boolean[] interceptorHit = {false};
         proxy.addRequestInterceptor(new RequestInterceptor() {
             @Override
@@ -56,6 +67,17 @@ public class MailingListIssuesTest extends DummyServerTest {
     }
 
     @Test
+    public void testThatInterceptorCanCaptureCallingIpAddressNotVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(false);
+        testThatInterceptorCanCaptureCallingIpAddress();
+    }
+
+    @Test
+    public void testThatInterceptorCanCaptureCallingIpAddressVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(true);
+        testThatInterceptorCanCaptureCallingIpAddress();
+    }
+
     public void testThatInterceptorCanCaptureCallingIpAddress() throws IOException, InterruptedException {
         final String[] remoteHost = {null};
         proxy.addRequestInterceptor(new RequestInterceptor() {
@@ -72,6 +94,17 @@ public class MailingListIssuesTest extends DummyServerTest {
     }
 
     @Test
+    public void testThatWeCanChangeTheUserAgentNotVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(false);
+        testThatWeCanChangeTheUserAgent();
+    }
+
+    @Test
+    public void testThatWeCanChangeTheUserAgentVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(true);
+        testThatWeCanChangeTheUserAgent();
+    }
+
     public void testThatWeCanChangeTheUserAgent() throws IOException, InterruptedException {
         proxy.addRequestInterceptor(new RequestInterceptor() {
             @Override
@@ -87,6 +120,17 @@ public class MailingListIssuesTest extends DummyServerTest {
     }
 
     @Test
+    public void testThatInterceptorsCanRewriteUrlsNotVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(false);
+        testThatInterceptorsCanRewriteUrls();
+    }
+
+    @Test
+    public void testThatInterceptorsCanRewriteUrlsVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(true);
+        testThatInterceptorsCanRewriteUrls();
+    }
+
     public void testThatInterceptorsCanRewriteUrls() throws IOException, InterruptedException {
         proxy.addRequestInterceptor(new RequestInterceptor() {
             @Override
@@ -105,6 +149,17 @@ public class MailingListIssuesTest extends DummyServerTest {
     }
 
     @Test
+    public void testThatProxyCanCaptureBodyInHarNotVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(false);
+        testThatProxyCanCaptureBodyInHar();
+    }
+
+    @Test
+    public void testThatProxyCanCaptureBodyInHarVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(true);
+        testThatProxyCanCaptureBodyInHar();
+    }
+
     public void testThatProxyCanCaptureBodyInHar() throws IOException, InterruptedException {
         proxy.setCaptureContent(true);
         proxy.newHar("Test");
@@ -133,6 +188,17 @@ public class MailingListIssuesTest extends DummyServerTest {
     }
 
     @Test
+    public void testThatProxyCanCaptureJsonRpcNotVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(false);
+        testThatProxyCanCaptureJsonRpc();
+    }
+
+    @Test
+    public void testThatProxyCanCaptureJsonRpcrVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(true);
+        testThatProxyCanCaptureJsonRpc();
+    }
+
     public void testThatProxyCanCaptureJsonRpc() throws IOException, InterruptedException {
         proxy.setCaptureContent(true);
         proxy.newHar("Test");
@@ -165,6 +231,17 @@ public class MailingListIssuesTest extends DummyServerTest {
     }
 
     @Test
+    public void testThatTraditionalPostParamsAreCapturedNotVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(false);
+        testThatTraditionalPostParamsAreCaptured();
+    }
+
+    @Test
+    public void testThatTraditionalPostParamsAreCapturedVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(true);
+        testThatTraditionalPostParamsAreCaptured();
+    }
+
     public void testThatTraditionalPostParamsAreCaptured() throws IOException, InterruptedException {
         proxy.setCaptureContent(true);
         proxy.newHar("Test");
@@ -195,6 +272,17 @@ public class MailingListIssuesTest extends DummyServerTest {
     }
 
     @Test
+    public void testThatImagesAreCapturedAsBase64EncodedContentNotVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(false);
+        testThatImagesAreCapturedAsBase64EncodedContent();
+    }
+
+    @Test
+    public void testThatImagesAreCapturedAsBase64EncodedContentVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(true);
+        testThatImagesAreCapturedAsBase64EncodedContent();
+    }
+
     public void testThatImagesAreCapturedAsBase64EncodedContent() throws IOException, InterruptedException {
         proxy.setCaptureContent(true);
         proxy.newHar("Test");
@@ -227,7 +315,18 @@ public class MailingListIssuesTest extends DummyServerTest {
     }
 
     @Test
-    public void testThatUrlEncodedQueryStringIsParsedCorrecty() throws IOException, InterruptedException {
+    public void testThatUrlEncodedQueryStringIsParsedCorrectlyNotVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(false);
+        testThatUrlEncodedQueryStringIsParsedCorrectly();
+    }
+
+    @Test
+    public void testThatUrlEncodedQueryStringIsParsedCorrectlyVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(true);
+        testThatUrlEncodedQueryStringIsParsedCorrectly();
+    }
+
+    public void testThatUrlEncodedQueryStringIsParsedCorrectly() throws IOException, InterruptedException {
         proxy.setCaptureContent(true);
         proxy.newHar("Test");
 
@@ -255,6 +354,17 @@ public class MailingListIssuesTest extends DummyServerTest {
     }
 
     @Test
+    public void testThatGzippedContentIsProperlyCapturedInHarNotVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(false);
+        testThatGzippedContentIsProperlyCapturedInHar();
+    }
+
+    @Test
+    public void testThatGzippedContentIsProperlyCapturedInHarVolatile() throws IOException, InterruptedException {
+        ProxyServer.setResponseVolatile(true);
+        testThatGzippedContentIsProperlyCapturedInHar();
+    }
+
     public void testThatGzippedContentIsProperlyCapturedInHar() throws IOException, InterruptedException {
         proxy.setCaptureContent(true);
         proxy.newHar("Test");

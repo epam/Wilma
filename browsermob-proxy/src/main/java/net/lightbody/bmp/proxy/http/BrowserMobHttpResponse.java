@@ -94,6 +94,10 @@ public class BrowserMobHttpResponse {
     }
 
     public void doAnswer() {
+        //only if response is volatile
+        if (bos == null) {
+            return;
+        }
         //from bos write to os
         byte[] answer = bos.toByteArray();
         try {
@@ -107,10 +111,17 @@ public class BrowserMobHttpResponse {
     }
 
     public byte[] getAnswer() {
+        //only if response is volatile
+        if (bos == null) {
+            return null;
+        }
         return bos.toByteArray();
     }
 
     public void setAnswer(byte[] bytes) throws IOException {
+        if (bos == null) {
+            return;
+        }
         IOUtils.closeQuietly(bos);
         bos = new ByteArrayOutputStream(bytes.length);
         IOUtils.write(bytes, bos);
