@@ -60,7 +60,7 @@ public class BrowserMobProxy implements Proxy {
             getProperties();
             server.setPort(proxyPort);
             server.start(requestTimeout);
-            server.setResponseVolatile(responseVolatile);
+            ProxyServer.setResponseVolatile(responseVolatile);
             server.setCaptureContent(true);
             server.setCaptureBinaryContent(true);
             server.addRequestInterceptor(requestInterceptor);

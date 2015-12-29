@@ -33,7 +33,7 @@ public class ProxyPropertyDTO {
      * Constructs a new property holding object with the given fields.
      * @param proxyPort the port used by the proxy
      * @param requestTimeout the value of a request timeout in milliseconds
-     * @param allowResponseUpdate wether proxy should work in mode that allows response update (slower), or not (faster)
+     * @param allowResponseUpdate whether proxy should work in mode that allows response update (slower), or not (faster)
      */
     public ProxyPropertyDTO(final Integer proxyPort, final Integer requestTimeout, final Boolean allowResponseUpdate) {
         super();

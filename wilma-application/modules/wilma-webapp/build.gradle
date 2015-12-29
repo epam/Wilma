@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'Wilma Webapp'
 dependencies {
+    compile project(':wilma-application:wilma-browsermob-integration')
     compile project(':wilma-application:wilma-common')
     compile project(':wilma-application:wilma-core')
     compile project(':wilma-application:wilma-property-validation')

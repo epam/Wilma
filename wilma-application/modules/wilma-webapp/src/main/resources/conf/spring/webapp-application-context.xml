@@ -37,6 +37,9 @@
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageMarkingOffServlet" p:name="messageMarkingOffServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageMarkingStatusServlet" p:name="messageMarkingStatusServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="messageHandlerServlet" p:name="messageHandlerServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="responseMessageVolatilityOnServlet" p:name="responseMessageVolatilityOnServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="responseMessageVolatilityOffServlet" p:name="responseMessageVolatilityOffServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="responseMessageVolatilityStatusServlet" p:name="responseMessageVolatilityStatusServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="operationModeStatusServlet" p:name="operationModeStatusServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="proxyModeOnServlet" p:name="proxyModeOnServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="stubModeOnServlet" p:name="stubModeOnServlet" />
@@ -86,6 +89,9 @@
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageMarkingOnServlet" p:pathSpec="/admin/messagemarking/on" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageMarkingOffServlet" p:pathSpec="/admin/messagemarking/off" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageMarkingStatusServlet" p:pathSpec="/public/messagemarking/status" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="responseMessageVolatilityOnServlet" p:pathSpec="/admin/responsevolatility/on" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="responseMessageVolatilityOffServlet" p:pathSpec="/admin/responsevolatility/off" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="responseMessageVolatilityStatusServlet" p:pathSpec="/public/responsevolatility/status" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageHandlerServlet" p:pathSpec="/public/messages/*" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="operationModeStatusServlet" p:pathSpec="/public/switch/status" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="proxyModeOnServlet" p:pathSpec="/admin/switch/proxy" />

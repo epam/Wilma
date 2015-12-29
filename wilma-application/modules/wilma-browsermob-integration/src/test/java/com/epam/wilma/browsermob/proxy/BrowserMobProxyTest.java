@@ -32,6 +32,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -80,7 +81,7 @@ public class BrowserMobProxyTest {
         // GIVEN
         int requestTimeout = 30000;
         int proxyPort = 9092;
-        propertiesDTO = new ProxyPropertyDTO(proxyPort, requestTimeout, false);
+        propertiesDTO = new ProxyPropertyDTO(proxyPort, requestTimeout, true);
         given(configurationAccess.getProperties()).willReturn(propertiesDTO);
         // WHEN
         underTest.start();
@@ -89,6 +90,7 @@ public class BrowserMobProxyTest {
         Mockito.verify(server).start(requestTimeout);
         Mockito.verify(server).addRequestInterceptor(loggingRequestInterceptor);
         Mockito.verify(server).addResponseInterceptor(loggingResponseInterceptor);
+        Assert.assertTrue(ProxyServer.getResponseVolatile(), "Response volatility status was not set properly.");
     }
 
     @Test(expectedExceptions = ProxyCannotBeStartedException.class)
