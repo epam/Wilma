@@ -20,12 +20,11 @@ package com.epam.wilma.service.domain;
  ===========================================================================*/
 
 /**
- * Represents the possible states of message marking.
+ * Represents the possible states of response message volatility.
  *
  * @author Tamas_Kohegyi
- *
  */
-public enum MessageMarkingStatus {
+public enum ResponseMessageVolatilityStatus {
 
     ON, OFF;
 }
