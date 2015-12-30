@@ -22,6 +22,7 @@ dependencies {
   compile project(':wilma-application:wilma-domain')
   compile project(':wilma-application:wilma-stub-configuration-domain')
   compile project(':wilma-application:wilma-common')
+  compile project(':wilma-application:wilma-browsermob-integration')
   compile group: 'com.jayway.jsonpath', name: 'json-path', version:'0.9.1'
   compile 'org.apache.commons:commons-lang3:3.3.2'
 }

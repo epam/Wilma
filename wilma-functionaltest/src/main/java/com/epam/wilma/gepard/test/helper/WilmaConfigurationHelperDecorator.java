@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.gepard.test.altermessage.ResponseMessageVolatilitySwitch;
 import com.epam.wilma.gepard.test.localhost.BlockLocalhostUsageSwitch;
 import com.epam.wilma.gepard.test.messagemarker.MessageMarkingSwitch;
 import com.epam.wilma.gepard.test.operation.OperationModeSwitch;
@@ -34,6 +35,7 @@ public class WilmaConfigurationHelperDecorator extends WilmaResourceUploaderDeco
     private final OperationModeSwitch operationModeSwitch;
     private final InterceptorModeSwitch interceptorModeSwitch;
     private final MessageMarkingSwitch messageMarkingSwitch;
+    private final ResponseMessageVolatilitySwitch responseMessageVolatilitySwitch;
 
     /**
      * This class adds configuration helper methods to the Test Class.
@@ -43,6 +45,7 @@ public class WilmaConfigurationHelperDecorator extends WilmaResourceUploaderDeco
         operationModeSwitch = new OperationModeSwitch();
         interceptorModeSwitch = new InterceptorModeSwitch();
         messageMarkingSwitch = new MessageMarkingSwitch();
+        responseMessageVolatilitySwitch = new ResponseMessageVolatilitySwitch();
     }
 
     /**
@@ -81,6 +84,15 @@ public class WilmaConfigurationHelperDecorator extends WilmaResourceUploaderDeco
      */
     public void setMessageMarkingTo(final String state) throws Exception {
         messageMarkingSwitch.setMessageMarkingModeTo(this, getWilmaInternalUrl(), state);
+    }
+
+    /**
+     * Set Wilma response message volatility.
+     * @param state can be "on", "off"
+     * @throws Exception in case of error
+     */
+    public void setResponseMessageVolatilityTo(final String state) throws Exception {
+        responseMessageVolatilitySwitch.setResponseMessageVolatilityTo(this, getWilmaInternalUrl(), state);
     }
 
     /**

@@ -54,6 +54,14 @@ public class BrowserMobProxy implements Proxy {
     @Autowired
     private BrowserMobConfigurationAccess configurationAccess;
 
+    public static boolean getResponseVolatile() {
+        return ProxyServer.getResponseVolatile();
+    }
+
+    public static void setResponseVolatile(boolean responseVolatility) {
+        ProxyServer.setResponseVolatile(responseVolatility);
+    }
+
     @Override
     public void start() {
         try {
