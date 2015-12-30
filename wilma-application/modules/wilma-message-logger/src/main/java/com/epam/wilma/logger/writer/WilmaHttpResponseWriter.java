@@ -54,10 +54,8 @@ public class WilmaHttpResponseWriter extends WilmaHttpEntityWriter<WilmaHttpResp
             BufferedWriter writer = bufferedWriterFactory.createBufferedWriter(outputFile, OUTPUT_BUFFER_SIZE);
             if (writer != null) {
                 writeWilmaLoggerId(writer, messageId);
-                String headers = response.getHeaders().toString();
-                if (response.getExtraHeaders() != null) {
-                    headers = headers + response.getExtraHeaders().toString();
-                }
+                String headers = response.getHeaders().toString()
+                        + "+" + response.getExtraHeaders().toString() + "-" + response.getExtraHeadersToRemove().toString();
                 writeHeaders(writer, headers);
                 int statusCode = response.getStatusCode();
                 writeStatusCode(statusCode, writer);

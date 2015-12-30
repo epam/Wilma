@@ -50,6 +50,8 @@ public class WilmaHttpResponseWriterTest {
     private static final String COULD_NOT_WRITE_MESSAGE_ERROR = "Could not write message to file:src/test/resources/outputFile.txt!";
     private static final String OUTPUT_FILE = "src/test/resources/outputFile.txt";
     private static final String HEADERS = "headers";
+    private static final String EXTRA_HEADERS = "headers+";
+    private static final String EXTRA_HEADERS_REMOVE = "headers-";
     private static final String BODY = "body";
     private static final String MESSAGE_ID = "w_201306271455.0001";
     private static final int OUTPUT_BUFFER_SIZE = 262144;
@@ -82,11 +84,14 @@ public class WilmaHttpResponseWriterTest {
         given(response.getWilmaMessageLoggerId()).willReturn(MESSAGE_ID);
         given(response.getWilmaMessageId()).willReturn(MESSAGE_ID);
         given(response.getHeaders().toString()).willReturn(HEADERS);
+        given(response.getExtraHeaders().toString()).willReturn(EXTRA_HEADERS);
+        given(response.getExtraHeadersToRemove().toString()).willReturn(EXTRA_HEADERS_REMOVE);
         given(response.getBody()).willReturn(BODY);
         //WHEN
         underTest.write(response, true);
         //THEN
         verify(bufferedWriter).append(WilmaHttpRequest.WILMA_LOGGER_ID + ":" + MESSAGE_ID);
+        verify(bufferedWriter).append(HEADERS + "+" + EXTRA_HEADERS + "-" + EXTRA_HEADERS_REMOVE);
         verify(bufferedWriter).append(BODY);
     }
 

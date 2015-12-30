@@ -55,7 +55,8 @@ public class WilmaHttpRequestWriter extends WilmaHttpEntityWriter<WilmaHttpReque
                 String requestLine = request.getRemoteAddr() + " " + request.getRequestLine();
                 writeRequestLine(requestLine, writer);
                 writeWilmaLoggerId(writer, messageId);
-                String headers = request.getHeaders().toString() + request.getExtraHeaders().toString();
+                String headers = request.getHeaders().toString()
+                        + "+" + request.getExtraHeaders().toString() + "-" + request.getExtraHeadersToRemove().toString();
                 writeHeaders(writer, headers);
                 String body = request.getBody();
                 writeBody(writer, body);

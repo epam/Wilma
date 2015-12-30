@@ -57,6 +57,8 @@ public class WilmaHttpRequestWriterTest {
     private static final String REQUEST_LINE = "request line";
     private static final String REMOTE_ADDR = "remote.addr";
     private static final String HEADERS = "headers";
+    private static final String EXTRA_HEADERS = "headers+";
+    private static final String EXTRA_HEADERS_REMOVE = "headers-";
     private static final String BODY = "body";
     private static final String MESSAGE_LOGGER_ID = "w_201306271455.0001";
     private static final String FI_PREFIX = "FI";
@@ -97,12 +99,15 @@ public class WilmaHttpRequestWriterTest {
         given(request.getRequestLine()).willReturn(REQUEST_LINE);
         given(request.getRemoteAddr()).willReturn(REMOTE_ADDR);
         given(request.getHeaders().toString()).willReturn(HEADERS);
+        given(request.getExtraHeaders().toString()).willReturn(EXTRA_HEADERS);
+        given(request.getExtraHeadersToRemove().toString()).willReturn(EXTRA_HEADERS_REMOVE);
         given(request.getBody()).willReturn(BODY);
         //WHEN
         underTest.write(request, true);
         //THEN
         verify(bufferedWriter).append(REMOTE_ADDR + " " + REQUEST_LINE);
         verify(bufferedWriter).append(WilmaHttpRequest.WILMA_LOGGER_ID + ":" + MESSAGE_ID);
+        verify(bufferedWriter).append(HEADERS + "+" + EXTRA_HEADERS + "-" + EXTRA_HEADERS_REMOVE);
         verify(bufferedWriter).append(BODY);
     }
 
