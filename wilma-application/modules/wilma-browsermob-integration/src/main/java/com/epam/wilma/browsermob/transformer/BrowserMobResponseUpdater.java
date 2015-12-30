@@ -20,6 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
+import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,9 +52,19 @@ public class BrowserMobResponseUpdater {
 
         // update the headers of the original response with extra headers added by Resp interceptors
         Map<String, String> extraHeaders = wilmaResponse.getExtraHeaders();
-        if (extraHeaders != null) { //many cases there is nothing to add
+        if (extraHeaders != null && !extraHeaders.isEmpty()) { //many cases there is nothing to add
             for (Map.Entry<String, String> stringStringEntry : extraHeaders.entrySet()) {
                 browserMobHttpResponse.getRawResponse().addHeader(stringStringEntry.getKey(), stringStringEntry.getValue());
+            }
+        }
+
+        Map<String, String> extraHeadersToRemove = wilmaResponse.getExtraHeadersToRemove();
+        if (extraHeadersToRemove != null && !extraHeadersToRemove.isEmpty()) { //many cases there is nothing to remove
+            for (Map.Entry<String, String> stringStringEntry : extraHeadersToRemove.entrySet()) {
+                Header header = browserMobHttpResponse.getRawResponse().getFirstHeader(stringStringEntry.getKey());
+                if (header != null) {
+                    browserMobHttpResponse.getRawResponse().removeHeader(header);
+                }
             }
         }
 

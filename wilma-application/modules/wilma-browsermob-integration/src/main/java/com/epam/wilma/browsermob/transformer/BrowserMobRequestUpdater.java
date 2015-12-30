@@ -20,6 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
+import org.apache.http.Header;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.springframework.stereotype.Component;
@@ -45,9 +46,22 @@ public class BrowserMobRequestUpdater {
         // update the headers of the original request with extra headers added by Req interceptors
         // when we redirect the request to the stub, we always add the message id to the extra headers part
         Map<String, String> extraHeaders = wilmaRequest.getExtraHeaders();
-        for (Map.Entry<String, String> stringStringEntry : extraHeaders.entrySet()) {
-            browserMobHttpRequest.getMethod().addHeader(stringStringEntry.getKey(), stringStringEntry.getValue());
+        if (extraHeaders != null && !extraHeaders.isEmpty()) { //many cases there is nothing to add
+            for (Map.Entry<String, String> stringStringEntry : extraHeaders.entrySet()) {
+                browserMobHttpRequest.getMethod().addHeader(stringStringEntry.getKey(), stringStringEntry.getValue());
+            }
         }
+
+        Map<String, String> extraHeadersToRemove = wilmaRequest.getExtraHeadersToRemove();
+        if (extraHeadersToRemove != null && !extraHeadersToRemove.isEmpty()) { //many cases there is nothing to remove
+            for (Map.Entry<String, String> stringStringEntry : extraHeadersToRemove.entrySet()) {
+                Header header = browserMobHttpRequest.getMethod().getFirstHeader(stringStringEntry.getKey());
+                if (header != null) {
+                    browserMobHttpRequest.getMethod().removeHeader(header);
+                }
+            }
+        }
+
         //update the body
         String newBody = wilmaRequest.getNewBody();
         if (newBody != null) {

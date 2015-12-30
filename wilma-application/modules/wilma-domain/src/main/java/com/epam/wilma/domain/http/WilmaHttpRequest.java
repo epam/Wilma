@@ -39,6 +39,8 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
 
     //holder of extra headers to be added to the request
     private final Map<String, String> extraHeaders = new HashMap<>();
+    //holder of extra headers to be removed from the request
+    private final Map<String, String> extraHeadersToRemove = new HashMap<>();
 
     private Map<Evaluable, Boolean> evaluationResults = new HashMap<>();
 
@@ -79,6 +81,33 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
     public Map<String, String> getExtraHeaders() {
         Map<String, String> clone = new HashMap<>();
         clone.putAll(extraHeaders);
+        return clone;
+    }
+
+    /**
+     * Adds a WilmaHttpHeader to the list of extra headers to be removed.
+     * @param key key of the HTTP header
+     */
+    public void addExtraHeaderToRemove(final String key) {
+        extraHeadersToRemove.put(key, key);
+    }
+
+    /**
+     * Returns the extra header to be removed with the given key.
+     * @param key key of the header to get
+     * @return the header value
+     */
+    public String getExtraHeaderToRemove(final String key) {
+        return extraHeadersToRemove.get(key);
+    }
+
+    /**
+     * Returns a copy of the extra headers to be removed.
+     * @return the map that holds the headers
+     */
+    public Map<String, String> getExtraHeadersToRemove() {
+        Map<String, String> clone = new HashMap<>();
+        clone.putAll(extraHeadersToRemove);
         return clone;
     }
 

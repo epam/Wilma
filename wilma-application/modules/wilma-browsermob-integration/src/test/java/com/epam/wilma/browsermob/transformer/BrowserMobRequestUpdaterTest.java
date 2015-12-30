@@ -20,8 +20,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
@@ -37,17 +41,21 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link BrowserMobRequestUpdater}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs, Tamas_Kohegyi
  */
 public class BrowserMobRequestUpdaterTest {
 
+    @Mock
+    private HttpEntityEnclosingRequestBase enclosingRequest;
     @Mock
     private WilmaHttpRequest wilmaHttpRequest;
     @Mock
     private BrowserMobHttpRequest browserMobHttpRequest;
     @Mock
     private HttpRequestBase requestBase;
+    @Mock
+    private Header header;
 
     @InjectMocks
     private BrowserMobRequestUpdater underTest;
@@ -72,7 +80,7 @@ public class BrowserMobRequestUpdaterTest {
     }
 
     @Test
-    public void testUpdateRequestShouldUpdateHeaders() throws URISyntaxException {
+    public void testUpdateRequestShouldUpdateHeadersAddPart() throws URISyntaxException {
         //GIVEN
         Map<String, String> extraHeaders = new HashMap<>();
         extraHeaders.put("A", "B");
@@ -86,6 +94,41 @@ public class BrowserMobRequestUpdaterTest {
         underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);
         //THEN
         verify(requestBase).addHeader("A", "B");
+    }
+
+    @Test
+    public void testUpdateRequestShouldUpdateHeadersRemovePart() throws URISyntaxException {
+        //GIVEN
+        Map<String, String> extraHeaders = new HashMap<>();
+        extraHeaders.put("A", "B");
+        URI uri = new URI("MOCK");
+        given(browserMobHttpRequest.getMethod()).willReturn(requestBase);
+        given(requestBase.getFirstHeader("A")).willReturn(header);
+        given(header.getName()).willReturn("A");
+        given(header.getValue()).willReturn("B");
+        given(wilmaHttpRequest.getUri()).willReturn(uri);
+        String mockID = "WILMA-LOG-MOCK-ID";
+        given(wilmaHttpRequest.getExtraHeadersToRemove()).willReturn(extraHeaders);
+        given(wilmaHttpRequest.getWilmaMessageId()).willReturn(mockID);
+        //WHEN
+        underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);
+        //THEN
+        verify(requestBase).removeHeader(header);
+    }
+
+    @Test
+    public void testUpdateRequestShouldUpdateBodyPart() throws URISyntaxException {
+        //GIVEN
+        URI uri = new URI("MOCK");
+        given(browserMobHttpRequest.getMethod()).willReturn(enclosingRequest);
+        String mockID = "WILMA-LOG-MOCK-ID";
+        given(wilmaHttpRequest.getWilmaMessageId()).willReturn(mockID);
+        given(wilmaHttpRequest.getNewBody()).willReturn("NEW BODY");
+        given(wilmaHttpRequest.getUri()).willReturn(uri);
+        //WHEN
+        underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);
+        //THEN
+        verify(enclosingRequest).setEntity((HttpEntity) Matchers.anyObject());
     }
 
 }

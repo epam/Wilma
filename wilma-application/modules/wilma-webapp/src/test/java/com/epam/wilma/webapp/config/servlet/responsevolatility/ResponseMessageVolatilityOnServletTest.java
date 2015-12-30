@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.webapp.config.servlet.logging.MessageLoggingOnServlet;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import net.lightbody.bmp.proxy.ProxyServer;
 import org.mockito.InjectMocks;
@@ -38,8 +37,8 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Test class for {@link ResponseMessageVolatilityOnServlet}.
- * @author Tamas_Kohegyi
  *
+ * @author Tamas_Kohegyi
  */
 public class ResponseMessageVolatilityOnServletTest {
 
