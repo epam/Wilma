@@ -1,6 +1,6 @@
 package com.epam.wilma.engine.slf4j;
 /*==========================================================================
-Copyright 2013-2015 EPAM Systems
+Copyright 2013-2016 EPAM Systems
 
 This file is part of Wilma.
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--  Copyright 2013-2015 EPAM Systems
+<!--  Copyright 2013-2016 EPAM Systems
       This file is part of Wilma.
       Wilma is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
       as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -18,7 +18,7 @@
   
   <util:constant id="programArgs" static-field="com.epam.wilma.message.search.engine.MessageSearchApplication.arguments" />
   <bean id="startMessage"  class="java.lang.String">
-  <constructor-arg value="%s %nCopyright 2013-2015 EPAM Systems - GNU GPL-V3.0 License%nWilma Search UI is available via URL: http://localhost:%d/ %nIndex files are stored in the '%s' folder.%nThe following folders are indexed at startup '%s'."/>
+  <constructor-arg value="%s %nCopyright 2013-2016 EPAM Systems - GNU GPL-V3.0 License%nWilma Search UI is available via URL: http://localhost:%d/ %nIndex files are stored in the '%s' folder.%nThe following folders are indexed at startup '%s'."/>
   </bean>
 
   <import resource="classpath:conf/spring/lucene-application-context.xml" />

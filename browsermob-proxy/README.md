@@ -3,8 +3,8 @@ BrowserMob Proxy - FOR WILMA
 
 BrowserMob Proxy is a simple utility that makes it easy to capture performance data from browsers, typically written using automation toolkits such as Selenium and Watir.
 
-WARNING!!! Major Changes
-------------------------
+WARNING!!! Major Changes!!!
+---------------------------
 **This version of browsermob-proxy is exclusively altered for using it with Wilma.**
 
 Therefore none of the original browsermob-proxy features (those described below) should be expected as working, 

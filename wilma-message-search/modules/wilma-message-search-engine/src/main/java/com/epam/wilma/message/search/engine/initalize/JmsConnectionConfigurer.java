@@ -1,6 +1,6 @@
 package com.epam.wilma.message.search.engine.initalize;
 /*==========================================================================
-Copyright 2013-2015 EPAM Systems
+Copyright 2013-2016 EPAM Systems
 
 This file is part of Wilma.
 
