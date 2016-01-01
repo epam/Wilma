@@ -840,13 +840,16 @@ public class BrowserMobHttpClient {
                     entry.getResponse().getContent().setMimeType(contentType);
 
                     ByteArrayOutputStream copy = null;
+                    boolean enableWorkWithCopy = false;
                     if (!isResponseVolatile && captureContent && os != null && os instanceof ClonedOutputStream) {
                         copy = ((ClonedOutputStream) os).getOutput();
+                        enableWorkWithCopy = true;
                     }
                     if (isResponseVolatile && captureContent && bos != null) {
+                        enableWorkWithCopy = true;
                         copy = bos;
                     }
-                    if (captureContent) {
+                    if (captureContent && enableWorkWithCopy) {
                         if (entry.getResponse().getBodySize() != 0 && (gzipping || deflating)) {
                             // ok, we need to decompress it before we can put it in the har file
                             try {
