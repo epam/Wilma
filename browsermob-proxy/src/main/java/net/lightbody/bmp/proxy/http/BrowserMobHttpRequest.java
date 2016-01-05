@@ -49,6 +49,7 @@ public class BrowserMobHttpRequest {
     private boolean multiPart;
     private InputStream playGround;
     private String wilmaMessageId = TIME_STAMP_BASED_ID_GENERATOR.nextIdentifier();
+    private boolean responseVolatile = false;
 
     protected BrowserMobHttpRequest(final HttpRequestBase method, final BrowserMobHttpClient client, final int expectedStatusCode,
             final boolean collectAdditionalInfo, final HttpRequest proxyRequest) {
@@ -194,4 +195,12 @@ public class BrowserMobHttpRequest {
     }
 
     public String getWilmaMessageId() { return wilmaMessageId; }
+
+    public boolean getResponseVolatile() {
+        return responseVolatile;
+    }
+
+    public void setResponseVolatile(final boolean responseVolatile) {
+        this.responseVolatile = responseVolatile;
+    }
 }

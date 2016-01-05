@@ -58,6 +58,14 @@ public class BrowserMobProxy implements Proxy {
         return ProxyServer.getResponseVolatile();
     }
 
+    /**
+     * Global setter of the proxy behaviour. When it is volatile=true,
+     * the response of the messages will be volatile (can be changed), otherwise not.
+     * Note1: Requests are always volatile.
+     * Note2: This global setting can be overwritten per message base, using the request interceptors.
+     *
+     * @param responseVolatility must be either true (volatile) or false (not volatile).
+     */
     public static void setResponseVolatile(boolean responseVolatility) {
         ProxyServer.setResponseVolatile(responseVolatility);
     }

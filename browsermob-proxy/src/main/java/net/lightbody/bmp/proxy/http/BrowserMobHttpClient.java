@@ -462,7 +462,8 @@ public class BrowserMobHttpClient {
 
         try {
             //            long start = System.currentTimeMillis();
-            boolean isResponseVolatile = ProxyServer.getResponseVolatile(); //this shall determine the whole communication
+            boolean isResponseVolatile = ProxyServer.getResponseVolatile(); //this is the base of response volatility
+            req.setResponseVolatile(isResponseVolatile);
 
             requestCounter.incrementAndGet();
             for (RequestInterceptor interceptor : requestInterceptors) {
@@ -471,6 +472,9 @@ public class BrowserMobHttpClient {
 
             //            long request = System.currentTimeMillis();
             //            System.out.println("REQUEST-INTERCEPTORS: " + (request - start));
+
+            // Response volatility might be overwritten in request interceptors, but not later, so from now it is fixed:
+            isResponseVolatile = req.getResponseVolatile();
 
             BrowserMobHttpResponse response = execute(req, 1, isResponseVolatile);
 
