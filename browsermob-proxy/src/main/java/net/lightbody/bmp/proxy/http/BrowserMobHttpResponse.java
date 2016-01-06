@@ -23,8 +23,12 @@ public class BrowserMobHttpResponse {
     private int status;
     private ByteArrayOutputStream bos;
     private OutputStream os;
+    private final boolean responseVolatile;
 
-    public BrowserMobHttpResponse(int status, HarEntry entry, HttpRequestBase method, HttpResponse response, boolean contentMatched, String verificationText, String errorMessage, String body, String contentType, String charSet, ByteArrayOutputStream bos, OutputStream os) {
+    public BrowserMobHttpResponse(int status, HarEntry entry, HttpRequestBase method, HttpResponse response,
+                                  boolean contentMatched, String verificationText, String errorMessage,
+                                  String body, String contentType, String charSet,
+                                  ByteArrayOutputStream bos, OutputStream os, boolean responseVolatile) {
         this.entry = entry;
         this.method = method;
         this.response = response;
@@ -37,6 +41,7 @@ public class BrowserMobHttpResponse {
         this.status = status;
         this.bos = bos;
         this.os = os;
+        this.responseVolatile = responseVolatile;
     }
 
     public boolean isContentMatched() {
@@ -94,8 +99,8 @@ public class BrowserMobHttpResponse {
     }
 
     public void doAnswer() {
-        //only if response is volatile
-        if (bos == null) {
+        //only if response is volatile and well prepared
+        if (!isResponseVolatile() || bos == null || os == null) {
             return;
         }
         //from bos write to os
@@ -119,11 +124,16 @@ public class BrowserMobHttpResponse {
     }
 
     public void setAnswer(byte[] bytes) throws IOException {
-        if (bos == null) {
+        //only if response is volatile and well prepared
+        if (!isResponseVolatile() || bos == null) {
             return;
         }
         IOUtils.closeQuietly(bos);
         bos = new ByteArrayOutputStream(bytes.length);
         IOUtils.write(bytes, bos);
+    }
+
+    public boolean isResponseVolatile() {
+        return responseVolatile;
     }
 }

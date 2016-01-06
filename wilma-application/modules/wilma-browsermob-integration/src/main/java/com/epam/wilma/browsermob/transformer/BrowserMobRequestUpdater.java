@@ -70,6 +70,8 @@ public class BrowserMobRequestUpdater {
                 enclosingRequest.setEntity(new StringEntity(wilmaRequest.getNewBody(), StandardCharsets.UTF_8));
             }
         }
+        //set response volatility approach
+        browserMobHttpRequest.setResponseVolatile(wilmaRequest.isResponseVolatile());
         //switch between original uri (proxy mode selected) or wilma internal uri (stub mode selected)
         browserMobHttpRequest.getMethod().setURI(wilmaRequest.getUri());
     }

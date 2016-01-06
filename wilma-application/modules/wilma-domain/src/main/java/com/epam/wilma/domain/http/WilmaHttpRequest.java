@@ -36,6 +36,7 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
     private URI uri;
 
     private boolean rerouted;
+    private boolean responseVolatile; //setting of volatility of the response message
 
     //holder of extra headers to be added to the request
     private final Map<String, String> extraHeaders = new HashMap<>();
@@ -161,4 +162,11 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
         evaluationResults = null;
     }
 
+    public boolean isResponseVolatile() {
+        return responseVolatile;
+    }
+
+    public void setResponseVolatile(boolean responseVolatile) {
+        this.responseVolatile = responseVolatile;
+    }
 }

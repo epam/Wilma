@@ -65,6 +65,7 @@ public class HttpRequestTransformer {
         result.setInputStream(clonedInputStream);
         result.setBody(inputStreamConverter.getStringFromStream(clonedInputStream));
         result.setUri(requestBase.getURI());
+        result.setResponseVolatile(browserMobHttpRequest.getResponseVolatile());
         //prepare instance prefix
         MessagePropertyDTO properties = configurationAccess.getProperties();
         String instancePrefix = properties.getInstancePrefix();

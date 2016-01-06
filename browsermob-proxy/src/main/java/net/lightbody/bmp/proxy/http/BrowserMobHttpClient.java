@@ -972,7 +972,7 @@ public class BrowserMobHttpClient {
         }
 
         return new BrowserMobHttpResponse(statusCode, entry, method, response, contentMatched, verificationText, errorMessage,
-                entry.getResponse().getContent().getText(), contentType, charSet, bos, os);
+                entry.getResponse().getContent().getText(), contentType, charSet, bos, os, isResponseVolatile);
     }
 
     private long copyWithStatsDynamic(InputStream is, OutputStream os) throws IOException {
