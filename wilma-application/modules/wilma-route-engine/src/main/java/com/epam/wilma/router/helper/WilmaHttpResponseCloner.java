@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpResponse;
+import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import org.springframework.stereotype.Component;
 
 import java.util.Map.Entry;
@@ -36,7 +37,7 @@ public class WilmaHttpResponseCloner {
      * @return the new instance
      */
     public WilmaHttpResponse cloneResponse(final WilmaHttpResponse response) {
-        WilmaHttpResponse result = new WilmaHttpResponse();
+        WilmaHttpResponse result = new WilmaHttpResponse(response.isVolatile());
         result.setStatusCode(response.getStatusCode());
         result.setContentType(response.getContentType());
         result.setBody(response.getBody());
@@ -49,8 +50,8 @@ public class WilmaHttpResponseCloner {
         for (Entry<String, String> header : response.getHeaders().entrySet()) {
             result.addHeader(header.getKey(), header.getValue());
         }
-        for (Entry<String, String> header : response.getExtraHeaders().entrySet()) {
-            result.addExtraHeader(header.getKey(), header.getValue());
+        for (Entry<String, HttpHeaderChange> headerChanges : response.getHeaderChanges().entrySet()) {
+            result.addHeaderChange(headerChanges.getKey(), headerChanges.getValue());
         }
         for (Entry<String, String> header : response.getRequestHeaders().entrySet()) {
             result.addRequestHeader(header.getKey(), header.getValue());

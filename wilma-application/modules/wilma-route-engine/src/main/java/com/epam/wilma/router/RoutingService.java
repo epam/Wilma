@@ -73,7 +73,7 @@ public class RoutingService {
         redirect = responseDescriptorDTO != null;
         if (redirect) {
             //need to add this extra header, helping the stub to identify the response
-            request.addExtraHeader(WilmaHttpEntity.WILMA_LOGGER_ID, request.getWilmaMessageId());
+            request.addHeaderUpdate(WilmaHttpEntity.WILMA_LOGGER_ID, request.getWilmaMessageId());
             saveInResponseDescriptorMap(request, responseDescriptorDTO);
         }
         return redirect;

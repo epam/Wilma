@@ -1,3 +1,4 @@
+package com.epam.wilma.domain.http.header;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -17,23 +18,26 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-repositories {
-  maven { url "${myLocalRepository}" }
-}
+import java.io.Serializable;
 
-description = 'wilma browsermob integration'
-dependencies {
-  compile project(':wilma-application:wilma-domain')
-  compile project(':wilma-application:wilma-common')
-  compile project(':wilma-application:wilma-core')
-  compile project(':wilma-application:wilma-properties')
+/**
+ * This class is for handling Http header changes (add, remove).
+ *
+ * @author Tamas_Kohegyi
+ */
+public class HttpHeaderChange implements Serializable {
 
-  compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.4.96'){
-//    compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.4.DEV'){
-  	exclude (module:'slf4j-jdk14')
-  	exclude (module:'commons-logging')
-  	exclude (module:'dom4j')
-  	exclude (module:'jdom')
-  }
-  
+    private boolean applied;
+
+    /**
+     * By default the header Change is not applied. Cann this method to reflect,
+     * that the header in the message is updated with this change, ie the change is applied.
+     */
+    public void setApplied() {
+        applied = true;
+    }
+
+    public boolean isApplied() {
+        return applied;
+    }
 }

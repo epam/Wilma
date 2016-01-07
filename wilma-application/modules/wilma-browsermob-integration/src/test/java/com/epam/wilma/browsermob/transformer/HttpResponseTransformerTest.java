@@ -64,7 +64,7 @@ public class HttpResponseTransformerTest {
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        given(responseFactory.createNewWilmaHttpResponse()).willReturn(response);
+        given(responseFactory.createNewWilmaHttpResponse(false)).willReturn(response);
         requestHeaders = new Header[1];
         responseHeaders = new Header[1];
         requestHeaders[0] = new BasicHeader("reqName", "reqValue");

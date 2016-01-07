@@ -30,7 +30,7 @@ public class DummyRespInterceptor implements ResponseInterceptor {
 
     @Override
     public void onResponseReceive(final WilmaHttpResponse response, final ParameterList parameters) {
-        response.addExtraHeader(HEADER_FIELD_RESP, "yes");
+        response.addHeaderUpdate(HEADER_FIELD_RESP, "yes");
     }
 
 }

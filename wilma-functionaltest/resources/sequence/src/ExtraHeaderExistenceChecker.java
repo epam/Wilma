@@ -31,7 +31,7 @@ public class ExtraHeaderExistenceChecker implements ConditionChecker {
 
     @Override
     public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameters) {
-        return request.getExtraHeader(parameters.get("extra-header-key")) != null;
+        return request.getHeaderUpdateValue("sq-end") != null;
     }
 
 }

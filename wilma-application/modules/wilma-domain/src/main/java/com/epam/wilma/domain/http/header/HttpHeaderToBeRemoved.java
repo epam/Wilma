@@ -1,3 +1,4 @@
+package com.epam.wilma.domain.http.header;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -17,23 +18,11 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-repositories {
-  maven { url "${myLocalRepository}" }
-}
+/**
+ * This class is to be used when a header should be removed.
+ *
+ * @author Tamas_Kohegyi
+ */
+public class HttpHeaderToBeRemoved extends HttpHeaderChange {
 
-description = 'wilma browsermob integration'
-dependencies {
-  compile project(':wilma-application:wilma-domain')
-  compile project(':wilma-application:wilma-common')
-  compile project(':wilma-application:wilma-core')
-  compile project(':wilma-application:wilma-properties')
-
-  compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.4.96'){
-//    compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.4.DEV'){
-  	exclude (module:'slf4j-jdk14')
-  	exclude (module:'commons-logging')
-  	exclude (module:'dom4j')
-  	exclude (module:'jdom')
-  }
-  
 }

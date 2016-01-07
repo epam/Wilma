@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -46,7 +47,7 @@ public class WilmaHttpResponseClonerTest {
     @BeforeMethod
     public void setUp() {
         underTest = new WilmaHttpResponseCloner();
-        response = new WilmaHttpResponse();
+        response = new WilmaHttpResponse(false);
     }
 
     @Test
@@ -92,15 +93,26 @@ public class WilmaHttpResponseClonerTest {
     }
 
     @Test
-    public void testCloneResponseShouldReturnResponseExtraHeaders() {
+    public void testCloneResponseShouldReturnResponseHeaderUpdates() {
         //GIVEN
-        response.addExtraHeader(CONTENT_TYPE_HEADER, XML_CONTENT);
-        response.addExtraHeader(CONTENT_ENCODING_HEADER, GZIP_CONTENT);
+        response.addHeaderUpdate(CONTENT_TYPE_HEADER, XML_CONTENT);
+        response.addHeaderUpdate(CONTENT_ENCODING_HEADER, GZIP_CONTENT);
         //WHEN
         WilmaHttpResponse actual = underTest.cloneResponse(response);
         //THEN
-        assertEquals(actual.getExtraHeader(CONTENT_TYPE_HEADER), XML_CONTENT);
-        assertEquals(actual.getExtraHeader(CONTENT_ENCODING_HEADER), GZIP_CONTENT);
+        assertEquals(actual.getHeaderUpdateValue(CONTENT_TYPE_HEADER), XML_CONTENT);
+        assertEquals(actual.getHeaderUpdateValue(CONTENT_ENCODING_HEADER), GZIP_CONTENT);
+    }
+
+    @Test
+    public void testCloneResponseShouldReturnResponseHeaderRemovals() {
+        //GIVEN
+        response.addHeaderRemove(CONTENT_TYPE_HEADER);
+        response.addHeaderRemove(CONTENT_ENCODING_HEADER);
+        //WHEN
+        WilmaHttpResponse actual = underTest.cloneResponse(response);
+        //THEN
+        assertTrue(actual.getHeaderChanges().entrySet().size() == 2);
     }
 
     @Test

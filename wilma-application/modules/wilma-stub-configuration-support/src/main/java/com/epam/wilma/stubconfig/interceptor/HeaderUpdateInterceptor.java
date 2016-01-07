@@ -30,16 +30,26 @@ import java.util.List;
 /**
  * Interceptor for both Requests and Responses, to remove headers listed in parameters.
  * Beware that the response header removal works only if Response Message Volatility is enabled.
+ *
+ * @author Tamas_Kohegyi
  */
-public class HeaderRemoverInterceptor implements RequestInterceptor, ResponseInterceptor {
+public class HeaderUpdateInterceptor implements RequestInterceptor, ResponseInterceptor {
+
+    public static final String REMOVE_HEADER = "REMOVE";
 
     @Override
     public void onRequestReceive(final WilmaHttpRequest request, final ParameterList parameters) {
         if (parameters != null && !parameters.isEmpty()) {
             List<Parameter> parameterList = parameters.getAllParameters();
-            for (Parameter parameter: parameterList) {
+            for (Parameter parameter : parameterList) {
                 String name = parameter.getName();
-                request.addExtraHeaderToRemove(name);
+                String value = parameter.getValue();
+                if (REMOVE_HEADER.equals(name.toUpperCase())) {
+                    // remove header
+                    request.addHeaderRemove(value);
+                } else {
+                    request.addHeaderUpdate(name, value);
+                }
             }
         }
     }
@@ -48,9 +58,15 @@ public class HeaderRemoverInterceptor implements RequestInterceptor, ResponseInt
     public void onResponseReceive(final WilmaHttpResponse response, final ParameterList parameters) {
         if (parameters != null && !parameters.isEmpty()) {
             List<Parameter> parameterList = parameters.getAllParameters();
-            for (Parameter parameter: parameterList) {
+            for (Parameter parameter : parameterList) {
                 String name = parameter.getName();
-                response.addExtraHeaderToRemove(name);
+                String value = parameter.getValue();
+                if (REMOVE_HEADER.equals(name.toUpperCase())) {
+                    // remove header
+                    response.addHeaderRemove(value);
+                } else {
+                    response.addHeaderUpdate(name, value);
+                }
             }
         }
     }

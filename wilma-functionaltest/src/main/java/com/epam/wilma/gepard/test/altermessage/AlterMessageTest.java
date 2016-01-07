@@ -25,7 +25,9 @@ import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertNotNull;
@@ -38,7 +40,7 @@ import static org.junit.Assert.assertTrue;
 public class AlterMessageTest extends WilmaTestCase {
     private static final String STUB_CONFIG = "resources/interceptor/AlterProxyMessage/stubAlterMessage.xml";
     private static final String TEST_SERVER_REQUEST = "NEED_ANSWER BLAH BLAH";
-    private static final String TEST_SERVER_AlTERED_REQUEST = "NEED_ANSWER BAAH BAAH"; //L -> A
+    private static final String TEST_SERVER_ALTERED_REQUEST = "NEED_ANSWER BAAH BAAH"; //L -> A
     private static final String TEST_SERVER_RESPONSE = "NEED_ANSWER AAAH AAAH";  //B -> A
     private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/AlterProxyMessage/";
     private static final String INTERCEPTOR_CLASS = "MessageAlterInterceptor.class";
@@ -95,7 +97,7 @@ public class AlterMessageTest extends WilmaTestCase {
         //now we can analyse
         assertNotNull("Problem during waiting for the request.", wilmaReq);
         assertNotNull("Problem during waiting for the response.", wilmaResp);
-        assertTrue("Request was not arrived.", wilmaReq.getResponseMessage().contains(TEST_SERVER_AlTERED_REQUEST));
+        assertTrue("Request was not arrived.", wilmaReq.getResponseMessage().contains(TEST_SERVER_ALTERED_REQUEST));
         assertTrue("Response was not arrived.", wilmaResp.getResponseMessage().contains(TEST_SERVER_RESPONSE));
     }
 

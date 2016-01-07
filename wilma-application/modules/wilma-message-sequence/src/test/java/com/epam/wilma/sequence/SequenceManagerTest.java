@@ -59,6 +59,7 @@ public class SequenceManagerTest {
 
     private WilmaHttpRequest request;
     private WilmaHttpResponse response;
+    private final boolean isVolatile = false;
 
     @Mock
     private SequenceService sequenceService;
@@ -100,7 +101,7 @@ public class SequenceManagerTest {
     }
 
     @Test
-    public void testHandleRequestWhenSequenceDescriptorIsAvtive() {
+    public void testHandleRequestWhenSequenceDescriptorIsActive() {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
@@ -113,7 +114,7 @@ public class SequenceManagerTest {
     }
 
     @Test
-    public void testHandleRequestWhenSequenceDescriptorIsNotAvtive() {
+    public void testHandleRequestWhenSequenceDescriptorIsNotActive() {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
@@ -155,7 +156,7 @@ public class SequenceManagerTest {
     @Test
     public void testTryToSaveResponseIntoSequence() {
         //GIVEN
-        response = new WilmaHttpResponse();
+        response = new WilmaHttpResponse(isVolatile);
         String sequenceKey = "TestTeam-fistDescriptor-TestHandler|Sequence1";
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put(WilmaHttpEntity.WILMA_SEQUENCE_ID, sequenceKey);
@@ -176,7 +177,7 @@ public class SequenceManagerTest {
     @Test
     public void testTryToSaveResponseIntoSequenceWhenResponseDoesNotBelongsToSequence() {
         //GIVEN
-        response = new WilmaHttpResponse();
+        response = new WilmaHttpResponse(isVolatile);
         //WHEN
         underTest.tryToSaveResponseIntoSequence(response);
         //THEN

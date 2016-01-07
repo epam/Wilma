@@ -1,4 +1,4 @@
-package com.epam.wilma.browsermob.transformer.helper;
+package com.epam.wilma.domain.http.header;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -18,24 +18,34 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.http.WilmaHttpResponse;
-import org.springframework.stereotype.Component;
-
 /**
- * Factory for creating new instances of {@link WilmaHttpResponse}.
+ * This class is to be used when a header should be updated (either added or changed).
  *
- * @author Tunde_Kovacs
+ * @author Tamas_Kohegyi
  */
-@Component
-public class WilmaResponseFactory {
+public class HttpHeaderToBeUpdated extends HttpHeaderChange {
+    private String originalValue;
+    private String newValue;
 
     /**
-     * Creates a new instance of {@link WilmaHttpResponse}.
+     * Represents a header value that need to be updated. Contains both original and new values.
+     * Original value remains null if it is a brand new header.
      *
-     * @param isVolatile determines if the response header/body can be updated/altered or not.
-     * @return the new instance
+     * @param newValue is the new value of the header.
      */
-    public WilmaHttpResponse createNewWilmaHttpResponse(final boolean isVolatile) {
-        return new WilmaHttpResponse(isVolatile);
+    public HttpHeaderToBeUpdated(final String newValue) {
+        this.newValue = newValue;
+    }
+
+    public String getNewValue() {
+        return newValue;
+    }
+
+    public String getOriginalValue() {
+        return originalValue;
+    }
+
+    public void setOriginalValue(String originalValue) {
+        this.originalValue = originalValue;
     }
 }

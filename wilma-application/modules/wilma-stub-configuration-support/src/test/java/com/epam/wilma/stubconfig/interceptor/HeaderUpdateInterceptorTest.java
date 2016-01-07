@@ -35,11 +35,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
- * Tests for {@link HeaderRemoverInterceptor}.
+ * Tests for {@link HeaderUpdateInterceptor}.
  *
  * @author Tamas_Kohegyi
  */
-public class HeaderRemoverInterceptorTest {
+public class HeaderUpdateInterceptorTest {
 
     @Mock
     private WilmaHttpRequest request;
@@ -48,12 +48,12 @@ public class HeaderRemoverInterceptorTest {
     @Mock
     private ParameterList parameterMap;
 
-    private HeaderRemoverInterceptor underTest;
+    private HeaderUpdateInterceptor underTest;
 
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        underTest = new HeaderRemoverInterceptor();
+        underTest = new HeaderUpdateInterceptor();
     }
 
     @Test
@@ -85,17 +85,44 @@ public class HeaderRemoverInterceptorTest {
         //GIVEN
         given(parameterMap.isEmpty()).willReturn(false);
         List<Parameter> parameters = new ArrayList<>();
+        Parameter p = new Parameter(HeaderUpdateInterceptor.REMOVE_HEADER, "B");
+        parameters.add(p);
+        given(parameterMap.getAllParameters()).willReturn(parameters);
+        //WHEN
+        underTest.onRequestReceive(request, parameterMap);
+        //THEN
+        verify(request).addHeaderRemove("B");
+    }
+
+    @Test
+    public void testResponseInterceptorMarksHeadersToBeRemoved() {
+        //GIVEN
+        List<Parameter> parameters = new ArrayList<>();
+        Parameter p = new Parameter(HeaderUpdateInterceptor.REMOVE_HEADER, "B");
+        parameters.add(p);
+        given(parameterMap.getAllParameters()).willReturn(parameters);
+        //WHEN
+        underTest.onResponseReceive(response, parameterMap);
+        //THEN
+        verify(response).addHeaderRemove("B");
+    }
+
+    @Test
+    public void testRequestInterceptorMarksHeadersToBeUpdated() {
+        //GIVEN
+        given(parameterMap.isEmpty()).willReturn(false);
+        List<Parameter> parameters = new ArrayList<>();
         Parameter p = new Parameter("A", "B");
         parameters.add(p);
         given(parameterMap.getAllParameters()).willReturn(parameters);
         //WHEN
         underTest.onRequestReceive(request, parameterMap);
         //THEN
-        verify(request).addExtraHeaderToRemove("A");
+        verify(request).addHeaderUpdate("A", "B");
     }
 
     @Test
-    public void testResponseInterceptorMarksHeadersToBeRemoved() {
+    public void testResponseInterceptorMarksHeadersToBeUpdated() {
         //GIVEN
         List<Parameter> parameters = new ArrayList<>();
         Parameter p = new Parameter("A", "B");
@@ -104,7 +131,7 @@ public class HeaderRemoverInterceptorTest {
         //WHEN
         underTest.onResponseReceive(response, parameterMap);
         //THEN
-        verify(response).addExtraHeaderToRemove("A");
+        verify(response).addHeaderUpdate("A", "B");
     }
 
 }

@@ -44,6 +44,7 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
     public static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
     protected static final String MESSAGE_NOT_YET_AVAILABLE = "Requested file not found.";
     private static final int WAIT_PERIOD_FOR_MESSAGE_LOG = 25;
+    private static final int ONE_SECOND = 1000; // in msec
     /**
      * Sends a POST request to Wilma.
      *
@@ -210,7 +211,7 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
             wilmaResp = callWilmaWithGetMethod(requestParameters);
             if (wilmaResp.getResponseMessage().contains(MESSAGE_NOT_YET_AVAILABLE)) {
                 logComment("Message is not yet arrived...");
-                Thread.sleep(1000); //1 sec wait and then retry
+                Thread.sleep(ONE_SECOND); //1 sec wait and then retry
                 waitingForMaxNSecs--;
             } else {
                 int inSec = WAIT_PERIOD_FOR_MESSAGE_LOG - waitingForMaxNSecs;

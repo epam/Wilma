@@ -20,6 +20,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.http.header.HttpHeaderChange;
+import com.epam.wilma.domain.http.header.HttpHeaderToBeRemoved;
+import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -33,6 +36,8 @@ import org.testng.annotations.Test;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
@@ -87,6 +92,17 @@ public class WilmaHttpRequestWriterTest {
         underTest = spy(new WilmaHttpRequestWriter());
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
+        //original header setup
+        Map<String, String> headers = new HashMap<>();
+        headers.put(HEADERS, HEADERS);
+        given(request.getHeaders()).willReturn(headers);
+        //header change setup
+        Map<String, HttpHeaderChange> headerChanges = new HashMap<>();
+        HttpHeaderToBeUpdated headerToBeUpdated = new HttpHeaderToBeUpdated(EXTRA_HEADERS);
+        HttpHeaderToBeRemoved headerToBeRemoved = new HttpHeaderToBeRemoved();
+        headerChanges.put(EXTRA_HEADERS, headerToBeUpdated);
+        headerChanges.put(EXTRA_HEADERS_REMOVE, headerToBeRemoved);
+        given(request.getHeaderChanges()).willReturn(headerChanges);
     }
 
     @Test
@@ -98,16 +114,14 @@ public class WilmaHttpRequestWriterTest {
         given(request.getWilmaMessageId()).willReturn(MESSAGE_ID);
         given(request.getRequestLine()).willReturn(REQUEST_LINE);
         given(request.getRemoteAddr()).willReturn(REMOTE_ADDR);
-        given(request.getHeaders().toString()).willReturn(HEADERS);
-        given(request.getExtraHeaders().toString()).willReturn(EXTRA_HEADERS);
-        given(request.getExtraHeadersToRemove().toString()).willReturn(EXTRA_HEADERS_REMOVE);
         given(request.getBody()).willReturn(BODY);
         //WHEN
         underTest.write(request, true);
         //THEN
         verify(bufferedWriter).append(REMOTE_ADDR + " " + REQUEST_LINE);
         verify(bufferedWriter).append(WilmaHttpRequest.WILMA_LOGGER_ID + ":" + MESSAGE_ID);
-        verify(bufferedWriter).append(HEADERS + "+" + EXTRA_HEADERS + "-" + EXTRA_HEADERS_REMOVE);
+        verify(bufferedWriter).append("{" + HEADERS + "=" + HEADERS
+                + "}\n+{" + EXTRA_HEADERS + "=" + EXTRA_HEADERS + "}\n-[" + EXTRA_HEADERS_REMOVE + "]");
         verify(bufferedWriter).append(BODY);
     }
 
@@ -118,7 +132,6 @@ public class WilmaHttpRequestWriterTest {
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
         given(request.getBody()).willReturn(null);
         given(request.getWilmaMessageLoggerId()).willReturn(MESSAGE_LOGGER_ID);
-        given(request.getHeaders().toString()).willReturn(HEADERS);
         given(request.getRequestLine()).willReturn(REQUEST_LINE);
         given(request.getRemoteAddr()).willReturn(REMOTE_ADDR);
         //WHEN

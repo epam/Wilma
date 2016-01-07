@@ -19,13 +19,14 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.http.header.HttpHeaderChange;
+import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.ByteArrayEntity;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -43,31 +44,39 @@ public class BrowserMobRequestUpdater {
      * @param wilmaRequest          contains refresher data
      */
     public void updateRequest(final BrowserMobHttpRequest browserMobHttpRequest, final WilmaHttpRequest wilmaRequest) {
-        // update the headers of the original request with extra headers added by Req interceptors
-        // when we redirect the request to the stub, we always add the message id to the extra headers part
-        Map<String, String> extraHeaders = wilmaRequest.getExtraHeaders();
-        if (extraHeaders != null && !extraHeaders.isEmpty()) { //many cases there is nothing to add
-            for (Map.Entry<String, String> stringStringEntry : extraHeaders.entrySet()) {
-                browserMobHttpRequest.getMethod().addHeader(stringStringEntry.getKey(), stringStringEntry.getValue());
-            }
-        }
+        // Update the headers of the original request with extra headers added/removed by Req interceptors
+        // Note, that when we redirect the request to the stub, we always add the message id to the extra headers part
 
-        Map<String, String> extraHeadersToRemove = wilmaRequest.getExtraHeadersToRemove();
-        if (extraHeadersToRemove != null && !extraHeadersToRemove.isEmpty()) { //many cases there is nothing to remove
-            for (Map.Entry<String, String> stringStringEntry : extraHeadersToRemove.entrySet()) {
-                Header header = browserMobHttpRequest.getMethod().getFirstHeader(stringStringEntry.getKey());
-                if (header != null) {
-                    browserMobHttpRequest.getMethod().removeHeader(header);
+        Map<String, HttpHeaderChange> headerChangeMap = wilmaRequest.getHeaderChanges();
+        if (headerChangeMap != null && !headerChangeMap.isEmpty()) { //we have header change requests
+            for (Map.Entry<String, HttpHeaderChange> headerChangeEntry : headerChangeMap.entrySet()) {
+                String headerKey = headerChangeEntry.getKey();
+                HttpHeaderChange headerChange = headerChangeEntry.getValue();
+                Header header = browserMobHttpRequest.getMethod().getFirstHeader(headerKey);
+
+                if (headerChange instanceof HttpHeaderToBeUpdated) {
+                    // it is HttpHeaderToBeChanged, so added, or updated
+                    if (header != null) {
+                        ((HttpHeaderToBeUpdated) headerChange).setOriginalValue(header.getValue());
+                    }
+                    browserMobHttpRequest.getMethod().addHeader(headerKey, ((HttpHeaderToBeUpdated) headerChange).getNewValue());
+                    headerChange.setApplied();
+                } else {
+                    // it is HttpHeaderToBeRemoved
+                    if (header != null) {
+                        browserMobHttpRequest.getMethod().removeHeader(header);
+                        headerChange.setApplied();
+                    }
                 }
             }
         }
 
         //update the body
-        String newBody = wilmaRequest.getNewBody();
+        byte[] newBody = wilmaRequest.getNewBody();
         if (newBody != null) {
             if (browserMobHttpRequest.getMethod() instanceof HttpEntityEnclosingRequestBase) {
                 HttpEntityEnclosingRequestBase enclosingRequest = (HttpEntityEnclosingRequestBase) browserMobHttpRequest.getMethod();
-                enclosingRequest.setEntity(new StringEntity(wilmaRequest.getNewBody(), StandardCharsets.UTF_8));
+                enclosingRequest.setEntity(new ByteArrayEntity(wilmaRequest.getNewBody()));
             }
         }
         //set response volatility approach

@@ -11,10 +11,11 @@
         <template name="exampleTemplate1" type="xmlfile" resource="example4.xml" />
     </template-descriptor>
     <interceptors>
-        <interceptor name="STS-Header-Remover-Interceptor" class="com.epam.wilma.stubconfig.interceptor.HeaderRemoverInterceptor">
-            <param name="X-XSS-Protection" value="off"/>
-            <param name="upgrade-insecure-requests" value="false"/>
-            <param name="Strict-Transport-Security" value="off"/>
+        <interceptor name="STS-Header-Remover-Interceptor" class="com.epam.wilma.stubconfig.interceptor.HeaderUpdateInterceptor">
+            <param name="REMOVE" value="X-XSS-Protection"/>
+            <param name="REMOVE" value="upgrade-insecure-requests"/>
+            <param name="REMOVE" value="Strict-Transport-Security"/>
+            <param name="HeaderUpdateInterceptor" value="on"/>
         </interceptor>
     </interceptors>
 </wilma-stub>

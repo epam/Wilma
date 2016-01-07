@@ -64,7 +64,7 @@ public class PropertyBasedMessageMarkerTest {
         // WHEN
         underTest.markMessageHeader(request);
         // THEN
-        verify(request).addExtraHeader(WilmaHttpEntity.WILMA_LOGGER_ID, "blah");
+        verify(request).addHeaderUpdate(WilmaHttpEntity.WILMA_LOGGER_ID, "blah");
     }
 
     @Test

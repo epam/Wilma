@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import org.springframework.stereotype.Component;
 
 import java.util.Map.Entry;
@@ -50,8 +51,8 @@ public class WilmaHttpRequestCloner {
         for (Entry<String, String> header : request.getHeaders().entrySet()) {
             result.addHeader(header.getKey(), header.getValue());
         }
-        for (Entry<String, String> header : request.getExtraHeaders().entrySet()) {
-            result.addExtraHeader(header.getKey(), header.getValue());
+        for (Entry<String, HttpHeaderChange> headerChanges : request.getHeaderChanges().entrySet()) {
+            result.addHeaderChange(headerChanges.getKey(), headerChanges.getValue());
         }
     }
 }

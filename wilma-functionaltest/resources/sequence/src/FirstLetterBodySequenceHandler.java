@@ -40,7 +40,7 @@ public class FirstLetterBodySequenceHandler implements SequenceHandler {
         WilmaSequence sequence = store.get(key);
         if (sequence != null) {
             result = key;
-            request.addExtraHeader("sq-end", "end");
+            request.addHeaderUpdate("sq-end", "end");
         }
         return result;
     }

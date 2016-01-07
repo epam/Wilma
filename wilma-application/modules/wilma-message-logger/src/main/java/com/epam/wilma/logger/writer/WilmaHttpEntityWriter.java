@@ -20,12 +20,18 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
+import com.epam.wilma.domain.http.header.HttpHeaderChange;
+import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Writes a request or a response message to a file.
@@ -109,6 +115,31 @@ public abstract class WilmaHttpEntityWriter<T> {
 
     private Path getTargetFolderPath() {
         return logFilePath.getLogFilePath().toAbsolutePath();
+    }
+
+    /**
+     * This method prepares the string output of the message header, and the header changes (updates and removal),
+     * for message logging.
+     *
+     * @param request is the message
+     * @return with header info to be written into the message log file.
+     */
+    public String prepareHeadersInfo(final WilmaHttpEntity request) {
+        String headers = request.getHeaders().toString();
+        Set<String> removedHeaders = new HashSet<>();
+        Map<String, String> updatedHeaders = new HashMap<>();
+        for (Map.Entry<String, HttpHeaderChange> headerChanges : request.getHeaderChanges().entrySet()) {
+            HttpHeaderChange headerChange = headerChanges.getValue();
+            String key = headerChanges.getKey();
+            if (headerChange instanceof HttpHeaderToBeUpdated) {
+                HttpHeaderToBeUpdated header = (HttpHeaderToBeUpdated) headerChange;
+                updatedHeaders.put(key, header.getNewValue());
+            } else { //instance of HttpHeaderToBeRemoved
+                removedHeaders.add(key);
+            }
+        }
+        headers = headers + "\n+" + updatedHeaders.toString() + "\n-" + removedHeaders.toString();
+        return headers;
     }
 
 }

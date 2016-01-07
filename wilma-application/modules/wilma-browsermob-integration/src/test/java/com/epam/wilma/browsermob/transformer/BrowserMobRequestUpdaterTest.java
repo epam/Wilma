@@ -19,6 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.http.header.HttpHeaderChange;
+import com.epam.wilma.domain.http.header.HttpHeaderToBeRemoved;
+import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -82,13 +85,14 @@ public class BrowserMobRequestUpdaterTest {
     @Test
     public void testUpdateRequestShouldUpdateHeadersAddPart() throws URISyntaxException {
         //GIVEN
-        Map<String, String> extraHeaders = new HashMap<>();
-        extraHeaders.put("A", "B");
         URI uri = new URI("MOCK");
         given(browserMobHttpRequest.getMethod()).willReturn(requestBase);
         given(wilmaHttpRequest.getUri()).willReturn(uri);
         String mockID = "WILMA-LOG-MOCK-ID";
-        given(wilmaHttpRequest.getExtraHeaders()).willReturn(extraHeaders);
+        Map<String, HttpHeaderChange> headerChanges = new HashMap<>();
+        HttpHeaderToBeUpdated headerToBeUpdated = new HttpHeaderToBeUpdated("B");
+        headerChanges.put("A", headerToBeUpdated);
+        given(wilmaHttpRequest.getHeaderChanges()).willReturn(headerChanges);
         given(wilmaHttpRequest.getWilmaMessageId()).willReturn(mockID);
         //WHEN
         underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);
@@ -99,8 +103,6 @@ public class BrowserMobRequestUpdaterTest {
     @Test
     public void testUpdateRequestShouldUpdateHeadersRemovePart() throws URISyntaxException {
         //GIVEN
-        Map<String, String> extraHeaders = new HashMap<>();
-        extraHeaders.put("A", "B");
         URI uri = new URI("MOCK");
         given(browserMobHttpRequest.getMethod()).willReturn(requestBase);
         given(requestBase.getFirstHeader("A")).willReturn(header);
@@ -108,7 +110,10 @@ public class BrowserMobRequestUpdaterTest {
         given(header.getValue()).willReturn("B");
         given(wilmaHttpRequest.getUri()).willReturn(uri);
         String mockID = "WILMA-LOG-MOCK-ID";
-        given(wilmaHttpRequest.getExtraHeadersToRemove()).willReturn(extraHeaders);
+        Map<String, HttpHeaderChange> headerChanges = new HashMap<>();
+        HttpHeaderToBeRemoved headerToBeRemoved = new HttpHeaderToBeRemoved();
+        headerChanges.put("A", headerToBeRemoved);
+        given(wilmaHttpRequest.getHeaderChanges()).willReturn(headerChanges);
         given(wilmaHttpRequest.getWilmaMessageId()).willReturn(mockID);
         //WHEN
         underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);
@@ -123,7 +128,7 @@ public class BrowserMobRequestUpdaterTest {
         given(browserMobHttpRequest.getMethod()).willReturn(enclosingRequest);
         String mockID = "WILMA-LOG-MOCK-ID";
         given(wilmaHttpRequest.getWilmaMessageId()).willReturn(mockID);
-        given(wilmaHttpRequest.getNewBody()).willReturn("NEW BODY");
+        given(wilmaHttpRequest.getNewBody()).willReturn("NEW BODY".getBytes());
         given(wilmaHttpRequest.getUri()).willReturn(uri);
         //WHEN
         underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);

@@ -41,7 +41,7 @@ public class PropertyBasedMessageMarker implements MessageMarker {
     public void markMessageHeader(final WilmaHttpRequest request) {
         MessageMarkerRequest messageMarkerRequest = configurationAccess.getProperties();
         if (messageMarkerRequest.getNeedMessageMarker()) {
-            request.addExtraHeader(WilmaHttpEntity.WILMA_LOGGER_ID, request.getWilmaMessageId());
+            request.addHeaderUpdate(WilmaHttpEntity.WILMA_LOGGER_ID, request.getWilmaMessageId());
         }
     }
 

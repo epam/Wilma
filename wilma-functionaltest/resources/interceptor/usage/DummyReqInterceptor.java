@@ -30,7 +30,7 @@ public class DummyReqInterceptor implements RequestInterceptor {
 
     @Override
     public void onRequestReceive(final WilmaHttpRequest request, final ParameterList parameters) {
-        request.addExtraHeader(HEADER_FIELD_REQ, "yes");
+        request.addHeaderUpdate(HEADER_FIELD_REQ, "yes");
     }
 
 }

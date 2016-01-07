@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -96,14 +97,25 @@ public class WilmaHttpRequestClonerTest {
     }
 
     @Test
-    public void testCloneRequestShouldReturnRequestExtraHeaders() {
+    public void testCloneRequestShouldReturnRequestHeaderUpdates() {
         //GIVEN
-        request.addExtraHeader(CONTENT_TYPE_HEADER, XML_CONTENT);
-        request.addExtraHeader(CONTENT_ENCODING_HEADER, GZIP_CONTENT);
+        request.addHeaderUpdate(CONTENT_TYPE_HEADER, XML_CONTENT);
+        request.addHeaderUpdate(CONTENT_ENCODING_HEADER, GZIP_CONTENT);
         //WHEN
         WilmaHttpRequest actual = underTest.cloneRequest(request);
         //THEN
-        assertEquals(actual.getExtraHeader(CONTENT_TYPE_HEADER), XML_CONTENT);
-        assertEquals(actual.getExtraHeader(CONTENT_ENCODING_HEADER), GZIP_CONTENT);
+        assertEquals(actual.getHeaderUpdateValue(CONTENT_TYPE_HEADER), XML_CONTENT);
+        assertEquals(actual.getHeaderUpdateValue(CONTENT_ENCODING_HEADER), GZIP_CONTENT);
+    }
+
+    @Test
+    public void testCloneRequestShouldReturnRequestHeaderRemovals() {
+        //GIVEN
+        request.addHeaderRemove(CONTENT_TYPE_HEADER);
+        request.addHeaderRemove(CONTENT_ENCODING_HEADER);
+        //WHEN
+        WilmaHttpRequest actual = underTest.cloneRequest(request);
+        //THEN
+        assertTrue(actual.getHeaderChanges().entrySet().size() == 2);
     }
 }

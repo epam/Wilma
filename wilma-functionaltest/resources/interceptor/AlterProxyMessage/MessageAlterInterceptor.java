@@ -33,8 +33,8 @@ public class MessageAlterInterceptor implements RequestInterceptor, ResponseInte
         String newBody = request.getBody();
         if (request.getHeader("AlterMessage") != null) {
             newBody = newBody.replaceAll("L", "A");
-            request.setNewBody(newBody);
-            request.addExtraHeader("Req-Altered-By-Wilma", "true");
+            request.setNewBody(newBody.getBytes(), newBody);
+            request.addHeaderUpdate("Req-Altered-By-Wilma", "true");
         }
     }
 
@@ -43,8 +43,8 @@ public class MessageAlterInterceptor implements RequestInterceptor, ResponseInte
         String newBody = response.getBody();
         if (response.getRequestHeader("AlterMessage") != null) {
             newBody = newBody.replaceAll("B", "A");
-            response.setNewBody(newBody);
-            response.addExtraHeader("Resp-Altered-By-Wilma", "true");
+            response.setNewBody(newBody.getBytes(), newBody);
+            response.addHeaderUpdate("Resp-Altered-By-Wilma", "true");
         }
     }
 

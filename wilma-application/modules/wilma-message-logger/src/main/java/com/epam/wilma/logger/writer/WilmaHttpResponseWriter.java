@@ -29,8 +29,8 @@ import java.io.IOException;
 
 /**
  * Writes a {@link WilmaHttpResponse} to a file.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class WilmaHttpResponseWriter extends WilmaHttpEntityWriter<WilmaHttpResponse> {
@@ -54,8 +54,7 @@ public class WilmaHttpResponseWriter extends WilmaHttpEntityWriter<WilmaHttpResp
             BufferedWriter writer = bufferedWriterFactory.createBufferedWriter(outputFile, OUTPUT_BUFFER_SIZE);
             if (writer != null) {
                 writeWilmaLoggerId(writer, messageId);
-                String headers = response.getHeaders().toString()
-                        + "+" + response.getExtraHeaders().toString() + "-" + response.getExtraHeadersToRemove().toString();
+                String headers = prepareHeadersInfo(response);
                 writeHeaders(writer, headers);
                 int statusCode = response.getStatusCode();
                 writeStatusCode(statusCode, writer);

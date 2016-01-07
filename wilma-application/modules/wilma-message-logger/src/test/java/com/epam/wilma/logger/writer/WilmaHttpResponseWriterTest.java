@@ -20,6 +20,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
+import com.epam.wilma.domain.http.header.HttpHeaderChange;
+import com.epam.wilma.domain.http.header.HttpHeaderToBeRemoved;
+import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -32,6 +35,8 @@ import org.testng.annotations.Test;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
@@ -49,7 +54,7 @@ public class WilmaHttpResponseWriterTest {
 
     private static final String COULD_NOT_WRITE_MESSAGE_ERROR = "Could not write message to file:src/test/resources/outputFile.txt!";
     private static final String OUTPUT_FILE = "src/test/resources/outputFile.txt";
-    private static final String HEADERS = "headers";
+    private static final String HEADERS = "originalHeader";
     private static final String EXTRA_HEADERS = "headers+";
     private static final String EXTRA_HEADERS_REMOVE = "headers-";
     private static final String BODY = "body";
@@ -74,6 +79,17 @@ public class WilmaHttpResponseWriterTest {
     public void setUp() {
         underTest = spy(new WilmaHttpResponseWriter());
         MockitoAnnotations.initMocks(this);
+        //original header setup
+        Map<String, String> headers = new HashMap<>();
+        headers.put(HEADERS, HEADERS);
+        given(response.getHeaders()).willReturn(headers);
+        //header change setup
+        Map<String, HttpHeaderChange> headerChanges = new HashMap<>();
+        HttpHeaderToBeUpdated headerToBeUpdated = new HttpHeaderToBeUpdated(EXTRA_HEADERS);
+        HttpHeaderToBeRemoved headerToBeRemoved = new HttpHeaderToBeRemoved();
+        headerChanges.put(EXTRA_HEADERS, headerToBeUpdated);
+        headerChanges.put(EXTRA_HEADERS_REMOVE, headerToBeRemoved);
+        given(response.getHeaderChanges()).willReturn(headerChanges);
     }
 
     @Test
@@ -83,15 +99,13 @@ public class WilmaHttpResponseWriterTest {
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
         given(response.getWilmaMessageLoggerId()).willReturn(MESSAGE_ID);
         given(response.getWilmaMessageId()).willReturn(MESSAGE_ID);
-        given(response.getHeaders().toString()).willReturn(HEADERS);
-        given(response.getExtraHeaders().toString()).willReturn(EXTRA_HEADERS);
-        given(response.getExtraHeadersToRemove().toString()).willReturn(EXTRA_HEADERS_REMOVE);
         given(response.getBody()).willReturn(BODY);
         //WHEN
         underTest.write(response, true);
         //THEN
         verify(bufferedWriter).append(WilmaHttpRequest.WILMA_LOGGER_ID + ":" + MESSAGE_ID);
-        verify(bufferedWriter).append(HEADERS + "+" + EXTRA_HEADERS + "-" + EXTRA_HEADERS_REMOVE);
+        verify(bufferedWriter).append("{" + HEADERS + "=" + HEADERS
+                + "}\n+{" + EXTRA_HEADERS + "=" + EXTRA_HEADERS + "}\n-[" + EXTRA_HEADERS_REMOVE + "]");
         verify(bufferedWriter).append(BODY);
     }
 
@@ -102,7 +116,6 @@ public class WilmaHttpResponseWriterTest {
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);
         given(response.getBody()).willReturn(null);
         given(response.getWilmaMessageLoggerId()).willReturn(MESSAGE_ID);
-        given(response.getHeaders().toString()).willReturn(HEADERS);
         //WHEN
         underTest.write(response, true);
         //THEN

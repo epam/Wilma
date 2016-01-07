@@ -44,6 +44,7 @@ public class WilmaSequenceTest {
     private static final String STUBBED_REQUEST_LOGGER_ID = "id";
     private WilmaSequence underTest;
     private final WilmaSequencePairs messageStore = Mockito.mock(WilmaSequencePairs.class);
+    private final boolean isVolatile = false;
 
     @BeforeMethod
     public void setUp() throws Exception {
@@ -70,7 +71,7 @@ public class WilmaSequenceTest {
         //GIVEN
         Map<String, RequestResponsePair> messages = new TreeMap<>();
         RequestResponsePair pair = new RequestResponsePair(new WilmaHttpRequest());
-        pair.setResponse(new WilmaHttpResponse());
+        pair.setResponse(new WilmaHttpResponse(isVolatile));
         RequestResponsePair pair2 = new RequestResponsePair(new WilmaHttpRequest());
         messages.put("id2", pair);
         messages.put("id3", pair2);
@@ -86,9 +87,9 @@ public class WilmaSequenceTest {
         //GIVEN
         Map<String, RequestResponsePair> messages = new TreeMap<>();
         RequestResponsePair pair = new RequestResponsePair(new WilmaHttpRequest());
-        pair.setResponse(new WilmaHttpResponse());
+        pair.setResponse(new WilmaHttpResponse(isVolatile));
         RequestResponsePair pair2 = new RequestResponsePair(new WilmaHttpRequest());
-        pair2.setResponse(new WilmaHttpResponse());
+        pair2.setResponse(new WilmaHttpResponse(isVolatile));
         messages.put("id2", pair);
         messages.put("id3", pair2);
         given(messageStore.getMessages()).willReturn(messages);

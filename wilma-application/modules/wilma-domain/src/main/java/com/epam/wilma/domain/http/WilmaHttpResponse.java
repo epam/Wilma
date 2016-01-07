@@ -30,11 +30,20 @@ public class WilmaHttpResponse extends WilmaHttpEntity {
 
     private String contentType;
     private int statusCode;
+    //holder of request headers
     private final Map<String, String> requestHeaders = new HashMap<>();
-    //holder of extra headers to be added to the response
-    private final Map<String, String> extraHeaders = new HashMap<>();
-    //holder of extra headers to be removed from the request
-    private final Map<String, String> extraHeadersToRemove = new HashMap<>();
+    private final boolean isVolatile;
+
+    /**
+     * Constructor of the WilmaHttpResponse, where the only important thing is to know
+     * if the response is volatile or not.
+     * In case it is not, content/change of extraHeaders and extraHeadersToRemove has no effect on the real response.
+     *
+     * @param isVolatile is true or false.
+     */
+    public WilmaHttpResponse(boolean isVolatile) {
+        this.isVolatile = isVolatile;
+    }
 
     /**
      * Adds a WilmaHttpHeader to the list of request headers.
@@ -64,61 +73,6 @@ public class WilmaHttpResponse extends WilmaHttpEntity {
         return clone;
     }
 
-    /**
-     * Adds a WilmaHttpHeader to the list of extra headers.
-     * @param key key of the HTTP header
-     * @param value value of the HTTP header
-     */
-    public void addExtraHeader(final String key, final String value) {
-        extraHeaders.put(key, value);
-    }
-
-    /**
-     * Returns the extra header with the given key.
-     * @param key key of the header to get
-     * @return the header value
-     */
-    public String getExtraHeader(final String key) {
-        return extraHeaders.get(key);
-    }
-
-    /**
-     * Returns a copy of the extra headers.
-     * @return the map that holds the headers
-     */
-    public Map<String, String> getExtraHeaders() {
-        Map<String, String> clone = new HashMap<>();
-        clone.putAll(extraHeaders);
-        return clone;
-    }
-
-    /**
-     * Adds a WilmaHttpHeader to the list of extra headers to be removed.
-     * @param key key of the HTTP header
-     */
-    public void addExtraHeaderToRemove(final String key) {
-        extraHeadersToRemove.put(key, key);
-    }
-
-    /**
-     * Returns the extra header to be removed with the given key.
-     * @param key key of the header to get
-     * @return the header value
-     */
-    public String getExtraHeaderToRemove(final String key) {
-        return extraHeadersToRemove.get(key);
-    }
-
-    /**
-     * Returns a copy of the extra headers to be removed.
-     * @return the map that holds the headers
-     */
-    public Map<String, String> getExtraHeadersToRemove() {
-        Map<String, String> clone = new HashMap<>();
-        clone.putAll(extraHeadersToRemove);
-        return clone;
-    }
-
     public String getContentType() {
         return contentType;
     }
@@ -137,6 +91,23 @@ public class WilmaHttpResponse extends WilmaHttpEntity {
 
     public String getSequenceId() {
         return requestHeaders.get(WILMA_SEQUENCE_ID);
+    }
+
+    public boolean isVolatile() {
+        return isVolatile;
+    }
+
+    /**
+     * Modifies the message body on-the-fly. Works with limitations only (plain text request was tested only,
+     * without any compression method).
+     *
+     * @param newBodyArray is the prepared (gzipped, etc, as necessary) content of the new response
+     * @param newBody is the new message content - the human readable part
+     */
+    public void setNewBody(byte[] newBodyArray, String newBody) {
+        if (isVolatile()) {
+            super.setNewBody(newBodyArray, newBody);
+        }
     }
 
 }

@@ -110,7 +110,7 @@ public class WilmaHttpEntityUtilsTest {
     @Test
     public void testGetWilmaMessageIdAtResponse() throws Exception {
         //test the response part
-        WilmaHttpResponse response = new WilmaHttpResponse();
+        WilmaHttpResponse response = new WilmaHttpResponse(false);
         response.setWilmaMessageId("test");
         assertEquals(response.getWilmaMessageId(), "test");
         assertEquals(response.getWilmaMessageLoggerId(), "testresp");

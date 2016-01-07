@@ -56,6 +56,7 @@ public class MultipleSequencesTest extends SequenceHandlingTestBase {
     }
 
     private void sendRequestAndAssertMessage(final String requestBody, final String expectedAnswer) throws Exception {
+        logComment("Sending Request, Assert Message...");
         RequestParameters requestParameters = createRequestParameters(requestBody);
         setExpectedResponseMessage(expectedAnswer);
         callWilmaWithPostMethodAndAssertResponse(requestParameters);

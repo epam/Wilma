@@ -29,6 +29,7 @@ import java.io.IOException;
 
 /**
  * Writes a {@link WilmaHttpRequest} to a file.
+ *
  * @author Marton_Sereg
  */
 @Component
@@ -55,8 +56,7 @@ public class WilmaHttpRequestWriter extends WilmaHttpEntityWriter<WilmaHttpReque
                 String requestLine = request.getRemoteAddr() + " " + request.getRequestLine();
                 writeRequestLine(requestLine, writer);
                 writeWilmaLoggerId(writer, messageId);
-                String headers = request.getHeaders().toString()
-                        + "+" + request.getExtraHeaders().toString() + "-" + request.getExtraHeadersToRemove().toString();
+                String headers = prepareHeadersInfo(request);
                 writeHeaders(writer, headers);
                 String body = request.getBody();
                 writeBody(writer, body);

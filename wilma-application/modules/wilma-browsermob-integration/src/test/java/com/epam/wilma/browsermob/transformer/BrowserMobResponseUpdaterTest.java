@@ -19,6 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpResponse;
+import com.epam.wilma.domain.http.header.HttpHeaderChange;
+import com.epam.wilma.domain.http.header.HttpHeaderToBeRemoved;
+import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -30,7 +33,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,13 +68,14 @@ public class BrowserMobResponseUpdaterTest {
     @Test
     public void testUpdateResponseShouldUpdateHeadersAddPart() throws URISyntaxException {
         //GIVEN
-        Map<String, String> extraHeaders = new HashMap<>();
-        extraHeaders.put("A", "B");
-        URI uri = new URI("MOCK");
         given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
         String mockID = "WILMA-LOG-MOCK-ID";
-        given(wilmaHttpResponse.getExtraHeaders()).willReturn(extraHeaders);
+        Map<String, HttpHeaderChange> headerChanges = new HashMap<>();
+        HttpHeaderToBeUpdated headerToBeUpdated = new HttpHeaderToBeUpdated("B");
+        headerChanges.put("A", headerToBeUpdated);
+        given(wilmaHttpResponse.getHeaderChanges()).willReturn(headerChanges);
         given(wilmaHttpResponse.getWilmaMessageId()).willReturn(mockID);
+        given(wilmaHttpResponse.isVolatile()).willReturn(true);
         //WHEN
         underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
         //THEN
@@ -82,15 +85,17 @@ public class BrowserMobResponseUpdaterTest {
     @Test
     public void testUpdateResponseShouldUpdateHeadersRemovePart() throws URISyntaxException {
         //GIVEN
-        Map<String, String> extraHeaders = new HashMap<>();
-        extraHeaders.put("A", "B");
         given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
         given(httpResponse.getFirstHeader("A")).willReturn(header);
         given(header.getName()).willReturn("A");
         given(header.getValue()).willReturn("B");
         String mockID = "WILMA-LOG-MOCK-ID";
-        given(wilmaHttpResponse.getExtraHeadersToRemove()).willReturn(extraHeaders);
+        Map<String, HttpHeaderChange> headerChanges = new HashMap<>();
+        HttpHeaderToBeRemoved headerToBeRemoved = new HttpHeaderToBeRemoved();
+        headerChanges.put("A", headerToBeRemoved);
+        given(wilmaHttpResponse.getHeaderChanges()).willReturn(headerChanges);
         given(wilmaHttpResponse.getWilmaMessageId()).willReturn(mockID);
+        given(wilmaHttpResponse.isVolatile()).willReturn(true);
         //WHEN
         underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
         //THEN
@@ -101,7 +106,8 @@ public class BrowserMobResponseUpdaterTest {
     public void testUpdateResponseShouldUpdateBodyPart() throws URISyntaxException, IOException {
         //GIVEN
         given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
-        given(wilmaHttpResponse.getNewBody()).willReturn("NEW BODY");
+        given(wilmaHttpResponse.getNewBody()).willReturn("NEW BODY".getBytes());
+        given(wilmaHttpResponse.isVolatile()).willReturn(true);
         //WHEN
         underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
         //THEN

@@ -49,6 +49,7 @@ import com.epam.wilma.router.RoutingService;
 public class ResponseInterceptorProcessorTest {
 
     private static final ParameterList PARAMS = new ParameterList();
+    private final boolean isVolatile = false;
 
     @Mock
     private RoutingService routingService;
@@ -69,7 +70,7 @@ public class ResponseInterceptorProcessorTest {
         Map<String, StubDescriptor> stubDescriptors = new LinkedHashMap<>();
         stubDescriptors.put("test", createStubDescriptor());
         given(routingService.getStubDescriptors()).willReturn(stubDescriptors);
-        WilmaHttpEntity entity = new WilmaHttpResponse();
+        WilmaHttpEntity entity = new WilmaHttpResponse(isVolatile);
         //WHEN
         underTest.process(entity);
         //THEN
@@ -82,7 +83,7 @@ public class ResponseInterceptorProcessorTest {
         Map<String, StubDescriptor> stubDescriptors = new LinkedHashMap<>();
         stubDescriptors.put("test", createStubDescriptorWithNoInterceptor());
         given(routingService.getStubDescriptors()).willReturn(stubDescriptors);
-        WilmaHttpEntity entity = new WilmaHttpResponse();
+        WilmaHttpEntity entity = new WilmaHttpResponse(isVolatile);
         //WHEN
         underTest.process(entity);
         //THEN

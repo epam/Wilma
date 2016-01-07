@@ -47,7 +47,8 @@ public class HttpResponseTransformer {
      * @return Wilma's own representation of the HTTP response
      */
     public WilmaHttpResponse transformResponse(final BrowserMobHttpResponse response) {
-        WilmaHttpResponse result = responseFactory.createNewWilmaHttpResponse();
+        boolean isResponseVolatile = response.isResponseVolatile();
+        WilmaHttpResponse result = responseFactory.createNewWilmaHttpResponse(isResponseVolatile);
         if (response.getRawResponse() != null) {
             for (Header header : response.getRawResponse().getAllHeaders()) {
                 result.addHeader(header.getName(), header.getValue());
@@ -64,16 +65,8 @@ public class HttpResponseTransformer {
         result.setContentType(response.getContentType());
         result.setStatusCode(status);
 
-        //prepare instance prefix
-        MessagePropertyDTO properties = configurationAccess.getProperties();
-        String instancePrefix = properties.getInstancePrefix();
-        if (instancePrefix != null) {
-            instancePrefix += "_";  // "prefix_"
-        } else {
-            instancePrefix = "";
-        }
-
         //set Wilma Message Id
+        String instancePrefix = prepareInstancePrefix();
         result.setWilmaMessageId(instancePrefix + response.getEntry().getWilmaEntryId());
 
         //set remote addr
@@ -82,4 +75,17 @@ public class HttpResponseTransformer {
 
         return result;
     }
+
+    private String prepareInstancePrefix() {
+        //prepare instance prefix
+        MessagePropertyDTO properties = configurationAccess.getProperties();
+        String instancePrefix = properties.getInstancePrefix();
+        if (instancePrefix != null) {
+            instancePrefix += "_";  // "prefix_"
+        } else {
+            instancePrefix = "";
+        }
+        return instancePrefix;
+    }
+
 }
