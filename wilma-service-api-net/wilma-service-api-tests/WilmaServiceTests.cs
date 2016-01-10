@@ -1,5 +1,5 @@
 ﻿/*==========================================================================
- Copyright 2015 EPAM Systems
+ Copyright 2016 EPAM Systems
 
  This file is part of Wilma.
 
@@ -128,6 +128,27 @@ namespace wilma_service_api_tests
             var ws = PrepareWilmaGet("");
 
             var res = ws.SetMessageLoggingStatusAsync(WilmaService.MessageLoggingStatusEnum.On).Result;
+
+            res.ShouldBeEquivalentTo(true);
+        }
+
+        [Test]
+        public void CreateWilmaService_CallGetResponseVolatilityStatusAsync_Success()
+        {
+            var resStr = JsonConvert.SerializeObject(new ResponseVolatilityStatus());
+            var ws = PrepareWilmaGet(resStr);
+
+            var res = ws.GetResponseVolatilityStatusAsync().Result;
+
+            res.ShouldBeEquivalentTo(WilmaService.ResponseVolatilityStatusEnum.Off);
+        }
+
+        [Test]
+        public void CreateWilmaService_CallSetResponseVolatilityStatusAsync_Success()
+        {
+            var ws = PrepareWilmaGet("");
+
+            var res = ws.SetResponseVolatilityStatusAsync(WilmaService.ResponseVolatilityStatusEnum.On).Result;
 
             res.ShouldBeEquivalentTo(true);
         }

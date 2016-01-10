@@ -22,14 +22,14 @@ using Newtonsoft.Json;
 namespace epam.wilma_service_api.ServiceCommClasses
 {
     /// <summary>
-    /// MessageMarkingStatus class.
+    /// ResponseVolatilityStatus class.
     /// </summary>
-    public class MessageMarkingStatus
+    public class ResponseVolatilityStatus
     {
         /// <summary>
         /// MessageMarking Mode
         /// </summary>
-        [JsonProperty("messageMarking")]
-        public bool MessageMarking { get; set; }
+        [JsonProperty("responseVolatility")]
+        public bool ResponseVolatility { get; set; }
     }
 }

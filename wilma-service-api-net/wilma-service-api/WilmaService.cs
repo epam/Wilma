@@ -1,5 +1,5 @@
 ﻿/*==========================================================================
- Copyright 2015 EPAM Systems
+ Copyright 2016 EPAM Systems
 
  This file is part of Wilma.
 
@@ -113,6 +113,25 @@ namespace epam.wilma_service_api
             Off
         }
 
+        /// <summary>
+        /// ResponseVolatilityStatusEnum
+        /// </summary>
+        public enum ResponseVolatilityStatusEnum
+        {
+            /// <summary>
+            /// Communication error.
+            /// </summary>
+            Error,
+            /// <summary>
+            /// On.
+            /// </summary>
+            On,
+            /// <summary>
+            /// Off.
+            /// </summary>
+            Off
+        }
+        
         /// <summary>
         /// StubConfigStatusEnum
         /// </summary>
@@ -375,6 +394,59 @@ namespace epam.wilma_service_api
         }
 
         #endregion MESSAGEMARKING STATUS
+
+        #region RESPONSE VOLATILITY
+
+        private const string STATUS_GETRESPONSE_VOLATILITY_URL_POSTFIX = "config/public/responsevolatility/status";
+        private const string STATUS_SETRESPONSE_VOLATILITY_URL_POSTFIX_FORMAT = "config/admin/responsevolatility/{0}";
+
+        /// <summary>
+        /// Gets the response volatility status.
+        /// </summary>
+        /// <returns>Response volatility status, or ResponseVolatilityStatusEnum.Error in case of communication problem.</returns>
+        public async Task<ResponseVolatilityStatusEnum> GetResponseVolatilityStatusAsync()
+        {
+            _logger.Debug("WilmaService GetResponseVolatilityStatusAsync enter...");
+
+            var resp = await _httpClient.GetAsync(GetUrl(STATUS_GETRESPONSE_VOLATILITY_URL_POSTFIX));
+            if (resp.IsSuccessStatusCode)
+            {
+                var jsonStr = await resp.Content.ReadAsStringAsync();
+                _logger.Debug("WilmaService GetResponseVolatilityStatusAsync success, with result: {0}", jsonStr);
+
+                var ls = JsonConvert.DeserializeObject<ResponseVolatilityStatus>(jsonStr);
+                if (ls.ResponseVolatility)
+                {
+                    return ResponseVolatilityStatusEnum.On;
+                }
+                return ResponseVolatilityStatusEnum.Off;
+            }
+
+            _logger.Debug("WilmaService GetResponseVolatilityStatusAsync failed: {0}", resp.StatusCode);
+            return ResponseVolatilityStatusEnum.Error;
+        }
+
+        /// <summary>
+        /// Turns on/off the response volatility status.
+        /// </summary>
+        /// <param name="control">Control on/off</param>
+        /// <returns>True if the request is successful, otherwise returns false.</returns>
+        public async Task<bool> SetResponseVolatilityStatusAsync(ResponseVolatilityStatusEnum control)
+        {
+            _logger.Debug("WilmaService SetResponseVolatilityStatusAsync enter with value: " + control);
+
+            var resp = await _httpClient.GetAsync(GetUrl(STATUS_SETRESPONSE_VOLATILITY_URL_POSTFIX_FORMAT, control.ToString().ToLower()));
+            if (resp.IsSuccessStatusCode)
+            {
+                _logger.Debug("WilmaService SetResponseVolatilityStatusAsync success.");
+                return true;
+            }
+
+            _logger.Debug("WilmaService SetResponseVolatilityStatusAsync failed: {0}", resp.StatusCode);
+            return false;
+        }
+
+        #endregion RESPONSE VOLATILITY
 
         #region OPERATION MODE
 
