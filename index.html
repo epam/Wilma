@@ -18,8 +18,8 @@
     <meta name="HandheldFriendly" content="true" />
     <meta name="apple-mobile-web-app-capable" content="YES" />
     <meta name="author" content="Tamas Kohegyi" />
-    <meta name="Description" content="Wilma is a http/https Transparent Proxy and Service Stub" />
-    <meta name="Keywords" content="test automation, proxy, stub, wilma, microservices" />
+    <meta name="Description" content="Wilma is Service Virtualization tool, a combined http/https Transparent Proxy and Service Stub" />
+    <meta name="Keywords" content="test automation, proxy, stub, wilma, microservices, service virtualization" />
 </head>
 <body>
 
@@ -31,18 +31,19 @@
                 <div class="section" id="wilma-open-source">
                     <h1>Wilma</h1>
                     <div class="toctree-wrapper compound"></div>
-                    <p>Wilma is a combined HTTP/HTTPS <b>Service Stub and Transparent Proxy</b>, written in Java.
-                        Its main purpose is to test applications/services/components those functionality relies/depends on another - usually 3rd party - service or services.
+                    <p>Wilma is a <b>Service Virtualization</b> tool, that combines the capabilities of a <b>Service Stub</b> and a <b>HTTP/HTTPS Transparent Proxy</b>.
+                        Its main purpose is to support development and testing applications/services/components those functionality relies/depends on another - usually 3rd party - service or services.
                         The selected architecture approach makes it capable to use it in performance test environment and environment that contains microservices.
-                        The solution consists of two standalone applications:<br/>
+                        It is written in Java, and the solution consists of two standalone applications:<br/>
                     <ul class="simple">
                         <li><b>Wilma</b> application</li>
                         <li><b>Wilma Message Search</b> application</li>
                     </ul>
                     <p/>
-                    <b>Wilma</b> application is the highly configurable <b>Service Stub and Transparent Proxy</b>.
+                    <b>Wilma</b> application is the highly configurable <b>Service Virtualization</b> tool.
                     It logs the messages, and meanwhile acts as a proxy between the components, makes it possible to stub responses based on configuration defined in
-                    XML file(s). It is designed for use in test environments where test automation is in use (unit, integration, functional or end-to-end). Also can be used for manual tests.
+                    XML file(s). It is also possible to alter/modify the messages, real-time. It is designed for use in development and test environments where test automation is in use (unit, integration, functional or end-to-end).
+                    Also can be used for manual tests.
                     It is expandable easily via plugins.<br/>
                     <p/>
                     <b>Wilma Message Search</b> application provides high performance searching of the request-response
