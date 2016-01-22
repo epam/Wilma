@@ -1,7 +1,7 @@
 package com.epam.wilma.test.server;
 
 /*==========================================================================
-Copyright 2015 EPAM Systems
+Copyright 2013-2016 EPAM Systems
 
 This file is part of Wilma.
 
@@ -45,6 +45,13 @@ public class TestServerBootstrap {
      * @param jettyServer that should be configured and started
      */
     public void bootstrap(final String[] args, final Properties properties, final JettyServer jettyServer) {
+        String versionTitle = getClass().getPackage().getImplementationTitle();
+        if (versionTitle == null) {
+            versionTitle = "UNKNOWN";
+        }
+
+        logger.info(versionTitle + "\nCopyright 2013-2016 EPAM Systems - GNU GPL-V3.0 License");
+
         if (args.length == 1) {
             try {
                 String fileName = args[0];
@@ -54,6 +61,15 @@ public class TestServerBootstrap {
                     Integer httpPort = Integer.parseInt(properties.getProperty("server.port.http"));
                     Integer httpsPort = Integer.parseInt(properties.getProperty("server.port.https"));
                     Boolean isPerfTest = Boolean.valueOf(properties.getProperty("perftest"));
+                    logger.info("Http Server is running on port: " + httpPort);
+                    logger.info("HttpS Server is running on port: " + httpsPort);
+                    String methodInfo;
+                    if (isPerfTest) {
+                        methodInfo = "Performance";
+                    } else {
+                        methodInfo = "Functional";
+                    }
+                    logger.info("Test Server method: " + methodInfo);
                     jettyServer.configureAndStart(new Server(), httpPort, httpsPort, isPerfTest);
                 } else {
                     logger.error("Specified property file's extension is not \"properties\"!");

@@ -1,6 +1,6 @@
 package com.epam.wilma.test.server;
 /*==========================================================================
-Copyright 2015 EPAM Systems
+Copyright 2013-2016 EPAM Systems
 
 This file is part of Wilma.
 
@@ -44,11 +44,11 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class ExampleHandler extends AbstractHandler {
-    private final Logger logger = LoggerFactory.getLogger(ExampleHandler.class);
     private static final String FIS_RESPONSE = "example.xml.fis";
     private static final String EXAMPLE_XML = "example.xml";
     private static final String WILMA_LOGGER_ID = "Wilma-Logger-ID";
 
+    private static final String PATH_OK = "/ok";
     private static final String PATH_NOT_IMPLEMENTED = "/sendnotimplemented";
     private static final String PATH_BAD_GATWAY = "/sendbadgateway";
     private static final String PATH_SERVICE_UNAVAILABLE = "/sendserviceunavailable";
@@ -67,6 +67,7 @@ public class ExampleHandler extends AbstractHandler {
     private static final String PATH_TO_HANDLE = "/example";
     private static final String PATH_TO_TIMEOUT = "/sendtimeout";
 
+    private final Logger logger = LoggerFactory.getLogger(ExampleHandler.class);
     private final InputStreamConverter inputStreamConverter;
 
     private final Decompressor fisDecompressor = new FastInfosetDecompressor();
@@ -86,7 +87,7 @@ public class ExampleHandler extends AbstractHandler {
     @Override
     public void handle(final String path, final Request baseRequest, final HttpServletRequest httpServletRequest,
             final HttpServletResponse httpServletResponse) throws IOException, ServletException {
-        if (PATH_TO_HANDLE.equals(path)) {
+        if (PATH_TO_HANDLE.equals(path) || PATH_OK.equals(path)) {
             byte[] byteArray = null;
             String requestBody = "";
             String contentEncodingHeader = httpServletRequest.getHeader(CONTENT_ENCODING);
@@ -106,17 +107,19 @@ public class ExampleHandler extends AbstractHandler {
                     requestBody = inputStreamConverter.getStringFromStream(httpServletRequest.getInputStream());
                 }
             }
+            if (PATH_OK.equals(path)) {
+                //ok, send back the test server version
+                requestBody = getClass().getPackage().getImplementationTitle();
+            }
             if ("".equals(requestBody)) {
                 ByteArrayOutputStream writer = new ByteArrayOutputStream();
                 IOUtils.copy(httpServletRequest.getInputStream(), writer);
-                String requestSafeBody = IOUtils.toString(writer.toByteArray(), "utf-8"); //default request body content
-                requestBody = requestSafeBody;
+                requestBody = IOUtils.toString(writer.toByteArray(), "utf-8"); //default request body content
             }
             setAnswer(baseRequest, httpServletRequest, httpServletResponse, requestBody);
         } else {
             generateBadResponses(path, httpServletRequest, httpServletResponse, baseRequest);
             generateErrorCode(path, httpServletResponse);
-
         }
     }
 
@@ -165,9 +168,11 @@ public class ExampleHandler extends AbstractHandler {
 
     private void setAnswer(final Request baseRequest, final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse,
             final String requestBody) throws IOException {
-        if (answerShouldBeSent(requestBody)) {
+        boolean needVersionAnswer = requestBody.contains("Wilma Test Server");
+        if (answerShouldBeSent(requestBody) || needVersionAnswer) {
             byte[] responseBodyAsBytes = null;
-            if ((httpServletRequest.getHeader(CONTENT_TYPE) != null) && (httpServletRequest.getHeader(CONTENT_TYPE).contains("text/plain"))) {
+            if (((httpServletRequest.getHeader(CONTENT_TYPE) != null) && (httpServletRequest.getHeader(CONTENT_TYPE).contains("text/plain")))
+                    || (needVersionAnswer)) {
                 //just send the request back + Wilma-Logger-ID in front, if exists
                 String answer = requestBody;
                 if (httpServletRequest.getHeader(WILMA_LOGGER_ID) != null) {
