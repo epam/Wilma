@@ -61,12 +61,8 @@ public class BasicProxySslBehaviorTest extends WilmaTestCase {
         setOriginalRequestMessageFromFile(EXAMPLE_2);
         setExpectedResponseMessageFromFile("resources/uc3_1TestResponse.txt");
         RequestParameters requestParameters = createRequestParameters();
-        if (tcName.contains("SSL")) {
-            naTestCase("SSL part testing is not prepared on test environment side.");
-            //when and then
-            callWilmaWithPostMethodAndAssertResponse(requestParameters); //send request, receive response and check if expected result test is in the result
-        }
-        naTestCase("This test is designed for test SSL connection.");
+        //when and then
+        callWilmaWithPostMethodAndAssertResponse(requestParameters); //send request, receive response and check if expected result test is in the result
     }
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {

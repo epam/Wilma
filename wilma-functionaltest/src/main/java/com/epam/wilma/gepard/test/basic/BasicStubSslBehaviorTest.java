@@ -59,12 +59,8 @@ public class BasicStubSslBehaviorTest extends WilmaTestCase {
         setOriginalRequestMessageFromFile(EXAMPLE_3_XML);
         setExpectedResponseMessageFromFile("resources/uc3_2TestResponse.txt");
         RequestParameters requestParameters = createRequestParameters();
-        if (tcName.contains("SSL")) {
-            naTestCase("SSL part testing is not prepared on test environment side.");
-            //when and then
-            callWilmaWithPostMethodAndAssertResponse(requestParameters); //send request, receive response and check if expected result test is in the result
-        }
-        naTestCase("This test is designed for test SSL connection.");
+        //when and then
+        callWilmaWithPostMethodAndAssertResponse(requestParameters); //send request, receive response and check if expected result test is in the result
     }
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
