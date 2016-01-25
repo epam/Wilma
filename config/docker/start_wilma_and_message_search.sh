@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WILMA_BUILD=wilma-1.3.111.jar
+WILMA_BUILD=wilma.jar
 #WILMA_CONFIGURATION is an external environment variable, usually: wilma.conf.properties
 #WILMA_MX_SIZE is an external environment variable, for example -Xmx8G
 #WILMA_KESYTORE is an external environment variable, for example: -Djavax.net.ssl.keyStore=certificate/your.jks
@@ -12,7 +12,7 @@ if [ -n "$WILMA_JMX_PORT" ]; then
 fi
 WILMA_START_CMD="java $WILMA_JMX $WILMA_MX_SIZE $WILMA_KEYSTORE $WILMA_KEYSTORE_PASSWORD -jar $WILMA_BUILD $WILMA_CONFIGURATION"
 
-WILMA_MS_BUILD=wilma-message-search-1.3.111.jar
+WILMA_MS_BUILD=wilma-message-search.jar
 #WILMA_MS_CONFIGURATION is an external environment variable, usually: message.search.conf.properties
 #WILMA_MS_MX_SIZE is an external environment variable, for example: -Xmx8G
 #WILMA_MS_JMX_PORT - Wilma Message Search JMX port, if empty, no JMX used, otherwise the JMX port is fully opened
@@ -43,4 +43,3 @@ sleep $WILMA_MS_START_TIME
 echo "[INFO] Starting Wilma Application..."
 cd wilma
 eval ${WILMA_START_CMD}
-
