@@ -37,12 +37,12 @@ public class CronTriggerFactory {
      * @return created CronTrigger
      */
     public CronTrigger createCronTrigger(final String cronExpression) {
-        CronTrigger result = null;
+        CronTrigger result;
         try {
             result = new CronTrigger(cronExpression);
         } catch (IllegalArgumentException e) {
             throw new SchedulingCannotBeStartedException("Scheduling cannot be started, cron expression given in properties file is not valid! "
-                    + e.getMessage());
+                    + e.getMessage(), e);
         }
         return result;
     }

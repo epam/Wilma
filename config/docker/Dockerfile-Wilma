@@ -7,11 +7,11 @@ RUN \
   mkdir /data/wilma && \
   cd /data/wilma && \
   apt-get update && \
-  apt-get upgrade -y && \
   apt-get install -y apt-utils && \
   apt-get install -y unzip && \
-  apt-get install -y openjdk-7-jre && \
   apt-get install -y wget && \
+  apt-get install -y openjdk-7-jre && \
+  apt-get upgrade -y && \
   rm -rf /var/lib/apt/lists/* && \
   wget https://github.com/epam/Wilma/releases/download/V1.4.137/wilma-application-1.4.137.zip && \
   unzip wilma-application-1.4.137.zip && \

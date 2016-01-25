@@ -39,7 +39,7 @@ public class StackTraceToStringConverter {
     public String getStackTraceAsString(final Exception e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
+        e.printStackTrace(pw); //NOSONAR - we need to have stack trace as string here
         return sw.toString();
     }
 }
