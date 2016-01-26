@@ -27,7 +27,7 @@ import com.epam.wilma.message.search.engine.bootstrap.MessageSearchBootstrap;
  */
 public final class MessageSearchApplication {
 
-    public static String[] arguments;
+    public static String[] arguments; //NOSONAR
 
     private MessageSearchApplication() {
     }
@@ -37,7 +37,7 @@ public final class MessageSearchApplication {
      * @param args The program needs the path of wilma.conf.properties to run.
      */
     public static void main(final String[] args) {
-        arguments = args;
+        arguments = args; //NOSONAR
         new MessageSearchBootstrap().bootstrap(args);
     }
 }

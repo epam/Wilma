@@ -65,10 +65,11 @@ public class JmsConnectionConfigurer {
     }
 
     private void configureTransportConnector(final String jmsBrokerHost, final Integer jmsBrokerPort) {
+        String uriString = "tcp://" + jmsBrokerHost + ":" + jmsBrokerPort;
         try {
-            transportConnector.setUri(new URI("tcp://" + jmsBrokerHost + ":" + jmsBrokerPort));
+            transportConnector.setUri(new URI(uriString));
         } catch (URISyntaxException e) {
-            logger.error(e.getMessage());
+            logger.error("Wrong URI: '" + uriString + "', message: " + e.getMessage()); //NOSONAR - we don't need more info
         }
     }
 
