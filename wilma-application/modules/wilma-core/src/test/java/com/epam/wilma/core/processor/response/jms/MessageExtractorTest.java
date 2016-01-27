@@ -1,4 +1,4 @@
-package com.epam.wilma.core.processor.entity;
+package com.epam.wilma.core.processor.response.jms;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 

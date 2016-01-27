@@ -27,7 +27,6 @@ import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.logger.request.RequestLogger;
-import com.epam.wilma.logger.request.jms.helper.JmsRequestMessageCreatorFactory;
 
 /**
  * Provides logging with ActiveMQ. Sends all incoming messages into a queue asynchronously.

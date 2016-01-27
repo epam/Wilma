@@ -36,7 +36,6 @@ import org.springframework.jms.core.JmsTemplate;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.core.processor.entity.MessageExtractor;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.domain.http.WilmaHttpResponse;

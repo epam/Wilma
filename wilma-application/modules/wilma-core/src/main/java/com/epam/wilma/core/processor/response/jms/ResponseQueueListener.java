@@ -29,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.core.processor.entity.MessageExtractor;
 import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.sequence.SequenceManager;

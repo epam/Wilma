@@ -19,7 +19,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.logger.request.jms.helper.JmsRequestMessageCreatorFactory;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;

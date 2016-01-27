@@ -1,4 +1,4 @@
-package com.epam.wilma.logger.request.jms.helper;
+package com.epam.wilma.logger.request.jms;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -21,7 +21,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.logger.request.jms.JmsRequestMessageCreator;
 
 /**
  * Creates a new {@link JmsRequestMessageCreator} based on a {@link WilmaHttpRequest}.
