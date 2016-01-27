@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 
 import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.condition.helper.ClassPathExtender;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;

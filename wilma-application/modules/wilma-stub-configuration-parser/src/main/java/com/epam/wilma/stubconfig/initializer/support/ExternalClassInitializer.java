@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.stubconfig.dom.parser.node.helper.ClassNameMapper;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.condition.helper.ClassFactory;
 import com.epam.wilma.stubconfig.initializer.condition.helper.ClassPathExtender;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;

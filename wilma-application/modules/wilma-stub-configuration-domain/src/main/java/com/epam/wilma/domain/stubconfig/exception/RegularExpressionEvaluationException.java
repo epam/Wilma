@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.domain.exception;
+package com.epam.wilma.domain.stubconfig.exception;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -21,26 +21,19 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.exception.SystemException;
 
 /**
- * It is thrown if a condition in the stub config cannot be evaluated.
- * @author Tunde_Kovacs
+ * Exception for regular expression compilation and matching failers.
+ * @author Tamas_Bihari
  *
  */
-public class ConditionEvaluationFailedException extends SystemException {
+public class RegularExpressionEvaluationException extends SystemException {
 
     /**
-     * Exception constructor with a message.
-     * @param message the message of the exception
+     * Creates a {@link RegularExpressionEvaluationException} instance with the cause and detailed message.
+     * @param message is the detailed message
+     * @param throwable is the cause of the exception
      */
-    public ConditionEvaluationFailedException(final String message) {
-        super(message);
-    }
-
-    /**
-     * Exception constructor with a message and its cause.
-     * @param message the message of the exception
-     * @param throwable the cause of the exception
-     */
-    public ConditionEvaluationFailedException(final String message, final Throwable throwable) {
+    public RegularExpressionEvaluationException(final String message, final Throwable throwable) {
         super(message, throwable);
     }
+
 }

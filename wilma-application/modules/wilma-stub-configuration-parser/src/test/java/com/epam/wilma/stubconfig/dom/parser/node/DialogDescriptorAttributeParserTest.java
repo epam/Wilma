@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptorUsage;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 
 /**
  * Provides unit tests for the class {@link DialogDescriptorAttributeParser}.

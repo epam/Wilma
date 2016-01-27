@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
-   <sequence-descriptor name="somethingAnythingNothing" class="ExternalDummySequenceHandler">
+   <sequence-descriptor name="somethingAnythingNothing" class="com.epam.wilma.sequencesandbox.ExternalDummySequenceHandler">
         <condition-descriptor>
             <condition class="AlwaysFalseChecker" />
         </condition-descriptor>

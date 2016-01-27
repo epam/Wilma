@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
 
 import com.epam.wilma.common.helper.ResourceLoader;
 import com.epam.wilma.stubconfig.dom.validator.xsd.helper.SchemaFactoryBuilder;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 
 /**
  * Unit test for {@link StubConfigSchemaParser}.

@@ -42,9 +42,9 @@ import org.testng.annotations.Test;
 
 import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.condition.helper.ClassPathExtender;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;

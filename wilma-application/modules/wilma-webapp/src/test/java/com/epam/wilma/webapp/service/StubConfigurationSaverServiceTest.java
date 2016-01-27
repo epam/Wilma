@@ -34,7 +34,7 @@ import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.stubconfig.cache.cleaner.CacheCleaner;
 import com.epam.wilma.stubconfig.cache.saver.StubConfigurationSaver;
-import com.epam.wilma.stubconfig.domain.exception.DocumentTransformationException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
 
 /**
  * Provides unit tests for the class {@link StubConfigurationSaverService}.

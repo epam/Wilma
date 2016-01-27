@@ -34,8 +34,8 @@ import com.epam.wilma.stubconfig.dom.builder.XmlDocumentBuilder;
 import com.epam.wilma.stubconfig.dom.parser.StubDescriptorParser;
 import com.epam.wilma.stubconfig.dom.parser.StubResourceHolderUpdater;
 import com.epam.wilma.stubconfig.dom.validator.StubDescriptorValidator;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorCannotBeParsedException;
-import com.epam.wilma.stubconfig.domain.exception.DocumentBuilderException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentBuilderException;
 
 /**
  * Loads the stub descriptor object model from an {@link InputStream} by reading it to a DOM Document and

@@ -34,7 +34,7 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.xml.helper.XQueryExpressionEvaluator;
-import com.epam.wilma.stubconfig.domain.exception.ConditionEvaluationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedException;
 
 /**
  * Tests for {@link XmlMessageTypeChecker} class.

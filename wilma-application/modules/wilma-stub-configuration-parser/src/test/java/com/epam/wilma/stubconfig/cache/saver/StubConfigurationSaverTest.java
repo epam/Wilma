@@ -41,7 +41,7 @@ import com.epam.wilma.domain.stubconfig.StubResourceHolder;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.dom.transformer.DomBasedDocumentTransformer;
-import com.epam.wilma.stubconfig.domain.exception.DocumentTransformationException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
 
 /**
  * Provides unit tests for the class {@link StubConfigurationSaver}.

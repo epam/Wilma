@@ -37,7 +37,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.epam.wilma.stubconfig.dom.validator.xsd.helper.DOMSourceFactory;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 
 /**
  * Provides unit tests for the class {@link XsdStubDescriptorValidator}.

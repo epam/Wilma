@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.stubconfig.initializer.CommonClassInitializer;
 
 /**

@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.epam.wilma.stubconfig.domain.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
 
 /**
  * Evaluates xpath expressions.

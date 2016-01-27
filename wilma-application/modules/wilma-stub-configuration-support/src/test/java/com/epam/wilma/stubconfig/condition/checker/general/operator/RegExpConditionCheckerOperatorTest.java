@@ -33,7 +33,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.stubconfig.condition.checker.general.operator.helper.RegExpPatternFactory;
-import com.epam.wilma.stubconfig.domain.exception.RegularExpressionEvaluationException;
+import com.epam.wilma.domain.stubconfig.exception.RegularExpressionEvaluationException;
 
 /**
  * Tests for {@link RegExpConditionCheckerOperator}.

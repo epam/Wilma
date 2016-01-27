@@ -33,7 +33,6 @@ import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.condition.Condition;
 import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionDescriptor;
-import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.router.evaluation.helper.DialogDescriptorService;
 import com.epam.wilma.router.helper.ResponseDescriptorDtoFactory;
@@ -48,7 +47,7 @@ import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
 @Component
 public class StubDescriptorEvaluator {
 
-    private final Logger logger = LoggerFactory.getLogger(RoutingService.class);
+    private final Logger logger = LoggerFactory.getLogger(StubDescriptorEvaluator.class);
 
     @Autowired
     private ConditionEvaluator conditionEvaluator;

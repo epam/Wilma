@@ -35,10 +35,10 @@ import org.testng.annotations.Test;
 
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
 import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler2;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
 
 /**

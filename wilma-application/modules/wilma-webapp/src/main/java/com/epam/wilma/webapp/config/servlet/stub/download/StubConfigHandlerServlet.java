@@ -35,7 +35,7 @@ import org.w3c.dom.Document;
 
 import com.epam.wilma.domain.stubconfig.StubResourceHolder;
 import com.epam.wilma.stubconfig.dom.transformer.DomBasedDocumentTransformer;
-import com.epam.wilma.stubconfig.domain.exception.DocumentTransformationException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
 import com.epam.wilma.webapp.config.servlet.stub.download.helper.ByteArrayConverter;
 
 /**

@@ -40,7 +40,7 @@ import org.testng.annotations.Test;
 import com.epam.wilma.domain.stubconfig.StubResourceHolder;
 import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.stubconfig.StubDescriptorFactory;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
 

@@ -39,7 +39,7 @@ import com.epam.wilma.domain.stubconfig.interceptor.MockRequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.MockResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.interceptor.RequestInterceptorInitializer;
 import com.epam.wilma.stubconfig.initializer.interceptor.ResponseInterceptorInitializer;
 

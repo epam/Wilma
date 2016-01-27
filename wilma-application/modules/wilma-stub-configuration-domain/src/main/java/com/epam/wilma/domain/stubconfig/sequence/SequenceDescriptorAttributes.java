@@ -19,7 +19,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
 
 /**
  * Represents the attributes needed by a {@link SequenceDescriptor}.

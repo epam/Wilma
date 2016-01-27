@@ -24,7 +24,7 @@ import javax.xml.validation.Schema;
 
 import org.w3c.dom.Document;
 
-import com.epam.wilma.stubconfig.domain.exception.DocumentBuilderException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentBuilderException;
 
 /**
  * Creates a {@link Document} from an XML file on a given path.

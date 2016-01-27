@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.epam.wilma.stubconfig.domain.exception.DocumentTransformationException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
 
 /**
  * Class for transforming a {@link Document} to byte array.

@@ -43,7 +43,7 @@ import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatt
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.template.TemplateFormatterInitializer;
 
 /**

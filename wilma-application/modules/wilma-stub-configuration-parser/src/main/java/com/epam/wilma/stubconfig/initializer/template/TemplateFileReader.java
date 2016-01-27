@@ -29,7 +29,7 @@ import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 
 /**
  * Class for reading template files from file system.

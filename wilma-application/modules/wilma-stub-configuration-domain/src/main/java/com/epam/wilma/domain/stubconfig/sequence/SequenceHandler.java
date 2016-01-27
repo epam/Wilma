@@ -1,4 +1,4 @@
-package com.epam.wilma.domain.stubconfig.sequence.handler;
+package com.epam.wilma.domain.stubconfig.sequence;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -22,7 +22,6 @@ import java.util.Map;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 
 /**
  * Handle a group of sequences based on a given logic. A group means those sequence objects which comes from the same sequence type.

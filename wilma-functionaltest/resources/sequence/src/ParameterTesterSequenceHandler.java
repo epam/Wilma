@@ -23,7 +23,7 @@ import java.util.Map;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
 /**
  * This class needs to get a parameter and use that as a SequenceKey.

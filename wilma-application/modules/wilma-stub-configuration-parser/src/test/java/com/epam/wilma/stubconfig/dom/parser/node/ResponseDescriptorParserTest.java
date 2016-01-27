@@ -47,8 +47,8 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.sequence.helper.SequenceDescriptorKeyUtil;
 import com.epam.wilma.stubconfig.dom.parser.NodeParser;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorCannotBeParsedException;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.template.TemplateFileReader;
 import com.epam.wilma.stubconfig.initializer.template.TemplateGeneratorInitializer;
 

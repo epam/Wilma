@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.stubconfig.condition.checker.general.operator.helper.RegExpPatternFactory;
-import com.epam.wilma.stubconfig.domain.exception.RegularExpressionEvaluationException;
+import com.epam.wilma.domain.stubconfig.exception.RegularExpressionEvaluationException;
 
 /**
  * Class for checking existence of a regular expression match in the given {@link String}.

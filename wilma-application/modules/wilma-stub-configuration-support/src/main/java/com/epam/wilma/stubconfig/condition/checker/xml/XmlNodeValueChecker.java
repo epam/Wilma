@@ -23,7 +23,7 @@ import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecke
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.xml.helper.XQueryExpressionEvaluator;
-import com.epam.wilma.stubconfig.domain.exception.ConditionEvaluationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedException;
 import net.sf.saxon.s9api.SaxonApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

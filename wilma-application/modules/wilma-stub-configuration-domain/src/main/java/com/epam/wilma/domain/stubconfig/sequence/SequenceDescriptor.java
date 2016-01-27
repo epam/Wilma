@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionDescriptor;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
 
 /**
  * The sequence descriptor contains several {@link ConditionDescriptor}s and a list of names of {@link DialogDescriptor}s.

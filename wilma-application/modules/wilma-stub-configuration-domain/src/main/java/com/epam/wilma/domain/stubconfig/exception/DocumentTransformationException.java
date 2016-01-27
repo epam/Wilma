@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.domain.exception;
+package com.epam.wilma.domain.stubconfig.exception;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -18,22 +18,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.exception.SystemException;
+import com.epam.wilma.domain.exception.ApplicationException;
 
 /**
- * Exception that is thrown when stub descriptor cannot be parsed.
- * @author Marton_Sereg
+ * Exception for W3C Document transformation.
+ * @author Tamas_Bihari
  *
  */
-public class DescriptorCannotBeParsedException extends SystemException {
+public class DocumentTransformationException extends ApplicationException {
 
     /**
-     * Exception constructor with a message and its cause.
-     * @param message the message of the exception
-     * @param throwable the cause of the exception
+     * Parameterized constructor to create a {@link DocumentTransformationException} instance.
+     * @param message is the exception cause message
+     * @param throwable is the cause object of the exception
      */
-    public DescriptorCannotBeParsedException(final String message, final Throwable throwable) {
+    public DocumentTransformationException(final String message, final Throwable throwable) {
         super(message, throwable);
     }
-
 }

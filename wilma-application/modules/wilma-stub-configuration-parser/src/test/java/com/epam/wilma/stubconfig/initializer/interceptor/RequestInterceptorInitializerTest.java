@@ -36,7 +36,7 @@ import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
 import com.epam.wilma.domain.stubconfig.interceptor.MockRequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
 
 /**

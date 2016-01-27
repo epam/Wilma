@@ -38,7 +38,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.epam.wilma.stubconfig.dom.builder.helper.DocumentBuilderFactoryWrapper;
-import com.epam.wilma.stubconfig.domain.exception.DocumentBuilderException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentBuilderException;
 
 /**
  * Provides unit tests for the class {@link NamespaceAwareXmlDocumentBuilder}.

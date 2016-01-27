@@ -39,7 +39,7 @@ import com.epam.wilma.stubconfig.dom.parser.NodeParser;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.ConditionTagNames;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.SimpleConditionParser;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 
 /**
  * Parses a ConditionDescriptor tag elements from Stub configuration XML file.

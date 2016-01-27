@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.domain.exception;
+package com.epam.wilma.domain.stubconfig.exception;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -21,18 +21,18 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.exception.SystemException;
 
 /**
- * Exception for regular expression compilation and matching failers.
- * @author Tamas_Bihari
+ * Exception that is thrown when stub descriptor cannot be parsed.
+ * @author Marton_Sereg
  *
  */
-public class RegularExpressionEvaluationException extends SystemException {
+public class DescriptorCannotBeParsedException extends SystemException {
 
     /**
-     * Creates a {@link RegularExpressionEvaluationException} instance with the cause and detailed message.
-     * @param message is the detailed message
-     * @param throwable is the cause of the exception
+     * Exception constructor with a message and its cause.
+     * @param message the message of the exception
+     * @param throwable the cause of the exception
      */
-    public RegularExpressionEvaluationException(final String message, final Throwable throwable) {
+    public DescriptorCannotBeParsedException(final String message, final Throwable throwable) {
         super(message, throwable);
     }
 

@@ -38,7 +38,7 @@ import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.stubconfig.condition.checker.general.header.HeaderParameterChecker;
 import com.epam.wilma.stubconfig.condition.checker.json.JsonBodyChecker;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
 
 /**

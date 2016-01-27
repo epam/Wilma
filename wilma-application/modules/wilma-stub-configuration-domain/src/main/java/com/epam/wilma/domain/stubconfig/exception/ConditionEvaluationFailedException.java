@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.domain.exception;
+package com.epam.wilma.domain.stubconfig.exception;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -18,22 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.exception.SystemException;
 
 /**
- * Thrown when DOM document cannot be parsed from XML file.
- * @author Marton_Sereg
+ * It is thrown if a condition in the stub config cannot be evaluated.
+ * @author Tunde_Kovacs
  *
  */
-public class DocumentBuilderException extends ApplicationException {
+public class ConditionEvaluationFailedException extends SystemException {
+
+    /**
+     * Exception constructor with a message.
+     * @param message the message of the exception
+     */
+    public ConditionEvaluationFailedException(final String message) {
+        super(message);
+    }
 
     /**
      * Exception constructor with a message and its cause.
      * @param message the message of the exception
      * @param throwable the cause of the exception
      */
-    public DocumentBuilderException(final String message, final Throwable throwable) {
+    public ConditionEvaluationFailedException(final String message, final Throwable throwable) {
         super(message, throwable);
     }
-
 }

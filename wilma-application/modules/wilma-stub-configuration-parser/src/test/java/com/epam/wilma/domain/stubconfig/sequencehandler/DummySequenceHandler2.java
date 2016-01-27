@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
 /**
  * Doesn't do anything useful, only used for unit testing.

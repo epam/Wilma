@@ -41,7 +41,7 @@ import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatt
 import com.epam.wilma.domain.stubconfig.helper.InternalResourceHolder;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
 /**
  * Provides unit tests for the class {@link StubResourceHolderUpdater}.

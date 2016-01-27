@@ -29,7 +29,7 @@ import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
 import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.router.command.StubDescriptorModificationCommand;
 import com.epam.wilma.stubconfig.StubDescriptorFactory;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
 import com.epam.wilma.webapp.service.command.factory.NewStubDescriptorCommandFactory;
 
 /**

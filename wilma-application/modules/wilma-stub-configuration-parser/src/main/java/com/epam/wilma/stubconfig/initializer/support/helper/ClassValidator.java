@@ -20,7 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.stubconfig.domain.exception.InterfaceValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.InterfaceValidationFailedException;
 
 /**
  * Class used to validate other classes based on their interface.

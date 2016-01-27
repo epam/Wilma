@@ -28,7 +28,7 @@ import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecke
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
 /**
  * Holds internal condition checker classes, template formatters and request/response interceptors.

@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.domain.exception;
+package com.epam.wilma.domain.stubconfig.exception;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -21,18 +21,26 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.exception.SystemException;
 
 /**
- * Runtime exception for stub configuration errors.
- * @author Tamas_Bihari
+ * Exception that is thrown when stub descriptor validation failed.
+ * @author Tamas Kohegyi
  *
  */
-public class StubConfigurationException extends SystemException {
+public class InterfaceValidationFailedException extends SystemException {
 
     /**
-     * Create {@link StubConfigurationException} instance with message and throwable cause.
-     * @param message is the exception message
-     * @param throwable is the cause
+     * Exception constructor with a message.
+     * @param message the message of the exception
      */
-    public StubConfigurationException(final String message, final Throwable throwable) {
+    public InterfaceValidationFailedException(final String message) {
+        super(message);
+    }
+
+    /**
+     * Exception constructor with a message and its cause.
+     * @param message the message of the exception
+     * @param throwable the cause of the exception
+     */
+    public InterfaceValidationFailedException(final String message, final Throwable throwable) {
         super(message, throwable);
     }
 

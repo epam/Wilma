@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import com.epam.wilma.stubconfig.dom.builder.helper.DocumentBuilderFactoryWrapper;
-import com.epam.wilma.stubconfig.domain.exception.DocumentBuilderException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentBuilderException;
 
 /**
  * Creates a namespace aware {@link Document} from an XML file on a given path.

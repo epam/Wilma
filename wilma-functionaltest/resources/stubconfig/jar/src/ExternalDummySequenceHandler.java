@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.domain.exception;
+package com.epam.wilma.sequencesandbox;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -18,21 +18,28 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.exception.ApplicationException;
+import java.util.Map;
+
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
 /**
- * Exception for W3C Document transformation.
- * @author Tamas_Bihari
+ * Doesn't do anything useful, only used for unit testing.
+ * @author Tibor_Kovacs
  *
  */
-public class DocumentTransformationException extends ApplicationException {
+public class ExternalDummySequenceHandler implements SequenceHandler {
 
-    /**
-     * Parameterized constructor to create a {@link DocumentTransformationException} instance.
-     * @param message is the exception cause message
-     * @param throwable is the cause object of the exception
-     */
-    public DocumentTransformationException(final String message, final Throwable throwable) {
-        super(message, throwable);
+    @Override
+    public String getExistingSequence(final WilmaHttpRequest request, final Map<String, WilmaSequence> store, final ParameterList parameters) {
+        return "cat";
     }
+
+    @Override
+    public String generateNewSequenceKey(final WilmaHttpRequest request, final ParameterList parameterList) {
+        return "cat";
+    }
+
 }

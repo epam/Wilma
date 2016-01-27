@@ -27,7 +27,7 @@ import org.w3c.dom.Document;
 
 import com.epam.wilma.stubconfig.dom.validator.StubDescriptorValidator;
 import com.epam.wilma.stubconfig.dom.validator.xsd.helper.DOMSourceFactory;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 
 /**
  * Validates the stub descriptor with the corresponding XSD schema file.

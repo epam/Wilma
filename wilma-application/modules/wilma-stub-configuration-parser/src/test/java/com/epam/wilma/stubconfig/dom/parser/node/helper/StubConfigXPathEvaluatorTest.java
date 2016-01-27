@@ -35,7 +35,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.epam.wilma.stubconfig.domain.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
 
 /**
  * Provides unit tests for the class {@link StubConfigXPathEvaluator}.

@@ -34,8 +34,8 @@ import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.dom.parser.NodeParser;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.domain.exception.InterfaceValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.InterfaceValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.interceptor.RequestInterceptorInitializer;
 import com.epam.wilma.stubconfig.initializer.interceptor.ResponseInterceptorInitializer;
 

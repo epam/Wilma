@@ -23,7 +23,7 @@ import java.util.Map;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
 /**
  * {@link SequenceHandler} where sequences are determined by the request body's first letter.

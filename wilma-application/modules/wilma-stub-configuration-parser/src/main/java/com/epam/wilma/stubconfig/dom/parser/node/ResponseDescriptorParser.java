@@ -27,7 +27,7 @@ import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateType;
 import com.epam.wilma.sequence.helper.SequenceDescriptorKeyUtil;
 import com.epam.wilma.stubconfig.dom.parser.NodeParser;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
-import com.epam.wilma.stubconfig.domain.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
 import com.epam.wilma.stubconfig.initializer.template.TemplateFileReader;
 import com.epam.wilma.stubconfig.initializer.template.TemplateGeneratorInitializer;
 import org.springframework.beans.factory.annotation.Autowired;

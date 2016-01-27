@@ -28,7 +28,7 @@ import org.w3c.dom.NodeList;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorAttributes;
-import com.epam.wilma.domain.stubconfig.sequence.handler.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.dom.parser.NodeParser;
 import com.epam.wilma.stubconfig.initializer.sequencehandler.SequenceHandlerInitializer;

@@ -1,4 +1,4 @@
-package com.epam.message.sequence.test;
+package com.epam.wilma.domain.stubconfig.exception;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -18,28 +18,22 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Map;
-
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
-import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
+import com.epam.wilma.domain.exception.ApplicationException;
 
 /**
- * Doesn't do anything useful, only used for unit testing.
- * @author Tibor_Kovacs
+ * Thrown when DOM document cannot be parsed from XML file.
+ * @author Marton_Sereg
  *
  */
-public class ExternalDummySequenceHandler implements SequenceHandler {
+public class DocumentBuilderException extends ApplicationException {
 
-    @Override
-    public String getExistingSequence(final WilmaHttpRequest request, final Map<String, WilmaSequence> store, final ParameterList parameters) {
-        return "cat";
-    }
-
-    @Override
-    public String generateNewSequenceKey(final WilmaHttpRequest request, final ParameterList parameterList) {
-        return "cat";
+    /**
+     * Exception constructor with a message and its cause.
+     * @param message the message of the exception
+     * @param throwable the cause of the exception
+     */
+    public DocumentBuilderException(final String message, final Throwable throwable) {
+        super(message, throwable);
     }
 
 }

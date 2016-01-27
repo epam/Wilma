@@ -29,7 +29,7 @@ import com.epam.wilma.domain.stubconfig.StubResourceHolder;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.dom.transformer.DomBasedDocumentTransformer;
-import com.epam.wilma.stubconfig.domain.exception.DocumentTransformationException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
 
 /**
  * This class provides the ability of saving stub configurations with in their order.

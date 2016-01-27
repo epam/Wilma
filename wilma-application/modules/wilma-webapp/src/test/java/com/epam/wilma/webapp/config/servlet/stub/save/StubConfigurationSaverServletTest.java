@@ -35,7 +35,7 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.stubconfig.domain.exception.DocumentTransformationException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import com.epam.wilma.webapp.service.StubConfigurationSaverService;
 
