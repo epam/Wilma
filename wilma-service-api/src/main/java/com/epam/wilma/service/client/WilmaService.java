@@ -1,7 +1,7 @@
 package com.epam.wilma.service.client;
 
 /*==========================================================================
- Copyright 2015 EPAM Systems
+ Copyright 2013-2016 EPAM Systems
 
  This file is part of Wilma.
 
@@ -50,7 +50,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public final class WilmaService {
     public static final String WILMA_HOST_KEY = "wilma.host";
     public static final String WILMA_INTERNAL_PORT_KEY = "wilma.port.internal";  //this is the Wilma internal WebApp port
-    public static final String WILMA_EXTERNAL_PORT_KEY = "wilma.port.external";  //this is the Wilma Proxy port
+    //public static final String WILMA_EXTERNAL_PORT_KEY = "wilma.port.external";  //this is the Wilma Proxy port
 
     private static final Logger LOG = LoggerFactory.getLogger(WilmaService.class);
 
