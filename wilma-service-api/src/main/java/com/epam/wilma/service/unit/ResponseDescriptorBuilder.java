@@ -18,32 +18,46 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import com.epam.wilma.service.unit.request.RequestCondition;
 import com.epam.wilma.service.unit.request.RequestConditionBase;
 import com.epam.wilma.service.unit.response.ResponseDescriptor;
 
 /**
- * Class that represents a stubbed request-response pairs.
+ * Builder class for building a complete Stub Configuration.
  *
  * @author Tamas_Kohegyi
  *
  */
-public class Stub {
+public class ResponseDescriptorBuilder {
     private RequestConditionBase requestConditionBase;
-    private ResponseDescriptor responseDescriptor;
 
-    public Stub(RequestConditionBase requestConditionBase, ResponseDescriptor responseDescriptor) {
-        this.requestConditionBase = requestConditionBase;
-        this.responseDescriptor = responseDescriptor;
+    public ResponseDescriptorBuilder(RequestCondition requestCondition) {
+        this.requestConditionBase = requestCondition;
     }
 
-    public void start() {
+    public ResponseDescriptorBuilder plainTextResponse(String plainTextResponse) {
+        return this;
     }
 
-    public void stop() {
+    public ResponseDescriptor buildResponseDescriptor() {
+        return new ResponseDescriptor();
     }
 
-    public void disable() {}
-    public void enable() {}
-    public void drop() {}
+    public Stub build() {
+        //need to validate both the request condition, and the response descriptor
+        Stub stub = new Stub(requestConditionBase, buildResponseDescriptor());
+        return stub;
+    }
 
+    public ResponseDescriptorBuilder withStatus(int i) {
+        return this;
+    }
+
+    public ResponseDescriptorBuilder applyFormatter() {
+        return this;
+    }
+
+    public ResponseDescriptorBuilder generatedResponse() {
+        return this;
+    }
 }
