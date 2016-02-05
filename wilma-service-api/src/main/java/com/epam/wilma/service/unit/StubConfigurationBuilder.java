@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.response;
+package com.epam.wilma.service.unit;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -19,11 +19,14 @@ package com.epam.wilma.service.unit.response;
  ===========================================================================*/
 
 /**
- * A Response Descriptor class.
+ * Builder class for building a complete Stub Configuration.
  *
  * @author Tamas_Kohegyi
  *
  */
-public class ResponseDescriptor {
+public class StubConfigurationBuilder {
 
+    public RequestConditionBuilder forRequestsLike() {
+        return new RequestConditionBuilder();
+    }
 }
