@@ -18,6 +18,7 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import com.epam.wilma.service.unit.helper.ConditionParameter;
 import com.epam.wilma.service.unit.request.RequestCondition;
 
 /**
@@ -27,6 +28,8 @@ import com.epam.wilma.service.unit.request.RequestCondition;
  *
  */
 public class RequestConditionBuilder {
+
+    private String configuartionString = "";
 
     public RequestConditionBuilder andStart() {
         return this;
@@ -48,8 +51,67 @@ public class RequestConditionBuilder {
         return this;
     }
 
-    public RequestConditionBuilder condition() {
+    /**
+     * General purpose condition class usage, with a parameter array.
+     * @param className is the condition class
+     * @param conditionParameters is the parameter array
+     * @param negate if true, then the condition should be negated
+     * @return with itself
+     */
+    private RequestConditionBuilder condition(String className, ConditionParameter[] conditionParameters, boolean negate) {
+        String conditionString = "<condition class=\"" + className + "\" ";
+        if (negate) {
+            conditionString += "negate=true ";
+        }
+        conditionString += ">\n";
+        if (conditionParameters != null) {
+            //we have parameters too
+            for (ConditionParameter conditionParameter : conditionParameters) {
+                conditionString += conditionParameter.toString() + "\n";
+            }
+        }
+        conditionString += "</condition>";
+
+        configuartionString += conditionString;
         return this;
+    }
+
+    /**
+     * General purpose condition class usage, with a parameter array.
+     * @param className is the condition class
+     * @param conditionParameters is the parameter array
+     * @return with itself
+     */
+    public RequestConditionBuilder condition(String className, ConditionParameter[] conditionParameters) {
+        return condition(className, conditionParameters, false);
+    }
+
+    /**
+     * General purpose condition class usage, with a parameter array.
+     * @param className is the condition class
+     * @param conditionParameters is the parameter array
+     * @return with itself
+     */
+    public RequestConditionBuilder negatedCondition(String className, ConditionParameter[] conditionParameters) {
+        return condition(className, conditionParameters, true);
+    }
+
+    /**
+     * General purpose condition class usage, without parameter array.
+     * @param className is the condition class
+     * @return with itself
+     */
+    public RequestConditionBuilder condition(String className) {
+        return condition(className, null, false);
+    }
+
+    /**
+     * General purpose condition class usage, without parameter array, and the result is negated.
+     * @param className is the condition class
+     * @return with itself
+     */
+    public RequestConditionBuilder negatedCondition(String className) {
+        return condition(className, null, true);
     }
 
     public RequestConditionBuilder comingFrom(String localhost) {
@@ -61,7 +123,7 @@ public class RequestConditionBuilder {
     }
 
     public RequestCondition build() {
-        return new RequestCondition();
+        return new RequestCondition(configuartionString);
     }
 
     public RequestConditionBuilder withHeader(String blah) {
@@ -71,4 +133,5 @@ public class RequestConditionBuilder {
     public RequestConditionBuilder textInUrl(String textInUrl) {
         return this;
     }
+
 }

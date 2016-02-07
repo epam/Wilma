@@ -18,6 +18,7 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import com.epam.wilma.service.unit.helper.ConditionParameter;
 import org.testng.annotations.Test;
 
 /**
@@ -47,9 +48,10 @@ public class StubTest {
                 .forRequestsLike()
                 .not()
                 .orStart()
-                .andStart().withHeader("blah").withHeader("blah2").condition().andEnd()
+                .andStart().withHeader("blah").withHeader("blah2").condition("AlwaysTrueChecker").andEnd()
                 .comingFrom("localhost")
                 .comingFrom("192.168.0.1")
+                .negatedCondition("AlwaysFalseChecker")
                 .orEnd()
                 .willResponseWith().plainTextResponse("ERROR").withStatus(404)
                 .applyFormatter().applyFormatter()
@@ -62,8 +64,24 @@ public class StubTest {
 
     @Test
     public void testCreateStubGeneratedResponse() {
+        ConditionParameter[] conditionParameters = new ConditionParameter[1];
+        conditionParameters[0] = new ConditionParameter("Content-Type", "text/plain");
         stub = new StubConfigurationBuilder()
-                .forRequestsLike().condition()
+                .forRequestsLike().condition("HeaderParameterChecker", conditionParameters)
+                .willResponseWith().generatedResponse()
+                .build();
+        stub.start();
+        //do the test
+        stub.stop();
+        stub.drop();
+    }
+
+    @Test
+    public void testCreateStubGeneratedResponseConditionNegated() {
+        ConditionParameter[] conditionParameters = new ConditionParameter[1];
+        conditionParameters[0] = new ConditionParameter("Content-Type", "text/plain");
+        stub = new StubConfigurationBuilder()
+                .forRequestsLike().negatedCondition("HeaderParameterChecker", conditionParameters)
                 .willResponseWith().generatedResponse()
                 .build();
         stub.start();

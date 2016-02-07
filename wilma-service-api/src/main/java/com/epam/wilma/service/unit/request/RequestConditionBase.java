@@ -25,5 +25,4 @@ package com.epam.wilma.service.unit.request;
  *
  */
 public interface RequestConditionBase {
-
 }
