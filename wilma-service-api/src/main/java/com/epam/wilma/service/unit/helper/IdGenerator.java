@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.request;
+package com.epam.wilma.service.unit.helper;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,17 +18,19 @@ package com.epam.wilma.service.unit.request;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
- * A Request Condition class.
+ * Class that ensure unique generation of an integer value.
  *
  * @author Tamas_Kohegyi
  *
  */
-public class RequestCondition implements RequestConditionBase {
 
-    private String configurationString;
+public class IdGenerator {
+    private static AtomicLong id = new AtomicLong();
 
-    public RequestCondition(String requestConditionConfigurationString) {
-        configurationString = requestConditionConfigurationString;
+    public static long getNextGeneratedId() {
+        return id.getAndIncrement();
     }
 }
