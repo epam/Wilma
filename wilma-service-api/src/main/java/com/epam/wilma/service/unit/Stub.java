@@ -18,22 +18,68 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.request.RequestConditionBase;
+import com.epam.wilma.service.unit.request.RequestCondition;
 import com.epam.wilma.service.unit.response.ResponseDescriptor;
+
+import java.util.Formatter;
 
 /**
  * Class that represents a stubbed request-response pairs.
+ * Example configuration:
+ * <p/>
+ * <?xml version="1.0" encoding="UTF-8"?>
+ * <wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ * xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
+ * <dialog-descriptor name="dummy-descriptor" usage="always" comment="random comment">
+ * <condition-descriptor>
+ * <condition class="AlwaysFalseChecker" />
+ * </condition-descriptor>
+ * <response-descriptor code="502" delay="0" mimetype="text/plain" template="errorResponse" />
+ * </dialog-descriptor>
+ * <p/>
+ * <template-descriptor name="template-descriptor_1">
+ * <template name="errorResponse" type="text" resource="Bad Gateway" />
+ * </template-descriptor>
+ * </wilma-stub>
  *
  * @author Tamas_Kohegyi
- *
  */
 public class Stub {
-    private RequestConditionBase requestConditionBase;
+
+    private static String STUB_CONFIGURATION_FORMATTER =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                    + "<wilma-stub xmlns=\"http://epam.github.io/Wilma/xsd/StubConfig\" "
+                    + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                    + "xsi:schemaLocation=\"http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd\">\n"
+                    + "<dialog-descriptor name=\"%1$s\" usage=\"always\" comment=\"%1$s\">\n"
+                    + "<condition-descriptor>\n%2$s</condition-descriptor>\n"
+                    + "%3$s"
+                    + "</dialog-descriptor>\n"
+                    + "<template-descriptor name=\"%1$s\"\n>\n%4$s</template-descriptor>\n"
+                    + "</wilma-stub>";
+
+    private RequestCondition requestCondition;
     private ResponseDescriptor responseDescriptor;
 
-    public Stub(RequestConditionBase requestConditionBase, ResponseDescriptor responseDescriptor) {
-        this.requestConditionBase = requestConditionBase;
+    public Stub(RequestCondition requestCondition, ResponseDescriptor responseDescriptor) {
+        this.requestCondition = requestCondition;
         this.responseDescriptor = responseDescriptor;
+    }
+
+    /**
+     * Produces a Stub configuration XML.
+     *
+     * @return xml content
+     */
+    public String toString() {
+        String generatedName = "generated name";
+        String conditionContent = requestCondition.toString();
+        String responseContent = responseDescriptor.toString();
+        String usedTemplateAndFormatter = responseDescriptor.toString();
+        StringBuilder sb = new StringBuilder();
+        Formatter formatter = new Formatter(sb);
+        formatter.format(STUB_CONFIGURATION_FORMATTER, generatedName, conditionContent, responseContent, usedTemplateAndFormatter);
+        return sb.toString();
     }
 
     public void start() {
@@ -42,8 +88,13 @@ public class Stub {
     public void stop() {
     }
 
-    public void disable() {}
-    public void enable() {}
-    public void drop() {}
+    public void disable() {
+    }
+
+    public void enable() {
+    }
+
+    public void drop() {
+    }
 
 }

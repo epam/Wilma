@@ -18,9 +18,15 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import com.epam.wilma.service.unit.helper.ConfigurationParameter;
+import com.epam.wilma.service.unit.helper.StubConfigurationException;
+import com.epam.wilma.service.unit.helper.TemplateFormatter;
 import com.epam.wilma.service.unit.request.RequestCondition;
-import com.epam.wilma.service.unit.request.RequestConditionBase;
 import com.epam.wilma.service.unit.response.ResponseDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.LinkedList;
 
 /**
  * Builder class for building a complete Stub Configuration.
@@ -29,10 +35,17 @@ import com.epam.wilma.service.unit.response.ResponseDescriptor;
  *
  */
 public class ResponseDescriptorBuilder {
-    private RequestConditionBase requestConditionBase;
+    private static final Logger LOG = LoggerFactory.getLogger(ResponseDescriptorBuilder.class);
+    private RequestCondition requestCondition;
+    private String code = "200";
+    private String delay = "0";
+    private String mimeType = "text/plain";
+    private String templateType = "text";
+    private String templateResource = "Wilma response";
+    private LinkedList<TemplateFormatter> templateFormatters = new LinkedList<>();
 
     public ResponseDescriptorBuilder(RequestCondition requestCondition) {
-        this.requestConditionBase = requestCondition;
+        this.requestCondition = requestCondition;
     }
 
     public ResponseDescriptorBuilder plainTextResponse(String plainTextResponse) {
@@ -45,15 +58,26 @@ public class ResponseDescriptorBuilder {
 
     public Stub build() {
         //need to validate both the request condition, and the response descriptor
-        Stub stub = new Stub(requestConditionBase, buildResponseDescriptor());
+        Stub stub = new Stub(requestCondition, buildResponseDescriptor());
+        LOG.debug("Stub created, XML is:\n" + stub.toString());
         return stub;
     }
 
     public ResponseDescriptorBuilder withStatus(int i) {
+        if (i < 0) {
+            throw new StubConfigurationException("Given Response StatusCode (" + i + ") is invalid.");
+        }
+        code = String.valueOf(i);
         return this;
     }
 
-    public ResponseDescriptorBuilder applyFormatter() {
+    public ResponseDescriptorBuilder applyFormatter(String formatterClass) {
+        return applyFormatter(formatterClass, null);
+    }
+
+    public ResponseDescriptorBuilder applyFormatter(String formatterClass, ConfigurationParameter[] configurationParameters) {
+        TemplateFormatter templateFormatter = new TemplateFormatter(formatterClass, configurationParameters);
+        templateFormatters.add(templateFormatter);
         return this;
     }
 

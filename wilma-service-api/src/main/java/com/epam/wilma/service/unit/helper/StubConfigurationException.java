@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.request;
+package com.epam.wilma.service.unit.helper;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -19,10 +19,26 @@ package com.epam.wilma.service.unit.request;
  ===========================================================================*/
 
 /**
- * A Request Condition base class, parent of all kind of request condition class.
- *
- * @author Tamas_Kohegyi
- *
+ * This exception class is used for exceptions during stub configuration creation.
+ * @author tkohegyi
  */
-public interface RequestConditionBase {
+public class StubConfigurationException extends RuntimeException {
+
+    /**
+     * Constructs a new exception.
+     * @param message is the error text.
+     */
+    public StubConfigurationException(final String message) {
+        super(message);
+    }
+
+    /**
+     * Constructs a new exception.
+     * @param message is the error text.
+     * @param cause is the root cause of this exception.
+     */
+    public StubConfigurationException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
 }

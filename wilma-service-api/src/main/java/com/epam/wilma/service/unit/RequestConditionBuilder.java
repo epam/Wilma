@@ -18,7 +18,7 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.ConditionParameter;
+import com.epam.wilma.service.unit.helper.ConfigurationParameter;
 import com.epam.wilma.service.unit.request.RequestCondition;
 
 /**
@@ -29,71 +29,81 @@ import com.epam.wilma.service.unit.request.RequestCondition;
  */
 public class RequestConditionBuilder {
 
-    private String configuartionString = "";
+    private String configurationString = "";
 
     public RequestConditionBuilder andStart() {
+        configurationString += "<and>\n";
         return this;
     }
 
     public RequestConditionBuilder andEnd() {
+        configurationString += "</and>\n";
         return this;
     }
 
     public RequestConditionBuilder orStart() {
+        configurationString += "<or>\n";
         return this;
     }
 
     public RequestConditionBuilder orEnd() {
+        configurationString += "</or>\n";
         return this;
     }
 
-    public RequestConditionBuilder not() {
+    public RequestConditionBuilder notStart() {
+        configurationString += "<not>\n";
+        return this;
+    }
+
+    public RequestConditionBuilder notEnd() {
+        configurationString += "</not>\n";
         return this;
     }
 
     /**
      * General purpose condition class usage, with a parameter array.
      * @param className is the condition class
-     * @param conditionParameters is the parameter array
+     * @param configurationParameters is the parameter array
      * @param negate if true, then the condition should be negated
      * @return with itself
      */
-    private RequestConditionBuilder condition(String className, ConditionParameter[] conditionParameters, boolean negate) {
+    private RequestConditionBuilder condition(String className, ConfigurationParameter[] configurationParameters, boolean negate) {
         String conditionString = "<condition class=\"" + className + "\" ";
         if (negate) {
             conditionString += "negate=true ";
         }
         conditionString += ">\n";
-        if (conditionParameters != null) {
+        if (configurationParameters != null) {
             //we have parameters too
-            for (ConditionParameter conditionParameter : conditionParameters) {
-                conditionString += conditionParameter.toString() + "\n";
+            for (ConfigurationParameter configurationParameter : configurationParameters) {
+                conditionString += configurationParameter.toString() + "\n";
             }
         }
-        conditionString += "</condition>";
+        conditionString += "</condition>\n";
 
-        configuartionString += conditionString;
+        configurationString += conditionString;
         return this;
     }
 
     /**
      * General purpose condition class usage, with a parameter array.
      * @param className is the condition class
-     * @param conditionParameters is the parameter array
+     * @param configurationParameters is the parameter array
      * @return with itself
      */
-    public RequestConditionBuilder condition(String className, ConditionParameter[] conditionParameters) {
-        return condition(className, conditionParameters, false);
+    public RequestConditionBuilder condition(String className, ConfigurationParameter[] configurationParameters) {
+        return condition(className, configurationParameters, false);
     }
 
     /**
      * General purpose condition class usage, with a parameter array.
      * @param className is the condition class
-     * @param conditionParameters is the parameter array
+     * @param configurationParameters is the parameter array
      * @return with itself
      */
-    public RequestConditionBuilder negatedCondition(String className, ConditionParameter[] conditionParameters) {
-        return condition(className, conditionParameters, true);
+    public RequestConditionBuilder negatedCondition(String className, ConfigurationParameter[] configurationParameters) {
+        return condition(className, configurationParameters, true);
     }
 
     /**
@@ -123,7 +133,7 @@ public class RequestConditionBuilder {
     }
 
     public RequestCondition build() {
-        return new RequestCondition(configuartionString);
+        return new RequestCondition(configurationString);
     }
 
     public RequestConditionBuilder withHeader(String blah) {

@@ -24,11 +24,15 @@ package com.epam.wilma.service.unit.request;
  * @author Tamas_Kohegyi
  *
  */
-public class RequestCondition implements RequestConditionBase {
+public class RequestCondition {
 
     private String configurationString;
 
     public RequestCondition(String requestConditionConfigurationString) {
         configurationString = requestConditionConfigurationString;
+    }
+
+    public String toString() {
+        return configurationString;
     }
 }

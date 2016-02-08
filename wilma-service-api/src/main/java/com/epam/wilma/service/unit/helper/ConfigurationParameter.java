@@ -24,16 +24,16 @@ package com.epam.wilma.service.unit.helper;
  * @author Tamas_Kohegyi
  *
  */
-public class ConditionParameter {
+public class ConfigurationParameter {
     private String name;
     private String value;
 
     /**
      * Constructor when both name and value has meaning for a parameter.
      * @param name is the name of the parameter
-     * @param value is the value of the parametr
+     * @param value is the value of the parameter
      */
-    public ConditionParameter(String name, String value) {
+    public ConfigurationParameter(String name, String value) {
         this.name = name;
         this.value = value;
     }
@@ -43,7 +43,7 @@ public class ConditionParameter {
      * In this case the name is self generated.
      * @param value is the value of the parametr
      */
-    public ConditionParameter(String value) {
+    public ConfigurationParameter(String value) {
         this.name = "generatedName" + IdGenerator.getNextGeneratedId();
         this.value = value;
     }

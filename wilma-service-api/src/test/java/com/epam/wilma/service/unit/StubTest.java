@@ -18,7 +18,7 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.ConditionParameter;
+import com.epam.wilma.service.unit.helper.ConfigurationParameter;
 import org.testng.annotations.Test;
 
 /**
@@ -44,17 +44,20 @@ public class StubTest {
 
     @Test
     public void testCreateStubExtremelyComplex() {
+        ConfigurationParameter[] formatterParameters = new ConfigurationParameter[1];
+        formatterParameters[0] = new ConfigurationParameter("fromtext", "totext");
         stub = new StubConfigurationBuilder()
                 .forRequestsLike()
-                .not()
+                .notStart()
                 .orStart()
                 .andStart().withHeader("blah").withHeader("blah2").condition("AlwaysTrueChecker").andEnd()
                 .comingFrom("localhost")
                 .comingFrom("192.168.0.1")
                 .negatedCondition("AlwaysFalseChecker")
                 .orEnd()
-                .willResponseWith().plainTextResponse("ERROR").withStatus(404)
-                .applyFormatter().applyFormatter()
+                .notEnd()
+                .willResponseWith().plainTextResponse("{ \"ERROR\":\"fromtext\" }").withStatus(404)
+                .applyFormatter("StringReplaceTemplateFormatter", formatterParameters).applyFormatter("JsonTemplateFormatter")
                 .build();
         stub.start();
         //do the test
@@ -64,10 +67,10 @@ public class StubTest {
 
     @Test
     public void testCreateStubGeneratedResponse() {
-        ConditionParameter[] conditionParameters = new ConditionParameter[1];
-        conditionParameters[0] = new ConditionParameter("Content-Type", "text/plain");
+        ConfigurationParameter[] configurationParameters = new ConfigurationParameter[1];
+        configurationParameters[0] = new ConfigurationParameter("Content-Type", "text/plain");
         stub = new StubConfigurationBuilder()
-                .forRequestsLike().condition("HeaderParameterChecker", conditionParameters)
+                .forRequestsLike().condition("HeaderParameterChecker", configurationParameters)
                 .willResponseWith().generatedResponse()
                 .build();
         stub.start();
@@ -78,8 +81,8 @@ public class StubTest {
 
     @Test
     public void testCreateStubGeneratedResponseConditionNegated() {
-        ConditionParameter[] conditionParameters = new ConditionParameter[1];
-        conditionParameters[0] = new ConditionParameter("Content-Type", "text/plain");
+        ConfigurationParameter[] conditionParameters = new ConfigurationParameter[1];
+        conditionParameters[0] = new ConfigurationParameter("Content-Type", "text/plain");
         stub = new StubConfigurationBuilder()
                 .forRequestsLike().negatedCondition("HeaderParameterChecker", conditionParameters)
                 .willResponseWith().generatedResponse()
