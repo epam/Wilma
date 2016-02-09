@@ -47,7 +47,7 @@ public class TemplateFormatter {
         if (configurationParameters != null) {
             //we have parameters too
             for (ConfigurationParameter configurationParameter : configurationParameters) {
-                templateFormatterString += configurationParameter.toString() + "\n";
+                templateFormatterString += "    " + configurationParameter.toString() + "\n";
             }
         }
         templateFormatterString += "</template-formatter>\n";

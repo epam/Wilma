@@ -20,6 +20,7 @@ package com.epam.wilma.service.unit;
 
 import com.epam.wilma.service.unit.helper.ConfigurationParameter;
 import com.epam.wilma.service.unit.helper.StubConfigurationException;
+import com.epam.wilma.service.unit.helper.Template;
 import com.epam.wilma.service.unit.helper.TemplateFormatter;
 import com.epam.wilma.service.unit.request.RequestCondition;
 import com.epam.wilma.service.unit.response.ResponseDescriptor;
@@ -40,8 +41,7 @@ public class ResponseDescriptorBuilder {
     private String code = "200";
     private String delay = "0";
     private String mimeType = "text/plain";
-    private String templateType = "text";
-    private String templateResource = "Wilma response";
+    private Template template = new Template("text", "Wilma default response");
     private LinkedList<TemplateFormatter> templateFormatters = new LinkedList<>();
 
     public ResponseDescriptorBuilder(RequestCondition requestCondition) {
@@ -49,11 +49,13 @@ public class ResponseDescriptorBuilder {
     }
 
     public ResponseDescriptorBuilder plainTextResponse(String plainTextResponse) {
+        mimeType = "text/plain";
+        template = new Template("text", plainTextResponse);
         return this;
     }
 
     public ResponseDescriptor buildResponseDescriptor() {
-        return new ResponseDescriptor();
+        return new ResponseDescriptor(delay, code, mimeType, template, templateFormatters);
     }
 
     public Stub build() {
@@ -82,6 +84,14 @@ public class ResponseDescriptorBuilder {
     }
 
     public ResponseDescriptorBuilder generatedResponse() {
+        return this;
+    }
+
+    public ResponseDescriptorBuilder withDelay(int i) {
+        if (i < 0) {
+            throw new StubConfigurationException("Given Response Delay (" + i + ") is invalid.");
+        }
+        delay = String.valueOf(i);
         return this;
     }
 }

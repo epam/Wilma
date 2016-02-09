@@ -50,13 +50,13 @@ public class StubTest {
                 .forRequestsLike()
                 .notStart()
                 .orStart()
-                .andStart().withHeader("blah").withHeader("blah2").condition("AlwaysTrueChecker").andEnd()
+                .andStart().withHeader("blah").withHeader("blah2","blah2").condition("AlwaysTrueChecker").andEnd()
                 .comingFrom("localhost")
                 .comingFrom("192.168.0.1")
                 .negatedCondition("AlwaysFalseChecker")
                 .orEnd()
                 .notEnd()
-                .willResponseWith().plainTextResponse("{ \"ERROR\":\"fromtext\" }").withStatus(404)
+                .willResponseWith().plainTextResponse("{ \"ERROR\":\"fromtext\" }").withStatus(404).withDelay(1000)
                 .applyFormatter("StringReplaceTemplateFormatter", formatterParameters).applyFormatter("JsonTemplateFormatter")
                 .build();
         stub.start();

@@ -74,8 +74,8 @@ public class Stub {
     public String toString() {
         String generatedName = "generated name";
         String conditionContent = requestCondition.toString();
-        String responseContent = responseDescriptor.toString();
-        String usedTemplateAndFormatter = responseDescriptor.toString();
+        String responseContent = responseDescriptor.responseDescriptorToString();
+        String usedTemplateAndFormatter = responseDescriptor.templateToString();
         StringBuilder sb = new StringBuilder();
         Formatter formatter = new Formatter(sb);
         formatter.format(STUB_CONFIGURATION_FORMATTER, generatedName, conditionContent, responseContent, usedTemplateAndFormatter);

@@ -136,7 +136,19 @@ public class RequestConditionBuilder {
         return new RequestCondition(configurationString);
     }
 
-    public RequestConditionBuilder withHeader(String blah) {
+    public RequestConditionBuilder withHeader(String name, String value) {
+        String conditionString = "<condition class=\"HeaderParameterChecker\">\n" +
+                "    <param name=\"" + name + "\" value=\"" + value + "\" />\n" +
+                "</condition>\n";
+        configurationString += conditionString;
+        return this;
+    }
+
+    public RequestConditionBuilder withHeader(String pattern) {
+        String conditionString = "<condition class=\"AndHeaderPatternChecker\">\n" +
+                "    <param name=\"dummy\" value=\"" + pattern + "\" />\n" +
+                "</condition>\n";
+        configurationString += conditionString;
         return this;
     }
 

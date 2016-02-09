@@ -18,6 +18,11 @@ package com.epam.wilma.service.unit.response;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import com.epam.wilma.service.unit.helper.Template;
+import com.epam.wilma.service.unit.helper.TemplateFormatter;
+
+import java.util.LinkedList;
+
 /**
  * A Response Descriptor class.
  *
@@ -25,5 +30,32 @@ package com.epam.wilma.service.unit.response;
  *
  */
 public class ResponseDescriptor {
+    private String delay;
+    private String code;
+    private String mimeType;
+    private Template template;
+    private LinkedList<TemplateFormatter> templateFormatters;
+
+
+    public ResponseDescriptor(String delay, String code, String mimeType, Template template, LinkedList<TemplateFormatter> templateFormatters) {
+        this.delay = delay;
+        this.code = code;
+        this.mimeType = mimeType;
+        this.template = template;
+        this.templateFormatters = templateFormatters;
+    }
+    public String responseDescriptorToString() {
+        String responseDescriptor = "<response-descriptor delay=\"" + delay + "\" "
+            + "code=\"" + code + "\" mimetype=\"" + mimeType + "\" template=\"" + template.getName() + "\" >\n";
+        for (TemplateFormatter templateFormatter: templateFormatters) {
+                responseDescriptor += templateFormatter.toString();
+        }
+        responseDescriptor += "</response-descriptor>\n";
+        return responseDescriptor;
+    }
+
+    public String templateToString() {
+        return template.toString();
+    }
 
 }
