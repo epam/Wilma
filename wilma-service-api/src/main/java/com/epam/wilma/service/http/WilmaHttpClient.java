@@ -26,6 +26,7 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
@@ -127,6 +128,37 @@ public class WilmaHttpClient {
         try {
             Part[] parts = {new FilePart("file", file)};
             method.setRequestEntity(new MultipartRequestEntity(parts, method.getParams()));
+
+            int statusCode = httpclient.executeMethod(method);
+            if (HttpStatus.SC_OK == statusCode) {
+                requestSuccessful = true;
+            }
+        } catch (HttpException e) {
+            LOG.error("Protocol exception occurred when called: " + url, e);
+        } catch (IOException e) {
+            LOG.error("I/O (transport) error occurred when called: " + url, e);
+        } finally {
+            method.releaseConnection();
+        }
+
+        return requestSuccessful;
+    }
+
+    /**
+     * Posting the given stream to the given URL via HTTP POST method and returns
+     * {@code true} if the request was successful.
+     *
+     * @param url the given URL
+     * @param resource the given string that will be uploaded as resource
+     * @return {@code true} if the request is successful, otherwise return {@code false}
+     */
+    public boolean uploadString(String url, String resource) {
+        boolean requestSuccessful = false;
+
+        PostMethod method = new PostMethod(url);
+
+        try {
+            method.setRequestEntity(new StringRequestEntity(resource, null, null));
 
             int statusCode = httpclient.executeMethod(method);
             if (HttpStatus.SC_OK == statusCode) {

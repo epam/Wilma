@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.helper;
+package com.epam.wilma.service.unit.helper.common;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,27 +18,19 @@ package com.epam.wilma.service.unit.helper;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
- * This exception class is used for exceptions during stub configuration creation.
- * @author tkohegyi
+ * Class that ensure unique generation of an integer value.
+ *
+ * @author Tamas_Kohegyi
+ *
  */
-public class StubConfigurationException extends RuntimeException {
 
-    /**
-     * Constructs a new exception.
-     * @param message is the error text.
-     */
-    public StubConfigurationException(final String message) {
-        super(message);
+public class IdGenerator {
+    private static AtomicLong id = new AtomicLong();
+
+    public static long getNextGeneratedId() {
+        return id.getAndIncrement();
     }
-
-    /**
-     * Constructs a new exception.
-     * @param message is the error text.
-     * @param cause is the root cause of this exception.
-     */
-    public StubConfigurationException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
-
 }

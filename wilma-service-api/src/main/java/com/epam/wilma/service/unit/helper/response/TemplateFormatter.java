@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.helper;
+package com.epam.wilma.service.unit.helper.response;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -17,6 +17,8 @@ package com.epam.wilma.service.unit.helper;
  You should have received a copy of the GNU General Public License
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
+
+import com.epam.wilma.service.unit.helper.common.ConfigurationParameter;
 
 /**
  * Class that holds a single template formatter information.

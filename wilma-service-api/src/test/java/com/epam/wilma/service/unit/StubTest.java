@@ -18,7 +18,13 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.ConfigurationParameter;
+import com.epam.wilma.service.application.WilmaApplication;
+import com.epam.wilma.service.domain.WilmaServiceConfig;
+import com.epam.wilma.service.http.WilmaHttpClient;
+import com.epam.wilma.service.unit.helper.common.ConfigurationParameter;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -28,11 +34,33 @@ import org.testng.annotations.Test;
  */
 public class StubTest {
 
+    private static final String HOST = "host";
+    private static final Integer PORT = 1;
+
+    @Mock
+    private WilmaHttpClient client;
+
     private Stub stub;
+    private WilmaApplication wilmaApplication;
+
+    @BeforeMethod
+    public void init() {
+        MockitoAnnotations.initMocks(this);
+
+        WilmaServiceConfig config = createMockConfig();
+        wilmaApplication = new WilmaApplication(config, client);
+    }
+
+    private WilmaServiceConfig createMockConfig() {
+        return WilmaServiceConfig.getBuilder()
+                .withHost(HOST)
+                .withPort(PORT)
+                .build();
+    }
 
     @Test
     public void testCreateStubMinimal() {
-        stub = new StubConfigurationBuilder()
+        stub = new StubConfigurationBuilder("myGroup")
                 .forRequestsLike().comingFrom("localhost")
                 .willResponseWith().plainTextResponse("blah")
                 .build();
@@ -50,7 +78,7 @@ public class StubTest {
                 .forRequestsLike()
                 .notStart()
                 .orStart()
-                .andStart().withHeader("blah").withHeader("blah2","blah2").condition("AlwaysTrueChecker").andEnd()
+                .andStart().withHeader("blah").withHeader("blah2", "blah2").condition("AlwaysTrueChecker").andEnd()
                 .comingFrom("localhost")
                 .comingFrom("192.168.0.1")
                 .negatedCondition("AlwaysFalseChecker")
@@ -71,7 +99,7 @@ public class StubTest {
         configurationParameters[0] = new ConfigurationParameter("Content-Type", "text/plain");
         stub = new StubConfigurationBuilder()
                 .forRequestsLike().condition("HeaderParameterChecker", configurationParameters)
-                .willResponseWith().generatedResponse()
+                .willResponseWith().generatedResponse("dummy.class").withMimeType("application/xml")
                 .build();
         stub.start();
         //do the test
@@ -85,7 +113,7 @@ public class StubTest {
         conditionParameters[0] = new ConfigurationParameter("Content-Type", "text/plain");
         stub = new StubConfigurationBuilder()
                 .forRequestsLike().negatedCondition("HeaderParameterChecker", conditionParameters)
-                .willResponseWith().generatedResponse()
+                .willResponseWith().generatedResponse("dummy.class")
                 .build();
         stub.start();
         //do the test

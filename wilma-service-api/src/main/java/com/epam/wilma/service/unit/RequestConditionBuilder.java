@@ -18,7 +18,7 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.ConfigurationParameter;
+import com.epam.wilma.service.unit.helper.common.ConfigurationParameter;
 import com.epam.wilma.service.unit.request.RequestCondition;
 
 /**
@@ -30,6 +30,11 @@ import com.epam.wilma.service.unit.request.RequestCondition;
 public class RequestConditionBuilder {
 
     private String configurationString = "";
+    private String groupName;
+
+    public RequestConditionBuilder(String groupName) {
+        this.groupName = groupName;
+    }
 
     public RequestConditionBuilder andStart() {
         configurationString += "<and>\n";
@@ -71,7 +76,7 @@ public class RequestConditionBuilder {
     private RequestConditionBuilder condition(String className, ConfigurationParameter[] configurationParameters, boolean negate) {
         String conditionString = "<condition class=\"" + className + "\" ";
         if (negate) {
-            conditionString += "negate=true ";
+            conditionString += "negate=\"true\" ";
         }
         conditionString += ">\n";
         if (configurationParameters != null) {
@@ -124,16 +129,12 @@ public class RequestConditionBuilder {
         return condition(className, null, true);
     }
 
-    public RequestConditionBuilder comingFrom(String localhost) {
+    public RequestConditionBuilder comingFrom(String hostName) {
+        String conditionString = "<condition class=\"AndUrlPatternChecker\">\n" +
+                "    <param name=\"irrelevant\" value=\"//" + hostName + "\" />\n" +
+                "</condition>\n";
+        configurationString += conditionString;
         return this;
-    }
-
-    public ResponseDescriptorBuilder willResponseWith() {
-        return new ResponseDescriptorBuilder(build());
-    }
-
-    public RequestCondition build() {
-        return new RequestCondition(configurationString);
     }
 
     public RequestConditionBuilder withHeader(String name, String value) {
@@ -146,14 +147,26 @@ public class RequestConditionBuilder {
 
     public RequestConditionBuilder withHeader(String pattern) {
         String conditionString = "<condition class=\"AndHeaderPatternChecker\">\n" +
-                "    <param name=\"dummy\" value=\"" + pattern + "\" />\n" +
+                "    <param name=\"irrelevant\" value=\"" + pattern + "\" />\n" +
                 "</condition>\n";
         configurationString += conditionString;
         return this;
     }
 
     public RequestConditionBuilder textInUrl(String textInUrl) {
+        String conditionString = "<condition class=\"AndUrlPatternChecker\">\n" +
+                "    <param name=\"irrelevant\" value=\"" + textInUrl + "\" />\n" +
+                "</condition>\n";
+        configurationString += conditionString;
         return this;
+    }
+
+    public ResponseDescriptorBuilder willResponseWith() {
+        return new ResponseDescriptorBuilder(groupName, build());
+    }
+
+    public RequestCondition build() {
+        return new RequestCondition(configurationString);
     }
 
 }

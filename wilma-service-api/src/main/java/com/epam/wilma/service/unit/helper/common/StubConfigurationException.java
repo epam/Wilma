@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit;
+package com.epam.wilma.service.unit.helper.common;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,26 +18,27 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.common.IdGenerator;
-
 /**
- * Builder class for building a complete Stub Configuration.
- *
- * @author Tamas_Kohegyi
- *
+ * This exception class is used for exceptions during stub configuration creation.
+ * @author tkohegyi
  */
-public class StubConfigurationBuilder {
-    private String groupName = "Default";
+public class StubConfigurationException extends RuntimeException {
 
-    public StubConfigurationBuilder(String groupName) {
-        this.groupName = groupName;
+    /**
+     * Constructs a new exception.
+     * @param message is the error text.
+     */
+    public StubConfigurationException(final String message) {
+        super(message);
     }
 
-    public StubConfigurationBuilder() {
-        this.groupName = "service-api-" + IdGenerator.getNextGeneratedId();
+    /**
+     * Constructs a new exception.
+     * @param message is the error text.
+     * @param cause is the root cause of this exception.
+     */
+    public StubConfigurationException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 
-    public RequestConditionBuilder forRequestsLike() {
-        return new RequestConditionBuilder(groupName);
-    }
 }

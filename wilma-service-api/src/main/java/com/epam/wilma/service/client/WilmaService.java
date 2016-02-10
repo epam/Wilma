@@ -314,6 +314,18 @@ public final class WilmaService {
         return fileUpload.uploadStubConfiguration(fileName, file);
     }
 
+    /**
+     * Uploads stub configuration.
+     *
+     * @param resource the String resource itself that is considered as stub configuration
+     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
+     */
+    public boolean uploadStubConfiguration(String resource) {
+        LOG.debug("Upload stub configuration.");
+
+        return fileUpload.uploadStubConfiguration(resource);
+    }
+
     public void setWilmaApplication(WilmaApplication wilmaApplication) {
         this.wilmaApplication = wilmaApplication;
     }

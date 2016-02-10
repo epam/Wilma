@@ -44,9 +44,10 @@ public class UploadTest {
     private static final String HOST = "host";
     private static final Integer PORT = 1;
     private static final String CONDITION_CHECKER_UPLOAD_URL = "http://host:1/config/admin/stub/conditionchecker?fileName=testfile1";
-    private static final String STUB_CONFIGURATION_UPLOAD_URL = "http://host:1/config/admin/stub/templates?fileName=testfile1";
-    private static final String TEMPLATE_UPLOAD_URL = "http://host:1/config/admin/stub/templateformatter?fileName=testfile1";
-    private static final String TEMPLATE_FORMATTER_UPLOAD_URL = "http://host:1/config/admin/stub/stubconfig?fileName=testfile1";
+    private static final String STUB_CONFIGURATION_UPLOAD_URL = "http://host:1/config/admin/stub/stubconfig?fileName=testfile1";
+    private static final String STUB_CONFIGURATION_UPLOAD_URL_FOR_STRING = "http://host:1/config/admin/stub/stubconfig?fileName=directUpload";
+    private static final String TEMPLATE_UPLOAD_URL = "http://host:1/config/admin/stub/templates?fileName=testfile1";
+    private static final String TEMPLATE_FORMATTER_UPLOAD_URL = "http://host:1/config/admin/stub/templateformatter?fileName=testfile1";
     private static final String FILENAME = "testfile1";
 
     @Mock
@@ -94,6 +95,19 @@ public class UploadTest {
 
         assertEquals(url.getValue(), STUB_CONFIGURATION_UPLOAD_URL);
         assertEquals(file.getValue(), testFile);
+    }
+
+    @Test
+    public void shouldCallTheProperStubConfigurationUploadUrlWithTheGivenStringResource() {
+        ArgumentCaptor<String> url = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> resource = ArgumentCaptor.forClass(String.class);
+
+        fileUpload.uploadStubConfiguration(FILENAME);
+
+        verify(client).uploadString(url.capture(), resource.capture());
+
+        assertEquals(url.getValue(), STUB_CONFIGURATION_UPLOAD_URL_FOR_STRING);
+        assertEquals(resource.getValue(), FILENAME);
     }
 
     @Test

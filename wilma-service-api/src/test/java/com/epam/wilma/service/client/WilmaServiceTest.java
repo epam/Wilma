@@ -283,10 +283,19 @@ public class WilmaServiceTest {
     }
 
     @Test
-    public void testUploadStubConfiguration() {
+    public void testUploadStubConfigurationFile() {
         wilmaService.uploadStubConfiguration(FILE_NAME, MOCK_FILE);
 
         verify(fileUpload).uploadStubConfiguration(FILE_NAME, MOCK_FILE);
+        verifyNoMoreInteractions(wilmaApplication, messageLoggingConfiguration, operationConfiguration,
+                localhostBlockingConfiguration, stubConfiguration, fileUpload);
+    }
+
+    @Test
+    public void testUploadStubConfigurationString() {
+        wilmaService.uploadStubConfiguration(FILE_NAME);
+
+        verify(fileUpload).uploadStubConfiguration(FILE_NAME);
         verifyNoMoreInteractions(wilmaApplication, messageLoggingConfiguration, operationConfiguration,
                 localhostBlockingConfiguration, stubConfiguration, fileUpload);
     }

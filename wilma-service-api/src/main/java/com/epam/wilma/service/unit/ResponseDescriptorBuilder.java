@@ -18,10 +18,11 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.ConfigurationParameter;
-import com.epam.wilma.service.unit.helper.StubConfigurationException;
-import com.epam.wilma.service.unit.helper.Template;
-import com.epam.wilma.service.unit.helper.TemplateFormatter;
+import com.epam.wilma.service.unit.helper.response.TemplateType;
+import com.epam.wilma.service.unit.helper.common.ConfigurationParameter;
+import com.epam.wilma.service.unit.helper.common.StubConfigurationException;
+import com.epam.wilma.service.unit.helper.response.Template;
+import com.epam.wilma.service.unit.helper.response.TemplateFormatter;
 import com.epam.wilma.service.unit.request.RequestCondition;
 import com.epam.wilma.service.unit.response.ResponseDescriptor;
 import org.slf4j.Logger;
@@ -37,20 +38,41 @@ import java.util.LinkedList;
  */
 public class ResponseDescriptorBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(ResponseDescriptorBuilder.class);
+
+    private String groupName;
     private RequestCondition requestCondition;
     private String code = "200";
     private String delay = "0";
     private String mimeType = "text/plain";
-    private Template template = new Template("text", "Wilma default response");
+    private Template template = new Template(TemplateType.TEXT, "Wilma default response");
     private LinkedList<TemplateFormatter> templateFormatters = new LinkedList<>();
 
-    public ResponseDescriptorBuilder(RequestCondition requestCondition) {
+    public ResponseDescriptorBuilder(String groupName, RequestCondition requestCondition) {
+        this.groupName = groupName;
         this.requestCondition = requestCondition;
     }
 
+    /**
+     *
+     * Warning! When you call it, the mime type will be set to text/plain
+     * @param plainTextResponse
+     * @return
+     */
     public ResponseDescriptorBuilder plainTextResponse(String plainTextResponse) {
         mimeType = "text/plain";
-        template = new Template("text", plainTextResponse);
+        template = new Template(TemplateType.TEXT, plainTextResponse);
+        return this;
+    }
+
+    /**
+     *
+     * Warning! When you call it, the mime type will be set to text/html
+     * @param fileName
+     * @return
+     */
+    public ResponseDescriptorBuilder htmlFileResponse(String fileName) {
+        mimeType = "text/html";
+        template = new Template(TemplateType.TEXTFILE, fileName);
         return this;
     }
 
@@ -60,7 +82,7 @@ public class ResponseDescriptorBuilder {
 
     public Stub build() {
         //need to validate both the request condition, and the response descriptor
-        Stub stub = new Stub(requestCondition, buildResponseDescriptor());
+        Stub stub = new Stub(groupName, requestCondition, buildResponseDescriptor());
         LOG.debug("Stub created, XML is:\n" + stub.toString());
         return stub;
     }
@@ -83,7 +105,8 @@ public class ResponseDescriptorBuilder {
         return this;
     }
 
-    public ResponseDescriptorBuilder generatedResponse() {
+    public ResponseDescriptorBuilder generatedResponse(String className) {
+        template = new Template(TemplateType.EXTERNAL, className);
         return this;
     }
 
@@ -92,6 +115,11 @@ public class ResponseDescriptorBuilder {
             throw new StubConfigurationException("Given Response Delay (" + i + ") is invalid.");
         }
         delay = String.valueOf(i);
+        return this;
+    }
+
+    public ResponseDescriptorBuilder withMimeType(String mimeType) {
+        this.mimeType = mimeType;
         return this;
     }
 }

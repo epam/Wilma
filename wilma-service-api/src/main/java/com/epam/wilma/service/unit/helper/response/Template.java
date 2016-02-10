@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.helper;
+package com.epam.wilma.service.unit.helper.response;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,6 +18,8 @@ package com.epam.wilma.service.unit.helper;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import com.epam.wilma.service.unit.helper.common.IdGenerator;
+
 /**
  * Class that holds a single response template information.
  *
@@ -26,27 +28,31 @@ package com.epam.wilma.service.unit.helper;
  */
 public class Template {
     private String name;
-    private String type;
+    private TemplateType type;
     private String resource;
 
     /**
      * General constructor of a Template class.
      *
-     * @param type can be text|xmlfile|htmlfile|textfile|external
+     * @param type can be any Teample Type
      * @param resource is the template itself, or filename to the template or a classname that generates the template
      */
-    public Template(String type, String resource) {
+    public Template(TemplateType type, String resource) {
         this.name = "template-" + IdGenerator.getNextGeneratedId();
         this.type = type;
         this.resource = resource;
     }
+
     /**
      * Generates String value for the template.
      * @return with the config string
      */
     public String toString() {
 
-        String templateString = "<template name=\"" + name + "\" type=\"" + type + "\" resource=\"" + resource + "\">\n";
+        String templateString = "    <template name=\"" + name
+                + "\" type=\"" + type.toString().toLowerCase()
+                + "\" resource=\"" + (TemplateType.needEscape(type) ? new EscapeXml().escapeXML(resource) : resource)
+                + "\" />\n";
         return templateString;
     }
 

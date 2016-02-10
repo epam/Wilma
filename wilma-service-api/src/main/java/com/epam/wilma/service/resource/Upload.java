@@ -42,10 +42,11 @@ public class Upload {
     private static final Logger LOG = LoggerFactory.getLogger(Upload.class);
 
     private static final String CONDITION_CHECKER_UPLOAD_URL_POSTFIX = "config/admin/stub/conditionchecker";
-    private static final String STUB_CONFIGURATION_UPLOAD_URL_POSTFIX = "config/admin/stub/templates";
-    private static final String TEMPLATE_UPLOAD_URL_POSTFIX = "config/admin/stub/templateformatter";
-    private static final String TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX = "config/admin/stub/stubconfig";
+    private static final String STUB_CONFIGURATION_UPLOAD_URL_POSTFIX = "config/admin/stub/stubconfig";
+    private static final String TEMPLATE_UPLOAD_URL_POSTFIX = "config/admin/stub/templates";
+    private static final String TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX = "config/admin/stub/templateformatter";
     private static final String FILE_NAME = "fileName";
+    private static final String FILE_FROM_STRING = "directUpload";
 
     private WilmaHttpClient wilmaClient;
     private WilmaServiceConfig config;
@@ -131,10 +132,30 @@ public class Upload {
         return callFileUploadMethod(url, file);
     }
 
+    /**
+     * Uploads the given stub configuration in a form of string.
+     *
+     * @param resource is the String that holds the stub configuration
+     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     */
+    public boolean uploadStubConfiguration(String resource) {
+        LOG.debug("Call stub configuration upload API.");
+
+        String url = buildUrl(STUB_CONFIGURATION_UPLOAD_URL_POSTFIX, ImmutableMap.of(FILE_NAME, FILE_FROM_STRING));
+
+        return callStringUploadMethod(url, resource);
+    }
+
     private boolean callFileUploadMethod(String url, File file) {
         LOG.debug("Send file upload request to: " + url);
 
         return wilmaClient.uploadFile(url, file);
+    }
+
+    private boolean callStringUploadMethod(String url, String resource) {
+        LOG.debug("Send resource upload request to: " + url);
+
+        return wilmaClient.uploadString(url, resource);
     }
 
     private String buildUrl(String postfix, Map<String, String> params) {

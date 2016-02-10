@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.helper;
+package com.epam.wilma.service.unit.helper.response;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,19 +18,20 @@ package com.epam.wilma.service.unit.helper;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.EnumSet;
 
 /**
- * Class that ensure unique generation of an integer value.
+ * Possible values of template type attribute in the configuration.
  *
  * @author Tamas_Kohegyi
- *
  */
+public enum TemplateType {
+    XML, TEXT, HTML, JSON, XMLFILE, TEXTFILE, HTMLFILE, JSONFILE, EXTERNAL;
 
-public class IdGenerator {
-    private static AtomicLong id = new AtomicLong();
+    private static EnumSet<TemplateType> setOfTypesThoseNeedEscape
+            = EnumSet.of(TemplateType.XML, TemplateType.TEXT, TemplateType.HTML, TemplateType.JSON);
 
-    public static long getNextGeneratedId() {
-        return id.getAndIncrement();
+    public static boolean needEscape(TemplateType type) {
+        return setOfTypesThoseNeedEscape.contains(type);
     }
 }
