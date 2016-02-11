@@ -53,10 +53,10 @@ public class ResponseDescriptorBuilder {
     }
 
     /**
-     *
+     * Set a plain text response, the response itself is the parameter.
      * Warning! When you call it, the mime type will be set to text/plain
-     * @param plainTextResponse
-     * @return
+     * @param plainTextResponse the response itself
+     * @return with itself
      */
     public ResponseDescriptorBuilder plainTextResponse(String plainTextResponse) {
         mimeType = "text/plain";
@@ -65,10 +65,10 @@ public class ResponseDescriptorBuilder {
     }
 
     /**
-     *
+     * Set a text file as response.
      * Warning! When you call it, the mime type will be set to text/plain
-     * @param textFileName
-     * @return
+     * @param textFileName is the response file
+     * @return with itself
      */
     public ResponseDescriptorBuilder textFileResponse(String textFileName) {
         mimeType = "text/plain";
@@ -77,10 +77,10 @@ public class ResponseDescriptorBuilder {
     }
 
     /**
-     *
+     * Set an html file as response.
      * Warning! When you call it, the mime type will be set to text/html
-     * @param htmlFileName
-     * @return
+     * @param htmlFileName is the response file
+     * @return with itself
      */
     public ResponseDescriptorBuilder htmlFileResponse(String htmlFileName) {
         mimeType = "text/html";
@@ -89,10 +89,10 @@ public class ResponseDescriptorBuilder {
     }
 
     /**
-     *
+     * Set a json file as response.
      * Warning! When you call it, the mime type will be set to application/json
-     * @param jsonFileName
-     * @return
+     * @param jsonFileName is the response file
+     * @return with itself
      */
     public ResponseDescriptorBuilder jsonFileResponse(String jsonFileName) {
         mimeType = "application/json";
@@ -101,10 +101,10 @@ public class ResponseDescriptorBuilder {
     }
 
     /**
-     *
+     * Set an xml file as response.
      * Warning! When you call it, the mime type will be set to application/xml
-     * @param xmlFileName
-     * @return
+     * @param xmlFileName is the response file
+     * @return with itself
      */
     public ResponseDescriptorBuilder xmlFileResponse(String xmlFileName) {
         mimeType = "application/xml";
