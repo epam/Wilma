@@ -21,7 +21,7 @@ package com.epam.wilma.service.unit;
 import com.epam.wilma.service.unit.helper.common.IdGenerator;
 
 /**
- * Builder class for building a complete Stub Configuration.
+ * Builder class for building a complete StubConfiguration Configuration.
  *
  * @author Tamas_Kohegyi
  *

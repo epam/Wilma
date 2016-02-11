@@ -33,7 +33,9 @@ import static com.epam.wilma.service.domain.ResponseMessageVolatilityStatus.OFF;
 import static com.epam.wilma.service.domain.ResponseMessageVolatilityStatus.ON;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 

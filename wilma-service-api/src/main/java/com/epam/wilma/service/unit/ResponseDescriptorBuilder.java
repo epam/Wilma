@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.util.LinkedList;
 
 /**
- * Builder class for building a complete Stub Configuration.
+ * Builder class for building a complete StubConfiguration Configuration.
  *
  * @author Tamas_Kohegyi
  *
@@ -66,13 +66,49 @@ public class ResponseDescriptorBuilder {
 
     /**
      *
-     * Warning! When you call it, the mime type will be set to text/html
-     * @param fileName
+     * Warning! When you call it, the mime type will be set to text/plain
+     * @param textFileName
      * @return
      */
-    public ResponseDescriptorBuilder htmlFileResponse(String fileName) {
+    public ResponseDescriptorBuilder textFileResponse(String textFileName) {
+        mimeType = "text/plain";
+        template = new Template(TemplateType.TEXTFILE, textFileName);
+        return this;
+    }
+
+    /**
+     *
+     * Warning! When you call it, the mime type will be set to text/html
+     * @param htmlFileName
+     * @return
+     */
+    public ResponseDescriptorBuilder htmlFileResponse(String htmlFileName) {
         mimeType = "text/html";
-        template = new Template(TemplateType.TEXTFILE, fileName);
+        template = new Template(TemplateType.HTMLFILE, htmlFileName);
+        return this;
+    }
+
+    /**
+     *
+     * Warning! When you call it, the mime type will be set to application/json
+     * @param jsonFileName
+     * @return
+     */
+    public ResponseDescriptorBuilder jsonFileResponse(String jsonFileName) {
+        mimeType = "application/json";
+        template = new Template(TemplateType.JSONFILE, jsonFileName);
+        return this;
+    }
+
+    /**
+     *
+     * Warning! When you call it, the mime type will be set to application/xml
+     * @param xmlFileName
+     * @return
+     */
+    public ResponseDescriptorBuilder xmlFileResponse(String xmlFileName) {
+        mimeType = "application/xml";
+        template = new Template(TemplateType.XMLFILE, xmlFileName);
         return this;
     }
 
@@ -80,15 +116,14 @@ public class ResponseDescriptorBuilder {
         return new ResponseDescriptor(delay, code, mimeType, template, templateFormatters);
     }
 
-    public Stub build() {
-        //need to validate both the request condition, and the response descriptor
-        Stub stub = new Stub(groupName, requestCondition, buildResponseDescriptor());
-        LOG.debug("Stub created, XML is:\n" + stub.toString());
-        return stub;
+    public StubConfiguration build() throws StubConfigurationException {
+        StubConfiguration stubConfiguration = new StubConfiguration(groupName, requestCondition, buildResponseDescriptor());
+        LOG.debug("StubConfiguration created, XML is:\n" + stubConfiguration.toString());
+        return stubConfiguration;
     }
 
-    public ResponseDescriptorBuilder withStatus(int i) {
-        if (i < 0) {
+    public ResponseDescriptorBuilder withStatus(int i) throws StubConfigurationException {
+        if (i < 100 || i > 600) {
             throw new StubConfigurationException("Given Response StatusCode (" + i + ") is invalid.");
         }
         code = String.valueOf(i);
@@ -110,7 +145,7 @@ public class ResponseDescriptorBuilder {
         return this;
     }
 
-    public ResponseDescriptorBuilder withDelay(int i) {
+    public ResponseDescriptorBuilder withDelay(int i) throws StubConfigurationException {
         if (i < 0) {
             throw new StubConfigurationException("Given Response Delay (" + i + ") is invalid.");
         }

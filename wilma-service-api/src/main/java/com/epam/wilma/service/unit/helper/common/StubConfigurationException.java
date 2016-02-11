@@ -22,7 +22,7 @@ package com.epam.wilma.service.unit.helper.common;
  * This exception class is used for exceptions during stub configuration creation.
  * @author tkohegyi
  */
-public class StubConfigurationException extends RuntimeException {
+public class StubConfigurationException extends Exception {
 
     /**
      * Constructs a new exception.

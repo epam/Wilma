@@ -23,12 +23,12 @@ package com.epam.wilma.service.unit.helper.response;
  * Class to escape xml/html strings.
  *
  * @author Tamas_Kohegyi
- *
  */
 public class EscapeXml {
 
     /**
      * Escape text so that it can be used as values of XML attributes, and can be viewed in an HTML page.
+     *
      * @param text is the text that should be escaped
      * @return with a xml/html safe text
      */
