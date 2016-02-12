@@ -22,7 +22,6 @@ package com.epam.wilma.service.unit.helper.common;
  * Class that holds a single condition Parameter.
  *
  * @author Tamas_Kohegyi
- *
  */
 public class ConfigurationParameter {
     private String name;
@@ -30,7 +29,8 @@ public class ConfigurationParameter {
 
     /**
      * Constructor when both name and value has meaning for a parameter.
-     * @param name is the name of the parameter
+     *
+     * @param name  is the name of the parameter
      * @param value is the value of the parameter
      */
     public ConfigurationParameter(String name, String value) {
@@ -41,6 +41,7 @@ public class ConfigurationParameter {
     /**
      * Constructor when just the value has meaning.
      * In this case the name is self generated.
+     *
      * @param value is the value of the parametr
      */
     public ConfigurationParameter(String value) {
@@ -51,10 +52,11 @@ public class ConfigurationParameter {
     /**
      * Generates String value for the condition parameter.
      * Example: <param name="Content-Type" value="application/fastinfoset" />
-     * @return
+     *
+     * @return with the string representation of a param element
      */
     public String toString() {
-        String stringValue = "<param name=\"" + name + "\" value=\"" + value + "\" />";
+        String stringValue = "    <param name=\"" + name + "\" value=\"" + value + "\" />";
         return stringValue;
     }
 }

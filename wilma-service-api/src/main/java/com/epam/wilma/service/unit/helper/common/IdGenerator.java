@@ -21,14 +21,17 @@ package com.epam.wilma.service.unit.helper.common;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Class that ensure unique generation of an integer value.
+ * Class that ensure unique generation of a long value.
  *
  * @author Tamas_Kohegyi
- *
  */
 
-public class IdGenerator {
+public final class IdGenerator {
     private static AtomicLong id = new AtomicLong();
+
+    private IdGenerator() {
+        //nothing to do
+    }
 
     public static long getNextGeneratedId() {
         return id.getAndIncrement();

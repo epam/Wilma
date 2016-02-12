@@ -25,6 +25,8 @@ import org.testng.annotations.Test;
 
 /**
  * Test class for StubConfiguration class.
+ * The key point is to create a valid Stub Configuration.
+ * If it is composed incorrectly, the build() method will throws @see StubConfigurationException
  *
  * @author Tamas_Kohegyi
  */

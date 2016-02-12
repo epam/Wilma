@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.request;
+package com.epam.wilma.common.helper;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,30 +18,25 @@ package com.epam.wilma.service.unit.request;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
- * A Request Condition class.
+ * Class that ensure unique generation of a long value.
  *
  * @author Tamas_Kohegyi
  */
-public class RequestCondition {
 
-    private String configurationString;
+@Component
+public final class UniqueIdGenerator {
+    private static AtomicLong id = new AtomicLong();
 
-    /**
-     * Creates a Request Condition object by specifying the string representation of the request condition part of the stub configuration.
-     *
-     * @param requestConditionConfigurationString string representation of the request condition
-     */
-    public RequestCondition(String requestConditionConfigurationString) {
-        configurationString = requestConditionConfigurationString;
+    private UniqueIdGenerator() {
+        //nothing to do
     }
 
-    /**
-     * Gets the request condition part of the stub configuration.
-     *
-     * @return with the configuration
-     */
-    public String toString() {
-        return configurationString;
+    public static long getNextUniqueId() {
+        return id.getAndIncrement();
     }
 }

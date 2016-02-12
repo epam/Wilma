@@ -41,6 +41,12 @@ import java.io.InputStream;
  */
 public class StubConfigurationValidator {
 
+    /**
+     * Validates the specified string as stub configuration XML against the XSD.
+     *
+     * @param candidateConfiguration is the candidate
+     * @throws StubConfigurationException when the (structure) validation fails
+     */
     public void validate(String candidateConfiguration) throws StubConfigurationException {
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -55,9 +61,9 @@ public class StubConfigurationValidator {
             Document document = documentBuilder.parse(new InputSource(new ByteArrayInputStream(candidateConfiguration.getBytes("utf-8"))));
             document.getDocumentElement().normalize();
             //if we are here then the xml is valid
-        } catch (SAXException|ParserConfigurationException|IOException e) {
+        } catch (SAXException | ParserConfigurationException | IOException e) {
             // instance document is invalid!
-            throw new StubConfigurationException("Configuration Built is invalid.", e);
+            throw new StubConfigurationException("Stub Configuration structure is invalid.", e);
         }
     }
 }

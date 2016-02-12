@@ -29,8 +29,14 @@ public enum TemplateType {
     XML, TEXT, HTML, JSON, XMLFILE, TEXTFILE, HTMLFILE, JSONFILE, EXTERNAL;
 
     private static EnumSet<TemplateType> setOfTypesThoseNeedEscape
-            = EnumSet.of(TemplateType.XML, TemplateType.TEXT, TemplateType.HTML, TemplateType.JSON);
+        = EnumSet.of(TemplateType.XML, TemplateType.TEXT, TemplateType.HTML, TemplateType.JSON);
 
+    /**
+     * Determines if the template resource value should be escaped (because it is part of the stub configuration), or not.
+     *
+     * @param type is the type of the template resource
+     * @return true when the resource content need to be escaped
+     */
     public static boolean needEscape(TemplateType type) {
         return setOfTypesThoseNeedEscape.contains(type);
     }

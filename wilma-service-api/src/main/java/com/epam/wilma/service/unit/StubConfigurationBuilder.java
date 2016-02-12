@@ -24,19 +24,31 @@ import com.epam.wilma.service.unit.helper.common.IdGenerator;
  * Builder class for building a complete StubConfiguration Configuration.
  *
  * @author Tamas_Kohegyi
- *
  */
 public class StubConfigurationBuilder {
     private String groupName = "Default";
 
+    /**
+     * Constructor with the possibility of specifying the group name.
+     *
+     * @param groupName is the stub configuration group name, it it is known.
+     */
     public StubConfigurationBuilder(String groupName) {
         this.groupName = groupName;
     }
 
+    /**
+     * Constructor that uses a self-generated group name.
+     */
     public StubConfigurationBuilder() {
         this.groupName = "service-api-" + IdGenerator.getNextGeneratedId();
     }
 
+    /**
+     * Init method of creating a stub configuration, by starting with a condition part for the request.
+     *
+     * @return with a builder for a request condition
+     */
     public RequestConditionBuilder forRequestsLike() {
         return new RequestConditionBuilder(groupName);
     }

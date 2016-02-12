@@ -28,20 +28,20 @@ import java.util.Formatter;
 /**
  * Class that represents a stubbed request-response pairs.
  * Example configuration:
- * <p/>
- * <?xml version="1.0" encoding="UTF-8"?>
- * <wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- * xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
- *   <dialog-descriptor name="dummy-descriptor" usage="always" comment="random comment">
- *     <condition-descriptor>
- *       <condition class="AlwaysFalseChecker" />
- *     </condition-descriptor>
- *     <response-descriptor code="502" delay="0" mimetype="text/plain" template="errorResponse" />
- *   </dialog-descriptor>
- *   <template-descriptor name="template-descriptor_1">
- *     <template name="errorResponse" type="text" resource="Bad Gateway" />
- *   </template-descriptor>
- *   </wilma-stub>
+ * <p>
+ * &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+ * &lt;wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ * xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd"&gt;
+ * &lt;dialog-descriptor name="dummy-descriptor" usage="always" comment="random comment"&gt;
+ * &lt;condition-descriptor&gt;
+ * &lt;condition class="AlwaysFalseChecker" /&gt;
+ * &lt;/condition-descriptor>
+ * &lt;response-descriptor code="502" delay="0" mimetype="text/plain" template="errorResponse" /&gt;
+ * &lt;/dialog-descriptor&gt;
+ * &lt;template-descriptor name="template-descriptor_1"&gt;
+ * &lt;template name="errorResponse" type="text" resource="Bad Gateway" /&gt;
+ * &lt;/template-descriptor&gt;
+ * &lt;/wilma-stub&gt;
  *
  * @author Tamas_Kohegyi
  */
@@ -51,6 +51,14 @@ public class StubConfiguration {
     private ResponseDescriptor responseDescriptor;
     private String groupName;
 
+    /**
+     * Constructor of a Stub Configuration.
+     *
+     * @param groupName          is the group name the stub configuration belongs to
+     * @param requestCondition   defines the condition(s) for the request
+     * @param responseDescriptor defines the response to be sent back
+     * @throws StubConfigurationException if the stub configuration structure is invalid
+     */
     public StubConfiguration(String groupName, RequestCondition requestCondition, ResponseDescriptor responseDescriptor) throws StubConfigurationException {
         this.requestCondition = requestCondition;
         this.responseDescriptor = responseDescriptor;
@@ -85,6 +93,14 @@ public class StubConfiguration {
         return sb.toString();
     }
 
+    /**
+     * Validates the actual Stub Configuration against Stub Configuration XSD.
+     * If everything is ok (the structure is ok), simply returns.
+     * Beware that it cannot check if the referenced (condition checker, template formatter, etc) classes
+     * or the used template files are available or not.
+     *
+     * @throws StubConfigurationException if the structure is not acceptable
+     */
     public void validateConfiguration() throws StubConfigurationException {
         StubConfigurationValidator validator = new StubConfigurationValidator();
         validator.validate(toString());

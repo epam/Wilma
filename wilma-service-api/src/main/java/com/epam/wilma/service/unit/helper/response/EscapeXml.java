@@ -33,13 +33,12 @@ public class EscapeXml {
      * @return with a xml/html safe text
      */
     public String escapeXML(final String text) {
-        if (text == null) {
-            return "<null>";
-        }
-        StringBuilder sb = new StringBuilder(text.length() * 2);
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            switch (c) {
+        String revisedText = null;
+        if (text != null) {
+            StringBuilder sb = new StringBuilder(text.length() * 2);
+            for (int i = 0; i < text.length(); i++) {
+                char c = text.charAt(i);
+                switch (c) {
                 case '\"':
                     sb.append("&quot;");
                     break;
@@ -57,10 +56,12 @@ public class EscapeXml {
                     break;
                 default:
                     sb.append(c);
+                }
             }
+            //with escaped string we return
+            revisedText = sb.toString();
         }
-        //with escaped string we return
-        return sb.toString();
+        return revisedText;
     }
 
 }
