@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test some wilma-mock.jar functionality.
+ * Test some wilma-service-api.jar functionality.
  *
  * @author Tamas_Kohegyi
  */

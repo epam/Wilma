@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit;
+package com.epam.wilma.service.configuration.stub;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,31 +18,31 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.common.ConfigurationParameter;
-import com.epam.wilma.service.unit.helper.common.StubConfigurationException;
+import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
+import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * Test class for StubConfiguration class.
+ * Test class for WilmaStub class.
  * The key point is to create a valid Stub Configuration.
  * If it is composed incorrectly, the build() method will throws @see StubConfigurationException
  *
  * @author Tamas_Kohegyi
  */
-public class StubConfigurationTest {
+public class WilmaStubTest {
 
-    private StubConfiguration stubConfiguration;
+    private WilmaStub wilmaStub;
 
     @Test
     public void testCreateStubMinimal() throws StubConfigurationException {
         //given
-        stubConfiguration = new StubConfigurationBuilder("myGroup")
+        wilmaStub = new WilmaStubBuilder("myGroup")
                 .forRequestsLike().comingFrom("localhost")
                 .willRespondWith().plainTextResponse("blah")
                 .build();
         //when
-        stubConfiguration.validateConfiguration();
+        wilmaStub.validateConfiguration();
         //then
         //if we are here, we are fine
     }
@@ -52,7 +52,7 @@ public class StubConfigurationTest {
         //given, when and then
         ConfigurationParameter[] formatterParameters = new ConfigurationParameter[1];
         formatterParameters[0] = new ConfigurationParameter("fromtext", "totext");
-        stubConfiguration = new StubConfigurationBuilder()
+        wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike()
                 .notStart()
                 .orStart()
@@ -73,7 +73,7 @@ public class StubConfigurationTest {
         //given, when and then
         ConfigurationParameter[] configurationParameters = new ConfigurationParameter[1];
         configurationParameters[0] = new ConfigurationParameter("Content-Type", "text/plain");
-        stubConfiguration = new StubConfigurationBuilder()
+        wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().condition("HeaderParameterChecker", configurationParameters)
                 .willRespondWith().generatedResponse("dummy.class").withMimeType("application/xml")
                 .build();
@@ -84,7 +84,7 @@ public class StubConfigurationTest {
         //given, when and then
         ConfigurationParameter[] conditionParameters = new ConfigurationParameter[1];
         conditionParameters[0] = new ConfigurationParameter("Content-Type", "text/plain");
-        stubConfiguration = new StubConfigurationBuilder()
+        wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().negatedCondition("HeaderParameterChecker", conditionParameters)
                 .willRespondWith().generatedResponse("dummy.class")
                 .build();
@@ -95,7 +95,7 @@ public class StubConfigurationTest {
         //given, when and then
         ConfigurationParameter[] conditionParameters = new ConfigurationParameter[1];
         conditionParameters[0] = new ConfigurationParameter("soemwhereinheader");
-        stubConfiguration = new StubConfigurationBuilder()
+        wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().condition("OrPatternChecker", conditionParameters)
                 .willRespondWith().generatedResponse("dummy.class")
                 .build();
@@ -104,7 +104,7 @@ public class StubConfigurationTest {
     @Test
     public void testCreateStubSimpleMock() throws StubConfigurationException {
         //given, when and then
-        stubConfiguration = new StubConfigurationBuilder()
+        wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().textInUrl("/blah")
                 .willRespondWith().plainTextResponse("body").withStatus(200)
                 .build();
@@ -113,51 +113,51 @@ public class StubConfigurationTest {
     @Test
     public void testCreateStubSimpleMockFromHtmlFile() throws StubConfigurationException {
         //given, when
-        stubConfiguration = new StubConfigurationBuilder()
+        wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().textInUrl("/blah")
                 .willRespondWith().htmlFileResponse("filename").withStatus(200)
                 .build();
         //then
-        Assert.assertTrue(stubConfiguration.toString().contains("text/html"), "Bad mime type was set.");
+        Assert.assertTrue(wilmaStub.toString().contains("text/html"), "Bad mime type was set.");
     }
 
     @Test
     public void testCreateStubSimpleMockFromTextFile() throws StubConfigurationException {
         //given, when
-        stubConfiguration = new StubConfigurationBuilder()
+        wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().textInUrl("/blah")
                 .willRespondWith().textFileResponse("filename").withStatus(200)
                 .build();
         //then
-        Assert.assertTrue(stubConfiguration.toString().contains("text/plain"), "Bad mime type was set.");
+        Assert.assertTrue(wilmaStub.toString().contains("text/plain"), "Bad mime type was set.");
     }
 
     @Test
     public void testCreateStubSimpleMockFromJsonFile() throws StubConfigurationException {
         //given, when
-        stubConfiguration = new StubConfigurationBuilder()
+        wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().textInUrl("/blah")
                 .willRespondWith().jsonFileResponse("filename").withStatus(200)
                 .build();
         //then
-        Assert.assertTrue(stubConfiguration.toString().contains("application/json"), "Bad mime type was set.");
+        Assert.assertTrue(wilmaStub.toString().contains("application/json"), "Bad mime type was set.");
     }
 
     @Test
     public void testCreateStubSimpleMockFromXmlFile() throws StubConfigurationException {
         //given, when
-        stubConfiguration = new StubConfigurationBuilder()
+        wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().textInUrl("/blah")
                 .willRespondWith().xmlFileResponse("filename").withStatus(200)
                 .build();
         //then
-        Assert.assertTrue(stubConfiguration.toString().contains("application/xml"), "Bad mime type was set.");
+        Assert.assertTrue(wilmaStub.toString().contains("application/xml"), "Bad mime type was set.");
     }
 
     @Test(expectedExceptions = {StubConfigurationException.class})
     public void testInvalidConfiguration() throws StubConfigurationException {
         //given, when and then
-        stubConfiguration = new StubConfigurationBuilder()
+        wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().textInUrl("/blah")
                 .andStart()
                 .willRespondWith().plainTextResponse("body").withStatus(200)

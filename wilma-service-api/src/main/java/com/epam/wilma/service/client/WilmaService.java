@@ -326,6 +326,18 @@ public final class WilmaService {
         return fileUpload.uploadStubConfiguration(resource);
     }
 
+    /**
+     * Calls WIlma special service with get method.
+     *
+     * @param queryString the query string part of the url
+     * @return with an optional JSONObject
+     */
+    public JSONObject callGetService(String queryString) {
+        LOG.debug("Call Wilma special service.");
+
+        return wilmaApplication.callGetService(queryString);
+    }
+
     public void setWilmaApplication(WilmaApplication wilmaApplication) {
         this.wilmaApplication = wilmaApplication;
     }

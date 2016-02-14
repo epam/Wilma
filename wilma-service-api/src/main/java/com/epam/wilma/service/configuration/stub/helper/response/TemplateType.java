@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.request;
+package com.epam.wilma.service.configuration.stub.helper.response;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,30 +18,26 @@ package com.epam.wilma.service.unit.request;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import java.util.EnumSet;
+
 /**
- * A Request Condition class.
+ * Possible values of template type attribute in the configuration.
  *
  * @author Tamas_Kohegyi
  */
-public class RequestCondition {
+public enum TemplateType {
+    XML, TEXT, HTML, JSON, XMLFILE, TEXTFILE, HTMLFILE, JSONFILE, EXTERNAL;
 
-    private String configurationString;
-
-    /**
-     * Creates a Request Condition object by specifying the string representation of the request condition part of the stub configuration.
-     *
-     * @param requestConditionConfigurationString string representation of the request condition
-     */
-    public RequestCondition(String requestConditionConfigurationString) {
-        configurationString = requestConditionConfigurationString;
-    }
+    private static EnumSet<TemplateType> setOfTypesThoseNeedEscape
+        = EnumSet.of(TemplateType.XML, TemplateType.TEXT, TemplateType.HTML, TemplateType.JSON);
 
     /**
-     * Gets the request condition part of the stub configuration.
+     * Determines if the template resource value should be escaped (because it is part of the stub configuration), or not.
      *
-     * @return with the configuration
+     * @param type is the type of the template resource
+     * @return true when the resource content need to be escaped
      */
-    public String toString() {
-        return configurationString;
+    public static boolean needEscape(TemplateType type) {
+        return setOfTypesThoseNeedEscape.contains(type);
     }
 }

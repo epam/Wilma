@@ -62,16 +62,20 @@ public class DisableIndividualMessageLoggingTest extends WilmaTestCase {
                 .acceptHeader(acceptHeader).contentEncoding("").acceptEncoding("");
     }
 
-    @Test
-    public void testDisablingIndividualMessageLogging() throws Exception {
-        //given
+    private void given() throws Exception {
         setLocalhostBlockingTo("off");
         setMessageMarkingTo("on");
         setOperationModeTo("wilma");
         uploadInterceptorToWilma(INTERCEPTOR_CLASS, INTERCEPTOR_RESOURCE_BASE + INTERCEPTOR_CLASS);
         uploadStubConfigToWilma(STUB_CONFIG);
         setInterceptorModeTo("on");
-        //when - send 2 requests, first to SKIPLOG, the second to DONT SKIP LOG
+    }
+
+    @Test
+    public void testDisablingIndividualMessageLogging() throws Exception {
+        //given
+        given();
+        //when - send 2 requests, first to "SKIPLOG", the second to DONT SKIP LOG
         RequestParameters requestParameters2 = createRequest(TEST_SERVER_RESPONSE, REQUEST_NOTLOGGED_TEXT);
         ResponseHolder response = callWilmaWithPostMethod(requestParameters2);
         RequestParameters requestParameters3 = createRequest(TEST_SERVER_RESPONSE, REQUEST_LOGGED_TEXT);

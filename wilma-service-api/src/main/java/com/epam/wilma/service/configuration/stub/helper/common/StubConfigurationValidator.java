@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.helper.common;
+package com.epam.wilma.service.configuration.stub.helper.common;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 

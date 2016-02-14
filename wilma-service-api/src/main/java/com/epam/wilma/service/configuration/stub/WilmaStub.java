@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit;
+package com.epam.wilma.service.configuration.stub;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,10 +18,10 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.common.StubConfigurationException;
-import com.epam.wilma.service.unit.helper.common.StubConfigurationValidator;
-import com.epam.wilma.service.unit.request.RequestCondition;
-import com.epam.wilma.service.unit.response.ResponseDescriptor;
+import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationException;
+import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationValidator;
+import com.epam.wilma.service.configuration.stub.request.RequestCondition;
+import com.epam.wilma.service.configuration.stub.response.ResponseDescriptor;
 
 import java.util.Formatter;
 
@@ -45,7 +45,7 @@ import java.util.Formatter;
  *
  * @author Tamas_Kohegyi
  */
-public class StubConfiguration {
+public class WilmaStub {
 
     private RequestCondition requestCondition;
     private ResponseDescriptor responseDescriptor;
@@ -59,7 +59,7 @@ public class StubConfiguration {
      * @param responseDescriptor defines the response to be sent back
      * @throws StubConfigurationException if the stub configuration structure is invalid
      */
-    public StubConfiguration(String groupName, RequestCondition requestCondition, ResponseDescriptor responseDescriptor) throws StubConfigurationException {
+    public WilmaStub(String groupName, RequestCondition requestCondition, ResponseDescriptor responseDescriptor) throws StubConfigurationException {
         this.requestCondition = requestCondition;
         this.responseDescriptor = responseDescriptor;
         this.groupName = groupName;
@@ -68,7 +68,7 @@ public class StubConfiguration {
     }
 
     /**
-     * Produces a StubConfiguration configuration XML.
+     * Produces a WilmaStub configuration XML.
      *
      * @return xml content
      */
@@ -105,5 +105,15 @@ public class StubConfiguration {
         StubConfigurationValidator validator = new StubConfigurationValidator();
         validator.validate(toString());
     }
+
+    /**
+     * Gets the actual value of the stub configuration group.
+     *
+     * @return with its configuration group name
+     */
+    public String getGroupName() {
+        return groupName;
+    }
+
 
 }

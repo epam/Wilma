@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit;
+package com.epam.wilma.service.configuration.stub;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,13 +18,13 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.common.ConfigurationParameter;
-import com.epam.wilma.service.unit.helper.common.StubConfigurationException;
-import com.epam.wilma.service.unit.helper.response.Template;
-import com.epam.wilma.service.unit.helper.response.TemplateFormatter;
-import com.epam.wilma.service.unit.helper.response.TemplateType;
-import com.epam.wilma.service.unit.request.RequestCondition;
-import com.epam.wilma.service.unit.response.ResponseDescriptor;
+import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
+import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationException;
+import com.epam.wilma.service.configuration.stub.helper.response.Template;
+import com.epam.wilma.service.configuration.stub.helper.response.TemplateFormatter;
+import com.epam.wilma.service.configuration.stub.helper.response.TemplateType;
+import com.epam.wilma.service.configuration.stub.request.RequestCondition;
+import com.epam.wilma.service.configuration.stub.response.ResponseDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Builder class for building a complete StubConfiguration Configuration.
+ * Builder class for building a complete WilmaStub Configuration.
  *
  * @author Tamas_Kohegyi
  */
@@ -138,13 +138,13 @@ public class ResponseDescriptorBuilder {
      * Build method of the Stub Configuration.
      * The group name, the request and the response descriptors are the main inputs.
      *
-     * @return with the new StubConfiguration object.
+     * @return with the new WilmaStub object.
      * @throws StubConfigurationException then the stub configuration is not valid
      */
-    public StubConfiguration build() throws StubConfigurationException {
-        StubConfiguration stubConfiguration = new StubConfiguration(groupName, requestCondition, buildResponseDescriptor());
-        LOG.debug("StubConfiguration created, XML is:\n" + stubConfiguration.toString());
-        return stubConfiguration;
+    public WilmaStub build() throws StubConfigurationException {
+        WilmaStub wilmaStub = new WilmaStub(groupName, requestCondition, buildResponseDescriptor());
+        LOG.debug("WilmaStub created, XML is:\n" + wilmaStub.toString());
+        return wilmaStub;
     }
 
     /**

@@ -42,6 +42,7 @@ public class WilmaApplication {
     private static final String VERSION_INFO_URL_POSTFIX = "config/public/version";
     private static final String ACTUAL_LOAD_INFO_URL_POSTFIX = "config/public/actualload";
     private static final String SHUTDOWN_URL_POSTFIX = "config/admin/shutdown";
+    private static final String SERVICE_URL_POSTFIX = "config/public/service?";
 
     private WilmaHttpClient wilmaClient;
     private WilmaServiceConfig config;
@@ -124,6 +125,27 @@ public class WilmaApplication {
 
     private String buildUrl(String postfix) {
         return UrlBuilderUtils.buildAbsoluteURL(false, config.getHost(), config.getPort().toString(), postfix, null);
+    }
+
+    /**
+     * Calls a special service of Wilma.
+     *
+     * @param serviceQueryString is the selector of the service
+     * @return actual service response
+     */
+    public JSONObject callGetService(final String serviceQueryString) {
+        LOG.debug("Call special service with request: " + serviceQueryString);
+
+        String url = buildUrl(SERVICE_URL_POSTFIX + serviceQueryString);
+        JSONObject jsonObject = null;
+
+        LOG.debug("Send getter request to: " + url);
+        Optional<String> response = wilmaClient.sendGetterRequest(url);
+        if (response.isPresent()) {
+            jsonObject = new JSONObject(response.get());
+        }
+
+        return jsonObject;
     }
 
 }

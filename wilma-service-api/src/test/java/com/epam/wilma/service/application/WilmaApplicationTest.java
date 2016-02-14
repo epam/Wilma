@@ -23,6 +23,7 @@ import com.epam.wilma.service.domain.WilmaLoadInformation;
 import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -47,6 +48,7 @@ public class WilmaApplicationTest {
     private static final Integer PORT = 1;
     private static final String ACTUAL_LOAD_INFO_URL = "http://host:1/config/public/actualload";
     private static final String VERSION_INFO_URL = "http://host:1/config/public/version";
+    private static final String SERVICE_URL = "http://host:1/config/public/service?";
     private static final String SHUTDOWN_URL = "http://host:1/config/admin/shutdown";
     private static final String LOAD_INFO_JSON_STRING = "{\"deletedFilesCount\":0,\"countOfMessages\":1,\"responseQueueSize\":2,\"loggerQueueSize\":3}";
     private static final String VERSION_INFO_JSON_STRING = "{\"wilmaVersion\":\"Version\"}";
@@ -118,6 +120,15 @@ public class WilmaApplicationTest {
 
         Assert.assertTrue(wilmaApplication.shutdownApplication());
         verify(client, never()).sendGetterRequest(anyString());
+    }
+
+    @Test
+    public void testCallToSpecialServices() {
+        String queryString = "blah";
+        when(client.sendGetterRequest(SERVICE_URL + queryString)).thenReturn(Optional.of("{\"unknownRequest\":\"blah\"}"));
+        JSONObject o = wilmaApplication.callGetService(queryString);
+        verify(client, never()).sendSetterRequest(anyString());
+        Assert.assertTrue("Wilma Special Service Call is wrong.", o != null);
     }
 
     private WilmaServiceConfig createMockConfig() {

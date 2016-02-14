@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit.response;
+package com.epam.wilma.service.configuration.stub.response;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,8 +18,8 @@ package com.epam.wilma.service.unit.response;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.response.Template;
-import com.epam.wilma.service.unit.helper.response.TemplateFormatter;
+import com.epam.wilma.service.configuration.stub.helper.response.Template;
+import com.epam.wilma.service.configuration.stub.helper.response.TemplateFormatter;
 
 import java.util.List;
 

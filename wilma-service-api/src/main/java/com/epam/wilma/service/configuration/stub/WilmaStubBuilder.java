@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit;
+package com.epam.wilma.service.configuration.stub;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,14 +18,14 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.common.IdGenerator;
+import com.epam.wilma.service.configuration.stub.helper.common.IdGenerator;
 
 /**
- * Builder class for building a complete StubConfiguration Configuration.
+ * Builder class for building a complete WilmaStub Configuration.
  *
  * @author Tamas_Kohegyi
  */
-public class StubConfigurationBuilder {
+public class WilmaStubBuilder {
     private String groupName = "Default";
 
     /**
@@ -33,14 +33,14 @@ public class StubConfigurationBuilder {
      *
      * @param groupName is the stub configuration group name, it it is known.
      */
-    public StubConfigurationBuilder(String groupName) {
+    public WilmaStubBuilder(String groupName) {
         this.groupName = groupName;
     }
 
     /**
      * Constructor that uses a self-generated group name.
      */
-    public StubConfigurationBuilder() {
+    public WilmaStubBuilder() {
         this.groupName = "service-api-" + IdGenerator.getNextGeneratedId();
     }
 

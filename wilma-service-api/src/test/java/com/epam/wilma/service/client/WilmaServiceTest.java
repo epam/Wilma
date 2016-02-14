@@ -256,6 +256,24 @@ public class WilmaServiceTest {
     }
 
     @Test
+    public void testGetVersionInformation() {
+        wilmaService.getVersionInformation();
+
+        verify(wilmaApplication).getVersionInformation();
+        verifyNoMoreInteractions(wilmaApplication, messageLoggingConfiguration, operationConfiguration,
+                localhostBlockingConfiguration, stubConfiguration, fileUpload);
+    }
+
+    @Test
+    public void testCallGetService() {
+        wilmaService.callGetService("blah");
+
+        verify(wilmaApplication).callGetService("blah");
+        verifyNoMoreInteractions(wilmaApplication, messageLoggingConfiguration, operationConfiguration,
+                localhostBlockingConfiguration, stubConfiguration, fileUpload);
+    }
+
+    @Test
     public void testUploadConditionChecker() {
         wilmaService.uploadConditionChecker(FILE_NAME, MOCK_FILE);
 

@@ -1,4 +1,4 @@
-package com.epam.wilma.service.unit;
+package com.epam.wilma.service.configuration.stub;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -18,8 +18,8 @@ package com.epam.wilma.service.unit;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.unit.helper.common.ConfigurationParameter;
-import com.epam.wilma.service.unit.request.RequestCondition;
+import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
+import com.epam.wilma.service.configuration.stub.request.RequestCondition;
 
 /**
  * A Request Condition class builder.
