@@ -9,6 +9,7 @@ import com.epam.wilma.gepard.testclient.ResponseHolder;
 import com.epam.wilma.service.client.WilmaService;
 import com.epam.wilma.service.configuration.stub.WilmaStub;
 import com.epam.wilma.service.configuration.stub.WilmaStubBuilder;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,8 +34,14 @@ public class UnitTestServiceTest extends WilmaTestCase {
             wilmaService = new WilmaService(getTestClassExecutionData().getEnvironment().getProperties());
         }
         groupName = new HostName().getHostName() + Thread.currentThread().toString();
+        clearAllOldStubConfigs();
         setLocalhostBlockingTo("off");
         setOperationModeTo("wilma");
+    }
+
+    @After
+    public void dropStubConfiguration() {
+        wilmaService.dropStubConfig(groupName);
     }
 
     @Test
@@ -59,11 +66,11 @@ public class UnitTestServiceTest extends WilmaTestCase {
         logComment("Prepared Stub Configuration Info", u.escapeHTML(stubConfig));
         boolean b = wilmaService.uploadStubConfiguration(wilmaStub.toString());
         Assert.assertTrue("Stub Configuration should not be accepted.", b);
-        wilmaService.dropStubConfig(groupName);
     }
 
     @Test
     public void unitTestWithWilma() throws Exception {
+        //given
         String extraUrl = "unitTest";
         String expectedAnswer = "response";
         WilmaStub wilmaStub = new WilmaStubBuilder(groupName)
@@ -79,17 +86,16 @@ public class UnitTestServiceTest extends WilmaTestCase {
         logComment("Prepared Stub Configuration Info", u.escapeHTML(stubConfig));
         boolean b = wilmaService.uploadStubConfiguration(wilmaStub.toString());
         Assert.assertTrue("Stub Configuration should not be accepted.", b);
-        // now send a request to somewhere via Wilma, expect the answer
-        logStep("Send Unit test request.");
         RequestParameters requestParameters = createRequestParameters(extraUrl);
         setExpectedResponseMessage(expectedAnswer);
+        // now send a request to somewhere via Wilma, expect the answer
+        //when
+        logStep("Send Unit test request.");
         ResponseHolder responseHolder = callWilmaWithGetMethod(requestParameters);
+        //then
         checkResponseCode(Integer.valueOf(200));
         String actualResponse = responseHolder.getResponseMessage();
         Assert.assertTrue("Expected: " + expectedAnswer + ", but received: " + actualResponse, actualResponse.contentEquals(expectedAnswer));
-        //
-        logStep("Drop stub configuration");
-        wilmaService.dropStubConfig(groupName);
     }
 
     protected RequestParameters createRequestParameters(String extraPath) throws FileNotFoundException {
