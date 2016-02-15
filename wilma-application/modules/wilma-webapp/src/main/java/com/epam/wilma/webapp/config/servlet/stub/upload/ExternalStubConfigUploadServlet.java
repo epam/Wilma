@@ -73,7 +73,7 @@ public class ExternalStubConfigUploadServlet extends HttpServlet {
             }
         } else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            writer.write("Please provide a non-empty stub descriptor!");
+            writer.write("Please provide a non-empty stub configuration!");
         }
     }
 

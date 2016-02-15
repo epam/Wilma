@@ -99,7 +99,7 @@ public class ExternalStubConfigUploadServletTest {
         //WHEN
         underTest.doGet(request, response);
         //THEN
-        verify(writer).write("Please provide a non-empty stub descriptor!");
+        verify(writer).write("Please provide a non-empty stub configuration!");
     }
 
     @Test
