@@ -51,7 +51,7 @@ public class ConfigurationParameter {
 
     /**
      * Generates String value for the condition parameter.
-     * Example: <param name="Content-Type" value="application/fastinfoset" />
+     * Example: &lt;param name="Content-Type" value="application/fastinfoset" /&gt;
      *
      * @return with the string representation of a param element
      */

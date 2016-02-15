@@ -35,7 +35,7 @@ import java.util.Formatter;
  * &lt;dialog-descriptor name="dummy-descriptor" usage="always" comment="random comment"&gt;
  * &lt;condition-descriptor&gt;
  * &lt;condition class="AlwaysFalseChecker" /&gt;
- * &lt;/condition-descriptor>
+ * &lt;/condition-descriptor&gt;
  * &lt;response-descriptor code="502" delay="0" mimetype="text/plain" template="errorResponse" /&gt;
  * &lt;/dialog-descriptor&gt;
  * &lt;template-descriptor name="template-descriptor_1"&gt;
