@@ -55,6 +55,7 @@ public class ConfigurationParameter {
      *
      * @return with the string representation of a param element
      */
+    @Override
     public String toString() {
         String stringValue = "    <param name=\"" + name + "\" value=\"" + value + "\" />";
         return stringValue;

@@ -18,6 +18,7 @@ package com.epam.wilma.service.configuration.stub.response;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import com.epam.wilma.service.configuration.stub.helper.other.Interceptor;
 import com.epam.wilma.service.configuration.stub.helper.response.Template;
 import com.epam.wilma.service.configuration.stub.helper.response.TemplateFormatter;
 
@@ -34,6 +35,7 @@ public class ResponseDescriptor {
     private String mimeType;
     private Template template;
     private List<TemplateFormatter> templateFormatters;
+    private List<Interceptor> interceptors;
 
     /**
      * Creates a response descriptor with given parameters.
@@ -43,13 +45,16 @@ public class ResponseDescriptor {
      * @param mimeType           is the mime type of the response
      * @param template           is the template that is used as response
      * @param templateFormatters are the formatters to be applied on the template before sending the response back
+     * @param interceptors       are the interceptor list to be added to the stub configuration
      */
-    public ResponseDescriptor(String delay, String code, String mimeType, Template template, List<TemplateFormatter> templateFormatters) {
+    public ResponseDescriptor(String delay, String code, String mimeType, Template template,
+                              List<TemplateFormatter> templateFormatters, List<Interceptor> interceptors) {
         this.delay = delay;
         this.code = code;
         this.mimeType = mimeType;
         this.template = template;
         this.templateFormatters = templateFormatters;
+        this.interceptors = interceptors;
     }
 
     /**
@@ -65,6 +70,23 @@ public class ResponseDescriptor {
         }
         responseDescriptor += "</response-descriptor>\n";
         return responseDescriptor;
+    }
+
+    /**
+     * Generates the interceptor part of the stub configuration.
+     *
+     * @return with the string representation of the interceptors, or empty string
+     */
+    public String interceptorsToString() {
+        String interceptorDescriptor = "";
+        if (interceptors != null && !interceptors.isEmpty()) {
+            interceptorDescriptor += "<interceptors>\n";
+            for (Interceptor interceptor : interceptors) {
+                interceptorDescriptor += interceptor.toString();
+            }
+            interceptorDescriptor += "</interceptors>\n";
+        }
+        return interceptorDescriptor;
     }
 
     /**

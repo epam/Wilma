@@ -52,4 +52,16 @@ public class WilmaStubBuilder {
     public RequestConditionBuilder forRequestsLike() {
         return new RequestConditionBuilder(groupName);
     }
+
+    /**
+     * Init method of creating a stub configuration, by starting with a condition part for the request.
+     *
+     * @return with a builder for a response descriptor. After this, only addInterceptor has meaning to call.
+     */
+    public ResponseDescriptorBuilder forAnyRequest() {
+        RequestConditionBuilder requestConditionBuilder = new RequestConditionBuilder(groupName);
+        ResponseDescriptorBuilder responseDescriptorBuilder = requestConditionBuilder.condition("AlwaysFalseChecker")
+                .willRespondWith().plainTextResponse("dummy");
+        return responseDescriptorBuilder;
+    }
 }

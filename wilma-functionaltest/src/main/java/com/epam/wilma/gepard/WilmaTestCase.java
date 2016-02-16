@@ -19,11 +19,13 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.gepard.util.Util;
 import com.epam.wilma.gepard.test.helper.WilmaConfigurationHelperDecorator;
 import com.epam.wilma.gepard.testclient.MultiStubRequestParameters;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
 import com.epam.wilma.gepard.testclient.TestClientBootstrap;
+import com.epam.wilma.service.client.WilmaService;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -45,6 +47,7 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
     protected static final String MESSAGE_NOT_YET_AVAILABLE = "Requested file not found.";
     private static final int WAIT_PERIOD_FOR_MESSAGE_LOG = 25;
     private static final int ONE_SECOND = 1000; // in msec
+
     /**
      * Sends a POST request to Wilma.
      *
@@ -132,6 +135,27 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
     }
 
     /**
+     * Upload a Stub configuration by using Service API.
+     *
+     * @param wilmaService           is the object of the service
+     * @param wilmaStubConfiguration is the string representation of the stub configuration
+     * @return true is success or false when upload failed
+     */
+    public boolean uploadStubConfiguration(WilmaService wilmaService, String wilmaStubConfiguration) {
+        Util u = new Util();
+        logStep("Uploading stub configuration.");
+        logComment("Prepared Stub Configuration Info", u.escapeHTML(wilmaStubConfiguration));
+
+        boolean b =  wilmaService.uploadStubConfiguration(wilmaStubConfiguration);
+        if (b) {
+            logComment("Stub configuration upload was successful.");
+        } else {
+            logComment("Stub configuration upload was failed.");
+        }
+        return b;
+    }
+
+    /**
      * Prepare request parameters to get info on all active stub descriptors of Wilma.
      * Note: maybe a Get method would be better.
      *
@@ -184,13 +208,12 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
     }
 
     private RequestParameters createGetRequestParameters(final String getUrl) throws FileNotFoundException {
-        String testServerUrl = getUrl;
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "text/plain";
         String contentEncoding = "";
         String acceptEncoding = "";
-        return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
+        return new RequestParameters().testServerUrl(getUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
                 .contentType(contentType).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
     }
 

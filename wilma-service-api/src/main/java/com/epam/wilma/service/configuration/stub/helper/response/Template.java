@@ -47,6 +47,7 @@ public class Template {
      * Generates String value for the template.
      * @return with the config string
      */
+    @Override
     public String toString() {
 
         String templateString = "    <template name=\"" + name

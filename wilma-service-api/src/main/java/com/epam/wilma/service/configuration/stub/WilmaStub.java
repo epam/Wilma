@@ -77,6 +77,7 @@ public class WilmaStub {
         String conditionContent = requestCondition.toString();
         String responseContent = responseDescriptor.responseDescriptorToString();
         String usedTemplateAndFormatter = responseDescriptor.templateToString();
+        String interceptorDescriptor = responseDescriptor.interceptorsToString();
         StringBuilder sb = new StringBuilder();
         Formatter formatter = new Formatter(sb);
         String stubConfigurationFormatterString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -88,8 +89,10 @@ public class WilmaStub {
                 + "%3$s"
                 + "</dialog-descriptor>\n"
                 + "<template-descriptor name=\"%1$s\">\n%4$s</template-descriptor>\n"
+                + "%6$s"
                 + "</wilma-stub>";
-        formatter.format(stubConfigurationFormatterString, generatedName, conditionContent, responseContent, usedTemplateAndFormatter, groupName);
+        formatter.format(stubConfigurationFormatterString, generatedName, conditionContent, responseContent,
+                usedTemplateAndFormatter, groupName, interceptorDescriptor);
         return sb.toString();
     }
 

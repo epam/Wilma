@@ -94,7 +94,7 @@ public class WilmaStubTest {
     public void testCreateStubOrPatternCheckerWithBasicParameter() throws StubConfigurationException {
         //given, when and then
         ConfigurationParameter[] conditionParameters = new ConfigurationParameter[1];
-        conditionParameters[0] = new ConfigurationParameter("soemwhereinheader");
+        conditionParameters[0] = new ConfigurationParameter("somewhereinheader");
         wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().condition("OrPatternChecker", conditionParameters)
                 .willRespondWith().generatedResponse("dummy.class")
@@ -152,6 +152,7 @@ public class WilmaStubTest {
                 .build();
         //then
         Assert.assertTrue(wilmaStub.toString().contains("application/xml"), "Bad mime type was set.");
+        Assert.assertTrue(!wilmaStub.toString().contains("interceptor"), "Should not contain any interceptor related entry.");
     }
 
     @Test(expectedExceptions = {StubConfigurationException.class})
@@ -165,4 +166,43 @@ public class WilmaStubTest {
         //then
         Assert.fail("We should not reach this.");
     }
+
+    @Test
+    public void testCreateStubOfInterceptor() throws StubConfigurationException {
+        //given, when
+        ConfigurationParameter[] conditionParameters = new ConfigurationParameter[1];
+        conditionParameters[0] = new ConfigurationParameter("somewhereinheader");
+        wilmaStub = new WilmaStubBuilder()
+                .forRequestsLike().textInUrl("/blah")
+                .willRespondWith().xmlFileResponse("filename").withStatus(200)
+                .addInterceptor("interceptorName", "interceptorClass")
+                .addInterceptor("interceptorName", "interceptorClass", conditionParameters)
+                .build();
+        //then
+        Assert.assertTrue(wilmaStub.toString().contains("application/xml"), "Bad mime type was set.");
+    }
+
+    @Test
+    public void testCreateStubOfInterceptorMinimal() throws StubConfigurationException {
+        //given, when
+        wilmaStub = new WilmaStubBuilder()
+                .forAnyRequest()
+                .addInterceptor("interceptorName", "interceptorClass")
+                .build();
+        //then
+        Assert.assertTrue(wilmaStub.toString().contains("interceptorName"), "Interceptor is missing.");
+    }
+
+    @Test
+    public void testAccessToGroupName() throws StubConfigurationException {
+        //given, when
+        String groupName = "anything";
+        wilmaStub = new WilmaStubBuilder(groupName)
+                .forAnyRequest()
+                .build();
+        //then
+        Assert.assertTrue(wilmaStub.toString().contains(groupName), "Group name is missing");
+        Assert.assertTrue(wilmaStub.getGroupName().contentEquals(groupName), "Getting Group name failed");
+    }
+
 }

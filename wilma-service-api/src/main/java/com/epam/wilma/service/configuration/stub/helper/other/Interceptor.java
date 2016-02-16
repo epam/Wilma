@@ -1,4 +1,4 @@
-package com.epam.wilma.service.configuration.stub.helper.response;
+package com.epam.wilma.service.configuration.stub.helper.other;
 /*==========================================================================
  Copyright 2013-2016 EPAM Systems
 
@@ -21,39 +21,43 @@ package com.epam.wilma.service.configuration.stub.helper.response;
 import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
 
 /**
- * Class that holds a single template formatter information.
+ * Class that holds a single interceptor information.
  *
  * @author Tamas_Kohegyi
- *
  */
-public class TemplateFormatter {
+public class Interceptor {
+    private String interceptorName;
     private String className;
     private ConfigurationParameter[] configurationParameters;
 
     /**
-     * Constructor when both class name and parameter values has meaning.
-     * @param className is the name of the used formatter class
+     * Constructor when parameter values has meaning.
+     *
+     * @param interceptorName         is the name of the interceptor
+     * @param className               is the name of the used formatter class
      * @param configurationParameters is the value of the parameters
      */
-    public TemplateFormatter(String className, ConfigurationParameter[] configurationParameters) {
+    public Interceptor(String interceptorName, String className, ConfigurationParameter[] configurationParameters) {
+        this.interceptorName = interceptorName;
         this.className = className;
         this.configurationParameters = configurationParameters;
     }
 
     /**
-     * Generates String value for the template formatter.
+     * Generates String value for the interceptor.
+     *
      * @return with the config string
      */
     @Override
     public String toString() {
-        String templateFormatterString = "<template-formatter class=\"" + className + "\" >\n";
+        String interceptorString = "    <interceptor name=\"" + interceptorName + "\" class=\"" + className + "\" >\n";
         if (configurationParameters != null) {
             //we have parameters too
             for (ConfigurationParameter configurationParameter : configurationParameters) {
-                templateFormatterString += "    " + configurationParameter.toString() + "\n";
+                interceptorString += "    " + configurationParameter.toString() + "\n";
             }
         }
-        templateFormatterString += "</template-formatter>\n";
-        return templateFormatterString;
+        interceptorString += "    </interceptor>\n";
+        return interceptorString;
     }
 }

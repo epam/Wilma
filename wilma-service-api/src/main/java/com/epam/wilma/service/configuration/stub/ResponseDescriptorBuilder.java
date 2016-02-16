@@ -20,6 +20,7 @@ package com.epam.wilma.service.configuration.stub;
 
 import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
 import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationException;
+import com.epam.wilma.service.configuration.stub.helper.other.Interceptor;
 import com.epam.wilma.service.configuration.stub.helper.response.Template;
 import com.epam.wilma.service.configuration.stub.helper.response.TemplateFormatter;
 import com.epam.wilma.service.configuration.stub.helper.response.TemplateType;
@@ -48,6 +49,7 @@ public class ResponseDescriptorBuilder {
     private String mimeType = "text/plain";
     private Template template = new Template(TemplateType.TEXT, "Wilma default response");
     private List<TemplateFormatter> templateFormatters = new LinkedList<>();
+    private List<Interceptor> interceptors = new LinkedList<>();
 
     /**
      * Constructor of Response Descriptor builder.
@@ -131,7 +133,7 @@ public class ResponseDescriptorBuilder {
      * @return with the built Response Descriptor object
      */
     public ResponseDescriptor buildResponseDescriptor() {
-        return new ResponseDescriptor(delay, code, mimeType, template, templateFormatters);
+        return new ResponseDescriptor(delay, code, mimeType, template, templateFormatters, interceptors);
     }
 
     /**
@@ -224,6 +226,30 @@ public class ResponseDescriptorBuilder {
      */
     public ResponseDescriptorBuilder withMimeType(String mimeType) {
         this.mimeType = mimeType;
+        return this;
+    }
+
+    /**
+     * Add an interceptor to the stub configuration.
+     *
+     * @param interceptorName  name of the interceptor
+     * @param interceptorClass the class name of the interceptor
+     * @return with itself
+     */
+    public ResponseDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass) {
+        return addInterceptor(interceptorName, interceptorClass, null);
+    }
+
+    /**
+     * Add an interceptor that has parameters, to the stub configuration.
+     *
+     * @param interceptorName     name of the interceptor
+     * @param interceptorClass    the class name of the interceptor
+     * @param conditionParameters are the parameters of the interceptor
+     * @return with itself
+     */
+    public ResponseDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass, ConfigurationParameter[] conditionParameters) {
+        interceptors.add(new Interceptor(interceptorName, interceptorClass, conditionParameters));
         return this;
     }
 }
