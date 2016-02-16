@@ -205,4 +205,25 @@ public class WilmaStubTest {
         Assert.assertTrue(wilmaStub.getGroupName().contentEquals(groupName), "Getting Group name failed");
     }
 
+    @Test(expectedExceptions = {StubConfigurationException.class})
+    public void testStatusMustBeCorrect() throws StubConfigurationException {
+        //given, when and then
+        wilmaStub = new WilmaStubBuilder()
+                .forAnyRequest()
+                .withStatus(8000)
+                .build();
+        //then
+        Assert.fail("We should not reach this.");
+    }
+
+    @Test(expectedExceptions = {StubConfigurationException.class})
+    public void testDelayMustBePositive() throws StubConfigurationException {
+        //given, when and then
+        wilmaStub = new WilmaStubBuilder()
+                .forAnyRequest()
+                .withDelay(-1)
+                .build();
+        //then
+        Assert.fail("We should not reach this.");
+    }
 }

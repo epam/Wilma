@@ -59,7 +59,7 @@ public class WilmaStub {
      * @param responseDescriptor defines the response to be sent back
      * @throws StubConfigurationException if the stub configuration structure is invalid
      */
-    public WilmaStub(String groupName, RequestCondition requestCondition, ResponseDescriptor responseDescriptor) throws StubConfigurationException {
+    public WilmaStub(String groupName, RequestCondition requestCondition, ResponseDescriptor responseDescriptor) {
         this.requestCondition = requestCondition;
         this.responseDescriptor = responseDescriptor;
         this.groupName = groupName;
@@ -72,6 +72,7 @@ public class WilmaStub {
      *
      * @return xml content
      */
+    @Override
     public String toString() {
         String generatedName = "generated name";
         String conditionContent = requestCondition.toString();

@@ -41,12 +41,13 @@ public class ResponseDescriptorBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(ResponseDescriptorBuilder.class);
     private static final int STATUS_CODE_MAX = 600;
     private static final int STATUS_CODE_MIN = 100;
+    private static final String MIME_TYPE_TEXT_PLAIN = "text/plain";
 
     private String groupName;
     private RequestCondition requestCondition;
     private String code = "200";
     private String delay = "0";
-    private String mimeType = "text/plain";
+    private String mimeType = MIME_TYPE_TEXT_PLAIN;
     private Template template = new Template(TemplateType.TEXT, "Wilma default response");
     private List<TemplateFormatter> templateFormatters = new LinkedList<>();
     private List<Interceptor> interceptors = new LinkedList<>();
@@ -70,7 +71,7 @@ public class ResponseDescriptorBuilder {
      * @return with itself
      */
     public ResponseDescriptorBuilder plainTextResponse(String plainTextResponse) {
-        mimeType = "text/plain";
+        mimeType = MIME_TYPE_TEXT_PLAIN;
         template = new Template(TemplateType.TEXT, plainTextResponse);
         return this;
     }
@@ -83,7 +84,7 @@ public class ResponseDescriptorBuilder {
      * @return with itself
      */
     public ResponseDescriptorBuilder textFileResponse(String textFileName) {
-        mimeType = "text/plain";
+        mimeType = MIME_TYPE_TEXT_PLAIN;
         template = new Template(TemplateType.TEXTFILE, textFileName);
         return this;
     }
@@ -143,7 +144,7 @@ public class ResponseDescriptorBuilder {
      * @return with the new WilmaStub object.
      * @throws StubConfigurationException then the stub configuration is not valid
      */
-    public WilmaStub build() throws StubConfigurationException {
+    public WilmaStub build() {
         WilmaStub wilmaStub = new WilmaStub(groupName, requestCondition, buildResponseDescriptor());
         LOG.debug("WilmaStub created, XML is:\n" + wilmaStub.toString());
         return wilmaStub;
@@ -157,7 +158,7 @@ public class ResponseDescriptorBuilder {
      * @return with itself
      * @throws StubConfigurationException if the given status code is not acceptable
      */
-    public ResponseDescriptorBuilder withStatus(int i) throws StubConfigurationException {
+    public ResponseDescriptorBuilder withStatus(int i) {
         if (i < STATUS_CODE_MIN || i > STATUS_CODE_MAX) {
             throw new StubConfigurationException("Given Response StatusCode (" + i + ") is invalid.");
         }
@@ -207,7 +208,7 @@ public class ResponseDescriptorBuilder {
      * @return with itself
      * @throws StubConfigurationException in case of negative value
      */
-    public ResponseDescriptorBuilder withDelay(int i) throws StubConfigurationException {
+    public ResponseDescriptorBuilder withDelay(int i) {
         if (i < 0) {
             throw new StubConfigurationException("Given Response Delay (" + i + ") is invalid.");
         }
