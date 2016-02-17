@@ -36,18 +36,20 @@ import java.io.PrintWriter;
  */
 @Component
 public class ServiceServlet extends HttpServlet {
+    private static final String LEADING_TEXT = "/public/service/";
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        String queryString = req.getQueryString();
-        String response = "{\"unknownRequest\":\""
-            + ((queryString == null) ? "null" : queryString)
-            + "\"}";
-        if ("getUniqueId".equals(req.getQueryString())) {
+        int requestedServicePosition = req.getRequestURI().indexOf(LEADING_TEXT) + LEADING_TEXT.length();
+        String requestedService = req.getRequestURI().substring(requestedServicePosition);
+        String response = "{\"unknownServiceCall\":\"" + requestedService + "\"}";
+        resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        if ("uniqueId".equalsIgnoreCase(requestedService) && "get".equalsIgnoreCase(req.getMethod())) {
             // get a new unique id
             response = getUniqueId();
+            resp.setStatus(HttpServletResponse.SC_OK);
         }
         out.write(response);
         out.flush();

@@ -83,7 +83,7 @@
       <list>
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="buildInformationServlet" p:pathSpec="/public/version" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="loadInformationServlet" p:pathSpec="/public/actualload" />
-        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="serviceServlet" p:pathSpec="/public/service" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="serviceServlet" p:pathSpec="/public/service/*" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="sequenceInformationServlet" p:pathSpec="/public/livesequences" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingOnServlet" p:pathSpec="/admin/logging/on" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="messageLoggingOffServlet" p:pathSpec="/admin/logging/off" />
