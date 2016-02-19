@@ -18,7 +18,7 @@ package com.epam.wilma.service.configuration.stub.helper.response;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.configuration.stub.helper.common.IdGenerator;
+import com.epam.wilma.service.configuration.stub.helper.common.UniqueGroupNameGenerator;
 
 /**
  * Class that holds a single response template information.
@@ -38,7 +38,7 @@ public class Template {
      * @param resource is the template itself, or filename to the template or a classname that generates the template
      */
     public Template(TemplateType type, String resource) {
-        this.name = "template-" + IdGenerator.getNextGeneratedId();
+        this.name = "template-" + UniqueGroupNameGenerator.getNextGeneratedId();
         this.type = type;
         this.resource = resource;
     }

@@ -24,6 +24,7 @@ import com.epam.wilma.service.configuration.LocalhostBlockingConfiguration;
 import com.epam.wilma.service.configuration.MessageLoggingConfiguration;
 import com.epam.wilma.service.configuration.OperationConfiguration;
 import com.epam.wilma.service.configuration.StubConfiguration;
+import com.epam.wilma.service.configuration.stub.WilmaStub;
 import com.epam.wilma.service.domain.LocalhostControlStatus;
 import com.epam.wilma.service.domain.MessageLoggingControlStatus;
 import com.epam.wilma.service.domain.OperationMode;
@@ -52,6 +53,7 @@ import static com.epam.wilma.service.domain.StubConfigOrder.DOWN;
 import static com.epam.wilma.service.domain.StubConfigOrder.UP;
 import static com.epam.wilma.service.domain.StubConfigStatus.DISABLED;
 import static com.epam.wilma.service.domain.StubConfigStatus.ENABLED;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -84,6 +86,9 @@ public class WilmaServiceTest {
 
     @Mock
     private StubConfiguration stubConfiguration;
+
+    @Mock
+    private WilmaStub wilmaStub;
 
     @Mock
     private Upload fileUpload;
@@ -311,9 +316,10 @@ public class WilmaServiceTest {
 
     @Test
     public void testUploadStubConfigurationString() {
-        wilmaService.uploadStubConfiguration(FILE_NAME);
+        given(wilmaStub.toString()).willReturn(FILE_NAME);
+        wilmaService.uploadStubConfiguration(wilmaStub);
 
-        verify(fileUpload).uploadStubConfiguration(FILE_NAME);
+        verify(fileUpload).uploadStubConfiguration(wilmaStub);
         verifyNoMoreInteractions(wilmaApplication, messageLoggingConfiguration, operationConfiguration,
                 localhostBlockingConfiguration, stubConfiguration, fileUpload);
     }

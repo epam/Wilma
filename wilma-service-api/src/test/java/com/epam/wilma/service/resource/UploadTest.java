@@ -19,11 +19,13 @@ package com.epam.wilma.service.resource;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;
 
 import java.io.File;
 
+import com.epam.wilma.service.configuration.stub.WilmaStub;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -55,6 +57,9 @@ public class UploadTest {
 
     @Mock
     private File testFile;
+
+    @Mock
+    private WilmaStub wilmaStub;
 
     private Upload fileUpload;
 
@@ -101,8 +106,9 @@ public class UploadTest {
     public void shouldCallTheProperStubConfigurationUploadUrlWithTheGivenStringResource() {
         ArgumentCaptor<String> url = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> resource = ArgumentCaptor.forClass(String.class);
+        given(wilmaStub.toString()).willReturn(FILENAME);
 
-        fileUpload.uploadStubConfiguration(FILENAME);
+        fileUpload.uploadStubConfiguration(wilmaStub);
 
         verify(client).uploadString(url.capture(), resource.capture());
 

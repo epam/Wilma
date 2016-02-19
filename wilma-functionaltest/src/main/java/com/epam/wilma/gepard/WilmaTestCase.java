@@ -26,6 +26,7 @@ import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
 import com.epam.wilma.gepard.testclient.TestClientBootstrap;
 import com.epam.wilma.service.client.WilmaService;
+import com.epam.wilma.service.configuration.stub.WilmaStub;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -141,10 +142,10 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
      * @param wilmaStubConfiguration is the string representation of the stub configuration
      * @return true is success or false when upload failed
      */
-    public boolean uploadStubConfiguration(WilmaService wilmaService, String wilmaStubConfiguration) {
+    public boolean uploadStubConfiguration(WilmaService wilmaService, WilmaStub wilmaStubConfiguration) {
         Util u = new Util();
         logStep("Uploading stub configuration.");
-        logComment("Prepared Stub Configuration Info", u.escapeHTML(wilmaStubConfiguration));
+        logComment("Prepared Stub Configuration Info", u.escapeHTML(wilmaStubConfiguration.toString()));
 
         boolean b =  wilmaService.uploadStubConfiguration(wilmaStubConfiguration);
         if (b) {

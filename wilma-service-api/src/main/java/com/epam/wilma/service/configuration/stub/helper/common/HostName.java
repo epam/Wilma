@@ -1,4 +1,4 @@
-package com.epam.wilma.gepard.extension;
+package com.epam.wilma.service.configuration.stub.helper.common;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -18,30 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
  * Determines the actual host name.
- * The plan is to move this into Gepard core.
- * <p>
  * Created by Tamas_Kohegyi on 2016-02-15.
  */
 public class HostName {
 
     /**
      * Get the hostname of the machine.
+     *
      * @return with the hostname
      */
     public String getHostName() {
         // try InetAddress.LocalHost first;
         // NOTE -- InetAddress.getLocalHost().getHostName() will not work in certain environments.
-        String result = null;
+        String result;
         try {
             result = InetAddress.getLocalHost().getHostName();
-            if (StringUtils.isEmpty(result)) {
+            if (result == null || result.length() == 0) {
                 throw new UnknownHostException();
             }
         } catch (UnknownHostException e) {

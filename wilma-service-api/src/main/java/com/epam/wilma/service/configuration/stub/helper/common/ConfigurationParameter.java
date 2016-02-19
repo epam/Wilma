@@ -45,7 +45,7 @@ public class ConfigurationParameter {
      * @param value is the value of the parametr
      */
     public ConfigurationParameter(String value) {
-        this.name = "generatedName" + IdGenerator.getNextGeneratedId();
+        this.name = "generatedName" + UniqueGroupNameGenerator.getNextGeneratedId();
         this.value = value;
     }
 

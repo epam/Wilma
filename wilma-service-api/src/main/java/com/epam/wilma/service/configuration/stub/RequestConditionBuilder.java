@@ -164,7 +164,7 @@ public class RequestConditionBuilder {
     /**
      * Adds a condition that checks if the request is coming from a specific host.
      * Actually it is a pattern checker in the URL, and adds "//" to the from of the hostName,
-     * so serarches for existence of "//" + hostName pattern in the URL.
+     * so searches for existence of "//" + hostName pattern in the URL.
      *
      * @param hostName is the host name
      * @return with itself

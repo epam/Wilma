@@ -26,14 +26,19 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Tamas_Kohegyi
  */
 
-public final class IdGenerator {
+public final class UniqueGroupNameGenerator {
     private static AtomicLong id = new AtomicLong();
 
-    private IdGenerator() {
+    private UniqueGroupNameGenerator() {
         //nothing to do
     }
 
     public static long getNextGeneratedId() {
         return id.getAndIncrement();
+    }
+
+    public static String getUniqueGroupName() {
+        return new HostName().getHostName() + Thread.currentThread().toString() + "_" + getNextGeneratedId();
+
     }
 }

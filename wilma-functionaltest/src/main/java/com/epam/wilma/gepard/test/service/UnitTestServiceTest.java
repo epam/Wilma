@@ -2,12 +2,12 @@ package com.epam.wilma.gepard.test.service;
 
 import com.epam.gepard.annotations.TestClass;
 import com.epam.wilma.gepard.WilmaTestCase;
-import com.epam.wilma.gepard.extension.HostName;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
 import com.epam.wilma.service.client.WilmaService;
 import com.epam.wilma.service.configuration.stub.WilmaStub;
 import com.epam.wilma.service.configuration.stub.WilmaStubBuilder;
+import com.epam.wilma.service.configuration.stub.helper.common.UniqueGroupNameGenerator;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,7 +38,7 @@ public class UnitTestServiceTest extends WilmaTestCase {
         if (wilmaService == null) {
             wilmaService = new WilmaService(getTestClassExecutionData().getEnvironment().getProperties());
         }
-        groupName = new HostName().getHostName() + Thread.currentThread().toString();
+        groupName = UniqueGroupNameGenerator.getUniqueGroupName();
         clearAllOldStubConfigs();
         setLocalhostBlockingTo("off");
         setOperationModeTo("wilma");
@@ -58,7 +58,7 @@ public class UnitTestServiceTest extends WilmaTestCase {
                 .forRequestsLike().condition("AlwaysTrueConditionDoesNotExist") //no such condition class exists
                 .willRespondWith().plainTextResponse("response")
                 .build();
-        boolean b = uploadStubConfiguration(wilmaService, wilmaStub.toString());
+        boolean b = uploadStubConfiguration(wilmaService, wilmaStub);
         Assert.assertFalse("Stub Configuration should not be accepted.", b);
     }
 
@@ -68,7 +68,7 @@ public class UnitTestServiceTest extends WilmaTestCase {
                 .forRequestsLike().condition("AlwaysTrueChecker") //this one is real condition checked class
                 .willRespondWith().plainTextResponse("response")
                 .build();
-        boolean b = uploadStubConfiguration(wilmaService, wilmaStub.toString());
+        boolean b = uploadStubConfiguration(wilmaService, wilmaStub);
         Assert.assertTrue("Stub Configuration should not be accepted.", b);
     }
 
@@ -85,7 +85,7 @@ public class UnitTestServiceTest extends WilmaTestCase {
                 .andEnd()
                 .willRespondWith().plainTextResponse(expectedAnswer)
                 .build();
-        boolean b = uploadStubConfiguration(wilmaService, wilmaStub.toString());
+        boolean b = uploadStubConfiguration(wilmaService, wilmaStub);
         Assert.assertTrue("Stub Configuration should not be accepted.", b);
         RequestParameters requestParameters = createRequestParameters(extraUrl);
         setExpectedResponseMessage(expectedAnswer);
@@ -114,7 +114,7 @@ public class UnitTestServiceTest extends WilmaTestCase {
                 .forAnyRequest()
                 .addInterceptor("Custom-Postfix-Interceptor", "CustomMessagePostfixInterceptor")
                 .build();
-        boolean b = uploadStubConfiguration(wilmaService, wilmaStub.toString());
+        boolean b = uploadStubConfiguration(wilmaService, wilmaStub);
         Assert.assertTrue("Stub Configuration should not be accepted.", b);
         //when - send the request
         RequestParameters requestParameters2 = createRequest(TEST_SERVER_RESPONSE);

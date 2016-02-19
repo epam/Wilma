@@ -24,6 +24,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import java.io.File;
 import java.util.Map;
 
+import com.epam.wilma.service.configuration.stub.WilmaStub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,17 +134,17 @@ public class Upload {
     }
 
     /**
-     * Uploads the given stub configuration in a form of string.
+     * Uploads the given stub configuration in a form of WilmaStub object.
      *
-     * @param resource is the String that holds the stub configuration
+     * @param resource is the WilmaStub object that holds the stub configuration
      * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
      */
-    public boolean uploadStubConfiguration(String resource) {
+    public boolean uploadStubConfiguration(WilmaStub resource) {
         LOG.debug("Call stub configuration upload API.");
 
         String url = buildUrl(STUB_CONFIGURATION_UPLOAD_URL_POSTFIX, ImmutableMap.of(FILE_NAME, FILE_FROM_STRING));
 
-        return callStringUploadMethod(url, resource);
+        return callStringUploadMethod(url, resource.toString());
     }
 
     private boolean callFileUploadMethod(String url, File file) {

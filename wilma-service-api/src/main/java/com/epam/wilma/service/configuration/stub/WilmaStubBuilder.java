@@ -18,7 +18,7 @@ package com.epam.wilma.service.configuration.stub;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.configuration.stub.helper.common.IdGenerator;
+import com.epam.wilma.service.configuration.stub.helper.common.UniqueGroupNameGenerator;
 
 /**
  * Builder class for building a complete WilmaStub Configuration.
@@ -41,7 +41,7 @@ public class WilmaStubBuilder {
      * Constructor that uses a self-generated group name.
      */
     public WilmaStubBuilder() {
-        this.groupName = "service-api-" + IdGenerator.getNextGeneratedId();
+        this.groupName = "service-api-" + UniqueGroupNameGenerator.getUniqueGroupName();
     }
 
     /**

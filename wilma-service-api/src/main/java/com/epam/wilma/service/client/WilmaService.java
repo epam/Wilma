@@ -24,6 +24,7 @@ import com.epam.wilma.service.configuration.LocalhostBlockingConfiguration;
 import com.epam.wilma.service.configuration.MessageLoggingConfiguration;
 import com.epam.wilma.service.configuration.OperationConfiguration;
 import com.epam.wilma.service.configuration.StubConfiguration;
+import com.epam.wilma.service.configuration.stub.WilmaStub;
 import com.epam.wilma.service.domain.LocalhostControlStatus;
 import com.epam.wilma.service.domain.MessageLoggingControlStatus;
 import com.epam.wilma.service.domain.OperationMode;
@@ -317,10 +318,10 @@ public final class WilmaService {
     /**
      * Uploads stub configuration.
      *
-     * @param resource the String resource itself that is considered as stub configuration
+     * @param resource the WilmaStub resource itself that is considered as stub configuration
      * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
      */
-    public boolean uploadStubConfiguration(String resource) {
+    public boolean uploadStubConfiguration(WilmaStub resource) {
         LOG.debug("Upload stub configuration.");
 
         return fileUpload.uploadStubConfiguration(resource);
