@@ -123,6 +123,7 @@ public class RoutingService {
     /**
      * This method execute the given command. The given command is any operation which works with the stubDescriptors collection.
      * @param command is the given operation
+     * @throws ClassNotFoundException if problem happens
      */
     public void performModification(final StubDescriptorModificationCommand command) throws ClassNotFoundException {
         synchronized (guard) {

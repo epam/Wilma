@@ -35,6 +35,7 @@ public interface StubDescriptorModificationCommand {
      *
      * @param stubDescriptors the actual collection
      * @return the modified collection
+     * @throws ClassNotFoundException in rarely cases, when something is really wrong happens during a stub config upload
      */
     Map<String, StubDescriptor> modify(Map<String, StubDescriptor> stubDescriptors) throws ClassNotFoundException;
 

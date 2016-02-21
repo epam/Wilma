@@ -19,7 +19,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
 import com.epam.wilma.sequence.SequenceManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Provides information about how much {@link WilmaSequence} object lives.
+ * Provides information about how much WilmaSequence object lives.
  *
  * @author Tibor_Kovacs
  */
@@ -44,7 +43,7 @@ public class SequenceInformationCollector {
     /**
      * Creates a map with the count of all sequences and a map containing the count of each sequence descriptor's sequences.
      *
-     * @return a map which contains the sum of {@link WilmaSequence} with SUM_KEY and
+     * @return a map which contains the sum of WilmaSequence with SUM_KEY and
      * an other map with sum of specific {@link SequenceDescriptor}'s sequences.
      */
     public Map<String, Object> collectInformation() {
