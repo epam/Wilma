@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.sequence.formatters.helper.SequenceJsonTransformer;
 import com.epam.wilma.webapp.stub.response.formatter.json.JsonTemplateFormatter;
 import com.google.gson.JsonElement;
@@ -37,6 +37,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.jayway.jsonpath.JsonPath;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Generates a JSON response from the given template resource by using
@@ -55,10 +57,10 @@ public class SequenceAwareJsonTemplateFormatter implements TemplateFormatter {
     private SequenceJsonTransformer sequenceJsonTransformer;
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final byte[] templateResource, final ParameterList params,
-            final WilmaSequence sequence) throws Exception {
+    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                                 final byte[] templateResource, final ParameterList params) throws Exception {
         JsonElement response = new JsonParser().parse(IOUtils.toString(templateResource, StandardCharsets.UTF_8.name()));
-        new SessionAwareJsonTreeEvaluator(wilmaRequest.getBody(), sequence, params).replaceAllNonRecursive(response);
+        new SessionAwareJsonTreeEvaluator(wilmaRequest.getBody(), wilmaRequest.getSequence(), params).replaceAllNonRecursive(response);
 
         return response.toString().getBytes();
     }

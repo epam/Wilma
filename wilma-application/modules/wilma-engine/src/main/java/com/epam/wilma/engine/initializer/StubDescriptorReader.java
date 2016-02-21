@@ -64,7 +64,7 @@ public class StubDescriptorReader {
             StubDescriptorModificationCommand command = newStubDescriptorCommandFactory.create(xmlFilePath, stubConfigurationBuilder,
                     sequenceDescriptorHolder);
             routingService.performModification(command);
-        } catch (FileNotFoundException e) {
+        } catch (ClassNotFoundException|FileNotFoundException e) {
             throw new DescriptorCannotBeParsedException("One of the stub descriptor files cannot be found!", e);
         }
     }

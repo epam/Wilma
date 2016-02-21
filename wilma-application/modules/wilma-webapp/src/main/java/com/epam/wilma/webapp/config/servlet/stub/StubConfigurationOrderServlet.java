@@ -56,7 +56,7 @@ public class StubConfigurationOrderServlet extends HttpServlet {
         try {
             int direction = Integer.parseInt(tempDir);
             stubConfigurationOrderService.doChange(direction, groupName, request);
-        } catch (NumberFormatException e) {
+        } catch (ClassNotFoundException|NumberFormatException e) {
             logger.debug(ERROR_MSG, e);
             writeErrorToResponse(response);
         }

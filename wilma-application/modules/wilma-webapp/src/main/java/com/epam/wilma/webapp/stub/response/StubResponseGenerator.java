@@ -26,7 +26,7 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.sequence.helper.SequenceHeaderUtil;
 import com.epam.wilma.sequence.matcher.SequenceMatcher;
@@ -103,12 +103,13 @@ public class StubResponseGenerator {
             WilmaSequence actualSequence = matcher.matchSequenceKeyWithDescriptor(responseDescriptor.getAttributes().getSequenceDescriptorKey(),
                     sequenceIds);
             if (actualSequence != null) {
+                wilmaRequest.setSequence(actualSequence);
                 sequenceResponseGuard.waitForResponses(wilmaRequest, actualSequence);
             }
             if (templateFormatterDescriptors != null && !templateFormatterDescriptors.isEmpty()) {
                 for (TemplateFormatterDescriptor templateFormatterDescriptor : templateFormatterDescriptors) {
                     TemplateFormatter templateFormatter = templateFormatterDescriptor.getTemplateFormatter();
-                    result = templateFormatter.formatTemplate(wilmaRequest, result, templateFormatterDescriptor.getParams(), actualSequence);
+                    result = templateFormatter.formatTemplate(wilmaRequest, resp, result, templateFormatterDescriptor.getParams());
                 }
             }
             //set response status and content type
@@ -128,7 +129,9 @@ public class StubResponseGenerator {
 
     private void delayResponse(final int delay) {
         try {
-            waitProvider.waitMilliSeconds(delay);
+            if (delay > 0) {
+                waitProvider.waitMilliSeconds(delay);
+            }
         } catch (InterruptedException e) {
             logger.error("Could not return response. Exception while thread.sleep", e);
         }

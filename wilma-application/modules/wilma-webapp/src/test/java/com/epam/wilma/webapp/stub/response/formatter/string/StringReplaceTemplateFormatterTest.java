@@ -28,6 +28,8 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Provides unit tests for the class {@link StringReplaceTemplateFormatter}.
  * @author Tunde_Kovacs
@@ -41,6 +43,7 @@ public class StringReplaceTemplateFormatterTest {
     @Mock
     private WilmaHttpRequest request;
 
+    private HttpServletResponse response;
     private StringReplaceTemplateFormatter underTest;
 
     @BeforeMethod
@@ -56,7 +59,7 @@ public class StringReplaceTemplateFormatterTest {
         templateResource = "this is a test template".getBytes();
         parameterList.addParameter(new Parameter("t", "blabla"));
         //WHEN
-        byte[] actual = underTest.formatTemplate(request, templateResource, parameterList, null);
+        byte[] actual = underTest.formatTemplate(request, response, templateResource, parameterList);
         //THEN
         assertEquals(actual, "blablahis is a blablaesblabla blablaemplablablae".getBytes());
     }
@@ -69,7 +72,7 @@ public class StringReplaceTemplateFormatterTest {
         parameterList.addParameter(new Parameter("is", "is not"));
         parameterList.addParameter(new Parameter("a", "o"));
         //WHEN
-        byte[] actual = underTest.formatTemplate(request, templateResource, parameterList, null);
+        byte[] actual = underTest.formatTemplate(request, response, templateResource, parameterList);
         //THEN
         assertEquals(actual, "bloblohis not is not o blobloesbloblo blobloemploblobloe".getBytes());
     }
@@ -79,7 +82,7 @@ public class StringReplaceTemplateFormatterTest {
         //GIVEN
         templateResource = "this is a test template".getBytes();
         //WHEN
-        byte[] actual = underTest.formatTemplate(request, templateResource, parameterList, null);
+        byte[] actual = underTest.formatTemplate(request, response, templateResource, parameterList);
         //THEN
         assertEquals(actual, templateResource);
     }

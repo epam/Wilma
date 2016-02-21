@@ -21,6 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.util.Map;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 /**

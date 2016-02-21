@@ -20,7 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

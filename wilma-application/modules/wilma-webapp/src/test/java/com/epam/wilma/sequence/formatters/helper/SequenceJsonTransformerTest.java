@@ -37,7 +37,7 @@ import org.testng.annotations.Test;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
+import com.epam.wilma.domain.sequence.RequestResponsePair;
 import com.epam.wilma.sequence.formatters.helper.converter.Converter;
 import com.epam.wilma.sequence.formatters.helper.converter.NeutralConverter;
 import com.epam.wilma.sequence.formatters.helper.converter.XmlConverter;

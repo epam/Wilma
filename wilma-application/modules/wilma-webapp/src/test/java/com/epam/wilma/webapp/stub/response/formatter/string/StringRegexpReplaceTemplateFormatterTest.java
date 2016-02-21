@@ -29,6 +29,8 @@ import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Provides unit tests for the class {@link StringRegexpReplaceTemplateFormatter}.
  * @author Tunde_Kovacs
@@ -42,6 +44,7 @@ public class StringRegexpReplaceTemplateFormatterTest {
     @Mock
     private WilmaHttpRequest request;
 
+    private HttpServletResponse response;
     private StringRegexpReplaceTemplateFormatter underTest;
 
     @BeforeMethod
@@ -57,7 +60,7 @@ public class StringRegexpReplaceTemplateFormatterTest {
         templateResource = "123 this is a test template 123".getBytes();
         parameterList.addParameter(new Parameter("[0-2]+", "HELLO"));
         //WHEN
-        byte[] actual = underTest.formatTemplate(request, templateResource, parameterList, null);
+        byte[] actual = underTest.formatTemplate(request, response, templateResource, parameterList);
         //THEN
         assertEquals(actual, "HELLO3 this is a test template HELLO3".getBytes());
     }
@@ -69,7 +72,7 @@ public class StringRegexpReplaceTemplateFormatterTest {
         parameterList.addParameter(new Parameter("[0-2]+", "HELLO"));
         parameterList.addParameter(new Parameter("is", "is not"));
         //WHEN
-        byte[] actual = underTest.formatTemplate(request, templateResource, parameterList, null);
+        byte[] actual = underTest.formatTemplate(request, response, templateResource, parameterList);
         //THEN
         assertEquals(actual, "HELLO3 this not is not a test template HELLO3".getBytes());
     }
@@ -79,7 +82,7 @@ public class StringRegexpReplaceTemplateFormatterTest {
         //GIVEN
         templateResource = "this is a test template".getBytes();
         //WHEN
-        byte[] actual = underTest.formatTemplate(request, templateResource, parameterList, null);
+        byte[] actual = underTest.formatTemplate(request, response, templateResource, parameterList);
         //THEN
         assertEquals(actual, templateResource);
     }
@@ -90,7 +93,7 @@ public class StringRegexpReplaceTemplateFormatterTest {
         templateResource = "123 this is a test template 123".getBytes();
         parameterList.addParameter(new Parameter("{0-2}+", "HELLO"));
         //WHEN
-        underTest.formatTemplate(request, templateResource, parameterList, null);
+        underTest.formatTemplate(request, response, templateResource, parameterList);
         //THEN
     }
 

@@ -1,1 +1,1 @@
-Stub descriptor cannot be parsed.
+Stub config uploading failed: Stub descriptor cannot be parsed.

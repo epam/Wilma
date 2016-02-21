@@ -57,7 +57,7 @@ public class StubConfigurationOrderServiceTest {
     }
 
     @Test
-    public void testDoChangeShouldCallTheTwoMethod() {
+    public void testDoChangeShouldCallTheTwoMethod() throws ClassNotFoundException {
         //GIVEN in setUp
         //WHEN
         underTest.doChange(1, GROUPNAME_FIRST, request);

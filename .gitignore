@@ -17,8 +17,7 @@ wilma-functionaltest/resources/savedStubConfig.xml
 wilma-functionaltest/gepard-run.log
 wilma-functionaltest/gradle
 wilma-functionaltest/gradlew*
-wilma-functionaltest/resources/sequence/src/*.class
-wilma-functionaltest/resources/stubconfig/jar/src/*.class
+wilma-functionaltest/resources/src/**/*.class
 wilma-functionaltest/classes
 browsermob-proxy/gradlew
 browsermob-proxy/gradlew.bat

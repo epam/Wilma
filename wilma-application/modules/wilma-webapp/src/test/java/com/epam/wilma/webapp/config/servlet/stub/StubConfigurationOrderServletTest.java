@@ -66,7 +66,7 @@ public class StubConfigurationOrderServletTest {
     }
 
     @Test
-    public void testDoGetShouldCallDoChangeOfStubConfigurationService() throws ServletException, IOException {
+    public void testDoGetShouldCallDoChangeOfStubConfigurationService() throws ServletException, IOException, ClassNotFoundException {
         //GIVEN in setUp
         //WHEN
         underTest.doGet(request, response);
@@ -75,7 +75,7 @@ public class StubConfigurationOrderServletTest {
     }
 
     @Test
-    public void testDoPostShouldCallDoChangeOfStubConfigurationService() throws ServletException, IOException {
+    public void testDoPostShouldCallDoChangeOfStubConfigurationService() throws ServletException, IOException, ClassNotFoundException {
         //GIVEN in setUp
         //WHEN
         underTest.doPost(request, response);

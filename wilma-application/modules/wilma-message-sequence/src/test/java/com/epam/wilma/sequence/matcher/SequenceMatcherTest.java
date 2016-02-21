@@ -31,7 +31,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.sequence.SequenceManager;
 import com.epam.wilma.sequence.helper.SequenceIdUtil;
 

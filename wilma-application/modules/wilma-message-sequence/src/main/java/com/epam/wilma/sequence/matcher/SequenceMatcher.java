@@ -23,7 +23,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.sequence.SequenceManager;
 import com.epam.wilma.sequence.helper.SequenceIdUtil;
 

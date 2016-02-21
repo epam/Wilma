@@ -28,13 +28,14 @@ import org.springframework.stereotype.Component;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.jayway.jsonpath.JsonPath;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Generates a JSON response from the given template resource by using
@@ -48,8 +49,8 @@ import com.jayway.jsonpath.JsonPath;
 public class JsonTemplateFormatter implements TemplateFormatter {
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final byte[] templateResource, final ParameterList params,
-            final WilmaSequence sequence) throws Exception {
+    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                                 final byte[] templateResource, final ParameterList params) throws Exception {
         JsonElement response = new JsonParser().parse(new String(templateResource, StandardCharsets.UTF_8));
 
         new NonRecursiveJsonTreeEvaluator(wilmaRequest.getBody()).replaceAllNonRecursive(response);

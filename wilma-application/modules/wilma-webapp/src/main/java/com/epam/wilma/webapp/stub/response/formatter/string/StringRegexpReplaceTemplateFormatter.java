@@ -30,8 +30,9 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Searches for a given regexp to be replaced in a response template. If there is more than one parameter, then
@@ -43,8 +44,8 @@ import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
 public class StringRegexpReplaceTemplateFormatter implements TemplateFormatter {
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final byte[] templateResource, final ParameterList params,
-            final WilmaSequence sequence) throws Exception {
+    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                                 final byte[] templateResource, final ParameterList params) throws Exception {
         byte[] result = templateResource;
         String template = null;
         if (!params.getAllParameters().isEmpty()) {

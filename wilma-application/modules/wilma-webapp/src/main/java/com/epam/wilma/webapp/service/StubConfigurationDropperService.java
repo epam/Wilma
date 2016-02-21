@@ -47,8 +47,9 @@ public class StubConfigurationDropperService {
      * Call the changeStubConfigurationDropper drop method and then applies this changes.
      * @param groupName is the groupname of selected stub descriptor
      * @param request is only needed for {@link UrlAccessLogMessageAssembler}
+     * @throws ClassNotFoundException in case of problem
      */
-    public void dropSelectedStubConfiguration(final String groupName, final HttpServletRequest request) {
+    public void dropSelectedStubConfiguration(final String groupName, final HttpServletRequest request) throws ClassNotFoundException {
         sequenceManager.removeSequenceDescriptors(groupName);
         routingService.performModification(new DropCommand(groupName, request, urlAccessLogMessageAssembler));
     }

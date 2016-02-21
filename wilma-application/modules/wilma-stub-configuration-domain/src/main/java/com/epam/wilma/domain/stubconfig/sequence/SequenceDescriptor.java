@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionDescriptor;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;

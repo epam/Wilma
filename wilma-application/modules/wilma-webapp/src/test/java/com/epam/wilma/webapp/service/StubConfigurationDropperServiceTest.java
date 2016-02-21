@@ -59,7 +59,7 @@ public class StubConfigurationDropperServiceTest {
     }
 
     @Test
-    public void testDropSelectedStubConfigurationShouldCallTheTwoMethod() {
+    public void testDropSelectedStubConfigurationShouldCallTheTwoMethod() throws ClassNotFoundException {
         //GIVEN in setUp
         //WHEN
         underTest.dropSelectedStubConfiguration(GROUPNAME_FIRST, request);

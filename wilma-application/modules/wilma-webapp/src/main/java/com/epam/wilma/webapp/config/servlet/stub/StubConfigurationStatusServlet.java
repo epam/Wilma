@@ -51,7 +51,11 @@ public class StubConfigurationStatusServlet extends HttpServlet {
         String enabledDisabled = request.getParameter("nextstatus");
         if ("TRUE".equalsIgnoreCase(enabledDisabled) || "FALSE".equalsIgnoreCase(enabledDisabled)) {
             boolean nextStatus = Boolean.parseBoolean(enabledDisabled);
-            stubConfigurationStatusService.changeStatus(nextStatus, groupName, request);
+            try {
+                stubConfigurationStatusService.changeStatus(nextStatus, groupName, request);
+            } catch (ClassNotFoundException e) {
+                throw new IOException(e);
+            }
         } else {
             writeErrorToResponse(response);
         }

@@ -45,8 +45,9 @@ public class StubConfigurationOrderService {
      * @param direction is the way where we want to move the selected stub descriptor
      * @param groupName is the groupname of selected stub descriptor
      * @param request is only needed for {@link UrlAccessLogMessageAssembler}
+     * @throws ClassNotFoundException in case of problem
      */
-    public void doChange(final int direction, final String groupName, final HttpServletRequest request) {
+    public void doChange(final int direction, final String groupName, final HttpServletRequest request) throws ClassNotFoundException {
         routingService.performModification(new ChangeOrderCommand(direction, groupName, request, urlAccessLogMessageAssembler));
     }
 }

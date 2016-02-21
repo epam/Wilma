@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.epam.wilma.domain.sequence.RequestResponsePair;
+import com.epam.wilma.domain.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequencePairs;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

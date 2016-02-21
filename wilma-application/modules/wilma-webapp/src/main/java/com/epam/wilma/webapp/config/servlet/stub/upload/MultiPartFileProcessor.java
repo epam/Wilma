@@ -73,7 +73,12 @@ public class MultiPartFileProcessor {
             result = classUploadResult;
         } else {
             if ("stub-configuration".equals(fieldName) && XML_CONTENT_TYPE.equals(contentType)) {
-                routingService.performModification(new NewStubDescriptorCommand(resource, stubConfigurationBuilder, sequenceDescriptorHolder));
+                try {
+                    routingService.performModification(new NewStubDescriptorCommand(resource, stubConfigurationBuilder, sequenceDescriptorHolder));
+                } catch (ClassNotFoundException e) {
+                    result = "Uploading " + fileName + " failed with ClassNotFoundException.";
+                    throw new CannotUploadExternalResourceException(result, e);
+                }
                 result = "New stub configuration was uploaded to Wilma.";
             } else if ("stub-template".equals(fieldName)) {
                 writeResourceToFile(resource, resFileName, stubResourcePathProvider.getTemplatesPathAsString());

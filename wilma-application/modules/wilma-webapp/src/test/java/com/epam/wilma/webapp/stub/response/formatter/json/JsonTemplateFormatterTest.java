@@ -26,6 +26,8 @@ import org.testng.annotations.Test;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Unit test for {@code JsonTemplateFormatter}.
  *
@@ -36,6 +38,8 @@ public class JsonTemplateFormatterTest {
     private WilmaHttpRequest wilmaRequest;
 
     private JsonTemplateFormatter underTest;
+
+    private HttpServletResponse response;
 
     @BeforeMethod
     public void setup() {
@@ -51,7 +55,7 @@ public class JsonTemplateFormatterTest {
     public void testFormatTemplate(String request, String template, String expected) throws Exception {
         givenWilmaRequestWithBody(request);
 
-        byte[] formattedResponse = underTest.formatTemplate(wilmaRequest, template.getBytes(), null, null);
+        byte[] formattedResponse = underTest.formatTemplate(wilmaRequest, response, template.getBytes(), null);
 
         assertEquals(whitespaceFree(new String(formattedResponse)), whitespaceFree(expected));
     }

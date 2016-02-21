@@ -1,4 +1,4 @@
-package com.epam.wilma.domain.stubconfig.sequence;
+package com.epam.wilma.domain.sequence;
 
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems

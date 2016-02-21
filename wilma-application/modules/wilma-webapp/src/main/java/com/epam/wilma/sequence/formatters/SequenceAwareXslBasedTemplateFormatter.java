@@ -25,14 +25,14 @@ import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.RequestResponsePair;
 import com.epam.wilma.sequence.formatters.helper.SequenceXmlTransformer;
 import com.epam.wilma.sequence.formatters.xsl.SequenceAwareXslResponseGenerator;
 import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -60,9 +60,9 @@ public class SequenceAwareXslBasedTemplateFormatter implements TemplateFormatter
     private SequenceXmlTransformer sequenceXmlTransformer;
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final byte[] templateResource, final ParameterList params,
-                                 final WilmaSequence sequence) throws Exception {
-        Map<String, RequestResponsePair> message = sequence.getPairs();
+    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                                 final byte[] templateResource, final ParameterList params) throws Exception {
+        Map<String, RequestResponsePair> message = wilmaRequest.getSequence().getPairs();
 
         Map<String, String> nameToXml = sequenceXmlTransformer.transform(params, message);
 

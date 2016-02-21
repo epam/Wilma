@@ -22,4 +22,5 @@ dependencies {
   compile project(':wilma-application:wilma-domain')
   compile project(':wilma-application:wilma-common')
   compile 'com.google.guava:guava:18.0'
+  compile "$javaxServletApi"
 }

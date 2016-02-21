@@ -1,1 +1,1 @@
-Validation of stub descriptor failed - XSD validation failed.
+Stub config uploading failed: Validation of stub descriptor failed - XSD validation failed.

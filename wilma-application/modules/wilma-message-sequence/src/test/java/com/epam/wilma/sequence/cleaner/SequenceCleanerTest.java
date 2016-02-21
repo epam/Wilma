@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 
 import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 
 /**
  * Provides unit tests for the class {@link SequenceCleaner}.

@@ -57,7 +57,7 @@ public class StubConfigurationStatusServiceTest {
     }
 
     @Test
-    public void testChangeStatusShouldCallTheTwoMethod() {
+    public void testChangeStatusShouldCallTheTwoMethod() throws ClassNotFoundException {
         //GIVEN in setUp
         //WHEN
         underTest.changeStatus(false, GROUPNAME_FIRST, request);

@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.evaluation.Evaluable;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
     private boolean responseVolatile; //setting of volatility of the response message
 
     private Map<Evaluable, Boolean> evaluationResults = new HashMap<>();
+    private WilmaSequence sequence;
 
     /**
      * This method adds the given sequenceId to the extra headers.
@@ -108,5 +110,13 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
 
     public void setResponseVolatile(boolean responseVolatile) {
         this.responseVolatile = responseVolatile;
+    }
+
+    public WilmaSequence getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(WilmaSequence sequence) {
+        this.sequence = sequence;
     }
 }

@@ -21,8 +21,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * This class throws an null pointer exception.
@@ -32,8 +32,8 @@ import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 public class TemplateFormatterWithError implements TemplateFormatter {
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final byte[] templateResource, final ParameterList params,
-            final WilmaSequence sequence) throws Exception {
+    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                                 final byte[] templateResource, final ParameterList params) throws Exception {
         throw new NullPointerException();
     }
 

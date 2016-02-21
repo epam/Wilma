@@ -18,15 +18,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
+import com.epam.wilma.domain.sequence.RequestResponsePair;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Template formatter that responds with the sequence request and response body pairs.
@@ -37,9 +38,10 @@ public class SequenceBodyTemplateFormatter implements TemplateFormatter {
     private static final String PAIR_TEMPLATE = "\n pair%s - request body: '%s', response body: '%s'";
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final byte[] templateResource, final ParameterList params,
-            final WilmaSequence sequence) throws Exception {
+    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                                 final byte[] templateResource, final ParameterList params) throws Exception {
         String result = "wilma-sequence key: ";
+        WilmaSequence sequence = wilmaRequest.getSequence();
         if (sequence != null) {
             result += sequence.getSequenceKey();
             Map<String, RequestResponsePair> messages = sequence.getPairs();

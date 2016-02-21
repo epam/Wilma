@@ -45,8 +45,9 @@ public class StubConfigurationStatusService {
      * @param nextStatus is the new status of the selected stub descriptor
      * @param groupName is the groupname of selected stub descriptor
      * @param request is only needed for {@link UrlAccessLogMessageAssembler}
+     * @throws ClassNotFoundException in case of problem
      */
-    public void changeStatus(final boolean nextStatus, final String groupName, final HttpServletRequest request) {
+    public void changeStatus(final boolean nextStatus, final String groupName, final HttpServletRequest request) throws ClassNotFoundException {
         routingService.performModification(new ChangeStatusCommand(nextStatus, groupName, request, urlAccessLogMessageAssembler));
     }
 }

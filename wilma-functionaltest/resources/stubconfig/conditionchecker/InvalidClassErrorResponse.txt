@@ -1,1 +1,1 @@
-Validation of stub descriptor failed - Referenced class not found: 'InvalidExternalConditionChecker'.
+Stub config uploading failed: Validation of stub descriptor failed - Referenced class not found: 'InvalidExternalConditionChecker'.

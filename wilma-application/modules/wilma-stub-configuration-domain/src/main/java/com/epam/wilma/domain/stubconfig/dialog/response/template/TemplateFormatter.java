@@ -20,23 +20,26 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Interface for stub template's formatter mechanism. All of the template formatters need to implement this interface.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public interface TemplateFormatter {
 
     /**
      * Formats a template with the given parameters.
-     * @param wilmaRequest is a specific object, which contains the request headers and the uncompressed request body.
+     *
+     * @param wilmaRequest     is a specific object, which contains the request headers and the uncompressed request body.
+     * @param resp             is the HttpServletResponse itself, offering the possibility of setting response attributes directly
      * @param templateResource is the specified template which will be modified by the formatter
-     * @param params is the necessary parameters of the template formatter class
-     * @param sequence is that object which contains the history of the actual request
-     * @throws Exception if error occurs, it will be caught by the stub mechanism
+     * @param params           is the necessary parameters of the template formatter class
      * @return with the formatted template resource
+     * @throws Exception if error occurs, it will be caught by the stub mechanism
      */
-    byte[] formatTemplate(WilmaHttpRequest wilmaRequest, byte[] templateResource, final ParameterList params, final WilmaSequence sequence) throws Exception;
+    byte[] formatTemplate(WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                          byte[] templateResource, final ParameterList params) throws Exception;
 }

@@ -83,7 +83,7 @@ public class ExternalStubConfigUploadServletTest {
     }
 
     @Test
-    public void testDoGetShouldCallStubDescriptorConstructor() throws ServletException, IOException {
+    public void testDoGetShouldCallStubDescriptorConstructor() throws ServletException, IOException, ClassNotFoundException {
         //GIVEN
         given(request.getContentLength()).willReturn(1);
         //WHEN
@@ -103,7 +103,7 @@ public class ExternalStubConfigUploadServletTest {
     }
 
     @Test
-    public void testDoGetWhenExceptionShouldWriteErrorToResponse() throws ServletException, IOException {
+    public void testDoGetWhenExceptionShouldWriteErrorToResponse() throws ServletException, IOException, ClassNotFoundException {
         //GIVEN
         given(request.getContentLength()).willReturn(1);
         willThrow(new DescriptorCannotBeParsedException(EXCEPTION_MESSAGE, new Throwable())).given(routingService).performModification(
@@ -115,7 +115,7 @@ public class ExternalStubConfigUploadServletTest {
     }
 
     @Test
-    public void testDoPostShouldCallDoGet() throws ServletException, IOException {
+    public void testDoPostShouldCallDoGet() throws ServletException, IOException, ClassNotFoundException {
         //GIVEN
         given(request.getContentLength()).willReturn(1);
         //WHEN

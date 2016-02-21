@@ -1,4 +1,4 @@
-package com.epam.wilma.sequencesandbox;
+package com.epam.message.sequence.test;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -18,12 +18,12 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Map;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
+
+import java.util.Map;
 
 /**
  * Doesn't do anything useful, only used for unit testing.

@@ -1,1 +1,1 @@
-Validation of stub descriptor failed - Template file 'config/templates/anotherTemplate.xml' not found.
+Stub config uploading failed: Validation of stub descriptor failed - Template file 'config/templates/anotherTemplate.xml' not found.

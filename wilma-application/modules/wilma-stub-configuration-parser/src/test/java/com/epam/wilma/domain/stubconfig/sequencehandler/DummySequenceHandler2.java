@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
 /**

@@ -42,7 +42,7 @@ import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.router.helper.WilmaHttpResponseCloner;
 import com.epam.wilma.sequence.cleaner.SequenceCleaner;
 import com.epam.wilma.sequence.handler.exception.SequenceHandlerKeyValidationException;

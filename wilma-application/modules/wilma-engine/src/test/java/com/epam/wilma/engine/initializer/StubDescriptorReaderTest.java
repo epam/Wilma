@@ -67,7 +67,7 @@ public class StubDescriptorReaderTest {
     }
 
     @Test
-    public void testLoadSpecificStubDescriptors() throws FileNotFoundException {
+    public void testLoadSpecificStubDescriptors() throws FileNotFoundException, ClassNotFoundException {
         //GIVEN
         List<String> paths = new ArrayList<>();
         paths.add("test");

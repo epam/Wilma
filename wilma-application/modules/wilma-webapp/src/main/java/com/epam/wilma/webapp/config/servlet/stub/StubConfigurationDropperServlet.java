@@ -44,7 +44,11 @@ public class StubConfigurationDropperServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         String groupName = request.getParameter("groupname");
-        stubConfigurationDropperService.dropSelectedStubConfiguration(groupName, request);
+        try {
+            stubConfigurationDropperService.dropSelectedStubConfiguration(groupName, request);
+        } catch (ClassNotFoundException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override

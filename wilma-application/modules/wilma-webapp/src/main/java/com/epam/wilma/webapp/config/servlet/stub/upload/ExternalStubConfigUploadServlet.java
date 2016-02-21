@@ -66,13 +66,13 @@ public class ExternalStubConfigUploadServlet extends HttpServlet {
             try {
                 routingService.performModification(new NewStubDescriptorCommand(inputStream, stubConfigurationBuilder, sequenceDescriptorHolder));
                 LOGGER.info(urlAccessLogMessageAssembler.assembleMessage(request, "New stub configuration was uploaded to Wilma."));
-            } catch (SystemException e) {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                writer.write(e.getMessage());
-                LOGGER.info(urlAccessLogMessageAssembler.assembleMessage(request, "Stub config uploading failed: " + e.getMessage()), e);
+            } catch (ClassNotFoundException|NoClassDefFoundError|SystemException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                writer.write("Stub config uploading failed: " + e.getMessage());
+                LOGGER.warn(urlAccessLogMessageAssembler.assembleMessage(request, "Stub config uploading failed: " + e.getMessage()), e);
             }
         } else {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             writer.write("Please provide a non-empty stub configuration!");
         }
     }

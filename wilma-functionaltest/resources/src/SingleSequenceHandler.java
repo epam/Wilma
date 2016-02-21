@@ -18,28 +18,33 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Map;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
+import java.util.Map;
+
 /**
- * Doesn't do anything useful, only used for unit testing.
- * @author Tibor_Kovacs
- *
+ * {@link SequenceHandler} which considers every request to belong to one sequence.
+ * @author Adam_Csaba_Kiraly
  */
-public class ExternalDummySequenceHandler implements SequenceHandler {
+public class SingleSequenceHandler implements SequenceHandler {
 
     @Override
     public String getExistingSequence(final WilmaHttpRequest request, final Map<String, WilmaSequence> store, final ParameterList parameters) {
-        return "cat";
+        String result = null;
+        String key = generateNewSequenceKey(request, parameters);
+        WilmaSequence sequence = store.get(key);
+        if (sequence != null) {
+            result = key;
+        }
+        return result;
     }
 
     @Override
-    public String generateNewSequenceKey(final WilmaHttpRequest request, final ParameterList parameterList) {
-        return "cat";
+    public String generateNewSequenceKey(final WilmaHttpRequest request, final ParameterList parameters) {
+        return "single";
     }
 
 }

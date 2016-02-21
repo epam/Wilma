@@ -20,9 +20,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.sequence.RequestResponsePair;
+import com.epam.wilma.domain.sequence.RequestResponsePair;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
 import com.epam.wilma.sequence.evaluator.SequenceDescriptorEvaluator;

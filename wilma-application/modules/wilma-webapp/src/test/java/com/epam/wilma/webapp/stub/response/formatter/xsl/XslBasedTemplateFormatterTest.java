@@ -39,6 +39,8 @@ import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Tests for {@link XslBasedTemplateFormatter}.
  * @author Tamas_Bihari
@@ -66,6 +68,7 @@ public class XslBasedTemplateFormatterTest {
     private byte[] templateResource;
 
     private ParameterList params;
+    private HttpServletResponse response;
 
     @BeforeMethod
     public void setUp() {
@@ -78,7 +81,7 @@ public class XslBasedTemplateFormatterTest {
     public void testFormatTemplateShouldThrowExceptionWhenXslFileParamDoesNotExist() throws Exception {
         //GIVEN in setUp
         //WHEN
-        underTest.formatTemplate(wilmaRequest, templateResource, params, null);
+        underTest.formatTemplate(wilmaRequest, response, templateResource, params);
         //THEN exception is thrown
     }
 
@@ -90,7 +93,7 @@ public class XslBasedTemplateFormatterTest {
         given(fileFactory.createFile(Mockito.anyString())).willReturn(file);
         given(fileUtils.getFileAsByteArray(file)).willThrow(new IOException());
         //WHEN
-        underTest.formatTemplate(wilmaRequest, templateResource, params, null);
+        underTest.formatTemplate(wilmaRequest, response, templateResource, params);
         //THEN exception is thrown
     }
 
@@ -103,7 +106,7 @@ public class XslBasedTemplateFormatterTest {
         given(fileUtils.getFileAsByteArray(file)).willReturn(templateResource);
         given(wilmaRequest.getBody()).willReturn(templateResource.toString());
         //WHEN
-        underTest.formatTemplate(wilmaRequest, templateResource, params, null);
+        underTest.formatTemplate(wilmaRequest, response, templateResource, params);
         //THEN
         verify(wilmaRequest).getBody();
     }
@@ -117,7 +120,7 @@ public class XslBasedTemplateFormatterTest {
         given(fileUtils.getFileAsByteArray(file)).willReturn(templateResource);
         given(wilmaRequest.getBody()).willReturn(XSL_PARAM_KEY);
         //WHEN
-        underTest.formatTemplate(wilmaRequest, templateResource, params, null);
+        underTest.formatTemplate(wilmaRequest, response, templateResource, params);
         //THEN
         verify(xslResponseGenerator).generateResponse(XSL_PARAM_KEY.getBytes(), templateResource, templateResource);
     }

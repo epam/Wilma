@@ -68,7 +68,7 @@ public class NewStubDescriptorCommandTest {
     }
 
     @Test
-    public void testModifyShouldPutANewStubDescriptorIntoTheMap() {
+    public void testModifyShouldPutANewStubDescriptorIntoTheMap() throws ClassNotFoundException {
         //GIVEN
         Map<String, StubDescriptor> expected = new LinkedHashMap<>(normalStubDescriptors);
         expected.put(GROUPNAME_FIRST, stubDescriptor);
@@ -82,7 +82,7 @@ public class NewStubDescriptorCommandTest {
     }
 
     @Test
-    public void testModifyShouldReplaceOneStubDescriptor() {
+    public void testModifyShouldReplaceOneStubDescriptor() throws ClassNotFoundException {
         //GIVEN
         normalStubDescriptors.put(GROUPNAME_FIRST, stubDescriptor);
         Map<String, StubDescriptor> expected = new LinkedHashMap<>(normalStubDescriptors);
@@ -96,7 +96,7 @@ public class NewStubDescriptorCommandTest {
     }
 
     @Test
-    public void testModifyShouldAddSequenceDescriptorsToSequenceDescriptorHolder() {
+    public void testModifyShouldAddSequenceDescriptorsToSequenceDescriptorHolder() throws ClassNotFoundException {
         //GIVEN
         //WHEN
         underTest = new NewStubDescriptorCommand(inputStream, stubConfigurationBuilder, sequenceDescriptorHolder);

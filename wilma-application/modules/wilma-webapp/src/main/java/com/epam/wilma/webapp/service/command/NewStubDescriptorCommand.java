@@ -53,7 +53,7 @@ public class NewStubDescriptorCommand implements StubDescriptorModificationComma
     }
 
     @Override
-    public Map<String, StubDescriptor> modify(final Map<String, StubDescriptor> stubDescriptors) {
+    public Map<String, StubDescriptor> modify(final Map<String, StubDescriptor> stubDescriptors) throws ClassNotFoundException {
         Map<String, StubDescriptor> updated = new LinkedHashMap<>(stubDescriptors);
         StubDescriptor stubDescriptor = stubConfigurationBuilder.buildStubDescriptor(inputStream);
         StubDescriptorAttributes attributes = stubDescriptor.getAttributes();

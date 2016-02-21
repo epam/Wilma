@@ -36,6 +36,6 @@ public interface StubDescriptorModificationCommand {
      * @param stubDescriptors the actual collection
      * @return the modified collection
      */
-    Map<String, StubDescriptor> modify(Map<String, StubDescriptor> stubDescriptors);
+    Map<String, StubDescriptor> modify(Map<String, StubDescriptor> stubDescriptors) throws ClassNotFoundException;
 
 }

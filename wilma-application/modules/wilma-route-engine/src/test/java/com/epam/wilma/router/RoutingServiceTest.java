@@ -221,7 +221,7 @@ public class RoutingServiceTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testInitStubDescriptorWhenOperationModeIsStubShouldSwitchOnStubMode() {
+    public void testInitStubDescriptorWhenOperationModeIsStubShouldSwitchOnStubMode() throws ClassNotFoundException {
         //GIVEN
         operationMode = OperationMode.STUB;
         given(configurationAccess.getProperties()).willReturn(properties);
@@ -238,7 +238,7 @@ public class RoutingServiceTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testInitStubDescriptorWhenOperationModeIsNotStubShouldDoNothing() {
+    public void testInitStubDescriptorWhenOperationModeIsNotStubShouldDoNothing() throws ClassNotFoundException {
         //GIVEN
         operationMode = OperationMode.WILMA;
         given(configurationAccess.getProperties()).willReturn(properties);

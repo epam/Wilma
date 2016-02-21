@@ -23,6 +23,7 @@ import com.epam.wilma.common.helper.StackTraceToStringConverter;
 import com.epam.wilma.core.MapBasedResponseDescriptorAccess;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
@@ -30,7 +31,6 @@ import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.sequence.helper.SequenceHeaderUtil;
 import com.epam.wilma.sequence.matcher.SequenceMatcher;
@@ -44,7 +44,6 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -59,14 +58,15 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+
 
 /**
  * Tests for {@link StubResponseGenerator} class.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class StubResponseGeneratorTest {
     private static final String SEQUENCE_DESCRIPTOR_KEY = "seqdesckey";
@@ -90,6 +90,8 @@ public class StubResponseGeneratorTest {
     private ResponseDescriptorDTO responseDescriptorDTO;
     @Mock
     private ResponseDescriptor responseDescriptor;
+    //    @Mock
+//    private ResponseDescriptorAttributes responseDescriptorAttributes;
     @Mock
     private Template template;
     @Mock
@@ -179,8 +181,7 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenTemplateFormatterDescriptorsArrayIsNull()
-        throws InterruptedException {
+    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenTemplateFormatterDescriptorsArrayIsNull() throws InterruptedException {
         //GIVEN
         mockTemplateResource();
         templateFormatterDescriptors = null;
@@ -189,7 +190,6 @@ public class StubResponseGeneratorTest {
         //THEN
         //verify set response headers
         verify(headerConfigurer).setResponseContentTypeAndStatus(response, responseDescriptorDTO);
-        verify(waitProvider).waitMilliSeconds(anyInt());
         Assert.assertEquals(actual, templateResource);
     }
 
@@ -201,7 +201,6 @@ public class StubResponseGeneratorTest {
         byte[] actual = underTest.generateResponse(request, response);
         //THEN
         verify(headerConfigurer).setResponseContentTypeAndStatus(response, responseDescriptorDTO);
-        verify(waitProvider).waitMilliSeconds(anyInt());
         Assert.assertEquals(actual, templateResource);
     }
 
@@ -213,12 +212,11 @@ public class StubResponseGeneratorTest {
         mockTemplateResource();
         given(templateFormatterDescriptor.getParams()).willReturn(params);
         given(templateFormatterDescriptor.getTemplateFormatter()).willReturn(templateFormatter);
-        given(templateFormatter.formatTemplate(wilmaRequest, templateResource, params, null)).willReturn(templateResource);
+        given(templateFormatter.formatTemplate(wilmaRequest, response, templateResource, params)).willReturn(templateResource);
         //WHEN
         byte[] actual = underTest.generateResponse(request, response);
         //THEN
         verify(headerConfigurer).setResponseContentTypeAndStatus(response, responseDescriptorDTO);
-        verify(waitProvider).waitMilliSeconds(anyInt());
         Assert.assertEquals(actual, templateResource);
     }
 
@@ -230,7 +228,7 @@ public class StubResponseGeneratorTest {
         mockTemplateResource();
         given(templateFormatterDescriptor.getTemplateFormatter()).willReturn(templateFormatter);
         given(templateFormatterDescriptor.getParams()).willReturn(params);
-        given(templateFormatter.formatTemplate(wilmaRequest, templateResource, params, null)).willThrow(
+        given(templateFormatter.formatTemplate(wilmaRequest, response, templateResource, params)).willThrow(
                 new TemplateFormattingFailedException("Template formatting failed....", new TemplateFormattingFailedException("")));
         //WHEN
         underTest.generateResponse(request, response);
@@ -239,17 +237,15 @@ public class StubResponseGeneratorTest {
         verify(headerConfigurer).setErrorResponseContentTypeAndStatus(response);
     }
 
-    @Test
+    @Test(expectedExceptions = InterruptedException.class)
     public void testGenerateResponseShouldLogErrorWhenWaitProviderFail() throws Exception {
         //GIVEN
         mockTemplateResource();
-        Whitebox.setInternalState(underTest, "logger", logger);
         doThrow(new InterruptedException()).when(waitProvider).waitMilliSeconds(anyInt());
         //WHEN
-        underTest.generateResponse(request, response);
-        //THEN
-        verify(headerConfigurer).setResponseContentTypeAndStatus(response, responseDescriptorDTO);
-        verify(logger).error(anyString(), Mockito.any(InterruptedException.class));
+        waitProvider.waitMilliSeconds(1);
+        //THEN we should not arrive here
+        Assert.fail();
     }
 
     private void mockTemplateResource() {

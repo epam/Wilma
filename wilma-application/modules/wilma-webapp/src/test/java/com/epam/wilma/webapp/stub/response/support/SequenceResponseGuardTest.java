@@ -20,7 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 import com.epam.wilma.webapp.configuration.domain.SequenceResponseGuardProperties;

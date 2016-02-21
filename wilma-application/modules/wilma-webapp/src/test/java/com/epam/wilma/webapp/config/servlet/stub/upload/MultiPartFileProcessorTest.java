@@ -73,7 +73,7 @@ public class MultiPartFileProcessorTest {
     }
 
     @Test
-    public void testProcessUploadedFileShouldReturnWhenStubConfigIsValid() {
+    public void testProcessUploadedFileShouldReturnWhenStubConfigIsValid() throws ClassNotFoundException {
         //GIVEN in setUp
         //WHEN
         String actual = underTest.processUploadedFile(resource, XML_CONTENT_TYPE, "stub-configuration", FILE_PATH);

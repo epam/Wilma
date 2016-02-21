@@ -1,1 +1,1 @@
-Validation of stub descriptor failed: Condition-descriptor subtree is too deep or contains circles, error occurs at: <condition-set-invoker name='condition-set2' ...>
+Stub config uploading failed: Validation of stub descriptor failed: Condition-descriptor subtree is too deep or contains circles, error occurs at: <condition-set-invoker name='condition-set2' ...>

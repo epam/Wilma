@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.SequenceResponseGuardProperties;
 import com.epam.wilma.webapp.stub.response.exception.ResponseTimeoutException;

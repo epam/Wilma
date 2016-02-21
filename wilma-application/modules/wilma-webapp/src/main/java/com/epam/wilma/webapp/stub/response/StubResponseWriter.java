@@ -62,7 +62,7 @@ public class StubResponseWriter {
             writeResponseToOutputStream(resp, responseBody);
         } else {
             writeErrorResponse(resp);
-            logger.info("Wilma has got an unwanted request from this address: " + req.getRemoteAddr());
+            logger.warn("Wilma has got an unwanted request from this address: " + req.getRemoteAddr());
         }
     }
 
