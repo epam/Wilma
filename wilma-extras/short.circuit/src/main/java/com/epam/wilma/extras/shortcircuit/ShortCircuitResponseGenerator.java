@@ -47,7 +47,7 @@ public class ShortCircuitResponseGenerator implements TemplateGenerator, Templat
                                  byte[] bytes, ParameterList parameterList) throws Exception {
         byte[] newBody = bytes;
         //prepare a key for this request
-        String hashCode = "" + wilmaHttpRequest.getHeaders().hashCode() + wilmaHttpRequest.getBody().hashCode();
+        String hashCode = wilmaHttpRequest.getHeaderUpdateValue(ShortCircuitChecker.SHORT_CIRCUIT_HEADER);
         ShortCircuitResponseInformation shortCircuitResponseInformation = ShortCircuitChecker.getShortCircuitMap().get(hashCode);
         if (shortCircuitResponseInformation != null) {
             //we have the answer, so set it properly
