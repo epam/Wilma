@@ -4,21 +4,21 @@
     <dialog-descriptor name="dialog-descriptor" usage="always" comment="Short Circuit, with 6 hour cache timeout">
         <condition-descriptor>
             <and>
-                <condition class="UrlPatterChecker" >
-                    <param name="dummy" value="epam.com" />
+                <condition class="OrUrlPatternChecker" >
+                    <param name="dummy" value="epam.hu" />
                 </condition>
-                <condition class="ShortCircuitChecker" />
+                <condition class="com.epam.wilma.extras.shortcircuit.ShortCircuitChecker" />
             </and>
         </condition-descriptor>
         <response-descriptor code="200" delay="0" mimetype="text/plain" template="shortCircuitTemplate">
-            <template-formatter class="ShortCircuitResponseGenerator"/>
+            <template-formatter class="com.epam.wilma.extras.shortcircuit.ShortCircuitResponseGenerator"/>
         </response-descriptor>
     </dialog-descriptor>
     <template-descriptor name="templateDescriptor1">
-        <template name="shortCircuitTemplate" type="external" resource="ShortCircuitResponseGenerator"/>
+        <template name="shortCircuitTemplate" type="external" resource="com.epam.wilma.extras.shortcircuit.ShortCircuitResponseGenerator"/>
     </template-descriptor>
     <interceptors>
-        <interceptor name="ShortCircuit Response Catcher" class="ShortCircuitInterceptor">
+        <interceptor name="ShortCircuit Response Catcher" class="com.epam.wilma.extras.shortcircuit.ShortCircuitInterceptor">
             <param name="timeout" value="21600000" />
         </interceptor>
     </interceptors>
