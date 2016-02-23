@@ -1,14 +1,14 @@
 Wilma
 ===========
-Wilma is a combined HTTP/HTTPS **Service Stub and Transparent Proxy**, written in Java. 
-Its main purpose is to test applications/services/components those functionality relies/depends on another - usually 3rd party - service or services. 
+Wilma is a **Service Virtualization** tool, that combines the capabilities of a **Service Stub** and a **HTTP/HTTPS Transparent Proxy**. 
+Its main purpose is to support development and testing applications/services/components those functionality relies/depends on another - usually 3rd party - service or services. 
 The selected architecture approach makes it capable to use it in performance test environment and environment that contains microservices. 
-The solution consists of two standalone applications:
+It is written in Java, and the solution consists of two standalone applications:
 
 * **Wilma** application
 * **Wilma Message Search** application
 
-**Wilma** application is the highly configurable **Service Stub and Transparent Proxy**. 
+**Wilma** application is the highly configurable **Service Virtualization** tool. 
 It logs the messages, and meanwhile acts as a proxy between the components, makes it possible to stub responses based on configuration defined in XML file(s).
 It is designed for use in test environments where test automation is in use (unit, integration, functional or end-to-end).
 Also can be used for manual tests. It is expandable easily via plugins.
@@ -49,7 +49,6 @@ See [this page](http://epam.github.io/Wilma/endusers/index.html) for more detail
 ####Notes
 * Running Wilma Message Search application is optional, Wilma itself does not require it.
 * To run Wilma Message Search application, java JDK must be used. With JRE, it will not work properly.
-* Wilma Message Search application must be started before any Wilma instance that provides messages for the search
 * **Docker image** of combined Wilma and Wilma Message Search application is available on DockerHub, see details [here](https://github.com/epam/Wilma/wiki/Docker-image-of-Wilma)
 
 #Quick intro for developers/contributors
