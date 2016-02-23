@@ -40,8 +40,8 @@
                 <p>This configuration file must contain the following property entries (the values here are the default
                     ones):</p>
 <pre>
-########################################################################
-# Copyright 2013-2015 EPAM Systems
+############################################################################
+# Copyright 2013-2016 EPAM Systems
 #
 # This file is part of Wilma.
 #
@@ -56,8 +56,8 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with Wilma.  If not, see http://www.gnu.org/licenses/.
-########################################################################
+# along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
+############################################################################
 
 # the port used by the proxy
 proxy.port=9092
@@ -65,29 +65,22 @@ proxy.port=9092
 # internal jetty port on which web application is deployed
 internal.wilma.port=1234
 
-# the size of the request buffer used by the web application in bytes
+#the size of the request buffer used by the web application in bytes
 internal.wilma.request.buffer.size=81920
-
-# the size of the response buffer used by the web application in bytes
+#the size of the response buffer used by the web application in bytes
 internal.wilma.response.buffer.size=204800
 
-# port used to communicate with the indexing application
-# via an activemq broker
+# host used to communicate with the indexing application via an activemq broker, default is localhost
+jms.queue.host=
+
+# port used to communicate with the indexing application via an activemq broker
 jms.queue.port=16161
 
 # the value of the request time out in milliseconds
 proxy.request.timeout=20000
 
-# the number of requests that can go through the proxy per second
-# without a warning
-# DEPRECATED since V1.3 of Wilma
-request.warning.limit=9000
-
-# the number of requests that can go through the proxy per second without an error.
-# Requests above this limit are aborted.
-# DEPRECATED since V1.3 of Wilma
-request.error.limit=9999
-
+# enable/disable response volatility (changing the proxy response on-the-fly), default: disable
+proxy.response.volatile=false
 
 # maintainer is executed periodically. Time period can be given with cron expression.
 log.maintainer.cron=0 0/30 * * * *
@@ -98,54 +91,43 @@ log.maintainer.method=timelimit
 # limit on number of files to keep
 log.maintainer.file.limit=10
 
-# files older than this value are deleted if timelimit method is switched on
-# (can be xD days or xH hours - e.g.: 12H, 2D)
+# files older than this value are deleted if timelimit method is switched on (can be xD days or xH hours - e.g.: 12H, 2D)
 log.maintainer.time.limit=1H
 
 # target folder of the request, response log files
 log.folder=messages
 
-# guard period of the overload safeguard in seconds.
-# 0 means that the safeguard is inactive,
-# otherwise the time period can be given with cron expressions (e.g.: 0/3 * * * * *).
+# guard period of the overload safeguard in seconds. 0 means that the safeguard is inactive, otherwise the time period can be given with cron expressions (e.g.: 0/3 * * * * *).
 safeguard.guardperiod=0/3 * * * * *
 
-# when the ActiveMQ queue size exceeds this limit,
-# the FastInfoset decompression is turned off
+# when the ActiveMQ queue size exceeds this limit, the FastInfoset decompression is turned off
 safeguard.responseFIdecoder.OFFlimit=1200
 
-# when the ActiveMQ queue size drops below this limit,
-# the FastInfoset decompression is turned on
+# when the ActiveMQ queue size drops below this limit, the FastInfoset decompression is turned on
 safeguard.responseFIdecoder.ONlimit=800
 
-# when the ActiveMQ queue size exceeds this limit,
-# response logging is turned off completely
+# when the ActiveMQ queue size exceeds this limit, response logging is turned off completely
 safeguard.responseMessageWriter.OFFlimit=1500
 
-# when the ActiveMQ queue size drops below this limit,
-# response logging is turned on again
+# when the ActiveMQ queue size  drops below this limit, response logging is turned on again
 safeguard.responseMessageWriter.ONlimit=1000
 
 # turns message logging on/off when Wilma starts
 message.logging=on
 
 # should Wilma Message ID be added to the message request headers or not
-# available since V1.3
 message.marking=off
 
 # Relative folder path of the stub descriptor XML configuration files from project root.
 stub.descriptors.path=
 
-# Extension pattern of the stub descriptor XML configuration files
-# (it could be a specific file or *.xml)
+# Extension pattern of the stub descriptor XML configuration files (it could be a specific file or *.xml)
 stub.descriptors.pattern=stubConfig.xml
 
 # Relative folder path of the cached stub descriptor XML configuration files from project root.
 stub.descriptors.cache.path=config/cache/stub_descriptors
 
-# Max depth of the stub configuration dialog descriptor elements
-# (condition-set-invoker, template-formatter-set-invoker) child's subtree.
-# This is necessary because of recursive self referring.
+# Max depth of the stub configuration dialog descriptor elements (condition-set-invoker, template-formatter-set-invoker) child's subtree. This is necessary because of recursive self referring.
 stub.descriptor.max.depth=20
 
 # Relative path of the stub template files folder from project root.
@@ -166,23 +148,20 @@ stub.jar.path=config/jar
 # Relative path of the sequence handler classes folder from project root.
 stub.sequence.handler.path=config/sequencehandlers
 
-# switch between the following operation modes:
-# proxy mode, stub mode and normal mode (valid inputs are: stub, proxy, wilma)
+# switch between the following operation modes: proxy mode, stub mode and normal mode (valid inputs are: stub, proxy, wilma)
 switch=wilma
 
-# Interceptors - switch between using or not using Interceptors at all
-# (config still will be loaded)
+# Interceptors - switch between using or not using Interceptors at all (config still will be loaded)
 interceptor=off
 
-# Block localhost usage - switch between forwarding messages
-# addressed to localhost (mode: off) or denying them (mode: on)
+# Block localhost usage - switch between forwarding messages addressed to localhost (mode: off) or denying them (mode: on)
 block.localhost.usage=off
 
 # Sequence Handling - Switch between enabling/disabling the sequence handling functionality
-sequence.handling.state=on
+sequence.handling.state=off
 
 # Defines the interval of waiting for the sequence responses (in milliseconds)
-sequence.response.wait.interval=250
+sequence.response.wait.interval=500
 
 # the default timeout of sequences given in milliseconds
 sequence.timeout=9000
@@ -191,6 +170,9 @@ sequence.timeout=9000
 wilma.readme.url=http://epam.github.io/Wilma/
 wilma.readme.text=Wilma Documentation
 
+# prefix text for Wilma instance
+wilma.instance.prefix=
+
 #Relative path to admin hosts file from project root.
 #The admin hosts file should contain one hostname or IP per line.
 wilma.admin.hosts.file=
@@ -198,7 +180,7 @@ wilma.admin.hosts.file=
 # sequence cleaning is executed periodically. Time period can be given with cron expression.
 sequence.cleanup.cron=0 0/03 * * * *
 
-# The maximum number of the listed messages on Wilma UI.
+# The maximum value of displayed messages.
 message.log.UI.maxsize=500
 </pre>
                 <p>There are two reserved ports which aren't configurable, 1099 and 2015. Pay attention to not use

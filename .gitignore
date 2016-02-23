@@ -7,6 +7,7 @@ wilma-message-search/
 wilma-test/
 wilma-service-api/
 wilma-service-api-net/
+wilma-extras/
 build/
 wilma.iml
 wilma.ipr
