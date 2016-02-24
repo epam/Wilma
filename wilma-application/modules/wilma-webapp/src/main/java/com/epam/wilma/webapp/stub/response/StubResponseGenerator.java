@@ -106,14 +106,15 @@ public class StubResponseGenerator {
                 wilmaRequest.setSequence(actualSequence);
                 sequenceResponseGuard.waitForResponses(wilmaRequest, actualSequence);
             }
+            //set response status and content type
+            headerConfigurer.setResponseContentTypeAndStatus(resp, responseDescriptorDTO);
+            //run formatters
             if (templateFormatterDescriptors != null && !templateFormatterDescriptors.isEmpty()) {
                 for (TemplateFormatterDescriptor templateFormatterDescriptor : templateFormatterDescriptors) {
                     TemplateFormatter templateFormatter = templateFormatterDescriptor.getTemplateFormatter();
                     result = templateFormatter.formatTemplate(wilmaRequest, resp, result, templateFormatterDescriptor.getParams());
                 }
             }
-            //set response status and content type
-            headerConfigurer.setResponseContentTypeAndStatus(resp, responseDescriptorDTO);
             //delay response if necessary
             delayResponse(responseDescriptor.getAttributes().getDelay());
         } catch (Exception e) {

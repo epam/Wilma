@@ -21,6 +21,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,25 +39,25 @@ public class ShortCircuitChecker implements ConditionChecker {
 
     public static final String SHORT_CIRCUIT_HEADER = "Wilma-ShortCircuitId";
     private static final Map<String, ShortCircuitResponseInformation> SHORT_CIRCUIT_MAP = new HashMap<>();
-    private final Object guard = new Object();
+    private Object guard = new Object();
+
+    private final Logger logger = LoggerFactory.getLogger(ShortCircuitChecker.class);
 
     @Override
     public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameters) {
         boolean conditionResult = false;
-        //prepare a key for this request
-        String hashCode = "" + request.getHeaders().hashCode() + request.getBody().hashCode();
+        //get the key
+        String hashCode = request.getHeaderUpdateValue(ShortCircuitChecker.SHORT_CIRCUIT_HEADER);
         synchronized (guard) {
-            //if the request-response pair is in the memory we might ned stub response
+            //if the request-response pair is in the memory we might need stub response
             if (SHORT_CIRCUIT_MAP.containsKey(hashCode)) {
                 //we need stub answer if the response is arrived already - if not, we need to wait for the answer still
                 conditionResult = SHORT_CIRCUIT_MAP.get(hashCode) != null;
             } else { //we don't have even the request in the map, so put it there
-
                 SHORT_CIRCUIT_MAP.put(hashCode, null);
+                logger.info("ShortCircuit: New request to be cached was detected, hash code: " + hashCode);
             }
         }
-        //for sure mark the message, response interceptor have chance to catch the response if necessary
-        request.addHeader(SHORT_CIRCUIT_HEADER, hashCode);
         return conditionResult; //true only, if the response is stored, so we know what to answer
     }
 

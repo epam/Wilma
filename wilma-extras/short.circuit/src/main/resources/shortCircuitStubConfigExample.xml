@@ -5,7 +5,7 @@
         <condition-descriptor>
             <and>
                 <condition class="OrUrlPatternChecker" >
-                    <param name="dummy" value="epam.hu" />
+                    <param name="dummy" value="stackoverflow.com/help" />
                 </condition>
                 <condition class="com.epam.wilma.extras.shortcircuit.ShortCircuitChecker" />
             </and>

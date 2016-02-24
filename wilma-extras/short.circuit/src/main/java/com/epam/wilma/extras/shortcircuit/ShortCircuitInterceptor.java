@@ -18,9 +18,13 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
+import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.Map;
@@ -28,37 +32,46 @@ import java.util.Map;
 /**
  * Created by tkohegyi on 2016. 02. 20.
  */
-public class ShortCircuitInterceptor implements ResponseInterceptor {
+public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInterceptor {
 
+    private static Map<String, ShortCircuitResponseInformation> shortCircuitMap = ShortCircuitChecker.getShortCircuitMap();
+    private final Logger logger = LoggerFactory.getLogger(ShortCircuitChecker.class);
     private final String timeoutParameterName = "timeout";
 
     @Override
     public void onResponseReceive(WilmaHttpResponse wilmaHttpResponse, ParameterList parameterList) {
         String shortCircuitHashCode = wilmaHttpResponse.getRequestHeader(ShortCircuitChecker.SHORT_CIRCUIT_HEADER);
-        if (shortCircuitHashCode != null) { //this
+        if (shortCircuitHashCode != null) { //this was marked, check if it is in the map
             long timeout;
-            //do we have the response already, or we need to catch it right now?
-            Map<String, ShortCircuitResponseInformation> shortCircuitMap = ShortCircuitChecker.getShortCircuitMap();
-            ShortCircuitResponseInformation shortCircuitResponseInformation = shortCircuitMap.get(shortCircuitHashCode);
-            if (shortCircuitResponseInformation == null) {
-                //we need to store the response now
-
-                if (parameterList != null && parameterList.get(timeoutParameterName) != null) {
-                    timeout = Long.valueOf(parameterList.get(timeoutParameterName))
-                        + Calendar.getInstance().getTimeInMillis();
-                } else {
-                    timeout = Long.MAX_VALUE; //forever
-                }
-                shortCircuitResponseInformation = new ShortCircuitResponseInformation(wilmaHttpResponse, timeout);
-                shortCircuitMap.put(shortCircuitHashCode, shortCircuitResponseInformation);
-            } else { //we have response
-                //take care about timeout
-                timeout = Calendar.getInstance().getTimeInMillis();
-                if (timeout > shortCircuitResponseInformation.getTimeout()) {
-                    shortCircuitMap.remove(shortCircuitHashCode);
+            if (shortCircuitMap.containsKey(shortCircuitHashCode)) { //only if this needs to be handled
+                //do we have the response already, or we need to catch it right now?
+                ShortCircuitResponseInformation shortCircuitResponseInformation = shortCircuitMap.get(shortCircuitHashCode);
+                if (shortCircuitResponseInformation == null) {
+                    //we need to store the response now
+                    if (parameterList != null && parameterList.get(timeoutParameterName) != null) {
+                        timeout = Long.valueOf(parameterList.get(timeoutParameterName))
+                                + Calendar.getInstance().getTimeInMillis();
+                    } else {
+                        timeout = Long.MAX_VALUE; //forever
+                    }
+                    shortCircuitResponseInformation = new ShortCircuitResponseInformation(wilmaHttpResponse, timeout);
+                    shortCircuitMap.put(shortCircuitHashCode, shortCircuitResponseInformation);
+                    logger.info("ShortCircuit: Message captured for hashcode: " + shortCircuitHashCode);
+                } else { //we have response
+                    //take care about timeout
+                    timeout = Calendar.getInstance().getTimeInMillis();
+                    if (timeout > shortCircuitResponseInformation.getTimeout()) {
+                        shortCircuitMap.remove(shortCircuitHashCode);
+                        logger.debug("ShortCircuit: Timeout has happened for hashcode: " + shortCircuitHashCode);
+                    }
                 }
             }
         }
     }
 
+    @Override
+    public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
+        String hashCode = "" + wilmaHttpRequest.getHeaders().hashCode() + wilmaHttpRequest.getBody().hashCode();
+        wilmaHttpRequest.addHeaderUpdate(ShortCircuitChecker.SHORT_CIRCUIT_HEADER, hashCode);
+    }
 }
