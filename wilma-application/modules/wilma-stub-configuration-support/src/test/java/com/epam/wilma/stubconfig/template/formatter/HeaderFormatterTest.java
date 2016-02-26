@@ -21,7 +21,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.stubconfig.interceptor.HeaderUpdateInterceptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
@@ -36,14 +35,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
- * Tests for {@link HeaderUpdateInterceptor}.
+ * Tests for {@link com.epam.wilma.stubconfig.interceptor.HeaderUpdateInterceptor}.
  *
  * @author Tamas_Kohegyi
  */
 public class HeaderFormatterTest {
 
     @Mock
-    HttpServletResponse response;
+    private HttpServletResponse response;
     @Mock
     private WilmaHttpRequest request;
     @Mock
