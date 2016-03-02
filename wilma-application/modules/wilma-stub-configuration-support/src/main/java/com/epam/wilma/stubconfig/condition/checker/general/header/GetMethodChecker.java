@@ -22,19 +22,18 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.general.header.helper.MethodCheckOperator;
+import com.epam.wilma.stubconfig.condition.checker.general.header.helper.MethodEnum;
 
 /**
- * Checks all headers in a request and all of the parameters must be contained by the headers.
+ * Checks if the request method is GET or not.
  *
- * @author Tamas_Bihari
+ * @author Tamas_Kohegyi
  */
 public class GetMethodChecker extends MethodCheckOperator implements ConditionChecker {
 
     @Override
     public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameterList) {
-        boolean result = false;
-        request.getRequestLine();
-        return result;
+        return isExpectedMethod(MethodEnum.GET, request.getRequestLine());
     }
 
 }

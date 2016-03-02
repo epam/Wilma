@@ -19,20 +19,26 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 /**
- * This base class evaluates the request method against the expected method.
+ * Enum of Methods supported/evaluated.
  *
  * @author Tamas_Kohegyi
  */
-public class MethodCheckOperator {
+public enum MethodEnum {
+    GET("GET "),
+    POST("POST "),
+    PUT("PUT "),
+    DELETE("DELETE "),
+    OPTIONS("OPTIONS "),
+    HEAD("HEAD ");
 
-    /**
-     * Checker method for request methods.
-     *
-     * @param expectedMethod  what is expected
-     * @param requestedMethod what actually received in the request
-     * @return with true, if expected method equals to the received request method
-     */
-    protected boolean isExpectedMethod(final MethodEnum expectedMethod, final String requestedMethod) {
-        return requestedMethod.startsWith(expectedMethod.toString());
+    private final String methodString;
+
+    MethodEnum(final String methodString) {
+        this.methodString = methodString;
+    }
+
+    @Override
+    public String toString() {
+        return methodString;
     }
 }

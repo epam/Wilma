@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.condition.checker.general.header.helper;
+package com.epam.wilma.stubconfig.condition.checker.general.header;
 /*==========================================================================
 Copyright 2013-2016 EPAM Systems
 
@@ -18,21 +18,22 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
+import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import com.epam.wilma.stubconfig.condition.checker.general.header.helper.MethodCheckOperator;
+import com.epam.wilma.stubconfig.condition.checker.general.header.helper.MethodEnum;
+
 /**
- * This base class evaluates the request method against the expected method.
+ * Checks if the request method is HEAD or not.
  *
  * @author Tamas_Kohegyi
  */
-public class MethodCheckOperator {
+public class HeadMethodChecker extends MethodCheckOperator implements ConditionChecker {
 
-    /**
-     * Checker method for request methods.
-     *
-     * @param expectedMethod  what is expected
-     * @param requestedMethod what actually received in the request
-     * @return with true, if expected method equals to the received request method
-     */
-    protected boolean isExpectedMethod(final MethodEnum expectedMethod, final String requestedMethod) {
-        return requestedMethod.startsWith(expectedMethod.toString());
+    @Override
+    public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameterList) {
+        return isExpectedMethod(MethodEnum.HEAD, request.getRequestLine());
     }
+
 }
