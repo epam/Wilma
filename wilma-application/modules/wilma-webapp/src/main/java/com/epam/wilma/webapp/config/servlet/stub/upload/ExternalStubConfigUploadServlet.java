@@ -18,31 +18,30 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
 import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.stubconfig.StubDescriptorFactory;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
+import com.epam.wilma.webapp.service.external.ServiceMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Servlet for uploading an external stub configuration file.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class ExternalStubConfigUploadServlet extends HttpServlet {
@@ -57,6 +56,8 @@ public class ExternalStubConfigUploadServlet extends HttpServlet {
     private RoutingService routingService;
     @Autowired
     private SequenceDescriptorHolder sequenceDescriptorHolder;
+    @Autowired
+    private ServiceMap serviceMap;
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
@@ -65,8 +66,9 @@ public class ExternalStubConfigUploadServlet extends HttpServlet {
             ServletInputStream inputStream = request.getInputStream();
             try {
                 routingService.performModification(new NewStubDescriptorCommand(inputStream, stubConfigurationBuilder, sequenceDescriptorHolder));
+                serviceMap.detectServices();
                 LOGGER.info(urlAccessLogMessageAssembler.assembleMessage(request, "New stub configuration was uploaded to Wilma."));
-            } catch (ClassNotFoundException|NoClassDefFoundError|SystemException e) {
+            } catch (ClassNotFoundException | NoClassDefFoundError | SystemException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 writer.write("Stub config uploading failed: " + e.getMessage());
                 LOGGER.warn(urlAccessLogMessageAssembler.assembleMessage(request, "Stub config uploading failed: " + e.getMessage()), e);

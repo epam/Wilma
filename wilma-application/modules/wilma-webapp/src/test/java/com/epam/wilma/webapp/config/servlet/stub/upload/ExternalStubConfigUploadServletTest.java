@@ -30,6 +30,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -67,6 +68,8 @@ public class ExternalStubConfigUploadServletTest {
     private StubDescriptorFactory stubConfigurationBuilder;
     @Mock
     private RoutingService routingService;
+    @Mock
+    private ServiceMap serviceMap;
 
     @Mock
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;

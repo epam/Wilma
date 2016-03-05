@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -49,6 +50,8 @@ public class ServiceServletTest {
     private HttpServletResponse resp;
     @Mock
     private PrintWriter printWriter;
+    @Mock
+    private ServiceMap serviceMap;
 
     @BeforeMethod
     public void setUp() throws Exception {

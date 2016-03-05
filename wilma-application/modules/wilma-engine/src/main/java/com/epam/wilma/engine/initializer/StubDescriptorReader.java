@@ -22,6 +22,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,6 +49,8 @@ public class StubDescriptorReader {
     private SequenceDescriptorHolder sequenceDescriptorHolder;
     @Autowired
     private NewStubDescriptorCommandFactory newStubDescriptorCommandFactory;
+    @Autowired
+    private ServiceMap serviceMap;
 
     /**
      * Load the all stub configuration files from the given path list and applies them after loading.
@@ -57,6 +60,7 @@ public class StubDescriptorReader {
         for (String xmlFilePath : filePaths) {
             createStubDescriptor(xmlFilePath);
         }
+        serviceMap.detectServices();
     }
 
     private void createStubDescriptor(final String xmlFilePath) {
