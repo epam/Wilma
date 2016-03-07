@@ -29,5 +29,5 @@ wilma-test/wilma-test-client/gradlew*
 wilma-service-api/gradle
 wilma-service-api/gradlew*
 wilma-service-api-net/wilma-service-api/nuget.exe
-
+wilma-application/modules/wilma-engine/config
 
