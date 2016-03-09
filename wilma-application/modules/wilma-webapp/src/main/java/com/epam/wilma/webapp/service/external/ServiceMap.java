@@ -47,7 +47,11 @@ public class ServiceMap {
     private Map<String, ExternalWilmaService> serviceMap = new ConcurrentHashMap<>();
 
     /**
-     * Method to call the preoper registered external service, based on the request URI.
+     * Method to call the proper registered external service, based on the request URI.
+     * Expected URL: /public/service/requestedService (/ without query!)
+     * In requestedService, it is recommended to add the getClass().getSimpleName() as first entity identifier, like:
+     * ShortCircuitInterceptor/circuits. In this case this URL will call the service:
+     * http://localhost:1234/config/public/service/ShortCircuitInterceptor/circuits
      *
      * @param req              is the original request
      * @param requestedService is the request for the service

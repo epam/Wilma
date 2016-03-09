@@ -23,16 +23,21 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import com.epam.wilma.webapp.service.external.ExternalWilmaService;
+import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by tkohegyi on 2016. 02. 20.
  */
-public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInterceptor {
+public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInterceptor, ExternalWilmaService {
 
     private static Map<String, ShortCircuitResponseInformation> shortCircuitMap = ShortCircuitChecker.getShortCircuitMap();
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitChecker.class);
@@ -73,5 +78,31 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
         String hashCode = "" + wilmaHttpRequest.getHeaders().hashCode() + wilmaHttpRequest.getBody().hashCode();
         wilmaHttpRequest.addHeaderUpdate(ShortCircuitChecker.SHORT_CIRCUIT_HEADER, hashCode);
+    }
+
+    @Override
+    public String handleRequest(HttpServletRequest httpServletRequest, String request, HttpServletResponse httpServletResponse) {
+        String response;
+        if (request.equalsIgnoreCase(this.getClass().getSimpleName() + "/circuits")) {
+            response = handleCircuitRequest(httpServletRequest, httpServletResponse);
+        } else {
+            response = "{\"unimplementedServiceCall\":\"" + request + "\"}";
+        }
+        return response;
+    }
+
+    private String handleCircuitRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        String response = "{\"serviceCallUnderConstruction\":\"circuits\"}";
+        return response;
+    }
+
+    @Override
+    public Set<String> getHandlers() {
+        Set<String> handlers = Sets.newHashSet(
+                this.getClass().getSimpleName() + "/circuits",       // default, gets the list
+                this.getClass().getSimpleName() + "/save-circuits",  // ?path
+                this.getClass().getSimpleName() + "/load-circuits",  // ?path
+                this.getClass().getSimpleName() + "/invalidate-circuits");
+        return handlers;
     }
 }
