@@ -63,28 +63,48 @@ public class ServiceServletTest {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
         given(req.getRequestURI()).willReturn("/public/service");
+        given(req.getMethod()).willReturn("get");
         //WHEN
         underTest.doGet(req, resp);
         //THEN
         verify(resp).setContentType("application/json");
         verify(resp).setStatus(HttpServletResponse.SC_NOT_FOUND);
-        String response = "{\"unknownServiceCall\":\"\"}";
+        String response = "{ \"unknownServiceCall\": \"get:<null>\" }";
         verify(printWriter).write(response);
         verify(printWriter).flush();
         verify(printWriter).close();
     }
 
     @Test
-    public void testDoGetShouldReturnWithDefaultIfAlmostEmptyService() throws ServletException, IOException {
+    public void testDoPostShouldReturnWithDefaultForEmptyService() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
-        given(req.getRequestURI()).willReturn("/public/service/");
+        given(req.getRequestURI()).willReturn("/public/services/");
+        given(req.getMethod()).willReturn("post");
         //WHEN
         underTest.doGet(req, resp);
         //THEN
         verify(resp).setContentType("application/json");
         verify(resp).setStatus(HttpServletResponse.SC_NOT_FOUND);
-        String response = "{\"unknownServiceCall\":\"\"}";
+        String response = "{ \"unknownServiceCall\": \"post:\" }";
+        verify(printWriter).write(response);
+        verify(printWriter).flush();
+        verify(printWriter).close();
+    }
+
+    @Test
+    public void testDoGetShouldReturnWithServiceListForEmptyService() throws ServletException, IOException {
+        //GIVEN
+        given(resp.getWriter()).willReturn(printWriter);
+        given(req.getRequestURI()).willReturn("/public/services/");
+        given(req.getMethod()).willReturn("get");
+        given(serviceMap.getMapAsResponse()).willReturn("blah");
+        //WHEN
+        underTest.doGet(req, resp);
+        //THEN
+        verify(resp).setContentType("application/json");
+        verify(resp).setStatus(HttpServletResponse.SC_NOT_FOUND);
+        String response = "blah";
         verify(printWriter).write(response);
         verify(printWriter).flush();
         verify(printWriter).close();
@@ -94,13 +114,14 @@ public class ServiceServletTest {
     public void testDoGetShouldReturnWithDefaultIfUnknownService() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
-        given(req.getRequestURI()).willReturn("/public/service/unknown");
+        given(req.getRequestURI()).willReturn("/public/services/unknown");
+        given(req.getMethod()).willReturn("get");
         //WHEN
         underTest.doGet(req, resp);
         //THEN
         verify(resp).setContentType("application/json");
         verify(resp).setStatus(HttpServletResponse.SC_NOT_FOUND);
-        String response = "{\"unknownServiceCall\":\"unknown\"}";
+        String response = "{ \"unknownServiceCall\": \"get:unknown\" }";
         verify(printWriter).write(response);
         verify(printWriter).flush();
         verify(printWriter).close();
@@ -110,7 +131,7 @@ public class ServiceServletTest {
     public void testDoGetShouldReturnWithWilmaUniqueId() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
-        given(req.getRequestURI()).willReturn("/public/service/uniqueId");
+        given(req.getRequestURI()).willReturn("/public/services/UniqueIdGenerator/uniqueId");
         given(req.getMethod()).willReturn("get");
         //WHEN
         underTest.doGet(req, resp);

@@ -39,7 +39,7 @@ import java.io.PrintWriter;
  */
 @Component
 public class ServiceServlet extends HttpServlet {
-    private static final String LEADING_TEXT = "/public/service/";
+    private static final String LEADING_TEXT = "/public/services/";
     private final Logger logger = LoggerFactory.getLogger(ServiceServlet.class);
 
     @Autowired
@@ -48,27 +48,39 @@ public class ServiceServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         //first identify the requested service
-        int requestedServicePosition = req.getRequestURI().indexOf(LEADING_TEXT) + LEADING_TEXT.length();
-        String requestedService = req.getRequestURI().substring(requestedServicePosition);
-        logger.info("Service call to: " + requestedService + ", method: " + req.getMethod());
+        String requestUri = req.getRequestURI();
+        logger.info("Service call to: " + requestUri + ", method: " + req.getMethod());
+        int positionOfLeadingText = requestUri.indexOf(LEADING_TEXT);
+        int requestedServicePosition = positionOfLeadingText + LEADING_TEXT.length();
+        String requestedService = positionOfLeadingText >= 0 ? requestUri.substring(requestedServicePosition) : "<null>";
 
         //set the default answer
         resp.setContentType("application/json");
-        String response = "{\"unknownServiceCall\":\"" + requestedService + "\"}";
+        String response = "{ \"unknownServiceCall\": \"" + req.getMethod() + ":" + requestedService + "\" }";
         resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        boolean hasResponse = false;
 
         //call the built-in service, as necessary - later should be part of the registered services !!!
-        if ("uniqueId".equalsIgnoreCase(requestedService) && "get".equalsIgnoreCase(req.getMethod())) {
+        if ("UniqueIdGenerator/uniqueId".equalsIgnoreCase(requestedService) && "get".equalsIgnoreCase(req.getMethod())) {
             // get a new unique id
             response = getUniqueId();
             resp.setStatus(HttpServletResponse.SC_OK);
+            hasResponse = true;
+        }
+        //call the built-in listing service
+        if (!hasResponse && "".equalsIgnoreCase(requestedService) && "get".equalsIgnoreCase(req.getMethod())) {
+            // get service map
+            response = serviceMap.getMapAsResponse();
+            resp.setStatus(HttpServletResponse.SC_OK);
+            hasResponse = true;
         }
 
         //call further registered services
-        // to be implemented, something response = calls to methods of the service
-        String externalResponse = serviceMap.callExternalService(req, requestedService, resp);
-        if (externalResponse != null) {
-            response = externalResponse;
+        if (!hasResponse) {
+            String externalResponse = serviceMap.callExternalService(req, requestedService, resp);
+            if (externalResponse != null) {
+                response = externalResponse;
+            }
         }
 
         //write the answer back
@@ -85,6 +97,6 @@ public class ServiceServlet extends HttpServlet {
 
     private String getUniqueId() {
         long nextUniqueId = UniqueIdGenerator.getNextUniqueId();
-        return "{\"uniqueId\":\"" + nextUniqueId + "\"}";
+        return "{ \"uniqueId\": \"" + nextUniqueId + "\" }";
     }
 }

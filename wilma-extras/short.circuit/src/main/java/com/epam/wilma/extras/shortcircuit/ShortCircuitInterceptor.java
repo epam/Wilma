@@ -35,7 +35,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by tkohegyi on 2016. 02. 20.
+ * Interceptor that implements all three possibilities.
+ * Request interceptor marks the message with a hash code, for ShortCircuitChecker, that registers the request, if it is not yet registered.
+ * Response interceptor captures the response, if it is not yet captured.
+ * ExternalWilmaService offers the possibility of getting the actual status of the internal req-resp map,
+ * and offers the possibility of saving the req-resp map into and loading from a folder.
+ *
+ * @author tkohegyi
  */
 public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInterceptor, ExternalWilmaService {
 
@@ -83,26 +89,35 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
     @Override
     public String handleRequest(HttpServletRequest httpServletRequest, String request, HttpServletResponse httpServletResponse) {
         String response;
-        if (request.equalsIgnoreCase(this.getClass().getSimpleName() + "/circuits")) {
-            response = handleCircuitRequest(httpServletRequest, httpServletResponse);
+        if (request.equalsIgnoreCase(this.getClass().getSimpleName() + "/circuits") && "get".equalsIgnoreCase(httpServletRequest.getMethod())) {
+            response = handleCircuitRequest();
         } else {
-            response = "{\"unimplementedServiceCall\":\"" + request + "\"}";
+            response = "{ \"unknownServiceCall\": \"" + httpServletRequest.getMethod() + ":" + request + "\" }";
         }
         return response;
     }
 
-    private String handleCircuitRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        String response = "{\"serviceCallUnderConstruction\":\"circuits\"}";
-        return response;
+    private String handleCircuitRequest() {
+        StringBuilder response = new StringBuilder("{\n  \"shortCircuitMap\": [\n");
+        if (!shortCircuitMap.isEmpty()) {
+            String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
+            for (int i = 0; i < keySet.length; i++) {
+                String entryKey = keySet[i];
+                response.append("    \"").append(entryKey).append("\"");
+                if (i < keySet.length - 1) {
+                    response.append(",");
+                }
+                response.append("\n");
+            }
+        }
+        response.append("  ]\n}\n");
+        return response.toString();
     }
 
     @Override
     public Set<String> getHandlers() {
         Set<String> handlers = Sets.newHashSet(
-                this.getClass().getSimpleName() + "/circuits",       // default, gets the list
-                this.getClass().getSimpleName() + "/save-circuits",  // ?path
-                this.getClass().getSimpleName() + "/load-circuits",  // ?path
-                this.getClass().getSimpleName() + "/invalidate-circuits");
+                this.getClass().getSimpleName() + "/circuits");
         return handlers;
     }
 }

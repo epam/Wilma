@@ -63,21 +63,22 @@ public class ServiceMap {
         synchronized (o) {
             service = serviceMap.get(requestedService);
         }
+        String response = null;
         if (service != null) {
             //we found the service class that should be called, so call it
             try {
-                service.handleRequest(req, requestedService, resp);
+                response = service.handleRequest(req, requestedService, resp);
             } catch (Exception e) {
                 logError(service, requestedService, e);
             }
         }
-        return null;
+        return response;
     }
 
     private void logError(final ExternalWilmaService service, final String requestedService, final Exception e) {
-        LOGGER.error("Error during call to external service: " + service.getClass().getSimpleName()
-                + " with requested service: " + requestedService
-                + "! Reason:" + e.getMessage(), e);
+        LOGGER.error("Error during call to external service: " + service.getClass().getCanonicalName()
+                + " with requested service: \"" + requestedService
+                + "\"! Reason:" + e.getMessage(), e);
     }
 
     /**
@@ -112,5 +113,30 @@ public class ServiceMap {
             serviceMap.clear();
             serviceMap = newServiceMap;
         }
+    }
+
+    /**
+     * Method that generates the list of the registered services in JSON format.
+     *
+     * @return with the response body
+     */
+    public String getMapAsResponse() {
+        StringBuilder response = new StringBuilder("{\n  \"serviceMap\": [\n");
+        if (!serviceMap.isEmpty()) {
+            synchronized (o) {
+                String[] keySet = serviceMap.keySet().toArray(new String[serviceMap.size()]);
+                for (int i = 0; i < keySet.length; i++) {
+                    String entryKey = keySet[i];
+                    response.append("    \"").append(entryKey).append("\": \"")
+                            .append(serviceMap.get(entryKey).getClass().getCanonicalName()).append("\"");
+                    if (i < keySet.length - 1) {
+                        response.append(",");
+                    }
+                    response.append("\n");
+                }
+            }
+        }
+        response.append("  ]\n}\n");
+        return response.toString();
     }
 }
