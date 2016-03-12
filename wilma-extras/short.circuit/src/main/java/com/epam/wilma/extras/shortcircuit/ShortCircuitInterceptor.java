@@ -49,6 +49,13 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitChecker.class);
     private final String timeoutParameterName = "timeout";
 
+    /**
+     * This is the Response Interceptor implementation. In case the response is marked with hashcode,
+     * that means the response should be preserved.
+     *
+     * @param wilmaHttpResponse is the response
+     * @param parameterList may contain the response validity timeout - if not response will be valid forever
+     */
     @Override
     public void onResponseReceive(WilmaHttpResponse wilmaHttpResponse, ParameterList parameterList) {
         String shortCircuitHashCode = wilmaHttpResponse.getRequestHeader(ShortCircuitChecker.SHORT_CIRCUIT_HEADER);
@@ -82,8 +89,8 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
 
     @Override
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
-        String hashCode = "" + wilmaHttpRequest.getHeaders().hashCode() + wilmaHttpRequest.getBody().hashCode();
-        wilmaHttpRequest.addHeaderUpdate(ShortCircuitChecker.SHORT_CIRCUIT_HEADER, hashCode);
+        StringBuilder hashCode = new StringBuilder().append(wilmaHttpRequest.getRequestLine()).append("_").append(wilmaHttpRequest.getBody().hashCode());
+        wilmaHttpRequest.addHeaderUpdate(ShortCircuitChecker.SHORT_CIRCUIT_HEADER, hashCode.toString());
     }
 
     @Override
@@ -103,7 +110,7 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
             String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
             for (int i = 0; i < keySet.length; i++) {
                 String entryKey = keySet[i];
-                response.append("    \"").append(entryKey).append("\"");
+                response.append("    \"").append(i).append("\": \"").append(entryKey).append("\"");
                 if (i < keySet.length - 1) {
                     response.append(",");
                 }
