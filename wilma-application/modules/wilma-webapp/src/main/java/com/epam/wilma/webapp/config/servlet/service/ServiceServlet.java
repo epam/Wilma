@@ -67,17 +67,19 @@ public class ServiceServlet extends HttpServlet {
         }
 
         //call further registered services
-        if (response != null) {
+        if (response == null) {
             response = serviceMap.callExternalService(req, requestedService, resp);
         }
 
         //if we still don't have the response, then either provide the service map, or send back that it is unknown request
-        if (response == null && requestedService.length() > 0) {
-            response = "{ \"unknownServiceCall\": \"" + req.getMethod() + ":" + requestedService + "\" }";
-        } else {
-            //call the built-in listing service (service-map)
-            response = serviceMap.getMapAsResponse();
-            resp.setStatus(HttpServletResponse.SC_OK);
+        if (response == null) {
+            if (requestedService.length() > 0) {
+                response = "{ \"unknownServiceCall\": \"" + req.getMethod() + ":" + requestedService + "\" }";
+            } else {
+                //call the built-in listing service (service-map)
+                response = serviceMap.getMapAsResponse();
+                resp.setStatus(HttpServletResponse.SC_OK);
+            }
         }
 
         //write the answer back

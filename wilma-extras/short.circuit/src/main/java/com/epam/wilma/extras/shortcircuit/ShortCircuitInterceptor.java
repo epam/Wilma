@@ -53,7 +53,7 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
      * that means the response should be preserved.
      *
      * @param wilmaHttpResponse is the response
-     * @param parameterList may contain the response validity timeout - if not response will be valid forever
+     * @param parameterList     may contain the response validity timeout - if not response will be valid forever
      */
     @Override
     public void onResponseReceive(WilmaHttpResponse wilmaHttpResponse, ParameterList parameterList) {
@@ -94,40 +94,56 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
 
     @Override
     public String handleRequest(HttpServletRequest httpServletRequest, String request, HttpServletResponse httpServletResponse) {
-        String response = null;
-        boolean myCall = request.equalsIgnoreCase(this.getClass().getSimpleName() + "/circuits");
         String myMethod = httpServletRequest.getMethod();
+        String myQueryString = httpServletRequest.getQueryString();
+        boolean myCall = request.equalsIgnoreCase(this.getClass().getSimpleName() + "/circuits");
+
         //set default response
-        response = "{ \"unknownServiceCall\": \"" + myMethod + ":" + request + "\" }";
+        String response = "{ \"unknownServiceCall\": \"" + myMethod + ":" + request + "\" }";
         httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        if (myCall) {
-            if ("get".equalsIgnoreCase(myMethod) && httpServletRequest.getQueryString() == null) {
-                //list the map (circuits + get)
-                response = handleCircuitRequest(httpServletResponse);
-            }
-            String myQueryString = httpServletRequest.getQueryString();
-            if (myQueryString != null && myQueryString.length() > 0) {
-                if ("post".equalsIgnoreCase(myMethod)) {
-                    //save map (to files) (circuits?folder + post)
-                    //TODO
-                    response = handleCircuitRequest(httpServletResponse);
-                }
-                if ("get".equalsIgnoreCase(myMethod)) {
-                    //load map (from files) (circuits?folder + get)
-                    //TODO
-                    response = handleCircuitRequest(httpServletResponse);
-                }
-                if ("delete".equalsIgnoreCase(myMethod)) {
-                    //invalidate map (remove all from map) (circuits + delete)
-                    //TODO
-                    response = handleCircuitRequest(httpServletResponse);
-                }
-                if ("delete".equalsIgnoreCase(myMethod)) {
-                    //invalidate a single entry (remove a specific entry) (circuits/n)
-                    //TODO
-                    response = handleCircuitRequest(httpServletResponse);
-                }
-            }
+
+        //handle basic call
+        if (myCall && httpServletRequest.getQueryString() == null) {
+            response = handleBasicCall(myMethod, httpServletResponse);
+        }
+
+        //handle complex calls
+        if (myCall && httpServletRequest.getQueryString() != null) {
+            response = handleComplexCall(myMethod, myQueryString, httpServletResponse);
+        }
+        return response;
+    }
+
+    private String handleBasicCall(String myMethod, HttpServletResponse httpServletResponse) {
+        String response = null;
+        if ("get".equalsIgnoreCase(myMethod)) {
+            //list the map (circuits + get)
+            response = handleCircuitRequest(httpServletResponse);
+        }
+        if ("delete".equalsIgnoreCase(myMethod)) {
+            //invalidate map (remove all from map) (circuits + delete)
+            shortCircuitMap.clear();
+            response = handleCircuitRequest(httpServletResponse);
+        }
+        return response;
+    }
+
+    private String handleComplexCall(String myMethod, String myQueryString, HttpServletResponse httpServletResponse) {
+        String response = null;
+        if ("post".equalsIgnoreCase(myMethod)) {
+            //save map (to files) (circuits?folder + post)
+            //TODO
+            response = handleCircuitRequest(httpServletResponse);
+        }
+        if ("get".equalsIgnoreCase(myMethod)) {
+            //load map (from files) (circuits?folder + get)
+            //TODO
+            response = handleCircuitRequest(httpServletResponse);
+        }
+        if ("delete".equalsIgnoreCase(myMethod)) {
+            //invalidate a single entry (remove a specific entry) (circuits/n)
+            //TODO
+            response = handleCircuitRequest(httpServletResponse);
         }
         return response;
     }
@@ -153,8 +169,7 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
     @Override
     public Set<String> getHandlers() {
         return Sets.newHashSet(
-                this.getClass().getSimpleName() + "/circuits",
-                this.getClass().getSimpleName() + "/circuits/"
+                this.getClass().getSimpleName() + "/circuits"
         );
     }
 }
