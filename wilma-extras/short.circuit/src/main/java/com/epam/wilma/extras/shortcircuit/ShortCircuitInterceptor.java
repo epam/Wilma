@@ -47,7 +47,6 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
 
     private static Map<String, ShortCircuitResponseInformation> shortCircuitMap = ShortCircuitChecker.getShortCircuitMap();
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitChecker.class);
-    private final String timeoutParameterName = "timeout";
 
     /**
      * This is the Response Interceptor implementation. In case the response is marked with hashcode,
@@ -66,6 +65,7 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
                 ShortCircuitResponseInformation shortCircuitResponseInformation = shortCircuitMap.get(shortCircuitHashCode);
                 if (shortCircuitResponseInformation == null) {
                     //we need to store the response now
+                    String timeoutParameterName = "timeout";
                     if (parameterList != null && parameterList.get(timeoutParameterName) != null) {
                         timeout = Long.valueOf(parameterList.get(timeoutParameterName))
                                 + Calendar.getInstance().getTimeInMillis();
@@ -89,22 +89,50 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
 
     @Override
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
-        StringBuilder hashCode = new StringBuilder().append(wilmaHttpRequest.getRequestLine()).append("_").append(wilmaHttpRequest.getBody().hashCode());
-        wilmaHttpRequest.addHeaderUpdate(ShortCircuitChecker.SHORT_CIRCUIT_HEADER, hashCode.toString());
+        wilmaHttpRequest.addHeaderUpdate(ShortCircuitChecker.SHORT_CIRCUIT_HEADER, wilmaHttpRequest.getRequestLine() + "_" + wilmaHttpRequest.getBody().hashCode());
     }
 
     @Override
     public String handleRequest(HttpServletRequest httpServletRequest, String request, HttpServletResponse httpServletResponse) {
-        String response;
-        if (request.equalsIgnoreCase(this.getClass().getSimpleName() + "/circuits") && "get".equalsIgnoreCase(httpServletRequest.getMethod())) {
-            response = handleCircuitRequest();
-        } else {
-            response = "{ \"unknownServiceCall\": \"" + httpServletRequest.getMethod() + ":" + request + "\" }";
+        String response = null;
+        boolean myCall = request.equalsIgnoreCase(this.getClass().getSimpleName() + "/circuits");
+        String myMethod = httpServletRequest.getMethod();
+        //set default response
+        response = "{ \"unknownServiceCall\": \"" + myMethod + ":" + request + "\" }";
+        httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        if (myCall) {
+            if ("get".equalsIgnoreCase(myMethod) && httpServletRequest.getQueryString() == null) {
+                //list the map (circuits + get)
+                response = handleCircuitRequest(httpServletResponse);
+            }
+            String myQueryString = httpServletRequest.getQueryString();
+            if (myQueryString != null && myQueryString.length() > 0) {
+                if ("post".equalsIgnoreCase(myMethod)) {
+                    //save map (to files) (circuits?folder + post)
+                    //TODO
+                    response = handleCircuitRequest(httpServletResponse);
+                }
+                if ("get".equalsIgnoreCase(myMethod)) {
+                    //load map (from files) (circuits?folder + get)
+                    //TODO
+                    response = handleCircuitRequest(httpServletResponse);
+                }
+                if ("delete".equalsIgnoreCase(myMethod)) {
+                    //invalidate map (remove all from map) (circuits + delete)
+                    //TODO
+                    response = handleCircuitRequest(httpServletResponse);
+                }
+                if ("delete".equalsIgnoreCase(myMethod)) {
+                    //invalidate a single entry (remove a specific entry) (circuits/n)
+                    //TODO
+                    response = handleCircuitRequest(httpServletResponse);
+                }
+            }
         }
         return response;
     }
 
-    private String handleCircuitRequest() {
+    private String handleCircuitRequest(HttpServletResponse httpServletResponse) {
         StringBuilder response = new StringBuilder("{\n  \"shortCircuitMap\": [\n");
         if (!shortCircuitMap.isEmpty()) {
             String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
@@ -118,13 +146,15 @@ public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInte
             }
         }
         response.append("  ]\n}\n");
+        httpServletResponse.setStatus(HttpServletResponse.SC_OK);
         return response.toString();
     }
 
     @Override
     public Set<String> getHandlers() {
-        Set<String> handlers = Sets.newHashSet(
-                this.getClass().getSimpleName() + "/circuits");
-        return handlers;
+        return Sets.newHashSet(
+                this.getClass().getSimpleName() + "/circuits",
+                this.getClass().getSimpleName() + "/circuits/"
+        );
     }
 }

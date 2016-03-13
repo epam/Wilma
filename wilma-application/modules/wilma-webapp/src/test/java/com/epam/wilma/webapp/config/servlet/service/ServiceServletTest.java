@@ -59,41 +59,43 @@ public class ServiceServletTest {
     }
 
     @Test
-    public void testDoGetShouldReturnWithDefaultIfEmptyService() throws ServletException, IOException {
+    public void testDoGetShouldReturnWithDefaultIfEmptyServiceGet() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
         given(req.getRequestURI()).willReturn("/public/service");
         given(req.getMethod()).willReturn("get");
+        given(serviceMap.getMapAsResponse()).willReturn("blah");
         //WHEN
         underTest.doGet(req, resp);
         //THEN
         verify(resp).setContentType("application/json");
         verify(resp).setStatus(HttpServletResponse.SC_NOT_FOUND);
-        String response = "{ \"unknownServiceCall\": \"get:<null>\" }";
+        String response = "blah";
         verify(printWriter).write(response);
         verify(printWriter).flush();
         verify(printWriter).close();
     }
 
     @Test
-    public void testDoPostShouldReturnWithDefaultForEmptyService() throws ServletException, IOException {
+    public void testDoGetShouldReturnWithServiceListForEmptyServicePost() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
         given(req.getRequestURI()).willReturn("/public/services/");
         given(req.getMethod()).willReturn("post");
+        given(serviceMap.getMapAsResponse()).willReturn("blah");
         //WHEN
         underTest.doGet(req, resp);
         //THEN
         verify(resp).setContentType("application/json");
         verify(resp).setStatus(HttpServletResponse.SC_NOT_FOUND);
-        String response = "{ \"unknownServiceCall\": \"post:\" }";
+        String response = "blah";
         verify(printWriter).write(response);
         verify(printWriter).flush();
         verify(printWriter).close();
     }
 
     @Test
-    public void testDoGetShouldReturnWithServiceListForEmptyService() throws ServletException, IOException {
+    public void testDoGetShouldReturnWithServiceListForEmptyServiceGet() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
         given(req.getRequestURI()).willReturn("/public/services/");

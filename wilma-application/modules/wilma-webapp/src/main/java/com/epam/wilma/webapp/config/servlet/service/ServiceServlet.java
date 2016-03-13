@@ -52,35 +52,32 @@ public class ServiceServlet extends HttpServlet {
         logger.info("Service call to: " + requestUri + ", method: " + req.getMethod());
         int positionOfLeadingText = requestUri.indexOf(LEADING_TEXT);
         int requestedServicePosition = positionOfLeadingText + LEADING_TEXT.length();
-        String requestedService = positionOfLeadingText >= 0 ? requestUri.substring(requestedServicePosition) : "<null>";
+        String requestedService = positionOfLeadingText >= 0 ? requestUri.substring(requestedServicePosition) : "";
 
         //set the default answer
         resp.setContentType("application/json");
-        String response = "{ \"unknownServiceCall\": \"" + req.getMethod() + ":" + requestedService + "\" }";
         resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        boolean hasResponse = false;
+        String response = null;
 
         //call the built-in service, as necessary - later should be part of the registered services !!!
         if ("UniqueIdGenerator/uniqueId".equalsIgnoreCase(requestedService) && "get".equalsIgnoreCase(req.getMethod())) {
             // get a new unique id
             response = getUniqueId();
             resp.setStatus(HttpServletResponse.SC_OK);
-            hasResponse = true;
-        }
-        //call the built-in listing service
-        if (!hasResponse && "".equalsIgnoreCase(requestedService) && "get".equalsIgnoreCase(req.getMethod())) {
-            // get service map
-            response = serviceMap.getMapAsResponse();
-            resp.setStatus(HttpServletResponse.SC_OK);
-            hasResponse = true;
         }
 
         //call further registered services
-        if (!hasResponse) {
-            String externalResponse = serviceMap.callExternalService(req, requestedService, resp);
-            if (externalResponse != null) {
-                response = externalResponse;
-            }
+        if (response != null) {
+            response = serviceMap.callExternalService(req, requestedService, resp);
+        }
+
+        //if we still don't have the response, then either provide the service map, or send back that it is unknown request
+        if (response == null && requestedService.length() > 0) {
+            response = "{ \"unknownServiceCall\": \"" + req.getMethod() + ":" + requestedService + "\" }";
+        } else {
+            //call the built-in listing service (service-map)
+            response = serviceMap.getMapAsResponse();
+            resp.setStatus(HttpServletResponse.SC_OK);
         }
 
         //write the answer back
