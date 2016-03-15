@@ -94,6 +94,16 @@ public class ServiceServlet extends HttpServlet {
         doGet(req, resp);
     }
 
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
+
     private String getUniqueId() {
         long nextUniqueId = UniqueIdGenerator.getNextUniqueId();
         return "{ \"uniqueId\": \"" + nextUniqueId + "\" }";
