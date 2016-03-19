@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
+    <dialog-descriptor name="dialog-descriptor" usage="disabled" comment="Thi is just a dummy dialog descriptor, disabled by default.">
+        <condition-descriptor>
+            <condition class="OrUrlPatternChecker" >
+                <param name="dummy" value="http://" />
+            </condition>
+        </condition-descriptor>
+        <response-descriptor code="200" delay="0" mimetype="text/plain" template="dummyTemplate">
+        </response-descriptor>
+    </dialog-descriptor>
+    <template-descriptor name="templateDescriptor1">
+        <template name="dummyTemplate" type="text" resource="Look-And-Say service"/>
+    </template-descriptor>
+    <interceptors>
+        <interceptor name="Look-And-Say Service" class="com.epam.wilma.extras.lookandsayservice.LookAndSayServiceInterceptor">
+        </interceptor>
+    </interceptors>
+</wilma-stub>
