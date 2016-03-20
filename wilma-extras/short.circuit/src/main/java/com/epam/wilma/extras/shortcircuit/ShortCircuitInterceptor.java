@@ -84,10 +84,15 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
             response = handleBasicCall(myMethod, httpServletResponse);
         }
 
-        //handle complex calls (with query string)
+        //handle complex calls (with query string as folder)
         if (myCall && httpServletRequest.getQueryString() != null && httpServletRequest.getQueryString().length() > 0) {
-            response = handleComplexCall(myMethod, myQueryString, httpServletResponse);
+            String folder = httpServletRequest.getParameter("folder");
+            if (folder != null && folder.length() > 0) {
+                response = handleComplexCall(myMethod, folder, httpServletResponse);
+            }
         }
+        //we still need to detect the delete by id cll
+        //TODO by handleComplexDeleteCall
         return response;
     }
 
