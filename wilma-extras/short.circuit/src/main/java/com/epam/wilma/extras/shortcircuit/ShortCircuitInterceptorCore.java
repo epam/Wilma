@@ -34,7 +34,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class provides the Short Circuit Service calls.
@@ -55,7 +58,8 @@ public class ShortCircuitInterceptorCore {
 
     /**
      * Method that handles GET (all) and DELETE (all) methods on the actual Short Circuit Map.
-     * @param myMethod is expected as either GET or DELETE
+     *
+     * @param myMethod            is expected as either GET or DELETE
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
      */
@@ -75,8 +79,9 @@ public class ShortCircuitInterceptorCore {
 
     /**
      * Method that handles request to save and load the Short Circuit Map.
-     * @param myMethod POST (for Save) and GET (for Load) and DELETE for a selected
-     * @param folder is the folder to be used, or the identifier of the entry to be deleted
+     *
+     * @param myMethod            POST (for Save) and GET (for Load) and DELETE for a selected
+     * @param folder              is the folder to be used, or the identifier of the entry to be deleted
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
      */
@@ -88,16 +93,16 @@ public class ShortCircuitInterceptorCore {
         }
         if ("get".equalsIgnoreCase(myMethod)) {
             //load map (from files) (get + circuits?folder=....)
-            //TODO
-            response = getShortCircuitMap(httpServletResponse);
+            response = loadPreservedMessagesToMap(httpServletResponse, folder);
         }
         return response;
     }
 
     /**
      * Method that deletes a single entry from the map.
-     * @param myMethod POST (for Save) and GET (for Load) and DELETE for a selected
-     * @param id is the id of the ap entry to be deleted
+     *
+     * @param myMethod            POST (for Save) and GET (for Load) and DELETE for a selected
+     * @param id                  is the id of the ap entry to be deleted
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
      */
@@ -113,13 +118,14 @@ public class ShortCircuitInterceptorCore {
 
     /**
      * Saves the map to a folder, to preserve it for later use.
+     *
      * @param httpServletResponse is the response object
-     * @param myQueryString is the folder to be used, under Wilma'S log folder.
+     * @param folder              is the folder to be used, under Wilma'S message folder.
      * @return with the response body - that is a json info about the result of the call
      */
-    protected String savePreservedMessagesFromMap(HttpServletResponse httpServletResponse, String myQueryString) {
+    protected String savePreservedMessagesFromMap(HttpServletResponse httpServletResponse, String folder) {
         String response = null;
-        String path = logFilePathProvider.getLogFilePath() + "/" + myQueryString + "/";
+        String path = logFilePathProvider.getLogFilePath() + "/" + folder + "/";
         String filenamePrefix = "sc" + UniqueIdGenerator.getNextUniqueId() + "_";
         if (!shortCircuitMap.isEmpty()) {
             String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
@@ -127,37 +133,12 @@ public class ShortCircuitInterceptorCore {
                 String entryKey = keySet[i];
                 ShortCircuitResponseInformation information = shortCircuitMap.get(entryKey);
                 if (information != null) {
-                    //save this into file, folder is in myQueryString
+                    //save this into file, folder is in folder variable
                     String filename = path + filenamePrefix + UniqueIdGenerator.getNextUniqueId() + ".json";
                     WilmaHttpResponse wilmaHttpResponse = information.getWilmaHttpResponse();
                     File file = fileFactory.createFile(filename);
                     try {
-                        // if file does not exists, then create it
-                        if (!file.exists()) {
-                            if (file.getParentFile() != null) {
-                                file.getParentFile().mkdirs();
-                            }
-                            file.createNewFile();
-                        }
-                        FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(file);
-                        fos.write(("{\n  \"URL\": \"" + entryKey + "\",\n").getBytes());
-                        fos.write(("  \"ResponseCode\": \"" + wilmaHttpResponse.getStatusCode() + "\",\n").getBytes());
-                        fos.write(("  \"ContentType\": \"" + wilmaHttpResponse.getContentType() + "\",\n").getBytes());
-                        Map<String, String> headers = wilmaHttpResponse.getHeaders();
-                        fos.write("  \"Headers\": [".getBytes());
-                        int j = 1;
-                        for (String key : headers.keySet()) {
-                            fos.write(("    { \"" + key + "\": \"" + headers.get(key) + "\" }").getBytes());
-                            if (j != headers.size()) {
-                                fos.write(",".getBytes());
-                            }
-                            fos.write("\n".getBytes());
-                            j++;
-                        }
-                        fos.write("  ],\n  \"Body\": ".getBytes());
-                        String myBody = new JSONObject().put("Body", wilmaHttpResponse.getBody()).toString();
-                        fos.write((myBody + "\n}").getBytes());
-                        fos.close();
+                        saveMapObject(file, entryKey, wilmaHttpResponse);
                     } catch (IOException e) {
                         String message = "Map save failed at file: " + filename + ", with message: " + e.getLocalizedMessage();
                         logger.info("ShortCircuit: " + message);
@@ -178,11 +159,83 @@ public class ShortCircuitInterceptorCore {
     }
 
     /**
+     * Load the map from a folder, and create a new map from it.
+     *
+     * @param httpServletResponse is the response object
+     * @param folder              is the folder to be used, under Wilma'S message folder.
+     * @return with the response body - that is a json info about the result of the call
+     */
+    private String loadPreservedMessagesToMap(HttpServletResponse httpServletResponse, String folder) {
+        String response = null;
+        Map<String, ShortCircuitResponseInformation> shortCircuitMap = new HashMap<>();
+
+        String path = logFilePathProvider.getLogFilePath() + "/" + folder;
+        File folderFile = new File(path);
+        File[] listOfFiles = folderFile.listFiles();
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                String pattern = "sc*.json";
+                // Create a Pattern object
+                Pattern r = Pattern.compile(pattern);
+                // Now create matcher object.
+                Matcher m = r.matcher(listOfFiles[i].getName());
+                if (m.find()) {
+                    WilmaHttpResponse mapObject = loadMapObject(listOfFiles[i].getName());
+                    if (mapObject != null) {
+                        ShortCircuitResponseInformation info = new ShortCircuitResponseInformation(mapObject, Long.MAX_VALUE);
+                        shortCircuitMap.put(Integer.toString(i), info);
+                    }
+                }
+            }
+        }
+        //TODO still need:
+        // - replacement of the used map object
+        // - provide the right response
+        return null;
+    }
+
+    private WilmaHttpResponse loadMapObject(String fileName) {
+        //TODO still need:
+        // - load the file into a WilmaHttpResponse object, if possible
+        return null;
+    }
+
+    private void saveMapObject(File file, String entryKey, WilmaHttpResponse wilmaHttpResponse) throws IOException {
+        // if file does not exists, then create it
+        if (!file.exists()) {
+            if (file.getParentFile() != null) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
+        }
+        FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(file);
+        fos.write(("{\n  \"URL\": \"" + entryKey + "\",\n").getBytes());
+        fos.write(("  \"ResponseCode\": \"" + wilmaHttpResponse.getStatusCode() + "\",\n").getBytes());
+        fos.write(("  \"ContentType\": \"" + wilmaHttpResponse.getContentType() + "\",\n").getBytes());
+        Map<String, String> headers = wilmaHttpResponse.getHeaders();
+        fos.write("  \"Headers\": [".getBytes());
+        int j = 1;
+        for (String key : headers.keySet()) {
+            fos.write(("    { \"" + key + "\": \"" + headers.get(key) + "\" }").getBytes());
+            if (j != headers.size()) {
+                fos.write(",".getBytes());
+            }
+            fos.write("\n".getBytes());
+            j++;
+        }
+        fos.write("  ],\n  \"Body\": ".getBytes());
+        String myBody = new JSONObject().put("Body", wilmaHttpResponse.getBody()).toString();
+        fos.write((myBody + "\n}").getBytes());
+        fos.close();
+    }
+
+    /**
      * Method that is used to preserve the response when it arrives first time.
      * Note that only responses with 200 response code will be preserved.
+     *
      * @param shortCircuitHashCode is the hash code used as key in the Short Circuit Map
-     * @param wilmaHttpResponse is the response object
-     * @param parameterList may contain the timeout value to be used for the entry
+     * @param wilmaHttpResponse    is the response object
+     * @param parameterList        may contain the timeout value to be used for the entry
      */
     protected void preserveResponse(String shortCircuitHashCode, WilmaHttpResponse wilmaHttpResponse, ParameterList parameterList) {
         long timeout;
@@ -192,7 +245,7 @@ public class ShortCircuitInterceptorCore {
             if (shortCircuitResponseInformation == null) {
                 //we need to store the response now
                 //but first check if response code is 200 - we store only those responses
-                if (wilmaHttpResponse.getStatusCode() == 200) {
+                if (wilmaHttpResponse.getStatusCode() == HttpServletResponse.SC_OK) {
                     String timeoutParameterName = "timeout";
                     if (parameterList != null && parameterList.get(timeoutParameterName) != null) {
                         timeout = Long.valueOf(parameterList.get(timeoutParameterName))
@@ -217,6 +270,7 @@ public class ShortCircuitInterceptorCore {
 
     /**
      * List the actual status of the Shour Circuit Map.
+     *
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
      */

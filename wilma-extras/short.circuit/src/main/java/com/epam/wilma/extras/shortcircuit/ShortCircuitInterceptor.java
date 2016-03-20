@@ -72,7 +72,6 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
     @Override
     public String handleRequest(HttpServletRequest httpServletRequest, String request, HttpServletResponse httpServletResponse) {
         String myMethod = httpServletRequest.getMethod();
-        String myQueryString = httpServletRequest.getQueryString();
         boolean myCall = request.equalsIgnoreCase(this.getClass().getSimpleName() + HANDLED_SERVICE);
 
         //set default response
