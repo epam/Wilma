@@ -44,7 +44,7 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
 
     @Override
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
-        wilmaHttpRequest.addHeaderUpdate(ShortCircuitChecker.SHORT_CIRCUIT_HEADER, wilmaHttpRequest.getRequestLine() + "_" + wilmaHttpRequest.getBody().hashCode());
+        wilmaHttpRequest.addHeaderUpdate(ShortCircuitChecker.SHORT_CIRCUIT_HEADER, generateKeyForMap(wilmaHttpRequest));
     }
 
     /**

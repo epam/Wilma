@@ -21,6 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.common.helper.UniqueIdGenerator;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileOutputStreamFactory;
@@ -55,6 +56,18 @@ public class ShortCircuitInterceptorCore {
     private FileFactory fileFactory;
     @Autowired
     private FileOutputStreamFactory fileOutputStreamFactory;
+
+    /**
+     * Method that generates the general hash code for a request in SHort Circuit.
+     * @param wilmaHttpRequest is the request, that is the base of the hash code
+     * @return with the generated hash code
+     */
+    protected String generateKeyForMap(final WilmaHttpRequest wilmaHttpRequest) {
+        String requestLine = wilmaHttpRequest.getRequestLine();
+        //ensure that it is ok for a header
+        requestLine = requestLine.replaceAll(" ", "_").replaceAll("/", "-").replaceAll(":", "-").replaceAll("\"", "#");
+        return requestLine + "_" + wilmaHttpRequest.getBody().hashCode();
+    }
 
     /**
      * Method that handles GET (all) and DELETE (all) methods on the actual Short Circuit Map.
@@ -209,7 +222,7 @@ public class ShortCircuitInterceptorCore {
             file.createNewFile();
         }
         FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(file);
-        fos.write(("{\n  \"URL\": \"" + entryKey + "\",\n").getBytes());
+        fos.write(("{\n  \"Key\": \"" + entryKey + "\",\n").getBytes());
         fos.write(("  \"ResponseCode\": \"" + wilmaHttpResponse.getStatusCode() + "\",\n").getBytes());
         fos.write(("  \"ContentType\": \"" + wilmaHttpResponse.getContentType() + "\",\n").getBytes());
         Map<String, String> headers = wilmaHttpResponse.getHeaders();
