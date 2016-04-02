@@ -23,55 +23,86 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.epam.wilma.webapp.service.external.ExternalWilmaService;
+import com.google.common.collect.Sets;
 
-import java.util.Calendar;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Set;
 
 /**
- * Created by tkohegyi on 2016. 02. 20.
+ * Interceptor that implements all three possibilities.
+ * Request interceptor marks the message with a hash code, for ShortCircuitChecker, that registers the request, if it is not yet registered.
+ * Response interceptor captures the response, if it is not yet captured.
+ * ExternalWilmaService offers the possibility of getting the actual status of the internal req-resp map,
+ * and offers the possibility of saving the req-resp map into and loading from a folder.
+ *
+ * @author tkohegyi
  */
-public class ShortCircuitInterceptor implements ResponseInterceptor, RequestInterceptor {
+public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore implements RequestInterceptor, ResponseInterceptor, ExternalWilmaService {
+    private static final String HANDLED_SERVICE = "/circuits";
 
-    private static Map<String, ShortCircuitResponseInformation> shortCircuitMap = ShortCircuitChecker.getShortCircuitMap();
-    private final Logger logger = LoggerFactory.getLogger(ShortCircuitChecker.class);
-    private final String timeoutParameterName = "timeout";
+    @Override
+    public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
+        wilmaHttpRequest.addHeaderUpdate(ShortCircuitChecker.SHORT_CIRCUIT_HEADER, generateKeyForMap(wilmaHttpRequest));
+    }
 
+    /**
+     * This is the Response Interceptor implementation. In case the response is marked with hashcode,
+     * that means the response should be preserved.
+     *
+     * @param wilmaHttpResponse is the response
+     * @param parameterList     may contain the response validity timeout - if not response will be valid forever
+     */
     @Override
     public void onResponseReceive(WilmaHttpResponse wilmaHttpResponse, ParameterList parameterList) {
         String shortCircuitHashCode = wilmaHttpResponse.getRequestHeader(ShortCircuitChecker.SHORT_CIRCUIT_HEADER);
         if (shortCircuitHashCode != null) { //this was marked, check if it is in the map
-            long timeout;
-            if (shortCircuitMap.containsKey(shortCircuitHashCode)) { //only if this needs to be handled
-                //do we have the response already, or we need to catch it right now?
-                ShortCircuitResponseInformation shortCircuitResponseInformation = shortCircuitMap.get(shortCircuitHashCode);
-                if (shortCircuitResponseInformation == null) {
-                    //we need to store the response now
-                    if (parameterList != null && parameterList.get(timeoutParameterName) != null) {
-                        timeout = Long.valueOf(parameterList.get(timeoutParameterName))
-                                + Calendar.getInstance().getTimeInMillis();
-                    } else {
-                        timeout = Long.MAX_VALUE; //forever
-                    }
-                    shortCircuitResponseInformation = new ShortCircuitResponseInformation(wilmaHttpResponse, timeout);
-                    shortCircuitMap.put(shortCircuitHashCode, shortCircuitResponseInformation);
-                    logger.info("ShortCircuit: Message captured for hashcode: " + shortCircuitHashCode);
-                } else { //we have response
-                    //take care about timeout
-                    timeout = Calendar.getInstance().getTimeInMillis();
-                    if (timeout > shortCircuitResponseInformation.getTimeout()) {
-                        shortCircuitMap.remove(shortCircuitHashCode);
-                        logger.debug("ShortCircuit: Timeout has happened for hashcode: " + shortCircuitHashCode);
-                    }
-                }
-            }
+            preserveResponse(shortCircuitHashCode, wilmaHttpResponse, parameterList);
         }
     }
 
+    /**
+     * ExternalWilmaService method implementation - entry point to handle the request by the external service.
+     * @param httpServletRequest is the original request
+     * @param request is the request string itself (part of the URL, focusing on the requested service)
+     * @param httpServletResponse is the response object
+     * @return with the body of the response (need to set response code in httpServletResponse object)
+     */
     @Override
-    public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
-        String hashCode = "" + wilmaHttpRequest.getHeaders().hashCode() + wilmaHttpRequest.getBody().hashCode();
-        wilmaHttpRequest.addHeaderUpdate(ShortCircuitChecker.SHORT_CIRCUIT_HEADER, hashCode);
+    public String handleRequest(HttpServletRequest httpServletRequest, String request, HttpServletResponse httpServletResponse) {
+        String myMethod = httpServletRequest.getMethod();
+        boolean myCall = request.equalsIgnoreCase(this.getClass().getSimpleName() + HANDLED_SERVICE);
+
+        //set default response
+        String response = "{ \"unknownServiceCall\": \"" + myMethod + ":" + request + "\" }";
+        httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+        //handle basic call (without query string)
+        if (myCall && httpServletRequest.getQueryString() == null) {
+            response = handleBasicCall(myMethod, httpServletResponse);
+        }
+
+        //handle complex calls (with query string as folder)
+        if (myCall && httpServletRequest.getQueryString() != null && httpServletRequest.getQueryString().length() > 0) {
+            String folder = httpServletRequest.getParameter("folder");
+            if (folder != null && folder.length() > 0) {
+                response = handleComplexCall(myMethod, folder, httpServletResponse);
+            }
+        }
+        //we still need to detect the delete by id cll
+        //TODO by handleComplexDeleteCall
+        return response;
+    }
+
+    /**
+     * ExternalWilmaService method implementation - provides the list of requests, this service will handle.
+     * @return with the set of handled services.
+     */
+    @Override
+    public Set<String> getHandlers() {
+        return Sets.newHashSet(
+                this.getClass().getSimpleName() + HANDLED_SERVICE
+        );
     }
 }

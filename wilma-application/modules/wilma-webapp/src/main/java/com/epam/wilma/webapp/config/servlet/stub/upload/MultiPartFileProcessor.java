@@ -21,6 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.io.InputStream;
 
+import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -55,6 +56,8 @@ public class MultiPartFileProcessor {
     private RoutingService routingService;
     @Autowired
     private SequenceDescriptorHolder sequenceDescriptorHolder;
+    @Autowired
+    private ServiceMap serviceMap;
 
     /**
      * Processes, validates and stores the uploaded resource.
@@ -75,6 +78,7 @@ public class MultiPartFileProcessor {
             if ("stub-configuration".equals(fieldName) && XML_CONTENT_TYPE.equals(contentType)) {
                 try {
                     routingService.performModification(new NewStubDescriptorCommand(resource, stubConfigurationBuilder, sequenceDescriptorHolder));
+                    serviceMap.detectServices();
                 } catch (ClassNotFoundException e) {
                     result = "Uploading " + fileName + " failed with ClassNotFoundException.";
                     throw new CannotUploadExternalResourceException(result, e);

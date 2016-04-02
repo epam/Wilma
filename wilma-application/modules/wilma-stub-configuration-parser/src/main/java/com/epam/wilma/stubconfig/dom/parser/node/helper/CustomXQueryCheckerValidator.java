@@ -30,7 +30,7 @@ import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedExcep
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 
 /**
- * Sintactically validates a custom xquery body checker class' xquery.
+ * Syntactically validates a custom xquery body checker class' xquery.
  * @author Tunde_Kovacs
  *
  */
@@ -41,7 +41,7 @@ public class CustomXQueryCheckerValidator {
     private static final String XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><tag></tag>";
 
     /**
-     * Sintactically validates a custom xquery body checker class' xquery.
+     * Syntactically validates a custom xquery body checker class' xquery.
      * @param conditionChecker the class that is validated
      * @param parameterList the parameter containing the xquery
      */

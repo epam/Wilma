@@ -20,6 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +43,8 @@ public class StubConfigurationDropperService {
     private RoutingService routingService;
     @Autowired
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    @Autowired
+    private ServiceMap serviceMap;
 
     /**
      * Call the changeStubConfigurationDropper drop method and then applies this changes.
@@ -52,5 +55,6 @@ public class StubConfigurationDropperService {
     public void dropSelectedStubConfiguration(final String groupName, final HttpServletRequest request) throws ClassNotFoundException {
         sequenceManager.removeSequenceDescriptors(groupName);
         routingService.performModification(new DropCommand(groupName, request, urlAccessLogMessageAssembler));
+        serviceMap.detectServices();
     }
 }

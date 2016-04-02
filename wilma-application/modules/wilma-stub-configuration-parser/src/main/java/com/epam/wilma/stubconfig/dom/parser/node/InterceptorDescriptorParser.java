@@ -61,7 +61,7 @@ public class InterceptorDescriptorParser implements NodeParser<InterceptorDescri
             Element el = (Element) interceptorNode;
             String name = el.getAttribute("name");
             String clazz = el.getAttribute("class");
-            //check for dummy problem of not giving class or giving 'class' to the end of the class name
+            //check for dummy problem of not giving class attribute, or giving 'class' to the end of the class name
             if (clazz == null) {
                 throw new DescriptorValidationFailedException("Validation of stub descriptor failed - Class name is missing.");
             }

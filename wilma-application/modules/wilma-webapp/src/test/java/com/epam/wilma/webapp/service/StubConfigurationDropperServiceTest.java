@@ -23,6 +23,7 @@ import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -49,6 +50,8 @@ public class StubConfigurationDropperServiceTest {
     private RoutingService routingService;
     @Mock
     private HttpServletRequest request;
+    @Mock
+    private ServiceMap serviceMap;
 
     @InjectMocks
     private StubConfigurationDropperService underTest;

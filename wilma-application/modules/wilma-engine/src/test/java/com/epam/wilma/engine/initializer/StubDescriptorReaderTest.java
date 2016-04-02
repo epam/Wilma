@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -54,6 +55,8 @@ public class StubDescriptorReaderTest {
     private SequenceDescriptorHolder sequenceDescriptorHolder;
     @Mock
     private NewStubDescriptorCommandFactory newStubDescriptorCommandFactory;
+    @Mock
+    private ServiceMap serviceMap;
 
     @InjectMocks
     private StubDescriptorReader underTest;

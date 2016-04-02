@@ -25,6 +25,7 @@ import static org.testng.Assert.assertEquals;
 
 import java.io.InputStream;
 
+import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -63,6 +64,8 @@ public class MultiPartFileProcessorTest {
     private RoutingService routingService;
     @Mock
     private InputStream resource;
+    @Mock
+    private ServiceMap serviceMap;
 
     @InjectMocks
     private MultiPartFileProcessor underTest;

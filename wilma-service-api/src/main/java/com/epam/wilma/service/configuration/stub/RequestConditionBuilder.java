@@ -33,6 +33,7 @@ public class RequestConditionBuilder {
 
     /**
      * Initiates a builder class to build up the request condition part of the configuration.
+     *
      * @param groupName is the group name of the stub configuration
      */
     public RequestConditionBuilder(String groupName) {
@@ -41,6 +42,7 @@ public class RequestConditionBuilder {
 
     /**
      * Opens an &lt;and&gt; ... &lt;/and&gt; section, do not forget to call the @see andEnd() method to close it.
+     *
      * @return with itself
      */
     public RequestConditionBuilder andStart() {
@@ -50,6 +52,7 @@ public class RequestConditionBuilder {
 
     /**
      * Closes an &lt;and&gt; ... &lt;/and&gt; section, that was previously opened with @see andStart().
+     *
      * @return with itself
      */
     public RequestConditionBuilder andEnd() {
@@ -59,6 +62,7 @@ public class RequestConditionBuilder {
 
     /**
      * Opens an &lt;or&gt; ... &lt;/or&gt; section, do not forget to call the @see orEnd() method to close it.
+     *
      * @return with itself
      */
     public RequestConditionBuilder orStart() {
@@ -68,6 +72,7 @@ public class RequestConditionBuilder {
 
     /**
      * Closes an &lt;or&gt; ... &lt;/or&gt; section, that was previously opened with @see orStart().
+     *
      * @return with itself
      */
     public RequestConditionBuilder orEnd() {
@@ -77,6 +82,7 @@ public class RequestConditionBuilder {
 
     /**
      * Opens an &lt;not&gt; ... &lt;/not&gt; section, do not forget to call the @see notEnd() method to close it.
+     *
      * @return with itself
      */
     public RequestConditionBuilder notStart() {
@@ -86,6 +92,7 @@ public class RequestConditionBuilder {
 
     /**
      * Closes an &lt;not&gt; ... &lt;/not&gt; section, that was previously opened with @see notStart().
+     *
      * @return with itself
      */
     public RequestConditionBuilder notEnd() {
@@ -177,9 +184,70 @@ public class RequestConditionBuilder {
         return this;
     }
 
+    private RequestConditionBuilder withMethod(final String methodName) {
+        String conditionString = "<condition class=\"" + methodName + "MethodChecker\" />\n";
+        configurationString += conditionString;
+        return this;
+    }
+
+    /**
+     * Adds a condition that checks if GET method was used in the request, or not.
+     *
+     * @return with itself
+     */
+    public RequestConditionBuilder getMethod() {
+        return withMethod("Get");
+    }
+
+    /**
+     * Adds a condition that checks if PUT method was used in the request, or not.
+     *
+     * @return with itself
+     */
+    public RequestConditionBuilder putMethod() {
+        return withMethod("Put");
+    }
+
+    /**
+     * Adds a condition that checks if POST method was used in the request, or not.
+     *
+     * @return with itself
+     */
+    public RequestConditionBuilder postMethod() {
+        return withMethod("Post");
+    }
+
+    /**
+     * Adds a condition that checks if DELETE method was used in the request, or not.
+     *
+     * @return with itself
+     */
+    public RequestConditionBuilder deleteMethod() {
+        return withMethod("Delete");
+    }
+
+    /**
+     * Adds a condition that checks if HEAD method was used in the request, or not.
+     *
+     * @return with itself
+     */
+    public RequestConditionBuilder headMethod() {
+        return withMethod("Head");
+    }
+
+    /**
+     * Adds a condition that checks if OPTIONS method was used in the request, or not.
+     *
+     * @return with itself
+     */
+    public RequestConditionBuilder optionsMethod() {
+        return withMethod("Options");
+    }
+
     /**
      * Adds a condition that checks if a header with the specified value exists or not.
-     * @param name is the name of the header
+     *
+     * @param name  is the name of the header
      * @param value is the value of the header
      * @return with itself
      */
@@ -235,6 +303,7 @@ public class RequestConditionBuilder {
 
     /**
      * Transponder class to finalize the Request Condition part and start the Response Descriptor.
+     *
      * @return with a class that used to build the response descriptor
      */
     public ResponseDescriptorBuilder willRespondWith() {

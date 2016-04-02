@@ -38,6 +38,7 @@ import java.util.Map;
 
 /**
  * Contains route logic of request messages.
+ *
  * @author Tunde_Kovacs
  * @author Tamas_Bihari
  */
@@ -45,10 +46,9 @@ import java.util.Map;
 public class RoutingService {
 
     private final Map<String, ResponseDescriptorDTO> responseDescriptorMap = new HashMap<>();
-
+    private final Object guard = new Object();
     private Map<String, StubDescriptor> stubDescriptors = new LinkedHashMap<>();
     private OperationMode operationMode;
-
     @Autowired
     private StubDescriptorEvaluator stubDescriptorEvaluator;
     @Autowired
@@ -56,11 +56,10 @@ public class RoutingService {
     @Autowired
     private RouteEngineConfigurationAccess configurationAccess;
 
-    private final Object guard = new Object();
-
     /**
      * Redirects requests based on their content. If a request needs to be redirected to the stub,
      * it will be added to a map that will provide response information for the stub.
+     *
      * @param request the request message that is checked
      * @return true if message should be redirected to the webapp. False otherwise.
      */
@@ -82,6 +81,7 @@ public class RoutingService {
     /**
      * Reads a value matched to a key from the response descriptor map and
      * if the value is found it deletes it from the map in order to free the map from it.
+     *
      * @param key search parameter
      * @return a {@link ResponseDescriptorDTO} matching the given <tt>key</tt>
      */
@@ -95,6 +95,7 @@ public class RoutingService {
 
     /**
      * Sets the new operation mode.
+     *
      * @param operationMode the new operation mode coming from a UI config
      */
     public void setOperationMode(final OperationMode operationMode) {
@@ -122,6 +123,7 @@ public class RoutingService {
 
     /**
      * This method execute the given command. The given command is any operation which works with the stubDescriptors collection.
+     *
      * @param command is the given operation
      * @throws ClassNotFoundException if problem happens
      */

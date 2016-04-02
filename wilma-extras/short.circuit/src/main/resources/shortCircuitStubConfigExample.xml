@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
-    <dialog-descriptor name="dialog-descriptor" usage="always" comment="Short Circuit, with 6 hour cache timeout">
+    <dialog-descriptor name="Short Circuit Example Configuration" usage="always" comment="Short Circuit, with 6 hour cache timeout">
         <condition-descriptor>
             <and>
                 <condition class="OrUrlPatternChecker" >
-                    <param name="dummy" value="stackoverflow.com/help" />
+                    <param name="dummy" value="http://" />
                 </condition>
                 <condition class="com.epam.wilma.extras.shortcircuit.ShortCircuitChecker" />
             </and>

@@ -226,4 +226,24 @@ public class WilmaStubTest {
         //then
         Assert.fail("We should not reach this.");
     }
+
+    @Test
+    public void testMethodUsage() throws StubConfigurationException {
+        //given, when
+        wilmaStub = new WilmaStubBuilder()
+                .forRequestsLike()
+                .orStart()
+                .getMethod()
+                .putMethod()
+                .postMethod()
+                .deleteMethod()
+                .headMethod()
+                .optionsMethod()
+                .orEnd()
+                .willRespondWith().plainTextResponse("body").withStatus(200)
+                .build();
+        //then
+        //if we are here, we are fine
+    }
+
 }
