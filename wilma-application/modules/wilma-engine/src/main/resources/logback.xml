@@ -59,6 +59,8 @@
   </logger>
 
   <logger name="com.epam.wilma.webapp.stub.response.formatter.xsl" level="WARN"/>
+  <logger name="net.lightbody.bmp.proxy" level="INFO"/>
+  <logger name="net.lightbody.bmp.proxy.selenium" level="INFO"/>
 
   <root level="INFO">
     <appender-ref ref="${logger:-EMPTY}" />

@@ -32,6 +32,7 @@ public class ProxyServer {
 
     private Server server;
     private int port = -1;
+    private static Boolean shouldKeepSslConnectionAlive = new Boolean(false); //set it to true if such (e.g. .net) clients we have
     private BrowserMobHttpClient client;
     private StreamManager streamManager;
     private HarPage currentPage;
@@ -265,4 +266,13 @@ public class ProxyServer {
     public static void setResponseVolatile(Boolean responseVolatile) {
         ProxyServer.responseVolatile = responseVolatile;
     }
+
+    public static Boolean getShouldKeepSslConnectionAlive() {
+        return shouldKeepSslConnectionAlive;
+    }
+
+    public static void setShouldKeepSslConnectionAlive(Boolean shouldKeepSslConnectionAlive) {
+        ProxyServer.shouldKeepSslConnectionAlive = shouldKeepSslConnectionAlive;
+    }
+
 }
