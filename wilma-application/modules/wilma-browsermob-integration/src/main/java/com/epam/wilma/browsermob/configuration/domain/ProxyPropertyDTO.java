@@ -28,18 +28,21 @@ public class ProxyPropertyDTO {
     private final Integer proxyPort;
     private final Integer requestTimeout;
     private final Boolean allowResponseUpdate;
+    private final Boolean shouldKeepSslConnectionAlive;
 
     /**
      * Constructs a new property holding object with the given fields.
      * @param proxyPort the port used by the proxy
      * @param requestTimeout the value of a request timeout in milliseconds
      * @param allowResponseUpdate whether proxy should work in mode that allows response update (slower), or not (faster)
+     * @param shouldKeepSslConnectionAlive if client expects CONNECT connections kept alive or not
      */
-    public ProxyPropertyDTO(final Integer proxyPort, final Integer requestTimeout, final Boolean allowResponseUpdate) {
+    public ProxyPropertyDTO(final Integer proxyPort, final Integer requestTimeout, final Boolean allowResponseUpdate, Boolean shouldKeepSslConnectionAlive) {
         super();
         this.proxyPort = proxyPort;
         this.requestTimeout = requestTimeout;
         this.allowResponseUpdate = allowResponseUpdate;
+        this.shouldKeepSslConnectionAlive = shouldKeepSslConnectionAlive;
     }
 
     public Integer getProxyPort() {
@@ -52,5 +55,9 @@ public class ProxyPropertyDTO {
 
     public Boolean getAllowResponseUpdate() {
         return allowResponseUpdate;
+    }
+
+    public Boolean getShouldKeepSslConnectionAlive() {
+        return shouldKeepSslConnectionAlive;
     }
 }

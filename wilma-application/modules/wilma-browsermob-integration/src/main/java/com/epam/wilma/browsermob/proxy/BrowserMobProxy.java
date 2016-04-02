@@ -34,7 +34,7 @@ import com.epam.wilma.browsermob.interceptor.BrowserMobResponseInterceptor;
 
 /**
  * Class that creates and starts a new BrowserMob proxy server.
- * @author Marton_Sereg, Tunde_Kovacs, Tamas_Bihari
+ * @author Marton_Sereg, Tunde_Kovacs, Tamas_Bihari, Tamas Kohegyi
  *
  */
 @Component
@@ -44,6 +44,7 @@ public class BrowserMobProxy implements Proxy {
     private Integer proxyPort;
     private Integer requestTimeout;
     private Boolean responseVolatile;
+    private Boolean shouldKeepSslConnectionAlive;
 
     @Autowired
     private ProxyServer server;
@@ -70,6 +71,22 @@ public class BrowserMobProxy implements Proxy {
         ProxyServer.setResponseVolatile(responseVolatility);
     }
 
+    public static boolean getShouldKeepSslConnectionAlive() {
+        return ProxyServer.getShouldKeepSslConnectionAlive();
+    }
+
+    /**
+     * Global setter of the proxy behaviour. When it is shouldKeepSslConnectionAlive=true,
+     * after the CONNECT the connection keeps opened (will be closed only by socket connection timeouts),
+     * otherwise the CONNECT request will be closed (normal behaviour).
+     * Default is false, but some clients (.NET Web Application Clients for example) may need to set it to true.
+     *
+     * @param shouldKeepSslConnectionAlive must be either true (keep CONNECT request alive) or false (close CONNECT request).
+     */
+    public static void setShouldKeepSslConnectionAlive(boolean shouldKeepSslConnectionAlive) {
+        ProxyServer.setShouldKeepSslConnectionAlive(shouldKeepSslConnectionAlive);
+    }
+
     @Override
     public void start() {
         try {
@@ -77,6 +94,7 @@ public class BrowserMobProxy implements Proxy {
             server.setPort(proxyPort);
             server.start(requestTimeout);
             ProxyServer.setResponseVolatile(responseVolatile);
+            ProxyServer.setShouldKeepSslConnectionAlive(shouldKeepSslConnectionAlive);
             server.setCaptureContent(true);
             server.setCaptureBinaryContent(true);
             server.addRequestInterceptor(requestInterceptor);
@@ -91,6 +109,7 @@ public class BrowserMobProxy implements Proxy {
         proxyPort = properties.getProxyPort();
         requestTimeout = properties.getRequestTimeout();
         responseVolatile = properties.getAllowResponseUpdate();
+        shouldKeepSslConnectionAlive = properties.getShouldKeepSslConnectionAlive();
     }
 
     @Override

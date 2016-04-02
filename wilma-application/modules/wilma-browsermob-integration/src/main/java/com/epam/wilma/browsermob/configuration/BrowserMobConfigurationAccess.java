@@ -48,7 +48,12 @@ public class BrowserMobConfigurationAccess implements ConfigurationAccessBase {
         if (responseVolatileString != null && "true".equals(responseVolatileString)) {
             responseVolatile = true;
         }
-        properties = new ProxyPropertyDTO(proxyPort, requestTimeout, responseVolatile);
+        String shouldKeepSslConnectionAliveString = propertyHolder.get("proxy.connect.keepalive");
+        Boolean shouldKeepSslConnectionAlive = false;
+        if (shouldKeepSslConnectionAliveString != null && "true".equals(shouldKeepSslConnectionAliveString)) {
+            shouldKeepSslConnectionAlive = true;
+        }
+        properties = new ProxyPropertyDTO(proxyPort, requestTimeout, responseVolatile, shouldKeepSslConnectionAlive);
     }
 
     /**
