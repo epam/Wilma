@@ -62,6 +62,16 @@ public class ServiceMap {
         ExternalWilmaService service;
         synchronized (o) {
             service = serviceMap.get(requestedService);
+            if (service == null) {
+                //this part allows to use requestService/* type calls
+                for (String key : serviceMap.keySet()) {
+                    String offeredServicePattern = key + "/";
+                    if (requestedService.startsWith(offeredServicePattern)) {
+                        service = serviceMap.get(key);
+                        break;
+                    }
+                }
+            }
         }
         String response = null;
         if (service != null) {

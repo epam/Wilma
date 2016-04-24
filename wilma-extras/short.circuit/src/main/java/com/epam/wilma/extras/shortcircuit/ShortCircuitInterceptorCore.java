@@ -64,9 +64,7 @@ public class ShortCircuitInterceptorCore {
      */
     protected String generateKeyForMap(final WilmaHttpRequest wilmaHttpRequest) {
         String requestLine = wilmaHttpRequest.getRequestLine();
-        //ensure that it is ok for a header
-        requestLine = requestLine.replaceAll(" ", "_").replaceAll("/", "-").replaceAll(":", "-").replaceAll("\"", "#");
-        return requestLine + "_" + wilmaHttpRequest.getBody().hashCode();
+        return requestLine + " " + wilmaHttpRequest.getBody().hashCode();
     }
 
     /**
@@ -74,18 +72,31 @@ public class ShortCircuitInterceptorCore {
      *
      * @param myMethod            is expected as either GET or DELETE
      * @param httpServletResponse is the response object
+     * @param path is the request path
      * @return with the response body (and with the updated httpServletResponse object
      */
-    protected String handleBasicCall(String myMethod, HttpServletResponse httpServletResponse) {
+    protected String handleBasicCall(String myMethod, HttpServletResponse httpServletResponse, String path) {
         String response = null;
         if ("get".equalsIgnoreCase(myMethod)) {
             //list the map (circuits + get)
             response = getShortCircuitMap(httpServletResponse);
         }
         if ("delete".equalsIgnoreCase(myMethod)) {
-            //invalidate map (remove all from map) (circuits + delete)
-            shortCircuitMap.clear();
-            response = getShortCircuitMap(httpServletResponse);
+            //first detect if we have basic path or we have a specified id in it
+            int index = path.lastIndexOf("/");
+            String idStr = path.substring(index + 1);
+            int id = -1;
+            try {
+                id = Integer.parseInt(idStr);
+                //remove a specific map entry
+                //TODO
+                response = getShortCircuitMap(httpServletResponse);
+            } catch (NumberFormatException e) {
+                //it is not a problem, we should delete all
+                //invalidate map (remove all from map) (circuits + delete)
+                shortCircuitMap.clear();
+                response = getShortCircuitMap(httpServletResponse);
+            }
         }
         return response;
     }

@@ -72,7 +72,8 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
     @Override
     public String handleRequest(HttpServletRequest httpServletRequest, String request, HttpServletResponse httpServletResponse) {
         String myMethod = httpServletRequest.getMethod();
-        boolean myCall = request.equalsIgnoreCase(this.getClass().getSimpleName() + HANDLED_SERVICE);
+        String myService = (this.getClass().getSimpleName() + HANDLED_SERVICE).toLowerCase();
+        boolean myCall = request.toLowerCase().startsWith(myService);
 
         //set default response
         String response = "{ \"unknownServiceCall\": \"" + myMethod + ":" + request + "\" }";
@@ -80,13 +81,15 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
 
         //handle basic call (without query string)
         if (myCall && httpServletRequest.getQueryString() == null) {
-            response = handleBasicCall(myMethod, httpServletResponse);
+            //get the map, or delete whole map or delete entry from map
+            response = handleBasicCall(myMethod, httpServletResponse, httpServletRequest.getPathInfo());
         }
 
         //handle complex calls (with query string as folder)
         if (myCall && httpServletRequest.getQueryString() != null && httpServletRequest.getQueryString().length() > 0) {
             String folder = httpServletRequest.getParameter("folder");
             if (folder != null && folder.length() > 0) {
+                //save (post) and load (get) map
                 response = handleComplexCall(myMethod, folder, httpServletResponse);
             }
         }
