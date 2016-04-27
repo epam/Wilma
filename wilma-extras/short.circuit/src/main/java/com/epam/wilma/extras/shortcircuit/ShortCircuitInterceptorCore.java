@@ -25,6 +25,7 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileOutputStreamFactory;
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,7 @@ import java.util.regex.Pattern;
 public class ShortCircuitInterceptorCore {
 
     private static Map<String, ShortCircuitResponseInformation> shortCircuitMap = ShortCircuitChecker.getShortCircuitMap();
+    private static Object shortCircuitMapGuard = ShortCircuitChecker.getShortCircuitMapGuard();
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitInterceptorCore.class);
 
     @Autowired
@@ -59,12 +61,17 @@ public class ShortCircuitInterceptorCore {
 
     /**
      * Method that generates the general hash code for a request in SHort Circuit.
+     *
      * @param wilmaHttpRequest is the request, that is the base of the hash code
      * @return with the generated hash code
      */
     protected String generateKeyForMap(final WilmaHttpRequest wilmaHttpRequest) {
-        String requestLine = wilmaHttpRequest.getRequestLine();
-        return requestLine + " " + wilmaHttpRequest.getBody().hashCode();
+        String hashString = wilmaHttpRequest.getRequestLine() + " - " + wilmaHttpRequest.getBody().hashCode();
+        //ensure that it is ok for a header
+        //CHECKSTYLE OFF - we must use "new String" here
+        hashString = new String(Base64.encodeBase64(hashString.getBytes()));
+        //CHECKSTYLE ON
+        return hashString;
     }
 
     /**
@@ -72,7 +79,7 @@ public class ShortCircuitInterceptorCore {
      *
      * @param myMethod            is expected as either GET or DELETE
      * @param httpServletResponse is the response object
-     * @param path is the request path
+     * @param path                is the request path
      * @return with the response body (and with the updated httpServletResponse object
      */
     protected String handleBasicCall(String myMethod, HttpServletResponse httpServletResponse, String path) {
@@ -85,12 +92,21 @@ public class ShortCircuitInterceptorCore {
             //first detect if we have basic path or we have a specified id in it
             int index = path.lastIndexOf("/");
             String idStr = path.substring(index + 1);
-            int id = -1;
+            int id;
             try {
                 id = Integer.parseInt(idStr);
                 //remove a specific map entry
-                //TODO
-                response = getShortCircuitMap(httpServletResponse);
+                String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
+                if (keySet.length > id) {
+                    //we can delete it
+                    String entryKey = keySet[id];
+                    shortCircuitMap.remove(entryKey);
+                    response = getShortCircuitMap(httpServletResponse);
+                } else {
+                    //resource cannot be deleted
+                    response = "{ \"Cannot found specified entry in Short Circuit Cache\": \"" + id + "\" }";
+                    httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
             } catch (NumberFormatException e) {
                 //it is not a problem, we should delete all
                 //invalidate map (remove all from map) (circuits + delete)
@@ -123,24 +139,6 @@ public class ShortCircuitInterceptorCore {
     }
 
     /**
-     * Method that deletes a single entry from the map.
-     *
-     * @param myMethod            POST (for Save) and GET (for Load) and DELETE for a selected
-     * @param id                  is the id of the ap entry to be deleted
-     * @param httpServletResponse is the response object
-     * @return with the response body (and with the updated httpServletResponse object
-     */
-    protected String handleComplexDeleteCall(String myMethod, String id, HttpServletResponse httpServletResponse) {
-        String response = null;
-        if ("delete".equalsIgnoreCase(myMethod)) {
-            //invalidate a single entry (remove a specific entry) (circuits/n)
-            //TODO
-            response = getShortCircuitMap(httpServletResponse);
-        }
-        return response;
-    }
-
-    /**
      * Saves the map to a folder, to preserve it for later use.
      *
      * @param httpServletResponse is the response object
@@ -153,10 +151,9 @@ public class ShortCircuitInterceptorCore {
         String filenamePrefix = "sc" + UniqueIdGenerator.getNextUniqueId() + "_";
         if (!shortCircuitMap.isEmpty()) {
             String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
-            for (int i = 0; i < keySet.length; i++) {
-                String entryKey = keySet[i];
+            for (String entryKey : keySet) {
                 ShortCircuitResponseInformation information = shortCircuitMap.get(entryKey);
-                if (information != null) {
+                if (information != null) { //save only the cached files
                     //save this into file, folder is in folder variable
                     String filename = path + filenamePrefix + UniqueIdGenerator.getNextUniqueId() + ".json";
                     WilmaHttpResponse wilmaHttpResponse = information.getWilmaHttpResponse();
@@ -164,7 +161,7 @@ public class ShortCircuitInterceptorCore {
                     try {
                         saveMapObject(file, entryKey, wilmaHttpResponse);
                     } catch (IOException e) {
-                        String message = "Map save failed at file: " + filename + ", with message: " + e.getLocalizedMessage();
+                        String message = "Cache save failed at file: " + filename + ", with message: " + e.getLocalizedMessage();
                         logger.info("ShortCircuit: " + message);
                         response = "{ \"resultsFailure\": \"" + message + "\" }";
                         httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -174,7 +171,7 @@ public class ShortCircuitInterceptorCore {
             }
         }
         if (response == null) {
-            String message = "Map saved as: " + path + filenamePrefix + "*.json files";
+            String message = "Cache saved as: " + path + filenamePrefix + "*.json files";
             response = "{ \"resultsSuccess\": \"" + message + "\" }";
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             logger.info("ShortCircuit: " + message);
@@ -190,8 +187,7 @@ public class ShortCircuitInterceptorCore {
      * @return with the response body - that is a json info about the result of the call
      */
     private String loadPreservedMessagesToMap(HttpServletResponse httpServletResponse, String folder) {
-        String response = null;
-        Map<String, ShortCircuitResponseInformation> shortCircuitMap = new HashMap<>();
+        Map<String, ShortCircuitResponseInformation> newShortCircuitMap = new HashMap<>();
 
         String path = logFilePathProvider.getLogFilePath() + "/" + folder;
         File folderFile = new File(path);
@@ -207,15 +203,16 @@ public class ShortCircuitInterceptorCore {
                     WilmaHttpResponse mapObject = loadMapObject(listOfFiles[i].getName());
                     if (mapObject != null) {
                         ShortCircuitResponseInformation info = new ShortCircuitResponseInformation(mapObject, Long.MAX_VALUE);
-                        shortCircuitMap.put(Integer.toString(i), info);
+                        newShortCircuitMap.put(Integer.toString(i), info);
                     }
                 }
             }
         }
-        //TODO still need:
-        // - replacement of the used map object
-        // - provide the right response
-        return null;
+        //adding the new map object
+        synchronized (shortCircuitMapGuard) {
+            shortCircuitMap.putAll(newShortCircuitMap);
+        }
+        return getShortCircuitMap(httpServletResponse);
     }
 
     private WilmaHttpResponse loadMapObject(String fileName) {
@@ -293,18 +290,25 @@ public class ShortCircuitInterceptorCore {
     }
 
     /**
-     * List the actual status of the Shour Circuit Map.
+     * List the actual status of the Short Circuit Map.
      *
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
      */
     protected String getShortCircuitMap(HttpServletResponse httpServletResponse) {
-        StringBuilder response = new StringBuilder("{\n  \"shortCircuitMap\": [\n");
+        StringBuilder response = new StringBuilder("{\n  \"shortCircuitCache\": [\n");
         if (!shortCircuitMap.isEmpty()) {
             String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
             for (int i = 0; i < keySet.length; i++) {
                 String entryKey = keySet[i];
-                response.append("    { \"").append(i).append("\": \"").append(entryKey).append("\" }");
+                boolean cached = shortCircuitMap.get(entryKey) != null;
+                //CHECKSTYLE OFF - we must use "new String" here
+                String decodedEntryKey = new String(Base64.decodeBase64(entryKey)); //make it human readable
+                //CHECKSTYLE ON
+                response.append("    { \"id\": \"").append(i)
+                        .append("\", \"hashCode\": \"").append(decodedEntryKey)
+                        .append("\", \"cached\": ").append(cached)
+                        .append(" }");
                 if (i < keySet.length - 1) {
                     response.append(",");
                 }

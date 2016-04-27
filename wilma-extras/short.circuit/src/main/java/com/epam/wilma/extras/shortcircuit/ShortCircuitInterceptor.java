@@ -76,7 +76,7 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
         boolean myCall = request.toLowerCase().startsWith(myService);
 
         //set default response
-        String response = "{ \"unknownServiceCall\": \"" + myMethod + ":" + request + "\" }";
+        String response = "{ \"unknownServiceCall\": \"" + myMethod + " " + request + "\" }";
         httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
         //handle basic call (without query string)

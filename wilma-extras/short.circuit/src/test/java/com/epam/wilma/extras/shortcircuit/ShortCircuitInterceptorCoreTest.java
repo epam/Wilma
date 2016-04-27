@@ -21,10 +21,10 @@ public class ShortCircuitInterceptorCoreTest {
     @Test
     public void hashGeneration() {
         WilmaHttpRequest request = new WilmaHttpRequest();
-        request.setBody("hooopla");
+        request.setBody("hoopla");
         String requestLine = "GET http://blah.com:1234/gzu?gzu&gzu";
         request.setRequestLine(requestLine);
         String hash = underTest.generateKeyForMap(request);
-        Assert.assertTrue("Generated hash is not correct", hash.startsWith(requestLine));
+        Assert.assertFalse("Generated hash is not usable", hash.contains(" "));
     }
 }

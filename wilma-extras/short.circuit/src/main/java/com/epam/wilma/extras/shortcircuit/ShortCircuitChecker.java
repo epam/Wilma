@@ -39,7 +39,7 @@ public class ShortCircuitChecker implements ConditionChecker {
 
     public static final String SHORT_CIRCUIT_HEADER = "Wilma-ShortCircuitId";
     private static final Map<String, ShortCircuitResponseInformation> SHORT_CIRCUIT_MAP = new HashMap<>();
-    private Object guard = new Object();
+    private static final Object GUARD = new Object();
 
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitChecker.class);
 
@@ -48,14 +48,16 @@ public class ShortCircuitChecker implements ConditionChecker {
         boolean conditionResult = false;
         //get the key
         String hashCode = request.getHeaderUpdateValue(ShortCircuitChecker.SHORT_CIRCUIT_HEADER);
-        synchronized (guard) {
-            //if the request-response pair is in the memory we might need stub response
-            if (SHORT_CIRCUIT_MAP.containsKey(hashCode)) {
-                //we need stub answer if the response is arrived already - if not, we need to wait for the answer still
-                conditionResult = SHORT_CIRCUIT_MAP.get(hashCode) != null;
-            } else { //we don't have even the request in the map, so put it there
-                SHORT_CIRCUIT_MAP.put(hashCode, null);
-                logger.info("ShortCircuit: New request to be cached was detected, hash code: " + hashCode);
+        if (hashCode != null) { //if the interceptor did not add the suitable header (or the interceptors are disabled), this can be null
+            synchronized (GUARD) {
+                //if the request-response pair is in the memory we might need stub response
+                if (SHORT_CIRCUIT_MAP.containsKey(hashCode)) {
+                    //we need stub answer if the response is arrived already - if not, we need to wait for the answer still
+                    conditionResult = SHORT_CIRCUIT_MAP.get(hashCode) != null;
+                } else { //we don't have even the request in the map, so put it there
+                    SHORT_CIRCUIT_MAP.put(hashCode, null);
+                    logger.info("ShortCircuit: New request to be cached was detected, hash code: " + hashCode);
+                }
             }
         }
         return conditionResult; //true only, if the response is stored, so we know what to answer
@@ -63,5 +65,9 @@ public class ShortCircuitChecker implements ConditionChecker {
 
     public static Map<String, ShortCircuitResponseInformation> getShortCircuitMap() {
         return SHORT_CIRCUIT_MAP;
+    }
+
+    public static Object getShortCircuitMapGuard() {
+        return GUARD;
     }
 }

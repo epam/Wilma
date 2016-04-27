@@ -123,7 +123,7 @@ public class ServiceServletTest {
         //THEN
         verify(resp).setContentType("application/json");
         verify(resp).setStatus(HttpServletResponse.SC_NOT_FOUND);
-        String response = "{ \"unknownServiceCall\": \"get:unknown\" }";
+        String response = "{ \"unknownServiceCall\": \"get unknown\" }";
         verify(printWriter).write(response);
         verify(printWriter).flush();
         verify(printWriter).close();

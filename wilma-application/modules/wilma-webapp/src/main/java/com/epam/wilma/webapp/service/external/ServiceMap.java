@@ -137,8 +137,8 @@ public class ServiceMap {
                 String[] keySet = serviceMap.keySet().toArray(new String[serviceMap.size()]);
                 for (int i = 0; i < keySet.length; i++) {
                     String entryKey = keySet[i];
-                    response.append("    \"").append(entryKey).append("\": \"")
-                            .append(serviceMap.get(entryKey).getClass().getCanonicalName()).append("\"");
+                    response.append("    { \"").append(entryKey).append("\": \"")
+                            .append(serviceMap.get(entryKey).getClass().getCanonicalName()).append("\" }");
                     if (i < keySet.length - 1) {
                         response.append(",");
                     }

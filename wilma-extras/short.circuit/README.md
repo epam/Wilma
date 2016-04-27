@@ -4,6 +4,8 @@ Wilma Example - Short Circuit
 This readme file is under construction.
 ---------------------------------------
 
+Don't forget to enable the interceptors! Without that, the short circuit won't work properly (no message will be cached).
+
 How to list the available services:
 GET/POST http://localhost:1234/config/public/services/
 
@@ -21,12 +23,14 @@ In the Short Circuit logic, this hash-key is used to identify the cached respons
 
 Save the actual cache into a folder
 -----------------------------------
-You may save the actual internal Short Circuit cache onto the disk. 
+You may save the actual internal Short Circuit cache onto the disk.
 Just specify a folder name in the following request:
 
 ```
 POST http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={toFolder}
 ```
+
+NOTE: Only such cached objects will be saved where the response is cached properly. Entries without proper response will be ignored.
 
 The response is the following
 ```
@@ -38,11 +42,13 @@ As you see, the cache is saved to "messages/{toFolder}" folder in files, by usin
 
 Load a cache from a folder
 --------------------------
-**NOT YET IMPLEMENTED**
+NOT YET IMPLEMENTED!
 To load a Short Circuit cache, just specify a folder that contains Short Circuit files in the following form:
 ```
 GET http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={toFolder}
 ```
+NOTE: This load does not clean up the exiting cache, rather adds new entries to the cache.
+In case a cache entry already exists, it will be overwritten. If you need nothing else just the loaded files in the cache, clean-up the cache first.
 
 Clean-up the cache
 ------------------
@@ -58,8 +64,7 @@ The call will response with the actual (empty) map.
 
 Delete one specific entry from te cache
 --------------------------
-**NOT YET IMPLEMENTED**
-The call will be:
+To delete a specific cache entry, call this:
 ```
-DELETE http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?id={idInShortCircuitMap} 
+DELETE http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?id={idInShortCircuitCache}
 ```

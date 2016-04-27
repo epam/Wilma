@@ -74,7 +74,7 @@ public class ServiceServlet extends HttpServlet {
         //if we still don't have the response, then either provide the service map, or send back that it is unknown request
         if (response == null) {
             if (requestedService.length() > 0) {
-                response = "{ \"unknownServiceCall\": \"" + req.getMethod() + ":" + requestedService + "\" }";
+                response = "{ \"unknownServiceCall\": \"" + req.getMethod() + " " + requestedService + "\" }";
             } else {
                 //call the built-in listing service (service-map)
                 response = serviceMap.getMapAsResponse();
