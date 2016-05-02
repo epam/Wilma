@@ -26,6 +26,7 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileOutputStreamFactory;
 import org.apache.commons.codec.binary.Base64;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -215,10 +219,38 @@ public class ShortCircuitInterceptorCore {
         return getShortCircuitMap(httpServletResponse);
     }
 
-    private WilmaHttpResponse loadMapObject(String fileName) {
-        //TODO still need:
-        // - load the file into a WilmaHttpResponse object, if possible
-        return null;
+    private WilmaHttpResponse loadMapObject(String fileName) { //TODO here we need map object really, not WilmaHttpResponse
+        WilmaHttpResponse wilmaHttpResponse = null;
+        File file = new File(fileName);
+        if (file.exists()) {
+            //load the file
+            String fileContent = loadFileToString(fileName);
+            if (fileContent != null) { //TODO - this part can fail even if the string is not null
+                JSONObject obj = new JSONObject(fileContent);
+                String hashKey = obj.getString("Key");
+                String responseCode = obj.getString("ResponseCode");
+                String contentType = obj.getString("ContentType");
+                String body = obj.getJSONObject("Body").getString("Body");
+                JSONArray headers = obj.getJSONArray("Headers");
+                wilmaHttpResponse.setContentType(contentType);
+                wilmaHttpResponse.setBody(body);
+                //how to set other fields???
+            }
+        }
+        return wilmaHttpResponse;
+    }
+
+    private String loadFileToString(final String fileName) {
+        String text;
+        try {
+            //CHECKSTYLE OFF - ignoring new String() error, as this is the most effective implementation
+            text = new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);
+            //CHECKSTYLE ON
+        } catch (IOException e) {
+            //cannot read a file
+            text = null;
+        }
+        return text; //TODO, it is not implemented properly yet
     }
 
     private void saveMapObject(File file, String entryKey, WilmaHttpResponse wilmaHttpResponse) throws IOException {
