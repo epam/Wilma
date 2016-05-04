@@ -21,15 +21,19 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * This class holds a single response information, to be used in stub response, and captured from a real response.
  * @author tkohegyi, created on 2016. 02. 17
  */
-public class ShortCircuitResponseInformation {
+class ShortCircuitResponseInformation {
 
-    private WilmaHttpResponse wilmaHttpResponse;
+    private String hashCode;
+    private String contentType;
+    private int statusCode;
+    private String body;
+    private Map<String, String> headers;
+
     private long timeout;
 
     /**
@@ -38,27 +42,68 @@ public class ShortCircuitResponseInformation {
      *
      * @param wilmaHttpResponse is the original response object
      * @param timeout is the calculated timeout value
+     * @param hashCode is the header hash code of the message
      */
-    public ShortCircuitResponseInformation(WilmaHttpResponse wilmaHttpResponse, long timeout) {
+    ShortCircuitResponseInformation(WilmaHttpResponse wilmaHttpResponse, long timeout, String hashCode) {
+        setContentType(wilmaHttpResponse.getContentType());
+        setStatusCode(wilmaHttpResponse.getStatusCode());
+        setBody(wilmaHttpResponse.getBody());
+        setHeaders(wilmaHttpResponse.getHeaders());
+        setHashCode(hashCode);
         //need to clone the response perfectly
-        WilmaHttpResponse storedResponse = new WilmaHttpResponse(false);
-        storedResponse.setContentType(wilmaHttpResponse.getContentType());
-        storedResponse.setStatusCode(wilmaHttpResponse.getStatusCode());
-        storedResponse.setBody(wilmaHttpResponse.getBody());
-        Map<String, String> map = wilmaHttpResponse.getHeaders();
-        Set<String> keySet = map.keySet();
-        for (String key : keySet) {
-            wilmaHttpResponse.addHeader(key, map.get(key));
-        }
-        this.wilmaHttpResponse = storedResponse;
         this.timeout = timeout;
     }
 
-    public long getTimeout() {
+    /**
+     * Creates a new empty response information, just the timeout is specified.
+     *
+     * @param timeout is the calculated timeout value
+     */
+    ShortCircuitResponseInformation(long timeout) {
+        this.timeout = timeout;
+    }
+
+    long getTimeout() {
         return timeout;
     }
 
-    public WilmaHttpResponse getWilmaHttpResponse() {
-        return wilmaHttpResponse;
+    public String getHashCode() {
+        return hashCode;
+    }
+
+    void setHashCode(String hashCode) {
+        this.hashCode = hashCode;
+    }
+
+    String getContentType() {
+        return contentType;
+    }
+
+    void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    int getStatusCode() {
+        return statusCode;
+    }
+
+    void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    String getBody() {
+        return body;
+    }
+
+    void setBody(String body) {
+        this.body = body;
+    }
+
+    Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    void setHeaders(Map<String, String> headers) {
+        this.headers = headers;
     }
 }

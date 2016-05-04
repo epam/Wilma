@@ -19,7 +19,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
@@ -51,15 +50,14 @@ public class ShortCircuitResponseGenerator implements TemplateGenerator, Templat
         ShortCircuitResponseInformation shortCircuitResponseInformation = ShortCircuitChecker.getShortCircuitMap().get(hashCode);
         if (shortCircuitResponseInformation != null) {
             //we have the answer, so set it properly
-            WilmaHttpResponse cachedResponse = shortCircuitResponseInformation.getWilmaHttpResponse();
-            httpServletResponse.setContentType(cachedResponse.getContentType());
-            httpServletResponse.setStatus(cachedResponse.getStatusCode());
-            Map<String, String> map = cachedResponse.getHeaders();
+            httpServletResponse.setContentType(shortCircuitResponseInformation.getContentType());
+            httpServletResponse.setStatus(shortCircuitResponseInformation.getStatusCode());
+            Map<String, String> map = shortCircuitResponseInformation.getHeaders();
             Set<String> keySet = map.keySet();
             for (String key : keySet) {
                 httpServletResponse.addHeader(key, map.get(key));
             }
-            newBody = cachedResponse.getBody().getBytes();
+            newBody = shortCircuitResponseInformation.getBody().getBytes();
             logger.info("ShortCircuit: Answer generated for request with hashcode: " + hashCode);
         } else {
             //this should not happen, we did not find the cached stub answer
