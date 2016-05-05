@@ -18,12 +18,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.common.helper.FileFactory;
+import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileOutputStreamFactory;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
@@ -39,6 +43,13 @@ class ShortCircuitInterceptorCore {
     private static Map<String, ShortCircuitResponseInformation> shortCircuitMap = ShortCircuitChecker.getShortCircuitMap();
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitInterceptorCore.class);
     private final ShortCircuitResponseInformationFileHandler shortCircuitResponseInformationFileHandler = new ShortCircuitResponseInformationFileHandler();
+
+    @Autowired
+    private LogFilePathProvider logFilePathProvider;
+    @Autowired
+    private FileFactory fileFactory;
+    @Autowired
+    private FileOutputStreamFactory fileOutputStreamFactory;
 
     /**
      * Method that generates the general hash code for a request in Short Circuit.
@@ -110,11 +121,13 @@ class ShortCircuitInterceptorCore {
         String response = null;
         if ("post".equalsIgnoreCase(myMethod)) {
             //save map (to files) (post + circuits?folder=...)
-            response = shortCircuitResponseInformationFileHandler.savePreservedMessagesFromMap(httpServletResponse, folder);
+            String path = logFilePathProvider.getLogFilePath() + "/" + folder + "/";
+            response = shortCircuitResponseInformationFileHandler.savePreservedMessagesFromMap(path, fileFactory, fileOutputStreamFactory, httpServletResponse);
         }
         if ("get".equalsIgnoreCase(myMethod)) {
             //load map (from files) (get + circuits?folder=....)
-            shortCircuitResponseInformationFileHandler.loadPreservedMessagesToMap(folder);
+            String path = logFilePathProvider.getLogFilePath() + "/" + folder;
+            shortCircuitResponseInformationFileHandler.loadPreservedMessagesToMap(path);
             response = getShortCircuitMap(httpServletResponse);
         }
         return response;

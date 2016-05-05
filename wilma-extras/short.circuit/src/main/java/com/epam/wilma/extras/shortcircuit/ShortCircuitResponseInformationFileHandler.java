@@ -19,14 +19,14 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.common.helper.FileFactory;
-import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.common.helper.UniqueIdGenerator;
 import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileOutputStreamFactory;
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -38,8 +38,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * This class provides file save and load utility for {@link ShortCircuitResponseInformation}.
@@ -53,24 +51,15 @@ class ShortCircuitResponseInformationFileHandler {
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitResponseInformationFileHandler.class);
     private final int e500 = 500;
 
-
-    @Autowired
-    private LogFilePathProvider logFilePathProvider;
-    @Autowired
-    private FileFactory fileFactory;
-    @Autowired
-    private FileOutputStreamFactory fileOutputStreamFactory;
-
     /**
      * Saves the map to a folder, to preserve it for later use.
      *
      * @param httpServletResponse is the response object
-     * @param folder              is the folder to be used, under Wilma'S message folder.
      * @return with the response body - that is a json info about the result of the call
      */
-    String savePreservedMessagesFromMap(HttpServletResponse httpServletResponse, String folder) {
+    String savePreservedMessagesFromMap(String path, FileFactory fileFactory, FileOutputStreamFactory fileOutputStreamFactory,
+                                        HttpServletResponse httpServletResponse) {
         String response = null;
-        String path = logFilePathProvider.getLogFilePath() + "/" + folder + "/";
         String filenamePrefix = "sc" + UniqueIdGenerator.getNextUniqueId() + "_";
         if (!shortCircuitMap.isEmpty()) {
             String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
@@ -81,7 +70,7 @@ class ShortCircuitResponseInformationFileHandler {
                     String filename = path + filenamePrefix + UniqueIdGenerator.getNextUniqueId() + ".json";
                     File file = fileFactory.createFile(filename);
                     try {
-                        saveMapObject(file, entryKey, information);
+                        saveMapObject(fileOutputStreamFactory, file, entryKey, information);
                     } catch (IOException e) {
                         String message = "Cache save failed at file: " + filename + ", with message: " + e.getLocalizedMessage();
                         logger.info("ShortCircuit: " + message);
@@ -104,27 +93,23 @@ class ShortCircuitResponseInformationFileHandler {
     /**
      * Load the map from a folder, and create a new map from it.
      *
-     * @param folder              is the folder to be used, under Wilma'S message folder.
+     * @param path is the folder to be used, under Wilma's message folder.
      */
-    void loadPreservedMessagesToMap(String folder) {
+    void loadPreservedMessagesToMap(String path) {
         Map<String, ShortCircuitResponseInformation> newShortCircuitMap = new HashMap<>();
 
-        String path = logFilePathProvider.getLogFilePath() + "/" + folder;
         File folderFile = new File(path);
         File[] listOfFiles = folderFile.listFiles();
         if (listOfFiles != null) {
             for (int i = 0; i < listOfFiles.length; i++) {
-                if (listOfFiles[i].isFile()) {
-                    String pattern = "sc*.json";
-                    // Create a Pattern object
-                    Pattern r = Pattern.compile(pattern);
-                    // Now create matcher object.
-                    Matcher m = r.matcher(listOfFiles[i].getName());
-                    if (m.find()) {
-                        ShortCircuitResponseInformation mapObject = loadMapObject(listOfFiles[i].getName());
+                if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(".json")) {
+                    try {
+                        ShortCircuitResponseInformation mapObject = loadMapObject(listOfFiles[i].getAbsolutePath());
                         if (mapObject != null) {
-                            newShortCircuitMap.put(Integer.toString(i), mapObject);
+                            newShortCircuitMap.put(mapObject.getHashCode(), mapObject);
                         }
+                    } catch (JSONException e) {
+                        logger.info("Cannot load JSON file to Short Circuit map: " + listOfFiles[i].getAbsolutePath() + ", error:" + e.getLocalizedMessage());
                     }
                 }
             }
@@ -141,7 +126,7 @@ class ShortCircuitResponseInformationFileHandler {
         if (file.exists()) {
             //load the file
             String fileContent = loadFileToString(fileName);
-            if (fileContent != null) { //TODO - this part can fail even if the string is not null
+            if (fileContent != null) {
                 JSONObject obj = new JSONObject(fileContent);
                 String hashKey = obj.getString("Key");
                 int responseCode;
@@ -158,6 +143,9 @@ class ShortCircuitResponseInformationFileHandler {
                     information.setHashCode(hashKey);
                     information.setStatusCode(responseCode);
                     information.setContentType(contentType);
+                    //CHECKSTYLE OFF - we must use "new String" here
+                    body = new String(Base64.decodeBase64(body)); //make it human readable
+                    //CHECKSTYLE ON
                     information.setBody(body);
                     Map<String, String> headers = new HashMap<>();
                     for (int i = 0; i < headerArray.length(); i++) {
@@ -189,7 +177,7 @@ class ShortCircuitResponseInformationFileHandler {
         return text;
     }
 
-    private void saveMapObject(File file, String entryKey, ShortCircuitResponseInformation information) throws IOException {
+    private void saveMapObject(FileOutputStreamFactory fileOutputStreamFactory, File file, String entryKey, ShortCircuitResponseInformation information) throws IOException {
         // if file does not exists, then create it
         if (!file.exists()) {
             if (file.getParentFile() != null) {
@@ -213,7 +201,11 @@ class ShortCircuitResponseInformationFileHandler {
             j++;
         }
         fos.write("  ],\n  \"Body\": ".getBytes());
-        String myBody = new JSONObject().put("Body", information.getBody()).toString();
+        //CHECKSTYLE OFF - we must use "new String" here
+        String body = new String(Base64.encodeBase64(information.getBody().getBytes()));
+        //CHECKSTYLE ON
+
+        String myBody = new JSONObject().put("Body", body).toString();
         fos.write((myBody + "\n}").getBytes());
         fos.close();
     }
