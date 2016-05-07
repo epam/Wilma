@@ -48,7 +48,11 @@ class ShortCircuitResponseInformation {
         setContentType(wilmaHttpResponse.getContentType());
         setStatusCode(wilmaHttpResponse.getStatusCode());
         setBody(wilmaHttpResponse.getBody());
-        setHeaders(wilmaHttpResponse.getHeaders());
+        Map<String, String> headers = wilmaHttpResponse.getHeaders();
+        //These two header is not necessary to be preserved
+        headers.remove("Content-Encoding");
+        headers.remove("Content-Length");
+        setHeaders(headers);
         setHashCode(hashCode);
         //need to clone the response perfectly
         this.timeout = timeout;

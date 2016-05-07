@@ -49,7 +49,6 @@ class ShortCircuitResponseInformationFileHandler {
     private static final Object SHORT_CIRCUIT_MAP_GUARD = ShortCircuitChecker.getShortCircuitMapGuard();
     private static Map<String, ShortCircuitResponseInformation> shortCircuitMap = ShortCircuitChecker.getShortCircuitMap();
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitResponseInformationFileHandler.class);
-    private final int e500 = 500;
 
     /**
      * Saves the map to a folder, to preserve it for later use.
@@ -88,6 +87,35 @@ class ShortCircuitResponseInformationFileHandler {
             logger.info("ShortCircuit: " + message);
         }
         return response;
+    }
+
+    private void saveMapObject(FileOutputStreamFactory fileOutputStreamFactory, File file, String entryKey, ShortCircuitResponseInformation information) throws IOException {
+        // if file does not exists, then create it
+        if (!file.exists()) {
+            if (file.getParentFile() != null) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
+        }
+        FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(file);
+        fos.write(("{\n  \"Key\": \"" + entryKey + "\",\n").getBytes());
+        fos.write(("  \"ResponseCode\": " + information.getStatusCode() + ",\n").getBytes());
+        fos.write(("  \"ContentType\": \"" + information.getContentType() + "\",\n").getBytes());
+        Map<String, String> headers = information.getHeaders();
+        fos.write("  \"Headers\": [".getBytes());
+        int j = 1;
+        for (String key : headers.keySet()) {
+            fos.write(("    { \"" + key + "\": \"" + encodeString(headers.get(key)) + "\" }").getBytes());
+            if (j != headers.size()) {
+                fos.write(",".getBytes());
+            }
+            fos.write("\n".getBytes());
+            j++;
+        }
+        fos.write("  ],\n  \"Body\": ".getBytes());
+        String myBody = new JSONObject().put("Body", encodeString(information.getBody().toString())).toString();
+        fos.write((myBody + "\n}").getBytes());
+        fos.close();
     }
 
     /**
@@ -129,23 +157,15 @@ class ShortCircuitResponseInformationFileHandler {
             if (fileContent != null) {
                 JSONObject obj = new JSONObject(fileContent);
                 String hashKey = obj.getString("Key");
-                int responseCode;
-                try {
-                    responseCode = Integer.valueOf(obj.getString("ResponseCode"));
-                } catch (NumberFormatException e) {
-                    responseCode = e500; //E500 if cannot parse the response code
-                }
+                int responseCode = obj.getInt("ResponseCode");
                 String contentType = obj.getString("ContentType");
-                String body = obj.getJSONObject("Body").getString("Body");
+                String body = decodeString(obj.getJSONObject("Body").getString("Body"));
                 JSONArray headerArray = obj.getJSONArray("Headers");
                 if (hashKey != null && contentType != null && body != null && headerArray != null) {
                     ShortCircuitResponseInformation information = new ShortCircuitResponseInformation(Integer.MAX_VALUE);
                     information.setHashCode(hashKey);
                     information.setStatusCode(responseCode);
                     information.setContentType(contentType);
-                    //CHECKSTYLE OFF - we must use "new String" here
-                    body = new String(Base64.decodeBase64(body)); //make it human readable
-                    //CHECKSTYLE ON
                     information.setBody(body);
                     Map<String, String> headers = new HashMap<>();
                     for (int i = 0; i < headerArray.length(); i++) {
@@ -153,7 +173,7 @@ class ShortCircuitResponseInformationFileHandler {
                         Iterator j = o.keys();
                         while (j.hasNext()) {
                             String key = (String) j.next();
-                            headers.put(key, o.getString(key));
+                            headers.put(key, decodeString(o.getString(key)));
                         }
                     }
                     information.setHeaders(headers);
@@ -177,37 +197,15 @@ class ShortCircuitResponseInformationFileHandler {
         return text;
     }
 
-    private void saveMapObject(FileOutputStreamFactory fileOutputStreamFactory, File file, String entryKey, ShortCircuitResponseInformation information) throws IOException {
-        // if file does not exists, then create it
-        if (!file.exists()) {
-            if (file.getParentFile() != null) {
-                file.getParentFile().mkdirs();
-            }
-            file.createNewFile();
-        }
-        FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(file);
-        fos.write(("{\n  \"Key\": \"" + entryKey + "\",\n").getBytes());
-        fos.write(("  \"ResponseCode\": \"" + information.getStatusCode() + "\",\n").getBytes());
-        fos.write(("  \"ContentType\": \"" + information.getContentType() + "\",\n").getBytes());
-        Map<String, String> headers = information.getHeaders();
-        fos.write("  \"Headers\": [".getBytes());
-        int j = 1;
-        for (String key : headers.keySet()) {
-            fos.write(("    { \"" + key + "\": \"" + headers.get(key) + "\" }").getBytes());
-            if (j != headers.size()) {
-                fos.write(",".getBytes());
-            }
-            fos.write("\n".getBytes());
-            j++;
-        }
-        fos.write("  ],\n  \"Body\": ".getBytes());
-        //CHECKSTYLE OFF - we must use "new String" here
-        String body = new String(Base64.encodeBase64(information.getBody().getBytes()));
+    private String encodeString(final String toBeEncoded) {
+        //CHECKSTYLE OFF - ignoring new String() error, as this is the most effective implementation
+        return new String(Base64.encodeBase64(toBeEncoded.getBytes()));
         //CHECKSTYLE ON
-
-        String myBody = new JSONObject().put("Body", body).toString();
-        fos.write((myBody + "\n}").getBytes());
-        fos.close();
     }
 
+    private String decodeString(final String toBeDecoded) {
+        //CHECKSTYLE OFF - ignoring new String() error, as this is the most effective implementation
+        return new String(Base64.decodeBase64(toBeDecoded.getBytes()));
+        //CHECKSTYLE ON
+    }
 }
