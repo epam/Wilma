@@ -93,8 +93,6 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
                 response = handleComplexCall(myMethod, folder, httpServletResponse);
             }
         }
-        //we still need to detect the delete by id cll
-        //TODO by handleComplexDeleteCall
         return response;
     }
 

@@ -102,17 +102,20 @@ class ShortCircuitResponseInformationFileHandler {
         fos.write(("  \"ResponseCode\": " + information.getStatusCode() + ",\n").getBytes());
         fos.write(("  \"ContentType\": \"" + information.getContentType() + "\",\n").getBytes());
         Map<String, String> headers = information.getHeaders();
-        fos.write("  \"Headers\": [".getBytes());
-        int j = 1;
-        for (String key : headers.keySet()) {
-            fos.write(("    { \"" + key + "\": \"" + encodeString(headers.get(key)) + "\" }").getBytes());
-            if (j != headers.size()) {
-                fos.write(",".getBytes());
+        if (headers != null) {
+            fos.write("  \"Headers\": [".getBytes());
+            int j = 1;
+            for (String key : headers.keySet()) {
+                fos.write(("    { \"" + key + "\": \"" + encodeString(headers.get(key)) + "\" }").getBytes());
+                if (j != headers.size()) {
+                    fos.write(",".getBytes());
+                }
+                fos.write("\n".getBytes());
+                j++;
             }
-            fos.write("\n".getBytes());
-            j++;
+            fos.write("  ],\n".getBytes());
         }
-        fos.write("  ],\n  \"Body\": ".getBytes());
+        fos.write("  \"Body\": ".getBytes());
         String myBody = new JSONObject().put("Body", encodeString(information.getBody().toString())).toString();
         fos.write((myBody + "\n}").getBytes());
         fos.close();
@@ -161,12 +164,15 @@ class ShortCircuitResponseInformationFileHandler {
                 String contentType = obj.getString("ContentType");
                 String body = decodeString(obj.getJSONObject("Body").getString("Body"));
                 JSONArray headerArray = obj.getJSONArray("Headers");
-                if (hashKey != null && contentType != null && body != null && headerArray != null) {
-                    ShortCircuitResponseInformation information = new ShortCircuitResponseInformation(Integer.MAX_VALUE);
+                ShortCircuitResponseInformation information = null;
+                if (hashKey != null && contentType != null && body != null) {
+                    information = new ShortCircuitResponseInformation(Integer.MAX_VALUE);
                     information.setHashCode(hashKey);
                     information.setStatusCode(responseCode);
                     information.setContentType(contentType);
                     information.setBody(body);
+                }
+                if (headerArray != null && information != null) {
                     Map<String, String> headers = new HashMap<>();
                     for (int i = 0; i < headerArray.length(); i++) {
                         JSONObject o = headerArray.getJSONObject(i);
@@ -177,8 +183,8 @@ class ShortCircuitResponseInformationFileHandler {
                         }
                     }
                     information.setHeaders(headers);
-                    result = information;
                 }
+                result = information;
             }
         }
         return result;

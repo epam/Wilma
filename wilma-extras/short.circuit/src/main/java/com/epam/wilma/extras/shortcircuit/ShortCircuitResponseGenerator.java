@@ -53,9 +53,11 @@ public class ShortCircuitResponseGenerator implements TemplateGenerator, Templat
             httpServletResponse.setContentType(shortCircuitResponseInformation.getContentType());
             httpServletResponse.setStatus(shortCircuitResponseInformation.getStatusCode());
             Map<String, String> map = shortCircuitResponseInformation.getHeaders();
-            Set<String> keySet = map.keySet();
-            for (String key : keySet) {
-                httpServletResponse.addHeader(key, map.get(key));
+            if (map != null) {
+                Set<String> keySet = map.keySet();
+                for (String key : keySet) {
+                    httpServletResponse.addHeader(key, map.get(key));
+                }
             }
             newBody = shortCircuitResponseInformation.getBody().getBytes();
             logger.info("ShortCircuit: Answer generated for request with hashcode: " + hashCode);

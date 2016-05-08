@@ -52,6 +52,8 @@ class ShortCircuitResponseInformation {
         //These two header is not necessary to be preserved
         headers.remove("Content-Encoding");
         headers.remove("Content-Length");
+        headers.remove("Content-Type");
+        headers.remove("Server");
         setHeaders(headers);
         setHashCode(hashCode);
         //need to clone the response perfectly

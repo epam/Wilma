@@ -148,8 +148,14 @@ class ShortCircuitInterceptorCore {
             ShortCircuitResponseInformation shortCircuitResponseInformation = shortCircuitMap.get(shortCircuitHashCode);
             if (shortCircuitResponseInformation == null) {
                 //we need to store the response now
-                //but first check if response code is 200 - we store only those responses
-                if (wilmaHttpResponse.getStatusCode() == HttpServletResponse.SC_OK) {
+                //but first check if response code is 200, and content is
+                // application/json or text/plain or text/html
+                // so we store only those responses
+                String contentType = wilmaHttpResponse.getHeader("Content-Type");
+                if (wilmaHttpResponse.getStatusCode() == HttpServletResponse.SC_OK && contentType != null
+                        && (contentType.contains("text/plain")
+                        || contentType.contains("application/json")
+                        || contentType.contains("text/html"))) {
                     String timeoutParameterName = "timeout";
                     if (parameterList != null && parameterList.get(timeoutParameterName) != null) {
                         timeout = Long.valueOf(parameterList.get(timeoutParameterName))
@@ -160,6 +166,7 @@ class ShortCircuitInterceptorCore {
                     shortCircuitResponseInformation = new ShortCircuitResponseInformation(wilmaHttpResponse, timeout, shortCircuitHashCode);
                     shortCircuitMap.put(shortCircuitHashCode, shortCircuitResponseInformation);
                     logger.info("ShortCircuit: Message captured for hashcode: " + shortCircuitHashCode);
+
                 }
             } else { //we have response
                 //take care about timeout
