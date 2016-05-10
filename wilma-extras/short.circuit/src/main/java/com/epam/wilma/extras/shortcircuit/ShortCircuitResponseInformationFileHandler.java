@@ -47,7 +47,7 @@ import java.util.Map;
 class ShortCircuitResponseInformationFileHandler {
 
     private static final Object SHORT_CIRCUIT_MAP_GUARD = ShortCircuitChecker.getShortCircuitMapGuard();
-    private static Map<String, ShortCircuitResponseInformation> shortCircuitMap = ShortCircuitChecker.getShortCircuitMap();
+    private static final Map<String, ShortCircuitResponseInformation> SHORT_CIRCUIT_MAP = ShortCircuitChecker.getShortCircuitMap();
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitResponseInformationFileHandler.class);
 
     /**
@@ -60,10 +60,10 @@ class ShortCircuitResponseInformationFileHandler {
                                         HttpServletResponse httpServletResponse) {
         String response = null;
         String filenamePrefix = "sc" + UniqueIdGenerator.getNextUniqueId() + "_";
-        if (!shortCircuitMap.isEmpty()) {
-            String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
+        if (!SHORT_CIRCUIT_MAP.isEmpty()) {
+            String[] keySet = SHORT_CIRCUIT_MAP.keySet().toArray(new String[SHORT_CIRCUIT_MAP.size()]);
             for (String entryKey : keySet) {
-                ShortCircuitResponseInformation information = shortCircuitMap.get(entryKey);
+                ShortCircuitResponseInformation information = SHORT_CIRCUIT_MAP.get(entryKey);
                 if (information != null) { //save only the cached files
                     //save this into file, folder is in folder variable
                     String filename = path + filenamePrefix + UniqueIdGenerator.getNextUniqueId() + ".json";
@@ -137,16 +137,14 @@ class ShortCircuitResponseInformationFileHandler {
                     try {
                         ShortCircuitResponseInformation mapObject = loadMapObject(listOfFiles[i].getAbsolutePath());
                         if (mapObject != null) {
-                            newShortCircuitMap.put(mapObject.getHashCode(), mapObject);
+                            synchronized (SHORT_CIRCUIT_MAP_GUARD) {
+                                SHORT_CIRCUIT_MAP.put(mapObject.getHashCode(), mapObject);
+                            }
                         }
                     } catch (JSONException e) {
                         logger.info("Cannot load JSON file to Short Circuit map: " + listOfFiles[i].getAbsolutePath() + ", error:" + e.getLocalizedMessage());
                     }
                 }
-            }
-            //adding the new map object
-            synchronized (SHORT_CIRCUIT_MAP_GUARD) {
-                shortCircuitMap.putAll(newShortCircuitMap);
             }
         }
     }

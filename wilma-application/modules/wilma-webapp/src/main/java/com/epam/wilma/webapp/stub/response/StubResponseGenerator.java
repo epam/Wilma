@@ -108,7 +108,7 @@ public class StubResponseGenerator {
             }
             //set response status and content type
             headerConfigurer.setResponseContentTypeAndStatus(resp, responseDescriptorDTO);
-            //run formatters
+            //run formatters, with formatters we can overwrite both mime type and status code
             if (templateFormatterDescriptors != null && !templateFormatterDescriptors.isEmpty()) {
                 for (TemplateFormatterDescriptor templateFormatterDescriptor : templateFormatterDescriptors) {
                     TemplateFormatter templateFormatter = templateFormatterDescriptor.getTemplateFormatter();

@@ -148,14 +148,9 @@ class ShortCircuitInterceptorCore {
             ShortCircuitResponseInformation shortCircuitResponseInformation = shortCircuitMap.get(shortCircuitHashCode);
             if (shortCircuitResponseInformation == null) {
                 //we need to store the response now
-                //but first check if response code is 200, and content is
-                // application/json or text/plain or text/html
-                // so we store only those responses
+                //but first check if response code is 200, and content type is text based
                 String contentType = wilmaHttpResponse.getHeader("Content-Type");
-                if (wilmaHttpResponse.getStatusCode() == HttpServletResponse.SC_OK && contentType != null
-                        && (contentType.contains("text/plain")
-                        || contentType.contains("application/json")
-                        || contentType.contains("text/html"))) {
+                if (wilmaHttpResponse.getStatusCode() == HttpServletResponse.SC_OK && contentType != null && allowedContentType(contentType)) {
                     String timeoutParameterName = "timeout";
                     if (parameterList != null && parameterList.get(timeoutParameterName) != null) {
                         timeout = Long.valueOf(parameterList.get(timeoutParameterName))
@@ -177,6 +172,10 @@ class ShortCircuitInterceptorCore {
                 }
             }
         }
+    }
+
+    boolean allowedContentType(final String contentType) {
+        return contentType.contains("text/plain") || contentType.contains("application/json") || contentType.contains("text/html");
     }
 
     /**
