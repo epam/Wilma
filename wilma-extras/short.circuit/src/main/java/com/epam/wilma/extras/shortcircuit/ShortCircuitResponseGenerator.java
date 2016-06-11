@@ -22,6 +22,7 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +32,7 @@ import java.util.Set;
 
 /**
  * This class will generate stub response by using the response captured and cached by the ShortCircuitInterceptor class.
+ *
  * @author tkohegyi, created on 2016. 02. 20.
  */
 public class ShortCircuitResponseGenerator implements TemplateGenerator, TemplateFormatter {
@@ -47,6 +49,9 @@ public class ShortCircuitResponseGenerator implements TemplateGenerator, Templat
         byte[] newBody;
         //prepare a key for this request
         String hashCode = wilmaHttpRequest.getHeader(ShortCircuitChecker.SHORT_CIRCUIT_HEADER);
+        //CHECKSTYLE OFF - we must use "new String" here
+        String decodedEntryKey = new String(Base64.decodeBase64(hashCode)); //make it human readable
+        //CHECKSTYLE ON
         ShortCircuitResponseInformation shortCircuitResponseInformation = ShortCircuitChecker.getShortCircuitMap().get(hashCode);
         if (shortCircuitResponseInformation != null) {
             //we have the answer, so set it properly
@@ -60,11 +65,12 @@ public class ShortCircuitResponseGenerator implements TemplateGenerator, Templat
                 }
             }
             newBody = shortCircuitResponseInformation.getBody().getBytes();
-            logger.info("ShortCircuit: Answer generated for request with hashcode: " + hashCode);
+            shortCircuitResponseInformation.increaseUsageCount(); //hey we just used this cache entry
+            logger.info("ShortCircuit: Answer generated for request with hashcode: " + decodedEntryKey);
         } else {
             //this should not happen, we did not find the cached stub answer
             newBody = "Ups, ShortCircuit was unable to find the proper answer, sorry.".getBytes();
-            logger.error("ShortCircuit: Response generator did not find proper response for request with code: " + hashCode);
+            logger.error("ShortCircuit: Response generator did not find proper response for request with code: " + decodedEntryKey);
         }
         return newBody;
     }

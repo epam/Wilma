@@ -116,7 +116,7 @@ class ShortCircuitResponseInformationFileHandler {
             fos.write("  ],\n".getBytes());
         }
         fos.write("  \"Body\": ".getBytes());
-        String myBody = new JSONObject().put("Body", encodeString(information.getBody().toString())).toString();
+        String myBody = new JSONObject().put("Body", encodeString(information.getBody())).toString();
         fos.write((myBody + "\n}").getBytes());
         fos.close();
     }
@@ -127,7 +127,7 @@ class ShortCircuitResponseInformationFileHandler {
      * @param path is the folder to be used, under Wilma's message folder.
      */
     void loadPreservedMessagesToMap(String path) {
-        Map<String, ShortCircuitResponseInformation> newShortCircuitMap = new HashMap<>();
+        //Map<String, ShortCircuitResponseInformation> newShortCircuitMap = new HashMap<>();
 
         File folderFile = new File(path);
         File[] listOfFiles = folderFile.listFiles();
@@ -164,7 +164,7 @@ class ShortCircuitResponseInformationFileHandler {
                 JSONArray headerArray = obj.getJSONArray("Headers");
                 ShortCircuitResponseInformation information = null;
                 if (hashKey != null && contentType != null && body != null) {
-                    information = new ShortCircuitResponseInformation(Integer.MAX_VALUE);
+                    information = new ShortCircuitResponseInformation(Long.MAX_VALUE);
                     information.setHashCode(hashKey);
                     information.setStatusCode(responseCode);
                     information.setContentType(contentType);

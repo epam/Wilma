@@ -160,7 +160,10 @@ class ShortCircuitInterceptorCore {
                     }
                     shortCircuitResponseInformation = new ShortCircuitResponseInformation(wilmaHttpResponse, timeout, shortCircuitHashCode);
                     shortCircuitMap.put(shortCircuitHashCode, shortCircuitResponseInformation);
-                    logger.info("ShortCircuit: Message captured for hashcode: " + shortCircuitHashCode);
+                    //CHECKSTYLE OFF - we must use "new String" here
+                    String decodedEntryKey = new String(Base64.decodeBase64(shortCircuitHashCode)); //make it human readable
+                    //CHECKSTYLE ON
+                    logger.info("ShortCircuit: Message captured for hashcode: " + decodedEntryKey);
 
                 }
             } else { //we have response
@@ -168,14 +171,17 @@ class ShortCircuitInterceptorCore {
                 timeout = Calendar.getInstance().getTimeInMillis();
                 if (timeout > shortCircuitResponseInformation.getTimeout()) {
                     shortCircuitMap.remove(shortCircuitHashCode);
-                    logger.debug("ShortCircuit: Timeout has happened for hashcode: " + shortCircuitHashCode);
+                    //CHECKSTYLE OFF - we must use "new String" here
+                    String decodedEntryKey = new String(Base64.decodeBase64(shortCircuitHashCode)); //make it human readable
+                    //CHECKSTYLE ON
+                    logger.info("ShortCircuit: Timeout has happened for hashcode: " + decodedEntryKey);
                 }
             }
         }
     }
 
     boolean allowedContentType(final String contentType) {
-        return contentType.contains("text/plain") || contentType.contains("application/json") || contentType.contains("text/html");
+        return contentType.contains("text/plain") || contentType.contains("application/json") || contentType.contains("text/html") || contentType.contains("text/css");
     }
 
     /**
@@ -190,13 +196,19 @@ class ShortCircuitInterceptorCore {
             String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
             for (int i = 0; i < keySet.length; i++) {
                 String entryKey = keySet[i];
-                boolean cached = shortCircuitMap.get(entryKey) != null;
+                ShortCircuitResponseInformation shortCircuitResponseInformation = shortCircuitMap.get(entryKey);
+                boolean cached = shortCircuitResponseInformation != null;
+                long usageCount = 0;
+                if (shortCircuitResponseInformation != null) {
+                    usageCount = shortCircuitResponseInformation.getUsageCount();
+                }
                 //CHECKSTYLE OFF - we must use "new String" here
                 String decodedEntryKey = new String(Base64.decodeBase64(entryKey)); //make it human readable
                 //CHECKSTYLE ON
                 response.append("    { \"id\": \"").append(i)
                         .append("\", \"hashCode\": \"").append(decodedEntryKey)
                         .append("\", \"cached\": ").append(cached)
+                        .append(", \"usageCount\": ").append(usageCount)
                         .append(" }");
                 if (i < keySet.length - 1) {
                     response.append(",");

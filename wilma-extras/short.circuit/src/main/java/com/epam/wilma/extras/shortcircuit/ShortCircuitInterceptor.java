@@ -64,8 +64,9 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
 
     /**
      * ExternalWilmaService method implementation - entry point to handle the request by the external service.
-     * @param httpServletRequest is the original request
-     * @param request is the request string itself (part of the URL, focusing on the requested service)
+     *
+     * @param httpServletRequest  is the original request
+     * @param request             is the request string itself (part of the URL, focusing on the requested service)
      * @param httpServletResponse is the response object
      * @return with the body of the response (need to set response code in httpServletResponse object)
      */
@@ -98,6 +99,7 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
 
     /**
      * ExternalWilmaService method implementation - provides the list of requests, this service will handle.
+     *
      * @return with the set of handled services.
      */
     @Override

@@ -1,9 +1,6 @@
 Wilma Example - Short Circuit
 =============================
 
-This readme file is under construction.
----------------------------------------
-
 Purpose of this example
 ---------------------------------------
 First of all, this is a very complex example, uses almost all features and extension points of Wilma.
@@ -21,7 +18,7 @@ As an extra bonus, the internal content cache can be saved to disk, and any time
 Do you know why it is good? Yes, you may record the traffic, and use it later to stub the traffic, as necessary.
 
 Please note that right now this example caches only responses, those have status code 200,
-and the response Content-type is any of the followings: "text/plain", "application/json" and "text/html".
+and the response Content-type is any of the followings: "text/plain", "application/json", "text/html" and "text/css".
 
 Implementation
 ---------------------------------------
@@ -133,7 +130,6 @@ If you repeat the save request, the plugin will save the cached massages again, 
 
 Load a cache from a folder
 --------------------------
-NOT YET IMPLEMENTED!
 To load a Short Circuit cache, just specify a folder that contains Short Circuit files in the following form:
 ```
 GET http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={toFolder}

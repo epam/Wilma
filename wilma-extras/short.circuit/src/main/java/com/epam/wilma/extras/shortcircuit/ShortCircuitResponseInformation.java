@@ -23,7 +23,8 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import java.util.Map;
 
 /**
- * This class holds a single response information, to be used in stub response, and captured from a real response.
+ * This class holds a single response information, to be usageCount in stub response, and captured from a real response.
+ *
  * @author tkohegyi, created on 2016. 02. 17
  */
 class ShortCircuitResponseInformation {
@@ -35,16 +36,18 @@ class ShortCircuitResponseInformation {
     private Map<String, String> headers;
 
     private long timeout;
+    private long usageCount;
 
     /**
      * Creates a new response information, based on the original response, and specifying a timeout.
      * Timeout value is the system time, when this response become obsolete.
      *
      * @param wilmaHttpResponse is the original response object
-     * @param timeout is the calculated timeout value
-     * @param hashCode is the header hash code of the message
+     * @param timeout           is the calculated timeout value
+     * @param hashCode          is the header hash code of the message
      */
     ShortCircuitResponseInformation(WilmaHttpResponse wilmaHttpResponse, long timeout, String hashCode) {
+        //need to clone the response perfectly
         setContentType(wilmaHttpResponse.getContentType());
         setStatusCode(wilmaHttpResponse.getStatusCode());
         setBody(wilmaHttpResponse.getBody());
@@ -56,8 +59,8 @@ class ShortCircuitResponseInformation {
         headers.remove("Server");
         setHeaders(headers);
         setHashCode(hashCode);
-        //need to clone the response perfectly
         this.timeout = timeout;
+        usageCount = 0;
     }
 
     /**
@@ -111,5 +114,13 @@ class ShortCircuitResponseInformation {
 
     void setHeaders(Map<String, String> headers) {
         this.headers = headers;
+    }
+
+    void increaseUsageCount() {
+        usageCount++;
+    }
+
+    long getUsageCount() {
+        return usageCount;
     }
 }

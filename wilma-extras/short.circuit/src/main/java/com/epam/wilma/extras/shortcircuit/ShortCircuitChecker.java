@@ -21,6 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,14 @@ public class ShortCircuitChecker implements ConditionChecker {
 
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitChecker.class);
 
+    public static Map<String, ShortCircuitResponseInformation> getShortCircuitMap() {
+        return SHORT_CIRCUIT_MAP;
+    }
+
+    public static Object getShortCircuitMapGuard() {
+        return GUARD;
+    }
+
     @Override
     public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameters) {
         boolean conditionResult = false;
@@ -56,18 +65,13 @@ public class ShortCircuitChecker implements ConditionChecker {
                     conditionResult = SHORT_CIRCUIT_MAP.get(hashCode) != null;
                 } else { //we don't have even the request in the map, so put it there
                     SHORT_CIRCUIT_MAP.put(hashCode, null);
-                    logger.info("ShortCircuit: New request to be cached was detected, hash code: " + hashCode);
+                    //CHECKSTYLE OFF - we must use "new String" here
+                    String decodedEntryKey = new String(Base64.decodeBase64(hashCode)); //make it human readable
+                    //CHECKSTYLE ON
+                    logger.info("ShortCircuit: New request to be cached was detected, hash code: " + decodedEntryKey);
                 }
             }
         }
         return conditionResult; //true only, if the response is stored, so we know what to answer
-    }
-
-    public static Map<String, ShortCircuitResponseInformation> getShortCircuitMap() {
-        return SHORT_CIRCUIT_MAP;
-    }
-
-    public static Object getShortCircuitMapGuard() {
-        return GUARD;
     }
 }
