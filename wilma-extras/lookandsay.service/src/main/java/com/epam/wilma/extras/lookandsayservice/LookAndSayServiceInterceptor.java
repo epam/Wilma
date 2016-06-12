@@ -97,7 +97,10 @@ public class LookAndSayServiceInterceptor extends InterceptorCore implements Req
                     iterations--;
                 }
                 //formulate the response
-                response = "{\n  \"serviceResult\": \"" + response + "\",\n  \"length\": \"" + response.length() + "\"\n}";
+                response = "{\n  \"number\": \"" + startingSequence
+                        + "\",\n  \"iterations\": \"" + iterationText
+                        + "\",\n  \"serviceResult\": \"" + response
+                        + "\",\n  \"length\": \"" + response.length() + "\"\n}";
             }
         }
         return response;
