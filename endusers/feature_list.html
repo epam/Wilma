@@ -84,7 +84,7 @@
                 <p></p>
                 <p>See details on this feature <a href="https://github.com/epam/Wilma/wiki/Sequence-Handling">here...</a> </p>
 
-                <h2>Configuring Wilma at run time</h2>
+                <h2>Configuring Wilma at run time - via UI</h2>
                 <p>Wilma has a home page, where basic configurations can be made at run time.
                     You can reach the home page under the following URL after Wilma has started: <strong>http://<em>wilma-url</em>:<em>internal-port</em>/index</strong>.
                 </p>
@@ -137,6 +137,8 @@
                     </li>
                 </ul>
 
+                <h2>Configuring Wilma at run time - via Java Service Library</h2>
+                <p>Since Wilma version 1.5, <a href="https://github.com/epam/Wilma/wiki/Wilma-Service-API-library-for-Java">Wilma Java Service Library</a> have the feature of configuring the stub part programmatically. See details <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration,-via-API">here</a>.</p>
 
                 <h2>Uploading External Resources</h2>
                 <p>There are four kinds of external resources those can be uploaded to Wilma, and each use different addresses for the upload.
@@ -217,6 +219,10 @@ curl -X POST --data-binary @ExternalConditionChecker.class http://wilma-url:int
                 <p>Wilma has service libraries in order to ease the communication/configuration of Wilma from your own code.</p>
                 <p><b>Java Service Library for Wilma</b> is available via <b>JCenter</b>. See more info <a href="https://github.com/epam/Wilma/wiki/Wilma-Service-API-library-for-Java">here...</a> </p>
                 <p><b>.NET Service Library for Wilma</b> is available via <b>NuGet</b>. See more info <a href="https://github.com/epam/Wilma/wiki/Wilma-Service-API-library-for-.NET">here...</a> </p>
+
+                <h2>Wilma Service Endpoint Extension possibility</h2>
+                <p>Since Wilma version 1.5, by implementing ExternalWilmaService interface, it is <b>possible to communicate with your external plugins directly by using HTTP/REST calls</b>.
+                    See details <a href="https://github.com/epam/Wilma/wiki/Service-Endpoint-Extensions-in-Plugins">here</a>.</p>
 
                 <h2>Shutting down Wilma and Wilma Message Search applications</h2>
                 <p>You can shutdown Wilma application by sending a GET/POST request to the '/config/admin/shutdown' URL.</p>
