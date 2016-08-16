@@ -51,7 +51,8 @@ public class SafeguardLimitValidator {
         Long fiOnLimit = propertyHolder.getLong("safeguard.responseFIdecoder.ONlimit");
         Long mwOffLimit = propertyHolder.getLong("safeguard.responseMessageWriter.OFFlimit");
         Long mwOnLimit = propertyHolder.getLong("safeguard.responseMessageWriter.ONlimit");
-        checkLimits(new SafeguardLimits(fiOffLimit, fiOnLimit, mwOffLimit, mwOnLimit));
+        String jmxPort = propertyHolder.get("com.sun.management.jmxremote.port");
+        checkLimits(new SafeguardLimits(fiOffLimit, fiOnLimit, mwOffLimit, mwOnLimit, jmxPort));
     }
 
     private void checkLimits(final SafeguardLimits limits) {
@@ -65,6 +66,12 @@ public class SafeguardLimitValidator {
             throw new InvalidPropertyException("Safeguard fastinfoset decompression off limit must be less than message writing off limit!");
         } else if (limits.getMwOnLimit() > limits.getMwOffLimit()) {
             throw new InvalidPropertyException("Safeguard message writing on limit must be less than message writing off limit!");
+        } else if (limits.getJmxPort() != null) {
+            try {
+                Integer.parseInt(limits.getJmxPort());
+            } catch (NumberFormatException e) {
+                throw new InvalidPropertyException("Specified JMX port is unusable!");
+            }
         }
     }
 

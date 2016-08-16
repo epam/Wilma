@@ -35,6 +35,7 @@ import com.epam.wilma.safeguard.configuration.domain.SafeguardLimits;
 @Component
 public class SafeguardConfigurationAccess implements ConfigurationAccessBase {
 
+    private static final String DEFAULT_JMX_PORT = "1099";
     private PropertyDTO propertyDTO;
 
     @Autowired
@@ -46,7 +47,11 @@ public class SafeguardConfigurationAccess implements ConfigurationAccessBase {
         Long fiOnLimit = propertyHolder.getLong("safeguard.responseFIdecoder.ONlimit");
         Long mwOffLimit = propertyHolder.getLong("safeguard.responseMessageWriter.OFFlimit");
         Long mwOnLimit = propertyHolder.getLong("safeguard.responseMessageWriter.ONlimit");
-        SafeguardLimits safeguardLimits = new SafeguardLimits(fiOffLimit, fiOnLimit, mwOffLimit, mwOnLimit);
+        String jmxPort = propertyHolder.get("com.sun.management.jmxremote.port");
+        if ((jmxPort == null) || (tryParseInt(jmxPort) == 0)) {
+            jmxPort = DEFAULT_JMX_PORT;
+        }
+        SafeguardLimits safeguardLimits = new SafeguardLimits(fiOffLimit, fiOnLimit, mwOffLimit, mwOnLimit, jmxPort);
         String cronExpression = propertyHolder.get("safeguard.guardperiod");
         propertyDTO = new PropertyDTO(safeguardLimits, cronExpression);
     }
@@ -57,6 +62,14 @@ public class SafeguardConfigurationAccess implements ConfigurationAccessBase {
      */
     public PropertyDTO getProperties() {
         return propertyDTO;
+    }
+
+    int tryParseInt(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch(NumberFormatException e) {
+            return 0;
+        }
     }
 
 }

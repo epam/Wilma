@@ -29,6 +29,7 @@ public class SafeguardLimits {
     private final Long fiOnLimit;
     private final Long mwOffLimit;
     private final Long mwOnLimit;
+    private final String jmxPort;
 
     /**
      * Constructs an objects holding all the safeguard limits.
@@ -36,13 +37,15 @@ public class SafeguardLimits {
      * @param fiOnLimit specifies limit when fastinfoset decompression is turned on
      * @param mwOffLimit specifies limit when message logging is turned off
      * @param mwOnLimit specifies limit when message logging is turned on
+     * @param jmxPort specifies the jmx port to be used to connect to jmx server
      */
-    public SafeguardLimits(final Long fiOffLimit, final Long fiOnLimit, final Long mwOffLimit, final Long mwOnLimit) {
+    public SafeguardLimits(final Long fiOffLimit, final Long fiOnLimit, final Long mwOffLimit, final Long mwOnLimit, final String jmxPort) {
         super();
         this.fiOffLimit = fiOffLimit;
         this.fiOnLimit = fiOnLimit;
         this.mwOffLimit = mwOffLimit;
         this.mwOnLimit = mwOnLimit;
+        this.jmxPort = jmxPort;
     }
 
     public Long getFiOffLimit() {
@@ -59,6 +62,10 @@ public class SafeguardLimits {
 
     public Long getMwOnLimit() {
         return mwOnLimit;
+    }
+
+    public String getJmxPort() {
+        return jmxPort;
     }
 
     /**

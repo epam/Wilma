@@ -82,7 +82,7 @@ public class JmsQueueMonitorTaskTest {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
         given(configurationAccess.getProperties()).willReturn(propertyDTO);
-        given(propertyDTO.getSafeguardLimits()).willReturn(new SafeguardLimits(new Long(100), new Long(60), new Long(200), new Long(80)));
+        given(propertyDTO.getSafeguardLimits()).willReturn(new SafeguardLimits(new Long(100), new Long(60), new Long(200), new Long(80), "1099"));
     }
 
     @Test
@@ -362,7 +362,7 @@ public class JmsQueueMonitorTaskTest {
     }
 
     private void givenJmxConnectionBuilder() throws Exception {
-        given(jmxConnectionBuilder.buildMBeanServerConnection(JmsQueueMonitorTask.JMX_SERVICE_URL)).willReturn(mBeanServerConnection);
+        given(jmxConnectionBuilder.buildMBeanServerConnection(JmsQueueMonitorTask.JMX_SERVICE_PRE_URL + "1099" + JmsQueueMonitorTask.JMX_SERVICE_POST_URL)).willReturn(mBeanServerConnection);
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.RESPONSE_QUEUE_OBJECT_NAME)).willReturn(responseQueue);
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.LOGGER_QUEUE_OBJECT_NAME)).willReturn(loggerQueue);
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.DLQ_QUEUE_OBJECT_NAME)).willReturn(dlqQueue);
@@ -374,7 +374,7 @@ public class JmsQueueMonitorTaskTest {
     }
 
     private void verifyConnectionBuilder() {
-        verify(jmxConnectionBuilder).buildMBeanServerConnection(JmsQueueMonitorTask.JMX_SERVICE_URL);
+        verify(jmxConnectionBuilder).buildMBeanServerConnection(JmsQueueMonitorTask.JMX_SERVICE_PRE_URL + "1099" + JmsQueueMonitorTask.JMX_SERVICE_POST_URL);
         verify(jmxObjectNameProvider).getObjectName(JmsQueueMonitorTask.RESPONSE_QUEUE_OBJECT_NAME);
         verify(jmxObjectNameProvider).getObjectName(JmsQueueMonitorTask.LOGGER_QUEUE_OBJECT_NAME);
         verify(jmxObjectNameProvider).getObjectName(JmsQueueMonitorTask.DLQ_QUEUE_OBJECT_NAME);

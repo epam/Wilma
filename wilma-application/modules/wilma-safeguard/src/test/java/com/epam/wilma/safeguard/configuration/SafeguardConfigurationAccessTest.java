@@ -39,6 +39,7 @@ import com.epam.wilma.safeguard.configuration.domain.SafeguardLimits;
 public class SafeguardConfigurationAccessTest {
 
     private static final long LIMIT = 100L;
+    private static final String PORT = "1099";
 
     private static final String CRON_EXPRESSION = "CRON_EXPRESSION";
 
@@ -58,6 +59,7 @@ public class SafeguardConfigurationAccessTest {
         given(propertyHolder.getLong("safeguard.responseFIdecoder.ONlimit")).willReturn(LIMIT);
         given(propertyHolder.getLong("safeguard.responseMessageWriter.OFFlimit")).willReturn(LIMIT);
         given(propertyHolder.getLong("safeguard.responseMessageWriter.ONlimit")).willReturn(LIMIT);
+        given(propertyHolder.get("com.sun.management.jmxremote.port")).willReturn(PORT);
         given(propertyHolder.get("safeguard.guardperiod")).willReturn(CRON_EXPRESSION);
     }
 
@@ -72,6 +74,7 @@ public class SafeguardConfigurationAccessTest {
         assertEquals(actual.getSafeguardLimits().getFiOnLimit(), Long.valueOf(LIMIT));
         assertEquals(actual.getSafeguardLimits().getMwOffLimit(), Long.valueOf(LIMIT));
         assertEquals(actual.getSafeguardLimits().getMwOnLimit(), Long.valueOf(LIMIT));
+        assertEquals(actual.getSafeguardLimits().getJmxPort(), PORT);
     }
 
     @Test

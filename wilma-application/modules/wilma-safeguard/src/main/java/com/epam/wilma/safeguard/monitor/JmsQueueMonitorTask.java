@@ -48,7 +48,8 @@ import javax.management.ObjectName;
 @Component
 public class JmsQueueMonitorTask implements Runnable {
 
-    static final String JMX_SERVICE_URL = "service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi";
+    static final String JMX_SERVICE_PRE_URL = "service:jmx:rmi:///jndi/rmi://localhost:";
+    static final String JMX_SERVICE_POST_URL = "/jmxrmi";
     static final String RESPONSE_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=responseQueue";
     static final String LOGGER_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=loggerQueue";
     static final String DLQ_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=ActiveMQ.DLQ";
@@ -83,16 +84,20 @@ public class JmsQueueMonitorTask implements Runnable {
 
     @Override
     public void run() {
+        getSafeguardLimits();
+
+        String jmxServiceUrl = JMX_SERVICE_PRE_URL + safeguardLimits.getJmxPort() + JMX_SERVICE_POST_URL;
+
         if (mBeanServerConnection == null || responseQueue == null || loggerQueue == null || dlqQueue == null || amqObject == null) {
-            mBeanServerConnection = jmxConnectionBuilder.buildMBeanServerConnection(JMX_SERVICE_URL);
+            mBeanServerConnection = jmxConnectionBuilder.buildMBeanServerConnection(jmxServiceUrl);
             responseQueue = jmxObjectNameProvider.getObjectName(RESPONSE_QUEUE_OBJECT_NAME);
             loggerQueue = jmxObjectNameProvider.getObjectName(LOGGER_QUEUE_OBJECT_NAME);
             dlqQueue = jmxObjectNameProvider.getObjectName(DLQ_QUEUE_OBJECT_NAME);
             amqObject = jmxObjectNameProvider.getObjectName(AMQ_OBJECT_NAME);
         }
+
         Long totalQueueSize = retrieveQuerySize();
 
-        getSafeguardLimits();
         setSafeguardFlags(totalQueueSize);
 
         resetDlqAsNecessary();
