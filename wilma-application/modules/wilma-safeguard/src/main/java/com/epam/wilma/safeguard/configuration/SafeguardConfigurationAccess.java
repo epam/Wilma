@@ -64,12 +64,14 @@ public class SafeguardConfigurationAccess implements ConfigurationAccessBase {
         return propertyDTO;
     }
 
+    //CHECKSTYLE_OFF - we need 2 returns here
     int tryParseInt(String value) {
         try {
             return Integer.parseInt(value);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return 0;
         }
     }
+    //CHECKSTYLE_ON
 
 }

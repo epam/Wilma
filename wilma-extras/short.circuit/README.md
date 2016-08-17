@@ -7,7 +7,7 @@ First of all, this is a very complex example, uses almost all features and exten
 If you just start with the examples, don't start with this one, as this is - again - a complex one.
 
 Short Circuit is a tool that collects responses for specific requests, and as soon as the response is available, next time,
-when the same response arrives, Wilma will use a "short circuit", and instead of acting as proxy, as the answer is known,
+when the same request arrives, Wilma will use a "short circuit", and instead of acting as proxy, as the answer is known,
 Wilma will act as stub and sends the preserved answer back. To store the responses, this Wilma plugin has an internal (very basic) cache.
 
 What is more, by using the External Service feature of Wilma, this plugin implements an external service, and with this service,

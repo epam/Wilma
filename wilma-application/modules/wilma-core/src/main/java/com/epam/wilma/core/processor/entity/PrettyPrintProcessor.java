@@ -60,13 +60,16 @@ public class PrettyPrintProcessor extends ProcessorBase {
 
     @Override
     public void process(final WilmaHttpEntity entity) throws ApplicationException {
+        String body = entity.getBody();
+        if ((body == null) || (body.length() == 0)) {
+            return; //actually we have nothing to print pretty :)
+        }
         String contentTypeHeader = entity.getHeader("Content-Type");
         if (contentTypeHeader != null && contentTypeHeader.contains("xml") && !contentTypeHeader.contains("image/svg+xml")) {
             try {
                 Transformer transformer = transformerFactory.createTransformer();
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
                 StreamResult result = streamResultFactory.createStreamResult();
-                String body = entity.getBody();
                 StreamSource source = streamSourceFactory.createStreamSourceFromString(body);
                 transformer.transform(source, result);
                 String xmlString = result.getWriter().toString();

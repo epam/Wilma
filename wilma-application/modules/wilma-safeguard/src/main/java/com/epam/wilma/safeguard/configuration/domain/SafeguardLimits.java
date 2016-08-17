@@ -39,7 +39,9 @@ public class SafeguardLimits {
      * @param mwOnLimit specifies limit when message logging is turned on
      * @param jmxPort specifies the jmx port to be used to connect to jmx server
      */
+    //CHECKSTYLE_OFF - we need to have 5 params accepted
     public SafeguardLimits(final Long fiOffLimit, final Long fiOnLimit, final Long mwOffLimit, final Long mwOnLimit, final String jmxPort) {
+        //CHECKSTYLE_ON
         super();
         this.fiOffLimit = fiOffLimit;
         this.fiOnLimit = fiOnLimit;

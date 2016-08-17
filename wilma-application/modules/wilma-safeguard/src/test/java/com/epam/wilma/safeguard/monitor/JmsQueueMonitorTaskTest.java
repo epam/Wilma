@@ -362,7 +362,8 @@ public class JmsQueueMonitorTaskTest {
     }
 
     private void givenJmxConnectionBuilder() throws Exception {
-        given(jmxConnectionBuilder.buildMBeanServerConnection(JmsQueueMonitorTask.JMX_SERVICE_PRE_URL + "1099" + JmsQueueMonitorTask.JMX_SERVICE_POST_URL)).willReturn(mBeanServerConnection);
+        given(jmxConnectionBuilder.buildMBeanServerConnection(JmsQueueMonitorTask.JMX_SERVICE_PRE_URL
+                + "1099" + JmsQueueMonitorTask.JMX_SERVICE_POST_URL)).willReturn(mBeanServerConnection);
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.RESPONSE_QUEUE_OBJECT_NAME)).willReturn(responseQueue);
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.LOGGER_QUEUE_OBJECT_NAME)).willReturn(loggerQueue);
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.DLQ_QUEUE_OBJECT_NAME)).willReturn(dlqQueue);

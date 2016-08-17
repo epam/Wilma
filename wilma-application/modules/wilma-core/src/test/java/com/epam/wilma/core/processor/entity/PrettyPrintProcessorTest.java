@@ -88,6 +88,16 @@ public class PrettyPrintProcessorTest {
     }
 
     @Test
+    public void testProcessShouldNotOnEmptyBody() throws ApplicationException, TransformerException {
+        //GIVEN
+        given(request.getBody()).willReturn(null);
+        //WHEN
+        underTest.process(request);
+        //THEN
+        verify(request, never()).setBody(Mockito.anyString());
+    }
+
+    @Test
     public void testProcessShouldCallTransform() throws ApplicationException, TransformerException {
         //GIVEN
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_SOAPXML);
