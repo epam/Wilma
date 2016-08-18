@@ -19,6 +19,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +38,8 @@ import com.epam.wilma.safeguard.configuration.domain.SafeguardLimits;
 public class SafeguardConfigurationAccess implements ConfigurationAccessBase {
 
     private static final String DEFAULT_JMX_PORT = "1099";
+    private final Logger logger = LoggerFactory.getLogger(SafeguardConfigurationAccess.class);
+
     private PropertyDTO propertyDTO;
 
     @Autowired
@@ -47,11 +51,12 @@ public class SafeguardConfigurationAccess implements ConfigurationAccessBase {
         Long fiOnLimit = propertyHolder.getLong("safeguard.responseFIdecoder.ONlimit");
         Long mwOffLimit = propertyHolder.getLong("safeguard.responseMessageWriter.OFFlimit");
         Long mwOnLimit = propertyHolder.getLong("safeguard.responseMessageWriter.ONlimit");
-        String jmxPort = propertyHolder.get("com.sun.management.jmxremote.port");
-        if ((jmxPort == null) || (tryParseInt(jmxPort) == 0)) {
-            jmxPort = DEFAULT_JMX_PORT;
+        String rmiPort = System.getProperty("com.sun.management.jmxremote.rmi.port");
+        if ((rmiPort == null) || (tryParseInt(rmiPort) == 0)) {
+            rmiPort = DEFAULT_JMX_PORT;
         }
-        SafeguardLimits safeguardLimits = new SafeguardLimits(fiOffLimit, fiOnLimit, mwOffLimit, mwOnLimit, jmxPort);
+        logger.info("RMI: using port:" + rmiPort);
+        SafeguardLimits safeguardLimits = new SafeguardLimits(fiOffLimit, fiOnLimit, mwOffLimit, mwOnLimit, rmiPort);
         String cronExpression = propertyHolder.get("safeguard.guardperiod");
         propertyDTO = new PropertyDTO(safeguardLimits, cronExpression);
     }
