@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 public class ExampleHandler extends AbstractHandler {
     private static final String FIS_RESPONSE = "example.xml.fis";
     private static final String EXAMPLE_XML = "example.xml";
+    private static final String EXAMPLE_JSON = "example.json";
     private static final String WILMA_LOGGER_ID = "Wilma-Logger-ID";
 
     private static final String PATH_OK = "/ok";
@@ -54,6 +55,7 @@ public class ExampleHandler extends AbstractHandler {
     private static final String PATH_SERVICE_UNAVAILABLE = "/sendserviceunavailable";
     private static final String PATH_INTERNAL_SERVER_ERROR = "/sendinternalservererror";
     private static final String PATH_SEND_BAD_FIS = "/sendbadfis";
+    private static final String PATH_REPLICATOR = "/replicator";
     private static final int WAIT_IN_MILLIS = 61000;
     private static final String ACCEPT_ENCODING = "Accept-Encoding";
     private static final String ACCEPT_HEADER = "Accept";
@@ -117,6 +119,23 @@ public class ExampleHandler extends AbstractHandler {
                 requestBody = IOUtils.toString(writer.toByteArray(), "utf-8"); //default request body content
             }
             setAnswer(baseRequest, httpServletRequest, httpServletResponse, requestBody);
+        } else if (baseRequest.getRequestURI().startsWith(PATH_REPLICATOR)) {
+            //send a replicator answer back
+            InputStream json = getXmlFromFile(EXAMPLE_JSON); //getXml? who cares
+            httpServletResponse.setContentType("application/json");
+            httpServletResponse.setCharacterEncoding("UTF-8");
+            byte[] responseBodyAsBytes = IOUtils.toByteArray(json, json.available());
+
+            //Encodes response body with gzip if client accepts gzip encoding
+            if (httpServletRequest.getHeader(ACCEPT_ENCODING) != null && httpServletRequest.getHeader(ACCEPT_ENCODING).contains(GZIP_TYPE)) {
+                ByteArrayOutputStream gzipped = gzipCompressor.compress(new ByteArrayInputStream(responseBodyAsBytes));
+                responseBodyAsBytes = gzipped.toByteArray();
+                httpServletResponse.addHeader(CONTENT_ENCODING, GZIP_TYPE);
+            }
+
+            httpServletResponse.getOutputStream().write(responseBodyAsBytes);
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            baseRequest.setHandled(true);
         } else {
             generateBadResponses(path, httpServletRequest, httpServletResponse, baseRequest);
             generateErrorCode(path, httpServletResponse);

@@ -1,6 +1,6 @@
-package com.epam.wilma.extras.replicator.interceptor;
+package com.epam.wilma.extras.replicator;
 /*==========================================================================
-Copyright 2013-2016 EPAM Systems
+Copyright 2016 EPAM Systems
 
 This file is part of Wilma.
 
@@ -21,8 +21,11 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
+import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.extras.replicator.repeater.HttpRequestSender;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * The main interceptor class.
@@ -31,22 +34,50 @@ import com.epam.wilma.extras.replicator.repeater.HttpRequestSender;
  */
 public class ReplicatorInterceptor implements RequestInterceptor {
 
+    private SecondaryRequestSender secondaryRequestSender;
+
     @Override
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
-        HttpRequestSender httpRequestSender = new HttpRequestSender();
-        WilmaHttpRequest secondaryRequest = cloneRequest(wilmaHttpRequest);
+        //first decide if we need to replicate this request and forward to somewhere else too
+        for (Parameter parameter : parameterList.getAllParameters()) {
+            if (wilmaHttpRequest.getUri().toString().startsWith(parameter.getName())) {
+                replicateRequest(wilmaHttpRequest, parameter.getName(), parameter.getValue());
+            }
+        }
+    }
 
-        //here put it into queue
-        //TODO
+    private void replicateRequest(WilmaHttpRequest wilmaHttpRequest, String fromServer, String toServer) {
+        //prepare the secondary request
+        WilmaHttpRequest secondaryRequest = null;
+        try {
+            secondaryRequest = cloneRequest(wilmaHttpRequest);
+            secondaryRequest.setRequestLine(secondaryRequest.getRequestLine().replace(fromServer, toServer));
+            secondaryRequest.setUri(new URI(secondaryRequest.getUri().toString().replace(fromServer, toServer)));
+
+            //here put it into queue
+            //TODO
+
+        } catch (URISyntaxException e) {
+            return; //we were unable to put it to the queue
+        }
 
         //here assume that it is in the queue, and a consumer reads it out
-        WilmaHttpResponse secondaryResponse = httpRequestSender.callSecondaryServer(secondaryRequest, "http://localhost:8081/testserver");
 
-        //finally story the messages
+        //update the request body as necessary
+        // -- JUST DO IT HERE, IF NECESSARY
+
+        //now send the secondary request to the secondary server
+        if (secondaryRequestSender == null) {
+            secondaryRequestSender = new SecondaryRequestSender();
+        }
+
+        WilmaHttpResponse secondaryResponse = secondaryRequestSender.callSecondaryServer(secondaryRequest);
+
+        //finally store the messages
         storeMessages(secondaryRequest, secondaryResponse);
     }
 
-    private WilmaHttpRequest cloneRequest(WilmaHttpRequest wilmaHttpRequest) {
+    private WilmaHttpRequest cloneRequest(WilmaHttpRequest wilmaHttpRequest) throws URISyntaxException {
         WilmaHttpRequest clone = new WilmaHttpRequest();
 
         clone.setRequestLine(wilmaHttpRequest.getRequestLine());
@@ -55,7 +86,7 @@ public class ReplicatorInterceptor implements RequestInterceptor {
         }
 
         clone.setBody(wilmaHttpRequest.getBody());
-        clone.setUri(wilmaHttpRequest.getUri());
+        clone.setUri(new URI(wilmaHttpRequest.getUri().toString()));
         clone.setResponseVolatile(false);
 
         //set Wilma Message Id
@@ -70,7 +101,6 @@ public class ReplicatorInterceptor implements RequestInterceptor {
     private void storeMessages(WilmaHttpRequest secondaryRequest, WilmaHttpResponse secondaryResponse) {
         //put both request and response to message saving queue
     }
-
 
 }
 
