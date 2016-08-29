@@ -21,6 +21,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
+import com.epam.wilma.extras.replicator.gzip.GzipCompressor;
+import com.epam.wilma.extras.replicator.gzip.GzipDecompressor;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -31,16 +33,14 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.URI;
-import java.util.zip.GZIPOutputStream;
 
 /**
  * Sends a secondary HTTP(s) request.
@@ -50,6 +50,8 @@ import java.util.zip.GZIPOutputStream;
 class SecondaryRequestSender {
 
     private final Logger logger = LoggerFactory.getLogger(SecondaryRequestSender.class);
+    private GzipCompressor gzipCompressor = new GzipCompressor();
+    private GzipDecompressor gzipDecompressor = new GzipDecompressor();
 
     /**
      * Sends a new HTTP request to a server through a proxy.
@@ -85,7 +87,7 @@ class SecondaryRequestSender {
                 InputStream inputStream = new ByteArrayInputStream(wilmaHttpRequest.getBody().getBytes("UTF-8"));
                 String encoding = wilmaHttpRequest.getHeader("Content-Encoding");
                 if ((encoding != null) && (encoding.toLowerCase().contains("gzip"))) {
-                    inputStream = encode(inputStream);
+                    inputStream = gzipCompressor.compress(inputStream);
                 }
                 String contentType = wilmaHttpRequest.getHeader("Content-Type");
                 if (contentType == null) {
@@ -112,16 +114,6 @@ class SecondaryRequestSender {
         return wilmaResponse;
     }
 
-    private InputStream encode(final InputStream inputStream) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        GZIPOutputStream gout = new GZIPOutputStream(baos);
-        //... Code to read from your original uncompressed data and write to gout.
-        IOUtils.copy(inputStream, gout);
-        gout.finish();
-        //Convert to InputStream.
-        return new ByteArrayInputStream(baos.toByteArray());
-    }
-
     private WilmaHttpResponse transferResponse(HttpResponse response, HttpRequestBase method, String messageId, String serverIpAddress) {
         WilmaHttpResponse result = new WilmaHttpResponse(false);
         try {
@@ -130,8 +122,18 @@ class SecondaryRequestSender {
             }
 
             int status = response.getStatusLine().getStatusCode();
-            result.setBody(EntityUtils.toString(response.getEntity()));
             result.setContentType(response.getFirstHeader("Content-Type").getValue());
+
+            InputStream inputStream = response.getEntity().getContent();
+
+            String encoding = response.getFirstHeader("Content-Encoding").getValue();
+            if ((encoding != null) && (encoding.toLowerCase().contains("gzip"))) {
+                inputStream = gzipDecompressor.decompress(inputStream);
+            }
+            StringWriter writer = new StringWriter();
+            IOUtils.copy(inputStream, writer, "UTF-8");
+            String body = writer.toString();
+            result.setBody(body);
             result.setStatusCode(status);
 
             //set Wilma Message Id

@@ -18,11 +18,15 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.core.processor.entity.JmsRequestLoggerProcessor;
+import com.epam.wilma.core.processor.entity.JmsResponseProcessor;
+import com.epam.wilma.core.processor.entity.PrettyPrintProcessor;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -32,15 +36,26 @@ import java.net.URISyntaxException;
  *
  * @author Tamas Kohegyi
  */
+@Component
 public class ReplicatorInterceptor implements RequestInterceptor {
 
-    private SecondaryRequestSender secondaryRequestSender;
+    @Autowired
+    private PrettyPrintProcessor prettyPrintProcessor;
+
+    @Autowired
+    private JmsRequestLoggerProcessor jmsRequestLoggerProcessor;
+
+    @Autowired
+    private JmsResponseProcessor jmsResponseProcessor;
 
     @Override
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
         //first decide if we need to replicate this request and forward to somewhere else too
         for (Parameter parameter : parameterList.getAllParameters()) {
             if (wilmaHttpRequest.getUri().toString().startsWith(parameter.getName())) {
+                if (!SecondaryMessageLogger.wasSet()) {
+                    SecondaryMessageLogger.setBeans(prettyPrintProcessor, jmsRequestLoggerProcessor, jmsResponseProcessor);
+                }
                 replicateRequest(wilmaHttpRequest, parameter.getName(), parameter.getValue());
             }
         }
@@ -48,7 +63,7 @@ public class ReplicatorInterceptor implements RequestInterceptor {
 
     private void replicateRequest(WilmaHttpRequest wilmaHttpRequest, String fromServer, String toServer) {
         //prepare the secondary request
-        WilmaHttpRequest secondaryRequest = null;
+        WilmaHttpRequest secondaryRequest;
         try {
             secondaryRequest = cloneRequest(wilmaHttpRequest);
             secondaryRequest.setRequestLine(secondaryRequest.getRequestLine().replace(fromServer, toServer));
@@ -61,20 +76,10 @@ public class ReplicatorInterceptor implements RequestInterceptor {
             return; //we were unable to put it to the queue
         }
 
-        //here assume that it is in the queue, and a consumer reads it out
+        //here assume that it is in the queue, and a consumer reads it out, somehow this way:
+        ReplicatorQueueHandler replicatorQueueHandler = new ReplicatorQueueHandler();
+        replicatorQueueHandler.handleQueuedMessage(secondaryRequest);
 
-        //update the request body as necessary
-        // -- JUST DO IT HERE, IF NECESSARY
-
-        //now send the secondary request to the secondary server
-        if (secondaryRequestSender == null) {
-            secondaryRequestSender = new SecondaryRequestSender();
-        }
-
-        WilmaHttpResponse secondaryResponse = secondaryRequestSender.callSecondaryServer(secondaryRequest);
-
-        //finally store the messages
-        storeMessages(secondaryRequest, secondaryResponse);
     }
 
     private WilmaHttpRequest cloneRequest(WilmaHttpRequest wilmaHttpRequest) throws URISyntaxException {
@@ -96,10 +101,6 @@ public class ReplicatorInterceptor implements RequestInterceptor {
         clone.setRemoteAddr(wilmaHttpRequest.getRemoteAddr());
 
         return clone;
-    }
-
-    private void storeMessages(WilmaHttpRequest secondaryRequest, WilmaHttpResponse secondaryResponse) {
-        //put both request and response to message saving queue
     }
 
 }
