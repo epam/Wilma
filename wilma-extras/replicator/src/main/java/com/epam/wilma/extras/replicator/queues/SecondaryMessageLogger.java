@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.replicator;
+package com.epam.wilma.extras.replicator.queues;
 
 /*==========================================================================
 Copyright 2016 EPAM Systems
@@ -57,16 +57,6 @@ public class SecondaryMessageLogger {
     }
 
     /**
-     * If the Spring beans are available or not.
-     *
-     * @return with true if available, otherwise with false.
-     */
-    public static boolean wasSet() {
-        return SecondaryMessageLogger.wasSet;
-    }
-
-
-    /**
      * Send the secondary request and response to Wilma's built-in message logger queue.
      *
      * @param secondaryRequest  is its name suggests
@@ -75,12 +65,14 @@ public class SecondaryMessageLogger {
     public void storeMessages(WilmaHttpRequest secondaryRequest, WilmaHttpResponse secondaryResponse) {
         if (SecondaryMessageLogger.wasSet) {
             try {
-                //first pretty-print both messages
+                //first handle request
                 prettyPrintProcessor.process(secondaryRequest);
-                prettyPrintProcessor.process(secondaryResponse);
-                //then put both request and response to message logging queue
                 jmsRequestLoggerProcessor.process(secondaryRequest);
-                jmsResponseProcessor.process(secondaryResponse);
+                //then handle response (that might be missed if cannot connect to test server
+                if (secondaryResponse != null) {
+                    prettyPrintProcessor.process(secondaryResponse);
+                    jmsResponseProcessor.process(secondaryResponse);
+                }
             } catch (ApplicationException e) {
                 logger.error("Problem saving replicated request/response.", e);
             }

@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.replicator;
+package com.epam.wilma.extras.replicator.interceptor;
 /*==========================================================================
 Copyright 2016 EPAM Systems
 
@@ -25,9 +25,14 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import com.epam.wilma.extras.replicator.queues.ReplicatorQueue;
+import com.epam.wilma.extras.replicator.queues.SecondaryMessageLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.jms.JMSException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -39,47 +44,48 @@ import java.net.URISyntaxException;
 @Component
 public class ReplicatorInterceptor implements RequestInterceptor {
 
+    private final Logger logger = LoggerFactory.getLogger(ReplicatorInterceptor.class);
+
+    //beans for message logging
     @Autowired
     private PrettyPrintProcessor prettyPrintProcessor;
-
     @Autowired
     private JmsRequestLoggerProcessor jmsRequestLoggerProcessor;
-
     @Autowired
     private JmsResponseProcessor jmsResponseProcessor;
+
+    private ReplicatorQueue replicatorQueue;
 
     @Override
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
         //first decide if we need to replicate this request and forward to somewhere else too
         for (Parameter parameter : parameterList.getAllParameters()) {
             if (wilmaHttpRequest.getUri().toString().startsWith(parameter.getName())) {
-                if (!SecondaryMessageLogger.wasSet()) {
-                    SecondaryMessageLogger.setBeans(prettyPrintProcessor, jmsRequestLoggerProcessor, jmsResponseProcessor);
+                try {
+                    replicateRequest(wilmaHttpRequest, parameter.getName(), parameter.getValue());
+                } catch (JMSException | URISyntaxException e) {
+                    logger.error("Sending message to replicator queue failed.", e);
                 }
-                replicateRequest(wilmaHttpRequest, parameter.getName(), parameter.getValue());
             }
         }
     }
 
-    private void replicateRequest(WilmaHttpRequest wilmaHttpRequest, String fromServer, String toServer) {
+    private void replicateRequest(WilmaHttpRequest wilmaHttpRequest, String fromServer, String toServer) throws URISyntaxException, JMSException {
         //prepare the secondary request
         WilmaHttpRequest secondaryRequest;
-        try {
-            secondaryRequest = cloneRequest(wilmaHttpRequest);
-            secondaryRequest.setRequestLine(secondaryRequest.getRequestLine().replace(fromServer, toServer));
-            secondaryRequest.setUri(new URI(secondaryRequest.getUri().toString().replace(fromServer, toServer)));
+        secondaryRequest = cloneRequest(wilmaHttpRequest);
+        secondaryRequest.setRequestLine(secondaryRequest.getRequestLine().replace(fromServer, toServer));
+        secondaryRequest.setUri(new URI(secondaryRequest.getUri().toString().replace(fromServer, toServer)));
 
-            //here put it into queue
-            //TODO
+        //check if we have replicator queue available
+        if (replicatorQueue == null) {
+            //replicator queue is not yet available, so initialize it
+            replicatorQueue = new ReplicatorQueue();
+            //also setup the connection to message logger queue of Wilma
+            SecondaryMessageLogger.setBeans(prettyPrintProcessor, jmsRequestLoggerProcessor, jmsResponseProcessor);
+        } //now all the necessary ActiveMQ queues are available
 
-        } catch (URISyntaxException e) {
-            return; //we were unable to put it to the queue
-        }
-
-        //here assume that it is in the queue, and a consumer reads it out, somehow this way:
-        ReplicatorQueueHandler replicatorQueueHandler = new ReplicatorQueueHandler();
-        replicatorQueueHandler.handleQueuedMessage(secondaryRequest);
-
+        replicatorQueue.sendMessage(secondaryRequest);
     }
 
     private WilmaHttpRequest cloneRequest(WilmaHttpRequest wilmaHttpRequest) throws URISyntaxException {

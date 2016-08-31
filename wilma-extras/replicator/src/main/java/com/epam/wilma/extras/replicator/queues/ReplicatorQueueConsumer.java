@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.replicator;
+package com.epam.wilma.extras.replicator.queues;
 
 /*==========================================================================
 Copyright 2016 EPAM Systems
@@ -21,37 +21,55 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
+import com.epam.wilma.extras.replicator.secondaryClient.SecondaryClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
 
 /**
  * Saves the secondary request and response to disk (send to Wilma's built-in message logger queue.
  *
  * @author Tamas Kohegyi
  */
-public class ReplicatorQueueHandler {
+class ReplicatorQueueConsumer implements MessageListener {
 
-    private final Logger logger = LoggerFactory.getLogger(ReplicatorQueueHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(ReplicatorQueueConsumer.class);
 
     /**
      * This method handles the replicated message (translate-send-receive-save) arrived from the queue.
      *
-     * @param secondaryRequest is the message to be sent to the secondary server
+     * @param message is the message to be sent to the secondary server
      */
-    public void handleQueuedMessage(WilmaHttpRequest secondaryRequest) {
-        //update the request body as necessary
-        translateRequestToSecondaryServer(secondaryRequest);
+    @Override
+    public void onMessage(Message message) {
 
-        //now send the secondary request to the secondary server, and receive response
-        SecondaryRequestSender secondaryRequestSender = new SecondaryRequestSender();
-        WilmaHttpResponse secondaryResponse = secondaryRequestSender.callSecondaryServer(secondaryRequest);
+        if (message instanceof ObjectMessage) {
+            ObjectMessage objectMessage = (ObjectMessage) message;
+            try {
+                WilmaHttpRequest secondaryRequest = (WilmaHttpRequest) objectMessage.getObject();
+                //update the request body/headers as necessary
+                secondaryRequest = translateRequestToSecondaryServer(secondaryRequest);
 
-        //finally store the messages
-        storeMessages(secondaryRequest, secondaryResponse);
+                //now send the secondary request to the secondary server, and receive response
+                SecondaryClient secondaryClient = new SecondaryClient();
+                WilmaHttpResponse secondaryResponse = secondaryClient.callSecondaryServer(secondaryRequest);
+
+                //finally store the messages
+                storeMessages(secondaryRequest, secondaryResponse);
+            } catch (JMSException e) {
+                logger.error("Error occurred when reading message from Replicator queue.", e);
+                e.printStackTrace();
+            }
+        }
     }
 
-    private void translateRequestToSecondaryServer(WilmaHttpRequest secondaryRequest) {
+    private WilmaHttpRequest translateRequestToSecondaryServer(WilmaHttpRequest secondaryRequest) {
         // -- JUST DO IT HERE, IF AND AS NECESSARY
+        return secondaryRequest;
     }
 
     private void storeMessages(WilmaHttpRequest secondaryRequest, WilmaHttpResponse secondaryResponse) {
@@ -59,5 +77,6 @@ public class ReplicatorQueueHandler {
         SecondaryMessageLogger secondaryMessageLogger = new SecondaryMessageLogger();
         secondaryMessageLogger.storeMessages(secondaryRequest, secondaryResponse);
     }
+
 
 }
