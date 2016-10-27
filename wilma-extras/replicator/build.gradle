@@ -1,0 +1,11 @@
+group 'com.epam.wilma'
+
+apply plugin: 'java'
+apply from: '../../common.gradle'
+
+dependencies {
+    compile files("../../wilma-application/release/wilma-$version" + '.jar')
+    //this httpclient need to be in synch with httpclient used by the proxy lib of wilma
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version:'4.2.3'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
