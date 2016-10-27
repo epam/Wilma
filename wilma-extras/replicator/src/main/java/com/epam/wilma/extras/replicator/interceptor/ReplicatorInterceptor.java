@@ -70,7 +70,9 @@ public class ReplicatorInterceptor implements RequestInterceptor {
         }
     }
 
+    //CHECKSTYLE.OFF - to ignore stupid checkstyle problem of: Unable to get class information for JMSException
     private void replicateRequest(WilmaHttpRequest wilmaHttpRequest, String fromServer, String toServer) throws URISyntaxException, JMSException {
+        //CHECKSTYLE.ON
         //prepare the secondary request
         WilmaHttpRequest secondaryRequest;
         secondaryRequest = cloneRequest(wilmaHttpRequest);

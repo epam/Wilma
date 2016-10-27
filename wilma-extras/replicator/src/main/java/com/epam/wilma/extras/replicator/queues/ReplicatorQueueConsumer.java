@@ -62,13 +62,13 @@ class ReplicatorQueueConsumer implements MessageListener {
                 storeMessages(secondaryRequest, secondaryResponse);
             } catch (JMSException e) {
                 logger.error("Error occurred when reading message from Replicator queue.", e);
-                e.printStackTrace();
             }
         }
     }
 
     private WilmaHttpRequest translateRequestToSecondaryServer(WilmaHttpRequest secondaryRequest) {
-        // -- JUST DO IT HERE, IF AND AS NECESSARY
+        // -- JUST DO ANY TRANSLATION HERE, IF AND AS NECESSARY
+        // -- WORTH TO USE IT FOR EXAMPLE THE SECONDARY TARGET HAS DIFFERENT INTERFACE THAN THE ORIGINAL/PRIMARY TARGET
         return secondaryRequest;
     }
 

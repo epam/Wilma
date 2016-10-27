@@ -49,7 +49,9 @@ public class ReplicatorQueue {
      *
      * @throws JMSException if issue occurs
      */
+    //CHECKSTYLE.OFF - to ignore stupid checkstyle problem of: Unable to get class information for JMSException
     public ReplicatorQueue() throws JMSException {
+        //CHECKSTYLE.ON
         // Create a ConnectionFactory
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(AMQ_SERVICE_URL);
 
@@ -80,7 +82,9 @@ public class ReplicatorQueue {
      * @param wilmaHttpRequest is the request to be sent
      * @throws JMSException if any issue occurs
      */
+    //CHECKSTYLE.OFF - to ignore stupid checkstyle problem of: Unable to get class information for JMSException
     public void sendMessage(WilmaHttpRequest wilmaHttpRequest) throws JMSException {
+        //CHECKSTYLE.ON
         ObjectMessage message = session.createObjectMessage(wilmaHttpRequest);
         producer.send(message);
     }
