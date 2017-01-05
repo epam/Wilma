@@ -1,7 +1,7 @@
 package com.epam.wilma.message.search.web.service;
 
 /*==========================================================================
-Copyright 2015 EPAM Systems
+Copyright 2013-2017 EPAM Systems
 
 This file is part of Wilma.
 

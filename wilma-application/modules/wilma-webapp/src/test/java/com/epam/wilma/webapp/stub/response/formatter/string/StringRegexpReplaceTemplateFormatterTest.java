@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.stub.response.formatter.string;
 /*==========================================================================
-Copyright 2013-2016 EPAM Systems
+Copyright 2013-2017 EPAM Systems
 
 This file is part of Wilma.
 

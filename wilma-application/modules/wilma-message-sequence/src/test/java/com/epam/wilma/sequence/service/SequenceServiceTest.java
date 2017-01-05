@@ -1,6 +1,6 @@
 package com.epam.wilma.sequence.service;
 /*==========================================================================
-Copyright 2013-2016 EPAM Systems
+Copyright 2013-2017 EPAM Systems
 
 This file is part of Wilma.
 

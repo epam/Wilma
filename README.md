@@ -75,7 +75,7 @@ In order to get the latest news, follow this project on GitHub.
 Feel free to contribute (send pull request), or seek for assistance/advise, or discuss usage scenarios by joining to [wilma-users](https://groups.google.com/forum/#!forum/wilma-users) mailing list.
 
 # License - GPLv3.0
-Copyright 2013-2016 EPAM Systems
+Copyright 2013-2017 EPAM Systems
 
 Wilma is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
