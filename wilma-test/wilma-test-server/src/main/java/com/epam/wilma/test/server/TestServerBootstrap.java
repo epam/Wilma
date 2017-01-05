@@ -1,7 +1,7 @@
 package com.epam.wilma.test.server;
 
 /*==========================================================================
-Copyright 2013-2016 EPAM Systems
+Copyright 2013-2017 EPAM Systems
 
 This file is part of Wilma.
 
@@ -50,7 +50,7 @@ public class TestServerBootstrap {
             versionTitle = "UNKNOWN";
         }
 
-        logger.info(versionTitle + "\nCopyright 2013-2016 EPAM Systems - GNU GPL-V3.0 License");
+        logger.info(versionTitle + "\nCopyright 2013-2017 EPAM Systems - GNU GPL-V3.0 License");
 
         if (args.length == 1) {
             try {

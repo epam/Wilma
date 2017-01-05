@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<!--  Copyright 2013-2016 EPAM Systems
+<!--  Copyright 2013-2017 EPAM Systems
       This file is part of Wilma.
       Wilma is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
       as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -17,7 +17,7 @@
    </bean>
    
    <bean id="wilmaStartMessage" class="java.lang.String">
-       <constructor-arg value="%s &#10;Copyright 2013-2016 EPAM Systems - GNU GPL-V3.0 License&#10;Used proxy port: %d &#10;Wilma UI is available via URL: http://localhost:%d/index/ &#10;Application logs are stored in '%s' folder.&#10;Request-response pairs are stored in '%s' folder." />
+       <constructor-arg value="%s &#10;Copyright 2013-2017 EPAM Systems - GNU GPL-V3.0 License&#10;Used proxy port: %d &#10;Wilma UI is available via URL: http://localhost:%d/index/ &#10;Application logs are stored in '%s' folder.&#10;Request-response pairs are stored in '%s' folder." />
    </bean>
 
   <bean class="net.lightbody.bmp.proxy.ProxyServer" />
