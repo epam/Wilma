@@ -13,10 +13,10 @@ RUN \
   apt-get install -y openjdk-7-jre && \
   apt-get upgrade -y && \
   rm -rf /var/lib/apt/lists/* && \
-  wget https://github.com/epam/Wilma/releases/download/V1.4.137/wilma-application-1.4.137.zip && \
-  unzip wilma-application-1.4.137.zip && \
-  mv wilma-1.4.137.jar wilma.jar && \
-  rm -f wilma-application-1.4.137.zip
+  wget https://github.com/epam/Wilma/releases/download/V1.5.195/wilma-application-1.5.195.zip && \
+  unzip wilma-application-1.5.195.zip && \
+  mv wilma-1.5.195.jar wilma.jar && \
+  rm -f wilma-application-1.5.195.zip
 
 COPY start_wilma.sh /data/
 RUN \

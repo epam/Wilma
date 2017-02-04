@@ -11,10 +11,10 @@ RUN \
   apt-get upgrade -y && \
   apt-get install -y openjdk-7-jdk && \
   rm -rf /var/libs/apt/lists/* && \
-  wget https://github.com/epam/Wilma/releases/download/V1.4.137/wilma-message-search-1.4.137.zip && \
-  unzip -o wilma-message-search-1.4.137.zip && \
-  mv wilma-message-search-1.4.137.jar wilma-message-search.jar && \
-  rm -f wilma-message-search-1.4.137.zip
+  wget https://github.com/epam/Wilma/releases/download/V1.5.195/wilma-message-search-1.5.195.zip && \
+  unzip -o wilma-message-search-1.5.195.zip && \
+  mv wilma-message-search-1.5.195.jar wilma-message-search.jar && \
+  rm -f wilma-message-search-1.5.195.zip
 
 COPY start_wilma_and_message_search.sh /data/
 RUN \
@@ -31,5 +31,5 @@ ENV WILMA_MS_CONFIGURATION message.search.conf.properties
 # you may start wilma and message search with default setting by /data/start_wilma_and_message_search.sh
 CMD ["./start_wilma_and_message_search.sh"]
 
-# expose UI port of message search
+# expose UI port of message search application
 EXPOSE 9093
