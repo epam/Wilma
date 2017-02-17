@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
+    <dialog-descriptor name="BulkHeadExampleConfiguration" usage="always" comment="Bulk Head, with 1/s protection and then returning with E503-Service Unavailable">
+        <condition-descriptor>
+                <condition class="com.epam.wilma.extras.bulkhead.BulkHeadChecker" >
+                    <param name="headId" value="ALLCASE_BULKHEAD" />
+                    <param name="headSpeed" value="1" />
+                </condition>
+        </condition-descriptor>
+        <response-descriptor code="503" delay="0" mimetype="text/plain" template="bulkHeadTemplate">
+        </response-descriptor>
+    </dialog-descriptor>
+    <template-descriptor name="templateDescriptor1">
+        <template name="bulkHeadTemplate" type="text" resource="Overloaded Service is proteced by BulkHead."/>
+    </template-descriptor>
+</wilma-stub>
