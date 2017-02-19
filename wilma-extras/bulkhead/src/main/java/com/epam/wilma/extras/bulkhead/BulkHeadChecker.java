@@ -26,7 +26,6 @@ import com.google.common.collect.Sets;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +39,7 @@ import java.util.Set;
 public class BulkHeadChecker implements ExternalWilmaService, ConditionChecker {
 
     private static final String HANDLED_SERVICE = "/bulkhead";
+    private static final double DEFAULT_SPEED_LIMIT = 50.0; //default allowed speed is 50 hit per sec
     private static final String BULKHEAD_PARAMETER_ID = "headId";
     private static final String BULKHEAD_PARAMETER_SPEED = "headSpeed";
     private static final Map<String, BulkHeadMapInformation> BULK_HEAD_MAP = new HashMap<>();
@@ -57,7 +57,7 @@ public class BulkHeadChecker implements ExternalWilmaService, ConditionChecker {
         try {
             speedLimit = Double.valueOf(parameterSpeed);
         } catch (NumberFormatException e) {
-            speedLimit = 50.0;   //default allowed speed is 50 hit per sec
+            speedLimit = DEFAULT_SPEED_LIMIT;
         }
 
         // we need to know the actual time
@@ -78,7 +78,7 @@ public class BulkHeadChecker implements ExternalWilmaService, ConditionChecker {
                     //this is what we expect, let's calculate the load
                     double speed = 1.0 / (now - lastTime);
                     info.setLastSpeed(speed);
-                    skipRequest = (speed > speedLimit);
+                    skipRequest = speed > speedLimit;
                     if (!skipRequest) {
                         //if we don't skip the request, we update the reference time
                         info.setLastTime(now);
