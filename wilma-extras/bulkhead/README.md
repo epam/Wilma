@@ -3,7 +3,7 @@ Wilma Plugin Example - Bulkhead
 
 Purpose of this example
 ---------------------------------------
-This plugin example was created to show an extra , maybe uncommon usage of the Wilma proxy. 
+This plugin example was created to show an extra, maybe uncommon usage of the Wilma proxy. 
 
 Implementation
 ---------------------------------------
@@ -19,7 +19,7 @@ After a successful run you will find the wilma plug-in in folder: wilma-extras/b
 
 Important Settings
 ---------------------------------------
-Don't forget to **enable** the interceptors! Without that, the Bulkhead won't work properly (load to specific service cannot be measured).
+Don't forget to **enable** the interceptors! Without that, the Bulkhead won't work properly (the load of a specific service cannot be measured).
 
 REST Interface of Bulkhead plugin
 ---------------------------------
@@ -33,7 +33,7 @@ therefore the Wilma `<standardExternalServiceUrl>` is: `http://localhost:1234/co
 
 Get the actual load
 -----------------------------------------
-Get infomation on the load of the actual service.
+Get information on the load of the actual service.
 ```
 GET http://localhost:1234/config/public/services/BulkheadInterceptor/loads 
 ```

@@ -12,6 +12,6 @@
         </response-descriptor>
     </dialog-descriptor>
     <template-descriptor name="templateDescriptor1">
-        <template name="bulkHeadTemplate" type="text" resource="Overloaded Service is proteced by BulkHead."/>
+        <template name="bulkHeadTemplate" type="text" resource="Overloaded Service is protected by BulkHead."/>
     </template-descriptor>
 </wilma-stub>
