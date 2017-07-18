@@ -3,11 +3,20 @@ Wilma Plugin Example - Bulkhead
 
 Purpose of this example
 ---------------------------------------
-This plugin example was created to show an extra, maybe uncommon usage of the Wilma proxy. 
+This plugin example was created to show an extra, maybe uncommon usage of the Wilma proxy.
+With this plugin, Wilma acts as a Bulkhead for a service. What "Bulkhead" means? - just search for "Bulkhead software pattern" on the WWW. 
 
 Implementation
 ---------------------------------------
-TBD
+This is complex example, as not just acts as bulkhead for a service, but without modification, only by configuration, can act as bulkhead for several services with different settings.
+In addition, it offers URL from where you may get information about the actual load.
+
+To implement it, we used only 2 classes:
+ - "BulkHeadChecker" acts as condition checker (determines if the load is high or not) and offers the logic of providing load information
+of the services by using the "WilmaExternalService" interface.
+ - "BulkHeadMapInformation" stores load information for a specific service
+ 
+Please see `bulkHeadStubConfigExample.xml` for example configuration.
 
 Build
 -----
@@ -38,5 +47,9 @@ Get information on the load of the actual service.
 GET http://localhost:1234/config/public/services/BulkheadInterceptor/loads 
 ```
 
-TBD
+How to Use it?
+-----------------------------------------
+- Ensure that the compiled bulkhead jar is available for your Wilma instance
+- Configure Wilma to act as bulkhead (see example configuration above)
+- Reach the service to be protected via Wilma as proxy, and Wilma will act as bulkhead for the service.
 

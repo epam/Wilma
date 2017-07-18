@@ -19,8 +19,10 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 /**
- * This example service shows a special usage of the proxy part of Wilma. With this plugin, Wilma acts as a bulkhead for a service.
- * Read more about what Bulkhead means: .....
+ * This example service shows a special usage of the proxy part of Wilma. With this plugin, Wilma acts as a Bulkhead for a service.
+ * Read more about what Bulkhead means: search for "Bulkhead software pattern" on the WWW.
+ *
+ * This class is about to calculate the actual load of the service.
  *
  * @author tkohegyi
  */

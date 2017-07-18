@@ -31,8 +31,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This example service shows a special usage of the proxy part of Wilma. With this plugin, Wilma acts as a bulkhead for a service.
- * Read more about what Bulkhead means: .....
+ * This example service shows a special usage of the proxy part of Wilma. With this plugin, Wilma acts as a Bulkhead for a service.
+ * Read more about what Bulkhead means: search for "Bulkhead software pattern" on the WWW.
  *
  * @author tkohegyi
  */
@@ -46,6 +46,9 @@ public class BulkHeadChecker implements ExternalWilmaService, ConditionChecker {
     private static final Object GUARD = new Object();
 
     @Override
+    /**
+     * ConditionChecker method implementation. Evaluates the load, and determines if the request should be skipped or not.
+     */
     public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameterList) {
         //determine parameters
         String parameterHashCode = parameterList.get(BULKHEAD_PARAMETER_ID);
