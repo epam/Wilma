@@ -5,7 +5,7 @@
         <condition-descriptor>
                 <condition class="com.epam.wilma.extras.bulkhead.BulkHeadChecker" >
                     <param name="headId" value="ALLCASE_BULKHEAD" />
-                    <param name="headSpeed" value="1" />
+                    <param name="headSpeed" value="5" />
                 </condition>
         </condition-descriptor>
         <response-descriptor code="503" delay="0" mimetype="text/plain" template="bulkHeadTemplate">
@@ -14,4 +14,7 @@
     <template-descriptor name="templateDescriptor1">
         <template name="bulkHeadTemplate" type="text" resource="Service is overloaded, and protected by Wilma-BulkHead."/>
     </template-descriptor>
+    <interceptors>
+        <interceptor name="Bulkhead Interceptor - Registers the External Service" class="com.epam.wilma.extras.bulkhead.BulkHeadChecker"/>
+    </interceptors>
 </wilma-stub>

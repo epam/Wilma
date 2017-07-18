@@ -16,7 +16,9 @@ To implement it, we used only 2 classes:
 of the services by using the "WilmaExternalService" interface.
  - "BulkHeadMapInformation" stores load information for a specific service
  
-Please see `bulkHeadStubConfigExample.xml` for example configuration.
+Please see `bulkHeadStubConfigExample.xml` for example configuration. 
+In the example configuration all the incoming requests are counted, and 5 hit/sec is the highest hit-rate that is allowed in bulkhead. 
+In real life much higher numbers are used here. 
 
 Build
 -----
@@ -40,12 +42,13 @@ See more information on using external service calls from Wilma plugins [here](h
 Also, in the examples below, it is assumed that the default configuration is in use and Wilma is used on `localhost`,
 therefore the Wilma `<standardExternalServiceUrl>` is: `http://localhost:1234/config/public/services/`.
 
-Get the actual load
------------------------------------------
+Get the actual load from Bulkhead
+---------------------------------
 Get information on the load of the actual service.
 ```
-GET http://localhost:1234/config/public/services/BulkheadInterceptor/loads 
+GET http://localhost:1234/config/public/services/BulkHeadChecker/bulkhead
 ```
+If it is empty, that means no load is measured yet.
 
 How to Use it?
 -----------------------------------------

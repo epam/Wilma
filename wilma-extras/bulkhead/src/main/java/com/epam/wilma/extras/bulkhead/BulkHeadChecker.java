@@ -20,6 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
+import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.webapp.service.external.ExternalWilmaService;
 import com.google.common.collect.Sets;
@@ -36,7 +37,7 @@ import java.util.Set;
  *
  * @author tkohegyi
  */
-public class BulkHeadChecker implements ExternalWilmaService, ConditionChecker {
+public class BulkHeadChecker implements ExternalWilmaService, ConditionChecker, RequestInterceptor {
 
     private static final String HANDLED_SERVICE = "/bulkhead";
     private static final double DEFAULT_SPEED_LIMIT = 50.0; //default allowed speed is 50 hit per sec
@@ -79,7 +80,7 @@ public class BulkHeadChecker implements ExternalWilmaService, ConditionChecker {
                 long lastTime = info.getLastTime();
                 if (lastTime != now) {
                     //this is what we expect, let's calculate the load
-                    double speed = 1.0 / (now - lastTime);
+                    double speed = 1000.0 / (now - lastTime);
                     info.setLastSpeed(speed);
                     skipRequest = speed > speedLimit;
                     if (!skipRequest) {
@@ -162,4 +163,8 @@ public class BulkHeadChecker implements ExternalWilmaService, ConditionChecker {
         return response.toString();
     }
 
+    @Override
+    public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
+        //NOP - just ensuring that Wilma will find the External service.
+    }
 }
