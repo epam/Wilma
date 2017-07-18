@@ -13,6 +13,10 @@ script:
  - ./gradlew -b wilma-test/wilma-test-server/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=$TRAVIS_BUILD_NUMBER
  - ./gradlew -b wilma-service-api/build.gradle clean build createPom uploadArchives -PlocalRepository=file:///$HOME/localrepo/
  - ./gradlew -b wilma-functionaltest/build.gradle build -PlocalRepository=file:///$HOME/localrepo/
+ - ./gradlew -b wilma-extras/short.circuit/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
+ - ./gradlew -b wilma-extras/lookandsay.service/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
+ - ./gradlew -b wilma-extras/replicator/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
+ - ./gradlew -b wilma-extras/bulkhead/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
 branches:
   only:
   - master

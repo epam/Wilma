@@ -1,0 +1,9 @@
+group 'com.epam.wilma'
+
+apply plugin: 'java'
+apply from: '../../common.gradle'
+
+dependencies {
+    compile files("../../wilma-application/release/wilma-$version" + '.jar')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
