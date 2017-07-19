@@ -15,16 +15,16 @@ Also can be used for manual tests. It is expandable easily via plugins.
 
 **Wilma Message Search** application provides high performance searching of the request-response pairs that were logged by Wilma application.
 
-#Quick intro for end users
-##Wilma application
-####Requirements
+# Quick intro for end users
+## Wilma application
+#### Requirements
 * JRE 7 or 8
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma application downloaded and extracted into a folder.
 
-####Running
+#### Running
 `java -jar wilma-x.y.z.jar wilma.conf.properties`
 
-####Configuring Components/Services to use Wilma
+#### Configuring Components/Services to use Wilma
 The most simple way to do this is by configuring the Component/Service to use Wilma as HTTP(S) proxy. 
 In case of Java components/services, this can be done by adding a few VM arguments to the run configuration:
 
@@ -35,37 +35,37 @@ In case of Java components/services, this can be done by adding a few VM argumen
 
 See [this page](http://epam.github.io/Wilma/endusers/index.html) for more detailed information on how to configure Wilma, and Component/Service that uses Wilma.
 
-####Notes
+#### Notes
 * **Docker image** of Wilma is available on DockerHub, see details [here](https://github.com/epam/Wilma/wiki/Docker-image-of-Wilma)
 
-##Wilma Message Search application
-####Requirements
+## Wilma Message Search application
+#### Requirements
 * JDK 7 or 8
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma Message Search application downloaded and extracted into a folder.
 
-####Running
+#### Running
 `java -jar wilma-message-search-x.y.z.jar message.search.conf.properties`
 
-####Notes
+#### Notes
 * Running Wilma Message Search application is optional, Wilma itself does not require it.
 * To run Wilma Message Search application, java JDK must be used. With JRE, it will not work properly.
 * **Docker image** of combined Wilma and Wilma Message Search application is available on DockerHub, see details [here](https://github.com/epam/Wilma/wiki/Docker-image-of-Wilma)
 
-#Quick intro for developers/contributors
+# Quick intro for developers/contributors
 
-####Requirements
+#### Requirements
 * Java JDK 8
 
-####Advised working environment
+#### Advised working environment
 * IntelliJ / Eclipse
 * Gradle, Checkstyle, Git Integration for the IDE
 
-####Building with Gradle
+#### Building with Gradle
 The project can be built by following the instructions described [here](https://github.com/epam/Wilma/wiki/DEV,-Build-from-Scratch).
 This way of build is recommended for contributors only, End-Users, please use the pre-built downloadable releases from [here](https://github.com/epam/Wilma/releases).
 Actual build status: [![Build Status](https://travis-ci.org/epam/Wilma.svg?branch=master)](https://travis-ci.org/epam/Wilma)
 
-##Detailed information
+## Detailed information
 * Check the [Wiki](https://github.com/epam/Wilma/wiki) and [Issues](https://github.com/epam/Wilma/issues) link on GitHub
 * Check further documentation at [http://epam.github.io/Wilma/](http://epam.github.io/Wilma/)
 
@@ -90,7 +90,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
-##Contribution
+## Contribution
 
 There are three ways you can help us:
 
