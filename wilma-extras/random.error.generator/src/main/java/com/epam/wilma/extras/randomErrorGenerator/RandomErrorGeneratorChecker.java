@@ -22,13 +22,16 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
+import java.util.Random;
+
 /**
  * Example Wilma plugin to simulate random error situations. The following error situations are supported:
  * - E404 error will be received as response in a certain percentage of the requests, randomly
  * - E500 error will be received as response for another percentage of the requests, randomly
  * - response timeout will be cause for another percentage of the requests, randomly
  *
- * You need to have as many dialog descriptors in the stub configuration as many error situations you would like to simulate.
+ * You need to have as many dialog descriptors in the stub configuration as many error situations you would like to simulate, otherwise you may use a single response only.
+ * See the provided stubConfig.xml to see how the class should be used within the configuration, together with the specific responses.
  *
  * @author tkohegyi
  */
@@ -39,29 +42,22 @@ public class RandomErrorGeneratorChecker implements ConditionChecker {
     private static final String PARAMETER_NAME_TIMEOUT = "TIMEOUT120SEC";
 
     @Override
-    /**
-     * ConditionChecker method implementation. Based on the received parameters it decides if a certain error condition should happen or not.
-     */
     public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameterList) {
-        boolean needError = false;
+        return getNeedError(PARAMETER_NAME_E404, parameterList) || getNeedError(PARAMETER_NAME_E500, parameterList) || getNeedError(PARAMETER_NAME_TIMEOUT, parameterList);
+    }
 
-        //determine parameters
-        String parameterE500Value = parameterList.get(PARAMETER_NAME_E500);
-        String parameterTimeoutValue = parameterList.get(PARAMETER_NAME_TIMEOUT);
-
-
-        //Handle E404 part
-        double parameterE404RealValue = 0.0;
-        String parameterE404Value = parameterList.get(PARAMETER_NAME_E404);
-        if (parameterE404Value != null) {
+    private boolean getNeedError(final String parameterName, final ParameterList parameterList) {
+        Random randomGenerator = new Random();
+        int parameterRealValue = 0;
+        String parameterValue = parameterList.get(parameterName);
+        if (parameterValue != null) {
             try {
-                parameterE404RealValue = Double.valueOf(parameterE404Value);
+                parameterRealValue = Integer.valueOf(parameterValue);
             } catch (NumberFormatException e) {
-                parameterE404RealValue = 0.0;
+                parameterRealValue = 0;
             }
         }
-
-        return needError;
+        return parameterRealValue > 0 && randomGenerator.nextInt(parameterRealValue) == 0;
     }
 
 }
