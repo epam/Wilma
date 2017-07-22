@@ -17,6 +17,7 @@ script:
  - ./gradlew -b wilma-extras/lookandsay.service/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
  - ./gradlew -b wilma-extras/replicator/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
  - ./gradlew -b wilma-extras/bulkhead/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
+ - ./gradlew -b wilma-extras/random.error.generator/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
 branches:
   only:
   - master
