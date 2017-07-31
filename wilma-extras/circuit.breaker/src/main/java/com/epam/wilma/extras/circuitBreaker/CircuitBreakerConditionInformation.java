@@ -18,8 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.http.WilmaHttpResponse;
-
 /**
  * This class holds information about a single circuitBreaker.
  *
@@ -40,11 +38,8 @@ class CircuitBreakerConditionInformation {
     /**
      * Creates a new response information, based on the original response, and specifying a timeout.
      * Timeout value is the system time, when this response become obsolete.
-     *
-     * @param wilmaHttpResponse     is the original response object
-     * @param circuitBreakerChecker is the used CircuitBreakerChecker with its input parameters
      */
-    CircuitBreakerConditionInformation(WilmaHttpResponse wilmaHttpResponse, CircuitBreakerChecker circuitBreakerChecker) {
+    CircuitBreakerConditionInformation() {
         //get parameters
         //TODO
         //init status

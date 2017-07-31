@@ -21,7 +21,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,14 +37,14 @@ import java.util.Map;
  */
 public class CircuitBreakerChecker implements ConditionChecker {
 
-    public static final String SHORT_CIRCUIT_HEADER = "Wilma-ShortCircuitId";
-    private static final Map<String, CircuitBreakerConditionInformation> SHORT_CIRCUIT_MAP = new HashMap<>();
+    public static final String CIRCUIT_BREAKER_HEADER = "Wilma-CircuitBreakerId";
+    private static final Map<String, CircuitBreakerConditionInformation> CIRCUIT_BREAKER_MAP = new HashMap<>();
     private static final Object GUARD = new Object();
 
     private final Logger logger = LoggerFactory.getLogger(CircuitBreakerChecker.class);
 
-    public static Map<String, CircuitBreakerConditionInformation> getShortCircuitMap() {
-        return SHORT_CIRCUIT_MAP;
+    public static Map<String, CircuitBreakerConditionInformation> getCircuitBreakerMap() {
+        return CIRCUIT_BREAKER_MAP;
     }
 
     public static Object getShortCircuitMapGuard() {
@@ -56,20 +55,27 @@ public class CircuitBreakerChecker implements ConditionChecker {
     public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameters) {
         boolean conditionResult = false;
         //get the key
-        String hashCode = request.getHeaderUpdateValue(CircuitBreakerChecker.SHORT_CIRCUIT_HEADER);
-        if (hashCode != null) { //if the interceptor did not add the suitable header (or the interceptors are disabled), this can be null
+        String identifier = parameters.get("identifier");
+        if (identifier == null || identifier.length() == 0) {
+            //we don't have identifier, exiting now
+            conditionResult = false;
+        } else {
+            //we have identifier
+            CircuitBreakerConditionInformation circuitBreakerConditionInformation;
             synchronized (GUARD) {
-                //if the request-response pair is in the memory we might need stub response
-                if (SHORT_CIRCUIT_MAP.containsKey(hashCode)) {
-                    //we need stub answer if the response is arrived already - if not, we need to wait for the answer still
-                    conditionResult = SHORT_CIRCUIT_MAP.get(hashCode) != null;
-                } else { //we don't have even the request in the map, so put it there
-                    SHORT_CIRCUIT_MAP.put(hashCode, null);
-                    //CHECKSTYLE OFF - we must use "new String" here
-                    String decodedEntryKey = new String(Base64.decodeBase64(hashCode)); //make it human readable
-                    //CHECKSTYLE ON
-                    logger.info("ShortCircuit: New request to be cached was detected, hash code: " + decodedEntryKey);
+                if (!CIRCUIT_BREAKER_MAP.containsKey(identifier)) {
+                    //we don't have this circuit breaker in the map yet, so put it there
+
+                    //TODO
+                    //first load all the necessary parameters, and build up the info
+                    circuitBreakerConditionInformation = new CircuitBreakerConditionInformation();
+                    CIRCUIT_BREAKER_MAP.put(identifier, circuitBreakerConditionInformation);
                 }
+                //we are sure that we have the info in the map, so evaluate it
+                circuitBreakerConditionInformation = CIRCUIT_BREAKER_MAP.get(identifier);
+                //TODO
+                //check if we are at the right path
+                //check if
             }
         }
         return conditionResult; //true only, if the response is stored, so we know what to answer

@@ -4,6 +4,7 @@
     <dialog-descriptor name="CircuitBreakerExampleConfiguration" usage="always" comment="Circuit Breaker">
         <condition-descriptor>
             <condition class="com.epam.wilma.extras.circuit.breaker.CircuitBreakerChecker">
+                <param name="identifier" value="CB_1"/>
                 <param name="path" value="http://"/>
                 <param name="timeoutInSec" value="15"/>
                 <param name="successCodes" value="200,201,303"/>

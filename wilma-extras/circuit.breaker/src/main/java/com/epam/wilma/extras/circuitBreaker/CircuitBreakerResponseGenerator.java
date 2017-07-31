@@ -46,11 +46,11 @@ public class CircuitBreakerResponseGenerator implements TemplateGenerator, Templ
                                  byte[] bytes, ParameterList parameterList) throws Exception {
         byte[] newBody;
         //prepare a key for this request
-        String hashCode = wilmaHttpRequest.getHeader(CircuitBreakerChecker.SHORT_CIRCUIT_HEADER);
+        String hashCode = wilmaHttpRequest.getHeader(CircuitBreakerChecker.CIRCUIT_BREAKER_HEADER);
         //CHECKSTYLE OFF - we must use "new String" here
         String decodedEntryKey = new String(Base64.decodeBase64(hashCode)); //make it human readable
         //CHECKSTYLE ON
-        CircuitBreakerConditionInformation circuitBreakerConditionInformation = CircuitBreakerChecker.getShortCircuitMap().get(hashCode);
+        CircuitBreakerConditionInformation circuitBreakerConditionInformation = CircuitBreakerChecker.getCircuitBreakerMap().get(hashCode);
         if (circuitBreakerConditionInformation != null) {
             //we have the answer, so set it properly
             newBody = "SOMETHING WILL BE HERE".getBytes();

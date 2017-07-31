@@ -32,7 +32,7 @@ import java.util.Map;
  */
 class CircuitBreakerInterceptorCore {
 
-    private static Map<String, CircuitBreakerConditionInformation> circuitBreakerMap = CircuitBreakerChecker.getShortCircuitMap();
+    private static Map<String, CircuitBreakerConditionInformation> circuitBreakerMap = CircuitBreakerChecker.getCircuitBreakerMap();
     private final Logger logger = LoggerFactory.getLogger(CircuitBreakerInterceptorCore.class);
 
     /**
@@ -66,7 +66,7 @@ class CircuitBreakerInterceptorCore {
         if ("post".equalsIgnoreCase(myMethod)) {
             //save parameter with value TODO (post + circuitBreaker?parameter=value)
             //TODO
-            // response =
+            response = "{\"circuitBreaker\": {} }";
         }
         return response;
     }
@@ -92,10 +92,9 @@ class CircuitBreakerInterceptorCore {
                 //CHECKSTYLE OFF - we must use "new String" here
                 String decodedEntryKey = new String(Base64.decodeBase64(entryKey)); //make it human readable
                 //CHECKSTYLE ON
-                response.append("    { \"id\": \"").append(i)
-                        .append("\", \"hashCode\": \"").append(decodedEntryKey)
-                        .append("\", \"cached\": ").append(cached)
-                        .append(", \"usageCount\": ").append(usageCount)
+                response.append("    { \"identifier\": \"").append(i)
+                        .append("\", \"settings\": \"").append(decodedEntryKey)
+                        .append("\", \"status\": ").append(cached)
                         .append(" }");
                 if (i < keySet.length - 1) {
                     response.append(",");
