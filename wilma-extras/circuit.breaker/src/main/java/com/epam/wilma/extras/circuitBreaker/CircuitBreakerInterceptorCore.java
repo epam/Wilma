@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +46,7 @@ class CircuitBreakerInterceptorCore {
         String response = null;
         if ("get".equalsIgnoreCase(myMethod)) {
             //list the map (circuits + get)
-            response = getShortCircuitMap(httpServletResponse);
+            response = getCircuitBreakerMap(httpServletResponse);
         }
         return response;
     }
@@ -77,27 +76,16 @@ class CircuitBreakerInterceptorCore {
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
      */
-    private String getShortCircuitMap(HttpServletResponse httpServletResponse) {
-        StringBuilder response = new StringBuilder("{\n  \"shortCircuitCache\": [\n");
+    private String getCircuitBreakerMap(HttpServletResponse httpServletResponse) {
+        StringBuilder response = new StringBuilder("{\n  \"circuitBreakerMap\": [\n");
         if (!circuitBreakerMap.isEmpty()) {
             String[] keySet = circuitBreakerMap.keySet().toArray(new String[circuitBreakerMap.size()]);
             for (int i = 0; i < keySet.length; i++) {
                 String entryKey = keySet[i];
                 CircuitBreakerConditionInformation circuitBreakerConditionInformation = circuitBreakerMap.get(entryKey);
-                boolean cached = circuitBreakerConditionInformation != null;
-                long usageCount = 0;
-                if (circuitBreakerConditionInformation != null) {
-                    usageCount = 0;
-                }
-                //CHECKSTYLE OFF - we must use "new String" here
-                String decodedEntryKey = new String(Base64.decodeBase64(entryKey)); //make it human readable
-                //CHECKSTYLE ON
-                response.append("    { \"identifier\": \"").append(i)
-                        .append("\", \"settings\": \"").append(decodedEntryKey)
-                        .append("\", \"status\": ").append(cached)
-                        .append(" }");
+                response.append(circuitBreakerConditionInformation.toString());
                 if (i < keySet.length - 1) {
-                    response.append(",");
+                    response.append(",\n");
                 }
                 response.append("\n");
             }

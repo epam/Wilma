@@ -65,17 +65,18 @@ public class CircuitBreakerChecker implements ConditionChecker {
             synchronized (GUARD) {
                 if (!CIRCUIT_BREAKER_MAP.containsKey(identifier)) {
                     //we don't have this circuit breaker in the map yet, so put it there
-
-                    //TODO
-                    //first load all the necessary parameters, and build up the info
-                    circuitBreakerConditionInformation = new CircuitBreakerConditionInformation();
+                    circuitBreakerConditionInformation = new CircuitBreakerConditionInformation(identifier, parameters);
                     CIRCUIT_BREAKER_MAP.put(identifier, circuitBreakerConditionInformation);
                 }
                 //we are sure that we have the info in the map, so evaluate it
                 circuitBreakerConditionInformation = CIRCUIT_BREAKER_MAP.get(identifier);
-                //TODO
-                //check if we are at the right path
-                //check if
+                if (circuitBreakerConditionInformation.isValid()) {
+                    conditionResult = circuitBreakerConditionInformation.isActive();
+                    //check if we are at the right path, and if so, mark the message
+                    if (request.getRequestLine().toLowerCase().contains(circuitBreakerConditionInformation.getPath().toLowerCase())) {
+                        request.addHeader(CIRCUIT_BREAKER_HEADER, identifier);
+                    }
+                }
             }
         }
         return conditionResult; //true only, if the response is stored, so we know what to answer

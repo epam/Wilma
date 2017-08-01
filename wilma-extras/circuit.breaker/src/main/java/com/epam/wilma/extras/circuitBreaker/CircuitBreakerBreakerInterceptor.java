@@ -38,7 +38,7 @@ import java.util.Set;
  * @author tkohegyi
  */
 public class CircuitBreakerBreakerInterceptor extends CircuitBreakerInterceptorCore implements ResponseInterceptor, ExternalWilmaService {
-    private static final String HANDLED_SERVICE = "/circuits";
+    private static final String HANDLED_SERVICE = "/circuit-breaker";
 
     /**
      * This is the Response Interceptor implementation. In case the response is marked with hashcode,
@@ -49,7 +49,18 @@ public class CircuitBreakerBreakerInterceptor extends CircuitBreakerInterceptorC
      */
     @Override
     public void onResponseReceive(WilmaHttpResponse wilmaHttpResponse, ParameterList parameterList) {
-        //TODO
+        //detect if it belongs to any circuit breaker
+        String headerIdentifier = CircuitBreakerChecker.CIRCUIT_BREAKER_HEADER;
+        String identifier = wilmaHttpResponse.getRequestHeader(headerIdentifier);
+        if (identifier != null) {
+            //we have circuit-breaker identifier
+            CircuitBreakerConditionInformation circuitBreakerConditionInformation = CircuitBreakerChecker.getCircuitBreakerMap().get(identifier);
+            if (circuitBreakerConditionInformation != null) {
+                //we identified the circuit-breaker
+                Integer[] successCodes = circuitBreakerConditionInformation.getSuccessCodes();
+                //TODO
+            }
+        }
     }
 
     /**
