@@ -12,7 +12,7 @@ Implementation
 
 Important Settings
 ---------------------------------------
-Don't forget to **enable** the interceptors! Without that, the Short Circuit won't work properly (no message will be cached at all).
+Don't forget to **enable** the interceptors! Without that, the Circuit Breaker won't work properly (no message will be cached at all).
 
 REST Interface of Circuit Breaker plugin
 ---------------------------------------

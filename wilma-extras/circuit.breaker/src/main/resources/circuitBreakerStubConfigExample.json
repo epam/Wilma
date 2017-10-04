@@ -1,0 +1,60 @@
+{
+  "dialogs": [
+    {
+      "name": "CircuitBreakerExampleConfiguration",
+      "usage": "always",
+      "comment": "Circuit Breaker - experimental version of the Wilma Stub Configuration file in JSON format.",
+      "conditions": [
+        {
+            "class": "com.epam.wilma.extras.circuit.breaker.CircuitBreakerChecker",
+            "parameters": [
+              {
+                "name": "identifier",
+                "value": "CB_1"
+              },
+              {
+                "name": "path",
+                "value": "http://"
+              },
+              {
+                "name": "timeoutInSec",
+                "value": "15"
+              },
+              {
+                "name": "successCodes",
+                "value": "200, 201, 303"
+              },
+              {
+                "name": "maxErrorCount",
+                "value": "4"
+              }
+            ]
+        }
+      ],
+      "response": {
+        "code": 503,
+        "delay": 0,
+        "mimeType": "text/plain",
+        "template": "circuitBreakerTemplate",
+        "templateFormatters": [
+          {
+            "class": "com.epam.wilma.extras.shortcircuit.ShortCircuitResponseGenerator"
+          }
+        ]
+      }
+    }
+  ],
+  "templates": [
+    {
+      "name": "circuitBreakerTemplate",
+      "type": "external",
+      "resource": "com.epam.wilma.extras.circuit.breaker.CircuitBreakerResponseGenerator"
+    }
+  ],
+  "interceptors": [
+    {
+      "name": "Circuit Breaker Response Investigator",
+      "class": "com.epam.wilma.extras.shortcircuit.CircuitBreakerInterceptor"
+    }
+  ]
+}
