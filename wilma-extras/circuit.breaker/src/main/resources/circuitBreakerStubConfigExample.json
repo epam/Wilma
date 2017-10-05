@@ -6,29 +6,29 @@
       "comment": "Circuit Breaker - experimental version of the Wilma Stub Configuration file in JSON format.",
       "conditions": [
         {
-            "class": "com.epam.wilma.extras.circuit.breaker.CircuitBreakerChecker",
-            "parameters": [
-              {
-                "name": "identifier",
-                "value": "CB_1"
-              },
-              {
-                "name": "path",
-                "value": "http://"
-              },
-              {
-                "name": "timeoutInSec",
-                "value": "15"
-              },
-              {
-                "name": "successCodes",
-                "value": "200, 201, 303"
-              },
-              {
-                "name": "maxErrorCount",
-                "value": "4"
-              }
-            ]
+          "class": "com.epam.wilma.extras.circuit.breaker.CircuitBreakerChecker",
+          "parameters": [
+            {
+              "name": "identifier",
+              "value": "CB_1"
+            },
+            {
+              "name": "path",
+              "value": "http://"
+            },
+            {
+              "name": "timeoutInSec",
+              "value": "15"
+            },
+            {
+              "name": "successCodes",
+              "value": "200, 201, 303"
+            },
+            {
+              "name": "maxErrorCount",
+              "value": "4"
+            }
+          ]
         }
       ],
       "response": {
