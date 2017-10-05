@@ -29,15 +29,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
- * Interceptor that implements all three possibilities.
- * Request interceptor marks the message with a hash code, for CircuitBreakerChecker, that registers the request, if it is not yet registered.
- * Response interceptor captures the response, if it is not yet captured.
- * ExternalWilmaService offers the possibility of getting the actual status of the internal req-resp map,
- * and offers the possibility of saving the req-resp map into and loading from a folder.
+ * Interceptor that implements request interceptor and ExternalWilmaService interface.
+ * Response interceptor detects if the response is acceptable, and if not, then turns of the circuit breaker logic.
+ * ExternalWilmaService offers the possibility of getting the actual status of the internal circuit breaker status.
  *
  * @author tkohegyi
  */
-public class CircuitBreakerBreakerInterceptor extends CircuitBreakerInterceptorCore implements ResponseInterceptor, ExternalWilmaService {
+public class CircuitBreakerInterceptor extends CircuitBreakerService implements ResponseInterceptor, ExternalWilmaService {
     private static final String HANDLED_SERVICE = "/circuit-breaker";
 
     /**
@@ -54,11 +52,31 @@ public class CircuitBreakerBreakerInterceptor extends CircuitBreakerInterceptorC
         String identifier = wilmaHttpResponse.getRequestHeader(headerIdentifier);
         if (identifier != null) {
             //we have circuit-breaker identifier
-            CircuitBreakerConditionInformation circuitBreakerConditionInformation = CircuitBreakerChecker.getCircuitBreakerMap().get(identifier);
-            if (circuitBreakerConditionInformation != null) {
-                //we identified the circuit-breaker
-                Integer[] successCodes = circuitBreakerConditionInformation.getSuccessCodes();
-                //TODO
+            synchronized (CircuitBreakerChecker.getCircuitBreakerMapGuard()) {
+                CircuitBreakerInformation circuitBreakerInformation = CircuitBreakerChecker.getCircuitBreakerMap().get(identifier);
+                if (circuitBreakerInformation != null) {
+                    //we identified the circuit-breaker
+                    Integer[] successCodes = circuitBreakerInformation.getSuccessCodes();
+                    int responseCode = wilmaHttpResponse.getStatusCode();
+                    //detect if the response status code is in the list of acceptable response codes or not
+                    boolean found = false;
+                    for (Integer successCode : successCodes) {
+                        if (successCode == responseCode) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found) {
+                        //the response has acceptable status code
+                        circuitBreakerInformation.resetErrorLevel();
+                    } else {
+                        //the response has not acceptable status code, so increase the number of problematic responses found
+                        boolean isOverLimit = circuitBreakerInformation.increaseErrorLevel();
+                        if (isOverLimit) { //and in case it reaches the error limit, then turn the circuit breaker ON
+                            circuitBreakerInformation.turnCircuitBreakerOn();
+                        }
+                    }
+                }
             }
         }
     }
@@ -82,20 +100,11 @@ public class CircuitBreakerBreakerInterceptor extends CircuitBreakerInterceptorC
         httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
         //handle basic call (without query string)
-        if (myCall && httpServletRequest.getQueryString() == null) {
-            //get the map, or delete whole map or delete entry from map
-            response = handleBasicCall(myMethod, httpServletResponse, httpServletRequest.getPathInfo());
+        if (myCall) {
+            //get the circuit breaker map actual status
+            response = handleRequest(myMethod, httpServletResponse);
         }
 
-        //handle complex calls (with query string as folder)
-        if (myCall && httpServletRequest.getQueryString() != null && httpServletRequest.getQueryString().length() > 0) {
-            String id = httpServletRequest.getParameter("id");
-            String value = httpServletRequest.getParameter("value");
-            if (id != null && value != null && id.length() > 0 && value.length() > 0) {
-                //save (post) and load (get) map
-                response = handleComplexCall(myMethod, id, value, httpServletResponse);
-            }
-        }
         return response;
     }
 

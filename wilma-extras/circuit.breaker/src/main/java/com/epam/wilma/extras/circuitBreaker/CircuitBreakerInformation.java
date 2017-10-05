@@ -27,9 +27,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author tkohegyi
  */
-class CircuitBreakerConditionInformation {
+class CircuitBreakerInformation {
 
-    private final Logger logger = LoggerFactory.getLogger(CircuitBreakerConditionInformation.class);
+    private static final int ONE_SECOND = 1000;
+    private final Logger logger = LoggerFactory.getLogger(CircuitBreakerInformation.class);
 
     //input settings
     private String identifier;
@@ -41,20 +42,20 @@ class CircuitBreakerConditionInformation {
     //status
     private Integer actualErrorLevel;
     private boolean isActive;
-    private Integer timeoutLeftInSec;
+    private long timeout; // when the active CB will be turned off - in system time
 
     /**
      * Creates a new response information, based on the original response, and specifying a timeout.
      * Timeout value is the system time, when this response become obsolete.
      */
-    CircuitBreakerConditionInformation(final String identifier, final ParameterList parameters) {
+    CircuitBreakerInformation(final String identifier, final ParameterList parameters) {
         this.identifier = identifier;
         //get parameters
         isValid = true;
         //get path
         path = parameters.get("path");
         if (path == null) {
-            logger.debug("Circuit Breaker: '"  + identifier + "' has missing 'path' parameter, pls fix.");
+            logger.debug("Circuit Breaker: '" + identifier + "' has missing 'path' parameter, pls fix.");
             isValid = false;
         }
         //get timeoutInSec
@@ -64,11 +65,11 @@ class CircuitBreakerConditionInformation {
             try {
                 timeoutInSec = Integer.parseInt(timeoutInSecString);
             } catch (NumberFormatException e) {
-                logger.debug("Circuit Breaker: '"  + identifier + "' has invalid 'timeoutInSec' parameter, pls fix.");
+                logger.debug("Circuit Breaker: '" + identifier + "' has invalid 'timeoutInSec' parameter, pls fix.");
                 isValid = false;
             }
         } else {
-            logger.debug("Circuit Breaker: '"  + identifier + "' has missing 'timeoutInSec' parameter, pls fix.");
+            logger.debug("Circuit Breaker: '" + identifier + "' has missing 'timeoutInSec' parameter, pls fix.");
             isValid = false;
 
         }
@@ -80,17 +81,17 @@ class CircuitBreakerConditionInformation {
             try {
                 maxErrorCount = Integer.parseInt(maxErrorCountString);
             } catch (NumberFormatException e) {
-                logger.debug("Circuit Breaker: '"  + identifier + "' has invalid 'maxErrorCount' parameter, pls fix.");
+                logger.debug("Circuit Breaker: '" + identifier + "' has invalid 'maxErrorCount' parameter, pls fix.");
                 isValid = false;
             }
         } else {
-            logger.debug("Circuit Breaker: '"  + identifier + "' has missing 'maxErrorCount' parameter, pls fix.");
+            logger.debug("Circuit Breaker: '" + identifier + "' has missing 'maxErrorCount' parameter, pls fix.");
             isValid = false;
         }
         //init status
         actualErrorLevel = 0;
         isActive = false;
-        timeoutLeftInSec = 0;
+        timeout = 0;
     }
 
     private void parseSuccessCodes(String successCodesString) {
@@ -101,13 +102,29 @@ class CircuitBreakerConditionInformation {
                 try {
                     successCodes[i] = Integer.parseInt(codeStrings[i].trim());
                 } catch (NumberFormatException e) {
-                    logger.debug("Circuit Breaker: '"  + identifier + "' has invalid 'successCodes' parameter, pls fix.");
+                    logger.debug("Circuit Breaker: '" + identifier + "' has invalid 'successCodes' parameter, pls fix.");
                     isValid = false;
                 }
             }
         } else {
-            logger.debug("Circuit Breaker: '"  + identifier + "' has missing 'successCodes' parameter, pls fix.");
+            logger.debug("Circuit Breaker: '" + identifier + "' has missing 'successCodes' parameter, pls fix.");
             isValid = false;
+        }
+    }
+
+    void turnCircuitBreakerOn() {
+        if (isValid) {
+            timeout = System.currentTimeMillis() + timeoutInSec * ONE_SECOND;
+            isActive = true;
+            actualErrorLevel = 0;
+        }
+    }
+
+    void turnCircuitBreakerOff() {
+        if (isValid) {
+            timeout = 0;
+            isActive = false;
+            actualErrorLevel = 0;
         }
     }
 
@@ -117,12 +134,12 @@ class CircuitBreakerConditionInformation {
             status = "{ \"isValid\": false }";
         } else { //valid
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("{ ");
-            stringBuilder.append("\"name\": \"").append(identifier).append("\",\n");
-            stringBuilder.append("  \"settings\": {\n");
-            stringBuilder.append("    \"path\": \"").append(path).append("\",\n");
-            stringBuilder.append("    \"timeoutInSec\": ").append(timeoutInSec).append(",\n");
-            stringBuilder.append("    \"successCodes\": [");
+            stringBuilder.append("    {\n");
+            stringBuilder.append("      \"name\": \"").append(identifier).append("\",\n");
+            stringBuilder.append("      \"settings\": {\n");
+            stringBuilder.append("        \"path\": \"").append(path).append("\",\n");
+            stringBuilder.append("        \"timeoutInSec\": ").append(timeoutInSec).append(",\n");
+            stringBuilder.append("        \"successCodes\": [");
             for (int i = 0; i < successCodes.length; i++) {
                 stringBuilder.append(successCodes[i]);
                 if (i < successCodes.length - 1) {
@@ -130,30 +147,49 @@ class CircuitBreakerConditionInformation {
                 }
             }
             stringBuilder.append("],\n");
-            stringBuilder.append("    \"maxErrorCount\": ").append(maxErrorCount).append(" },\n");
-            stringBuilder.append("  \"status\": {\n");
-            stringBuilder.append("    \"isActive\": ").append(isActive).append(",\n");
-            stringBuilder.append("    \"actualErrorLevel\": ").append(actualErrorLevel).append(",\n");
-            stringBuilder.append("    \"timeoutLeftInSec\": ").append(timeoutLeftInSec).append(" }\n");
-            stringBuilder.append("}");
+            stringBuilder.append("        \"maxErrorCount\": ").append(maxErrorCount).append("\n      },\n");
+            stringBuilder.append("      \"status\": {\n");
+            stringBuilder.append("        \"isActive\": ").append(isActive).append(",\n");
+            stringBuilder.append("        \"actualErrorLevel\": ").append(actualErrorLevel).append(",\n");
+            String timeoutLeftInSec;
+            if (timeout == 0) {
+                timeoutLeftInSec = "null";
+            } else {
+                timeoutLeftInSec = String.valueOf((System.currentTimeMillis() - timeout) / ONE_SECOND);
+            }
+            stringBuilder.append("        \"timeoutLeftInSec\": ").append(timeoutLeftInSec).append("\n      }\n");
+            stringBuilder.append("    }");
             status = stringBuilder.toString();
         }
         return status;
     }
 
-    public boolean isValid() {
+    boolean isValid() {
         return isValid;
     }
 
-    public boolean isActive() {
+    boolean isActive() {
         return isActive;
     }
 
-    public String getPath() {
+    String getPath() {
         return path;
     }
 
-    public Integer[] getSuccessCodes() {
+    Integer[] getSuccessCodes() {
         return successCodes;
+    }
+
+    long getTimeout() {
+        return timeout;
+    }
+
+    void resetErrorLevel() {
+        actualErrorLevel = 0;
+    }
+
+    boolean increaseErrorLevel() {
+        actualErrorLevel++;
+        return actualErrorLevel > maxErrorCount;
     }
 }

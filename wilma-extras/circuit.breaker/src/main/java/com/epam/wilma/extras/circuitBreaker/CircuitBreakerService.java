@@ -18,9 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
@@ -29,43 +26,22 @@ import java.util.Map;
  *
  * @author tkohegyi
  */
-class CircuitBreakerInterceptorCore {
+class CircuitBreakerService {
 
-    private static Map<String, CircuitBreakerConditionInformation> circuitBreakerMap = CircuitBreakerChecker.getCircuitBreakerMap();
-    private final Logger logger = LoggerFactory.getLogger(CircuitBreakerInterceptorCore.class);
+    private static Map<String, CircuitBreakerInformation> circuitBreakerMap = CircuitBreakerChecker.getCircuitBreakerMap();
 
     /**
      * Method that handles GET (all) methods on the actual Circuit Breaker Map.
      *
      * @param myMethod            is expected as either GET
      * @param httpServletResponse is the response object
-     * @param path                is the request path
      * @return with the response body (and with the updated httpServletResponse object
      */
-    String handleBasicCall(String myMethod, HttpServletResponse httpServletResponse, String path) {
+    String handleRequest(String myMethod, HttpServletResponse httpServletResponse) {
         String response = null;
         if ("get".equalsIgnoreCase(myMethod)) {
             //list the map (circuits + get)
             response = getCircuitBreakerMap(httpServletResponse);
-        }
-        return response;
-    }
-
-    /**
-     * Method that handles request to update the Circuit Breaker Map.
-     *
-     * @param myMethod            POST (for Save) a selected Circuit Breaker
-     * @param parameterId         is the identifier of the parameter to be modified
-     * @param parameterValue      is the value to be used for updating the given parameter
-     * @param httpServletResponse is the response object
-     * @return with the response body (and with the updated httpServletResponse object
-     */
-    String handleComplexCall(String myMethod, String parameterId, String parameterValue, HttpServletResponse httpServletResponse) {
-        String response = null;
-        if ("post".equalsIgnoreCase(myMethod)) {
-            //save parameter with value TODO (post + circuitBreaker?parameter=value)
-            //TODO
-            response = "{\"circuitBreaker\": {} }";
         }
         return response;
     }
@@ -82,13 +58,13 @@ class CircuitBreakerInterceptorCore {
             String[] keySet = circuitBreakerMap.keySet().toArray(new String[circuitBreakerMap.size()]);
             for (int i = 0; i < keySet.length; i++) {
                 String entryKey = keySet[i];
-                CircuitBreakerConditionInformation circuitBreakerConditionInformation = circuitBreakerMap.get(entryKey);
-                response.append(circuitBreakerConditionInformation.toString());
+                CircuitBreakerInformation circuitBreakerInformation = circuitBreakerMap.get(entryKey);
+                response.append(circuitBreakerInformation.toString());
                 if (i < keySet.length - 1) {
                     response.append(",\n");
                 }
-                response.append("\n");
             }
+            response.append("\n");
         }
         response.append("  ]\n}\n");
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);

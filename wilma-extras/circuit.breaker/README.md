@@ -24,3 +24,9 @@ See more information on using external service calls from Wilma plugins [here](h
 Also, in the examples below, it is assumed that the default configuration is in use and Wilma is used on `localhost`,
 therefore the Wilma `<standardExternalServiceUrl>` is: `http://localhost:1234/config/public/services/`.
 
+The internal service of the Circuit Breaker plug-in is available here:
+```
+GET or POST http://localhost:1234/config/public/services/CircuitBreakerInterceptor/circuit-breaker
+```
+Of course this link will work in case Wilma is running and the Circuit-Breaker plug-in is properly configured in it.
+

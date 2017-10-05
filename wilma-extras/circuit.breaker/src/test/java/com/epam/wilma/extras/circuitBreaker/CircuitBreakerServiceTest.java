@@ -5,17 +5,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test code for @CircuitBreakerInterceptorCore.
+ * Test code for @CircuitBreakerService.
  *
  * @author tkohegyi, created on 2016. 03. 24.
  */
-public class CircuitBreakerInterceptorCoreTest {
+public class CircuitBreakerServiceTest {
 
-    private CircuitBreakerInterceptorCore underTest;
+    private CircuitBreakerService underTest;
 
     @Before
     public void init() {
-        underTest = new CircuitBreakerInterceptorCore();
+        underTest = new CircuitBreakerService();
     }
 
     @Test

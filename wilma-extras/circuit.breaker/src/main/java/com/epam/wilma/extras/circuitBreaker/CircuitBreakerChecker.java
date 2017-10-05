@@ -38,16 +38,16 @@ import java.util.Map;
 public class CircuitBreakerChecker implements ConditionChecker {
 
     public static final String CIRCUIT_BREAKER_HEADER = "Wilma-CircuitBreakerId";
-    private static final Map<String, CircuitBreakerConditionInformation> CIRCUIT_BREAKER_MAP = new HashMap<>();
+    private static final Map<String, CircuitBreakerInformation> CIRCUIT_BREAKER_MAP = new HashMap<>();
     private static final Object GUARD = new Object();
 
     private final Logger logger = LoggerFactory.getLogger(CircuitBreakerChecker.class);
 
-    public static Map<String, CircuitBreakerConditionInformation> getCircuitBreakerMap() {
+    public static Map<String, CircuitBreakerInformation> getCircuitBreakerMap() {
         return CIRCUIT_BREAKER_MAP;
     }
 
-    public static Object getShortCircuitMapGuard() {
+    public static Object getCircuitBreakerMapGuard() {
         return GUARD;
     }
 
@@ -61,20 +61,30 @@ public class CircuitBreakerChecker implements ConditionChecker {
             conditionResult = false;
         } else {
             //we have identifier
-            CircuitBreakerConditionInformation circuitBreakerConditionInformation;
+            CircuitBreakerInformation circuitBreakerInformation;
             synchronized (GUARD) {
                 if (!CIRCUIT_BREAKER_MAP.containsKey(identifier)) {
                     //we don't have this circuit breaker in the map yet, so put it there
-                    circuitBreakerConditionInformation = new CircuitBreakerConditionInformation(identifier, parameters);
-                    CIRCUIT_BREAKER_MAP.put(identifier, circuitBreakerConditionInformation);
+                    circuitBreakerInformation = new CircuitBreakerInformation(identifier, parameters);
+                    CIRCUIT_BREAKER_MAP.put(identifier, circuitBreakerInformation);
                 }
                 //we are sure that we have the info in the map, so evaluate it
-                circuitBreakerConditionInformation = CIRCUIT_BREAKER_MAP.get(identifier);
-                if (circuitBreakerConditionInformation.isValid()) {
-                    conditionResult = circuitBreakerConditionInformation.isActive();
-                    //check if we are at the right path, and if so, mark the message
-                    if (request.getRequestLine().toLowerCase().contains(circuitBreakerConditionInformation.getPath().toLowerCase())) {
-                        request.addHeader(CIRCUIT_BREAKER_HEADER, identifier);
+                circuitBreakerInformation = CIRCUIT_BREAKER_MAP.get(identifier);
+                if (circuitBreakerInformation.isValid()) { // if the condition is not valid, don't use it
+                    //check if we are at the right path (=is this mine?)
+                    if (request.getRequestLine().toLowerCase().contains(circuitBreakerInformation.getPath().toLowerCase())) {
+                        //it is mine, so, mark the message
+                        request.addHeaderUpdate(CIRCUIT_BREAKER_HEADER, identifier);
+                        if (circuitBreakerInformation.isActive()) {
+                            //specific circuit breaker is turned ON - is the timeout passed?
+                            if (circuitBreakerInformation.getTimeout() < System.currentTimeMillis()) {
+                                //yes, passed, so we need to turn off the active CB, and fall back to normal opertaion
+                                circuitBreakerInformation.turnCircuitBreakerOff();
+                            } else {
+                                //no, not yet timed out, so CB must be active, and Wilma sends back the response
+                                conditionResult = true;
+                            }
+                        }
                     }
                 }
             }

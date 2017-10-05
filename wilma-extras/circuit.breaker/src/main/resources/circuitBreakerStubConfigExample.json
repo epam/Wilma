@@ -38,7 +38,7 @@
         "template": "circuitBreakerTemplate",
         "templateFormatters": [
           {
-            "class": "com.epam.wilma.extras.shortcircuit.ShortCircuitResponseGenerator"
+            "class": "com.epam.wilma.extras.circuitBreaker.ShortCircuitResponseGenerator"
           }
         ]
       }
@@ -47,14 +47,14 @@
   "templates": [
     {
       "name": "circuitBreakerTemplate",
-      "type": "external",
-      "resource": "com.epam.wilma.extras.circuit.breaker.CircuitBreakerResponseGenerator"
+      "type": "text",
+      "resource": "Service has issues, and protected by Wilma-CircuitBreaker."
     }
   ],
   "interceptors": [
     {
       "name": "Circuit Breaker Response Investigator",
-      "class": "com.epam.wilma.extras.shortcircuit.CircuitBreakerInterceptor"
+      "class": "com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor"
     }
   ]
 }

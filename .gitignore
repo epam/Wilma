@@ -13,6 +13,7 @@ wilma-message-search/modules/wilma-message-search-engine/log
 build
 bin
 release
+out
 wilma-functionaltest/resources/savedStubConfig.xml
 wilma-functionaltest/gepard-run.log
 wilma-functionaltest/gradle
