@@ -136,4 +136,8 @@ public class BrowserMobHttpResponse {
     public boolean isResponseVolatile() {
         return responseVolatile;
     }
+
+    public HttpRequestBase getMethod() {
+        return method;
+    }
 }
