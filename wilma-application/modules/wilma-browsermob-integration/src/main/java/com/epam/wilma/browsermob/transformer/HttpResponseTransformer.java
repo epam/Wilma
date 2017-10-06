@@ -59,6 +59,7 @@ public class HttpResponseTransformer {
             result.addRequestHeader(header.getName(), header.getValue());
         }
 
+        result.setRequestLine(response.getMethod().getRequestLine().toString());
         String body = response.getBody();
         int status = response.getStatus();
         result.setBody(body);

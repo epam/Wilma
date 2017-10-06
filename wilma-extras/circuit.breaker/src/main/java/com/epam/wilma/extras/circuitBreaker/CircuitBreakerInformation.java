@@ -128,11 +128,23 @@ class CircuitBreakerInformation {
         }
     }
 
+    void checkValidity() {
+        if (isValid) {
+            if (getTimeout() < System.currentTimeMillis()) {
+                //yes, passed, so we need to turn off the active CB, and fall back to normal operation
+                turnCircuitBreakerOff();
+            }
+        }
+    }
+
     public String toString() {
         String status;
         if (!isValid) {
             status = "{ \"isValid\": false }";
         } else { //valid
+            //this is not the best place to do it, but it is the last before showing what is the status with this circuit breaker
+            checkValidity();
+            //and the real toString starts here
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("    {\n");
             stringBuilder.append("      \"name\": \"").append(identifier).append("\",\n");
@@ -155,7 +167,8 @@ class CircuitBreakerInformation {
             if (timeout == 0) {
                 timeoutLeftInSec = "null";
             } else {
-                timeoutLeftInSec = String.valueOf((System.currentTimeMillis() - timeout) / ONE_SECOND);
+                //note that we add 1 sec in addition, as it is better to see "1 sec remaining" than "0 sec remaining" in the last second
+                timeoutLeftInSec = String.valueOf((timeout - System.currentTimeMillis() + ONE_SECOND) / ONE_SECOND);
             }
             stringBuilder.append("        \"timeoutLeftInSec\": ").append(timeoutLeftInSec).append("\n      }\n");
             stringBuilder.append("    }");

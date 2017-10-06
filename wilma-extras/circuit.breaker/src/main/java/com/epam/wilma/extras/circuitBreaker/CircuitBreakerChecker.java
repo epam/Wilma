@@ -21,39 +21,19 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Condition checker class that is used for example: Short Circuit.
- * Its main task is to determine if the request is cached already or not.
- * If cached and the response is available already, then returns true (need to be stubbed).
- * If not cached, then ensure that the request is cached, and prepare catching the response.
+ * Its main task is to determine if the request is marked with the circuit breaker identifier,
+ * because if it marked, that means the circuit breaker is ON.
  *
  * @author Tamas_Kohegyi
  */
 public class CircuitBreakerChecker implements ConditionChecker {
 
-    public static final String CIRCUIT_BREAKER_HEADER = "Wilma-CircuitBreakerId";
-    private static final Map<String, CircuitBreakerInformation> CIRCUIT_BREAKER_MAP = new HashMap<>();
-    private static final Object GUARD = new Object();
-
-    private final Logger logger = LoggerFactory.getLogger(CircuitBreakerChecker.class);
-
-    public static Map<String, CircuitBreakerInformation> getCircuitBreakerMap() {
-        return CIRCUIT_BREAKER_MAP;
-    }
-
-    public static Object getCircuitBreakerMapGuard() {
-        return GUARD;
-    }
-
     @Override
     public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameters) {
-        boolean conditionResult = false;
+        boolean conditionResult;
         //get the key
         String identifier = parameters.get("identifier");
         if (identifier == null || identifier.length() == 0) {
@@ -61,33 +41,8 @@ public class CircuitBreakerChecker implements ConditionChecker {
             conditionResult = false;
         } else {
             //we have identifier
-            CircuitBreakerInformation circuitBreakerInformation;
-            synchronized (GUARD) {
-                if (!CIRCUIT_BREAKER_MAP.containsKey(identifier)) {
-                    //we don't have this circuit breaker in the map yet, so put it there
-                    circuitBreakerInformation = new CircuitBreakerInformation(identifier, parameters);
-                    CIRCUIT_BREAKER_MAP.put(identifier, circuitBreakerInformation);
-                }
-                //we are sure that we have the info in the map, so evaluate it
-                circuitBreakerInformation = CIRCUIT_BREAKER_MAP.get(identifier);
-                if (circuitBreakerInformation.isValid()) { // if the condition is not valid, don't use it
-                    //check if we are at the right path (=is this mine?)
-                    if (request.getRequestLine().toLowerCase().contains(circuitBreakerInformation.getPath().toLowerCase())) {
-                        //it is mine, so, mark the message
-                        request.addHeaderUpdate(CIRCUIT_BREAKER_HEADER, identifier);
-                        if (circuitBreakerInformation.isActive()) {
-                            //specific circuit breaker is turned ON - is the timeout passed?
-                            if (circuitBreakerInformation.getTimeout() < System.currentTimeMillis()) {
-                                //yes, passed, so we need to turn off the active CB, and fall back to normal opertaion
-                                circuitBreakerInformation.turnCircuitBreakerOff();
-                            } else {
-                                //no, not yet timed out, so CB must be active, and Wilma sends back the response
-                                conditionResult = true;
-                            }
-                        }
-                    }
-                }
-            }
+            String headedInformation = request.getHeader(CircuitBreakerInterceptor.CIRCUIT_BREAKER_HEADER);
+            conditionResult = (headedInformation != null) && (headedInformation.compareTo(identifier) == 0);
         }
         return conditionResult; //true only, if the response is stored, so we know what to answer
     }

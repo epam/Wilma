@@ -18,17 +18,63 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.webapp.service.external.ExternalWilmaService;
+import com.google.common.collect.Sets;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class provides the Circuit Breaker Service calls.
  *
  * @author tkohegyi
  */
-class CircuitBreakerService {
+class CircuitBreakerService implements ExternalWilmaService {
 
-    private static Map<String, CircuitBreakerInformation> circuitBreakerMap = CircuitBreakerChecker.getCircuitBreakerMap();
+    static final Map<String, CircuitBreakerInformation> CIRCUIT_BREAKER_MAP = new HashMap<>();
+    private static final String HANDLED_SERVICE = "/circuit-breaker";
+
+    /**
+     * ExternalWilmaService method implementation - entry point to handle the request by the external service.
+     *
+     * @param httpServletRequest  is the original request
+     * @param request             is the request string itself (part of the URL, focusing on the requested service)
+     * @param httpServletResponse is the response object
+     * @return with the body of the response (need to set response code in httpServletResponse object)
+     */
+    @Override
+    public String handleRequest(HttpServletRequest httpServletRequest, String request, HttpServletResponse httpServletResponse) {
+        String myMethod = httpServletRequest.getMethod();
+        String myService = (this.getClass().getSimpleName() + HANDLED_SERVICE).toLowerCase();
+        boolean myCall = request.toLowerCase().startsWith(myService);
+
+        //set default response
+        String response = "{ \"unknownServiceCall\": \"" + myMethod + " " + request + "\" }";
+        httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+        //handle basic call (without query string)
+        if (myCall) {
+            //get the circuit breaker map actual status
+            response = handleRequest(myMethod, httpServletResponse);
+        }
+
+        return response;
+    }
+
+    /**
+     * ExternalWilmaService method implementation - provides the list of requests, this service will handle.
+     *
+     * @return with the set of handled services.
+     */
+    @Override
+    public Set<String> getHandlers() {
+        return Sets.newHashSet(
+                this.getClass().getSimpleName() + HANDLED_SERVICE
+        );
+    }
 
     /**
      * Method that handles GET (all) methods on the actual Circuit Breaker Map.
@@ -37,7 +83,7 @@ class CircuitBreakerService {
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
      */
-    String handleRequest(String myMethod, HttpServletResponse httpServletResponse) {
+    private String handleRequest(String myMethod, HttpServletResponse httpServletResponse) {
         String response = null;
         if ("get".equalsIgnoreCase(myMethod)) {
             //list the map (circuits + get)
@@ -54,11 +100,11 @@ class CircuitBreakerService {
      */
     private String getCircuitBreakerMap(HttpServletResponse httpServletResponse) {
         StringBuilder response = new StringBuilder("{\n  \"circuitBreakerMap\": [\n");
-        if (!circuitBreakerMap.isEmpty()) {
-            String[] keySet = circuitBreakerMap.keySet().toArray(new String[circuitBreakerMap.size()]);
+        if (!CIRCUIT_BREAKER_MAP.isEmpty()) {
+            String[] keySet = CIRCUIT_BREAKER_MAP.keySet().toArray(new String[CIRCUIT_BREAKER_MAP.size()]);
             for (int i = 0; i < keySet.length; i++) {
                 String entryKey = keySet[i];
-                CircuitBreakerInformation circuitBreakerInformation = circuitBreakerMap.get(entryKey);
+                CircuitBreakerInformation circuitBreakerInformation = CIRCUIT_BREAKER_MAP.get(entryKey);
                 response.append(circuitBreakerInformation.toString());
                 if (i < keySet.length - 1) {
                     response.append(",\n");

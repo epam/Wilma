@@ -7,7 +7,7 @@
                 <param name="identifier" value="CB_1"/>
             </condition>
         </condition-descriptor>
-        <response-descriptor code="503" delay="0" mimetype="text/plain" template="circuitBreakerTemplate">
+        <response-descriptor code="503" delay="0" mimetype="text/plain" template="circuitBreakerTemplate1">
         </response-descriptor>
     </dialog-descriptor>
     <dialog-descriptor name="CircuitBreakerExampleConfiguration - test" usage="always" comment="Circuit Breaker">
@@ -16,17 +16,18 @@
                 <param name="identifier" value="CB_2"/>
             </condition>
         </condition-descriptor>
-        <response-descriptor code="503" delay="0" mimetype="text/plain" template="circuitBreakerTemplate">
+        <response-descriptor code="503" delay="0" mimetype="text/plain" template="circuitBreakerTemplate2">
         </response-descriptor>
     </dialog-descriptor>
     <template-descriptor name="templateDescriptor1">
-        <template name="circuitBreakerTemplate" type="text" resource="This is a Circuit Breaker test response."/>
+        <template name="circuitBreakerTemplate1" type="text" resource="This is a Circuit Breaker test response, type: 1."/>
+        <template name="circuitBreakerTemplate2" type="text" resource="This is a Circuit Breaker test response, type: 2."/>
     </template-descriptor>
     <interceptors>
         <interceptor name="Circuit Breaker Response Investigator"
                      class="com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor">
             <param name="identifier" value="CB_1"/>
-            <param name="path" value="http://"/>
+            <param name="path" value="http://v"/>
             <param name="timeoutInSec" value="15"/>
             <param name="successCodes" value="200,201,303"/>
             <param name="maxErrorCount" value="4"/>
