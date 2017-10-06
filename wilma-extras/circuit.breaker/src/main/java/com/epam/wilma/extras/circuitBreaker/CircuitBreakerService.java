@@ -93,7 +93,7 @@ class CircuitBreakerService implements ExternalWilmaService {
     }
 
     /**
-     * List the actual status of the Short Circuit Map.
+     * List the actual status of the Circuit Breaker Map.
      *
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object

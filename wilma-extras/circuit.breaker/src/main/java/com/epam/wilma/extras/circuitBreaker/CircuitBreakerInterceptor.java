@@ -25,7 +25,7 @@ import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 /**
- * Interceptor that implements request interceptor and ExternalWilmaService interface.
+ * Interceptor that implements request and response interceptor interfaces.
  * Response interceptor detects if the response is acceptable, and if not, then turns of the circuit breaker logic.
  * ExternalWilmaService offers the possibility of getting the actual status of the internal circuit breaker status.
  *
@@ -63,7 +63,7 @@ public class CircuitBreakerInterceptor extends CircuitBreakerService implements 
                             circuitBreakerInformation.turnCircuitBreakerOff();
                         } else {
                             //no, not yet timed out, so CB must be active, and Wilma sends back the response,
-                            //let's notify the condition
+                            //let's notify the condition checker
                             wilmaHttpRequest.addHeaderUpdate(CIRCUIT_BREAKER_HEADER, identifier);
                         }
                     }
@@ -92,30 +92,35 @@ public class CircuitBreakerInterceptor extends CircuitBreakerService implements 
                     if (circuitBreakerInformation.isValid()
                             && wilmaHttpResponse.getRequestLine().toLowerCase().contains(circuitBreakerInformation.getPath().toLowerCase())) {
                         //it is mine, so let's evaluate the result
-                        Integer[] successCodes = circuitBreakerInformation.getSuccessCodes();
-                        int responseCode = wilmaHttpResponse.getStatusCode();
-                        //detect if the response status code is in the list of acceptable response codes or not
-                        boolean found = false;
-                        for (Integer successCode : successCodes) {
-                            if (successCode == responseCode) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (found) {
-                            //the response has acceptable status code
-                            circuitBreakerInformation.resetErrorLevel();
-                        } else {
-                            //the response has not acceptable status code, so increase the number of problematic responses found
-                            boolean isOverLimit = circuitBreakerInformation.increaseErrorLevel();
-                            if (isOverLimit) { //and in case it reaches the error limit, then turn the circuit breaker ON
-                                circuitBreakerInformation.turnCircuitBreakerOn();
+                        if (!circuitBreakerInformation.isActive()) {
+                            //circuit breaker is not active
+                            if (isStatusCodeAcceptable(wilmaHttpResponse.getStatusCode(), circuitBreakerInformation.getSuccessCodes())) {
+                                //the response has acceptable status code
+                                circuitBreakerInformation.resetErrorLevel();
+                            } else {
+                                //the response has no acceptable status code, so increase the number of problematic responses found
+                                boolean isOverLimit = circuitBreakerInformation.increaseErrorLevel();
+                                if (isOverLimit) { //and in case it reaches the error limit, then turn the circuit breaker ON
+                                    circuitBreakerInformation.turnCircuitBreakerOn();
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    private boolean isStatusCodeAcceptable(Integer statusCode, Integer[] successCodes) {
+        //detect if the response status code is in the list of the acceptable response codes or not
+        boolean found = false;
+        for (Integer successCode : successCodes) {
+            if (successCode.intValue() == statusCode.intValue()) {
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 
 }

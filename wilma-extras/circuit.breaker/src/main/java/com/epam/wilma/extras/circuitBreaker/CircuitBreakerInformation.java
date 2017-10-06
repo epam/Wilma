@@ -128,7 +128,7 @@ class CircuitBreakerInformation {
         }
     }
 
-    void checkValidity() {
+    private void checkValidity() {
         if (isValid) {
             if (getTimeout() < System.currentTimeMillis()) {
                 //yes, passed, so we need to turn off the active CB, and fall back to normal operation

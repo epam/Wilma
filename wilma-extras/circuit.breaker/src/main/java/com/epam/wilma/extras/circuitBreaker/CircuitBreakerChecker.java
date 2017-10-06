@@ -44,6 +44,6 @@ public class CircuitBreakerChecker implements ConditionChecker {
             String headedInformation = request.getHeader(CircuitBreakerInterceptor.CIRCUIT_BREAKER_HEADER);
             conditionResult = (headedInformation != null) && (headedInformation.compareTo(identifier) == 0);
         }
-        return conditionResult; //true only, if the response is stored, so we know what to answer
+        return conditionResult; //true only, if the specific circuit breaker is active, so the stub must generate the answer
     }
 }
