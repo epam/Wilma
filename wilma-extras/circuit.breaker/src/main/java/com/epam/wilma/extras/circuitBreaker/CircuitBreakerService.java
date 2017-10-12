@@ -105,6 +105,7 @@ class CircuitBreakerService implements ExternalWilmaService {
             for (int i = 0; i < keySet.length; i++) {
                 String entryKey = keySet[i];
                 CircuitBreakerInformation circuitBreakerInformation = CIRCUIT_BREAKER_MAP.get(entryKey);
+                circuitBreakerInformation.checkValidity();
                 response.append(circuitBreakerInformation.toString());
                 if (i < keySet.length - 1) {
                     response.append(",\n");

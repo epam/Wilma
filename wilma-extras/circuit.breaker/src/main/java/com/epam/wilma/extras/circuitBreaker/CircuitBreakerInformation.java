@@ -40,7 +40,7 @@ class CircuitBreakerInformation {
     private Integer[] successCodes;
     private Integer maxErrorCount;
     //status
-    private Integer actualErrorLevel;
+    private int actualErrorLevel;
     private boolean isActive;
     private long timeout; // when the active CB will be turned off - in system time
 
@@ -128,8 +128,8 @@ class CircuitBreakerInformation {
         }
     }
 
-    private void checkValidity() {
-        if (isValid) {
+    void checkValidity() {
+        if (isValid && isActive) {
             if (getTimeout() < System.currentTimeMillis()) {
                 //yes, passed, so we need to turn off the active CB, and fall back to normal operation
                 turnCircuitBreakerOff();
@@ -143,7 +143,6 @@ class CircuitBreakerInformation {
             status = "{ \"isValid\": false }";
         } else { //valid
             //this is not the best place to do it, but it is the last before showing what is the status with this circuit breaker
-            checkValidity();
             //and the real toString starts here
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("    {\n");
@@ -199,6 +198,10 @@ class CircuitBreakerInformation {
 
     void resetErrorLevel() {
         actualErrorLevel = 0;
+    }
+
+    int getActualErrorLevel() {
+        return actualErrorLevel;
     }
 
     boolean increaseErrorLevel() {
