@@ -82,7 +82,7 @@
         },
         {
           "name": "timeoutInSec",
-          "value": "15"
+          "value": "120"
         },
         {
           "name": "successCodes",
@@ -108,7 +108,7 @@
         },
         {
           "name": "timeoutInSec",
-          "value": "15"
+          "value": "120"
         },
         {
           "name": "successCodes",
@@ -116,7 +116,7 @@
         },
         {
           "name": "maxErrorCount",
-          "value": "4"
+          "value": "0"
         }
       ]
     }

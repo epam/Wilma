@@ -28,7 +28,7 @@
                      class="com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor">
             <param name="identifier" value="CB_1"/>
             <param name="path" value="http://v"/>
-            <param name="timeoutInSec" value="15"/>
+            <param name="timeoutInSec" value="120"/>
             <param name="successCodes" value="200,201,303"/>
             <param name="maxErrorCount" value="4"/>
         </interceptor>
@@ -36,9 +36,9 @@
                      class="com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor">
             <param name="identifier" value="CB_2"/>
             <param name="path" value="http://127.0.0.1/testUrl"/>
-            <param name="timeoutInSec" value="15"/>
+            <param name="timeoutInSec" value="120"/>
             <param name="successCodes" value="200,201,303"/>
-            <param name="maxErrorCount" value="1"/>
+            <param name="maxErrorCount" value="0"/>
         </interceptor>
     </interceptors>
 </wilma-stub>

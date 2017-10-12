@@ -26,8 +26,6 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 /**
  * Interceptor that implements request and response interceptor interfaces.
- * Response interceptor detects if the response is acceptable, and if not, then turns of the circuit breaker logic.
- * ExternalWilmaService offers the possibility of getting the actual status of the internal circuit breaker status.
  *
  * @author tkohegyi
  */
@@ -36,6 +34,15 @@ public class CircuitBreakerInterceptor extends CircuitBreakerService implements 
     static final String CIRCUIT_BREAKER_HEADER = "Wilma-CircuitBreakerId";
     private static final Object GUARD = new Object();
 
+    /**
+     * This is the Request Interceptor implementation.
+     * First of all ensures that the interceptor is placed properly in the Circuit Breaker map.
+     * Then, in case the request fits to the specific interceptor, and the specific circuit breaker is active,
+     * notifies the condition checker by adding a header to the request.
+     *
+     * @param wilmaHttpRequest  is the incoming request
+     * @param parameters        is the parameter list of the specific interceptor
+     */
     @Override
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameters) {
         //get the key
@@ -73,8 +80,10 @@ public class CircuitBreakerInterceptor extends CircuitBreakerService implements 
     }
 
     /**
-     * This is the Response Interceptor implementation. In case the response is marked with hashcode,
-     * that means the response should be preserved.
+     * This is the Response Interceptor implementation.
+     * In case the request of the response fits to the specific Circuit Breaker, and that is inactive,
+     * checks if the response is acceptable or not. If not, increases the counter of the errors,
+     * and if that number is getting higher than the limit then turns the Circuit Breaker ON.
      *
      * @param wilmaHttpResponse is the response
      * @param parameters        may contain the response validity timeout - if not response will be valid forever
@@ -113,14 +122,14 @@ public class CircuitBreakerInterceptor extends CircuitBreakerService implements 
 
     private boolean isStatusCodeAcceptable(Integer statusCode, Integer[] successCodes) {
         //detect if the response status code is in the list of the acceptable response codes or not
-        boolean found = false;
+        boolean isAcceptable = false;
         for (Integer successCode : successCodes) {
             if (successCode.intValue() == statusCode.intValue()) {
-                found = true;
+                isAcceptable = true;
                 break;
             }
         }
-        return found;
+        return isAcceptable;
     }
 
 }

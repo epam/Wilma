@@ -25,6 +25,9 @@ import org.slf4j.LoggerFactory;
 /**
  * This class holds information about a single circuitBreaker.
  *
+ * Variables belong to the Input Settings part are parameters of the circuit breaker interceptor.
+ * Variables belong to the Status part hold the actual status of the circuit breaker.
+ *
  * @author tkohegyi
  */
 class CircuitBreakerInformation {
@@ -32,21 +35,20 @@ class CircuitBreakerInformation {
     private static final int ONE_SECOND = 1000;
     private final Logger logger = LoggerFactory.getLogger(CircuitBreakerInformation.class);
 
-    //input settings
+    //Input Settings
     private String identifier;
     private boolean isValid;
     private String path;
     private Integer timeoutInSec;
     private Integer[] successCodes;
     private Integer maxErrorCount;
-    //status
+    //Status
     private int actualErrorLevel;
     private boolean isActive;
     private long timeout; // when the active CB will be turned off - in system time
 
     /**
-     * Creates a new response information, based on the original response, and specifying a timeout.
-     * Timeout value is the system time, when this response become obsolete.
+     * Creates a new Circuit Breaker information, based on the parameters of the Circuit Breaker interceptor.
      */
     CircuitBreakerInformation(final String identifier, final ParameterList parameters) {
         this.identifier = identifier;
@@ -55,7 +57,7 @@ class CircuitBreakerInformation {
         //get path
         path = parameters.get("path");
         if (path == null) {
-            logger.debug("Circuit Breaker: '" + identifier + "' has missing 'path' parameter, pls fix.");
+            logger.error("Circuit Breaker: '" + identifier + "' has missing 'path' parameter, please fix.");
             isValid = false;
         }
         //get timeoutInSec
@@ -65,11 +67,11 @@ class CircuitBreakerInformation {
             try {
                 timeoutInSec = Integer.parseInt(timeoutInSecString);
             } catch (NumberFormatException e) {
-                logger.debug("Circuit Breaker: '" + identifier + "' has invalid 'timeoutInSec' parameter, pls fix.");
+                logger.error("Circuit Breaker: '" + identifier + "' has invalid 'timeoutInSec' parameter, please fix.");
                 isValid = false;
             }
         } else {
-            logger.debug("Circuit Breaker: '" + identifier + "' has missing 'timeoutInSec' parameter, pls fix.");
+            logger.error("Circuit Breaker: '" + identifier + "' has missing 'timeoutInSec' parameter, please fix.");
             isValid = false;
 
         }
@@ -81,11 +83,11 @@ class CircuitBreakerInformation {
             try {
                 maxErrorCount = Integer.parseInt(maxErrorCountString);
             } catch (NumberFormatException e) {
-                logger.debug("Circuit Breaker: '" + identifier + "' has invalid 'maxErrorCount' parameter, pls fix.");
+                logger.debug("Circuit Breaker: '" + identifier + "' has invalid 'maxErrorCount' parameter, please fix.");
                 isValid = false;
             }
         } else {
-            logger.debug("Circuit Breaker: '" + identifier + "' has missing 'maxErrorCount' parameter, pls fix.");
+            logger.debug("Circuit Breaker: '" + identifier + "' has missing 'maxErrorCount' parameter, please fix.");
             isValid = false;
         }
         //init status
@@ -102,12 +104,12 @@ class CircuitBreakerInformation {
                 try {
                     successCodes[i] = Integer.parseInt(codeStrings[i].trim());
                 } catch (NumberFormatException e) {
-                    logger.debug("Circuit Breaker: '" + identifier + "' has invalid 'successCodes' parameter, pls fix.");
+                    logger.debug("Circuit Breaker: '" + identifier + "' has invalid 'successCodes' parameter, please fix.");
                     isValid = false;
                 }
             }
         } else {
-            logger.debug("Circuit Breaker: '" + identifier + "' has missing 'successCodes' parameter, pls fix.");
+            logger.debug("Circuit Breaker: '" + identifier + "' has missing 'successCodes' parameter, please fix.");
             isValid = false;
         }
     }
@@ -142,7 +144,6 @@ class CircuitBreakerInformation {
         if (!isValid) {
             status = "{ \"isValid\": false }";
         } else { //valid
-            //this is not the best place to do it, but it is the last before showing what is the status with this circuit breaker
             //and the real toString starts here
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("    {\n");
@@ -206,6 +207,6 @@ class CircuitBreakerInformation {
 
     boolean increaseErrorLevel() {
         actualErrorLevel++;
-        return actualErrorLevel > maxErrorCount;
+        return actualErrorLevel >= maxErrorCount;
     }
 }

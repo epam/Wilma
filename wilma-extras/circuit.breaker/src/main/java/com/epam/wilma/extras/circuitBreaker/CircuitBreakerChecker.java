@@ -23,9 +23,9 @@ import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecke
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 /**
- * Condition checker class that is used for example: Short Circuit.
+ * Condition checker class that is used for example: Circuit Breaker.
  * Its main task is to determine if the request is marked with the circuit breaker identifier,
- * because if it marked, that means the circuit breaker is ON.
+ * because if it is marked, that means the specific circuit breaker is ON, and then return with true.
  *
  * @author Tamas_Kohegyi
  */
@@ -40,8 +40,8 @@ public class CircuitBreakerChecker implements ConditionChecker {
             //we don't have identifier, exiting now
             conditionResult = false;
         } else {
-            //we have identifier
-            String headedInformation = request.getHeader(CircuitBreakerInterceptor.CIRCUIT_BREAKER_HEADER);
+            //we have the identifier
+            String headedInformation = request.getHeaderUpdateValue(CircuitBreakerInterceptor.CIRCUIT_BREAKER_HEADER);
             conditionResult = (headedInformation != null) && (headedInformation.compareTo(identifier) == 0);
         }
         return conditionResult; //true only, if the specific circuit breaker is active, so the stub must generate the answer

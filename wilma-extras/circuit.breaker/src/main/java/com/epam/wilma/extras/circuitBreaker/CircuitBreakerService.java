@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class provides the Circuit Breaker Service calls.
+ * This class provides the Circuit Breaker Service calls by using the ExternalWilmaService extension point of Wilma.
  *
  * @author tkohegyi
  */
@@ -66,6 +66,7 @@ class CircuitBreakerService implements ExternalWilmaService {
 
     /**
      * ExternalWilmaService method implementation - provides the list of requests, this service will handle.
+     * Note that both GAT and DELETE are supported.
      *
      * @return with the set of handled services.
      */
@@ -77,23 +78,28 @@ class CircuitBreakerService implements ExternalWilmaService {
     }
 
     /**
-     * Method that handles GET (all) methods on the actual Circuit Breaker Map.
+     * Method that handles GET and DELETE methods on the actual Circuit Breaker Map.
      *
-     * @param myMethod            is expected as either GET
+     * @param myMethod            is expected as either GET or DELETE
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
      */
     private String handleRequest(String myMethod, HttpServletResponse httpServletResponse) {
         String response = null;
         if ("get".equalsIgnoreCase(myMethod)) {
-            //list the map (circuits + get)
+            //get the circuitBreaker map
+            response = getCircuitBreakerMap(httpServletResponse);
+        }
+        if ("delete".equalsIgnoreCase(myMethod)) {
+            //clean up the circuitsBreaker map + get result
+            CIRCUIT_BREAKER_MAP.clear();
             response = getCircuitBreakerMap(httpServletResponse);
         }
         return response;
     }
 
     /**
-     * List the actual status of the Circuit Breaker Map.
+     * Gets the actual status of the Circuit Breaker Map.
      *
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
@@ -105,7 +111,7 @@ class CircuitBreakerService implements ExternalWilmaService {
             for (int i = 0; i < keySet.length; i++) {
                 String entryKey = keySet[i];
                 CircuitBreakerInformation circuitBreakerInformation = CIRCUIT_BREAKER_MAP.get(entryKey);
-                circuitBreakerInformation.checkValidity();
+                circuitBreakerInformation.checkValidity(); //ensuring that we have the latest valid info of the circuit breaker
                 response.append(circuitBreakerInformation.toString());
                 if (i < keySet.length - 1) {
                     response.append(",\n");
