@@ -64,7 +64,7 @@
     {
       "name": "circuitBreakerTemplate2",
       "type": "text",
-      "resource": "Service has issues, and protected by Wilma-CircuitBreaker.  Type: 2"
+      "resource": "Service has issues, and protected by Wilma-CircuitBreaker. Type: 2"
     }
   ],
   "interceptors": [
@@ -78,7 +78,7 @@
         },
         {
           "name": "path",
-          "value": "http://v"
+          "value": "http://127.0.0.1/test1/"
         },
         {
           "name": "timeoutInSec",
@@ -104,7 +104,7 @@
         },
         {
           "name": "path",
-          "value": "http://127.0.0.1/testUrl"
+          "value": "http://127.0.0.1/test2/"
         },
         {
           "name": "timeoutInSec",

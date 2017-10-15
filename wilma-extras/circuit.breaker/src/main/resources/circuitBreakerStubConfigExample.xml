@@ -27,7 +27,7 @@
         <interceptor name="Circuit Breaker Response Investigator"
                      class="com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor">
             <param name="identifier" value="CB_1"/>
-            <param name="path" value="http://v"/>
+            <param name="path" value="http://127.0.0.1/test1/"/>
             <param name="timeoutInSec" value="120"/>
             <param name="successCodes" value="200,201,303"/>
             <param name="maxErrorCount" value="4"/>
@@ -35,7 +35,7 @@
         <interceptor name="Circuit Breaker Response Investigator"
                      class="com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor">
             <param name="identifier" value="CB_2"/>
-            <param name="path" value="http://127.0.0.1/testUrl"/>
+            <param name="path" value="http://127.0.0.1/test2/"/>
             <param name="timeoutInSec" value="120"/>
             <param name="successCodes" value="200,201,303"/>
             <param name="maxErrorCount" value="0"/>
