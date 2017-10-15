@@ -1,0 +1,124 @@
+{
+  "dialogs": [
+    {
+      "name": "CircuitBreakerExampleConfiguration - 1",
+      "usage": "always",
+      "comment": "Circuit Breaker - experimental version of the Wilma Stub Configuration file in JSON format.",
+      "conditions": [
+        {
+          "class": "com.epam.wilma.extras.circuit.breaker.CircuitBreakerChecker",
+          "parameters": [
+            {
+              "name": "identifier",
+              "value": "CB_1"
+            }
+          ]
+        }
+      ],
+      "response": {
+        "code": 503,
+        "delay": 0,
+        "mimeType": "text/plain",
+        "template": "circuitBreakerTemplate1",
+        "templateFormatters": [
+          {
+            "class": "com.epam.wilma.extras.circuitBreaker.ShortCircuitResponseGenerator"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CircuitBreakerExampleConfiguration - 2",
+      "usage": "always",
+      "comment": "Circuit Breaker - experimental version of the Wilma Stub Configuration file in JSON format.",
+      "conditions": [
+        {
+          "class": "com.epam.wilma.extras.circuit.breaker.CircuitBreakerChecker",
+          "parameters": [
+            {
+              "name": "identifier",
+              "value": "CB_2"
+            }
+          ]
+        }
+      ],
+      "response": {
+        "code": 503,
+        "delay": 0,
+        "mimeType": "text/plain",
+        "template": "circuitBreakerTemplate2",
+        "templateFormatters": [
+          {
+            "class": "com.epam.wilma.extras.circuitBreaker.ShortCircuitResponseGenerator"
+          }
+        ]
+      }
+    }
+  ],
+  "templates": [
+    {
+      "name": "circuitBreakerTemplate1",
+      "type": "text",
+      "resource": "Service has issues, and protected by Wilma-CircuitBreaker. Type: 1"
+    },
+    {
+      "name": "circuitBreakerTemplate2",
+      "type": "text",
+      "resource": "Service has issues, and protected by Wilma-CircuitBreaker. Type: 2"
+    }
+  ],
+  "interceptors": [
+    {
+      "name": "Circuit Breaker Response Investigator - CB_1",
+      "class": "com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor",
+      "parameters": [
+        {
+          "name": "identifier",
+          "value": "CB_1"
+        },
+        {
+          "name": "path",
+          "value": "http://127.0.0.1/test1/"
+        },
+        {
+          "name": "timeoutInSec",
+          "value": "120"
+        },
+        {
+          "name": "successCodes",
+          "value": "200, 201, 303"
+        },
+        {
+          "name": "maxErrorCount",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "name": "Circuit Breaker Response Investigator - CB_2",
+      "class": "com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor",
+      "parameters": [
+        {
+          "name": "identifier",
+          "value": "CB_2"
+        },
+        {
+          "name": "path",
+          "value": "http://127.0.0.1/test2/"
+        },
+        {
+          "name": "timeoutInSec",
+          "value": "120"
+        },
+        {
+          "name": "successCodes",
+          "value": "200, 201, 303"
+        },
+        {
+          "name": "maxErrorCount",
+          "value": "0"
+        }
+      ]
+    }
+  ]
+}

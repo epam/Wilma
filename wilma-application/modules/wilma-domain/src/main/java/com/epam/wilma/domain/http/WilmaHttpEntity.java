@@ -36,6 +36,8 @@ public class WilmaHttpEntity implements Serializable {
 
     public static final String WILMA_SEQUENCE_ID = "Wilma-Sequence";
     public static final String WILMA_LOGGER_ID = "Wilma-Logger-ID";
+    //holder of the request line
+    private String requestLine;
     //holder of headers of the message (req or resp)
     private final Map<String, String> headers = new HashMap<>();
     //holder of header changes
@@ -48,6 +50,15 @@ public class WilmaHttpEntity implements Serializable {
     // ip of the source/client
     private String remoteAddr;
     private boolean loggingEnabled = true; //whether the logging of this specific message is enabled or not, default: enabled
+
+    //method + target url + protocol
+    public String getRequestLine() {
+        return requestLine;
+    }
+
+    public void setRequestLine(final String requestLine) {
+        this.requestLine = requestLine;
+    }
 
     /**
      * Adds a WilmaHttpHeader to the list of headers.

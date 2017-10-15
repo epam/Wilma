@@ -32,8 +32,6 @@ import java.util.Map;
  */
 public class WilmaHttpRequest extends WilmaHttpEntity {
 
-    private String requestLine;
-
     private URI uri;
 
     private boolean rerouted;
@@ -52,15 +50,6 @@ public class WilmaHttpRequest extends WilmaHttpEntity {
 
     public String getSequenceId() {
         return getHeaderUpdateValue(WILMA_SEQUENCE_ID);
-    }
-
-    //method + target url + protocol
-    public String getRequestLine() {
-        return requestLine;
-    }
-
-    public void setRequestLine(final String requestLine) {
-        this.requestLine = requestLine;
     }
 
     public URI getUri() {
