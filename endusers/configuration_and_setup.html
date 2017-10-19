@@ -271,8 +271,10 @@ Request-response pairs are stored in 'D:\wilma\messages' folder.
                 <p>The most simple way to do this is by adding a few<strong> VM arguments </strong>to the run
                     configuration:</p>
                 <code><pre>
--DproxyHost=[wilma-url]
--DproxyPort=[wilma-port]
+-Dhttp.proxyHost=[wilma-host]
+-Dhttp.proxyPort=[wilma-port]
+-Dhttps.proxyHost=[wilma-host]
+-Dhttps.proxyPort=[wilma-port]
 -Djavax.net.ssl.trustStore=[path/to/wilma.jks]
 -Djavax.net.ssl.trustStorePassword=vvilma
                     </pre></code>
@@ -289,11 +291,11 @@ Request-response pairs are stored in 'D:\wilma\messages' folder.
                         in <code>wilma.zip</code> under <strong>certificate/wilma.jks</strong>)
                     </li>
                 </ul>
-                <p>The first 2 arguments mean that the application should use a proxy on the given host and port, the
+                <p>The first 4 arguments mean that the application should use a proxy on the given host and port (both for HTTP and for HTTPS connections), the
                     third argument specifies a Java Key Store (JKS) file that contains the certificates trusted by the
                     client application. Depending of the HTTP/S client used by your application, other parameters might also need to be set.</p>
 
-                <p>Wilma uses an unsigned certificate contained by <code>wilma.jks </code>to be able to proxy HTTPS
+                <p>Wilma uses an unsigned certificate contained by <code>wilma.jks</code> to be able to proxy HTTPS
                     connections too<code>.</code>
                 </p>
 

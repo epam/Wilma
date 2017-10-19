@@ -12,3 +12,6 @@ build/
 wilma.iml
 wilma.ipr
 wilma.iws
+gradle/
+gradlew
+gradlew.bat
