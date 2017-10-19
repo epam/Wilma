@@ -62,6 +62,7 @@ public class ForwardProxyInformation {
 
     /**
      * Converts a single ForwardProxyInformation class information to JSON string.
+     * @return with the string representation of the Forward Proxy map in JSON format
      */
     public String toString() {
         String status;
