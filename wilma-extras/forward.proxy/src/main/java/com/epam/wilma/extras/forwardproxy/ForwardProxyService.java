@@ -20,9 +20,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.webapp.service.external.ExternalWilmaService;
 import com.google.common.collect.Sets;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Set;
 
 /**
@@ -68,7 +72,7 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
         //handle basic call (without query string)
         if (myCall && httpServletRequest.getQueryString() == null) {
             //get the map, or delete whole map or delete entry from map
-            response = handleBasicCall(myMethod, httpServletResponse, httpServletRequest.getPathInfo());
+            response = handleBasicCall(myMethod, httpServletRequest, httpServletResponse, httpServletRequest.getPathInfo());
         }
 
         //handle complex calls (with query string as folder)
@@ -82,30 +86,8 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
         return response;
     }
 
-    /**
-     * Method that handles request to save and load the Short Circuit Map.
-     *
-     * @param myMethod            POST (for Save) and GET (for Load) and DELETE for a selected
-     * @param folder              is the folder to be used, or the identifier of the entry to be deleted
-     * @param httpServletResponse is the response object
-     * @return with the response body (and with the updated httpServletResponse object
-     */
-    private String handleComplexCall(String myMethod, String folder, HttpServletResponse httpServletResponse) {
-        String response = null;
-        if ("post".equalsIgnoreCase(myMethod)) {
-            //save map (to files) (post + forwardProxy?folder=...)
-            response = saveMap(folder, httpServletResponse);
-        }
-        if ("get".equalsIgnoreCase(myMethod)) {
-            //load map (from files) (get + forwardProxy?folder=....)
-            loadMap(folder);
-            response = getForwardPoxyMap(httpServletResponse);
-        }
-        return response;
-    }
-
-
-    private String handleBasicCall(String myMethod, HttpServletResponse httpServletResponse, String path) {
+    private String handleBasicCall(String myMethod, HttpServletRequest httpServletRequest,
+                                   HttpServletResponse httpServletResponse, String path) {
         String response = null;
         if ("get".equalsIgnoreCase(myMethod)) {
             //get the forward proxy map
@@ -138,6 +120,56 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
                 }
                 response = getForwardPoxyMap(httpServletResponse);
             }
+        }
+        if ("post".equalsIgnoreCase(myMethod)) {
+            //we create a new entry
+            int index = path.lastIndexOf("/");
+            String idStr = path.substring(index + 1);
+            //build up the new info
+            try {
+                String myBody = IOUtils.toString(httpServletRequest.getReader());
+                JSONObject json = new JSONObject(myBody);
+                String originalTarget = json.getString("originalTarget");
+                String realTarget = json.getString("realTarget");
+                ForwardProxyInformation forwardProxyInformation = new ForwardProxyInformation(idStr, originalTarget, realTarget);
+                if (forwardProxyInformation.isValid()) {
+                    synchronized (GUARD) {
+                        FORWARD_PROXY_MAP.put(idStr, forwardProxyInformation);
+                    }
+                    response = getForwardPoxyMap(httpServletResponse);
+                    httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    //request is not valid
+                    response = "{ \"error\": \"Specified forward-proxy information is not accepted.\" }";
+                    httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            } catch (JSONException | IOException e) {
+                response = "{ \"error\": \"" + e.getLocalizedMessage() + "\" }";
+                httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        }
+        return response;
+    }
+
+
+    /**
+     * Method that handles request to save and load the Short Circuit Map.
+     *
+     * @param myMethod            POST (for Save) and GET (for Load) and DELETE for a selected
+     * @param folder              is the folder to be used, or the identifier of the entry to be deleted
+     * @param httpServletResponse is the response object
+     * @return with the response body (and with the updated httpServletResponse object
+     */
+    private String handleComplexCall(String myMethod, String folder, HttpServletResponse httpServletResponse) {
+        String response = null;
+        if ("post".equalsIgnoreCase(myMethod)) {
+            //save map (to files) (post + forwardProxy?folder=...)
+            response = saveMap(folder, httpServletResponse);
+        }
+        if ("get".equalsIgnoreCase(myMethod)) {
+            //load map (from files) (get + forwardProxy?folder=....)
+            loadMap(folder);
+            response = getForwardPoxyMap(httpServletResponse);
         }
         return response;
     }
