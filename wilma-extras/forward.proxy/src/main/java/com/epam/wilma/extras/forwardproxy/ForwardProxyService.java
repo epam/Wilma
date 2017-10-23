@@ -91,66 +91,17 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
         String response = null;
         if ("get".equalsIgnoreCase(myMethod)) {
             //get the forward proxy map
-            response = getForwardPoxyMap(httpServletResponse);
+            response = handleGet(httpServletResponse);
         }
         if ("delete".equalsIgnoreCase(myMethod)) {
-            //first detect if we have basic path or we have a specified id in it
-            int index = path.lastIndexOf("/");
-            String idStr = path.substring(index + 1);
-            int id;
-            try {
-                id = Integer.parseInt(idStr);
-                //remove a specific map entry
-                String[] keySet = FORWARD_PROXY_MAP.keySet().toArray(new String[FORWARD_PROXY_MAP.size()]);
-                if (keySet.length > id) {
-                    //we can delete it
-                    String entryKey = keySet[id];
-                    FORWARD_PROXY_MAP.remove(entryKey);
-                    response = getForwardPoxyMap(httpServletResponse);
-                } else {
-                    //resource cannot be deleted
-                    response = "{ \"Cannot found specified entry in Forward Proxy\": \"" + id + "\" }";
-                    httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                }
-            } catch (NumberFormatException e) {
-                //it is not a problem, we should delete all
-                //invalidate map (remove all from map) (circuits + delete)
-                synchronized (GUARD) {
-                    FORWARD_PROXY_MAP.clear();
-                }
-                response = getForwardPoxyMap(httpServletResponse);
-            }
+            response = handleDelete(httpServletResponse, path);
         }
         if ("post".equalsIgnoreCase(myMethod)) {
             //we create a new entry
-            int index = path.lastIndexOf("/");
-            String idStr = path.substring(index + 1);
-            //build up the new info
-            try {
-                String myBody = IOUtils.toString(httpServletRequest.getReader());
-                JSONObject json = new JSONObject(myBody);
-                String originalTarget = json.getString("originalTarget");
-                String realTarget = json.getString("realTarget");
-                ForwardProxyInformation forwardProxyInformation = new ForwardProxyInformation(idStr, originalTarget, realTarget);
-                if (forwardProxyInformation.isValid()) {
-                    synchronized (GUARD) {
-                        FORWARD_PROXY_MAP.put(idStr, forwardProxyInformation);
-                    }
-                    response = getForwardPoxyMap(httpServletResponse);
-                    httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-                } else {
-                    //request is not valid
-                    response = "{ \"error\": \"Specified forward-proxy information is not accepted.\" }";
-                    httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                }
-            } catch (JSONException | IOException e) {
-                response = "{ \"error\": \"" + e.getLocalizedMessage() + "\" }";
-                httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
+            response = handlePost(httpServletRequest, httpServletResponse, path);
         }
         return response;
     }
-
 
     /**
      * Method that handles request to save and load the Short Circuit Map.
@@ -197,6 +148,70 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
         response.append("  ]\n}\n");
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
         return response.toString();
+    }
+
+    private String handleGet(HttpServletResponse httpServletResponse) {
+        return getForwardPoxyMap(httpServletResponse);
+    }
+
+    private String handlePost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, String path) {
+        String response;
+        int index = path.lastIndexOf("/");
+        String idStr = path.substring(index + 1);
+        //build up the new info
+        try {
+            String myBody = IOUtils.toString(httpServletRequest.getReader());
+            JSONObject json = new JSONObject(myBody);
+            String originalTarget = json.getString("originalTarget");
+            String realTarget = json.getString("realTarget");
+            ForwardProxyInformation forwardProxyInformation = new ForwardProxyInformation(idStr, originalTarget, realTarget);
+            if (forwardProxyInformation.isValid()) {
+                synchronized (GUARD) {
+                    FORWARD_PROXY_MAP.put(idStr, forwardProxyInformation);
+                }
+                response = getForwardPoxyMap(httpServletResponse);
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                //request is not valid
+                response = "{ \"error\": \"Specified forward-proxy information is not accepted.\" }";
+                httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } catch (JSONException | IOException e) {
+            response = "{ \"error\": \"" + e.getLocalizedMessage() + "\" }";
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return response;
+    }
+
+    private String handleDelete(HttpServletResponse httpServletResponse, String path) {
+        String response;
+        //first detect if we have basic path or we have a specified id in it
+        int index = path.lastIndexOf("/");
+        String idStr = path.substring(index + 1);
+        int id;
+        try {
+            id = Integer.parseInt(idStr);
+            //remove a specific map entry
+            String[] keySet = FORWARD_PROXY_MAP.keySet().toArray(new String[FORWARD_PROXY_MAP.size()]);
+            if (keySet.length > id) {
+                //we can delete it
+                String entryKey = keySet[id];
+                FORWARD_PROXY_MAP.remove(entryKey);
+                response = getForwardPoxyMap(httpServletResponse);
+            } else {
+                //resource cannot be deleted
+                response = "{ \"Cannot found specified entry in Forward Proxy\": \"" + id + "\" }";
+                httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
+        } catch (NumberFormatException e) {
+            //it is not a problem, we should delete all
+            //invalidate map (remove all from map) (circuits + delete)
+            synchronized (GUARD) {
+                FORWARD_PROXY_MAP.clear();
+            }
+            response = getForwardPoxyMap(httpServletResponse);
+        }
+        return response;
     }
 
 }
