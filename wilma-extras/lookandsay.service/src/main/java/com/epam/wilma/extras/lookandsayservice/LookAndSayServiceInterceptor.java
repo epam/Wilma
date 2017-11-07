@@ -101,6 +101,7 @@ public class LookAndSayServiceInterceptor extends InterceptorCore implements Req
                         + "\",\n  \"iterations\": \"" + iterationText
                         + "\",\n  \"serviceResult\": \"" + response
                         + "\",\n  \"length\": \"" + response.length() + "\"\n}";
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             }
         }
         return response;

@@ -80,20 +80,29 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
         String response = "{ \"unknownServiceCall\": \"" + myMethod + " " + request + "\" }";
         httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
-        //handle basic call (without query string)
-        if (myCall && httpServletRequest.getQueryString() == null) {
-            //get the map, or delete whole map or delete entry from map
-            response = handleBasicCall(myMethod, httpServletResponse, httpServletRequest.getPathInfo());
-        }
-
-        //handle complex calls (with query string as folder)
-        if (myCall && httpServletRequest.getQueryString() != null && httpServletRequest.getQueryString().length() > 0) {
-            String folder = httpServletRequest.getParameter("folder");
-            if (folder != null && folder.length() > 0) {
-                //save (post) and load (get) map
-                response = handleComplexCall(myMethod, folder, httpServletResponse);
+        if (myCall) {
+            //handle basic call (without query string)
+            if (httpServletRequest.getQueryString() == null) {
+                //get the map, or delete whole map
+                response = handleBasicCall(myMethod, httpServletResponse, httpServletRequest.getPathInfo());
+            } else {
+                if (httpServletRequest.getQueryString().length() > 0) {
+                    //handle calls with query string as folder
+                    String folder = httpServletRequest.getParameter("folder");
+                    if (folder != null && folder.length() > 0) {
+                        //save (post) and load (get) map
+                        response = handleComplexCall(myMethod, folder, httpServletResponse);
+                    }
+                    //handle calls with query string as id
+                    String id = httpServletRequest.getParameter("id");
+                    if (id != null && id.length() > 0) {
+                        //delete specific entry and load (get) map
+                        response = handleDeleteById(myMethod, id, httpServletResponse);
+                    }
+                }
             }
         }
+
         return response;
     }
 

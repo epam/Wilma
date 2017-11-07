@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wilma-stub xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://epam.github.io/Wilma/xsd/StubConfig"
-            xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
+            xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd" groupname="CircuitBreaker">
     <dialog-descriptor name="CircuitBreakerExampleConfiguration - main" usage="always" comment="Circuit Breaker">
         <condition-descriptor>
             <condition class="com.epam.wilma.extras.circuitBreaker.CircuitBreakerChecker">
