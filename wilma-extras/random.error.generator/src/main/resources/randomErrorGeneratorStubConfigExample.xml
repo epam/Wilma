@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd">
+            xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd" groupname="RandomErrorGenerator">
     <dialog-descriptor name="RandomErrorGeneratorExampleConfigurationE500" usage="always" comment="Random Error Generator to produce E500 errors">
         <condition-descriptor>
             <condition class="com.epam.wilma.extras.randomErrorGenerator.RandomErrorGeneratorChecker" >

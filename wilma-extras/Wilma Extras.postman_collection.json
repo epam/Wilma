@@ -1,0 +1,229 @@
+{
+	"info": {
+		"name": "Wilma Extras",
+		"_postman_id": "20b5cebf-ceab-5e0d-0caf-1c4566a7f9cf",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Look-And-Say Service",
+			"description": "",
+			"item": [
+				{
+					"name": "Run Look-And-Say Service with 1/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/LookAndSayServiceInterceptor/look-and-say-service?number=1&iterations=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"LookAndSayServiceInterceptor",
+								"look-and-say-service"
+							],
+							"query": [
+								{
+									"key": "number",
+									"value": "1",
+									"equals": true
+								},
+								{
+									"key": "iterations",
+									"value": "1",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Short Circuit Example",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Actual Short Circuit Cache",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"ShortCircuitInterceptor",
+								"circuits"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Flush Cache",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"ShortCircuitInterceptor",
+								"circuits"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cache Entry by its ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?id={{idInShortCircuitCache}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"ShortCircuitInterceptor",
+								"circuits"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{idInShortCircuitCache}}",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Save Cache to Folder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={{toFolder}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"ShortCircuitInterceptor",
+								"circuits"
+							],
+							"query": [
+								{
+									"key": "folder",
+									"value": "{{toFolder}}",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Load Cache from Folder",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={{fromFolder}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"ShortCircuitInterceptor",
+								"circuits"
+							],
+							"query": [
+								{
+									"key": "folder",
+									"value": "{{fromFolder}}",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get List of External Services",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1234/config/public/services/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"config",
+						"public",
+						"services",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
