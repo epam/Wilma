@@ -132,7 +132,7 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
      * @return with the response body (and with the updated httpServletResponse object
      */
     private String getForwardPoxyMap(HttpServletResponse httpServletResponse) {
-        StringBuilder response = new StringBuilder("{\n  \"circuitBreakerMap\": [\n");
+        StringBuilder response = new StringBuilder("{\n  \"forwardProxyMap\": [\n");
         if (!FORWARD_PROXY_MAP.isEmpty()) {
             String[] keySet = FORWARD_PROXY_MAP.keySet().toArray(new String[FORWARD_PROXY_MAP.size()]);
             for (int i = 0; i < keySet.length; i++) {
