@@ -79,32 +79,14 @@ class ShortCircuitInterceptorCore {
         if ("get".equalsIgnoreCase(myMethod)) {
             //list the map (circuits + get)
             response = getShortCircuitMap(httpServletResponse);
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
         }
         if ("delete".equalsIgnoreCase(myMethod)) {
-            //first detect if we have basic path or we have a specified id in it
-            int index = path.lastIndexOf("/");
-            String idStr = path.substring(index + 1);
-            int id;
-            try {
-                id = Integer.parseInt(idStr);
-                //remove a specific map entry
-                String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
-                if (keySet.length > id) {
-                    //we can delete it
-                    String entryKey = keySet[id];
-                    shortCircuitMap.remove(entryKey);
-                    response = getShortCircuitMap(httpServletResponse);
-                } else {
-                    //resource cannot be deleted
-                    response = "{ \"Cannot found specified entry in Short Circuit Cache\": \"" + id + "\" }";
-                    httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                }
-            } catch (NumberFormatException e) {
-                //it is not a problem, we should delete all
-                //invalidate map (remove all from map) (circuits + delete)
-                shortCircuitMap.clear();
-                response = getShortCircuitMap(httpServletResponse);
-            }
+            //we should delete all
+            //invalidate map (remove all from map) (circuits + delete)
+            shortCircuitMap.clear();
+            response = getShortCircuitMap(httpServletResponse);
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
         }
         return response;
     }
@@ -112,8 +94,8 @@ class ShortCircuitInterceptorCore {
     /**
      * Method that handles request to save and load the Short Circuit Map.
      *
-     * @param myMethod            POST (for Save) and GET (for Load) and DELETE for a selected
-     * @param folder              is the folder to be used, or the identifier of the entry to be deleted
+     * @param myMethod            POST (for Save) and GET (for Load)
+     * @param folder              is the folder to be used
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
      */
@@ -129,6 +111,41 @@ class ShortCircuitInterceptorCore {
             String path = logFilePathProvider.getLogFilePath() + "/" + folder;
             shortCircuitResponseInformationFileHandler.loadPreservedMessagesToMap(path);
             response = getShortCircuitMap(httpServletResponse);
+        }
+        return response;
+    }
+
+    /**
+     * Method that handles request to delete a specific entry from Short Circuit Map.
+     *
+     * @param myMethod            DELETE for a selected
+     * @param idStr              is the identifier of the entry to be deleted
+     * @param httpServletResponse is the response object
+     * @return with the response body (and with the updated httpServletResponse object
+     */
+    String handleDeleteById(String myMethod, String idStr, HttpServletResponse httpServletResponse) {
+        String response = null;
+        if ("delete".equalsIgnoreCase(myMethod)) {
+            //first detect if we have a specified id in it
+            try {
+                Integer id = Integer.parseInt(idStr);
+                //remove a specific map entry
+                String[] keySet = shortCircuitMap.keySet().toArray(new String[shortCircuitMap.size()]);
+                if (keySet.length > id) {
+                    //we can delete it
+                    String entryKey = keySet[id];
+                    shortCircuitMap.remove(entryKey);
+                    response = getShortCircuitMap(httpServletResponse);
+                    httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    //resource cannot be deleted
+                    response = "{ \"Cannot found specified entry in Short Circuit Cache\": \"" + idStr + "\" }";
+                    httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
+            } catch (NumberFormatException e) {
+                response = "{ \"Specified Short Circuit Cache entry is invalid\": \"" + idStr + "\" }";
+                httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
         }
         return response;
     }

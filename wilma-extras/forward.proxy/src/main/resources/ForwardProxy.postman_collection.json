@@ -1,0 +1,94 @@
+{
+	"info": {
+		"name": "ForwardProxy",
+		"_postman_id": "188c9ce7-41cc-f4b0-4d1b-8949ce06d6ed",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Map",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"config",
+						"public",
+						"services",
+						"ForwardProxyInterceptor",
+						"forward-proxy"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete / Clean-up Map",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"config",
+						"public",
+						"services",
+						"ForwardProxyInterceptor",
+						"forward-proxy"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add/Update Map Entry",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"originalTarget\": \"http://service1.epam.com/\",\n\t\"realTarget\": \"http://localhost:1234/index/\",\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy/{{$guid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"config",
+						"public",
+						"services",
+						"ForwardProxyInterceptor",
+						"forward-proxy",
+						"{{$guid}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
