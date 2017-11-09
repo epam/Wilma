@@ -1,6 +1,7 @@
 package net.lightbody.bmp.proxy.http;
 
 import net.lightbody.bmp.core.har.HarEntry;
+import net.lightbody.bmp.proxy.jetty.util.URI;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -13,6 +14,7 @@ import java.io.OutputStream;
 public class BrowserMobHttpResponse {
     private HarEntry entry;
     private HttpRequestBase method;
+    private URI proxyRequestURI;
     private HttpResponse response;
     private boolean contentMatched;
     private String verificationText;
@@ -25,12 +27,13 @@ public class BrowserMobHttpResponse {
     private OutputStream os;
     private final boolean responseVolatile;
 
-    public BrowserMobHttpResponse(int status, HarEntry entry, HttpRequestBase method, HttpResponse response,
+    public BrowserMobHttpResponse(int status, HarEntry entry, HttpRequestBase method, URI proxyRequestURI, HttpResponse response,
                                   boolean contentMatched, String verificationText, String errorMessage,
                                   String body, String contentType, String charSet,
                                   ByteArrayOutputStream bos, OutputStream os, boolean responseVolatile) {
         this.entry = entry;
         this.method = method;
+        this.proxyRequestURI = proxyRequestURI;
         this.response = response;
         this.contentMatched = contentMatched;
         this.verificationText = verificationText;
@@ -139,5 +142,9 @@ public class BrowserMobHttpResponse {
 
     public HttpRequestBase getMethod() {
         return method;
+    }
+
+    public URI getProxyRequestURI() {
+        return proxyRequestURI;
     }
 }

@@ -971,7 +971,7 @@ public class BrowserMobHttpClient {
             }
         }
 
-        return new BrowserMobHttpResponse(statusCode, entry, method, response, contentMatched, verificationText, errorMessage,
+        return new BrowserMobHttpResponse(statusCode, entry, method, req.getProxyRequest().getURI(), response, contentMatched, verificationText, errorMessage,
                 entry.getResponse().getContent().getText(), contentType, charSet, bos, os, isResponseVolatile);
     }
 
