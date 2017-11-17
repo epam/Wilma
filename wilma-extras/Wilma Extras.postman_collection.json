@@ -202,6 +202,161 @@
 			]
 		},
 		{
+			"name": "BulkHead",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Actual Bulkhead Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://127.0.0.1:1234/config/public/services/BulkHeadChecker/bulkhead",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"BulkHeadChecker",
+								"bulkhead"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Forward Proxy",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Forward Proxy Map",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"ForwardProxyInterceptor",
+								"forward-proxy"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete / Clean-up Map",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"ForwardProxyInterceptor",
+								"forward-proxy"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add/Update Forward Proxy Map Entry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"originalTarget\": \"http://service1.epam.com/\",\n\t\"realTarget\": \"http://localhost:1234/\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy/{{$guid}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"ForwardProxyInterceptor",
+								"forward-proxy",
+								"{{$guid}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Circuit Breaker",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Actual Status of Circuit Breakers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/CircuitBreakerInterceptor/circuit-breaker",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"CircuitBreakerInterceptor",
+								"circuit-breaker"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Get List of External Services",
 			"request": {
 				"method": "GET",
