@@ -4,7 +4,7 @@
     <dialog-descriptor name="RandomErrorGeneratorExampleConfigurationE500" usage="always" comment="Random Error Generator to produce E500 errors">
         <condition-descriptor>
             <condition class="com.epam.wilma.extras.randomErrorGenerator.RandomErrorGeneratorChecker" >
-                <param name="E500" value="100" />
+                <param name="E500" value="25" />
             </condition>
         </condition-descriptor>
         <response-descriptor code="500" delay="0" mimetype="text/plain" template="e500Template">
@@ -13,7 +13,7 @@
     <dialog-descriptor name="RandomErrorGeneratorExampleConfigurationTimeout" usage="always" comment="Random Error Generator to produce timeouts randomly">
         <condition-descriptor>
             <condition class="com.epam.wilma.extras.randomErrorGenerator.RandomErrorGeneratorChecker" >
-                <param name="TIMEOUT120SEC" value="50" />
+                <param name="TIMEOUT120SEC" value="10" />
             </condition>
         </condition-descriptor>
         <response-descriptor code="200" delay="120000" mimetype="text/plain" template="timeoutTemplate">
@@ -22,7 +22,7 @@
     <dialog-descriptor name="RandomErrorGeneratorExampleConfigurationE404" usage="always" comment="Random Error Generator to produce E404 errors">
         <condition-descriptor>
             <condition class="com.epam.wilma.extras.randomErrorGenerator.RandomErrorGeneratorChecker" >
-                <param name="E404" value="10" />
+                <param name="E404" value="5" />
             </condition>
         </condition-descriptor>
         <response-descriptor code="404" delay="0" mimetype="text/plain" template="e404Template">
