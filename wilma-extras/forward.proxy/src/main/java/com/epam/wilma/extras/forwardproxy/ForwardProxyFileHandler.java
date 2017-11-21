@@ -64,7 +64,7 @@ class ForwardProxyFileHandler {
      * @param httpServletResponse is the response object
      * @return with the response body - that is a json info about the result of the call
      */
-    String saveMap(String folder, HttpServletResponse httpServletResponse) {
+    String saveForwardProxyMap(String folder, HttpServletResponse httpServletResponse) {
         String path = logFilePathProvider.getLogFilePath() + "/" + folder + "/";
         String response = null;
         String filenamePrefix = "sc" + UniqueIdGenerator.getNextUniqueId() + "_";
@@ -89,10 +89,10 @@ class ForwardProxyFileHandler {
             }
         }
         if (response == null) {
-            String message = "Cache saved as: " + path + filenamePrefix + "*.json files";
+            String message = "ForwardProxy rule map saved as: " + path + filenamePrefix + "*.json files";
             response = "{ \"resultsSuccess\": \"" + message + "\" }";
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            logger.info("ShortCircuit: " + message);
+            logger.info("ForwardProxy: " + message);
         }
         return response;
     }
@@ -107,7 +107,7 @@ class ForwardProxyFileHandler {
         }
         FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(file);
         fos.write(("{\n  \"identifier\": \"" + entryKey + "\",\n").getBytes());
-        fos.write(("  \"originalTarget\": " + information.getOriginalTarget() + ",\n").getBytes());
+        fos.write(("  \"originalTarget\": \"" + information.getOriginalTarget() + "\",\n").getBytes());
         fos.write(("  \"realTarget\": \"" + information.getRealTarget() + "\"\n}\n").getBytes());
         fos.close();
     }
@@ -117,7 +117,7 @@ class ForwardProxyFileHandler {
      *
      * @param folder is the folder to be used, under Wilma's message folder.
      */
-    void loadMap(String folder) {
+    void loadForwardProxyMap(String folder) {
         String path = logFilePathProvider.getLogFilePath() + "/" + folder;
         File folderFile = new File(path);
         File[] listOfFiles = folderFile.listFiles();
@@ -132,7 +132,7 @@ class ForwardProxyFileHandler {
                             }
                         }
                     } catch (JSONException e) {
-                        logger.info("Cannot load JSON file to Short Circuit map: " + listOfFiles[i].getAbsolutePath() + ", error:" + e.getLocalizedMessage());
+                        logger.info("Cannot load JSON file to Forward Proxy map: " + listOfFiles[i].getAbsolutePath() + ", error:" + e.getLocalizedMessage());
                     }
                 }
             }

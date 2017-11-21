@@ -115,11 +115,11 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
         String response = null;
         if ("post".equalsIgnoreCase(myMethod)) {
             //save map (to files) (post + forwardProxy?folder=...)
-            response = saveMap(folder, httpServletResponse);
+            response = saveForwardProxyMap(folder, httpServletResponse);
         }
         if ("get".equalsIgnoreCase(myMethod)) {
             //load map (from files) (get + forwardProxy?folder=....)
-            loadMap(folder);
+            loadForwardProxyMap(folder);
             response = getForwardPoxyMap(httpServletResponse);
         }
         return response;
@@ -188,28 +188,25 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
         //first detect if we have basic path or we have a specified id in it
         int index = path.lastIndexOf("/");
         String idStr = path.substring(index + 1);
-        int id;
-        try {
-            id = Integer.parseInt(idStr);
-            //remove a specific map entry
-            String[] keySet = FORWARD_PROXY_MAP.keySet().toArray(new String[FORWARD_PROXY_MAP.size()]);
-            if (keySet.length > id) {
-                //we can delete it
-                String entryKey = keySet[id];
-                FORWARD_PROXY_MAP.remove(entryKey);
-                response = getForwardPoxyMap(httpServletResponse);
-            } else {
-                //resource cannot be deleted
-                response = "{ \"Cannot found specified entry in Forward Proxy\": \"" + id + "\" }";
-                httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            }
-        } catch (NumberFormatException e) {
-            //it is not a problem, we should delete all
-            //invalidate map (remove all from map) (circuits + delete)
+        if ("forward-proxy".equalsIgnoreCase(idStr)) {
+            //need to delete the whole forward-proxy table
             synchronized (GUARD) {
                 FORWARD_PROXY_MAP.clear();
             }
             response = getForwardPoxyMap(httpServletResponse);
+        } else {
+            //need to delete a specific entry
+            if (FORWARD_PROXY_MAP.containsKey(idStr)) {
+                //we can delete the entry
+                synchronized (GUARD) {
+                    FORWARD_PROXY_MAP.remove(idStr);
+                }
+                response = getForwardPoxyMap(httpServletResponse);
+            } else {
+                //resource cannot be deleted
+                response = "{ \"Cannot found specified entry in Forward Proxy\": \"" + idStr + "\" }";
+                httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
         }
         return response;
     }
