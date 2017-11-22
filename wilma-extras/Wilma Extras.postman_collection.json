@@ -1,21 +1,22 @@
 {
 	"info": {
 		"name": "Wilma Extras",
-		"_postman_id": "20b5cebf-ceab-5e0d-0caf-1c4566a7f9cf",
-		"description": "",
+		"_postman_id": "a6c68f46-2b8a-2963-db35-e18270deb771",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Look-And-Say Service",
-			"description": "",
 			"item": [
 				{
 					"name": "Run Look-And-Say Service with 1/1",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/LookAndSayServiceInterceptor/look-and-say-service?number=1&iterations=1",
 							"protocol": "http",
@@ -42,8 +43,7 @@
 									"equals": true
 								}
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -51,14 +51,16 @@
 		},
 		{
 			"name": "Short Circuit Example",
-			"description": "",
 			"item": [
 				{
 					"name": "Get Actual Short Circuit Cache",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits",
 							"protocol": "http",
@@ -73,8 +75,7 @@
 								"ShortCircuitInterceptor",
 								"circuits"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -83,7 +84,10 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits",
 							"protocol": "http",
@@ -98,8 +102,7 @@
 								"ShortCircuitInterceptor",
 								"circuits"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -108,7 +111,10 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?id={{idInShortCircuitCache}}",
 							"protocol": "http",
@@ -130,8 +136,7 @@
 									"equals": true
 								}
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -140,7 +145,10 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={{toFolder}}",
 							"protocol": "http",
@@ -162,8 +170,7 @@
 									"equals": true
 								}
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -172,7 +179,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={{fromFolder}}",
 							"protocol": "http",
@@ -194,8 +204,7 @@
 									"equals": true
 								}
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -203,14 +212,16 @@
 		},
 		{
 			"name": "BulkHead",
-			"description": "",
 			"item": [
 				{
 					"name": "Get Actual Bulkhead Status",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://127.0.0.1:1234/config/public/services/BulkHeadChecker/bulkhead",
 							"protocol": "http",
@@ -228,8 +239,7 @@
 								"BulkHeadChecker",
 								"bulkhead"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -237,14 +247,16 @@
 		},
 		{
 			"name": "Reverse Proxy",
-			"description": "",
 			"item": [
 				{
 					"name": "Get Reverse Proxy Map",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy",
 							"protocol": "http",
@@ -259,8 +271,35 @@
 								"ReverseProxyInterceptor",
 								"reverse-proxy"
 							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete specific Map entry",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy/{{guid}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"config",
+								"public",
+								"services",
+								"ReverseProxyInterceptor",
+								"reverse-proxy",
+								"{{guid}}"
+							]
+						}
 					},
 					"response": []
 				},
@@ -269,7 +308,10 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy",
 							"protocol": "http",
@@ -284,8 +326,7 @@
 								"ReverseProxyInterceptor",
 								"reverse-proxy"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -301,7 +342,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"originalTarget\": \"http://something.real.epam.com/\",\n\t\"realTarget\": \"http://localhost:1234/\"\n}"
+							"raw": "{\n\t\"originalTarget\": \"http://something.real.epam.com/\",\n\t\"realTarget\": \"http://127.0.0.1:1234/\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy/{{$guid}}",
@@ -318,8 +359,7 @@
 								"reverse-proxy",
 								"{{$guid}}"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -358,8 +398,7 @@
 									"equals": true
 								}
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -398,8 +437,7 @@
 									"equals": true
 								}
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -407,14 +445,16 @@
 		},
 		{
 			"name": "Circuit Breaker",
-			"description": "",
 			"item": [
 				{
 					"name": "Get Actual Status of Circuit Breakers",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/CircuitBreakerInterceptor/circuit-breaker",
 							"protocol": "http",
@@ -429,8 +469,7 @@
 								"CircuitBreakerInterceptor",
 								"circuit-breaker"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -441,7 +480,10 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://localhost:1234/config/public/services/",
 					"protocol": "http",
@@ -455,8 +497,7 @@
 						"services",
 						""
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		}

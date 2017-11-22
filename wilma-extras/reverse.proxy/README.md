@@ -16,6 +16,8 @@ then replaces it with the "real target". It works even if the source protocol is
 The `ReverseProxyService` class acts as External Service, and gives the opportunity to add a new and remove an existing 
 reverse-proxy entry, and to save/load the actual reverse-proxy rule list into/from a folder.
 
+**NOTE: when the "real target" is specified, use real IP address !** In the actual implementation there is no name resolution during the reverse-proxy event.
+
 Important Settings
 ---------------------------------------
 Don't forget to **enable** the interceptors! Without that, the ReverseProxy won't work properly (no message destination change will be done at all).
