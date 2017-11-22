@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.forwardproxy;
+package com.epam.wilma.extras.reverseProxy;
 /*==========================================================================
 Copyright 2013-2017 EPAM Systems
 
@@ -29,8 +29,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author tkohegyi
  */
-public class ForwardProxyInformation {
-    private final Logger logger = LoggerFactory.getLogger(ForwardProxyInformation.class);
+public class ReverseProxyInformation {
+    private final Logger logger = LoggerFactory.getLogger(ReverseProxyInformation.class);
 
     private String identifier;
     private String originalTarget;
@@ -38,31 +38,31 @@ public class ForwardProxyInformation {
     private boolean isValid;
 
     /**
-     * Creates a new Forward Proxy information.
+     * Creates a new Reverse Proxy information.
      */
-    ForwardProxyInformation(final String identifier, final String originalTarget, final String realTarget) {
+    ReverseProxyInformation(final String identifier, final String originalTarget, final String realTarget) {
         this.identifier = identifier;
         this.originalTarget = originalTarget;
         this.realTarget = realTarget;
         isValid = true;
         if ((identifier == null) || (identifier.length() == 0)) {
             isValid = false;
-            logger.error("Forward Proxy information cannot be created. Error-nous parameter arrived: identifier is not acceptable");
+            logger.error("Reverse Proxy information cannot be created. Error-nous parameter arrived: identifier is not acceptable");
         } else {
             if ((originalTarget == null) || (originalTarget.length() == 0)) {
                 isValid = false;
-                logger.error("Forward Proxy information cannot be created. Error-nous originalTarget parameter arrived with identifier: " + identifier);
+                logger.error("Reverse Proxy information cannot be created. Error-nous originalTarget parameter arrived with identifier: " + identifier);
             }
             if ((realTarget == null) || (realTarget.length() == 0)) {
                 isValid = false;
-                logger.error("Forward Proxy information cannot be created. Error-nous realTarget parameter arrived with identifier: " + identifier);
+                logger.error("Reverse Proxy information cannot be created. Error-nous realTarget parameter arrived with identifier: " + identifier);
             }
         }
     }
 
     /**
-     * Converts a single ForwardProxyInformation class information to JSON string.
-     * @return with the string representation of the Forward Proxy map in JSON format
+     * Converts a single ReverseProxyInformation class information to JSON string.
+     * @return with the string representation of the Reverse Proxy map in JSON format
      */
     public String toString() {
         String status;

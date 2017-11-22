@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.forwardproxy;
+package com.epam.wilma.extras.reverseProxy;
 /*==========================================================================
 Copyright 2013-2017 EPAM Systems
 
@@ -33,9 +33,9 @@ import java.util.Map;
  *
  * @author tkohegyi
  */
-public class ForwardProxyInterceptor extends ForwardProxyService implements RequestInterceptor {
+public class ReverseProxyInterceptor extends ReverseProxyService implements RequestInterceptor {
 
-    private final Logger logger = LoggerFactory.getLogger(ForwardProxyInterceptor.class);
+    private final Logger logger = LoggerFactory.getLogger(ReverseProxyInterceptor.class);
 
     /**
      * This is the Request Interceptor implementation.
@@ -45,15 +45,15 @@ public class ForwardProxyInterceptor extends ForwardProxyService implements Requ
      */
     @Override
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameters) {
-        Map<String, ForwardProxyInformation> localProxyMap;
+        Map<String, ReverseProxyInformation> localProxyMap;
         synchronized (GUARD) {
-            localProxyMap = new HashMap<>(FORWARD_PROXY_MAP);
+            localProxyMap = new HashMap<>(REVERSE_PROXY_INFORMATION_MAP);
         }
         for (String i : localProxyMap.keySet()) {
-            ForwardProxyInformation forwardProxyInformation = localProxyMap.get(i);
-            if (forwardProxyInformation.isValid()) {
-                String originalTarget = forwardProxyInformation.getOriginalTarget();
-                String realTarget = forwardProxyInformation.getRealTarget();
+            ReverseProxyInformation reverseProxyInformation = localProxyMap.get(i);
+            if (reverseProxyInformation.isValid()) {
+                String originalTarget = reverseProxyInformation.getOriginalTarget();
+                String realTarget = reverseProxyInformation.getRealTarget();
                 String uriString = wilmaHttpRequest.getUri().toString();
                 try {
                     //replace the original URL part with the new url part, if necessary
@@ -62,7 +62,7 @@ public class ForwardProxyInterceptor extends ForwardProxyService implements Requ
                         wilmaHttpRequest.setUri(new java.net.URI(uriString));
                     }
                 } catch (URISyntaxException e) {
-                    logger.warn("ForwardProxy was unable to redirect request to the right direction: " + uriString);
+                    logger.warn("ReverseProxy was unable to redirect request to the right direction: " + uriString);
                 }
             }
         }

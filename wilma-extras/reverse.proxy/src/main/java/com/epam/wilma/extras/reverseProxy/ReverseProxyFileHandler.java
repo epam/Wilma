@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.forwardproxy;
+package com.epam.wilma.extras.reverseProxy;
 /*==========================================================================
 Copyright 2013-2017 EPAM Systems
 
@@ -39,16 +39,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class provides file save and load utility for the map of {@link ForwardProxyInformation}.
+ * This class provides file save and load utility for the map of {@link ReverseProxyInformation}.
  *
  * @author tkohegyi
  */
-class ForwardProxyFileHandler {
+class ReverseProxyFileHandler {
 
-    static final Map<String, ForwardProxyInformation> FORWARD_PROXY_MAP = new HashMap<>();
+    static final Map<String, ReverseProxyInformation> REVERSE_PROXY_INFORMATION_MAP = new HashMap<>();
     static final Object GUARD = new Object();
 
-    private final Logger logger = LoggerFactory.getLogger(ForwardProxyFileHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(ReverseProxyFileHandler.class);
 
     @Autowired
     private LogFilePathProvider logFilePathProvider;
@@ -60,18 +60,18 @@ class ForwardProxyFileHandler {
     /**
      * Saves the map to a folder, to preserve it for later use.
      *
-     * @param folder is the folder to be used to save the map of forward proxy entries
+     * @param folder is the folder to be used to save the map of reverse proxy entries
      * @param httpServletResponse is the response object
      * @return with the response body - that is a json info about the result of the call
      */
-    String saveForwardProxyMap(String folder, HttpServletResponse httpServletResponse) {
+    String saveReverseProxyInformationMap(String folder, HttpServletResponse httpServletResponse) {
         String path = logFilePathProvider.getLogFilePath() + "/" + folder + "/";
         String response = null;
         String filenamePrefix = "sc" + UniqueIdGenerator.getNextUniqueId() + "_";
-        if (!FORWARD_PROXY_MAP.isEmpty()) {
-            String[] keySet = FORWARD_PROXY_MAP.keySet().toArray(new String[FORWARD_PROXY_MAP.size()]);
+        if (!REVERSE_PROXY_INFORMATION_MAP.isEmpty()) {
+            String[] keySet = REVERSE_PROXY_INFORMATION_MAP.keySet().toArray(new String[REVERSE_PROXY_INFORMATION_MAP.size()]);
             for (String entryKey : keySet) {
-                ForwardProxyInformation information = FORWARD_PROXY_MAP.get(entryKey);
+                ReverseProxyInformation information = REVERSE_PROXY_INFORMATION_MAP.get(entryKey);
                 if (information != null && information.isValid()) {
                     //save this into file, folder is in folder variable
                     String filename = path + filenamePrefix + UniqueIdGenerator.getNextUniqueId() + ".json";
@@ -79,8 +79,8 @@ class ForwardProxyFileHandler {
                     try {
                         saveMapObject(fileOutputStreamFactory, file, entryKey, information);
                     } catch (IOException e) {
-                        String message = "ForwardProxy: save failed at file: " + filename + ", with message: " + e.getLocalizedMessage();
-                        logger.info("ForwardProxy: " + message);
+                        String message = "ReverseProxy: save failed at file: " + filename + ", with message: " + e.getLocalizedMessage();
+                        logger.info("ReverseProxy: " + message);
                         response = "{ \"resultsFailure\": \"" + message + "\" }";
                         httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         break;
@@ -89,15 +89,15 @@ class ForwardProxyFileHandler {
             }
         }
         if (response == null) {
-            String message = "ForwardProxy rule map saved as: " + path + filenamePrefix + "*.json files";
+            String message = "ReverseProxy rule map saved as: " + path + filenamePrefix + "*.json files";
             response = "{ \"resultsSuccess\": \"" + message + "\" }";
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            logger.info("ForwardProxy: " + message);
+            logger.info("ReverseProxy: " + message);
         }
         return response;
     }
 
-    private void saveMapObject(FileOutputStreamFactory fileOutputStreamFactory, File file, String entryKey, ForwardProxyInformation information) throws IOException {
+    private void saveMapObject(FileOutputStreamFactory fileOutputStreamFactory, File file, String entryKey, ReverseProxyInformation information) throws IOException {
         // if file does not exists, then create it
         if (!file.exists()) {
             if (file.getParentFile() != null) {
@@ -117,7 +117,7 @@ class ForwardProxyFileHandler {
      *
      * @param folder is the folder to be used, under Wilma's message folder.
      */
-    void loadForwardProxyMap(String folder) {
+    void loadReverseProxyInformationMap(String folder) {
         String path = logFilePathProvider.getLogFilePath() + "/" + folder;
         File folderFile = new File(path);
         File[] listOfFiles = folderFile.listFiles();
@@ -125,22 +125,22 @@ class ForwardProxyFileHandler {
             for (int i = 0; i < listOfFiles.length; i++) {
                 if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(".json")) {
                     try {
-                        ForwardProxyInformation mapObject = loadMapObject(listOfFiles[i].getAbsolutePath());
+                        ReverseProxyInformation mapObject = loadMapObject(listOfFiles[i].getAbsolutePath());
                         if (mapObject != null) {
-                            synchronized (FORWARD_PROXY_MAP) {
-                                FORWARD_PROXY_MAP.put(mapObject.getIdentifier(), mapObject);
+                            synchronized (REVERSE_PROXY_INFORMATION_MAP) {
+                                REVERSE_PROXY_INFORMATION_MAP.put(mapObject.getIdentifier(), mapObject);
                             }
                         }
                     } catch (JSONException e) {
-                        logger.info("Cannot load JSON file to Forward Proxy map: " + listOfFiles[i].getAbsolutePath() + ", error:" + e.getLocalizedMessage());
+                        logger.info("Cannot load JSON file to Reverse Proxy map: " + listOfFiles[i].getAbsolutePath() + ", error:" + e.getLocalizedMessage());
                     }
                 }
             }
         }
     }
 
-    private ForwardProxyInformation loadMapObject(String fileName) {
-        ForwardProxyInformation result = null;
+    private ReverseProxyInformation loadMapObject(String fileName) {
+        ReverseProxyInformation result = null;
         File file = new File(fileName);
         if (file.exists()) {
             //load the file
@@ -150,9 +150,9 @@ class ForwardProxyFileHandler {
                 String identifier = obj.getString("identifier");
                 String originalTarget = obj.getString("originalTarget");
                 String realTarget = obj.getString("realTarget");
-                ForwardProxyInformation information = null;
+                ReverseProxyInformation information = null;
                 if (identifier != null && originalTarget != null && realTarget != null) {
-                    information = new ForwardProxyInformation(identifier, originalTarget, realTarget);
+                    information = new ReverseProxyInformation(identifier, originalTarget, realTarget);
                 }
                 result = information;
             }

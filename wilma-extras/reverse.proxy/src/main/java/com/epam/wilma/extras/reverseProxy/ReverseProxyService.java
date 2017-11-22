@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.forwardproxy;
+package com.epam.wilma.extras.reverseProxy;
 /*==========================================================================
 Copyright 2013-2017 EPAM Systems
 
@@ -34,9 +34,9 @@ import java.util.Set;
  *
  * @author tkohegyi
  */
-class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWilmaService {
+class ReverseProxyService extends ReverseProxyFileHandler implements ExternalWilmaService {
 
-    private static final String HANDLED_SERVICE = "/forward-proxy";
+    private static final String HANDLED_SERVICE = "/reverse-proxy";
 
     /**
      * ExternalWilmaService method implementation - provides the list of requests, this service will handle.
@@ -90,7 +90,7 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
                                    HttpServletResponse httpServletResponse, String path) {
         String response = null;
         if ("get".equalsIgnoreCase(myMethod)) {
-            //get the forward proxy map
+            //get the reverse proxy map
             response = handleGet(httpServletResponse);
         }
         if ("delete".equalsIgnoreCase(myMethod)) {
@@ -114,13 +114,13 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
     private String handleComplexCall(String myMethod, String folder, HttpServletResponse httpServletResponse) {
         String response = null;
         if ("post".equalsIgnoreCase(myMethod)) {
-            //save map (to files) (post + forwardProxy?folder=...)
-            response = saveForwardProxyMap(folder, httpServletResponse);
+            //save map (to files) (post + reverseProxy?folder=...)
+            response = saveReverseProxyInformationMap(folder, httpServletResponse);
         }
         if ("get".equalsIgnoreCase(myMethod)) {
-            //load map (from files) (get + forwardProxy?folder=....)
-            loadForwardProxyMap(folder);
-            response = getForwardPoxyMap(httpServletResponse);
+            //load map (from files) (get + reverseProxy?folder=....)
+            loadReverseProxyInformationMap(folder);
+            response = getReverseProxyMap(httpServletResponse);
         }
         return response;
     }
@@ -131,13 +131,13 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
      */
-    private String getForwardPoxyMap(HttpServletResponse httpServletResponse) {
-        StringBuilder response = new StringBuilder("{\n  \"forwardProxyMap\": [\n");
-        if (!FORWARD_PROXY_MAP.isEmpty()) {
-            String[] keySet = FORWARD_PROXY_MAP.keySet().toArray(new String[FORWARD_PROXY_MAP.size()]);
+    private String getReverseProxyMap(HttpServletResponse httpServletResponse) {
+        StringBuilder response = new StringBuilder("{\n  \"reverseProxyMap\": [\n");
+        if (!REVERSE_PROXY_INFORMATION_MAP.isEmpty()) {
+            String[] keySet = REVERSE_PROXY_INFORMATION_MAP.keySet().toArray(new String[REVERSE_PROXY_INFORMATION_MAP.size()]);
             for (int i = 0; i < keySet.length; i++) {
                 String entryKey = keySet[i];
-                ForwardProxyInformation circuitBreakerInformation = FORWARD_PROXY_MAP.get(entryKey);
+                ReverseProxyInformation circuitBreakerInformation = REVERSE_PROXY_INFORMATION_MAP.get(entryKey);
                 response.append(circuitBreakerInformation.toString());
                 if (i < keySet.length - 1) {
                     response.append(",\n");
@@ -151,7 +151,7 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
     }
 
     private String handleGet(HttpServletResponse httpServletResponse) {
-        return getForwardPoxyMap(httpServletResponse);
+        return getReverseProxyMap(httpServletResponse);
     }
 
     private String handlePost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, String path) {
@@ -164,16 +164,16 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
             JSONObject json = new JSONObject(myBody);
             String originalTarget = json.getString("originalTarget");
             String realTarget = json.getString("realTarget");
-            ForwardProxyInformation forwardProxyInformation = new ForwardProxyInformation(idStr, originalTarget, realTarget);
-            if (forwardProxyInformation.isValid()) {
+            ReverseProxyInformation reverseProxyInformation = new ReverseProxyInformation(idStr, originalTarget, realTarget);
+            if (reverseProxyInformation.isValid()) {
                 synchronized (GUARD) {
-                    FORWARD_PROXY_MAP.put(idStr, forwardProxyInformation);
+                    REVERSE_PROXY_INFORMATION_MAP.put(idStr, reverseProxyInformation);
                 }
-                response = getForwardPoxyMap(httpServletResponse);
+                response = getReverseProxyMap(httpServletResponse);
                 httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             } else {
                 //request is not valid
-                response = "{ \"error\": \"Specified forward-proxy information is not accepted.\" }";
+                response = "{ \"error\": \"Specified reverse-proxy information is not accepted.\" }";
                 httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         } catch (JSONException | IOException e) {
@@ -188,23 +188,23 @@ class ForwardProxyService extends ForwardProxyFileHandler implements ExternalWil
         //first detect if we have basic path or we have a specified id in it
         int index = path.lastIndexOf("/");
         String idStr = path.substring(index + 1);
-        if ("forward-proxy".equalsIgnoreCase(idStr)) {
-            //need to delete the whole forward-proxy table
+        if ("reverse-proxy".equalsIgnoreCase(idStr)) {
+            //need to delete the whole reverse-proxy table
             synchronized (GUARD) {
-                FORWARD_PROXY_MAP.clear();
+                REVERSE_PROXY_INFORMATION_MAP.clear();
             }
-            response = getForwardPoxyMap(httpServletResponse);
+            response = getReverseProxyMap(httpServletResponse);
         } else {
             //need to delete a specific entry
-            if (FORWARD_PROXY_MAP.containsKey(idStr)) {
+            if (REVERSE_PROXY_INFORMATION_MAP.containsKey(idStr)) {
                 //we can delete the entry
                 synchronized (GUARD) {
-                    FORWARD_PROXY_MAP.remove(idStr);
+                    REVERSE_PROXY_INFORMATION_MAP.remove(idStr);
                 }
-                response = getForwardPoxyMap(httpServletResponse);
+                response = getReverseProxyMap(httpServletResponse);
             } else {
                 //resource cannot be deleted
-                response = "{ \"Cannot found specified entry in Forward Proxy\": \"" + idStr + "\" }";
+                response = "{ \"Cannot found specified entry in Reverse Proxy\": \"" + idStr + "\" }";
                 httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
         }
