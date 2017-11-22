@@ -60,6 +60,7 @@ public class HttpResponseTransformer {
         }
 
         result.setRequestLine(response.getMethod().getRequestLine().toString());
+        result.setProxyRequestLine(response.getProxyRequestURI().toString());
         String body = response.getBody();
         int status = response.getStatus();
         result.setBody(body);

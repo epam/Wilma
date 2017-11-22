@@ -32,6 +32,8 @@ public class WilmaHttpResponse extends WilmaHttpEntity {
     private int statusCode;
     //holder of request headers
     private final Map<String, String> requestHeaders = new HashMap<>();
+    //information about the original URI request received to the Wilma (to the proxy)
+    private String proxyRequestLine;
     private final boolean isVolatile;
 
     /**
@@ -110,4 +112,11 @@ public class WilmaHttpResponse extends WilmaHttpEntity {
         }
     }
 
+    public String getProxyRequestLine() {
+        return proxyRequestLine;
+    }
+
+    public void setProxyRequestLine(final String proxyRequestLine) {
+        this.proxyRequestLine = proxyRequestLine;
+    }
 }

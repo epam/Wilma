@@ -99,7 +99,7 @@ public class CircuitBreakerInterceptor extends CircuitBreakerService implements 
                     CircuitBreakerInformation circuitBreakerInformation = CIRCUIT_BREAKER_MAP.get(identifier);
                     //detect if it belongs to my circuit breaker (= is it the right path?) and is it valid
                     if (circuitBreakerInformation.isValid()
-                            && wilmaHttpResponse.getRequestLine().toLowerCase().contains(circuitBreakerInformation.getPath().toLowerCase())) {
+                            && wilmaHttpResponse.getProxyRequestLine().toLowerCase().contains(circuitBreakerInformation.getPath().toLowerCase())) {
                         //it is mine, so let's evaluate the result
                         if (!circuitBreakerInformation.isActive()) {
                             //circuit breaker is not active

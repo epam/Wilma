@@ -44,6 +44,8 @@ import static org.mockito.Mockito.verify;
 public class HttpResponseTransformerTest {
 
     private static final String RESPONSE_BODY = "response";
+    private static final String REQUEST_LINE = "request_line";
+    private static final String REQUEST_PROXY_LINE = "request_proxy_line";
     private static final String CONTENT_TYPE = "application/xml";
     private static final String PREFIX = "prefix";
     private Header[] responseHeaders;
@@ -144,6 +146,20 @@ public class HttpResponseTransformerTest {
         //THEN
         verify(response).setStatusCode(200);
     }
+
+    @Test
+    public void testTransformShouldSetRequestLineAndProxyRequestLine() {
+        setMocksForMessageContent();
+        setMocksForMessageConfiguration();
+        given(browserMobHttpResponse.getMethod().getRequestLine().toString()).willReturn(REQUEST_LINE);
+        given(browserMobHttpResponse.getProxyRequestURI().toString()).willReturn(REQUEST_PROXY_LINE);
+        //WHEN
+        underTest.transformResponse(browserMobHttpResponse);
+        //THEN
+        verify(response).setRequestLine(REQUEST_LINE);
+        verify(response).setProxyRequestLine(REQUEST_PROXY_LINE);
+    }
+
 
     private void setMocksForMessageConfiguration() {
         String instancePrefix = PREFIX;

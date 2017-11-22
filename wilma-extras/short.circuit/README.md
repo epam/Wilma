@@ -132,7 +132,7 @@ Load a cache from a folder
 --------------------------
 To load a Short Circuit cache, just specify a folder that contains Short Circuit files in the following form:
 ```
-GET http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={toFolder}
+GET http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={fromFolder}
 ```
 NOTE: This load does not clean up the exiting cache, rather adds new entries to the cache.
 In case a cache entry already exists, it will be overwritten. If you need nothing else just the loaded files in the cache, clean-up the cache first.

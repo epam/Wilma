@@ -6,9 +6,9 @@ Purpose of this example
 This plugin example was created to show how Wilma can act as a special kind of Chaos Monkey. See the original Chaos Monkey [tool here](https://github.com/Netflix/chaosmonkey), which tool is created by Netflix for AWS. 
 So what kind of Chaos Monkey this example will show? This will simulate the following error situations:
 
- - E404 error will be received as response for every 10 requests, randomly
- - response timeout will be cause for every 50 requests, randomly
- - E500 error will be received as response for every 100 requests, randomly
+ - E404 error will be received as response for every 5 requests, randomly
+ - response timeout will be cause for every 10 requests, randomly
+ - E500 error will be received as response for every 25 requests, randomly
  
 Implementation
 ---------------------------------------
