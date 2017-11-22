@@ -236,17 +236,17 @@
 			]
 		},
 		{
-			"name": "Forward Proxy",
+			"name": "Reverse Proxy",
 			"description": "",
 			"item": [
 				{
-					"name": "Get Forward Proxy Map",
+					"name": "Get Reverse Proxy Map",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy",
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -256,8 +256,8 @@
 								"config",
 								"public",
 								"services",
-								"ForwardProxyInterceptor",
-								"forward-proxy"
+								"ReverseProxyInterceptor",
+								"reverse-proxy"
 							]
 						},
 						"description": ""
@@ -271,7 +271,7 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy",
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -281,8 +281,8 @@
 								"config",
 								"public",
 								"services",
-								"ForwardProxyInterceptor",
-								"forward-proxy"
+								"ReverseProxyInterceptor",
+								"reverse-proxy"
 							]
 						},
 						"description": ""
@@ -290,7 +290,7 @@
 					"response": []
 				},
 				{
-					"name": "Add/Update Forward Proxy Map Entry",
+					"name": "Add/Update Reverse Proxy Map Entry",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -301,10 +301,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"originalTarget\": \"http://service1.epam.com/\",\n\t\"realTarget\": \"http://localhost:1234/\"\n}"
+							"raw": "{\n\t\"originalTarget\": \"http://something.real.epam.com/\",\n\t\"realTarget\": \"http://localhost:1234/\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy/{{$guid}}",
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy/{{$guid}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -314,8 +314,8 @@
 								"config",
 								"public",
 								"services",
-								"ForwardProxyInterceptor",
-								"forward-proxy",
+								"ReverseProxyInterceptor",
+								"reverse-proxy",
 								"{{$guid}}"
 							]
 						},
@@ -324,7 +324,7 @@
 					"response": []
 				},
 				{
-					"name": "Save ForwardProxy Map into Folder",
+					"name": "Save Reverse Proxy Map into Folder",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -335,10 +335,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"originalTarget\": \"https://www.tejkljlkj456t.com/\",\n\t\"realTarget\": \"http://127.0.0.1:1234/\"\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy?folder={{folder_name}}",
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy?folder={{toFolder}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -348,13 +348,13 @@
 								"config",
 								"public",
 								"services",
-								"ForwardProxyInterceptor",
-								"forward-proxy"
+								"ReverseProxyInterceptor",
+								"reverse-proxy"
 							],
 							"query": [
 								{
 									"key": "folder",
-									"value": "{{folder_name}}",
+									"value": "{{toFolder}}",
 									"equals": true
 								}
 							]
@@ -364,7 +364,7 @@
 					"response": []
 				},
 				{
-					"name": "Load ForwardProxy Map from Folder",
+					"name": "Load Reverse Proxy Map from Folder",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -378,7 +378,7 @@
 							"raw": "{\n\t\"originalTarget\": \"https://www.tejkljlkj456t.com/\",\n\t\"realTarget\": \"http://127.0.0.1:1234/\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:1234/config/public/services/ForwardProxyInterceptor/forward-proxy?folder={{folder_name}}",
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy?folder={{fromFolder}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -388,13 +388,13 @@
 								"config",
 								"public",
 								"services",
-								"ForwardProxyInterceptor",
-								"forward-proxy"
+								"ReverseProxyInterceptor",
+								"reverse-proxy"
 							],
 							"query": [
 								{
 									"key": "folder",
-									"value": "{{folder_name}}",
+									"value": "{{fromFolder}}",
 									"equals": true
 								}
 							]
