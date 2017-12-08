@@ -263,7 +263,7 @@ Request-response pairs are stored in 'D:\wilma\messages' folder.
                 <p>After Wilma starts, you can use it as an HTTP and HTTPS proxy that logs every request and response
                     that goes through it.</p>
 
-                <h2>Configuring a Java client application to use Wilma as a proxy</h2>
+                <h2>Configuring a Java client application to use Wilma as a proxy/stub</h2>
 
                 <p>If you want to use Wilma as a proxy for a Java client application, you must configure it to go through
                     Wilma.</p>
@@ -276,8 +276,7 @@ Request-response pairs are stored in 'D:\wilma\messages' folder.
 -Dhttps.proxyHost=[wilma-host]
 -Dhttps.proxyPort=[wilma-port]
 -Djavax.net.ssl.trustStore=[path/to/wilma.jks]
--Djavax.net.ssl.trustStorePassword=vvilma
-                    </pre></code>
+-Djavax.net.ssl.trustStorePassword=vvilma</pre></code>
                 <ul>
                     <li>
                         <code>[wilma-url]</code> is the URL of the server where Wilma is running.
@@ -301,6 +300,14 @@ Request-response pairs are stored in 'D:\wilma\messages' folder.
 
                 <p>The client Java application has to be configured to accept this certificate to be able to access a
                     host that uses SSL.</p>
+
+                <h2>Configuring "run" task of Gradle to use Wilma as a proxy/stub</h2>
+                <p>If you want to use Wilma as a proxy/stub for a Java application executed via `run` task of `application` Gradle plugin, just specify the same arguments as mentioned above in `applicationDefaultJvmArgs` parameter.
+                    See example below (for http protocol only):</p>
+                <code><pre>
+...
+applicationDefaultJvmArgs = ["-Dhttp.proxyHost=127.0.0.1", "-Dhttp.proxyPort=9092"]
+...</pre></code>
 
                 <h2>Using Wilma Message Search</h2>
                 <p>Detailed information on how to configure and use <b>Wilma Message Search</b> application can be found <a href="https://github.com/epam/Wilma/wiki/Wilma-Message-Search-Application">here</a>.</p>
