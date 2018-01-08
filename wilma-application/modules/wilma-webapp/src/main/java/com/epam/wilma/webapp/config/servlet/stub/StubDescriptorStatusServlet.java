@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epam.wilma.domain.stubconfig.interceptor.InterceptorDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -72,11 +73,15 @@ public class StubDescriptorStatusServlet extends HttpServlet {
         out.write("{\"configs\":[");
         Iterator<String> iterator = stubDescriptors.keySet().iterator();
         while (iterator.hasNext()) {
+            out.write("{");
             String groupName = iterator.next();
             StubDescriptor stubDescriptor = stubDescriptors.get(groupName);
-            writeSequenceDescriptor(out, stubDescriptor);
-            out.write(",");
             writeDialogDescriptors(out, stubDescriptor);
+            out.write(",");
+            writeSequenceDescriptors(out, stubDescriptor);
+            out.write(",");
+            writeInterceptorDescriptors(out, stubDescriptor);
+            out.write("}");
             if (iterator.hasNext()) {
                 out.write(",");
             }
@@ -84,8 +89,21 @@ public class StubDescriptorStatusServlet extends HttpServlet {
         out.write("]}");
     }
 
-    private void writeSequenceDescriptor(final PrintWriter out, final StubDescriptor stubDescriptor) {
-        out.write("{\"sequenceDescriptors\":[");
+    private void writeInterceptorDescriptors(PrintWriter out, StubDescriptor stubDescriptor) {
+        out.write("\"interceptorDescriptors\":[");
+        List<InterceptorDescriptor> interceptorDescriptors = stubDescriptor.getInterceptorDescriptors();
+        Iterator<InterceptorDescriptor> iterator = interceptorDescriptors.iterator();
+        while (iterator.hasNext()) {
+            writeInterceptorName(out, iterator);
+            if (iterator.hasNext()) {
+                out.write(",");
+            }
+        }
+        out.write("]");
+    }
+
+    private void writeSequenceDescriptors(final PrintWriter out, final StubDescriptor stubDescriptor) {
+        out.write("\"sequenceDescriptors\":[");
         List<SequenceDescriptor> sequenceDescriptors = stubDescriptor.getSequenceDescriptors();
         Iterator<SequenceDescriptor> iterator = sequenceDescriptors.iterator();
         while (iterator.hasNext()) {
@@ -108,7 +126,13 @@ public class StubDescriptorStatusServlet extends HttpServlet {
             }
         }
         StubDescriptorAttributes attributes = stubDescriptor.getAttributes();
-        out.write("], \"groupname\": \"" + attributes.getGroupName() + "\", \"active\": \"" + attributes.isActive() + "\"}");
+        out.write("], \"groupname\": \"" + attributes.getGroupName() + "\", \"active\": \"" + attributes.isActive() + "\"");
+    }
+
+    private void writeInterceptorName(PrintWriter out, Iterator<InterceptorDescriptor> iterator) {
+        InterceptorDescriptor interceptorDescriptor = iterator.next();
+        String name = interceptorDescriptor.getName();
+        out.write("{\"Name\": \"" + name + "\"}");
     }
 
     private void writeSequenceName(final PrintWriter out, final Iterator<SequenceDescriptor> iterator) {
