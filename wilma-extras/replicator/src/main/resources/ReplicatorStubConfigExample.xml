@@ -14,7 +14,7 @@
         <template name="replicatedResponseTemplate" type="text" resource="Replicator Example Dummy Response"/>
     </template-descriptor>
     <interceptors>
-        <interceptor name="replicator" class="com.epam.wilma.extras.replicator.interceptor.ReplicatorInterceptor">
+        <interceptor name="Replicator" class="com.epam.wilma.extras.replicator.interceptor.ReplicatorInterceptor">
             <param name="https://github.com/epam/Wilma/tree/master/wilma-extras/replicator" value="http://localhost:9090/replicator" />
         </interceptor>
     </interceptors>

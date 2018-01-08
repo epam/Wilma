@@ -19,7 +19,7 @@
         <response-descriptor code="503" delay="0" mimetype="text/plain" template="circuitBreakerTemplate2">
         </response-descriptor>
     </dialog-descriptor>
-    <dialog-descriptor name="test 1 with good answer" usage="always" comment="Circuit Breaker - test 1">
+    <dialog-descriptor name="Test 1 - with good answer" usage="always" comment="Circuit Breaker - test 1">
         <condition-descriptor>
             <condition class="AndUrlPatternChecker">
                 <param name="test1OK" value="/test1/ok"/>
@@ -28,7 +28,7 @@
         <response-descriptor code="200" delay="0" mimetype="text/plain" template="test1OKTemplate">
         </response-descriptor>
     </dialog-descriptor>
-    <dialog-descriptor name="test 1 with BAD answer" usage="always" comment="Circuit Breaker - test 1">
+    <dialog-descriptor name="Test 1 - with BAD answer" usage="always" comment="Circuit Breaker - test 1">
         <condition-descriptor>
             <condition class="AndUrlPatternChecker">
                 <param name="test1BAD" value="/test1/bad"/>
@@ -37,7 +37,7 @@
         <response-descriptor code="404" delay="0" mimetype="text/plain" template="test1BADTemplate">
         </response-descriptor>
     </dialog-descriptor>
-    <dialog-descriptor name="test 2 with good answer" usage="always" comment="Circuit Breaker - test 2">
+    <dialog-descriptor name="Test 2 - with good answer" usage="always" comment="Circuit Breaker - test 2">
         <condition-descriptor>
             <condition class="AndUrlPatternChecker">
                 <param name="test1OK" value="/test2/ok"/>
@@ -46,7 +46,7 @@
         <response-descriptor code="200" delay="0" mimetype="text/plain" template="test1OKTemplate">
         </response-descriptor>
     </dialog-descriptor>
-    <dialog-descriptor name="test 2 with BAD answer" usage="always" comment="Circuit Breaker - test 2">
+    <dialog-descriptor name="Test 2 - with BAD answer" usage="always" comment="Circuit Breaker - test 2">
         <condition-descriptor>
             <condition class="AndUrlPatternChecker">
                 <param name="test2BAD" value="/test2/bad"/>
@@ -64,7 +64,7 @@
         <template name="circuitBreakerTemplate2" type="text" resource="This is a Circuit Breaker test response, type: 2."/>
     </template-descriptor>
     <interceptors>
-        <interceptor name="Circuit Breaker Response Investigator"
+        <interceptor name="Circuit Breaker Response Investigator - for test1 URL"
                      class="com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor">
             <param name="identifier" value="CB_1"/>
             <param name="path" value="http://127.0.0.1/test1/"/>
@@ -72,7 +72,7 @@
             <param name="successCodes" value="200,201,303"/>
             <param name="maxErrorCount" value="4"/>
         </interceptor>
-        <interceptor name="Circuit Breaker Response Investigator"
+        <interceptor name="Circuit Breaker Response Investigator - for test2 URL"
                      class="com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor">
             <param name="identifier" value="CB_2"/>
             <param name="path" value="http://127.0.0.1/test2/"/>

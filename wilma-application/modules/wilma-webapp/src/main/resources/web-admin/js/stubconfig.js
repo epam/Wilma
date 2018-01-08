@@ -122,11 +122,7 @@ function getDialogDescriptors() {
                       + '<button class="btn btn-primary btn-small btn-admin" onclick="setStubConfigOrder(\'down\',\'' + data.configs[i].groupname + '\');" ><i class="icon-chevron-down icon-white"></i></button>';
             }
             
-            html += '</th></thead><tbody><tr><td colspan="3" style="font-weight:bold;">Sequence descriptor name</td></tr>';
-            for ( var j = 0; j < data.configs[i].sequenceDescriptors.length; j++) {
-                html += '<tr><td colspan="3">' + data.configs[i].sequenceDescriptors[j].Name + '</td></tr>';
-            }
-            
+            html += '</th></thead><tbody>';
             html += '<tr><td style="font-weight:bold;">Dialog descriptor name</td>'
                   + '<td colspan="2" style="font-weight:bold;">Usage</td></tr>';
                 
@@ -134,6 +130,21 @@ function getDialogDescriptors() {
 			      html += '<tr><td>' + data.configs[i].dialogDescriptors[j].Name + '</td><td colspan="2">' + data.configs[i].dialogDescriptors[j].Usage
 				    	+ '</td></tr>';
 		    }
+
+            if (data.configs[i].sequenceDescriptors.length > 0) {
+                html += '<tr><td colspan="3" style="font-weight:bold;">Sequence descriptor name</td></tr>';
+                for ( var j = 0; j < data.configs[i].sequenceDescriptors.length; j++) {
+                    html += '<tr><td colspan="3">' + data.configs[i].sequenceDescriptors[j].Name + '</td></tr>';
+                }
+            }
+
+            if (data.configs[i].interceptorDescriptors.length > 0) {
+                html += '<tr><td colspan="3" style="font-weight:bold;">Interceptor name</td></tr>';
+                for ( var j = 0; j < data.configs[i].interceptorDescriptors.length; j++) {
+                    html += '<tr><td colspan="3">' + data.configs[i].interceptorDescriptors[j].Name + '</td></tr>';
+                }
+            }
+
    		    html += '<tr><td colspan="2"><button class="btn btn-danger btn-admin" onclick="dropStubConfig(\'' + data.configs[i].groupname + '\');"  >Drop</button></td>'
             + '<td class="button-group-right"><a style="color: #fff;" class="btn btn-primary btn-small" href="../config/public/stub/stubconfig.xml?groupname=' + data.configs[i].groupname + '"><i class="icon-download icon-white"></i> Download</a>'
             + '<a style="color: #fff;" class="btn btn-primary btn-small" target="_blank" href="../config/public/stub/stubconfig.xml?source=true&groupname=' + data.configs[i].groupname + '">Source</a>'

@@ -18,32 +18,31 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.domain.stubconfig.StubDescriptor;
+import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
+import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
+import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptorUsage;
+import com.epam.wilma.domain.stubconfig.interceptor.InterceptorDescriptor;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
+import com.epam.wilma.router.RoutingService;
+import com.epam.wilma.webapp.config.servlet.stub.helper.ExpirationTimeProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.epam.wilma.domain.stubconfig.StubDescriptor;
-import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
-import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
-import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptorUsage;
-import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
-import com.epam.wilma.router.RoutingService;
-import com.epam.wilma.webapp.config.servlet.stub.helper.ExpirationTimeProvider;
-
 /**
  * Returns the list of dialog descriptors of the actual stub configuration and their usage.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class StubDescriptorStatusServlet extends HttpServlet {
@@ -72,11 +71,15 @@ public class StubDescriptorStatusServlet extends HttpServlet {
         out.write("{\"configs\":[");
         Iterator<String> iterator = stubDescriptors.keySet().iterator();
         while (iterator.hasNext()) {
+            out.write("{");
             String groupName = iterator.next();
             StubDescriptor stubDescriptor = stubDescriptors.get(groupName);
-            writeSequenceDescriptor(out, stubDescriptor);
-            out.write(",");
             writeDialogDescriptors(out, stubDescriptor);
+            out.write(",");
+            writeSequenceDescriptors(out, stubDescriptor);
+            out.write(",");
+            writeInterceptorDescriptors(out, stubDescriptor);
+            out.write("}");
             if (iterator.hasNext()) {
                 out.write(",");
             }
@@ -84,8 +87,21 @@ public class StubDescriptorStatusServlet extends HttpServlet {
         out.write("]}");
     }
 
-    private void writeSequenceDescriptor(final PrintWriter out, final StubDescriptor stubDescriptor) {
-        out.write("{\"sequenceDescriptors\":[");
+    private void writeInterceptorDescriptors(PrintWriter out, StubDescriptor stubDescriptor) {
+        out.write("\"interceptorDescriptors\":[");
+        List<InterceptorDescriptor> interceptorDescriptors = stubDescriptor.getInterceptorDescriptors();
+        Iterator<InterceptorDescriptor> iterator = interceptorDescriptors.iterator();
+        while (iterator.hasNext()) {
+            writeInterceptorName(out, iterator);
+            if (iterator.hasNext()) {
+                out.write(",");
+            }
+        }
+        out.write("]");
+    }
+
+    private void writeSequenceDescriptors(final PrintWriter out, final StubDescriptor stubDescriptor) {
+        out.write("\"sequenceDescriptors\":[");
         List<SequenceDescriptor> sequenceDescriptors = stubDescriptor.getSequenceDescriptors();
         Iterator<SequenceDescriptor> iterator = sequenceDescriptors.iterator();
         while (iterator.hasNext()) {
@@ -108,7 +124,13 @@ public class StubDescriptorStatusServlet extends HttpServlet {
             }
         }
         StubDescriptorAttributes attributes = stubDescriptor.getAttributes();
-        out.write("], \"groupname\": \"" + attributes.getGroupName() + "\", \"active\": \"" + attributes.isActive() + "\"}");
+        out.write("], \"groupname\": \"" + attributes.getGroupName() + "\", \"active\": \"" + attributes.isActive() + "\"");
+    }
+
+    private void writeInterceptorName(PrintWriter out, Iterator<InterceptorDescriptor> iterator) {
+        InterceptorDescriptor interceptorDescriptor = iterator.next();
+        String name = interceptorDescriptor.getName();
+        out.write("{\"Name\": \"" + name + "\"}");
     }
 
     private void writeSequenceName(final PrintWriter out, final Iterator<SequenceDescriptor> iterator) {
