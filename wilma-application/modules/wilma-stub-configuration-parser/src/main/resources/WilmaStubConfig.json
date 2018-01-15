@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "description": "representation of Wilma stub configuration possibilities",
+  "type": "object",
+  "properties": {
+    "templateFormatterSets": {
+      "$ref": "#/definitions/templateFormatterSets"
+    }
+    "conditionSets": {
+      "$ref": "#/definitions/conditionSets"
+    },
+    "template": {
+      "$ref": "#/definitions/templateDescription"
+    },
+    "interceptors": {
+      "$ref": "#/definitions/interceptorDescription"
+    },
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "dialogDescriptor": {
+      "description": "complex type of Dialog Descriptor",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "",
+          "type": "string",
+          "minLength": 1
+        },
+        "fields": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "description": "",
+                "type": "string"
+              },
+              "order": {
+                "description": "",
+                "type": "string",
+                "enum": [
+                  "asc",
+                  "desc"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "order"
+            ]
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    }
+  }
+}

@@ -21,7 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.util.Arrays;
 
 /**
- * It decribes a template file and how it should be handled when it is used as response.
+ * It describes a template file and how it should be handled when it is used as response.
  * @author Tunde_Kovacs
  *
  */

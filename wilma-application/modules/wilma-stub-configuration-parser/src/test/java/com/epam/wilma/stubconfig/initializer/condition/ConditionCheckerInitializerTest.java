@@ -37,7 +37,7 @@ import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.stubconfig.condition.checker.general.header.HeaderParameterChecker;
-import com.epam.wilma.stubconfig.condition.checker.json.JsonBodyChecker;
+import com.epam.wilma.stubconfig.condition.checker.json.JsonSchemaChecker;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
 
@@ -109,7 +109,7 @@ public class ConditionCheckerInitializerTest {
     public void testGetConditionCheckerWhenMoreInternalsExistShouldReturnConditionChecker() {
         //GIVEN
         conditionCheckers.clear();
-        conditionChecker = new JsonBodyChecker();
+        conditionChecker = new JsonSchemaChecker();
         conditionCheckers.add(conditionChecker);
         conditionChecker = new HeaderParameterChecker();
         conditionCheckers.add(conditionChecker);
