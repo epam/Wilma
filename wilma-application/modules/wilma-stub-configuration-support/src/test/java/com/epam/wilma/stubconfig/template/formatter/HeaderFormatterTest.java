@@ -35,7 +35,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
- * Tests for {@link com.epam.wilma.stubconfig.interceptor.HeaderUpdateInterceptor}.
+ * Tests for {@link com.epam.wilma.stubconfig.template.formatter.HeaderFormatter}.
  *
  * @author Tamas_Kohegyi
  */

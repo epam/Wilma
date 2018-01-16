@@ -41,6 +41,7 @@ public class FastInfosetCompressorProcessor implements ResponseProcessor {
     private static final String XML = "xml";
     private static final String ACCEPT_VALUE_FASTINFOSET = "application/fastinfoset";
     private static final String ACCEPT_HEADER_KEY = "Accept";
+    private static final String HEADER_KEY_SUPPRESS_ENCODING = "Wilma-Suppress-Encoding";
 
     @Autowired
     private FastInfosetCompressionService fastInfosetCompressor;
@@ -61,7 +62,9 @@ public class FastInfosetCompressorProcessor implements ResponseProcessor {
         String acceptHeader = req.getHeader(ACCEPT_HEADER_KEY);
         boolean isAcceptFastInfoset = acceptHeader != null && acceptHeader.contains(ACCEPT_VALUE_FASTINFOSET);
         boolean isResponseContentTypeXml = resp.getContentType().contains(XML) || resp.getContentType().contains(FASTINFOSET);
-        return isAcceptFastInfoset && isResponseContentTypeXml;
+        String suppressEncodingHeader = resp.getHeader(HEADER_KEY_SUPPRESS_ENCODING);
+        boolean forcedToSuppressFastInfosetEncoding = suppressEncodingHeader != null && suppressEncodingHeader.contains(FASTINFOSET);
+        return isAcceptFastInfoset && isResponseContentTypeXml && !forcedToSuppressFastInfosetEncoding;
     }
 
     private byte[] compressResponseXmlToFastInfoset(final InputStream inputStream) {

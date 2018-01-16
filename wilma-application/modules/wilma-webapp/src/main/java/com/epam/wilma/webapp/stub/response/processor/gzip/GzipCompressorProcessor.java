@@ -40,6 +40,7 @@ public class GzipCompressorProcessor implements ResponseProcessor {
     private static final String HEADER_VALUE_GZIP = "gzip";
     private static final String HEADER_KEY_ACCEPT_ENCODING = "Accept-Encoding";
     private static final String HEADER_KEY_CONTENT_ENCODING = "Content-Encoding";
+    private static final String HEADER_KEY_SUPPRESS_ENCODING = "Wilma-Suppress-Encoding";
 
     @Autowired
     private GzipCompressionService gzipCompressor;
@@ -49,23 +50,26 @@ public class GzipCompressorProcessor implements ResponseProcessor {
     @Override
     public byte[] process(final HttpServletRequest req, final HttpServletResponse resp, final byte[] responseBody) {
         byte[] result = responseBody;
-        if (isGzipCompressionNeeded(req)) {
+        if (isGzipCompressionNeeded(req, resp)) {
             resp.addHeader(HEADER_KEY_CONTENT_ENCODING, HEADER_VALUE_GZIP);
-            result = compressResponseXmlToGzip(inputStreamFactory.createByteArrayInputStream(responseBody));
+            result = compressResponseStreamWithGzip(inputStreamFactory.createByteArrayInputStream(responseBody));
         }
         return result;
     }
 
-    private boolean isGzipCompressionNeeded(final HttpServletRequest req) {
+    private boolean isGzipCompressionNeeded(final HttpServletRequest req, final HttpServletResponse resp) {
         boolean result = false;
         String acceptEncodingHeader = req.getHeader(HEADER_KEY_ACCEPT_ENCODING);
-        if (acceptEncodingHeader != null && acceptEncodingHeader.contains(HEADER_VALUE_GZIP)) {
+        String suppressEncodingHeader = resp.getHeader(HEADER_KEY_SUPPRESS_ENCODING);
+        boolean needToGzipUponRequest = acceptEncodingHeader != null && acceptEncodingHeader.contains(HEADER_VALUE_GZIP);
+        boolean forcedToSuppressGzipEncoding = suppressEncodingHeader != null && suppressEncodingHeader.contains(HEADER_VALUE_GZIP);
+        if (needToGzipUponRequest && !forcedToSuppressGzipEncoding) {
             result = true;
         }
         return result;
     }
 
-    private byte[] compressResponseXmlToGzip(final InputStream inputStream) {
+    private byte[] compressResponseStreamWithGzip(final InputStream inputStream) {
         return gzipCompressor.compress(inputStream).toByteArray();
     }
 }
