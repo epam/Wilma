@@ -12,7 +12,7 @@
   <template-descriptor name="templateDescriptor1">
   <template name="exampleTemplate1" type="text" resource="simple text answer - Response Formatter: SuppressGzipCompression"/>
   <template-formatter-set name="templateFormatterSet1">
-    <template-formatter class="com.epam.wilma.stubconfig.template.formatter.SuppressGzipCompression"/>
+    <template-formatter class="SuppressGzipCompression"/>
   </template-formatter-set>
   </template-descriptor>
 </wilma-stub>

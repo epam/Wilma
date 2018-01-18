@@ -94,7 +94,7 @@ public class TemplateDescriptorParserTest {
         getChildNodes();
         given(element.getNodeType()).willReturn(Node.ELEMENT_NODE);
         given(element.getTagName()).willReturn(TEMPLATE_FORMATTER_TAG);
-        given(formatterInitializer.getTemplateFormatter("class")).willReturn(templateFormatter);
+        given(formatterInitializer.getExternalClassObject("class")).willReturn(templateFormatter);
         mockTemplateFormatterAttributes();
         //WHEN
         Set<TemplateFormatterDescriptor> actual = underTest.parseNode(node, document);
@@ -139,7 +139,7 @@ public class TemplateDescriptorParserTest {
         given(element.getTagName()).willReturn(TEMPLATE_FORMATTER_SET_INVOKER_TAG, TEMPLATE_FORMATTER_SET_INVOKER_TAG, TEMPLATE_FORMATTER_TAG);
         mockTemplateFormatterAttributes();
         given(xPathEvaluator.getElementByXPath(Mockito.anyString(), Mockito.eq(document))).willReturn(node);
-        given(formatterInitializer.getTemplateFormatter("class")).willReturn(templateFormatter);
+        given(formatterInitializer.getExternalClassObject("class")).willReturn(templateFormatter);
         //WHEN
         Set<TemplateFormatterDescriptor> actual = underTest.parseNode(node, document);
         //THEN
@@ -188,7 +188,7 @@ public class TemplateDescriptorParserTest {
         given(element.getTagName()).willReturn(TEMPLATE_FORMATTER_SET_INVOKER_TAG, TEMPLATE_FORMATTER_SET_INVOKER_TAG, TEMPLATE_FORMATTER_TAG);
         mockTemplateFormatterAttributes();
         given(xPathEvaluator.getElementByXPath(Mockito.anyString(), Mockito.eq(document))).willReturn(node);
-        given(formatterInitializer.getTemplateFormatter("class")).willReturn(templateFormatter);
+        given(formatterInitializer.getExternalClassObject("class")).willReturn(templateFormatter);
         //WHEN
         underTest.parseNode(node, document);
         //THEN exception is thrown

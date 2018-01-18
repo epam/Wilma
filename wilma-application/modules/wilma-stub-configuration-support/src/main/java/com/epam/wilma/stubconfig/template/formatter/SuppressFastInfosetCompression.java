@@ -1,6 +1,6 @@
 package com.epam.wilma.stubconfig.template.formatter;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright 2013-2018 EPAM Systems
 
 This file is part of Wilma.
 

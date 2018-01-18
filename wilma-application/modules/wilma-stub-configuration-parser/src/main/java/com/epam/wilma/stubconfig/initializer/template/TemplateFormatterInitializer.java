@@ -18,53 +18,46 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Iterator;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
-import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
+import com.epam.wilma.stubconfig.initializer.CommonClassInitializer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Initializes template formatters with a given class.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
-public class TemplateFormatterInitializer {
+public class TemplateFormatterInitializer extends CommonClassInitializer<TemplateFormatter> {
 
     @Autowired
     private StubResourcePathProvider stubResourcePathProvider;
     @Autowired
-    private TemporaryStubResourceHolder resourceHolder;
-    @Autowired
-    private ExternalInitializer externalInitializer;
+    private TemporaryStubResourceHolder stubResourceHolder;
 
-    /**
-     * Retrieves the {@link TemplateFormatter} instance that will be used by wilma to format a response template.
-     * Warning: <tt>DescriptorValidationFailedException</tt> is thrown if class was not found!!
-     * @param className the name of the template formatter class
-     * @return the new {@link TemplateFormatter} instance
-     */
-    public TemplateFormatter getTemplateFormatter(final String className) {
-        TemplateFormatter result = null;
-        Iterator<TemplateFormatter> iterator = resourceHolder.getTemplateFormatters().iterator();
-        boolean doesInternalClassExist = false;
-        while (iterator.hasNext() && !doesInternalClassExist) {
-            TemplateFormatter next = iterator.next();
-            if (next.getClass().getSimpleName().equalsIgnoreCase(className)) {
-                result = next;
-                doesInternalClassExist = true;
-            }
-        }
-        if (!doesInternalClassExist) {
-            result = externalInitializer.loadExternalClass(className, stubResourcePathProvider.getTemplateFormattersPathAsString(),
-                    TemplateFormatter.class);
-            resourceHolder.addTemplateFormatter(result);
-        }
-        return result;
+    @Override
+    protected String getPathOfExternalClasses() {
+        return stubResourcePathProvider.getTemplateFormattersPathAsString();
     }
+
+    @Override
+    protected List<TemplateFormatter> getExternalClassObjects() {
+        return stubResourceHolder.getTemplateFormatters();
+    }
+
+    @Override
+    protected void addExternalClassObject(TemplateFormatter externalClassObject) {
+        stubResourceHolder.addTemplateFormatter(externalClassObject);
+    }
+
+    @Override
+    protected Class<TemplateFormatter> getExternalClassType() {
+        return TemplateFormatter.class;
+    }
+
 }
