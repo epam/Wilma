@@ -23,7 +23,7 @@
   </bean>
 
   <!-- Define general condition checker instances -->
-  <!--   Checkers for URI and URL -->
+  <!-- Checkers for URI and URL -->
   <bean id="AndUrlPatternChecker" name="AndUrlPatternChecker" class="com.epam.wilma.stubconfig.condition.checker.general.url.AndUrlPatternChecker"/>
   <bean id="OrUrlPatternChecker" name="OrUrlPatternChecker" class="com.epam.wilma.stubconfig.condition.checker.general.url.OrUrlPatternChecker" />
   <!-- Checkers for headers -->
@@ -41,4 +41,7 @@
   <bean id="OrPatternChecker" name="OrPatternChecker" class="com.epam.wilma.stubconfig.condition.checker.general.OrGeneralChecker" c:headerChecker-ref="OrHeaderPatternChecker" c:bodyChecker-ref="OrBodyPatternChecker" c:urlChecker-ref="OrUrlPatternChecker"/>
   <bean id="AndRegExpChecker" name="AndRegExpChecker" class="com.epam.wilma.stubconfig.condition.checker.general.AndGeneralChecker" c:headerChecker-ref="AndHeaderRegExpChecker" c:bodyChecker-ref="AndBodyRegExpChecker" c:urlChecker-ref="alwaysFalseChecker" />
   <bean id="OrRegExpChecker" name="OrRegExpChecker" class="com.epam.wilma.stubconfig.condition.checker.general.OrGeneralChecker" c:headerChecker-ref="OrHeaderRegExpChecker" c:bodyChecker-ref="OrBodyRegExpChecker" c:urlChecker-ref="alwaysFalseChecker" />
+  <!-- Built-in Template formatters -->
+  <bean id="SuppressGzipCompression" name="SuppressGzipCompression" class="com.epam.wilma.stubconfig.template.formatter.SuppressGzipCompression"/>
+  <bean id="SuppressFastInfosetCompression" name="SuppressFastInfosetCompression" class="com.epam.wilma.stubconfig.template.formatter.SuppressFastInfosetCompression"/>
 </beans>

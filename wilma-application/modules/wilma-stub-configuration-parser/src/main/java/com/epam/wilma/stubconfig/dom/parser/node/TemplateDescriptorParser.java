@@ -94,7 +94,7 @@ public class TemplateDescriptorParser implements NodeParser<Set<TemplateFormatte
     private TemplateFormatterDescriptor parseTemplateFormatter(final Element element) {
         String clazz = element.getAttribute("class");
         ParameterList params = parseTemplateFormatterParameters(element.getElementsByTagName("param"));
-        TemplateFormatter templateFormatter = formatterInitializer.getTemplateFormatter(clazz);
+        TemplateFormatter templateFormatter = formatterInitializer.getExternalClassObject(clazz);
         return new TemplateFormatterDescriptor(templateFormatter, params);
     }
 

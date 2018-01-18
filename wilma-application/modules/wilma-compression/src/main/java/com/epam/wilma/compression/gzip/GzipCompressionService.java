@@ -36,7 +36,7 @@ import com.epam.wilma.compression.gzip.helper.GzipOutputStreamFactory;
 import com.epam.wilma.domain.exception.SystemException;
 
 /**
- * Responsible for compressing and descompressing an input stream into/from gzip.
+ * Responsible for compressing and decompressing an input stream into/from gzip.
  * @author Tamas_Bihari
  *
  */
@@ -44,7 +44,7 @@ import com.epam.wilma.domain.exception.SystemException;
 public class GzipCompressionService implements CompressionService {
 
     @Autowired
-    private GzipOutputStreamFactory gzipOutpuStreamFactory;
+    private GzipOutputStreamFactory gzipOutputStreamFactory;
     @Autowired
     private GzipInputStreamFactory gzipInputStreamFactory;
     @Autowired
@@ -60,7 +60,7 @@ public class GzipCompressionService implements CompressionService {
         InputStream source = inputStream;
         ByteArrayOutputStream baos = outputStreamFactory.createByteArrayOutputStream();
         try {
-            GZIPOutputStream gout = gzipOutpuStreamFactory.createOutputStream(baos);
+            GZIPOutputStream gout = gzipOutputStreamFactory.createOutputStream(baos);
             //... Code to read from your original uncompressed data and write to gout.
             IOUtils.copy(source, gout);
             gout.finish();
