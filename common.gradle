@@ -19,7 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 // Common local repository info
 ext.myLocalRepository='file://C:/tmp/myRepo/'
-ext.wilmaVersion=1.5
+ext.wilmaVersion=1.6
 
 if ( hasProperty('localRepository') ) {
     myLocalRepository = "${project.ext.localRepository}"
