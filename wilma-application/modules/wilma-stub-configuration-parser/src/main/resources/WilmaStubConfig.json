@@ -1,33 +1,29 @@
 {
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "description": "representation of Wilma stub configuration possibilities",
+  "description": "Representation of Wilma stub configuration possibilities",
   "type": "object",
   "properties": {
-    "templateFormatterSets": {
-      "$ref": "#/definitions/templateFormatterSets"
-    }
-    "conditionSets": {
-      "$ref": "#/definitions/conditionSets"
-    },
-    "template": {
-      "$ref": "#/definitions/templateDescription"
-    },
     "interceptors": {
-      "$ref": "#/definitions/interceptorDescription"
-    },
+      "$ref": "#/definitions/interceptorDefinition"
+    }
   },
   "additionalProperties": false,
   "definitions": {
-    "dialogDescriptor": {
-      "description": "complex type of Dialog Descriptor",
+    "interceptorDefinition": {
+      "description": "Interceptors",
       "type": "object",
       "properties": {
         "name": {
-          "description": "",
+          "description": "The name of the interceptor",
           "type": "string",
           "minLength": 1
         },
-        "fields": {
+        "class": {
+          "description": "The name of the interceptor class, will be used to load the class itself",
+          "type": "string",
+          "minLength": 1
+        },
+        "parameters": {
           "description": "",
           "type": "array",
           "items": {
@@ -37,23 +33,20 @@
                 "description": "",
                 "type": "string"
               },
-              "order": {
+              "value": {
                 "description": "",
-                "type": "string",
-                "enum": [
-                  "asc",
-                  "desc"
-                ]
+                "type": "string"
               }
             },
             "required": [
               "name",
-              "order"
+              "value"
             ]
           }
         },
         "required": [
-          "name"
+          "name",
+          "class"
         ]
       }
     }
