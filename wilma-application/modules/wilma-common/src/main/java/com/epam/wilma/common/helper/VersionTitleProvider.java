@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /*==========================================================================
- Copyright 2013-2017 EPAM Systems
+ Copyright since 2013, EPAM Systems
 
  This file is part of Wilma.
 
