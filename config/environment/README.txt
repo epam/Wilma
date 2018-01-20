@@ -1,4 +1,3 @@
-
 This README is about an example test environment, right now used for continuous build and automated functional testing of Wilma
 
 0. Environment preparation
@@ -6,7 +5,7 @@ This README is about an example test environment, right now used for continuous 
 - extract jdk1.8.0_45 to /opt ( so you will have /opt/jdk1.8.0_45 folder)
 - create folder /opt/wilma
 - Jenkins installed
-- Sonar installed
+- Sonar installed (standard installation, so available on http://localhost:9000, the built in db is in use on port 39090)
 
 1. Jenkins setup
 - wilma-continuous job exists, that is triggered when the code base changes
@@ -15,7 +14,7 @@ This README is about an example test environment, right now used for continuous 
      chmod 755 ./gradlew
 
      #create "Wilma Stub Service and Proxy Application" and "Wilma Message Search Application"
-     ./gradlew -Psonar_host_url=http://localhost:9000 -Psonar_jdbc_url=jdbc:mysql://localhost:3306/xxxx -Psonar_jdbc_username=xxxx -Psonar_jdbc_password=xxxx -PlocalRepository=file:///opt/wilma/repo/ clean docs build jacocoReport sonarRunner release -PbuildNumber=$BUILD_NUMBER
+     ./gradlew -PlocalRepository=file:///opt/wilma/repo/ clean docs build sonarqube release -PbuildNumber=$BUILD_NUMBER
 
      #create test client
      ./gradlew -b wilma-test/wilma-test-client/build.gradle clean build -PbuildNumber=${BUILD_NUMBER} -x checkstyleMain -x checkstyleTest
@@ -43,8 +42,8 @@ This will stop the previously deployed and started Wilma test environment, deplo
 After this, the test environment is ready for integration/functional test.
 
 2. Run Automated tests
-- A Jenkins job exists that is triggered by a successful wilma-deploy job.
- wilma-deploy job executes this shell
+- A Jenkins job exists (wilma-autotest) that is triggered by a successful wilma-deploy job.
+ wilma-autotest job executes this shell
 
      chmod 755 ./gradlew
 
