@@ -35,11 +35,11 @@ import org.springframework.stereotype.Component;
 public class FileChecker {
     private static final String RESP_FILE_END = "resp.txt";
     private static final String REQ_FILE_END = "req.txt";
-    private static final String ERROR_POSTFIX = "NOTEXISTS";
+    private static final String ERROR_POSTFIX = "DOESNOTEXIST";
     private final Logger logger = LoggerFactory.getLogger(FileChecker.class);
 
     /**
-     * Mark those files which not exists with ERROR_POSTFIX.
+     * Mark those files which does not exist with ERROR_POSTFIX.
      * @param searchResult contains those files which need to check
      * @return the modified list of searched files
      */
@@ -56,14 +56,13 @@ public class FileChecker {
     }
 
     private List<String> markFileIfNotExists(final String actualFile, final List<String> pair) {
-        List<String> result = pair;
         if (new File(actualFile).exists()) {
-            result.add(actualFile);
+            pair.add(actualFile);
         } else {
-            result.add(actualFile.concat(ERROR_POSTFIX));
+            pair.add(actualFile.concat(ERROR_POSTFIX));
             logger.debug(actualFile + " does not exist!");
         }
-        return result;
+        return pair;
     }
 
     private String getPair(final String filePath) {

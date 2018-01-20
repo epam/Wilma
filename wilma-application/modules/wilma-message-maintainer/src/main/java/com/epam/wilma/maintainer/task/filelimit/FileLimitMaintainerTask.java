@@ -111,7 +111,7 @@ public class FileLimitMaintainerTask implements MaintainerTask {
             deletedFileProvider.setDeletedFilesCount(noFilesToDelete);
             logger.info(noFilesToDelete + " files were deleted.");
         } else {
-            deletedFileProvider.setDeletedFilesCount(Integer.valueOf(0));
+            deletedFileProvider.setDeletedFilesCount(0);
         }
     }
 

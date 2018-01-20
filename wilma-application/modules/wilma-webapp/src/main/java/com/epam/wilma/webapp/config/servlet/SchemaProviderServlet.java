@@ -46,7 +46,7 @@ public class SchemaProviderServlet extends HttpServlet {
 
     @Autowired
     @Qualifier("stubConfigSchemaLocation")
-    private String stubConfigSchemaLocation;
+    private static String stubConfigSchemaLocation;
     private final Logger logger = LoggerFactory.getLogger(SchemaProviderServlet.class);
 
     @Autowired
@@ -67,9 +67,8 @@ public class SchemaProviderServlet extends HttpServlet {
     }
 
     private void writeSchemaFile(final PrintWriter out) {
-        try {
-            BufferedReader reader = bufferedReaderFactory.createBufferedReader(stubConfigSchemaLocation);
-            String currentLine = "";
+        try (BufferedReader reader = bufferedReaderFactory.createBufferedReader(stubConfigSchemaLocation)) {
+            String currentLine;
             while ((currentLine = reader.readLine()) != null) {
                 out.write(currentLine);
             }

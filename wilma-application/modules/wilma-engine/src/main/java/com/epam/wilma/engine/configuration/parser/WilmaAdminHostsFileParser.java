@@ -39,7 +39,7 @@ import com.epam.wilma.webapp.config.servlet.helper.BufferedReaderFactory;
 public class WilmaAdminHostsFileParser {
 
     private static final String WILMA_ADMIN_HOSTS_FILE = "wilma.admin.hosts.file";
-    private static final String ERROR_TEMPLATE = "Error occured at wilma admin hosts file parsing, file path: '%s'";
+    private static final String ERROR_TEMPLATE = "Error occurred at wilma admin hosts file parsing, file path: '%s'";
 
     @Autowired
     private WilmaAdminHostsDTO wilmaAdminHostsDTO;
@@ -56,8 +56,7 @@ public class WilmaAdminHostsFileParser {
         List<String> wilmaAdminHosts = new ArrayList<>();
         boolean securityEnabled = !"".equals(filePath) && filePath != null;
         if (securityEnabled) {
-            try {
-                BufferedReader bufferedReader = bufferedReaderFactory.createBufferedReaderFromFilePath(filePath);
+            try (BufferedReader bufferedReader = bufferedReaderFactory.createBufferedReaderFromFilePath(filePath)) {
                 while (bufferedReader.ready()) {
                     String host = bufferedReader.readLine();
                     wilmaAdminHosts.add(host);

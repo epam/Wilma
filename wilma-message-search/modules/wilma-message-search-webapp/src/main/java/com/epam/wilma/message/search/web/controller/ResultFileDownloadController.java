@@ -79,9 +79,10 @@ public class ResultFileDownloadController {
     }
 
     private void writeFileToResponse(final String filePath, final HttpServletResponse response) throws IOException {
-        InputStream is = new FileInputStream(filePath);
-        FileCopyUtils.copy(is, response.getOutputStream());
-        response.flushBuffer();
+        try (InputStream is = new FileInputStream(filePath)) {
+            FileCopyUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+        }
     }
 
     private void sendError(final IOException ex, final HttpServletResponse response) {

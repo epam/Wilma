@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
  */
 public class FileCheckerTest {
 
-    private static final String ERROR_POSTFIX = "NOTEXISTS";
+    private static final String ERROR_POSTFIX = "DOESNOTEXIST";
 
     @InjectMocks
     private FileChecker underTest;
@@ -104,7 +104,7 @@ public class FileCheckerTest {
     public void testCheckFilesExistsWithPairsWhenSearchResultIsNull() {
         //GIVEN
         //WHEN
-        List<List<String>> result = underTest.checkFilesExistsWithPairs(null);
+        underTest.checkFilesExistsWithPairs(null);
         //THEN
     }
 }
