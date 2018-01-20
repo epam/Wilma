@@ -80,20 +80,21 @@ public class WilmaStub {
         String usedTemplateAndFormatter = responseDescriptor.templateToString();
         String interceptorDescriptor = responseDescriptor.interceptorsToString();
         StringBuilder sb = new StringBuilder();
-        Formatter formatter = new Formatter(sb);
-        String stubConfigurationFormatterString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<wilma-stub xmlns=\"http://epam.github.io/Wilma/xsd/StubConfig\" "
-                + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" groupname=\"%5$s\" "
-                + "xsi:schemaLocation=\"http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd\">\n"
-                + "<dialog-descriptor name=\"%1$s\" usage=\"always\" comment=\"%1$s\">\n"
-                + "<condition-descriptor>\n%2$s</condition-descriptor>\n"
-                + "%3$s"
-                + "</dialog-descriptor>\n"
-                + "<template-descriptor name=\"%1$s\">\n%4$s</template-descriptor>\n"
-                + "%6$s"
-                + "</wilma-stub>";
-        formatter.format(stubConfigurationFormatterString, generatedName, conditionContent, responseContent,
-                usedTemplateAndFormatter, groupName, interceptorDescriptor);
+        try (Formatter formatter = new Formatter(sb)) {
+            String stubConfigurationFormatterString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                    + "<wilma-stub xmlns=\"http://epam.github.io/Wilma/xsd/StubConfig\" "
+                    + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" groupname=\"%5$s\" "
+                    + "xsi:schemaLocation=\"http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd\">\n"
+                    + "<dialog-descriptor name=\"%1$s\" usage=\"always\" comment=\"%1$s\">\n"
+                    + "<condition-descriptor>\n%2$s</condition-descriptor>\n"
+                    + "%3$s"
+                    + "</dialog-descriptor>\n"
+                    + "<template-descriptor name=\"%1$s\">\n%4$s</template-descriptor>\n"
+                    + "%6$s"
+                    + "</wilma-stub>";
+            formatter.format(stubConfigurationFormatterString, generatedName, conditionContent, responseContent,
+                    usedTemplateAndFormatter, groupName, interceptorDescriptor);
+        }
         return sb.toString();
     }
 
