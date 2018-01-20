@@ -16,7 +16,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
-apply plugin: "sonar-runner"
 apply from: 'common.gradle'
 
 subprojects {
@@ -32,12 +31,15 @@ repositories {
     maven { url "http://repo.maven.apache.org/maven2" }
 }
 
-sonarRunner {
-    sonarProperties {
-        property "sonar.host.url", "${sonar_host_url}"
-        property "sonar.jdbc.url", "${sonar_jdbc_url}"
-        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
-        property "sonar.jdbc.username", "${sonar_jdbc_username}"
-        property "sonar.jdbc.password", "${sonar_jdbc_password}"
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2"
     }
 }
+
+apply plugin: "org.sonarqube"
