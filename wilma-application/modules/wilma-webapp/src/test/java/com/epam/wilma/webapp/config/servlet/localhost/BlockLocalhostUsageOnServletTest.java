@@ -62,6 +62,8 @@ public class BlockLocalhostUsageOnServletTest {
     @BeforeMethod
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "localhostRequestProcessorToggle", localhostRequestProcessorToggle);
+        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
     }
 
     @Test

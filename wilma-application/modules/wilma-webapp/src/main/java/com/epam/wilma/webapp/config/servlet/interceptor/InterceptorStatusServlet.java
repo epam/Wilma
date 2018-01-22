@@ -38,8 +38,12 @@ import java.io.PrintWriter;
 @Component
 public class InterceptorStatusServlet extends HttpServlet {
 
+    private final InterceptorModeToggle interceptorModeToggle;
+
     @Autowired
-    private InterceptorModeToggle interceptorModeToggle;
+    public InterceptorStatusServlet(InterceptorModeToggle interceptorModeToggle) {
+        this.interceptorModeToggle = interceptorModeToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

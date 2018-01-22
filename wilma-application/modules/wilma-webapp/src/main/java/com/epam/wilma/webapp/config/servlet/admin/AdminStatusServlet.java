@@ -38,8 +38,12 @@ import com.epam.wilma.webapp.security.HostValidatorService;
 @Component
 public class AdminStatusServlet extends HttpServlet {
 
+    private final HostValidatorService adminHosts;
+
     @Autowired
-    private HostValidatorService adminHosts;
+    public AdminStatusServlet(HostValidatorService adminHosts) {
+        this.adminHosts = adminHosts;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

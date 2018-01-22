@@ -44,13 +44,17 @@ import com.epam.wilma.webapp.config.servlet.helper.BufferedReaderFactory;
 @Component
 public class SchemaProviderServlet extends HttpServlet {
 
-    @Autowired
-    @Qualifier("stubConfigSchemaLocation")
-    private static String stubConfigSchemaLocation;
     private final Logger logger = LoggerFactory.getLogger(SchemaProviderServlet.class);
 
+    @Qualifier("stubConfigSchemaLocation")
+    private final String stubConfigSchemaLocation;
+    private final BufferedReaderFactory bufferedReaderFactory;
+
     @Autowired
-    private BufferedReaderFactory bufferedReaderFactory;
+    public SchemaProviderServlet(String stubConfigSchemaLocation, BufferedReaderFactory bufferedReaderFactory) {
+        this.stubConfigSchemaLocation = stubConfigSchemaLocation;
+        this.bufferedReaderFactory = bufferedReaderFactory;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
