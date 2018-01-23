@@ -40,8 +40,12 @@ import com.epam.wilma.core.toggle.message.MessageLoggingToggle;
 @Component
 public class MessageLoggingStatusServlet extends HttpServlet {
 
+    private final MessageLoggingToggle messageLoggingToggle;
+
     @Autowired
-    private MessageLoggingToggle messageLoggingToggle;
+    public MessageLoggingStatusServlet(MessageLoggingToggle messageLoggingToggle) {
+        this.messageLoggingToggle = messageLoggingToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

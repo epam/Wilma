@@ -41,10 +41,14 @@ import com.epam.wilma.webapp.config.servlet.helper.MessageFileHandler;
 @Component
 public class MessageHandlerServlet extends HttpServlet {
 
+    private final LogFilePathProvider filePathProvider;
+    private final MessageFileHandler messageFileHandler;
+
     @Autowired
-    private LogFilePathProvider filePathProvider;
-    @Autowired
-    private MessageFileHandler messageFileHandler;
+    public MessageHandlerServlet(LogFilePathProvider filePathProvider, MessageFileHandler messageFileHandler) {
+        this.filePathProvider = filePathProvider;
+        this.messageFileHandler = messageFileHandler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

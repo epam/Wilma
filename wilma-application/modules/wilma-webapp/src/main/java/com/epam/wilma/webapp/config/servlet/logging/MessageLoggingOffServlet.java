@@ -43,10 +43,14 @@ public class MessageLoggingOffServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(MessageLoggingOffServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final MessageLoggingToggle messageLoggingToggle;
+
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    @Autowired
-    private MessageLoggingToggle messageLoggingToggle;
+    public MessageLoggingOffServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, MessageLoggingToggle messageLoggingToggle) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.messageLoggingToggle = messageLoggingToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

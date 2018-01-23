@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -62,6 +63,8 @@ public class MessageHandlerServletTest {
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "filePathProvider", filePathProvider);
+        Whitebox.setInternalState(underTest, "messageFileHandler", messageFileHandler);
         given(filePathProvider.getLogFilePath()).willReturn(path);
     }
 
@@ -79,7 +82,6 @@ public class MessageHandlerServletTest {
     public final void testDoGetShouldCallWriteFileContentToResponseWhenPathIsNotEmpty() throws ServletException, IOException {
         // GIVEN
         String pathInfo = "/filename";
-        given(request.getPathInfo()).willReturn(null);
         given(request.getPathInfo()).willReturn(pathInfo);
         // WHEN
         underTest.doGet(request, response);
@@ -90,12 +92,10 @@ public class MessageHandlerServletTest {
     @Test
     public final void testDoPostShouldCallWriteFileContentToResponseWhenPathIsNotEmpty() throws ServletException, IOException {
         // GIVEN
-        String pathInfo = "/filename";
         given(request.getPathInfo()).willReturn(null);
-        given(request.getPathInfo()).willReturn(pathInfo);
         // WHEN
         underTest.doPost(request, response);
         // THEN
-        verify(messageFileHandler).writeFileContentToResponse(request, response, pathInfo, path);
+        verify(messageFileHandler).writeFileNamesToResponse(response, path);
     }
 }
