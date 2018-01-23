@@ -46,10 +46,14 @@ public class MaintainerPropertiesServlet extends HttpServlet {
     private static final String APPLICATION_JSON = "application/json";
     private MaintainerProperties maintainerProperties;
 
+    private final MaintainerPropertiesJsonBuilder maintainerPropertiesJsonBuilder;
+    private final WebAppConfigurationAccess configurationAccess;
+
     @Autowired
-    private MaintainerPropertiesJsonBuilder maintainerPropertiesJsonBuilder;
-    @Autowired
-    private WebAppConfigurationAccess configurationAccess;
+    public MaintainerPropertiesServlet(MaintainerPropertiesJsonBuilder maintainerPropertiesJsonBuilder, WebAppConfigurationAccess configurationAccess) {
+        this.maintainerPropertiesJsonBuilder = maintainerPropertiesJsonBuilder;
+        this.configurationAccess = configurationAccess;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

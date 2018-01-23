@@ -46,10 +46,14 @@ public class ShutdownServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(ShutdownServlet.class);
 
+    private final WilmaService wilmaService;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+
     @Autowired
-    private WilmaService wilmaService;
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    public ShutdownServlet(WilmaService wilmaService, UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
+        this.wilmaService = wilmaService;
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

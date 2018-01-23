@@ -41,23 +41,27 @@ import com.epam.wilma.safeguard.configuration.domain.QueueSizeProvider;
 @Component
 public class LoadInformationServlet extends HttpServlet {
 
-    private long responseQueueSize;
-    private long loggerQueueSize;
-    private int deletedFilesCount;
-    private int messagesCount;
+    private final QueueSizeProvider queueSizeProvider;
+    private final DeletedFileProvider deletedFileProvider;
+    private final MessageFileCounter messageCounter;
 
     @Autowired
-    private QueueSizeProvider queueSizeProvider;
-    @Autowired
-    private DeletedFileProvider deletedFileProvider;
-    @Autowired
-    private MessageFileCounter messageCounter;
+    public LoadInformationServlet(QueueSizeProvider queueSizeProvider, DeletedFileProvider deletedFileProvider, MessageFileCounter messageCounter) {
+        this.queueSizeProvider = queueSizeProvider;
+        this.deletedFileProvider = deletedFileProvider;
+        this.messageCounter = messageCounter;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        getLoadInformations();
+
+        int deletedFilesCount = deletedFileProvider.getDeletedFilesCount();
+        int messagesCount = messageCounter.getCountOfMessages();
+        long responseQueueSize = queueSizeProvider.getResponseQueueSize();
+        long loggerQueueSize = queueSizeProvider.getLoggerQueueSize();
+
         out.write("{\"deletedFilesCount\":" + deletedFilesCount + "," + "\"countOfMessages\":" + messagesCount + "," + "\"responseQueueSize\":"
                 + responseQueueSize + "," + "\"loggerQueueSize\":" + loggerQueueSize + "}");
         out.flush();
@@ -67,13 +71,6 @@ public class LoadInformationServlet extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
-    }
-
-    private void getLoadInformations() {
-        deletedFilesCount = deletedFileProvider.getDeletedFilesCount();
-        messagesCount = messageCounter.getCountOfMessages();
-        responseQueueSize = queueSizeProvider.getResponseQueueSize();
-        loggerQueueSize = queueSizeProvider.getLoggerQueueSize();
     }
 
 }

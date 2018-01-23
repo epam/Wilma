@@ -43,10 +43,14 @@ public class InterceptorOffServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(InterceptorOffServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final InterceptorModeToggle interceptorModeToggle;
+
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    @Autowired
-    private InterceptorModeToggle interceptorModeToggle;
+    public InterceptorOffServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, InterceptorModeToggle interceptorModeToggle) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.interceptorModeToggle = interceptorModeToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

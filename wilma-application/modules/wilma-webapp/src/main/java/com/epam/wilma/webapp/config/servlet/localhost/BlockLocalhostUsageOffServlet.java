@@ -40,11 +40,16 @@ import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
  */
 @Component
 public class BlockLocalhostUsageOffServlet extends HttpServlet {
+    private final Logger logger = LoggerFactory.getLogger(BlockLocalhostUsageOffServlet.class);
+    private final LocalhostRequestProcessorToggle localhostRequestProcessorToggle;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+
     @Autowired
-    private LocalhostRequestProcessorToggle localhostRequestProcessorToggle;
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    private final Logger logger = LoggerFactory.getLogger(BlockLocalhostUsageOffServlet.class);;
+    public BlockLocalhostUsageOffServlet(LocalhostRequestProcessorToggle localhostRequestProcessorToggle,
+            UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
+        this.localhostRequestProcessorToggle = localhostRequestProcessorToggle;
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

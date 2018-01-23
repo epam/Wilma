@@ -40,16 +40,17 @@ import com.epam.wilma.common.helper.VersionTitleProvider;
 @Component
 public class BuildInformationServlet extends HttpServlet {
 
-    private String wilmaBuildInformation;
+    private final String wilmaBuildInformation;
 
     @Autowired
-    private VersionTitleProvider versionTitleProvider;
+    public BuildInformationServlet(VersionTitleProvider versionTitleProvider) {
+        this.wilmaBuildInformation = versionTitleProvider.getVersionTitle();
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        getWilmaBuildInformation();
         out.write("{\"wilmaVersion\":\"" + wilmaBuildInformation + "\"}");
         out.flush();
         out.close();
@@ -60,9 +61,4 @@ public class BuildInformationServlet extends HttpServlet {
         doGet(req, resp);
     }
 
-    private void getWilmaBuildInformation() {
-        if (wilmaBuildInformation == null) {
-            wilmaBuildInformation = versionTitleProvider.getVersionTitle();
-        }
-    }
 }

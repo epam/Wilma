@@ -42,10 +42,14 @@ import com.epam.wilma.webapp.config.servlet.helper.LogFileHandler;
 @Component
 public class WilmaLogHandlerServlet extends HttpServlet {
 
+    private final LogFilePathProvider filePathProvider;
+    private final LogFileHandler logFileHandler;
+
     @Autowired
-    private LogFilePathProvider filePathProvider;
-    @Autowired
-    private LogFileHandler logFileHandler;
+    public WilmaLogHandlerServlet(LogFilePathProvider filePathProvider, LogFileHandler logFileHandler) {
+        this.filePathProvider = filePathProvider;
+        this.logFileHandler = logFileHandler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

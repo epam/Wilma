@@ -71,6 +71,8 @@ public class ShutdownServletTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
+        Whitebox.setInternalState(underTest, "wilmaService", wilmaService);
+        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
         given(resp.getWriter()).willReturn(printWriter);
     }
 

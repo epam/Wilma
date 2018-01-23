@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -55,7 +56,7 @@ public class MaintainerPropertiesServletTest {
     @Mock
     private PrintWriter printWriter;
     @Mock
-    private MaintainerPropertiesJsonBuilder jsonBuilder;
+    private MaintainerPropertiesJsonBuilder maintainerPropertiesJsonBuilder;
     @Mock
     private WebAppConfigurationAccess configurationAccess;
     @Mock
@@ -67,6 +68,8 @@ public class MaintainerPropertiesServletTest {
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "maintainerPropertiesJsonBuilder", maintainerPropertiesJsonBuilder);
+        Whitebox.setInternalState(underTest, "maintainerProperties", maintainerProperties);
         given(configurationAccess.getProperties()).willReturn(properties);
     }
 
@@ -75,7 +78,7 @@ public class MaintainerPropertiesServletTest {
         // GIVEN
         given(properties.getMaintainerProperties()).willReturn(maintainerProperties);
         given(response.getWriter()).willReturn(printWriter);
-        given(jsonBuilder.buildMaintainerPropertiesJson(maintainerProperties)).willReturn("json");
+        given(maintainerPropertiesJsonBuilder.buildMaintainerPropertiesJson(maintainerProperties)).willReturn("json");
         // WHEN
         underTest.doGet(request, response);
         // THEN
@@ -90,7 +93,7 @@ public class MaintainerPropertiesServletTest {
         // GIVEN
         given(properties.getMaintainerProperties()).willReturn(maintainerProperties);
         given(response.getWriter()).willReturn(printWriter);
-        given(jsonBuilder.buildMaintainerPropertiesJson(maintainerProperties)).willReturn("json");
+        given(maintainerPropertiesJsonBuilder.buildMaintainerPropertiesJson(maintainerProperties)).willReturn("json");
         // WHEN
         underTest.doPost(request, response);
         // THEN

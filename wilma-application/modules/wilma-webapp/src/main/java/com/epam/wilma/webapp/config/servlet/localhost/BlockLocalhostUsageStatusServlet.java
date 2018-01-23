@@ -38,8 +38,13 @@ import com.epam.wilma.core.toggle.mode.LocalhostRequestProcessorToggle;
  */
 @Component
 public class BlockLocalhostUsageStatusServlet extends HttpServlet {
+
+    private final LocalhostRequestProcessorToggle localhostRequestProcessorToggle;
+
     @Autowired
-    private LocalhostRequestProcessorToggle localhostRequestProcessorToggle;
+    public BlockLocalhostUsageStatusServlet(LocalhostRequestProcessorToggle localhostRequestProcessorToggle) {
+        this.localhostRequestProcessorToggle = localhostRequestProcessorToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
