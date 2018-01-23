@@ -38,8 +38,12 @@ import java.io.PrintWriter;
 @Component
 public class MessageMarkingStatusServlet extends HttpServlet {
 
+    private final MessageMarkerConfigurationAccess configurationAccess;
+
     @Autowired
-    private MessageMarkerConfigurationAccess configurationAccess;
+    public MessageMarkingStatusServlet(MessageMarkerConfigurationAccess configurationAccess) {
+        this.configurationAccess = configurationAccess;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

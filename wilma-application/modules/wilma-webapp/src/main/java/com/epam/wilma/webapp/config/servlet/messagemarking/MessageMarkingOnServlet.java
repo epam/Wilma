@@ -41,11 +41,14 @@ public class MessageMarkingOnServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(MessageMarkingOnServlet.class);
 
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final MessageMarkerConfigurationAccess configurationAccess;
 
     @Autowired
-    private MessageMarkerConfigurationAccess configurationAccess;
+    public MessageMarkingOnServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, MessageMarkerConfigurationAccess configurationAccess) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.configurationAccess = configurationAccess;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

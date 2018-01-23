@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import net.lightbody.bmp.proxy.ProxyServer;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -53,9 +52,6 @@ public class ResponseMessageVolatilityStatusServletTest {
 
     @Mock
     private PrintWriter printWriter;
-
-    @Mock
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
     @BeforeMethod
     public void setUp() {

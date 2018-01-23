@@ -45,12 +45,16 @@ public class WilmaModeOnServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(WilmaModeOnServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final ProxyModeToggle proxyModeToggle;
+    private final RoutingService routingService;
+
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    @Autowired
-    private ProxyModeToggle proxyModeToggle;
-    @Autowired
-    private RoutingService routingService;
+    public WilmaModeOnServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, ProxyModeToggle proxyModeToggle, RoutingService routingService) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.proxyModeToggle = proxyModeToggle;
+        this.routingService = routingService;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

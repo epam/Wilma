@@ -41,8 +41,12 @@ public class ResponseMessageVolatilityOnServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(ResponseMessageVolatilityOnServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    public ResponseMessageVolatilityOnServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

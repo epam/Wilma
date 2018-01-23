@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -61,6 +62,8 @@ public class OperationModeStatusServletTest {
     @BeforeMethod
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "proxyModeToggle", proxyModeToggle);
+        Whitebox.setInternalState(underTest, "routingService", routingService);
         given(response.getWriter()).willReturn(printWriter);
     }
 

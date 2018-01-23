@@ -40,10 +40,14 @@ import com.epam.wilma.router.RoutingService;
 @Component
 public class OperationModeStatusServlet extends HttpServlet {
 
+    private final ProxyModeToggle proxyModeToggle;
+    private final RoutingService routingService;
+
     @Autowired
-    private ProxyModeToggle proxyModeToggle;
-    @Autowired
-    private RoutingService routingService;
+    public OperationModeStatusServlet(ProxyModeToggle proxyModeToggle, RoutingService routingService) {
+        this.proxyModeToggle = proxyModeToggle;
+        this.routingService = routingService;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

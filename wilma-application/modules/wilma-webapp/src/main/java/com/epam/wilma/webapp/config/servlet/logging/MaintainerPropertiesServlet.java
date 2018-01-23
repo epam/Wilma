@@ -44,7 +44,7 @@ import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 public class MaintainerPropertiesServlet extends HttpServlet {
 
     private static final String APPLICATION_JSON = "application/json";
-    private MaintainerProperties maintainerProperties;
+    private final MaintainerProperties maintainerProperties;
 
     private final MaintainerPropertiesJsonBuilder maintainerPropertiesJsonBuilder;
     private final WebAppConfigurationAccess configurationAccess;
@@ -53,13 +53,13 @@ public class MaintainerPropertiesServlet extends HttpServlet {
     public MaintainerPropertiesServlet(MaintainerPropertiesJsonBuilder maintainerPropertiesJsonBuilder, WebAppConfigurationAccess configurationAccess) {
         this.maintainerPropertiesJsonBuilder = maintainerPropertiesJsonBuilder;
         this.configurationAccess = configurationAccess;
+        this.maintainerProperties = this.configurationAccess.getProperties().getMaintainerProperties();
     }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(APPLICATION_JSON);
         PrintWriter out = resp.getWriter();
-        getMaintainerProperties();
         out.write(maintainerPropertiesJsonBuilder.buildMaintainerPropertiesJson(maintainerProperties));
         out.flush();
         out.close();
@@ -68,13 +68,6 @@ public class MaintainerPropertiesServlet extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
-    }
-
-    private void getMaintainerProperties() {
-        if (maintainerProperties == null) {
-            PropertyDTO properties = configurationAccess.getProperties();
-            maintainerProperties = properties.getMaintainerProperties();
-        }
     }
 
 }

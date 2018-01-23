@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -46,29 +47,30 @@ import com.epam.wilma.webapp.configuration.domain.Readme;
 public class WilmaReadmeServletTest {
 
     private Readme readme;
+    private WebAppConfigurationAccess configurationAccess;
+    private PropertyDTO properties;
+
     @Mock
     private HttpServletRequest request;
     @Mock
     private HttpServletResponse response;
     @Mock
     private PrintWriter writer;
-    @Mock
-    private WebAppConfigurationAccess configurationAccess;
-    @Mock
-    private PropertyDTO properties;
 
     @InjectMocks
     private WilmaReadmeServlet underTest;
 
     @BeforeMethod
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        properties = Mockito.mock(PropertyDTO.class);
         String readmeUrl = "url";
         String readmeText = "text";
         readme = new Readme(readmeUrl, readmeText);
-        given(response.getWriter()).willReturn(writer);
-        given(configurationAccess.getProperties()).willReturn(properties);
         given(properties.getReadme()).willReturn(readme);
+        configurationAccess = Mockito.mock(WebAppConfigurationAccess.class);
+        given(configurationAccess.getProperties()).willReturn(properties);
+        MockitoAnnotations.initMocks(this);
+        given(response.getWriter()).willReturn(writer);
     }
 
     @Test
