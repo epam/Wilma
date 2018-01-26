@@ -41,15 +41,19 @@ import com.google.gson.Gson;
 @Component
 public class SequenceInformationServlet extends HttpServlet {
 
+    private final SequenceInformationCollector sequenceInformationCollector;
+
     @Autowired
-    private SequenceInformationCollector sequenceInformationCollector;
+    public SequenceInformationServlet(SequenceInformationCollector sequenceInformationCollector) {
+        this.sequenceInformationCollector = sequenceInformationCollector;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        Map<String, Object> informations = sequenceInformationCollector.collectInformation();
-        out.write(getJson(informations));
+        Map<String, Object> information = sequenceInformationCollector.collectInformation();
+        out.write(getJson(information));
         out.flush();
         out.close();
     }

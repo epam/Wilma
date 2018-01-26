@@ -42,11 +42,15 @@ import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 public class SequenceHandlingCleanUpServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(SequenceHandlingCleanUpServlet.class);
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final SequenceMaintainer sequenceMaintainer;
 
     @Autowired
-    private SequenceMaintainer sequenceMaintainer;
+    public SequenceHandlingCleanUpServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, SequenceMaintainer sequenceMaintainer) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.sequenceMaintainer = sequenceMaintainer;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

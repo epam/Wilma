@@ -39,7 +39,7 @@ import org.testng.annotations.Test;
 
 import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
-import com.epam.wilma.maintainer.configuration.MaintanerConfigurationAccess;
+import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
 import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
 import com.epam.wilma.maintainer.domain.DeletedFileProvider;
 
@@ -63,7 +63,7 @@ public class FileLimitMaintainerTaskTest {
     @Mock
     private File logFolder;
     @Mock
-    private MaintanerConfigurationAccess configurationAccess;
+    private MaintainerConfigurationAccess configurationAccess;
     @Mock
     private MaintainerProperties properties;
     @Mock

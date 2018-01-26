@@ -43,10 +43,14 @@ public class SequenceHandlingOnServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(SequenceHandlingOnServlet.class);
 
+    private final SequenceHandlingToggle sequenceHandlingToggle;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+
     @Autowired
-    private SequenceHandlingToggle sequenceHandlingToggle;
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    public SequenceHandlingOnServlet(SequenceHandlingToggle sequenceHandlingToggle, UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
+        this.sequenceHandlingToggle = sequenceHandlingToggle;
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

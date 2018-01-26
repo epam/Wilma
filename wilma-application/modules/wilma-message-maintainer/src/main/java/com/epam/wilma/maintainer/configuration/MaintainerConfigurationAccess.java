@@ -32,7 +32,7 @@ import com.epam.wilma.properties.PropertyHolder;
  *
  */
 @Component
-public class MaintanerConfigurationAccess implements ConfigurationAccessBase {
+public class MaintainerConfigurationAccess implements ConfigurationAccessBase {
 
     private MaintainerProperties properties;
     @Autowired

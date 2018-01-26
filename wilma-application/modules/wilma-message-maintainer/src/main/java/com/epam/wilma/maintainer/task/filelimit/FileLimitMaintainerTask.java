@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 
 import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
-import com.epam.wilma.maintainer.configuration.MaintanerConfigurationAccess;
+import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
 import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
 import com.epam.wilma.maintainer.domain.DeletedFileProvider;
 import com.epam.wilma.maintainer.task.MaintainerTask;
@@ -55,7 +55,7 @@ public class FileLimitMaintainerTask implements MaintainerTask {
     @Autowired
     private LogFilePathProvider logFilePath;
     @Autowired
-    private MaintanerConfigurationAccess configurationAccess;
+    private MaintainerConfigurationAccess configurationAccess;
     @Autowired
     private JmsIndexDeletionProcessor indexDeletionProcessor;
     @Autowired

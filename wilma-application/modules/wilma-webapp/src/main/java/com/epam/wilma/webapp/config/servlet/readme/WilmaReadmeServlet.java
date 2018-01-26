@@ -41,18 +41,20 @@ import com.epam.wilma.webapp.configuration.domain.Readme;
 @Component
 public class WilmaReadmeServlet extends HttpServlet {
 
-    private final Readme readme;
+    private Readme readme;
+
+    private final WebAppConfigurationAccess webAppConfigurationAccess;
 
     @Autowired
-    public WilmaReadmeServlet(WebAppConfigurationAccess configurationAccess) {
-        PropertyDTO properties = configurationAccess.getProperties();
-        readme = properties.getReadme();
+    public WilmaReadmeServlet(WebAppConfigurationAccess webAppConfigurationAccess) {
+        this.webAppConfigurationAccess = webAppConfigurationAccess;
     }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
+        getReadme();
         out.write("{\"readmeUrl\":\"" + readme.getUrl() + "\", \"readmeText\":\"" + readme.getText() + "\"}");
         out.flush();
         out.close();
@@ -63,4 +65,10 @@ public class WilmaReadmeServlet extends HttpServlet {
         doGet(req, resp);
     }
 
+    private void getReadme() {
+        if (readme == null) {
+            PropertyDTO properties = webAppConfigurationAccess.getProperties();
+            readme = properties.getReadme();
+        }
+    }
 }

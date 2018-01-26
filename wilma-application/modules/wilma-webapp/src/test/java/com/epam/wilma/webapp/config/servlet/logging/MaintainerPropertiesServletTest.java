@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
@@ -49,8 +48,6 @@ import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 public class MaintainerPropertiesServletTest {
 
     private MaintainerProperties maintainerProperties;
-    private WebAppConfigurationAccess configurationAccess;
-    private PropertyDTO properties;
 
     @Mock
     private HttpServletRequest request;
@@ -60,19 +57,21 @@ public class MaintainerPropertiesServletTest {
     private PrintWriter printWriter;
     @Mock
     private MaintainerPropertiesJsonBuilder maintainerPropertiesJsonBuilder;
+    @Mock
+    private WebAppConfigurationAccess webAppConfigurationAccess;
+    @Mock
+    private PropertyDTO properties;
 
     @InjectMocks
     private MaintainerPropertiesServlet underTest;
 
     @BeforeMethod
     public void setUp() {
-        configurationAccess = Mockito.mock(WebAppConfigurationAccess.class);
-        properties = Mockito.mock(PropertyDTO.class);
-        given(configurationAccess.getProperties()).willReturn(properties);
-        given(properties.getMaintainerProperties()).willReturn(maintainerProperties);
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "maintainerPropertiesJsonBuilder", maintainerPropertiesJsonBuilder);
-        Whitebox.setInternalState(underTest, "maintainerProperties", maintainerProperties);
+        Whitebox.setInternalState(underTest, "webAppConfigurationAccess", webAppConfigurationAccess);
+        given(webAppConfigurationAccess.getProperties()).willReturn(properties);
+        given(properties.getMaintainerProperties()).willReturn(maintainerProperties);
     }
 
     @Test

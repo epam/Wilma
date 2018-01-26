@@ -39,8 +39,12 @@ import com.epam.wilma.core.toggle.sequence.SequenceHandlingToggle;
 @Component
 public class SequenceHandlingStatusServlet extends HttpServlet {
 
+    private final SequenceHandlingToggle sequenceHandlingToggle;
+
     @Autowired
-    private SequenceHandlingToggle sequenceHandlingToggle;
+    public SequenceHandlingStatusServlet(SequenceHandlingToggle sequenceHandlingToggle) {
+        this.sequenceHandlingToggle = sequenceHandlingToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

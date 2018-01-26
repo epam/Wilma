@@ -63,6 +63,8 @@ public class SequenceHandlingOffServletTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
+        Whitebox.setInternalState(underTest, "sequenceHandlingToggle", sequenceHandlingToggle);
+        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
     }
 
     @Test

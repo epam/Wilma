@@ -42,8 +42,12 @@ public class ServiceServlet extends HttpServlet {
     private static final String LEADING_TEXT = "/public/services/";
     private final Logger logger = LoggerFactory.getLogger(ServiceServlet.class);
 
+    private final ServiceMap serviceMap;
+
     @Autowired
-    private ServiceMap serviceMap;
+    public ServiceServlet(ServiceMap serviceMap) {
+        this.serviceMap = serviceMap;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

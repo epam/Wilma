@@ -32,6 +32,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -47,30 +48,30 @@ import com.epam.wilma.webapp.configuration.domain.Readme;
 public class WilmaReadmeServletTest {
 
     private Readme readme;
-    private WebAppConfigurationAccess configurationAccess;
-    private PropertyDTO properties;
-
     @Mock
     private HttpServletRequest request;
     @Mock
     private HttpServletResponse response;
     @Mock
     private PrintWriter writer;
+    @Mock
+    private WebAppConfigurationAccess webAppConfigurationAccess;
+    @Mock
+    private PropertyDTO properties;
 
     @InjectMocks
     private WilmaReadmeServlet underTest;
 
     @BeforeMethod
     public void setUp() throws IOException {
-        properties = Mockito.mock(PropertyDTO.class);
+        MockitoAnnotations.initMocks(this);
         String readmeUrl = "url";
         String readmeText = "text";
         readme = new Readme(readmeUrl, readmeText);
-        given(properties.getReadme()).willReturn(readme);
-        configurationAccess = Mockito.mock(WebAppConfigurationAccess.class);
-        given(configurationAccess.getProperties()).willReturn(properties);
-        MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "webAppConfigurationAccess", webAppConfigurationAccess);
         given(response.getWriter()).willReturn(writer);
+        given(webAppConfigurationAccess.getProperties()).willReturn(properties);
+        given(properties.getReadme()).willReturn(readme);
     }
 
     @Test
