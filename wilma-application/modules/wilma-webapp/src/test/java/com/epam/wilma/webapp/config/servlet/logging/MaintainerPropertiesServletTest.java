@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
