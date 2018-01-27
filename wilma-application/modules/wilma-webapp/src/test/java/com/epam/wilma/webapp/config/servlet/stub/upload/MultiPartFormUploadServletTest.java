@@ -53,17 +53,17 @@ import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 public class MultiPartFormUploadServletTest {
 
     @Mock
-    private MultiPartFileParser filesParser;
+    private MultiPartFileParser multiPartFileParser;
     @Mock
     private HttpServletResponse response;
     @Mock
     private HttpServletRequest request;
     @Mock
-    private PrintWriter writer;
+    private PrintWriter printWriter;
     @Mock
     private ServletFileUploadFactory servletFileUploadFactory;
     @Mock
-    private ServletFileUpload fileUpload;
+    private ServletFileUpload servletFileUpload;
     @Mock
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
@@ -72,12 +72,13 @@ public class MultiPartFormUploadServletTest {
     @BeforeMethod
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
-        given(response.getWriter()).willReturn(writer);
+        given(response.getWriter()).willReturn(printWriter);
         given(request.getContentType()).willReturn("multipart/");
-        given(servletFileUploadFactory.createInstance()).willReturn(fileUpload);
+        given(servletFileUploadFactory.createInstance()).willReturn(servletFileUpload);
         given(urlAccessLogMessageAssembler.assembleMessage(Mockito.any(HttpServletRequest.class), Mockito.anyString())).willReturn("message");
-        underTest = new MultiPartFormUploadServlet(servletFileUploadFactory, filesParser);
+        underTest = new MultiPartFormUploadServlet(servletFileUploadFactory, multiPartFileParser, urlAccessLogMessageAssembler);
         Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        Whitebox.setInternalState(underTest, "multiPartFileParser", multiPartFileParser);
     }
 
     @Test
@@ -98,7 +99,7 @@ public class MultiPartFormUploadServletTest {
         underTest.doGet(request, response);
         //THEN
         verify(response).setContentType("text/html");
-        verify(writer).println("You are not trying to upload");
+        verify(printWriter).println("You are not trying to upload");
     }
 
     @Test
@@ -106,13 +107,13 @@ public class MultiPartFormUploadServletTest {
         FileUploadException {
         //GIVEN
         given(request.getMethod()).willReturn("POST");
-        given(fileUpload.parseRequest(request)).willThrow(new FileUploadException());
+        given(servletFileUpload.parseRequest(request)).willThrow(new FileUploadException());
         //WHEN
         underTest.doGet(request, response);
         //THEN
         verify(response).setContentType("text/html");
         verify(response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        verify(writer).write(Matchers.anyString());
+        verify(printWriter).write(Matchers.anyString());
     }
 
     @Test
@@ -120,14 +121,14 @@ public class MultiPartFormUploadServletTest {
         //GIVEN
         List<FileItem> uploadedFiles = new ArrayList<>();
         given(request.getMethod()).willReturn("POST");
-        given(fileUpload.parseRequest(request)).willReturn(uploadedFiles);
-        given(filesParser.parseMultiPartFiles(uploadedFiles)).willThrow(new CannotUploadExternalResourceException("", null));
+        given(servletFileUpload.parseRequest(request)).willReturn(uploadedFiles);
+        given(multiPartFileParser.parseMultiPartFiles(uploadedFiles)).willThrow(new CannotUploadExternalResourceException("", null));
         //WHEN
         underTest.doGet(request, response);
         //THEN
         verify(response).setContentType("text/html");
         verify(response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        verify(writer).write(Matchers.anyString());
+        verify(printWriter).write(Matchers.anyString());
     }
 
     @Test
@@ -135,13 +136,13 @@ public class MultiPartFormUploadServletTest {
         //GIVEN
         List<FileItem> uploadedFiles = new ArrayList<>();
         given(request.getMethod()).willReturn("POST");
-        given(fileUpload.parseRequest(request)).willReturn(uploadedFiles);
-        given(filesParser.parseMultiPartFiles(uploadedFiles)).willReturn("");
+        given(servletFileUpload.parseRequest(request)).willReturn(uploadedFiles);
+        given(multiPartFileParser.parseMultiPartFiles(uploadedFiles)).willReturn("");
         //WHEN
         underTest.doGet(request, response);
         //THEN
         verify(response).setContentType("text/html");
-        verify(writer).write("");
+        verify(printWriter).write("");
     }
 
     @Test

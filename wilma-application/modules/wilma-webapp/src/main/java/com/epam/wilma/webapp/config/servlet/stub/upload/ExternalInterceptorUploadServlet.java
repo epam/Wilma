@@ -43,12 +43,22 @@ public class ExternalInterceptorUploadServlet extends CommonExternalUploadServle
     private static final String EXCEPTION_MESSAGE = "Could not upload external interceptor class: ";
     private static final Logger LOGGER = LoggerFactory.getLogger(ExternalInterceptorUploadServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final StubResourcePathProvider stubResourcePathProvider;
+    private final FileWriter fileWriter;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used to log the url access event
+     * @param stubResourcePathProvider provides the path of Wilma resources
+     * @param fileWriter saves the uploaded resource to Wilma
+     */
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    @Autowired
-    private StubResourcePathProvider stubResourcePathProvider;
-    @Autowired
-    private FileWriter fileWriter;
+    public ExternalInterceptorUploadServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, StubResourcePathProvider stubResourcePathProvider, FileWriter fileWriter) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.stubResourcePathProvider = stubResourcePathProvider;
+        this.fileWriter = fileWriter;
+    }
 
     @Override
     protected String returnHintMessage() {

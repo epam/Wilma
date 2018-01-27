@@ -46,6 +46,11 @@ public class MessageLoggingOnServlet extends HttpServlet {
     private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
     private final MessageLoggingToggle messageLoggingToggle;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used as log when the url is accessed
+     * @param messageLoggingToggle is used to toggle the message logger mode
+     */
     @Autowired
     public MessageLoggingOnServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, MessageLoggingToggle messageLoggingToggle) {
         this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;

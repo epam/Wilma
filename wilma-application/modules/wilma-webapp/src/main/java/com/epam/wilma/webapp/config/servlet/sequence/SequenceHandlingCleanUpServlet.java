@@ -46,6 +46,11 @@ public class SequenceHandlingCleanUpServlet extends HttpServlet {
     private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
     private final SequenceMaintainer sequenceMaintainer;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used to log the url access
+     * @param sequenceMaintainer provides access to the sequence handler
+     */
     @Autowired
     public SequenceHandlingCleanUpServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, SequenceMaintainer sequenceMaintainer) {
         this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;

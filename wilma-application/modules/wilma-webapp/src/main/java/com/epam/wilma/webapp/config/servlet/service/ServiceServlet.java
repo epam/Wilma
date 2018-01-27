@@ -44,6 +44,10 @@ public class ServiceServlet extends HttpServlet {
 
     private final ServiceMap serviceMap;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param serviceMap provides access to the map of services
+     */
     @Autowired
     public ServiceServlet(ServiceMap serviceMap) {
         this.serviceMap = serviceMap;

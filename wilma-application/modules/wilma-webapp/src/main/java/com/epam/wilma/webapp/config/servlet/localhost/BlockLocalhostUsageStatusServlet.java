@@ -41,6 +41,10 @@ public class BlockLocalhostUsageStatusServlet extends HttpServlet {
 
     private final LocalhostRequestProcessorToggle localhostRequestProcessorToggle;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param localhostRequestProcessorToggle is used to get information about the localhost blockage
+     */
     @Autowired
     public BlockLocalhostUsageStatusServlet(LocalhostRequestProcessorToggle localhostRequestProcessorToggle) {
         this.localhostRequestProcessorToggle = localhostRequestProcessorToggle;

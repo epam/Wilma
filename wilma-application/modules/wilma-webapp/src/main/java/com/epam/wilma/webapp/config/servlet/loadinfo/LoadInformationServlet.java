@@ -35,7 +35,7 @@ import com.epam.wilma.maintainer.task.helper.MessageFileCounter;
 import com.epam.wilma.safeguard.configuration.domain.QueueSizeProvider;
 
 /**
- * Servlet class for getting load informations for message page.
+ * Servlet class for getting load information for message page.
  * @author Tibor_Kovacs
  */
 @Component
@@ -45,6 +45,12 @@ public class LoadInformationServlet extends HttpServlet {
     private final DeletedFileProvider deletedFileProvider;
     private final MessageFileCounter messageCounter;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param queueSizeProvider provides size information of the message queue
+     * @param deletedFileProvider provides information about the number of files deleted during the last maintenance period
+     * @param messageCounter provides information about the existing messages logged and available in filesystem
+     */
     @Autowired
     public LoadInformationServlet(QueueSizeProvider queueSizeProvider, DeletedFileProvider deletedFileProvider, MessageFileCounter messageCounter) {
         this.queueSizeProvider = queueSizeProvider;

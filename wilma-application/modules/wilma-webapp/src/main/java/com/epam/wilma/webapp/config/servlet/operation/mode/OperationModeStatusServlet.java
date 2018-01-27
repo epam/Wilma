@@ -43,6 +43,11 @@ public class OperationModeStatusServlet extends HttpServlet {
     private final ProxyModeToggle proxyModeToggle;
     private final RoutingService routingService;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param proxyModeToggle is used to get information about the proxy mode
+     * @param routingService is used to get information about the stub mode
+     */
     @Autowired
     public OperationModeStatusServlet(ProxyModeToggle proxyModeToggle, RoutingService routingService) {
         this.proxyModeToggle = proxyModeToggle;

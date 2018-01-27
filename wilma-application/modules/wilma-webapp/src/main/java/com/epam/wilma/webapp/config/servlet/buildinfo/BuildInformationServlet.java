@@ -42,6 +42,10 @@ public class BuildInformationServlet extends HttpServlet {
 
     private final String wilmaBuildInformation;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param versionTitleProvider is the version title provider object
+     */
     @Autowired
     public BuildInformationServlet(VersionTitleProvider versionTitleProvider) {
         this.wilmaBuildInformation = versionTitleProvider.getVersionTitle();

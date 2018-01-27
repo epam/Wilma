@@ -45,6 +45,11 @@ public class WilmaLogHandlerServlet extends HttpServlet {
     private final LogFilePathProvider filePathProvider;
     private final LogFileHandler logFileHandler;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param filePathProvider provides the path of Wilma application log
+     * @param logFileHandler provides the handler of the aplication log
+     */
     @Autowired
     public WilmaLogHandlerServlet(LogFilePathProvider filePathProvider, LogFileHandler logFileHandler) {
         this.filePathProvider = filePathProvider;

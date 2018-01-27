@@ -38,12 +38,20 @@ import com.epam.wilma.webapp.stub.response.StubResponseWriter;
 @Component
 public class DispatcherServlet extends HttpServlet {
 
+    private final StubResponseWriter stubResponseWriter;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param stubResponseWriter will write the response
+     */
     @Autowired
-    private StubResponseWriter responseWriter;
+    public DispatcherServlet(StubResponseWriter stubResponseWriter) {
+        this.stubResponseWriter = stubResponseWriter;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        responseWriter.writeResponse(req, resp);
+        stubResponseWriter.writeResponse(req, resp);
     }
 
     @Override

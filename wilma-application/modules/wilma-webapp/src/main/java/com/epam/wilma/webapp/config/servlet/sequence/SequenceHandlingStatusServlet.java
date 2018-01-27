@@ -41,6 +41,10 @@ public class SequenceHandlingStatusServlet extends HttpServlet {
 
     private final SequenceHandlingToggle sequenceHandlingToggle;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param sequenceHandlingToggle provides information about the sequence handler mode
+     */
     @Autowired
     public SequenceHandlingStatusServlet(SequenceHandlingToggle sequenceHandlingToggle) {
         this.sequenceHandlingToggle = sequenceHandlingToggle;

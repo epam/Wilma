@@ -46,6 +46,11 @@ public class InterceptorOffServlet extends HttpServlet {
     private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
     private final InterceptorModeToggle interceptorModeToggle;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is the logger used during url access
+     * @param interceptorModeToggle is used to toggle the interceptor mode
+     */
     @Autowired
     public InterceptorOffServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, InterceptorModeToggle interceptorModeToggle) {
         this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;

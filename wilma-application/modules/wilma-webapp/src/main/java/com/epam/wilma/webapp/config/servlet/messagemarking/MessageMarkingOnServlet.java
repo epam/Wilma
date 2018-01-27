@@ -44,6 +44,11 @@ public class MessageMarkingOnServlet extends HttpServlet {
     private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
     private final MessageMarkerConfigurationAccess configurationAccess;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used as log the url access
+     * @param configurationAccess provides access to Wilma configuration
+     */
     @Autowired
     public MessageMarkingOnServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, MessageMarkerConfigurationAccess configurationAccess) {
         this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;

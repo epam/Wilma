@@ -18,44 +18,41 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
+import com.epam.wilma.router.RoutingService;
+import com.epam.wilma.stubconfig.StubDescriptorFactory;
+import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
+import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
 import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.stubconfig.StubResourceHolder;
-import com.epam.wilma.router.RoutingService;
-import com.epam.wilma.stubconfig.StubDescriptorFactory;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
-import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
-import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
+import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link ExternalStubConfigUploadServlet}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class ExternalStubConfigUploadServletTest {
 
     private static final String FILE_NAME = "resource file";
     private static final String EXCEPTION_MESSAGE = "Could not upload external stub configuration";
-    @Mock
-    private StubResourceHolder stubResourceHolder;
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -65,14 +62,16 @@ public class ExternalStubConfigUploadServletTest {
     @Mock
     private PrintWriter writer;
     @Mock
-    private StubDescriptorFactory stubConfigurationBuilder;
+    private StubDescriptorFactory stubDescriptorFactory;
     @Mock
     private RoutingService routingService;
     @Mock
     private ServiceMap serviceMap;
-
     @Mock
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    @Mock
+    private SequenceDescriptorHolder sequenceDescriptorHolder;
+
 
     @InjectMocks
     private ExternalStubConfigUploadServlet underTest;
@@ -80,6 +79,11 @@ public class ExternalStubConfigUploadServletTest {
     @BeforeMethod
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        Whitebox.setInternalState(underTest, "sequenceDescriptorHolder", sequenceDescriptorHolder);
+        Whitebox.setInternalState(underTest, "stubDescriptorFactory", stubDescriptorFactory);
+        Whitebox.setInternalState(underTest, "routingService", routingService);
+        Whitebox.setInternalState(underTest, "serviceMap", serviceMap);
         given(request.getInputStream()).willReturn(inputStream);
         given(request.getParameter("fileName")).willReturn(FILE_NAME);
         given(response.getWriter()).willReturn(writer);

@@ -49,6 +49,12 @@ public class ProxyModeOnServlet extends HttpServlet {
     private final ProxyModeToggle proxyModeToggle;
     private final RoutingService routingService;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used as log when the url is accessed
+     * @param proxyModeToggle is used to toggle the proxy mode
+     * @param routingService provides access to the routing service
+     */
     @Autowired
     public ProxyModeOnServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, ProxyModeToggle proxyModeToggle, RoutingService routingService) {
         this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;

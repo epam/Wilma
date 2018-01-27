@@ -44,6 +44,11 @@ public class MessageHandlerServlet extends HttpServlet {
     private final LogFilePathProvider filePathProvider;
     private final MessageFileHandler messageFileHandler;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param filePathProvider provides the path where the messages are logged
+     * @param messageFileHandler will write the list of messages
+     */
     @Autowired
     public MessageHandlerServlet(LogFilePathProvider filePathProvider, MessageFileHandler messageFileHandler) {
         this.filePathProvider = filePathProvider;

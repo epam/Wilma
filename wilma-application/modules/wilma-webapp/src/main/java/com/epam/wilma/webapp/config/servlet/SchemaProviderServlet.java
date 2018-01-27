@@ -50,6 +50,11 @@ public class SchemaProviderServlet extends HttpServlet {
     private final String stubConfigSchemaLocation;
     private final BufferedReaderFactory bufferedReaderFactory;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param stubConfigSchemaLocation provides the stub configuration schema location
+     * @param bufferedReaderFactory is able to read the schema
+     */
     @Autowired
     public SchemaProviderServlet(String stubConfigSchemaLocation, BufferedReaderFactory bufferedReaderFactory) {
         this.stubConfigSchemaLocation = stubConfigSchemaLocation;
@@ -71,12 +76,11 @@ public class SchemaProviderServlet extends HttpServlet {
     }
 
     private void writeSchemaFile(final PrintWriter out) {
-        try (BufferedReader reader = bufferedReaderFactory.createBufferedReader(stubConfigSchemaLocation)) {
+        try (BufferedReader bufferedReader = bufferedReaderFactory.createBufferedReader(stubConfigSchemaLocation)) {
             String currentLine;
-            while ((currentLine = reader.readLine()) != null) {
+            while ((currentLine = bufferedReader.readLine()) != null) {
                 out.write(currentLine);
             }
-            reader.close();
         } catch (IOException e) {
             logger.error(stubConfigSchemaLocation + " could not be read!", e);
         }

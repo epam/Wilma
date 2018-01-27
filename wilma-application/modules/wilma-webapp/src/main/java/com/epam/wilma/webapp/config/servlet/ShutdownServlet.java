@@ -49,6 +49,11 @@ public class ShutdownServlet extends HttpServlet {
     private final WilmaService wilmaService;
     private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param wilmaService is the Wilma service object
+     * @param urlAccessLogMessageAssembler is used to log the url access event
+     */
     @Autowired
     public ShutdownServlet(WilmaService wilmaService, UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
         this.wilmaService = wilmaService;

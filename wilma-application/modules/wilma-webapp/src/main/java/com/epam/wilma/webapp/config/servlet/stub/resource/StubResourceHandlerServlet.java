@@ -53,12 +53,22 @@ public class StubResourceHandlerServlet extends HttpServlet {
     private static final String HTML = "text/html";
     private static final String ERROR_MESSAGE_TEMPLATE = "Invalid type %s ! Valid types are: %s, %s, %s, %s, %s and %s!";
 
+    private final FileListJsonBuilder fileListJsonBuilder;
+    private final StubResourcePathProvider stubResourcePathProvider;
+    private final ResourceFileNameHandler resourceFileNameHandler;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param fileListJsonBuilder generates the file list in json format
+     * @param stubResourcePathProvider provides the path to the stub resource files
+     * @param resourceFileNameHandler provides object that handles the resource file names
+     */
     @Autowired
-    private FileListJsonBuilder fileJsonBuilder;
-    @Autowired
-    private StubResourcePathProvider stubResourcePathProvider;
-    @Autowired
-    private ResourceFileNameHandler resourceFileNameHandler;
+    public StubResourceHandlerServlet(FileListJsonBuilder fileListJsonBuilder, StubResourcePathProvider stubResourcePathProvider, ResourceFileNameHandler resourceFileNameHandler) {
+        this.fileListJsonBuilder = fileListJsonBuilder;
+        this.stubResourcePathProvider = stubResourcePathProvider;
+        this.resourceFileNameHandler = resourceFileNameHandler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
@@ -114,7 +124,7 @@ public class StubResourceHandlerServlet extends HttpServlet {
     private void writeFileNamesToResponse(final HttpServletResponse resp, final Path path) throws IOException {
         PrintWriter out = resp.getWriter();
         resp.setContentType(APPLICATION_JSON);
-        out.write(fileJsonBuilder.buildFileListJson(path.toFile()));
+        out.write(fileListJsonBuilder.buildFileListJson(path.toFile()));
         out.flush();
         out.close();
     }

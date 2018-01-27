@@ -90,6 +90,8 @@ public class StubDescriptorStatusServletTest {
     @BeforeMethod
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "routingService", routingService);
+        Whitebox.setInternalState(underTest, "expirationTimeProvider", expirationTimeProvider);
         sequenceDescriptors = new ArrayList<>();
         dialogDescriptors = new ArrayList<>();
         interceptorDescriptors = new ArrayList<>();

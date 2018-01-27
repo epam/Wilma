@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,7 +51,7 @@ public class StubConfigurationSaverServletTest {
     @Mock
     private HttpServletResponse response;
     @Mock
-    private StubConfigurationSaverService saverService;
+    private StubConfigurationSaverService stubConfigurationSaverService;
     @Mock
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
     @Mock
@@ -62,7 +63,9 @@ public class StubConfigurationSaverServletTest {
     @BeforeMethod
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
-        given(urlAccessLogMessageAssembler.assembleMessage(request, "Valami")).willReturn("Test log message");
+        Whitebox.setInternalState(underTest, "stubConfigurationSaverService", stubConfigurationSaverService);
+        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        given(urlAccessLogMessageAssembler.assembleMessage(request, "Something")).willReturn("Test log message");
         given(response.getWriter()).willReturn(writer);
     }
 
@@ -72,7 +75,7 @@ public class StubConfigurationSaverServletTest {
         //WHEN
         underTest.doGet(request, response);
         //THEN
-        verify(saverService).saveStubConfigurations();
+        verify(stubConfigurationSaverService).saveStubConfigurations();
         verify(response).setStatus(HttpServletResponse.SC_OK);
     }
 
@@ -82,7 +85,7 @@ public class StubConfigurationSaverServletTest {
         //WHEN
         underTest.doPost(request, response);
         //THEN
-        verify(saverService).saveStubConfigurations();
+        verify(stubConfigurationSaverService).saveStubConfigurations();
         verify(response).setStatus(HttpServletResponse.SC_OK);
     }
 
@@ -90,7 +93,7 @@ public class StubConfigurationSaverServletTest {
     public void testDoGetShouldCallSaveStubConfigurationsWhenAnExceptionOccurred() throws ServletException, IOException,
         DocumentTransformationException {
         //GIVEN
-        doThrow(new DocumentTransformationException("Test", new NullPointerException())).when(saverService).saveStubConfigurations();
+        doThrow(new DocumentTransformationException("Test", new NullPointerException())).when(stubConfigurationSaverService).saveStubConfigurations();
         //WHEN
         underTest.doGet(request, response);
         //THEN

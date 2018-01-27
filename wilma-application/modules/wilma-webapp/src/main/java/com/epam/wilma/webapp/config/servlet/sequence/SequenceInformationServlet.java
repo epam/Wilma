@@ -43,6 +43,10 @@ public class SequenceInformationServlet extends HttpServlet {
 
     private final SequenceInformationCollector sequenceInformationCollector;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param sequenceInformationCollector provides access to the living sequences
+     */
     @Autowired
     public SequenceInformationServlet(SequenceInformationCollector sequenceInformationCollector) {
         this.sequenceInformationCollector = sequenceInformationCollector;

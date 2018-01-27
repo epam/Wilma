@@ -44,6 +44,11 @@ public class BlockLocalhostUsageOnServlet extends HttpServlet {
     private final LocalhostRequestProcessorToggle localhostRequestProcessorToggle;
     private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param localhostRequestProcessorToggle is used to toggle the localhost blocker status
+     * @param urlAccessLogMessageAssembler is used as log when the url is accessed
+     */
     @Autowired
     public BlockLocalhostUsageOnServlet(LocalhostRequestProcessorToggle localhostRequestProcessorToggle,
             UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {

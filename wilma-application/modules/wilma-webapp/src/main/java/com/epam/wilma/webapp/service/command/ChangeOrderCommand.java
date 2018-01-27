@@ -59,7 +59,7 @@ public class ChangeOrderCommand implements StubDescriptorModificationCommand {
 
     @Override
     public Map<String, StubDescriptor> modify(Map<String, StubDescriptor> stubDescriptors) {
-        Map<String, StubDescriptor> updated = new LinkedHashMap<>(stubDescriptors);
+        Map<String, StubDescriptor> updated;
         updated = doTheMoving(direction, groupName, stubDescriptors, request);
         return updated;
     }
@@ -75,54 +75,62 @@ public class ChangeOrderCommand implements StubDescriptorModificationCommand {
         return result;
     }
 
-    private Map<String, StubDescriptor> moveStubDescriptorUpByOne(final String groupname, final Map<String, StubDescriptor> descriptors,
+    private Map<String, StubDescriptor> moveStubDescriptorUpByOne(final String groupName, final Map<String, StubDescriptor> descriptors,
             final HttpServletRequest request) {
         Map<String, StubDescriptor> result = new LinkedHashMap<>();
         String[] keys = descriptors.keySet().toArray(new String[descriptors.size()]);
-        if (keys != null && keys[0].equals(groupname)) {
-            result = descriptors;
-        } else {
-            StubDescriptor selectedDescriptor = descriptors.get(groupname);
-            if (selectedDescriptor == null) {
+        if (keys.length > 0) {
+            if (keys[0].equals(groupName)) { //if we are at the top already
                 result = descriptors;
-            } else {
-                for (int i = 0; i < keys.length; i++) {
-                    int j = i + 1;
-                    if ((j < keys.length) && (keys[j].equals(groupname))) {
-                        result.put(groupname, selectedDescriptor);
-                        result.put(keys[i], descriptors.get(keys[i]));
-                    } else {
-                        result.put(keys[i], descriptors.get(keys[i]));
+            } else { //moving up
+                StubDescriptor selectedDescriptor = descriptors.get(groupName);
+                if (selectedDescriptor == null) {
+                    result = descriptors;
+                } else {
+                    for (int i = 0; i < keys.length; i++) {
+                        int j = i + 1;
+                        if ((j < keys.length) && (keys[j].equals(groupName))) {
+                            result.put(groupName, selectedDescriptor);
+                            result.put(keys[i], descriptors.get(keys[i]));
+                        } else {
+                            result.put(keys[i], descriptors.get(keys[i]));
+                        }
                     }
+                    logger.info(urlAccessLogMessageAssembler.assembleMessage(request, groupName + " has moved UP."));
                 }
-                logger.info(urlAccessLogMessageAssembler.assembleMessage(request, groupname + " has moved to UP."));
             }
+        } else {
+            result = descriptors;
         }
         return result;
     }
 
-    private Map<String, StubDescriptor> moveStubDescriptorDownByOne(final String groupname, final Map<String, StubDescriptor> descriptors,
+    private Map<String, StubDescriptor> moveStubDescriptorDownByOne(final String groupName, final Map<String, StubDescriptor> descriptors,
             final HttpServletRequest request) {
         Map<String, StubDescriptor> result = new LinkedHashMap<>();
         String[] keys = descriptors.keySet().toArray(new String[descriptors.size()]);
-        if (keys != null && keys[descriptors.size() - 1].equals(groupname)) {
-            result = descriptors;
-        } else {
-            StubDescriptor selectedDescriptor = descriptors.get(groupname);
-            if (selectedDescriptor == null) {
+        if (keys.length > 0) {
+            if (keys[descriptors.size() - 1].equals(groupName)) {
                 result = descriptors;
             } else {
-                for (int i = 0; i < keys.length; i++) {
-                    int j = i + 1;
-                    if ((j < keys.length) && (keys[i].equals(groupname))) {
-                        result.put(keys[j], descriptors.get(keys[j]));
-                        result.put(groupname, selectedDescriptor);
-                    } else {
-                        result.put(keys[i], descriptors.get(keys[i]));
+                StubDescriptor selectedDescriptor = descriptors.get(groupName);
+                if (selectedDescriptor == null) {
+                    result = descriptors;
+                } else {
+                    for (int i = 0; i < keys.length; i++) {
+                        int j = i + 1;
+                        if ((j < keys.length) && (keys[i].equals(groupName))) {
+                            result.put(keys[j], descriptors.get(keys[j]));
+                            result.put(groupName, selectedDescriptor);
+                        } else {
+                            result.put(keys[i], descriptors.get(keys[i]));
+                        }
                     }
+                    logger.info(urlAccessLogMessageAssembler.assembleMessage(request, groupName + " has moved DOWN."));
                 }
-                logger.info(urlAccessLogMessageAssembler.assembleMessage(request, groupname + " has moved to DOWN."));
             }
+        } else {
+            result = descriptors;
         }
         return result;
     }

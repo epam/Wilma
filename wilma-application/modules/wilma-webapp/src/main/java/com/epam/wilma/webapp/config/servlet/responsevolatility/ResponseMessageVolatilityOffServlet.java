@@ -43,6 +43,10 @@ public class ResponseMessageVolatilityOffServlet extends HttpServlet {
 
     private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is sed to log the url access
+     */
     @Autowired
     public ResponseMessageVolatilityOffServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
         this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;

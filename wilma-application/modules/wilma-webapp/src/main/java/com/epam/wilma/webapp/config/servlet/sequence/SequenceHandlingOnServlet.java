@@ -46,6 +46,11 @@ public class SequenceHandlingOnServlet extends HttpServlet {
     private final SequenceHandlingToggle sequenceHandlingToggle;
     private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param sequenceHandlingToggle is used toggle the sequence handler mode
+     * @param urlAccessLogMessageAssembler is used to log the url access event
+     */
     @Autowired
     public SequenceHandlingOnServlet(SequenceHandlingToggle sequenceHandlingToggle, UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
         this.sequenceHandlingToggle = sequenceHandlingToggle;

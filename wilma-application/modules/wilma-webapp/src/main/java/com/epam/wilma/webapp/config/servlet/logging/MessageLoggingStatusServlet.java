@@ -42,6 +42,10 @@ public class MessageLoggingStatusServlet extends HttpServlet {
 
     private final MessageLoggingToggle messageLoggingToggle;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param messageLoggingToggle is used to get information about the message logger status
+     */
     @Autowired
     public MessageLoggingStatusServlet(MessageLoggingToggle messageLoggingToggle) {
         this.messageLoggingToggle = messageLoggingToggle;

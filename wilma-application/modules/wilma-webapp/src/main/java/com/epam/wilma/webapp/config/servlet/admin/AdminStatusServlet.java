@@ -38,16 +38,20 @@ import com.epam.wilma.webapp.security.HostValidatorService;
 @Component
 public class AdminStatusServlet extends HttpServlet {
 
-    private final HostValidatorService adminHosts;
+    private final HostValidatorService hostValidatorService;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param hostValidatorService is the host validator service
+     */
     @Autowired
-    public AdminStatusServlet(HostValidatorService adminHosts) {
-        this.adminHosts = adminHosts;
+    public AdminStatusServlet(HostValidatorService hostValidatorService) {
+        this.hostValidatorService = hostValidatorService;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        boolean adminStatus = adminHosts.isRequestFromAdmin(req);
+        boolean adminStatus = hostValidatorService.isRequestFromAdmin(req);
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
         PrintWriter printWriter = resp.getWriter();

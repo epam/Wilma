@@ -18,27 +18,22 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
+import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
+import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
-import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
-import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
+import javax.servlet.http.HttpServletRequest;
+import java.io.InputStream;
 
 /**
  * Servlet for uploading an external condition checker class from an url and placing it into
  * the corresponding resource folder.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class ExternalConditionCheckerUploadServlet extends CommonExternalUploadServlet {
@@ -46,16 +41,23 @@ public class ExternalConditionCheckerUploadServlet extends CommonExternalUploadS
     private static final String EXCEPTION_MESSAGE = "Could not upload external condition checker class: ";
     private static final Logger LOGGER = LoggerFactory.getLogger(ExternalConditionCheckerUploadServlet.class);
 
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    @Autowired
-    private StubResourcePathProvider stubResourcePathProvider;
-    @Autowired
-    private FileWriter fileWriter;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final StubResourcePathProvider stubResourcePathProvider;
+    private final FileWriter fileWriter;
 
-    @Override
-    protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
+    /**
+     * Constructor using spring framework to initialize the class.
+     *
+     * @param urlAccessLogMessageAssembler is used to log url access event
+     * @param stubResourcePathProvider     provides the path to Wilma resources
+     * @param fileWriter                   saves the arrived resource in Wilma
+     */
+    @Autowired
+    public ExternalConditionCheckerUploadServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler,
+                                                 StubResourcePathProvider stubResourcePathProvider, FileWriter fileWriter) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.stubResourcePathProvider = stubResourcePathProvider;
+        this.fileWriter = fileWriter;
     }
 
     @Override

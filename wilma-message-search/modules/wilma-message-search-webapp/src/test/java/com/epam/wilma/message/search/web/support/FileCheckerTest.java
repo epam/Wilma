@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
  */
 public class FileCheckerTest {
 
-    private static final String ERROR_POSTFIX = "DOESNOTEXIST";
+    private static final String ERROR_POSTFIX = "DOES_NOT_EXIST";
 
     @InjectMocks
     private FileChecker underTest;

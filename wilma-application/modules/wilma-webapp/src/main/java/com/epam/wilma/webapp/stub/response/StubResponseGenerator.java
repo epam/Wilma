@@ -54,19 +54,19 @@ public class StubResponseGenerator {
 
     private final Logger logger = LoggerFactory.getLogger(StubResponseGenerator.class);
     @Autowired
-    private MapBasedResponseDescriptorAccess responseDescriptorAccess;
+    private MapBasedResponseDescriptorAccess mapBasedResponseDescriptorAccess;
     @Autowired
-    private StackTraceToStringConverter stackTraceConverter;
+    private StackTraceToStringConverter stackTraceToStringConverter;
     @Autowired
     private WaitProvider waitProvider;
     @Autowired
-    private StubResponseHeaderConfigurer headerConfigurer;
+    private StubResponseHeaderConfigurer stubResponseHeaderConfigurer;
     @Autowired
-    private HttpServletRequestTransformer requestTransformer;
+    private HttpServletRequestTransformer httpServletRequestTransformer;
     @Autowired
-    private SequenceHeaderUtil headerCreator;
+    private SequenceHeaderUtil sequenceHeaderUtil;
     @Autowired
-    private SequenceMatcher matcher;
+    private SequenceMatcher sequenceMatcher;
     @Autowired
     private SequenceResponseGuard sequenceResponseGuard;
 
@@ -80,12 +80,12 @@ public class StubResponseGenerator {
         String wilmaLoggerId = req.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID);
         byte[] result = null;
         if (wilmaLoggerId != null) {
-            ResponseDescriptorDTO responseDescriptorDTO = responseDescriptorAccess.getResponseDescriptor(wilmaLoggerId);
+            ResponseDescriptorDTO responseDescriptorDTO = mapBasedResponseDescriptorAccess.getResponseDescriptor(wilmaLoggerId);
             Set<TemplateFormatterDescriptor> templateFormatterDescriptors = responseDescriptorDTO.getResponseDescriptor().getTemplateFormatters();
             //generate pure WilmaHttpRequest
-            WilmaHttpRequest wilmaRequest = requestTransformer.transformToWilmaHttpRequest(wilmaLoggerId, req, responseDescriptorDTO);
+            WilmaHttpRequest wilmaRequest = httpServletRequestTransformer.transformToWilmaHttpRequest(wilmaLoggerId, req, responseDescriptorDTO);
             //add wilma information to response header
-            headerConfigurer.addWilmaInfoToResponseHeader(req, resp, responseDescriptorDTO.getDialogDescriptorName());
+            stubResponseHeaderConfigurer.addWilmaInfoToResponseHeader(req, resp, responseDescriptorDTO.getDialogDescriptorName());
             //set headers generate response body
             result = generate(resp, responseDescriptorDTO, templateFormatterDescriptors, wilmaRequest);
         }
@@ -99,15 +99,15 @@ public class StubResponseGenerator {
         try {
             result = responseDescriptor.getAttributes().getTemplate().getResource();
             String sequenceKeysParam = wilmaRequest.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID);
-            String[] sequenceIds = headerCreator.resolveSequenceHeader(sequenceKeysParam);
-            WilmaSequence actualSequence = matcher.matchSequenceKeyWithDescriptor(responseDescriptor.getAttributes().getSequenceDescriptorKey(),
+            String[] sequenceIds = sequenceHeaderUtil.resolveSequenceHeader(sequenceKeysParam);
+            WilmaSequence actualSequence = sequenceMatcher.matchSequenceKeyWithDescriptor(responseDescriptor.getAttributes().getSequenceDescriptorKey(),
                     sequenceIds);
             if (actualSequence != null) {
                 wilmaRequest.setSequence(actualSequence);
                 sequenceResponseGuard.waitForResponses(wilmaRequest, actualSequence);
             }
             //set response status and content type
-            headerConfigurer.setResponseContentTypeAndStatus(resp, responseDescriptorDTO);
+            stubResponseHeaderConfigurer.setResponseContentTypeAndStatus(resp, responseDescriptorDTO);
             //run formatters, with formatters we can overwrite both mime type and status code
             if (templateFormatterDescriptors != null && !templateFormatterDescriptors.isEmpty()) {
                 for (TemplateFormatterDescriptor templateFormatterDescriptor : templateFormatterDescriptors) {
@@ -118,14 +118,14 @@ public class StubResponseGenerator {
             //delay response if necessary
             delayResponse(responseDescriptor.getAttributes().getDelay());
         } catch (Exception e) {
-            headerConfigurer.setErrorResponseContentTypeAndStatus(resp);
+            stubResponseHeaderConfigurer.setErrorResponseContentTypeAndStatus(resp);
             result = getErrorMessageWithStackTrace(e);
         }
         return result;
     }
 
     private byte[] getErrorMessageWithStackTrace(final Exception e) {
-        return stackTraceConverter.getStackTraceAsString(e).getBytes();
+        return stackTraceToStringConverter.getStackTraceAsString(e).getBytes();
     }
 
     private void delayResponse(final int delay) {
@@ -135,6 +135,7 @@ public class StubResponseGenerator {
             }
         } catch (InterruptedException e) {
             logger.error("Could not return response. Exception while thread.sleep", e);
+            Thread.currentThread().interrupt();
         }
     }
 

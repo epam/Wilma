@@ -38,8 +38,16 @@ import com.epam.wilma.webapp.service.StubConfigurationDropperService;
 @Component
 public class StubConfigurationDropperServlet extends HttpServlet {
 
+    private final StubConfigurationDropperService stubConfigurationDropperService;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param stubConfigurationDropperService provides access to service that can drop a stub configuration
+     */
     @Autowired
-    private StubConfigurationDropperService stubConfigurationDropperService;
+    public StubConfigurationDropperServlet(StubConfigurationDropperService stubConfigurationDropperService) {
+        this.stubConfigurationDropperService = stubConfigurationDropperService;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {

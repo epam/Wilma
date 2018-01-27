@@ -45,16 +45,26 @@ public class StubConfigurationSaverServlet extends HttpServlet {
 
     private static final String HTML = "text/html";
 
-    @Autowired
-    private StubConfigurationSaverService saverService;
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
     private final Logger logger = LoggerFactory.getLogger(StubConfigurationSaverServlet.class);
+
+    private final StubConfigurationSaverService stubConfigurationSaverService;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param stubConfigurationSaverService provides access to the service that saves the actual stub configuration
+     * @param urlAccessLogMessageAssembler is used to log the url access event
+     */
+    @Autowired
+    public StubConfigurationSaverServlet(StubConfigurationSaverService stubConfigurationSaverService, UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
+        this.stubConfigurationSaverService = stubConfigurationSaverService;
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         try {
-            saverService.saveStubConfigurations();
+            stubConfigurationSaverService.saveStubConfigurations();
             logger.info(urlAccessLogMessageAssembler.assembleMessage(req, SUCCESSFUL_ANSWER));
             writeResponse(resp, SUCCESSFUL_ANSWER, HttpServletResponse.SC_OK);
         } catch (Exception e) {

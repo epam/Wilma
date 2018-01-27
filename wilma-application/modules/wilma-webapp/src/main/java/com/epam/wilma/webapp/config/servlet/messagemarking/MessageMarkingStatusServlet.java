@@ -40,6 +40,10 @@ public class MessageMarkingStatusServlet extends HttpServlet {
 
     private final MessageMarkerConfigurationAccess configurationAccess;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param configurationAccess provides access to Wilma configuration
+     */
     @Autowired
     public MessageMarkingStatusServlet(MessageMarkerConfigurationAccess configurationAccess) {
         this.configurationAccess = configurationAccess;

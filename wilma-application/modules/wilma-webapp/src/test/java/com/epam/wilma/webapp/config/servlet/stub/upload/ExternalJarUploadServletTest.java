@@ -34,6 +34,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -64,7 +65,7 @@ public class ExternalJarUploadServletTest {
     @Mock
     private FileWriter fileWriter;
     @Mock
-    private PrintWriter writer;
+    private PrintWriter printWriter;
     @Mock
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
@@ -74,6 +75,9 @@ public class ExternalJarUploadServletTest {
     @BeforeMethod
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        Whitebox.setInternalState(underTest, "stubResourcePathProvider", stubResourcePathProvider);
+        Whitebox.setInternalState(underTest, "fileWriter", fileWriter);
         given(request.getInputStream()).willReturn(inputStream);
         given(stubResourcePathProvider.getJarPathAsString()).willReturn(PATH);
     }
@@ -92,24 +96,24 @@ public class ExternalJarUploadServletTest {
     public void testDoGetWhenExceptionShouldWriteErrorToResponse() throws ServletException, IOException {
         //GIVEN
         given(request.getParameter("fileName")).willReturn(FILE_NAME);
-        given(response.getWriter()).willReturn(writer);
+        given(response.getWriter()).willReturn(printWriter);
         willThrow(new CannotUploadExternalResourceException(EXCEPTION_MESSAGE, new Throwable())).given(fileWriter).write(inputStream,
                 PATH + "/" + FILE_NAME, EXCEPTION_MESSAGE);
         //WHEN
         underTest.doGet(request, response);
         //THEN
-        verify(writer).write(Mockito.anyString());
+        verify(printWriter).write(Mockito.anyString());
     }
 
     @Test
     public void testDoGetWhenFileNameIsNullShouldWriteErrorToResponse() throws ServletException, IOException {
         //GIVEN
         given(request.getParameter("fileName")).willReturn(null);
-        given(response.getWriter()).willReturn(writer);
+        given(response.getWriter()).willReturn(printWriter);
         //WHEN
         underTest.doGet(request, response);
         //THEN
-        verify(writer).write(underTest.returnHintMessage());
+        verify(printWriter).write(underTest.returnHintMessage());
     }
 
     @Test

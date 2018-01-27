@@ -76,6 +76,9 @@ public class TimeLimitMaintainerTask implements MaintainerTask {
     @Autowired
     private DeletedFileProvider deletedFileProvider;
 
+    /**
+     * Constructor that initialize the possible multiplier for the time limit.
+     */
     public TimeLimitMaintainerTask() {
         multipliers = new HashMap<>();
         multipliers.put('H', SECONDS_IN_HOUR);

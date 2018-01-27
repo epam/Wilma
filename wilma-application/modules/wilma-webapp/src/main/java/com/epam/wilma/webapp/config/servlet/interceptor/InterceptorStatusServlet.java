@@ -40,6 +40,10 @@ public class InterceptorStatusServlet extends HttpServlet {
 
     private final InterceptorModeToggle interceptorModeToggle;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param interceptorModeToggle is used to get information about the interceptor mode
+     */
     @Autowired
     public InterceptorStatusServlet(InterceptorModeToggle interceptorModeToggle) {
         this.interceptorModeToggle = interceptorModeToggle;

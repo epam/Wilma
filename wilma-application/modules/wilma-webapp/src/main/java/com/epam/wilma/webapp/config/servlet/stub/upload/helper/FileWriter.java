@@ -53,49 +53,68 @@ public class FileWriter {
     private JarValidator jarValidator;
 
     /**
-     * Writes the content of an inputstream to a file.
+     * Writes the content of an inputStream to a file.
      *
      * @param inputStream      the {@link InputStream} that will be written to the file
      * @param fileName         the name of the file the <tt>inputStream</tt> will be written
      * @param exceptionMessage the message that a {@link CannotUploadExternalResourceException} should be thrown with
      */
     public void write(final InputStream inputStream, final String fileName, final String exceptionMessage) {
-        String filePath = fileName;
-        InputStream inputStreamToWrite = inputStream;
-        try {
-            boolean isClass = fileName.endsWith(".class");
-            boolean isJar = fileName.endsWith(".jar");
-            if (isClass) {
-                InputStreamCopier inputStreamCopier = new InputStreamCopier(inputStream, fileName, exceptionMessage);
-                InputStream byteArrayInputStream = inputStreamCopier.createCopy();
-                filePath = classFilePathAssembler.createFilePath(byteArrayInputStream, fileName, exceptionMessage);
-                inputStreamToWrite = inputStreamCopier.createCopy();
-            } else if (isJar) {
-                InputStreamCopier inputStreamCopier = new InputStreamCopier(inputStream, fileName, exceptionMessage);
-                InputStream byteArrayInputStream = inputStreamCopier.createCopy();
-                jarValidator.validateInputStream(byteArrayInputStream);
-                inputStreamToWrite = inputStreamCopier.createCopy();
-            }
+        boolean isClass = fileName.endsWith(".class");
+        boolean isJar = fileName.endsWith(".jar");
+        if (isClass) {
+            writeClass(fileName, inputStream, exceptionMessage);
+        } else if (isJar) {
+            writeJar(fileName, inputStream, exceptionMessage);
+        } else {
+            writeOther(fileName, inputStream, exceptionMessage);
+        }
+    }
 
-            File newClass = fileFactory.createFile(filePath);
-            //if file is in a package, create folder structure
-            String directories = newClass.getParent();
-            if (directories != null && !directories.isEmpty()) {
-                (fileFactory.createFile(directories)).mkdirs();
-            }
-            // if file doesn't exist, then create it
-            if (!newClass.exists()) {
-                newClass.createNewFile();
-            }
-            FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(newClass);
-            IOUtils.copy(inputStreamToWrite, fos);
-            fos.close();
-            if (isClass || isJar) {
-                inputStreamToWrite.close();
-            }
+    private void writeOther(final String fileName, final InputStream inputStream, final String exceptionMessage) {
+        try {
+            writeFile(fileName, inputStream);
+        } catch (IOException e) {
+            throw new CannotUploadExternalResourceException(exceptionMessage + fileName, e);
+        }
+    }
+
+    private void writeClass(final String fileName, final InputStream inputStream, final String exceptionMessage) {
+        InputStreamCopier inputStreamCopier = new InputStreamCopier(inputStream, fileName, exceptionMessage);
+        InputStream byteArrayInputStream = inputStreamCopier.createCopy();
+        String filePath = classFilePathAssembler.createFilePath(byteArrayInputStream, fileName, exceptionMessage);
+        try (InputStream inputStreamToWrite = inputStreamCopier.createCopy()) {
+            writeFile(filePath, inputStreamToWrite);
         } catch (IOException e) {
             throw new CannotUploadExternalResourceException(exceptionMessage + filePath, e);
         }
+    }
+
+    private void writeJar(final String fileName, final InputStream inputStream, final String exceptionMessage) {
+        InputStreamCopier inputStreamCopier = new InputStreamCopier(inputStream, fileName, exceptionMessage);
+        InputStream byteArrayInputStream = inputStreamCopier.createCopy();
+        jarValidator.validateInputStream(byteArrayInputStream);
+        try (InputStream inputStreamToWrite = inputStreamCopier.createCopy()) {
+            writeFile(fileName, inputStreamToWrite);
+        } catch (IOException e) {
+            throw new CannotUploadExternalResourceException(exceptionMessage + fileName, e);
+        }
+    }
+
+    private void writeFile(final String filePath, final InputStream inputStreamToWrite) throws IOException {
+        File newClass = fileFactory.createFile(filePath);
+        //if file is in a package, create folder structure
+        String directories = newClass.getParent();
+        if (directories != null && !directories.isEmpty()) {
+            (fileFactory.createFile(directories)).mkdirs();
+        }
+        // if file doesn't exist, then create it
+        if (!newClass.exists()) {
+            newClass.createNewFile();
+        }
+        FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(newClass);
+        IOUtils.copy(inputStreamToWrite, fos);
+        fos.close();
     }
 
     private class InputStreamCopier {
