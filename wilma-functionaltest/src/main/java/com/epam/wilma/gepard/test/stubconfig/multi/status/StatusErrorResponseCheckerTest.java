@@ -38,7 +38,7 @@ import java.io.FileNotFoundException;
 public class StatusErrorResponseCheckerTest extends WilmaTestCase {
     private static final String STUB_CONFIG_FIRST_GROUP_NAME = "testFirst";
     private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
-    private static final String ERROR_MSG = "Wrong format of direction parameter. Nextstatus must be a boolean!";
+    private static final String ERROR_MSG = "Wrong format of direction parameter. \"nextstatus\" must be a boolean!";
 
     @Test
     public void testErrorResponseFromChangeStatusServlet() throws Exception {
