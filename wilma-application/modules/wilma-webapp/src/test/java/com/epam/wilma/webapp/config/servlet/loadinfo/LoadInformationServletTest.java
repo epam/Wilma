@@ -1,7 +1,7 @@
 package com.epam.wilma.webapp.config.servlet.loadinfo;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -69,6 +69,10 @@ public class LoadInformationServletTest {
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
+        Whitebox.setInternalState(underTest, "messageCounter", messageCounter);
+
     }
 
     @Test
@@ -85,10 +89,10 @@ public class LoadInformationServletTest {
     @Test
     public final void testDoPostSetsResponseTypeAndWritesResponseUsingLoadInformation() throws ServletException, IOException {
         // GIVEN
-        Whitebox.setInternalState(underTest, "deletedFilesCount", 0);
-        Whitebox.setInternalState(underTest, "messagesCount", 0);
-        Whitebox.setInternalState(underTest, "loggerQueueSize", 0L);
-        Whitebox.setInternalState(underTest, "responseQueueSize", 0L);
+        given(deletedFileProvider.getDeletedFilesCount()).willReturn(0);
+        given(messageCounter.getCountOfMessages()).willReturn(0);
+        given(queueSizeProvider.getResponseQueueSize()).willReturn(0L);
+        given(queueSizeProvider.getLoggerQueueSize()).willReturn(0L);
         given(response.getWriter()).willReturn(printWriter);
         // WHEN
         underTest.doPost(request, response);

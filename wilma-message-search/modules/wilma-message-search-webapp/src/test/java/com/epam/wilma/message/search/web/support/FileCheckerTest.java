@@ -1,6 +1,6 @@
 package com.epam.wilma.message.search.web.support;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
  */
 public class FileCheckerTest {
 
-    private static final String ERROR_POSTFIX = "NOTEXISTS";
+    private static final String ERROR_POSTFIX = "DOES_NOT_EXIST";
 
     @InjectMocks
     private FileChecker underTest;
@@ -104,7 +104,7 @@ public class FileCheckerTest {
     public void testCheckFilesExistsWithPairsWhenSearchResultIsNull() {
         //GIVEN
         //WHEN
-        List<List<String>> result = underTest.checkFilesExistsWithPairs(null);
+        underTest.checkFilesExistsWithPairs(null);
         //THEN
     }
 }

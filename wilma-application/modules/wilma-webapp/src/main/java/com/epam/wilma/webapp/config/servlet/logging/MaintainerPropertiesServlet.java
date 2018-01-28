@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.logging;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -44,18 +44,27 @@ import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 public class MaintainerPropertiesServlet extends HttpServlet {
 
     private static final String APPLICATION_JSON = "application/json";
-    private MaintainerProperties maintainerProperties;
 
+    private final MaintainerPropertiesJsonBuilder maintainerPropertiesJsonBuilder;
+    private final WebAppConfigurationAccess webAppConfigurationAccess;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param maintainerPropertiesJsonBuilder builds the json information about Wilma maintenance settings
+     * @param webAppConfigurationAccess gives access to the configurations
+     */
     @Autowired
-    private MaintainerPropertiesJsonBuilder maintainerPropertiesJsonBuilder;
-    @Autowired
-    private WebAppConfigurationAccess configurationAccess;
+    public MaintainerPropertiesServlet(MaintainerPropertiesJsonBuilder maintainerPropertiesJsonBuilder, WebAppConfigurationAccess webAppConfigurationAccess) {
+        this.maintainerPropertiesJsonBuilder = maintainerPropertiesJsonBuilder;
+        this.webAppConfigurationAccess = webAppConfigurationAccess;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(APPLICATION_JSON);
         PrintWriter out = resp.getWriter();
-        getMaintainerProperties();
+        PropertyDTO properties = webAppConfigurationAccess.getProperties();
+        MaintainerProperties maintainerProperties = properties.getMaintainerProperties();
         out.write(maintainerPropertiesJsonBuilder.buildMaintainerPropertiesJson(maintainerProperties));
         out.flush();
         out.close();
@@ -64,13 +73,6 @@ public class MaintainerPropertiesServlet extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
-    }
-
-    private void getMaintainerProperties() {
-        if (maintainerProperties == null) {
-            PropertyDTO properties = configurationAccess.getProperties();
-            maintainerProperties = properties.getMaintainerProperties();
-        }
     }
 
 }

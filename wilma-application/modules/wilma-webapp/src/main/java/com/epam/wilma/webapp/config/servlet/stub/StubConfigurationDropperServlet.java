@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -38,8 +38,16 @@ import com.epam.wilma.webapp.service.StubConfigurationDropperService;
 @Component
 public class StubConfigurationDropperServlet extends HttpServlet {
 
+    private final StubConfigurationDropperService stubConfigurationDropperService;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param stubConfigurationDropperService provides access to service that can drop a stub configuration
+     */
     @Autowired
-    private StubConfigurationDropperService stubConfigurationDropperService;
+    public StubConfigurationDropperServlet(StubConfigurationDropperService stubConfigurationDropperService) {
+        this.stubConfigurationDropperService = stubConfigurationDropperService;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {

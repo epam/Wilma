@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.localhost;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -40,11 +40,21 @@ import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
  */
 @Component
 public class BlockLocalhostUsageOffServlet extends HttpServlet {
+    private final Logger logger = LoggerFactory.getLogger(BlockLocalhostUsageOffServlet.class);
+    private final LocalhostRequestProcessorToggle localhostRequestProcessorToggle;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param localhostRequestProcessorToggle is used to toggle localhost usage blocking
+     * @param urlAccessLogMessageAssembler is the logger used when url is accessed
+     */
     @Autowired
-    private LocalhostRequestProcessorToggle localhostRequestProcessorToggle;
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    private final Logger logger = LoggerFactory.getLogger(BlockLocalhostUsageOffServlet.class);;
+    public BlockLocalhostUsageOffServlet(LocalhostRequestProcessorToggle localhostRequestProcessorToggle,
+            UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
+        this.localhostRequestProcessorToggle = localhostRequestProcessorToggle;
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

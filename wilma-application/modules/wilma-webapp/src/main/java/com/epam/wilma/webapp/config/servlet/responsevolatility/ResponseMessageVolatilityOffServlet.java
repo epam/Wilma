@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.responsevolatility;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -41,8 +41,16 @@ public class ResponseMessageVolatilityOffServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(ResponseMessageVolatilityOffServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is sed to log the url access
+     */
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    public ResponseMessageVolatilityOffServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

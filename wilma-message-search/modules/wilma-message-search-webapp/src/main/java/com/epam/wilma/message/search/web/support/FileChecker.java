@@ -1,6 +1,6 @@
 package com.epam.wilma.message.search.web.support;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -35,11 +35,11 @@ import org.springframework.stereotype.Component;
 public class FileChecker {
     private static final String RESP_FILE_END = "resp.txt";
     private static final String REQ_FILE_END = "req.txt";
-    private static final String ERROR_POSTFIX = "NOTEXISTS";
+    private static final String ERROR_POSTFIX = "DOES_NOT_EXIST";
     private final Logger logger = LoggerFactory.getLogger(FileChecker.class);
 
     /**
-     * Mark those files which not exists with ERROR_POSTFIX.
+     * Mark those files which does not exist with ERROR_POSTFIX.
      * @param searchResult contains those files which need to check
      * @return the modified list of searched files
      */
@@ -47,23 +47,21 @@ public class FileChecker {
         List<List<String>> result = new ArrayList<>();
         for (String actualFile : searchResult) {
             List<String> actualPair = new ArrayList<>();
-            actualPair = markFileIfNotExists(actualFile, actualPair);
-            String pair = getPair(actualFile);
-            actualPair = markFileIfNotExists(pair, actualPair);
+            markFileIfNotExists(actualFile, actualPair); //adds actualFile to actualPair, mark it with "does not exist" if necessary
+            String pairFile = getPair(actualFile);
+            markFileIfNotExists(pairFile, actualPair); //adds pairFile to actualPair, mark it with "does not exist" if necessary
             result.add(actualPair);
         }
         return result;
     }
 
-    private List<String> markFileIfNotExists(final String actualFile, final List<String> pair) {
-        List<String> result = pair;
+    private void markFileIfNotExists(final String actualFile, final List<String> pair) {
         if (new File(actualFile).exists()) {
-            result.add(actualFile);
+            pair.add(actualFile);
         } else {
-            result.add(actualFile.concat(ERROR_POSTFIX));
+            pair.add(actualFile.concat(ERROR_POSTFIX));
             logger.debug(actualFile + " does not exist!");
         }
-        return result;
     }
 
     private String getPair(final String filePath) {

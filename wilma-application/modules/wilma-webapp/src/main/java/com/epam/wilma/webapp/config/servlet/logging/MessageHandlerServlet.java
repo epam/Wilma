@@ -1,7 +1,7 @@
 package com.epam.wilma.webapp.config.servlet.logging;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -41,10 +41,19 @@ import com.epam.wilma.webapp.config.servlet.helper.MessageFileHandler;
 @Component
 public class MessageHandlerServlet extends HttpServlet {
 
+    private final LogFilePathProvider filePathProvider;
+    private final MessageFileHandler messageFileHandler;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param filePathProvider provides the path where the messages are logged
+     * @param messageFileHandler will write the list of messages
+     */
     @Autowired
-    private LogFilePathProvider filePathProvider;
-    @Autowired
-    private MessageFileHandler messageFileHandler;
+    public MessageHandlerServlet(LogFilePathProvider filePathProvider, MessageFileHandler messageFileHandler) {
+        this.filePathProvider = filePathProvider;
+        this.messageFileHandler = messageFileHandler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

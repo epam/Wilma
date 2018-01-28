@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.sequence;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -39,8 +39,16 @@ import com.epam.wilma.core.toggle.sequence.SequenceHandlingToggle;
 @Component
 public class SequenceHandlingStatusServlet extends HttpServlet {
 
+    private final SequenceHandlingToggle sequenceHandlingToggle;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param sequenceHandlingToggle provides information about the sequence handler mode
+     */
     @Autowired
-    private SequenceHandlingToggle sequenceHandlingToggle;
+    public SequenceHandlingStatusServlet(SequenceHandlingToggle sequenceHandlingToggle) {
+        this.sequenceHandlingToggle = sequenceHandlingToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

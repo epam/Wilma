@@ -1,7 +1,7 @@
 package com.epam.wilma.webapp.config.servlet;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -44,13 +44,22 @@ import com.epam.wilma.webapp.config.servlet.helper.BufferedReaderFactory;
 @Component
 public class SchemaProviderServlet extends HttpServlet {
 
-    @Autowired
-    @Qualifier("stubConfigSchemaLocation")
-    private String stubConfigSchemaLocation;
     private final Logger logger = LoggerFactory.getLogger(SchemaProviderServlet.class);
 
+    @Qualifier("stubConfigSchemaLocation")
+    private final String stubConfigSchemaLocation;
+    private final BufferedReaderFactory bufferedReaderFactory;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param stubConfigSchemaLocation provides the stub configuration schema location
+     * @param bufferedReaderFactory is able to read the schema
+     */
     @Autowired
-    private BufferedReaderFactory bufferedReaderFactory;
+    public SchemaProviderServlet(String stubConfigSchemaLocation, BufferedReaderFactory bufferedReaderFactory) {
+        this.stubConfigSchemaLocation = stubConfigSchemaLocation;
+        this.bufferedReaderFactory = bufferedReaderFactory;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
@@ -67,13 +76,11 @@ public class SchemaProviderServlet extends HttpServlet {
     }
 
     private void writeSchemaFile(final PrintWriter out) {
-        try {
-            BufferedReader reader = bufferedReaderFactory.createBufferedReader(stubConfigSchemaLocation);
-            String currentLine = "";
-            while ((currentLine = reader.readLine()) != null) {
+        try (BufferedReader bufferedReader = bufferedReaderFactory.createBufferedReader(stubConfigSchemaLocation)) {
+            String currentLine;
+            while ((currentLine = bufferedReader.readLine()) != null) {
                 out.write(currentLine);
             }
-            reader.close();
         } catch (IOException e) {
             logger.error(stubConfigSchemaLocation + " could not be read!", e);
         }

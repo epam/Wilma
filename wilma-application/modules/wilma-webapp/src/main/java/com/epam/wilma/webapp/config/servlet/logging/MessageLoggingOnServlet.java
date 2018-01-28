@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.logging;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -43,10 +43,19 @@ public class MessageLoggingOnServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(MessageLoggingOnServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final MessageLoggingToggle messageLoggingToggle;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used as log when the url is accessed
+     * @param messageLoggingToggle is used to toggle the message logger mode
+     */
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    @Autowired
-    private MessageLoggingToggle messageLoggingToggle;
+    public MessageLoggingOnServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, MessageLoggingToggle messageLoggingToggle) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.messageLoggingToggle = messageLoggingToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

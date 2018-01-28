@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.admin;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -38,12 +38,20 @@ import com.epam.wilma.webapp.security.HostValidatorService;
 @Component
 public class AdminStatusServlet extends HttpServlet {
 
+    private final HostValidatorService hostValidatorService;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param hostValidatorService is the host validator service
+     */
     @Autowired
-    private HostValidatorService adminHosts;
+    public AdminStatusServlet(HostValidatorService hostValidatorService) {
+        this.hostValidatorService = hostValidatorService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        boolean adminStatus = adminHosts.isRequestFromAdmin(req);
+        boolean adminStatus = hostValidatorService.isRequestFromAdmin(req);
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
         PrintWriter printWriter = resp.getWriter();

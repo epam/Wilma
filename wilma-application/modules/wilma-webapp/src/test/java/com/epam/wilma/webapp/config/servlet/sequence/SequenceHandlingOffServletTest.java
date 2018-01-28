@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.sequence;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -63,6 +63,8 @@ public class SequenceHandlingOffServletTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
+        Whitebox.setInternalState(underTest, "sequenceHandlingToggle", sequenceHandlingToggle);
+        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
     }
 
     @Test

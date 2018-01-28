@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub.upload;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -41,12 +41,22 @@ public class ExternalJarUploadServlet extends CommonExternalUploadServlet {
     private static final String EXCEPTION_MESSAGE = "Could not upload external jar: ";
     private static final Logger LOGGER = LoggerFactory.getLogger(ExternalJarUploadServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final StubResourcePathProvider stubResourcePathProvider;
+    private final FileWriter fileWriter;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used to log the url access event
+     * @param stubResourcePathProvider provides the path of Wilma resources
+     * @param fileWriter writes the uploaded jar file for Wilma
+     */
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    @Autowired
-    private StubResourcePathProvider stubResourcePathProvider;
-    @Autowired
-    private FileWriter fileWriter;
+    public ExternalJarUploadServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, StubResourcePathProvider stubResourcePathProvider, FileWriter fileWriter) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.stubResourcePathProvider = stubResourcePathProvider;
+        this.fileWriter = fileWriter;
+    }
 
     @Override
     protected String returnHintMessage() {

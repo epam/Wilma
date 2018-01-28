@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -47,10 +47,19 @@ import java.util.Map;
 @Component
 public class StubDescriptorStatusServlet extends HttpServlet {
 
+    private final RoutingService routingService;
+    private final ExpirationTimeProvider expirationTimeProvider;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param routingService provides access to the routing service
+     * @param expirationTimeProvider provides access to expiration info of the time based stub configurations
+     */
     @Autowired
-    private RoutingService routingService;
-    @Autowired
-    private ExpirationTimeProvider expirationTimeProvider;
+    public StubDescriptorStatusServlet(RoutingService routingService, ExpirationTimeProvider expirationTimeProvider) {
+        this.routingService = routingService;
+        this.expirationTimeProvider = expirationTimeProvider;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {

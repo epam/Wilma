@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.service.command;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 

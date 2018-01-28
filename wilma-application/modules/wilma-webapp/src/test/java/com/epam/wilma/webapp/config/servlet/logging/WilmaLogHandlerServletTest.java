@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.logging;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,7 +51,7 @@ public class WilmaLogHandlerServletTest {
     @Mock
     private LogFilePathProvider filePathProvider;
     @Mock
-    private LogFileHandler messageFileHandler;
+    private LogFileHandler logFileHandler;
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -64,6 +65,8 @@ public class WilmaLogHandlerServletTest {
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "filePathProvider", filePathProvider);
+        Whitebox.setInternalState(underTest, "logFileHandler", logFileHandler);
         given(filePathProvider.getAppLogFilePath()).willReturn(path);
     }
 
@@ -74,7 +77,7 @@ public class WilmaLogHandlerServletTest {
         // WHEN
         underTest.doGet(request, response);
         // THEN
-        verify(messageFileHandler).writeFileNamesToResponse(response, path);
+        verify(logFileHandler).writeFileNamesToResponse(response, path);
     }
 
     @Test
@@ -86,7 +89,7 @@ public class WilmaLogHandlerServletTest {
         // WHEN
         underTest.doGet(request, response);
         // THEN
-        verify(messageFileHandler).writeFileContentToResponse(request, response, pathInfo, path);
+        verify(logFileHandler).writeFileContentToResponse(request, response, pathInfo, path);
     }
 
     @Test
@@ -98,7 +101,7 @@ public class WilmaLogHandlerServletTest {
         // WHEN
         underTest.doPost(request, response);
         // THEN
-        verify(messageFileHandler).writeFileContentToResponse(request, response, pathInfo, path);
+        verify(logFileHandler).writeFileContentToResponse(request, response, pathInfo, path);
     }
 
 }

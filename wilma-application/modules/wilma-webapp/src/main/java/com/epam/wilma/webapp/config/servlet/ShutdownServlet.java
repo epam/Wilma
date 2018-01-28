@@ -1,7 +1,7 @@
 package com.epam.wilma.webapp.config.servlet;
 
 /*==========================================================================
- Copyright 2013-2017 EPAM Systems
+ Copyright since 2013, EPAM Systems
 
  This file is part of Wilma.
 
@@ -46,10 +46,19 @@ public class ShutdownServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(ShutdownServlet.class);
 
+    private final WilmaService wilmaService;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param wilmaService is the Wilma service object
+     * @param urlAccessLogMessageAssembler is used to log the url access event
+     */
     @Autowired
-    private WilmaService wilmaService;
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    public ShutdownServlet(WilmaService wilmaService, UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
+        this.wilmaService = wilmaService;
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

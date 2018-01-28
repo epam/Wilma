@@ -1,6 +1,6 @@
 package com.epam.wilma.maintainer.task.timelimit;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -42,7 +42,7 @@ import org.testng.annotations.Test;
 import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
-import com.epam.wilma.maintainer.configuration.MaintanerConfigurationAccess;
+import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
 import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
 import com.epam.wilma.maintainer.domain.DeletedFileProvider;
 
@@ -69,7 +69,7 @@ public class TimeLimitMaintainerTaskTest {
     @Mock
     private CurrentDateProvider currentDateProvider;
     @Mock
-    private MaintanerConfigurationAccess configurationAccess;
+    private MaintainerConfigurationAccess configurationAccess;
     @Mock
     private MaintainerProperties properties;
     @Mock

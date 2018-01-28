@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.service;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -42,8 +42,16 @@ public class ServiceServlet extends HttpServlet {
     private static final String LEADING_TEXT = "/public/services/";
     private final Logger logger = LoggerFactory.getLogger(ServiceServlet.class);
 
+    private final ServiceMap serviceMap;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param serviceMap provides access to the map of services
+     */
     @Autowired
-    private ServiceMap serviceMap;
+    public ServiceServlet(ServiceMap serviceMap) {
+        this.serviceMap = serviceMap;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

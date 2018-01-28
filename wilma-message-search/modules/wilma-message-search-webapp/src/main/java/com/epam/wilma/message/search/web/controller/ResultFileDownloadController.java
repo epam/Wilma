@@ -1,7 +1,7 @@
 package com.epam.wilma.message.search.web.controller;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -79,9 +79,10 @@ public class ResultFileDownloadController {
     }
 
     private void writeFileToResponse(final String filePath, final HttpServletResponse response) throws IOException {
-        InputStream is = new FileInputStream(filePath);
-        FileCopyUtils.copy(is, response.getOutputStream());
-        response.flushBuffer();
+        try (InputStream is = new FileInputStream(filePath)) {
+            FileCopyUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+        }
     }
 
     private void sendError(final IOException ex, final HttpServletResponse response) {

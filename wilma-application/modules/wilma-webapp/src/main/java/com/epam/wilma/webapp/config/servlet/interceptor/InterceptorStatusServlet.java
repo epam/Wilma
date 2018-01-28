@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.interceptor;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -38,8 +38,16 @@ import java.io.PrintWriter;
 @Component
 public class InterceptorStatusServlet extends HttpServlet {
 
+    private final InterceptorModeToggle interceptorModeToggle;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param interceptorModeToggle is used to get information about the interceptor mode
+     */
     @Autowired
-    private InterceptorModeToggle interceptorModeToggle;
+    public InterceptorStatusServlet(InterceptorModeToggle interceptorModeToggle) {
+        this.interceptorModeToggle = interceptorModeToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

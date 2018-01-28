@@ -1,7 +1,7 @@
 package com.epam.wilma.stubconfig.condition.checker.general.url;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 

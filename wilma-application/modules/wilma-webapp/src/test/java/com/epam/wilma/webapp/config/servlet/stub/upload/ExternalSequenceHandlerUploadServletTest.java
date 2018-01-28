@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub.upload;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -34,6 +34,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -70,6 +71,8 @@ public class ExternalSequenceHandlerUploadServletTest {
     @BeforeMethod
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "stubResourcePathProvider", stubResourcePathProvider);
+        Whitebox.setInternalState(underTest, "fileWriter", fileWriter);
         given(request.getInputStream()).willReturn(inputStream);
         given(stubResourcePathProvider.getSequenceHandlerPathAsString()).willReturn(PATH);
     }

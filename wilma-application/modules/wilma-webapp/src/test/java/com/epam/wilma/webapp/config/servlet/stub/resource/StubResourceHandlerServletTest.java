@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub.resource;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -59,7 +60,7 @@ public class StubResourceHandlerServletTest {
     private static final String ERROR_MESSAGE_TEMPLATE = "Invalid type %s ! Valid types are: %s, %s, %s, %s, %s and %s!";
 
     @Mock
-    private FileListJsonBuilder fileJsonBuilder;
+    private FileListJsonBuilder fileListJsonBuilder;
     @Mock
     private StubResourcePathProvider stubResourcePathProvider;
     @Mock
@@ -81,6 +82,9 @@ public class StubResourceHandlerServletTest {
     @BeforeMethod
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "fileListJsonBuilder", fileListJsonBuilder);
+        Whitebox.setInternalState(underTest, "stubResourcePathProvider", stubResourcePathProvider);
+        Whitebox.setInternalState(underTest, "resourceFileNameHandler", resourceFileNameHandler);
         given(response.getWriter()).willReturn(writer);
     }
 
@@ -101,7 +105,7 @@ public class StubResourceHandlerServletTest {
         given(request.getParameter(TYPE_PARAMETER)).willReturn(INTERCEPTOR);
         given(stubResourcePathProvider.getInterceptorPath()).willReturn(path);
         given(path.toFile()).willReturn(file);
-        given(fileJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
+        given(fileListJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
         //WHEN
         underTest.doGet(request, response);
         //THEN
@@ -116,7 +120,7 @@ public class StubResourceHandlerServletTest {
         given(request.getParameter(TYPE_PARAMETER)).willReturn(CONDITION_CHECKER);
         given(stubResourcePathProvider.getConditionCheckerPath()).willReturn(path);
         given(path.toFile()).willReturn(file);
-        given(fileJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
+        given(fileListJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
         //WHEN
         underTest.doGet(request, response);
         //THEN
@@ -131,7 +135,7 @@ public class StubResourceHandlerServletTest {
         given(request.getParameter(TYPE_PARAMETER)).willReturn(TEMPLATE_FORMATTER);
         given(stubResourcePathProvider.getTemplateFormatterPath()).willReturn(path);
         given(path.toFile()).willReturn(file);
-        given(fileJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
+        given(fileListJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
         //WHEN
         underTest.doGet(request, response);
         //THEN
@@ -145,7 +149,7 @@ public class StubResourceHandlerServletTest {
         given(request.getParameter(TYPE_PARAMETER)).willReturn(TEMPLATE);
         given(stubResourcePathProvider.getTemplatesPath()).willReturn(path);
         given(path.toFile()).willReturn(file);
-        given(fileJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
+        given(fileListJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
         //WHEN
         underTest.doGet(request, response);
         //THEN
@@ -159,7 +163,7 @@ public class StubResourceHandlerServletTest {
         given(request.getParameter(TYPE_PARAMETER)).willReturn(JAR);
         given(stubResourcePathProvider.getJarPath()).willReturn(path);
         given(path.toFile()).willReturn(file);
-        given(fileJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
+        given(fileListJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
         //WHEN
         underTest.doGet(request, response);
         //THEN
@@ -173,7 +177,7 @@ public class StubResourceHandlerServletTest {
         given(request.getParameter(TYPE_PARAMETER)).willReturn(SEQUENCE_HANDLER);
         given(stubResourcePathProvider.getSequenceHandlerPath()).willReturn(path);
         given(path.toFile()).willReturn(file);
-        given(fileJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
+        given(fileListJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
         //WHEN
         underTest.doGet(request, response);
         //THEN

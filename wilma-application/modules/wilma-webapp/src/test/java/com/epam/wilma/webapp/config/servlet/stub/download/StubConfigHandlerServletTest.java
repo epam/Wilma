@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub.download;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
@@ -70,6 +71,9 @@ public class StubConfigHandlerServletTest {
     @BeforeMethod
     public void setUp() throws IOException {
         initMocks(this);
+        Whitebox.setInternalState(underTest, "domBasedDocumentTransformer", domBasedDocumentTransformer);
+        Whitebox.setInternalState(underTest, "stubResourceHolder", stubResourceHolder);
+        Whitebox.setInternalState(underTest, "byteArrayConverter", byteArrayConverter);
         given(response.getWriter()).willReturn(writer);
         given(request.getParameter("groupname")).willReturn("test");
     }

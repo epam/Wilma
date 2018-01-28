@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.readme;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -18,30 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.io.PrintWriter;
+import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
+import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
+import com.epam.wilma.webapp.configuration.domain.Readme;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
-import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
-import com.epam.wilma.webapp.configuration.domain.Readme;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link WilmaReadmeServlet}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class WilmaReadmeServletTest {
 
@@ -53,7 +52,7 @@ public class WilmaReadmeServletTest {
     @Mock
     private PrintWriter writer;
     @Mock
-    private WebAppConfigurationAccess configurationAccess;
+    private WebAppConfigurationAccess webAppConfigurationAccess;
     @Mock
     private PropertyDTO properties;
 
@@ -66,8 +65,9 @@ public class WilmaReadmeServletTest {
         String readmeUrl = "url";
         String readmeText = "text";
         readme = new Readme(readmeUrl, readmeText);
+        Whitebox.setInternalState(underTest, "webAppConfigurationAccess", webAppConfigurationAccess);
         given(response.getWriter()).willReturn(writer);
-        given(configurationAccess.getProperties()).willReturn(properties);
+        given(webAppConfigurationAccess.getProperties()).willReturn(properties);
         given(properties.getReadme()).willReturn(readme);
     }
 

@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.readme;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -41,16 +41,23 @@ import com.epam.wilma.webapp.configuration.domain.Readme;
 @Component
 public class WilmaReadmeServlet extends HttpServlet {
 
-    private Readme readme;
+    private final WebAppConfigurationAccess webAppConfigurationAccess;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param webAppConfigurationAccess is used to log the url access
+     */
     @Autowired
-    private WebAppConfigurationAccess configurationAccess;
+    public WilmaReadmeServlet(WebAppConfigurationAccess webAppConfigurationAccess) {
+        this.webAppConfigurationAccess = webAppConfigurationAccess;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        getReadme();
+        PropertyDTO properties = webAppConfigurationAccess.getProperties();
+        Readme readme = properties.getReadme();
         out.write("{\"readmeUrl\":\"" + readme.getUrl() + "\", \"readmeText\":\"" + readme.getText() + "\"}");
         out.flush();
         out.close();
@@ -61,10 +68,4 @@ public class WilmaReadmeServlet extends HttpServlet {
         doGet(req, resp);
     }
 
-    private void getReadme() {
-        if (readme == null) {
-            PropertyDTO properties = configurationAccess.getProperties();
-            readme = properties.getReadme();
-        }
-    }
 }

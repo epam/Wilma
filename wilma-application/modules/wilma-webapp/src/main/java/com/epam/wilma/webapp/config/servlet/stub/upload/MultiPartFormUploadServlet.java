@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub.upload;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -46,21 +46,22 @@ import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 public class MultiPartFormUploadServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(MultiPartFormUploadServlet.class);
 
-    private final ServletFileUpload upload;
-    private final MultiPartFileParser filesParser;
-
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final ServletFileUpload servletFileUpload;
+    private final MultiPartFileParser multiPartFileParser;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
     /**
      * Creates a new {@link MultiPartFormUploadServlet} instance using parameters.
      * @param servletFileUploadFactory is necessary to create a new {@link ServletFileUpload} instance
-     * @param filesParser is the list of uploaded multipart files
+     * @param multiPartFileParser is the list of uploaded multipart files
+     * @param urlAccessLogMessageAssembler is used to log url access event
      */
     @Autowired
-    public MultiPartFormUploadServlet(final ServletFileUploadFactory servletFileUploadFactory, final MultiPartFileParser filesParser) {
-        upload = servletFileUploadFactory.createInstance();
-        this.filesParser = filesParser;
+    public MultiPartFormUploadServlet(final ServletFileUploadFactory servletFileUploadFactory, final MultiPartFileParser multiPartFileParser,
+                                      final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
+        this.servletFileUpload = servletFileUploadFactory.createInstance();
+        this.multiPartFileParser = multiPartFileParser;
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
     }
 
     @Override
@@ -73,8 +74,8 @@ public class MultiPartFormUploadServlet extends HttpServlet {
             out.println("You are not trying to upload");
         } else {
             try {
-                List<FileItem> fields = upload.parseRequest(request);
-                String msg = filesParser.parseMultiPartFiles(fields);
+                List<FileItem> fields = servletFileUpload.parseRequest(request);
+                String msg = multiPartFileParser.parseMultiPartFiles(fields);
                 LOGGER.info(urlAccessLogMessageAssembler.assembleMessage(request, msg));
                 out.write(msg);
             } catch (Exception e) {

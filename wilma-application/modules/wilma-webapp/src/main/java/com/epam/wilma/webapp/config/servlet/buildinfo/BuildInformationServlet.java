@@ -1,7 +1,7 @@
 package com.epam.wilma.webapp.config.servlet.buildinfo;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -40,16 +40,21 @@ import com.epam.wilma.common.helper.VersionTitleProvider;
 @Component
 public class BuildInformationServlet extends HttpServlet {
 
-    private String wilmaBuildInformation;
+    private final String wilmaBuildInformation;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param versionTitleProvider is the version title provider object
+     */
     @Autowired
-    private VersionTitleProvider versionTitleProvider;
+    public BuildInformationServlet(VersionTitleProvider versionTitleProvider) {
+        this.wilmaBuildInformation = versionTitleProvider.getVersionTitle();
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        getWilmaBuildInformation();
         out.write("{\"wilmaVersion\":\"" + wilmaBuildInformation + "\"}");
         out.flush();
         out.close();
@@ -60,9 +65,4 @@ public class BuildInformationServlet extends HttpServlet {
         doGet(req, resp);
     }
 
-    private void getWilmaBuildInformation() {
-        if (wilmaBuildInformation == null) {
-            wilmaBuildInformation = versionTitleProvider.getVersionTitle();
-        }
-    }
 }

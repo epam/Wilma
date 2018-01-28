@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -90,6 +90,8 @@ public class StubDescriptorStatusServletTest {
     @BeforeMethod
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "routingService", routingService);
+        Whitebox.setInternalState(underTest, "expirationTimeProvider", expirationTimeProvider);
         sequenceDescriptors = new ArrayList<>();
         dialogDescriptors = new ArrayList<>();
         interceptorDescriptors = new ArrayList<>();

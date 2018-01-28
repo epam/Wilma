@@ -1,7 +1,7 @@
 package com.epam.wilma.maintainer.task.timelimit;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
 import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
-import com.epam.wilma.maintainer.configuration.MaintanerConfigurationAccess;
+import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
 import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
 import com.epam.wilma.maintainer.domain.DeletedFileProvider;
 import com.epam.wilma.maintainer.task.MaintainerTask;
@@ -55,13 +55,7 @@ public class TimeLimitMaintainerTask implements MaintainerTask {
     private static final int SECONDS_IN_DAY = 86400;
     private static final int TIMESTAMP_SUBSTRING = 14;
     private final Logger logger = LoggerFactory.getLogger(TimeLimitMaintainerTask.class);
-    private final Map<Character, Integer> multipliers = new HashMap<Character, Integer>() {
-        {
-            put('H', SECONDS_IN_HOUR);
-            put('D', SECONDS_IN_DAY);
-            put('S', 1);
-        }
-    };
+    private final Map<Character, Integer> multipliers;
     private String timeLimit;
     private Integer timeLimitInSeconds;
 
@@ -76,11 +70,21 @@ public class TimeLimitMaintainerTask implements MaintainerTask {
     @Autowired
     private CurrentDateProvider currentDateProvider;
     @Autowired
-    private MaintanerConfigurationAccess configurationAccess;
+    private MaintainerConfigurationAccess configurationAccess;
     @Autowired
     private JmsIndexDeletionProcessor indexDeletionProcessor;
     @Autowired
     private DeletedFileProvider deletedFileProvider;
+
+    /**
+     * Constructor that initialize the possible multiplier for the time limit.
+     */
+    public TimeLimitMaintainerTask() {
+        multipliers = new HashMap<>();
+        multipliers.put('H', SECONDS_IN_HOUR);
+        multipliers.put('D', SECONDS_IN_DAY);
+        multipliers.put('S', 1);
+    }
 
     @Override
     public void run() {

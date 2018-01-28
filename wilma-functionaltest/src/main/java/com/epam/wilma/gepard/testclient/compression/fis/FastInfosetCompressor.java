@@ -1,6 +1,6 @@
 package com.epam.wilma.gepard.testclient.compression.fis;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 

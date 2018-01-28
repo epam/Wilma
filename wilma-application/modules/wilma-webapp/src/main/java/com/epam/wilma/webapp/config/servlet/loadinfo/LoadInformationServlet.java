@@ -1,7 +1,7 @@
 package com.epam.wilma.webapp.config.servlet.loadinfo;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -35,29 +35,39 @@ import com.epam.wilma.maintainer.task.helper.MessageFileCounter;
 import com.epam.wilma.safeguard.configuration.domain.QueueSizeProvider;
 
 /**
- * Servlet class for getting load informations for message page.
+ * Servlet class for getting load information for message page.
  * @author Tibor_Kovacs
  */
 @Component
 public class LoadInformationServlet extends HttpServlet {
 
-    private long responseQueueSize;
-    private long loggerQueueSize;
-    private int deletedFilesCount;
-    private int messagesCount;
+    private final QueueSizeProvider queueSizeProvider;
+    private final DeletedFileProvider deletedFileProvider;
+    private final MessageFileCounter messageCounter;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param queueSizeProvider provides size information of the message queue
+     * @param deletedFileProvider provides information about the number of files deleted during the last maintenance period
+     * @param messageCounter provides information about the existing messages logged and available in filesystem
+     */
     @Autowired
-    private QueueSizeProvider queueSizeProvider;
-    @Autowired
-    private DeletedFileProvider deletedFileProvider;
-    @Autowired
-    private MessageFileCounter messageCounter;
+    public LoadInformationServlet(QueueSizeProvider queueSizeProvider, DeletedFileProvider deletedFileProvider, MessageFileCounter messageCounter) {
+        this.queueSizeProvider = queueSizeProvider;
+        this.deletedFileProvider = deletedFileProvider;
+        this.messageCounter = messageCounter;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        getLoadInformations();
+
+        int deletedFilesCount = deletedFileProvider.getDeletedFilesCount();
+        int messagesCount = messageCounter.getCountOfMessages();
+        long responseQueueSize = queueSizeProvider.getResponseQueueSize();
+        long loggerQueueSize = queueSizeProvider.getLoggerQueueSize();
+
         out.write("{\"deletedFilesCount\":" + deletedFilesCount + "," + "\"countOfMessages\":" + messagesCount + "," + "\"responseQueueSize\":"
                 + responseQueueSize + "," + "\"loggerQueueSize\":" + loggerQueueSize + "}");
         out.flush();
@@ -67,13 +77,6 @@ public class LoadInformationServlet extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
-    }
-
-    private void getLoadInformations() {
-        deletedFilesCount = deletedFileProvider.getDeletedFilesCount();
-        messagesCount = messageCounter.getCountOfMessages();
-        responseQueueSize = queueSizeProvider.getResponseQueueSize();
-        loggerQueueSize = queueSizeProvider.getLoggerQueueSize();
     }
 
 }

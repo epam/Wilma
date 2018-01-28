@@ -1,7 +1,7 @@
 package com.epam.wilma.webapp.config.servlet.stub.download;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -55,20 +55,30 @@ public class StubConfigHandlerServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(StubConfigHandlerServlet.class);
 
+    private final DomBasedDocumentTransformer domBasedDocumentTransformer;
+    private final StubResourceHolder stubResourceHolder;
+    private final ByteArrayConverter byteArrayConverter;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param domBasedDocumentTransformer transfer the stub configuration into xml
+     * @param stubResourceHolder provides the actual stub configuration
+     * @param byteArrayConverter converts the xml into a byte array
+     */
     @Autowired
-    private DomBasedDocumentTransformer domBasedDocumentTransformer;
-    @Autowired
-    private StubResourceHolder stubResourceHolder;
-    @Autowired
-    private ByteArrayConverter byteArrayConverter;
+    public StubConfigHandlerServlet(DomBasedDocumentTransformer domBasedDocumentTransformer, StubResourceHolder stubResourceHolder, ByteArrayConverter byteArrayConverter) {
+        this.domBasedDocumentTransformer = domBasedDocumentTransformer;
+        this.stubResourceHolder = stubResourceHolder;
+        this.byteArrayConverter = byteArrayConverter;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        String sourceParamerter = req.getParameter("groupname");
-        if (sourceParamerter != null) {
-            byte[] xml = getActualUsedXMLDocument(sourceParamerter);
+        String sourceParameter = req.getParameter("groupname");
+        if (sourceParameter != null) {
+            byte[] xml = getActualUsedXMLDocument(sourceParameter);
             if (xml != null) {
-                setHeader(req, resp, sourceParamerter);
+                setHeader(req, resp, sourceParameter);
                 writeStubConfigToResponse(req, resp, xml);
             } else {
                 writeErrorToResponse(resp);

@@ -1,7 +1,7 @@
 package com.epam.wilma.webapp.config.servlet.sequence;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -41,15 +41,23 @@ import com.google.gson.Gson;
 @Component
 public class SequenceInformationServlet extends HttpServlet {
 
+    private final SequenceInformationCollector sequenceInformationCollector;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param sequenceInformationCollector provides access to the living sequences
+     */
     @Autowired
-    private SequenceInformationCollector sequenceInformationCollector;
+    public SequenceInformationServlet(SequenceInformationCollector sequenceInformationCollector) {
+        this.sequenceInformationCollector = sequenceInformationCollector;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        Map<String, Object> informations = sequenceInformationCollector.collectInformation();
-        out.write(getJson(informations));
+        Map<String, Object> information = sequenceInformationCollector.collectInformation();
+        out.write(getJson(information));
         out.flush();
         out.close();
     }

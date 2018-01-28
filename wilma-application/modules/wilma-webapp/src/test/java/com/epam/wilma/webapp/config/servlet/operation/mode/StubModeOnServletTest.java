@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.operation.mode;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -30,6 +30,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -62,6 +63,9 @@ public class StubModeOnServletTest {
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        Whitebox.setInternalState(underTest, "proxyModeToggle", proxyModeToggle);
+        Whitebox.setInternalState(underTest, "routingService", routingService);
     }
 
     @Test

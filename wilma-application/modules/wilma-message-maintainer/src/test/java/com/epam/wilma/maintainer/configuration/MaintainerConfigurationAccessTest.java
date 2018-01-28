@@ -1,7 +1,7 @@
 package com.epam.wilma.maintainer.configuration;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -32,17 +32,17 @@ import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
 import com.epam.wilma.properties.PropertyHolder;
 
 /**
- * Unit tests for the class {@link MaintanerConfigurationAccess}.
+ * Unit tests for the class {@link MaintainerConfigurationAccess}.
  * @author Tunde_Kovacs
  *
  */
-public class MaintanerConfigurationAccessTest {
+public class MaintainerConfigurationAccessTest {
     private static final String MAINTAINER_METHOD = "fileLimit";
     private static final String EXPRESSION = "STRING_EXPRESSION";
     private static final Integer FILE_LIMIT = 0;
 
     @InjectMocks
-    private MaintanerConfigurationAccess underTest;
+    private MaintainerConfigurationAccess underTest;
 
     @Mock
     private PropertyHolder propertyHolder;

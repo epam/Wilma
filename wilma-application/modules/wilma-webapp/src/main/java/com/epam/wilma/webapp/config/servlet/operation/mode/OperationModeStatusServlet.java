@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.operation.mode;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -40,10 +40,19 @@ import com.epam.wilma.router.RoutingService;
 @Component
 public class OperationModeStatusServlet extends HttpServlet {
 
+    private final ProxyModeToggle proxyModeToggle;
+    private final RoutingService routingService;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param proxyModeToggle is used to get information about the proxy mode
+     * @param routingService is used to get information about the stub mode
+     */
     @Autowired
-    private ProxyModeToggle proxyModeToggle;
-    @Autowired
-    private RoutingService routingService;
+    public OperationModeStatusServlet(ProxyModeToggle proxyModeToggle, RoutingService routingService) {
+        this.proxyModeToggle = proxyModeToggle;
+        this.routingService = routingService;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

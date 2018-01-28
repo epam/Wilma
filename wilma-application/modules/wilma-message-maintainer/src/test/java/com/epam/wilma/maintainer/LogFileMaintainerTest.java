@@ -1,6 +1,6 @@
 package com.epam.wilma.maintainer;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -36,7 +36,7 @@ import org.testng.annotations.Test;
 
 import com.epam.wilma.common.helper.CronTriggerFactory;
 import com.epam.wilma.domain.exception.SchedulingCannotBeStartedException;
-import com.epam.wilma.maintainer.configuration.MaintanerConfigurationAccess;
+import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
 import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
 import com.epam.wilma.maintainer.domain.MaintainerMethod;
 import com.epam.wilma.maintainer.task.MaintainerTask;
@@ -64,7 +64,7 @@ public class LogFileMaintainerTest {
     @Mock
     private CronTrigger cronTrigger;
     @Mock
-    private MaintanerConfigurationAccess configurationAccess;
+    private MaintainerConfigurationAccess configurationAccess;
     @Mock
     private MaintainerProperties properties;
 

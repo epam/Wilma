@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.messagemarking;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -38,8 +38,16 @@ import java.io.PrintWriter;
 @Component
 public class MessageMarkingStatusServlet extends HttpServlet {
 
+    private final MessageMarkerConfigurationAccess configurationAccess;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param configurationAccess provides access to Wilma configuration
+     */
     @Autowired
-    private MessageMarkerConfigurationAccess configurationAccess;
+    public MessageMarkingStatusServlet(MessageMarkerConfigurationAccess configurationAccess) {
+        this.configurationAccess = configurationAccess;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

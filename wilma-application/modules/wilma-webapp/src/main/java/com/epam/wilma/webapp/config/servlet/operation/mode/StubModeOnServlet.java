@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.operation.mode;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -45,12 +45,22 @@ public class StubModeOnServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(StubModeOnServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final ProxyModeToggle proxyModeToggle;
+    private final RoutingService routingService;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used to log the url access
+     * @param proxyModeToggle is used to toggle the proxy mode
+     * @param routingService provides access to the routing service
+     */
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    @Autowired
-    private ProxyModeToggle proxyModeToggle;
-    @Autowired
-    private RoutingService routingService;
+    public StubModeOnServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, ProxyModeToggle proxyModeToggle, RoutingService routingService) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.proxyModeToggle = proxyModeToggle;
+        this.routingService = routingService;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

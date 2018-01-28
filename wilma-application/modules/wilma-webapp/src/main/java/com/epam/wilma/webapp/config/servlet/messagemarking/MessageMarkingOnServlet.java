@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.messagemarking;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -41,11 +41,19 @@ public class MessageMarkingOnServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(MessageMarkingOnServlet.class);
 
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final MessageMarkerConfigurationAccess configurationAccess;
 
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used as log the url access
+     * @param configurationAccess provides access to Wilma configuration
+     */
     @Autowired
-    private MessageMarkerConfigurationAccess configurationAccess;
+    public MessageMarkingOnServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, MessageMarkerConfigurationAccess configurationAccess) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.configurationAccess = configurationAccess;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

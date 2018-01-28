@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub.upload;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -42,10 +42,19 @@ public class ExternalSequenceHandlerUploadServlet extends CommonExternalUploadSe
     private static final Logger LOGGER = LoggerFactory.getLogger(ExternalSequenceHandlerUploadServlet.class);
     private static final String SUCCESS_TEMPLATE = "External sequence handler '%s' was uploaded to Wilma.";
 
+    private final StubResourcePathProvider stubResourcePathProvider;
+    private final FileWriter fileWriter;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param stubResourcePathProvider provides the path to Wilma resources
+     * @param fileWriter saves the uploaded resource to Wilma
+     */
     @Autowired
-    private StubResourcePathProvider stubResourcePathProvider;
-    @Autowired
-    private FileWriter fileWriter;
+    public ExternalSequenceHandlerUploadServlet(StubResourcePathProvider stubResourcePathProvider, FileWriter fileWriter) {
+        this.stubResourcePathProvider = stubResourcePathProvider;
+        this.fileWriter = fileWriter;
+    }
 
     @Override
     protected String returnHintMessage() {

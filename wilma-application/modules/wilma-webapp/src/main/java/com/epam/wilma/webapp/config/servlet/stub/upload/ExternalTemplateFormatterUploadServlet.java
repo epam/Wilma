@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub.upload;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -43,12 +43,23 @@ public class ExternalTemplateFormatterUploadServlet extends CommonExternalUpload
     private static final String EXCEPTION_MESSAGE = "Could not upload external template formatter class: ";
     private static final Logger LOGGER = LoggerFactory.getLogger(ExternalTemplateFormatterUploadServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final StubResourcePathProvider stubResourcePathProvider;
+    private final FileWriter fileWriter;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used to log url access event
+     * @param stubResourcePathProvider provides the path of Wilma resources
+     * @param fileWriter saves the uploaded resource for Wilma
+     */
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    @Autowired
-    private StubResourcePathProvider stubResourcePathProvider;
-    @Autowired
-    private FileWriter fileWriter;
+    public ExternalTemplateFormatterUploadServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler,
+                                                  StubResourcePathProvider stubResourcePathProvider, FileWriter fileWriter) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.stubResourcePathProvider = stubResourcePathProvider;
+        this.fileWriter = fileWriter;
+    }
 
     @Override
     protected String returnHintMessage() {

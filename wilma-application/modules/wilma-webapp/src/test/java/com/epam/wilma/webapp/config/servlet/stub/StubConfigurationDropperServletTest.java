@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -57,6 +58,7 @@ public class StubConfigurationDropperServletTest {
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "stubConfigurationDropperService", stubConfigurationDropperService);
         given(request.getParameter(PARAMETER_CONSTANS_GROUPNAME)).willReturn(DEFAULT_GROUPNAME);
     }
 

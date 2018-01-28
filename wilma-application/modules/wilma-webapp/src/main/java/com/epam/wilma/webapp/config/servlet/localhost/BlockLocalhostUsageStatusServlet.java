@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.localhost;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -38,8 +38,17 @@ import com.epam.wilma.core.toggle.mode.LocalhostRequestProcessorToggle;
  */
 @Component
 public class BlockLocalhostUsageStatusServlet extends HttpServlet {
+
+    private final LocalhostRequestProcessorToggle localhostRequestProcessorToggle;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param localhostRequestProcessorToggle is used to get information about the localhost blockage
+     */
     @Autowired
-    private LocalhostRequestProcessorToggle localhostRequestProcessorToggle;
+    public BlockLocalhostUsageStatusServlet(LocalhostRequestProcessorToggle localhostRequestProcessorToggle) {
+        this.localhostRequestProcessorToggle = localhostRequestProcessorToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

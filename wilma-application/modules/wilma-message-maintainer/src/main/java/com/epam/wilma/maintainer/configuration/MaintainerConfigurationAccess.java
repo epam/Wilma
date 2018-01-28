@@ -1,7 +1,7 @@
 package com.epam.wilma.maintainer.configuration;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -32,7 +32,7 @@ import com.epam.wilma.properties.PropertyHolder;
  *
  */
 @Component
-public class MaintanerConfigurationAccess implements ConfigurationAccessBase {
+public class MaintainerConfigurationAccess implements ConfigurationAccessBase {
 
     private MaintainerProperties properties;
     @Autowired

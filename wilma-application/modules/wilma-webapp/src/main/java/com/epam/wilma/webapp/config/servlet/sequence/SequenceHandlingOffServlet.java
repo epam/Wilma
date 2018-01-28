@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.sequence;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -43,10 +43,19 @@ public class SequenceHandlingOffServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(SequenceHandlingOffServlet.class);
 
+    private final SequenceHandlingToggle sequenceHandlingToggle;
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param sequenceHandlingToggle is used to toggle the sequence handling mode
+     * @param urlAccessLogMessageAssembler is used to log the uré access event
+     */
     @Autowired
-    private SequenceHandlingToggle sequenceHandlingToggle;
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    public SequenceHandlingOffServlet(SequenceHandlingToggle sequenceHandlingToggle, UrlAccessLogMessageAssembler urlAccessLogMessageAssembler) {
+        this.sequenceHandlingToggle = sequenceHandlingToggle;
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

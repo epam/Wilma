@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.stub;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -40,10 +40,18 @@ import com.epam.wilma.webapp.service.StubConfigurationStatusService;
 public class StubConfigurationStatusServlet extends HttpServlet {
 
     private static final String HTML = "text/html";
-    private static final String ERROR_MSG = "Wrong format of direction parameter. Nextstatus must be a boolean!";
+    private static final String ERROR_MSG = "Wrong format of direction parameter. \"nextstatus\" must be a boolean!";
 
+    private final StubConfigurationStatusService stubConfigurationStatusService;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param stubConfigurationStatusService provides access to the stub configuration
+     */
     @Autowired
-    private StubConfigurationStatusService stubConfigurationStatusService;
+    public StubConfigurationStatusServlet(StubConfigurationStatusService stubConfigurationStatusService) {
+        this.stubConfigurationStatusService = stubConfigurationStatusService;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {

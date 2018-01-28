@@ -1,7 +1,7 @@
 package com.epam.wilma.webapp.config.servlet;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -19,17 +19,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.epam.wilma.webapp.config.servlet.helper.BufferedReaderFactory;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -39,12 +29,20 @@ import org.slf4j.Logger;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.webapp.config.servlet.helper.BufferedReaderFactory;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link SchemaProviderServlet}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class SchemaProviderServletTest {
 
@@ -70,6 +68,7 @@ public class SchemaProviderServletTest {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "stubConfigSchemaLocation", SCHEMA);
         Whitebox.setInternalState(underTest, "logger", logger);
+        Whitebox.setInternalState(underTest, "bufferedReaderFactory", bufferedReaderFactory);
         given(response.getWriter()).willReturn(writer);
     }
 

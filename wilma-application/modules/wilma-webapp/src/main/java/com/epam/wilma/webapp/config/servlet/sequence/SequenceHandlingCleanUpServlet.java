@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.sequence;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -42,11 +42,20 @@ import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 public class SequenceHandlingCleanUpServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(SequenceHandlingCleanUpServlet.class);
-    @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final SequenceMaintainer sequenceMaintainer;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is used to log the url access
+     * @param sequenceMaintainer provides access to the sequence handler
+     */
     @Autowired
-    private SequenceMaintainer sequenceMaintainer;
+    public SequenceHandlingCleanUpServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, SequenceMaintainer sequenceMaintainer) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.sequenceMaintainer = sequenceMaintainer;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.stub.servlet;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -44,7 +45,7 @@ public class DispatcherServletTest {
     @Mock
     private HttpServletResponse response;
     @Mock
-    private StubResponseWriter responseWriter;
+    private StubResponseWriter stubResponseWriter;
 
     @InjectMocks
     private DispatcherServlet underTest;
@@ -52,6 +53,7 @@ public class DispatcherServletTest {
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "stubResponseWriter", stubResponseWriter);
     }
 
     @Test
@@ -60,7 +62,7 @@ public class DispatcherServletTest {
         //WHEN
         underTest.doGet(request, response);
         //THEN
-        verify(responseWriter).writeResponse(request, response);
+        verify(stubResponseWriter).writeResponse(request, response);
     }
 
     @Test
@@ -69,6 +71,6 @@ public class DispatcherServletTest {
         //WHEN
         underTest.doPost(request, response);
         //THEN
-        verify(responseWriter).writeResponse(request, response);
+        verify(stubResponseWriter).writeResponse(request, response);
     }
 }

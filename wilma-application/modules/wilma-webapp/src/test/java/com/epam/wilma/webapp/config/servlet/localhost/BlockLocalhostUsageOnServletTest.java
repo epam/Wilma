@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.localhost;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -62,6 +62,8 @@ public class BlockLocalhostUsageOnServletTest {
     @BeforeMethod
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "localhostRequestProcessorToggle", localhostRequestProcessorToggle);
+        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
     }
 
     @Test

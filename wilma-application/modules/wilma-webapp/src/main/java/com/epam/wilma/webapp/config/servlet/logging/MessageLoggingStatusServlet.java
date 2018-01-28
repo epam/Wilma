@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.logging;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -40,8 +40,16 @@ import com.epam.wilma.core.toggle.message.MessageLoggingToggle;
 @Component
 public class MessageLoggingStatusServlet extends HttpServlet {
 
+    private final MessageLoggingToggle messageLoggingToggle;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param messageLoggingToggle is used to get information about the message logger status
+     */
     @Autowired
-    private MessageLoggingToggle messageLoggingToggle;
+    public MessageLoggingStatusServlet(MessageLoggingToggle messageLoggingToggle) {
+        this.messageLoggingToggle = messageLoggingToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

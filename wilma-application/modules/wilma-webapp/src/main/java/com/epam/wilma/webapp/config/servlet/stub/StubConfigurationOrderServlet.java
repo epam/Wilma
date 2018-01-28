@@ -1,7 +1,7 @@
 package com.epam.wilma.webapp.config.servlet.stub;
 
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -46,8 +46,16 @@ public class StubConfigurationOrderServlet extends HttpServlet {
     private static final String ERROR_MSG = "Wrong format of direction parameter. Direction must be an integer!";
     private final Logger logger = LoggerFactory.getLogger(StubConfigurationOrderServlet.class);
 
+    private final StubConfigurationOrderService stubConfigurationOrderService;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param stubConfigurationOrderService provides access to the stub configuration
+     */
     @Autowired
-    private StubConfigurationOrderService stubConfigurationOrderService;
+    public StubConfigurationOrderServlet(StubConfigurationOrderService stubConfigurationOrderService) {
+        this.stubConfigurationOrderService = stubConfigurationOrderService;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {

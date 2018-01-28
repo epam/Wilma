@@ -1,6 +1,6 @@
 package com.epam.wilma.webapp.config.servlet.interceptor;
 /*==========================================================================
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -43,10 +43,19 @@ public class InterceptorOffServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(InterceptorOffServlet.class);
 
+    private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
+    private final InterceptorModeToggle interceptorModeToggle;
+
+    /**
+     * Constructor using spring framework to initialize the class.
+     * @param urlAccessLogMessageAssembler is the logger used during url access
+     * @param interceptorModeToggle is used to toggle the interceptor mode
+     */
     @Autowired
-    private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    @Autowired
-    private InterceptorModeToggle interceptorModeToggle;
+    public InterceptorOffServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, InterceptorModeToggle interceptorModeToggle) {
+        this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
+        this.interceptorModeToggle = interceptorModeToggle;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
