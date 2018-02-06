@@ -48,7 +48,7 @@
       </div>
     </fieldset>
   </div>
-  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="//code.jquery.com/jquery.js"></script>
   <script src="./resources/js/bootstrap.min.js"></script>
   <script src="./resources/js/message-search.js"></script>
 </body>

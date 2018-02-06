@@ -8,15 +8,154 @@
 	},
 	"item": [
 		{
-			"name": "Get List of External Services",
-			"request": {
-				"url": "http://localhost:1234/config/public/services/",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
+			"name": "Get Status Information",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Wilma Version",
+					"request": {
+						"url": "http://localhost:1234/config/public/version",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Servlet that answers back with the version information of Wilma."
+					},
+					"response": []
+				},
+				{
+					"name": "Get List of External Services",
+					"request": {
+						"url": "http://localhost:1234/config/public/services/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin Status",
+					"request": {
+						"url": "http://localhost:1234/config/public/adminstatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Servlet that answers back if you have admin privileges or not, in json format."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Interceptor Status",
+					"request": {
+						"url": "http://localhost:1234/config/public/interceptor/status",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "returns information for both request and response interceptors, whether those are enabled (true) or not (false)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Load Information",
+					"request": {
+						"url": "http://localhost:1234/config/public/actualload",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Provides information about the internal load of Wilma."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Block Localhost Status",
+					"request": {
+						"url": "http://localhost:1234/config/public/localhost/status",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns information whether to ignore (true) or not (false) messages arrived to Wilma from localhost."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Administration/Configuration",
+			"description": "",
+			"item": [
+				{
+					"name": "Set Interceptors: ON (Enable interceptors)",
+					"request": {
+						"url": "http://localhost:1234/config/admin/interceptor/on",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Enable interceptors."
+					},
+					"response": []
+				},
+				{
+					"name": "Set Interceptors: OFF (Disable interceptors)",
+					"request": {
+						"url": "http://localhost:1234/config/admin/interceptor/off",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Disable interceptors."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messages and Logs",
+			"description": "Group of requests about handling the logged messages and the application logs.",
+			"item": [
+				{
+					"name": "Get List of Messages",
+					"request": {
+						"url": "http://localhost:1234/config/public/messages",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get the content of a specific logged message",
+					"request": {
+						"url": "http://localhost:1234/config/public/messages/{{msgFileName}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get List of Application Log Files",
+					"request": {
+						"url": "http://localhost:1234/config/public/logs",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get the content of a specific application log file",
+					"request": {
+						"url": "http://localhost:1234/config/public/logs/{{logFileName}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Get a Unique ID",
@@ -26,28 +165,6 @@
 				"header": [],
 				"body": {},
 				"description": "This invisible internal service provides a unique id (starting from 0) for every call. The generated id will be unique during the whole lifecycle of the specific Wilma instance."
-			},
-			"response": []
-		},
-		{
-			"name": "Get Admin Status",
-			"request": {
-				"url": "http://localhost:1234/config/public/adminstatus",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": "Servlet that answers back if you have admin privileges or not, in json format."
-			},
-			"response": []
-		},
-		{
-			"name": "Get Wilma Version",
-			"request": {
-				"url": "http://localhost:1234/config/public/version",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": "Servlet that answers back with the version information of Wilma."
 			},
 			"response": []
 		}
