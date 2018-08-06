@@ -41,8 +41,8 @@ repositories {
 }
 
 // Source and target info
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 task sourceZip(type: Zip) {
     from 'src'
