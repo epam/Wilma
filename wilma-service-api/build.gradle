@@ -33,11 +33,11 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2"
     }
 }
 
-//apply plugin: "org.sonarqube"
+apply plugin: "org.sonarqube"
 
 jar {
     manifest.attributes( 'provider': 'gradle')
