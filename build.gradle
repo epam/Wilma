@@ -42,4 +42,4 @@ buildscript {
     }
 }
 
-apply plugin: "org.sonarqube"
+//apply plugin: "org.sonarqube"

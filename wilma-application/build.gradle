@@ -129,16 +129,18 @@ subprojects {
     checkstyle.ignoreFailures = true
     checkstyleMain.classpath += configurations.compile
     checkstyleTest.classpath += configurations.compile
-    checkstyleMain << {
-        ant.xslt(in: reports.xml.destination,
-               style: new File("$rootProject.rootDir/config/checkstyle/checkstyle-noframes-sorted.xsl"),
-               out: new File(checkstyleCommonReportDir, project.name + '-main.html'))
-        copy {  //collect xml-s
-            from checkstyleSubProjectReportFile
-            into checkstyleCommonReportDir
-            rename { String filename -> project.name + '-main.xml' }
+    checkstyleMain {
+        doLast {
+            ant.xslt(in: reports.xml.destination,
+            style: new File("$rootProject.rootDir/config/checkstyle/checkstyle-noframes-sorted.xsl"),
+            out: new File(checkstyleCommonReportDir, project.name + '-main.html'))
+            copy {  //collect xml-s
+                from checkstyleSubProjectReportFile
+                into checkstyleCommonReportDir
+                rename { String filename -> project.name + '-main.xml' }
+            }
         }
-    }  
+    }
     
     test.useTestNG()
 

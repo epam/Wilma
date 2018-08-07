@@ -64,9 +64,11 @@ task copyJarToDistributions (type: Copy) {
 	into("$buildDir/distributions")
 }
 
-task createPom << {
-    pom {
-    }.writeTo("$buildDir/distributions/$componentName-${version}.pom")
+task createPom {
+    doLast {
+        pom {
+        }.writeTo("$buildDir/distributions/$componentName-${version}.pom")
+    }
 }
 createPom.dependsOn(copyJarToDistributions)
 

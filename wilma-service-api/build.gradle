@@ -37,7 +37,7 @@ buildscript {
     }
 }
 
-apply plugin: "org.sonarqube"
+//apply plugin: "org.sonarqube"
 
 jar {
     manifest.attributes( 'provider': 'gradle')
@@ -87,9 +87,11 @@ publishing {
     }
 }
 
-task createPom << {
-    pom {
-    }.writeTo("$buildDir/distributions/$componentName-${version}.pom")
+task createPom {
+    doLast {
+        pom {
+        }.writeTo("$buildDir/distributions/$componentName-${version}.pom")
+    }
 }
 createPom.dependsOn(copyJarToDistributions)
 

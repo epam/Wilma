@@ -12,7 +12,7 @@ It is written in Java, and the solution consists of two standalone applications:
 # Quick intro for end users
 ## Wilma application
 #### Requirements
-* JRE 7 or 8
+* JRE 8 (pls use earlier Wilma [releases](https://github.com/epam/Wilma/releases) than V1.6.x when you need to use Java 7 version)
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma application downloaded and extracted into a folder.
 
 
@@ -47,7 +47,7 @@ Feel free to seek for assistance/advise, or discuss usage scenarios by submittin
 * **Docker image** of combined Wilma and Wilma Message Search application is available on DockerHub, see details [here](https://github.com/epam/Wilma/wiki/Docker-image-of-Wilma)
 
 #### Requirements
-* JDK 7 or 8
+* JDK 8 (pls use earlier Wilma [releases](https://github.com/epam/Wilma/releases) than V1.6.x when you need to use Java 7 version)
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma Message Search application downloaded and extracted into a folder.
 
 #### Running
@@ -75,7 +75,7 @@ Actual build status: [![Build Status](https://travis-ci.org/epam/Wilma.svg?branc
 * Check further documentation at [http://epam.github.io/Wilma/](http://epam.github.io/Wilma/)
 
 # License - GPLv3.0
-Copyright 2013-2017 EPAM Systems
+Copyright since 2013 EPAM Systems
 
 Wilma is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
