@@ -46,7 +46,7 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
 
     public static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
     protected static final String MESSAGE_NOT_YET_AVAILABLE = "Requested file not found.";
-    private static final int WAIT_PERIOD_FOR_MESSAGE_LOG = 25;
+    private static final int WAIT_PERIOD_FOR_MESSAGE_LOG = 45;
     private static final int ONE_SECOND = 1000; // in msec
 
     /**
