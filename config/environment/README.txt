@@ -2,10 +2,10 @@ This README is about an example test environment, right now used for continuous 
 
 0. Environment preparation
 - Latest stable Debian Linux
-- extract jdk1.8.0_45 to /opt ( so you will have /opt/jdk1.8.0_45 folder)
+- extract jdk1.8.0_181 to /opt ( so you will have /opt/jdk1.8.0_181 folder)
 - create folder /opt/wilma
 - Jenkins installed
-- Sonar installed (standard installation, so available on http://localhost:9000, the built in db is in use on port 39090)
+- Sonar installed (standard installation, V7.x, so it is available on http://localhost:9000, the built in db is in use on port 39090)
 
 1. Jenkins setup
 - wilma-continuous job exists, that is triggered when the code base changes
