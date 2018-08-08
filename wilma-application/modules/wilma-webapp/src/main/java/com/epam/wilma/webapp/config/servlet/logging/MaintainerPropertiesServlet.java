@@ -34,7 +34,6 @@ import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.MaintainerProperties;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 
-
 /**
  * This servlet provides the message file maintainer properties as a JSON message.
  * @author Marton_Sereg

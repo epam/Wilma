@@ -167,6 +167,50 @@
 				"description": "This invisible internal service provides a unique id (starting from 0) for every call. The generated id will be unique during the whole lifecycle of the specific Wilma instance."
 			},
 			"response": []
+		},
+		{
+			"name": "Get List of External Services",
+			"request": {
+				"url": "http://localhost:1234/config/public/services/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Unique ID",
+			"request": {
+				"url": "http://localhost:1234/config/public/services/UniqueIdGenerator/uniqueId",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "This invisible internal service provides a unique id (starting from 0) for every call. The generated id will be unique during the whole lifecycle of the specific Wilma instance."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admin Status",
+			"request": {
+				"url": "http://localhost:1234/config/public/adminstatus",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Servlet that answers back if you have admin privileges or not, in json format."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wilma Version",
+			"request": {
+				"url": "http://localhost:1234/config/public/version",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Servlet that answers back with the version information of Wilma."
+			},
+			"response": []
 		}
 	]
 }
