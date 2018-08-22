@@ -9,12 +9,12 @@ RUN \
   cd /data/wilma-ms && \
   apt-get update && \
   apt-get upgrade -y && \
-  apt-get install -y openjdk-7-jdk && \
+  apt-get install -y openjdk-8-jdk && \
   rm -rf /var/libs/apt/lists/* && \
-  wget https://github.com/epam/Wilma/releases/download/V1.5.195/wilma-message-search-1.5.195.zip && \
-  unzip -o wilma-message-search-1.5.195.zip && \
-  mv wilma-message-search-1.5.195.jar wilma-message-search.jar && \
-  rm -f wilma-message-search-1.5.195.zip
+  wget https://github.com/epam/Wilma/releases/download/V1.6.229/wilma-message-search-1.6.229.zip && \
+  unzip -o wilma-message-search-1.6.229.zip && \
+  mv wilma-message-search-1.6.229.jar wilma-message-search.jar && \
+  rm -f wilma-message-search-1.6.229.zip
 
 COPY start_wilma_and_message_search.sh /data/
 RUN \
@@ -29,7 +29,7 @@ ENV WILMA_MS_CONFIGURATION message.search.conf.properties
 #ENV WILMA_MS_JMX_PORT 9010 - note, if you use it, the port should be exposed too
 
 # you may start wilma and message search with default setting by /data/start_wilma_and_message_search.sh
-CMD ["./start_wilma_and_message_search.sh"]
+CMD ["bash","./start_wilma_and_message_search.sh"]
 
 # expose UI port of message search application
 EXPOSE 9093
