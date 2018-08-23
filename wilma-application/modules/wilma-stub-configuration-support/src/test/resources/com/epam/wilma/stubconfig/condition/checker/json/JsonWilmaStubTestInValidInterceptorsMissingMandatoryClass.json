@@ -1,0 +1,7 @@
+{
+  "interceptors": [
+    {
+      "name": "test"
+    }
+  ]
+}

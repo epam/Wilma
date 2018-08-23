@@ -1,0 +1,7 @@
+{
+  "interceptors": [
+    {
+      "class": "com.epam.wilma.test.stubConfig.schema"
+    }
+  ]
+}

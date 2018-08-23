@@ -26,6 +26,7 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,10 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class JsonSchemaChecker implements ConditionChecker {
 
+    //Parameters to be used for this Condition Checker
+    //mandatory
     private static final String SCHEMA = "schema";
+    // optional, default: false
     private static final String LOG_IF_VALIDATION_FAILED = "logIfValidationFailed";
     @Autowired
     private StubResourcePathProvider stubResourcePathProvider;
@@ -54,7 +58,7 @@ public class JsonSchemaChecker implements ConditionChecker {
         boolean result = true;
         String schemaString = parameters.get(SCHEMA);
         String logIfValidationFailedString = parameters.get(LOG_IF_VALIDATION_FAILED);
-        boolean logIfValidationFailed = (logIfValidationFailedString != null && logIfValidationFailedString.compareToIgnoreCase("true") == 0);
+        boolean logIfValidationFailed = logIfValidationFailedString != null && logIfValidationFailedString.compareToIgnoreCase("true") == 0;
 
         Schema jsonSchema;
         try {
@@ -68,7 +72,7 @@ public class JsonSchemaChecker implements ConditionChecker {
         try {
             InputStream stream = new ByteArrayInputStream(request.getBody().getBytes(StandardCharsets.UTF_8.name()));
             jsonToBeValidated = new JSONObject(new JSONTokener(stream));
-        } catch (IOException e) {
+        } catch (JSONException | IOException e) {
             //it is not a valid Json file
             result = false;
             if (logIfValidationFailed) {
@@ -92,7 +96,7 @@ public class JsonSchemaChecker implements ConditionChecker {
     }
 
     private Schema readTemplateAsJsonSchemaFromFileSystem(final String jsonSchemaName) {
-        String jsonSchemaPath = (stubResourcePathProvider.getTemplatesPathAsString() + "/" + jsonSchemaName).replace("\\", "/");
+        String jsonSchemaPath = (stubResourcePathProvider.getTemplatesPathAsString() + jsonSchemaName).replace("\\", "/");
         InputStream inputStream = getClass().getResourceAsStream(jsonSchemaPath);
         JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
         Schema schema = SchemaLoader.load(rawSchema);
