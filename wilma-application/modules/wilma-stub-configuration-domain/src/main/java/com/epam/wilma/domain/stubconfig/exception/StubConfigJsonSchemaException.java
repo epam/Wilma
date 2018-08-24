@@ -22,7 +22,7 @@ import com.epam.wilma.domain.exception.SystemException;
 
 /**
  * Exception that is thrown when stub configuration json schema has issues.
- * @author Marton_Sereg
+ * @author Tamas_Kohegyi
  *
  */
 public class StubConfigJsonSchemaException extends SystemException {
