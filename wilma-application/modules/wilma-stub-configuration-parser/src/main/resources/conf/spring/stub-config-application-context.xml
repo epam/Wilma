@@ -15,6 +15,9 @@
   <bean class="java.lang.String" id="stubConfigSchemaLocation">
     <constructor-arg type="String" value="StubConfig.xsd" />
   </bean>
+  <bean class="java.lang.String" id="stubConfigJsonSchemaLocation">
+    <constructor-arg type="String" value="StubConfig.json" />
+  </bean>
   <bean class="java.lang.String" id="stubConfigNamespaceUri">
     <constructor-arg type="String" value="http://epam.github.io/Wilma/xsd/StubConfig" />
   </bean>

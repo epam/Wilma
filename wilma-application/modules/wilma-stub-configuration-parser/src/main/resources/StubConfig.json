@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "description": "Representation of Wilma stub configuration possibilities",
+  "description": "Representation of Wilma stub configuration possibilities - DRAFT",
   "type": "object",
   "properties": {
     "interceptors": {
