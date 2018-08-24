@@ -36,6 +36,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Checks the message body as JSON with the given conditions.
@@ -50,6 +52,11 @@ public class JsonSchemaChecker implements ConditionChecker {
     private static final String SCHEMA = "schema";
     // optional, default: false
     private static final String LOG_IF_VALIDATION_FAILED = "logIfValidationFailed";
+    // optional, default: true - if it is false then the specific schema will be cached during Wilma's lifetime
+    private static final String IS_SCHEMA_VOLATILE = "isSchemaVolatile";
+
+    private static Map<String, Schema> schemaMap = new ConcurrentHashMap<>();
+
     @Autowired
     private StubResourcePathProvider stubResourcePathProvider;
 
@@ -59,12 +66,20 @@ public class JsonSchemaChecker implements ConditionChecker {
         String schemaString = parameters.get(SCHEMA);
         String logIfValidationFailedString = parameters.get(LOG_IF_VALIDATION_FAILED);
         boolean logIfValidationFailed = logIfValidationFailedString != null && logIfValidationFailedString.compareToIgnoreCase("true") == 0;
+        String isSchemaVolatileString = parameters.get(IS_SCHEMA_VOLATILE);
+        boolean isSchemaVolatile = isSchemaVolatileString == null || isSchemaVolatileString.compareToIgnoreCase("true") == 0;
 
         Schema jsonSchema;
         try {
-            jsonSchema = readTemplateAsJsonSchemaFromFileSystem(schemaString);
+            if (!isSchemaVolatile && schemaMap.containsKey(schemaString)) {
+                jsonSchema = schemaMap.get(schemaString);
+            } else {  //either volatile or schema is not yet loaded
+                jsonSchema = readTemplateAsJsonSchemaFromFileSystem(schemaString);
+                if (!isSchemaVolatile) {
+                    schemaMap.put(schemaString, jsonSchema);
+                }
+            }
         } catch (Exception e) {
-            //TODO: note, this should be loaded one time instead of loading for every message - will be implemented such feature later
             throw new ConditionEvaluationFailedException("Cannot load: " + schemaString + " as Json Schema to check the messages, pls fix the configuration.");
         }
 
