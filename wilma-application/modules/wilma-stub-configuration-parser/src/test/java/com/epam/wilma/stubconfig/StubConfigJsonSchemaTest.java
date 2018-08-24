@@ -1,4 +1,5 @@
-package com.epam.wilma.stubconfig;/*==========================================================================
+package com.epam.wilma.stubconfig;
+/*==========================================================================
 Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
