@@ -18,22 +18,11 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.apache.commons.io.IOUtils;
-import org.everit.json.schema.Schema;
-import org.everit.json.schema.ValidationException;
-import org.everit.json.schema.loader.SchemaLoader;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -41,25 +30,17 @@ import static org.testng.Assert.assertTrue;
  *
  * @author Tamas_Kohegyi
  */
-public class StubConfigJsonSchemaTest {
-
-    private String testFilePath;
-
-    private Schema underTest;
+public class StubConfigJsonSchemaTest extends StubConfigJsonSchemaTestBase {
 
     @BeforeClass
     public void setup() {
-        testFilePath = "schema/interceptors/";
-        //load main schema
-        String jsonSchemaPath = ("../../../../StubConfig.json");
-        InputStream inputStream = getClass().getResourceAsStream(jsonSchemaPath);
-        JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
-        underTest = SchemaLoader.load(rawSchema);
+        setTestFilePath("");
+        loadStubConfigJsonSchemaTest();
     }
 
     @Test
-    public void testCheckValidInterceptors() throws IOException {
-        String stubConfigRequest = givenStubConfigRequest("JsonWilmaStubTestInterceptorsValid.json");
+    public void testCheckValid() throws IOException {
+        String stubConfigRequest = givenStubConfigRequest("JsonWilmaStubTestValid.json");
 
         boolean matches = checkStubConfigValidity(stubConfigRequest);
 
@@ -68,74 +49,11 @@ public class StubConfigJsonSchemaTest {
 
     @Test
     public void testCheckValidInterceptorsMinimal() throws IOException {
-        String stubConfigRequest = givenStubConfigRequest("JsonWilmaStubTestInterceptorsValidMinimal.json");
+        String stubConfigRequest = givenStubConfigRequest("JsonWilmaStubTestValidMinimal.json");
 
         boolean matches = checkStubConfigValidity(stubConfigRequest);
 
         assertTrue(matches);
     }
 
-
-    @Test
-    public void testCheckInValidInterceptorsMissingMandatoryName() throws IOException {
-        String stubConfigRequest = givenStubConfigRequest("JsonWilmaStubTestInValidInterceptorsMissingMandatoryName.json");
-
-        boolean matches = checkStubConfigValidity(stubConfigRequest);
-
-        assertFalse(matches);
-    }
-
-    @Test
-    public void testCheckInValidInterceptorsMissingMandatoryClass() throws IOException {
-        String stubConfigRequest = givenStubConfigRequest("JsonWilmaStubTestInValidInterceptorsMissingMandatoryClass.json");
-
-        boolean matches = checkStubConfigValidity(stubConfigRequest);
-
-        assertFalse(matches);
-    }
-
-    @Test
-    public void testCheckInValidInterceptorsMandatoryNameIsEmpty() throws IOException {
-        String stubConfigRequest = givenStubConfigRequest("JsonWilmaStubTestInValidInterceptorsMandatoryNameIsEmpty.json");
-
-        boolean matches = checkStubConfigValidity(stubConfigRequest);
-
-        assertFalse(matches);
-    }
-
-    @Test
-    public void testCheckInValidInterceptorsMandatoryClassIsEmpty() throws IOException {
-        String stubConfigRequest = givenStubConfigRequest("JsonWilmaStubTestInValidInterceptorsMandatoryClassIsEmpty.json");
-
-        boolean matches = checkStubConfigValidity(stubConfigRequest);
-
-        assertFalse(matches);
-    }
-
-    private String givenStubConfigRequest(String jsonFileName) throws IOException {
-        InputStream inputStream = getClass().getResourceAsStream(testFilePath + jsonFileName);
-        return IOUtils.toString(inputStream);
-    }
-
-    private boolean checkStubConfigValidity(String stubConfigRequest) {
-        boolean result = true;
-
-        JSONObject jsonToBeValidated = null;
-        try {
-            InputStream stream = new ByteArrayInputStream(stubConfigRequest.getBytes(StandardCharsets.UTF_8.name()));
-            jsonToBeValidated = new JSONObject(new JSONTokener(stream));
-        } catch (JSONException | IOException e) {
-            //it is not a valid Json file
-            result = false;
-        }
-        if (result) {
-            try {
-                underTest.validate(jsonToBeValidated);
-            } catch (ValidationException e) {
-                //it is not a good Json file
-                result = false;
-            }
-        }
-        return result;
-    }
 }

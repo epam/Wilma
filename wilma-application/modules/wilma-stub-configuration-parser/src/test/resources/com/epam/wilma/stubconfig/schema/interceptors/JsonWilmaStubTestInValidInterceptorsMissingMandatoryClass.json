@@ -1,7 +1,9 @@
 {
-  "interceptors": [
-    {
-      "name": "test"
-    }
-  ]
+  "wilmaStubConfiguration": {
+    "interceptors": [
+      {
+        "name": "test"
+      }
+    ]
+  }
 }

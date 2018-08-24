@@ -1,8 +1,10 @@
 {
-  "interceptors": [
-    {
-      "name": "",
-      "class": "com.epam.wilma.test.stubConfig.schema"
-    }
-  ]
+  "wilmaStubConfiguration": {
+    "interceptors": [
+      {
+        "name": "",
+        "class": "com.epam.wilma.test.stubConfig.schema"
+      }
+    ]
+  }
 }

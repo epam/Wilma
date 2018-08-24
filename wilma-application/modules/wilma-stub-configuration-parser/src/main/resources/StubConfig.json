@@ -3,8 +3,25 @@
   "description": "Representation of Wilma stub configuration possibilities - DRAFT",
   "type": "object",
   "properties": {
-    "interceptors": {
-      "$ref": "#/definitions/interceptorDefinition"
+    "wilmaStubConfiguration" : {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the Stub Configuration, if it is missing, the name will be considered as: Default",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "default": "Default"
+        },
+        "active": {
+          "description": "Whether the Stub Configuration is active or not, by default: true",
+          "type": "boolean",
+          "default": true
+        },
+        "interceptors": {
+          "$ref": "#/definitions/interceptorDefinition"
+        }
+      }
     }
   },
   "additionalProperties": false,
@@ -18,40 +35,54 @@
           "name": {
             "description": "The name of the interceptor",
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "maxLength": 512
           },
           "class": {
             "description": "The name of the interceptor class, will be used to load the class itself",
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "maxLength": 1024
           },
           "parameters": {
-            "description": "",
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "description": "",
-                  "type": "string"
-                },
-                "value": {
-                  "description": "",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name",
-                "value"
-              ]
-            }
+            "$ref": "#/definitions/parameterDefinition"
           }
         },
         "required": [
           "name",
           "class"
         ]
-      }
+      },
+      "minItems": 1
+    },
+    "parameterDefinition": {
+      "description": "Parameter list of a specific object (like: interceptor, condition descriptor etc).",
+      "type": "array",
+      "items": {
+        "description": "Every parameter in the list has a name-value string pair.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "value": {
+            "description": "",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "value"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 25
     }
   }
 }
