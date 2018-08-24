@@ -46,7 +46,7 @@ public class StubConfigJsonSchemaTestBase {
     }
 
     void loadStubConfigJsonSchemaTest() {
-        String jsonSchemaPath = ("../../../../StubConfig.json");
+        String jsonSchemaPath = "../../../../StubConfig.json";
         InputStream inputStream = getClass().getResourceAsStream(jsonSchemaPath);
         JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
         underTest = SchemaLoader.load(rawSchema);

@@ -61,7 +61,8 @@ public class StubConfigSchemaParser {
             JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
             result = SchemaLoader.load(rawSchema);
         } catch (IOException e) {
-            throw new StubConfigJsonSchemaException("Cannot load: " + stubConfigJsonSchemaLocation + " as Json Schema to check the Stub Configuration, pls notify Wilma maintainers.");
+            throw new StubConfigJsonSchemaException("Cannot load: " + stubConfigJsonSchemaLocation
+                    + " as Json Schema to check the Stub Configuration, pls notify Wilma maintainers.");
         } catch (JSONException e) {
             throw new StubConfigJsonSchemaException("Parsing of stub config Json Schema failed.", e);
         }
