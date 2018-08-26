@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "description": "Test Schema",
+  "type": "object",
+  "properties": {
+    "request": {
+      "$ref": "#/definitions/requestDefinition"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "request"
+  ],
+  "definitions": {
+    "requestDefinition": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ]
+    }
+  }
+}

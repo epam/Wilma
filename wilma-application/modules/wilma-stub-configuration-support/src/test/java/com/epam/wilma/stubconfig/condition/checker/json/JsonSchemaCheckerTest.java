@@ -48,7 +48,7 @@ public class JsonSchemaCheckerTest {
     public void setup() {
         underTest = new JsonSchemaChecker();
         StubResourcePathProvider stubResourcePathProvider = new StubResourcePathProvider();
-        stubResourcePathProvider.setTemplatesPath("");
+        stubResourcePathProvider.setTemplatesPath(".");
         Whitebox.setInternalState(underTest, "stubResourcePathProvider", stubResourcePathProvider);
     }
 

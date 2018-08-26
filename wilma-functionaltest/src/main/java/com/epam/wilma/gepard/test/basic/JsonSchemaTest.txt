@@ -1,0 +1,3 @@
+#NAME,REQ_FILE,RESP_FILE
+test good request%resources/stub/JSON/requestWithSchema.json%resources/stub/JSON/responseWithSchema.json
+test bad request%resources/stub/JSON/requestWithBadSchema.json%resources/stub/JSON/responseWithBadSchema.json
