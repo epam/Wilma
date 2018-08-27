@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.condition.checker.json;
+package com.epam.wilma.domain.stubconfig.exception;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 
@@ -18,23 +18,30 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.springframework.stereotype.Component;
-
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
-import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import com.epam.wilma.domain.exception.SystemException;
 
 /**
- * Checks the message body as JSON with the given conditions.
- * @author Tamas_Bihari
+ * Exception that is thrown when stub configuration json schema has issues.
+ * @author Tamas_Kohegyi
  *
  */
-@Component
-public class JsonBodyChecker implements ConditionChecker {
+public class StubConfigJsonSchemaException extends SystemException {
 
-    @Override
-    public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameterMap) {
-        return false;
+    /**
+     * Exception constructor with a message.
+     * @param message the message of the exception
+     */
+    public StubConfigJsonSchemaException(final String message) {
+        super(message);
+    }
+
+    /**
+     * Exception constructor with a message and its cause.
+     * @param message the message of the exception
+     * @param throwable the cause of the exception
+     */
+    public StubConfigJsonSchemaException(final String message, final Throwable throwable) {
+        super(message, throwable);
     }
 
 }

@@ -1,0 +1,10 @@
+{
+  "wilmaStubConfiguration": {
+    "interceptors": [
+      {
+        "name": "a",
+        "class": "b"
+      }
+    ]
+  }
+}

@@ -12,6 +12,7 @@ com.epam.wilma.gepard.test.basic.BasicStubBehaviorTest,4,STUBCONFIG
 com.epam.wilma.gepard.test.basic.BasicStubSslBehaviorTest,4,STUBCONFIG
 com.epam.wilma.gepard.test.basic.ServerErrorTest,6,STUBCONFIG
 com.epam.wilma.gepard.test.basic.JsonTest,1,STUBCONFIG
+com.epam.wilma.gepard.test.basic.JsonSchemaTest,2,STUBCONFIG
 com.epam.wilma.gepard.test.localhost.BlockLocalhostUsageTest,2,STUBCONFIG
 com.epam.wilma.gepard.test.loadinformation.LoadInformationTest,,STUBCONFIG
 com.epam.wilma.gepard.test.classloader.PackagedClassUploadingTest,,STUBCONFIG
