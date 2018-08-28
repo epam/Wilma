@@ -1,6 +1,6 @@
 {
   "wilmaStubConfiguration": {
-    "name": "Non-Default",
+    "groupName": "Non-Default",
     "active": false,
     "interceptors": [
       {
