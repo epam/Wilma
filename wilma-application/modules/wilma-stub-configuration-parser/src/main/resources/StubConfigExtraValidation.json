@@ -1,0 +1,7 @@
+{
+  "uniqueNames": [
+    {
+      "interceptors": "$.interceptors[*].name"
+    }
+  ]
+}

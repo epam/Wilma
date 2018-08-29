@@ -18,6 +18,9 @@
           "type": "boolean",
           "default": true
         },
+        "sequenceDescriptors": {
+          "$ref": "#/definitions/sequenceDescriptorsDefinition"
+        },
         "dialogDescriptors": {
           "$ref": "#/definitions/dialogDescriptorsDefinition"
         },
@@ -26,6 +29,12 @@
         },
         "interceptors": {
           "$ref": "#/definitions/interceptorDefinition"
+        },
+        "conditionSets": {
+          "$ref": "#/definitions/conditionSetArrayDefinition"
+        },
+        "templateFormatterSets": {
+          "$ref": "#/definitions/templateFormatterSetArrayDefinition"
         }
       },
       "additionalProperties": false
@@ -314,7 +323,7 @@
       ]
     },
     "dialogDescriptorsDefinition": {
-      "description": "Dialog Descriptor",
+      "description": "Dialog Descriptor Array",
       "type": "array",
       "items": {
         "type": "object",
@@ -380,6 +389,112 @@
         ]
       },
       "minItems": 1
+    },
+    "conditionSetDefinition": {
+      "description": "Set of conditions",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/uniqueNameDefinition"
+        },
+        "conditionSet": {
+          "$ref": "#/definitions/booleanConditionDefinition"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "conditionSet"
+      ],
+      "minItems": 1
+    },
+    "templateFormatterSetDefinition": {
+      "description": "Set of template formatter",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/uniqueNameDefinition"
+        },
+        "templateFormatterSet": {
+          "type": "object",
+          "properties": {
+            "templateFormatter": {
+              "$ref": "#/definitions/templateFormatterDefinition"
+            },
+            "templateFormatterSetInvoker": {
+              "$ref": "#/definitions/templateFormatterSetInvokerDefinition"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "templateFormatter"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "templateFormatterSet"
+      ],
+      "minItems": 1
+    },
+    "conditionSetArrayDefinition": {
+      "description": "Array of condition sets.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/conditionSetDefinition"
+      },
+      "minItems": 1,
+      "maxItems": 25
+    },
+    "templateFormatterSetArrayDefinition": {
+      "description": "Array of template formatter sets.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/templateFormatterSetDefinition"
+      },
+      "minItems": 1,
+      "maxItems": 25
+    },
+    "sequenceDescriptorsDefinition": {
+      "description": "Sequence Descriptor Array",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/definitions/uniqueNameDefinition"
+          },
+          "class": {
+            "$ref": "#/definitions/classNameDefinition"
+          },
+          "timeout": {
+            "description": "Timeout in milliseconds",
+            "type": "integer"
+          },
+          "conditionDescriptor": {
+            "$ref": "#/definitions/conditionDescriptorDefinition"
+          },
+          "dialogDescriptors": {
+            "description": "Array of dialog descriptor references - names",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/uniqueNameDefinition"
+            },
+            "minItems": 1
+          },
+          "parameters": {
+            "$ref": "#/definitions/parameterDefinition"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "class"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 25
     }
   }
 }
