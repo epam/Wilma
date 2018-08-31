@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -87,11 +88,20 @@ public class StubResourceHolderUpdater {
 
     /**
      * Add the XML document to {@link StubResourceHolder}.
-     * @param groupName is the groupname attribute of stub configuration
+     * @param groupName is the group name attribute of stub configuration
      * @param document is the XML document
      */
     public void addDocumentToResourceHolder(final String groupName, final Document document) {
         stubResourceHolder.setActualStubConfigDocument(groupName, document);
+    }
+
+    /**
+     * Add the JSON Object to {@link StubResourceHolder}.
+     * @param groupName is the group name attribute of stub configuration
+     * @param jsonObject is the json object
+     */
+    public void addDocumentToResourceHolder(final String groupName, final JSONObject jsonObject) {
+        stubResourceHolder.setActualStubConfigJsonObject(groupName, jsonObject);
     }
 
     /**

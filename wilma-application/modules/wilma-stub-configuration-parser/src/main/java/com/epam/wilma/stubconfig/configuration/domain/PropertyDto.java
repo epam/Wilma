@@ -25,28 +25,28 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class PropertyDto {
 
-    private final int maxDepthOfXmlTree;
+    private final int maxDepthOfTree;
     private final long defaultSequenceTimeout;
 
     /**
      * Constructs a new property holding object with the given fields.
-     * @param maxDepthOfXmlTree  the max depth of the stub configuration
+     * @param maxDepthOfTree  the max depth of the stub configuration
      * dialog descriptor elements (condition-set-invoker, template-formatter-set-invoker)
      * child's subtree. This is necessary because of recursive self referring.
      * @param defaultSequenceTimeout when no timeout is provided to a sequence descriptor, it will use this value
      */
-    public PropertyDto(final int maxDepthOfXmlTree, final long defaultSequenceTimeout) {
+    public PropertyDto(final int maxDepthOfTree, final long defaultSequenceTimeout) {
         super();
         this.defaultSequenceTimeout = defaultSequenceTimeout;
-        this.maxDepthOfXmlTree = maxDepthOfXmlTree;
+        this.maxDepthOfTree = maxDepthOfTree;
     }
 
     public long getDefaultSequenceTimeout() {
         return defaultSequenceTimeout;
     }
 
-    public int getMaxDepthOfXmlTree() {
-        return maxDepthOfXmlTree;
+    public int getMaxDepthOfTree() {
+        return maxDepthOfTree;
     }
 
 }

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
@@ -33,10 +34,11 @@ import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
 /**
  * Contains stub configuration resources (templates, template formatters, condition checkers,
- * interceptors and the previously parsed XML document).
+ * interceptors and the previously parsed XML/JSON document).
  * @author Tamas_Bihari
  * @author Tunde_Kovacs
  * @author Balazs_Berkes
+ * @author Tamas_Kohegyi
  */
 @Component
 public class StubResourceHolder {
@@ -47,6 +49,7 @@ public class StubResourceHolder {
     private List<RequestInterceptor> requestInterceptors;
     private List<ResponseInterceptor> responseInterceptors;
     private final Map<String, Document> stubConfigDocuments;
+    private final Map<String, JSONObject> stubConfigJsonObjects;
     private List<SequenceHandler> sequenceHandlers;
 
     /**
@@ -55,6 +58,7 @@ public class StubResourceHolder {
     public StubResourceHolder() {
         templates = new HashMap<String, byte[]>();
         stubConfigDocuments = new HashMap<>();
+        stubConfigJsonObjects = new HashMap<>();
     }
 
     public void setConditionChekers(final List<ConditionChecker> conditionCheckers) {
@@ -107,7 +111,7 @@ public class StubResourceHolder {
 
     /**
      * Put the document of stub configuration into a Map with the give groupName.
-     * @param groupName is the groupname of the selected stub configuration
+     * @param groupName is the group name of the selected stub configuration
      * @param document is the xml document of the selected stub configuration
      */
     public void setActualStubConfigDocument(final String groupName, final Document document) {
@@ -116,11 +120,29 @@ public class StubResourceHolder {
 
     /**
      * Get the document of stub configuration from a Map.
-     * @param groupName is the groupname of the selected stub configuration
+     * @param groupName is the group name of the selected stub configuration
      * @return the document of the selected stub configuration
      */
     public Document getActualStubConfigDocument(final String groupName) {
         return stubConfigDocuments.get(groupName);
+    }
+
+    /**
+     * Get the JSON String of stub configuration from a Map.
+     * @param groupName is the group name of the selected stub configuration
+     * @return the JSON object of the selected stub configuration
+     */
+    public JSONObject getActualStubConfigJsonObject(final String groupName) {
+        return stubConfigJsonObjects.get(groupName);
+    }
+
+    /**
+     * Put the String value of Json stub configuration into a Map with the give groupName.
+     * @param groupName is the group name of the selected stub configuration
+     * @param jsonObject is the string representation of the selected stub configuration
+     */
+    public void setActualStubConfigJsonObject(final String groupName, final JSONObject jsonObject) {
+        stubConfigJsonObjects.put(groupName, jsonObject);
     }
 
 }

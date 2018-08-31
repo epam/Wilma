@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.dom.parser.node;
+package com.epam.wilma.stubconfig.json.parser;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 
@@ -18,9 +18,18 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
+import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.parameter.Parameter;
+import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
+import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
+import com.epam.wilma.stubconfig.dom.parser.NodeParser;
+import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
+import com.epam.wilma.stubconfig.initializer.template.TemplateFormatterInitializer;
+import com.epam.wilma.stubconfig.json.parser.helper.ObjectParser;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -28,45 +37,39 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
-import com.epam.wilma.domain.stubconfig.parameter.Parameter;
-import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
-import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
-import com.epam.wilma.stubconfig.dom.parser.NodeParser;
-import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.template.TemplateFormatterInitializer;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
- * Builds a set of {@link TemplateFormatter}s from a DOM node.
- * @author Tunde_Kovacs
+ * Builds a set of {@link TemplateFormatter}s from a JSON object.
+ * @author Tamas_Kohegyi
  *
  */
 @Component
-public class TemplateDescriptorParser implements NodeParser<Set<TemplateFormatterDescriptor>> {
+public class TemplateFormatterDescriptorJsonParser implements ObjectParser<Set<TemplateFormatterDescriptor>> {
 
-    private static final String TEMPLATE_FORMATTER_SET_INVOKER_TAG = "template-formatter-set-invoker";
-    private static final String TEMPLATE_FORMATTER_TAG = "template-formatter";
-    private Integer maxDepthOfXmlTree;
+    private static final String TEMPLATE_FORMATTER_SET_INVOKER_TAG = "templateFormatterSetInvoker";
+    private static final String TEMPLATE_FORMATTER_TAG = "templateFormatter";
+    private Integer maxDepthOfJsonTree;
 
-    @Autowired
-    private StubConfigXPathEvaluator xPathEvaluator;
+//    @Autowired
+//    private StubConfigXPathEvaluator xPathEvaluator;
     @Autowired
     private TemplateFormatterInitializer formatterInitializer;
     @Autowired
     private StubConfigurationAccess configurationAccess;
 
     @Override
-    public Set<TemplateFormatterDescriptor> parseNode(final Node node, final Document document) {
+    public Set<TemplateFormatterDescriptor> parseObject(final JSONObject responseDescriptorObject, final JSONObject root) {
         //This number represents the depth of the subtree
         int depth = 0;
-        return parse(node, document, depth);
+        return parse(responseDescriptorObject, root, depth);
     }
 
-    private Set<TemplateFormatterDescriptor> parse(final Node node, final Document document, final int depth) {
+    private Set<TemplateFormatterDescriptor> parse(final JSONObject responseDescriptorObject, final JSONObject root, final int depth) {
         Set<TemplateFormatterDescriptor> templateFormatterSet = new LinkedHashSet<>();
+        //TODO
+        /*
         if (node.getChildNodes() != null) {
             NodeList templateFormatters = node.getChildNodes();
             for (int i = 0; i < templateFormatters.getLength(); i++) {
@@ -81,14 +84,16 @@ public class TemplateDescriptorParser implements NodeParser<Set<TemplateFormatte
                     }
                 }
             }
-        }
+        }*/
         return templateFormatterSet;
     }
 
     private Set<TemplateFormatterDescriptor> parseTemplateFormatterSet(final String templateFormatterSetName, final Document document, final int depth) {
-        String expression = "/wilma:wilma-stub/wilma:template-descriptor/wilma:template-formatter-set[@name='" + templateFormatterSetName + "']";
-        Element templateFormatterSet = xPathEvaluator.getElementByXPath(expression, document);
-        return parse(templateFormatterSet, document, depth);
+        //TODO
+        //String expression = "/wilma:wilma-stub/wilma:template-descriptor/wilma:template-formatter-set[@name='" + templateFormatterSetName + "']";
+        //Element templateFormatterSet = xPathEvaluator.getElementByXPath(expression, document);
+        //return parse(templateFormatterSet, document, depth);
+        return parse(null, null, depth);
     }
 
     private TemplateFormatterDescriptor parseTemplateFormatter(final Element element) {
@@ -114,7 +119,7 @@ public class TemplateDescriptorParser implements NodeParser<Set<TemplateFormatte
     private int validateDepth(final int depth, final String invokerName) {
         int newDepth = depth + 1;
         getMaxDepth();
-        if (newDepth >= maxDepthOfXmlTree) {
+        if (newDepth >= maxDepthOfJsonTree) {
             throw new DescriptorValidationFailedException(
                     "Validation of stub descriptor failed: Response-descriptor subtree is too deep or contains circles, error occurs at: <template-formatter-set-invoker name='"
                             + invokerName + "' ...>");
@@ -123,9 +128,9 @@ public class TemplateDescriptorParser implements NodeParser<Set<TemplateFormatte
     }
 
     private void getMaxDepth() {
-        if (maxDepthOfXmlTree == null) {
+        if (maxDepthOfJsonTree == null) {
             PropertyDto properties = configurationAccess.getProperties();
-            maxDepthOfXmlTree = properties.getMaxDepthOfTree();
+            maxDepthOfJsonTree = properties.getMaxDepthOfTree();
         }
     }
 }

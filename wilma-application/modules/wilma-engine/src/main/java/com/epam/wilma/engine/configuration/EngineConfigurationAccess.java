@@ -46,7 +46,8 @@ public class EngineConfigurationAccess implements ConfigurationAccessBase {
         String stubConfigFolderPath = propertyHolder.get("stub.descriptors.path");
         String stubConfigPattern = propertyHolder.get("stub.descriptors.pattern");
         String stubConfigCachePath = propertyHolder.get("stub.descriptors.cache.path");
-        properties = new PropertyDTO(proxyPort, internalWilmaPort, stubConfigFolderPath, stubConfigPattern, stubConfigCachePath);
+        Integer stubConfigExperimentalJson = propertyHolder.getInt("stub.descriptors.experimental.json");
+        properties = new PropertyDTO(proxyPort, internalWilmaPort, stubConfigFolderPath, stubConfigPattern, stubConfigCachePath, stubConfigExperimentalJson);
     }
 
     /**

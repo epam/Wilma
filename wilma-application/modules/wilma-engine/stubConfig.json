@@ -1,0 +1,30 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "dd",
+        "usage": "always",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysFalseChecker"
+          }
+        },
+        "responseDescriptor": {
+          "code": 502,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "errorResponse"
+        }
+      }
+    ],
+    "templateDescriptor": [
+      {
+        "template": {
+          "name": "errorResponse",
+          "type": "text",
+          "resource": "Bad Gateway"
+        }
+      }
+    ]
+  }
+}

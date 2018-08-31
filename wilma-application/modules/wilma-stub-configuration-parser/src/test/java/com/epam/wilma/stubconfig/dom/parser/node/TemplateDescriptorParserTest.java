@@ -134,7 +134,7 @@ public class TemplateDescriptorParserTest {
         //GIVEN
         getChildNodes();
         given(configurationAccess.getProperties()).willReturn(properties);
-        given(properties.getMaxDepthOfXmlTree()).willReturn(10);
+        given(properties.getMaxDepthOfTree()).willReturn(10);
         given(element.getNodeType()).willReturn(Node.ELEMENT_NODE);
         given(element.getTagName()).willReturn(TEMPLATE_FORMATTER_SET_INVOKER_TAG, TEMPLATE_FORMATTER_SET_INVOKER_TAG, TEMPLATE_FORMATTER_TAG);
         mockTemplateFormatterAttributes();

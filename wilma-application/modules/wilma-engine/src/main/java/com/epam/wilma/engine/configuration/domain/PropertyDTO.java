@@ -30,6 +30,7 @@ public class PropertyDTO {
     private final String stubConfigFolderPath;
     private final String stubConfigPattern;
     private final String stubConfigCachePath;
+    private final Integer stubConfigExperimentalJson; // property to be deleted
 
     /**
      * Constructs a new property holding object with the given fields.
@@ -41,7 +42,9 @@ public class PropertyDTO {
      */
     //CHECKSTYLE OFF
     //more than 4 input field is allowed here
-    public PropertyDTO(final Integer proxyPort, final Integer wilmaPort, final String stubConfigFolderPath, final String stubConfigPattern, final String stubConfigCachePath) {
+    public PropertyDTO(final Integer proxyPort, final Integer wilmaPort,
+                       final String stubConfigFolderPath, final String stubConfigPattern, final String stubConfigCachePath,
+                       final Integer stubConfigExperimentalJson) {
         //CHECKSTYLE ON
         super();
         this.proxyPort = proxyPort;
@@ -49,6 +52,7 @@ public class PropertyDTO {
         this.stubConfigFolderPath = stubConfigFolderPath;
         this.stubConfigPattern = stubConfigPattern;
         this.stubConfigCachePath = stubConfigCachePath;
+        this.stubConfigExperimentalJson = stubConfigExperimentalJson;
     }
 
     public Integer getProxyPort() {
@@ -69,5 +73,9 @@ public class PropertyDTO {
 
     public String getStubConfigCachePath() {
         return stubConfigCachePath;
+    }
+
+    public Integer getStubConfigExperimentalJson() {
+        return stubConfigExperimentalJson;
     }
 }

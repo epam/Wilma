@@ -20,6 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.util.Map;
 
+import com.epam.wilma.stubconfig.json.parser.helper.JsonBasedObjectTransformer;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -34,11 +36,13 @@ import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationExceptio
 /**
  * This class provides the ability of saving stub configurations with in their order.
  * @author Tibor_Kovacs
+ * @author Tamas_Kohegyi
  *
  */
 @Component
 public class StubConfigurationSaver {
     private static final String STUB_CONFIG_XML_POSTFIX = "_stubConfig.xml";
+    private static final String STUB_CONFIG_JSON_POSTFIX = "_stubConfig.json";
     @Autowired
     private StubResourceHolder stubResourceHolder;
     @Autowired
@@ -47,6 +51,8 @@ public class StubConfigurationSaver {
     private StubResourcePathProvider stubResourcePathProvider;
     @Autowired
     private DomBasedDocumentTransformer documentTransformer;
+    @Autowired
+    private JsonBasedObjectTransformer jsonBasedObjectTransformer;
 
     private String cacheFolderPath;
 
@@ -69,10 +75,21 @@ public class StubConfigurationSaver {
     private void tryToSaveActualStubConfig(final StubDescriptor descriptor, final int index, final String groupname) throws DocumentTransformationException {
         try {
             Document actualDocument = stubResourceHolder.getActualStubConfigDocument(groupname);
-            documentTransformer.transformToFile(actualDocument, cacheFolderPath + "/" + index + STUB_CONFIG_XML_POSTFIX, descriptor.getAttributes()
-                    .isActive());
+            if (actualDocument != null) {
+                documentTransformer.transformToFile(actualDocument, cacheFolderPath + "/" + index + STUB_CONFIG_XML_POSTFIX, descriptor.getAttributes()
+                        .isActive());
+            }
         } catch (Exception e) {
             throw new DocumentTransformationException(groupname + "'s stub configuration XML can not be transformed. ", e);
+        }
+        try {
+            JSONObject jsonObject = stubResourceHolder.getActualStubConfigJsonObject(groupname);
+            if (jsonObject != null) {
+                jsonBasedObjectTransformer.transformToFile(jsonObject, cacheFolderPath + "/" + index + STUB_CONFIG_JSON_POSTFIX, descriptor.getAttributes()
+                        .isActive());
+            }
+        } catch (Exception e) {
+            throw new DocumentTransformationException(groupname + "'s stub configuration JSON can not be transformed. ", e);
         }
     }
 

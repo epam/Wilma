@@ -67,7 +67,7 @@ public class StubConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDto actual = underTest.getProperties();
-        assertEquals(actual.getMaxDepthOfXmlTree(), MAX_DEPTH);
+        assertEquals(actual.getMaxDepthOfTree(), MAX_DEPTH);
     }
 
     @Test

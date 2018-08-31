@@ -7,6 +7,7 @@
 wilma-application/modules/wilma-engine/log
 wilma-application/modules/wilma-engine/messages
 wilma-message-search/modules/wilma-message-search-engine/log
+wilma-message-search/modules/wilma-message-search-engine/indexes/
 *.iml
 *.ipr
 *.iws

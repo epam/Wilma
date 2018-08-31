@@ -29,6 +29,8 @@ import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatt
  */
 public class ResponseDescriptor {
 
+    public static final String TAG_NAME_JSON = "responseDescriptor";
+
     private final ResponseDescriptorAttributes attributes;
     private final Set<TemplateFormatterDescriptor> templateFormatterSet;
 

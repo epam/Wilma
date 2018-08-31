@@ -22,6 +22,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
+import com.epam.wilma.webapp.service.command.factory.NewStubDescriptorJsonCommandFactory;
 import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,11 +46,15 @@ public class StubDescriptorReader {
     @Autowired
     private StubDescriptorFactory stubConfigurationBuilder;
     @Autowired
+    private StubDescriptorJsonFactory stubConfigurationJsonBuilder;
+    @Autowired
     private RoutingService routingService;
     @Autowired
     private SequenceDescriptorHolder sequenceDescriptorHolder;
     @Autowired
     private NewStubDescriptorCommandFactory newStubDescriptorCommandFactory;
+    @Autowired
+    private NewStubDescriptorJsonCommandFactory newStubDescriptorJsonCommandFactory;
     @Autowired
     private ServiceMap serviceMap;
 
@@ -65,8 +71,14 @@ public class StubDescriptorReader {
 
     private void createStubDescriptor(final String xmlFilePath) {
         try {
-            StubDescriptorModificationCommand command = newStubDescriptorCommandFactory.create(xmlFilePath, stubConfigurationBuilder,
-                    sequenceDescriptorHolder);
+            StubDescriptorModificationCommand command;
+            if (xmlFilePath.endsWith(".json")) {
+                //json config
+                command = newStubDescriptorJsonCommandFactory.create(xmlFilePath, stubConfigurationJsonBuilder, sequenceDescriptorHolder);
+            } else {
+                //xml config
+                command = newStubDescriptorCommandFactory.create(xmlFilePath, stubConfigurationBuilder, sequenceDescriptorHolder);
+            }
             routingService.performModification(command);
         } catch (ClassNotFoundException|FileNotFoundException e) {
             throw new DescriptorCannotBeParsedException("One of the stub descriptor files cannot be found!", e);

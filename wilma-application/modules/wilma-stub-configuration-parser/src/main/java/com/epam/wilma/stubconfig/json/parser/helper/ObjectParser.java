@@ -1,4 +1,4 @@
-package com.epam.wilma.domain.stubconfig.exception;
+package com.epam.wilma.stubconfig.json.parser.helper;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 
@@ -18,30 +18,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.exception.SystemException;
+import org.json.JSONObject;
 
 /**
- * Exception that is thrown when stub descriptor cannot be parsed.
- * @author Marton_Sereg
- *
+ * Parser of a JSON object.
+ * @author Tamas_Kohegyi
+ * @param <T> Type of the parsed object
  */
-public class DescriptorCannotBeParsedException extends SystemException {
+public interface ObjectParser<T> {
 
     /**
-     * Exception constructor with a message and its cause.
-     * @param message the message of the exception
-     * @param throwable the cause of the exception
+     * Parses an object in a json object.
+     * @param object the object that is parsed
+     * @param root the root objectthat is parsed
+     * @return the result of the parsed object. If input parameter <tt>object</tt>
+     * is null, the result is null as well.
      */
-    public DescriptorCannotBeParsedException(final String message, final Throwable throwable) {
-        super(message, throwable);
-    }
-
-    /**
-     * Exception constructor with a message and its cause.
-     * @param message the message of the exception
-     */
-    public DescriptorCannotBeParsedException(final String message) {
-        super(message);
-    }
-
+    T parseObject(JSONObject object, JSONObject root);
 }

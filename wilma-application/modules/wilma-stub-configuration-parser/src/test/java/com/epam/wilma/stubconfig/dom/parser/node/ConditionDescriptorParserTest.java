@@ -271,7 +271,7 @@ public class ConditionDescriptorParserTest {
     public void testParseNodeShouldReturnWithACompositeConditionWhenConditionNodeArgumentHasChildWithConditionSetInvokerTagName() {
         //GIVEN
         given(configurationAccess.getProperties()).willReturn(properties);
-        given(properties.getMaxDepthOfXmlTree()).willReturn(10);
+        given(properties.getMaxDepthOfTree()).willReturn(10);
         given(node.getChildNodes()).willReturn(nodeList);
         given(nodeList.getLength()).willReturn(1);
         given(nodeList.item(0)).willReturn(paramElement);

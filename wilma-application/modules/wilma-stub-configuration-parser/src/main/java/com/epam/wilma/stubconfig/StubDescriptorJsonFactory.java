@@ -1,4 +1,4 @@
-package com.epam.wilma.domain.stubconfig.exception;
+package com.epam.wilma.stubconfig;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 
@@ -18,30 +18,24 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.exception.SystemException;
+import com.epam.wilma.domain.stubconfig.StubDescriptor;
+
+import java.io.InputStream;
 
 /**
- * Exception that is thrown when stub descriptor cannot be parsed.
- * @author Marton_Sereg
+ * Access point to the stub-configuration module. This interface is used to build up the object model of a {@link StubDescriptor}
+ * based on an {@link InputStream}.
  *
+ * @author Tamas_Kohegyi
  */
-public class DescriptorCannotBeParsedException extends SystemException {
+public interface StubDescriptorJsonFactory {
 
     /**
-     * Exception constructor with a message and its cause.
-     * @param message the message of the exception
-     * @param throwable the cause of the exception
+     * Loads the stub descriptor from an {@link InputStream}.
+     *
+     * @param inputStream the stream that contains the stub descriptor.
+     * @return the newly built {@link StubDescriptor}
      */
-    public DescriptorCannotBeParsedException(final String message, final Throwable throwable) {
-        super(message, throwable);
-    }
-
-    /**
-     * Exception constructor with a message and its cause.
-     * @param message the message of the exception
-     */
-    public DescriptorCannotBeParsedException(final String message) {
-        super(message);
-    }
+    StubDescriptor buildStubDescriptor(InputStream inputStream);
 
 }

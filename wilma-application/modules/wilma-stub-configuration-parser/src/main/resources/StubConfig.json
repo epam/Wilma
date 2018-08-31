@@ -179,13 +179,73 @@
       "type": "object",
       "oneOf": [
         {
-          "$ref": "#/definitions/booleanConditionDefinition"
+          "type": "object",
+          "properties": {
+            "and": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/definitions/conditionDefinition"
+                  },
+                  {
+                    "$ref": "#/definitions/conditionSetInvokerDefinition"
+                  },
+                  {
+                    "$ref": "#/definitions/booleanConditionDefinition"
+                  }
+                ]
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
         },
         {
-          "$ref": "#/definitions/conditionArrayDefinition"
+          "type": "object",
+          "properties": {
+            "or": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/definitions/conditionDefinition"
+                  },
+                  {
+                    "$ref": "#/definitions/conditionSetInvokerDefinition"
+                  },
+                  {
+                    "$ref": "#/definitions/booleanConditionDefinition"
+                  }
+                ]
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
         },
         {
-          "$ref": "#/definitions/conditionSetInvokerDefinition"
+          "type": "object",
+          "properties": {
+            "not": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/definitions/conditionDefinition"
+                  },
+                  {
+                    "$ref": "#/definitions/conditionSetInvokerDefinition"
+                  },
+                  {
+                    "$ref": "#/definitions/booleanConditionDefinition"
+                  }
+                ]
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
         }
       ]
     },
@@ -194,13 +254,13 @@
       "type": "object",
       "oneOf": [
         {
-          "$ref": "#/definitions/booleanConditionDefinition"
-        },
-        {
           "$ref": "#/definitions/conditionDefinition"
         },
         {
           "$ref": "#/definitions/conditionSetInvokerDefinition"
+        },
+        {
+          "$ref": "#/definitions/booleanConditionDefinition"
         }
       ]
     },
@@ -218,10 +278,13 @@
               "description": "Type of the resource. In case of text, it is embedded (resource contains the value), other case (*file) name of the file",
               "type": "string",
               "enum": [
+                "xml",
                 "text",
+                "html",
+                "json",
                 "xmlFile",
-                "htmlFile",
                 "textFile",
+                "htmlFile",
                 "jsonFile",
                 "external"
               ]
@@ -273,53 +336,44 @@
       "description": "Describes what answer should be sent back, and in case a template is used, what method should be used to make it up-to-date",
       "type": "object",
       "properties": {
-        "responseDescriptor": {
-          "type": "object",
-          "properties": {
-            "delay": {
-              "description": "Optional, default value is 0, delay of the response in seconds, 0 means no delay",
-              "type": "integer",
-              "default": 0,
-              "minimum": 0
-            },
-            "code": {
-              "description": "Optional, response code, default value is 200 (here E500 and others can be specified)",
-              "type": "integer",
-              "default": 200,
-              "minimum": 200
-            },
-            "mimeType": {
-              "description": "Describes the response content type",
-              "type": "string",
-              "enum": [
-                "text/plain",
-                "text/html",
-                "text/xml",
-                "application/xml",
-                "application/soap+xml",
-                "application/json"
-              ]
-            },
-            "templateName": {
-              "$ref": "#/definitions/uniqueNameDefinition"
-            },
-            "templateFormatter": {
-              "$ref": "#/definitions/templateFormatterDefinition"
-            },
-            "templateFormatterSetInvoker": {
-              "$ref": "#/definitions/templateFormatterSetInvokerDefinition"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "mimeType",
-            "templateName"
+        "delay": {
+          "description": "Optional, default value is 0, delay of the response in seconds, 0 means no delay",
+          "type": "integer",
+          "default": 0,
+          "minimum": 0
+        },
+        "code": {
+          "description": "Optional, response code, default value is 200 (here E500 and others can be specified)",
+          "type": "integer",
+          "default": 200,
+          "minimum": 200
+        },
+        "mimeType": {
+          "description": "Describes the response content type",
+          "type": "string",
+          "enum": [
+            "text/plain",
+            "text/html",
+            "text/xml",
+            "application/xml",
+            "application/soap+xml",
+            "application/json"
           ]
+        },
+        "templateName": {
+          "$ref": "#/definitions/uniqueNameDefinition"
+        },
+        "templateFormatter": {
+          "$ref": "#/definitions/templateFormatterDefinition"
+        },
+        "templateFormatterSetInvoker": {
+          "$ref": "#/definitions/templateFormatterSetInvokerDefinition"
         }
       },
       "additionalProperties": false,
       "required": [
-        "responseDescriptor"
+        "mimeType",
+        "templateName"
       ]
     },
     "dialogDescriptorsDefinition": {
@@ -340,6 +394,11 @@
               "disabled"
             ],
             "default": "always"
+          },
+          "validityValue": {
+            "description": "When usage is 'timeout', after a timeout (specified in minutes in validityValue), the node will be disabled",
+            "type": "integer",
+            "minimum": 0
           },
           "comment": {
             "$ref": "#/definitions/commentDefinition"

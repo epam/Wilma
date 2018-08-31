@@ -23,6 +23,8 @@ import com.epam.wilma.engine.configuration.EngineConfigurationAccess;
 import com.epam.wilma.engine.configuration.domain.PropertyDTO;
 import com.epam.wilma.stubconfig.cache.cleaner.helper.StubConfigPathProvider;
 import com.epam.wilma.stubconfig.dom.parser.xsd.StubConfigSchemaParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +37,8 @@ import java.util.List;
  */
 @Component
 public class FileBasedStubConfigReader {
+
+    private final Logger logger = LoggerFactory.getLogger(FileBasedStubConfigReader.class);
 
     private String xmlDescriptorsSourceFolderPath;
     private String xmlDescriptorsPattern;
@@ -70,5 +74,11 @@ public class FileBasedStubConfigReader {
         xmlDescriptorsSourceFolderPath = properties.getStubConfigFolderPath();
         xmlDescriptorsPattern = properties.getStubConfigPattern();
         xmlDescriptorsCachePath = properties.getStubConfigCachePath();
+        Integer useJson = properties.getStubConfigExperimentalJson();
+        if (useJson.intValue() > 0) {
+            //Wow, we are just developing or testing the json based stub configuration functionality
+            logger.info("EXPERIMENTAL JSON STUB CONFIGURATION MODE IS ON - DON'T EXPECT THAT IT WORKS");
+            xmlDescriptorsPattern = xmlDescriptorsPattern.replaceAll(".xml", ".json");
+        }
     }
 }
