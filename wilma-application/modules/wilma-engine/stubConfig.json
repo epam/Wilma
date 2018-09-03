@@ -2,11 +2,47 @@
   "wilmaStubConfiguration": {
     "dialogDescriptors": [
       {
-        "name": "dd",
+        "name": "Built-in default config - does nothing",
         "usage": "always",
         "conditionDescriptor": {
-          "condition": {
-            "class": "AlwaysFalseChecker"
+          "not": {
+            "not": {
+              "or": [
+                {
+                  "and": [
+                    {
+                      "condition": {
+                        "class": "AlwaysFalseChecker"
+                      }
+                    },
+                    {
+                      "condition": {
+                        "class": "AlwaysFalseChecker"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "condition": {
+                        "class": "AlwaysFalseChecker"
+                      }
+                    },
+                    {
+                      "condition": {
+                        "class": "AlwaysFalseChecker"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "condition": {
+                    "class": "AlwaysFalseChecker"
+                  }
+                }
+              ]
+            }
           }
         },
         "responseDescriptor": {

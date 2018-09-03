@@ -228,9 +228,8 @@
           "type": "object",
           "properties": {
             "not": {
-              "type": "array",
-              "items": {
-                "oneOf": [
+              "type": "object",
+              "oneOf": [
                   {
                     "$ref": "#/definitions/conditionDefinition"
                   },
@@ -240,12 +239,13 @@
                   {
                     "$ref": "#/definitions/booleanConditionDefinition"
                   }
-                ]
-              },
-              "minItems": 1
+              ]
             }
           },
-          "additionalProperties": false
+          "additionalProperties": false,
+          "required": [
+            "not"
+          ]
         }
       ]
     },

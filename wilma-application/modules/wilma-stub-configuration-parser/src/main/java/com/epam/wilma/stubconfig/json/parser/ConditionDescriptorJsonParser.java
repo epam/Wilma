@@ -28,6 +28,7 @@ import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.ConditionTagNames;
 import com.epam.wilma.stubconfig.json.parser.helper.ObjectParser;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -59,7 +60,7 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
         int depth = 0;
         Condition condition = null;
         if (conditionDescriptor != null) {
-            List<Condition> parsedConditions = parseConditions(conditionDescriptor, root, depth);
+            List<Condition> parsedConditions = parseCondition(conditionDescriptor, root, depth);
             if (!parsedConditions.isEmpty()) {
                 condition = parsedConditions.get(0);
             }
@@ -67,7 +68,7 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
         return new ConditionDescriptor(condition);
     }
 
-    private List<Condition> parseConditions(JSONObject conditions, final JSONObject root, final int depth) {
+    private List<Condition> parseCondition(JSONObject conditions, final JSONObject root, final int depth) {
         List<Condition> parsedCondition = new LinkedList<>();
         if (conditions != null) {
             Iterator<String> keys = conditions.keys();
@@ -75,16 +76,16 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
                 String next = keys.next();
                 switch (ConditionTagNames.getTagName(next)) {
                     case TAGNAME_AND:
-                        //TODO
-//                        parsedCondition.add(new CompositeCondition(ConditionType.AND, parseConditions(el.getChildNodes(), root, depth)));
+                        parsedCondition.add(new CompositeCondition(ConditionType.AND, parseConditionArray(conditions.getJSONArray(next), root, depth, ConditionType.AND)));
                         break;
                     case TAGNAME_OR:
-//                        parsedCondition.add(new CompositeCondition(ConditionType.OR, parseConditions(el.getChildNodes(), root, depth)));
+                        parsedCondition.add(new CompositeCondition(ConditionType.OR, parseConditionArray(conditions.getJSONArray(next), root, depth, ConditionType.OR)));
                         break;
                     case TAGNAME_NOT:
-//                        parsedCondition.add(new CompositeCondition(ConditionType.NOT, parseConditions(el.getChildNodes(), root, depth)));
+                        parsedCondition.add(new CompositeCondition(ConditionType.NOT, parseCondition(conditions.getJSONObject(next), root, depth)));
                         break;
                     case TAGNAME_COND_SET_INVOKER:
+                        //TODO
 //                        int newDepth = validateDepth(depth, el.getAttribute("name"));
 //                        parseConditionSet(root, parsedCondition, el, newDepth);
                         break;
@@ -94,6 +95,16 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
                     default:
                         break;
                 }
+            }
+        }
+        return parsedCondition;
+    }
+    private List<Condition> parseConditionArray(JSONArray conditions, final JSONObject root, final int depth, final ConditionType conditionType) {
+        List<Condition> parsedCondition = new LinkedList<>();
+        if (conditions != null) {
+            for (int i=0; i < conditions.length(); i++) {
+                JSONObject object = conditions.getJSONObject(i);
+                parsedCondition.add(new CompositeCondition(conditionType, parseCondition(conditions.getJSONObject(i), root, depth)));
             }
         }
         return parsedCondition;
