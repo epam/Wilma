@@ -24,8 +24,8 @@
         "dialogDescriptors": {
           "$ref": "#/definitions/dialogDescriptorsDefinition"
         },
-        "templateDescriptor": {
-          "$ref": "#/definitions/templateDescriptorDefinition"
+        "templates": {
+          "$ref": "#/definitions/templateArrayDefinition"
         },
         "interceptors": {
           "$ref": "#/definitions/interceptorDefinition"
@@ -230,15 +230,15 @@
             "not": {
               "type": "object",
               "oneOf": [
-                  {
-                    "$ref": "#/definitions/conditionDefinition"
-                  },
-                  {
-                    "$ref": "#/definitions/conditionSetInvokerDefinition"
-                  },
-                  {
-                    "$ref": "#/definitions/booleanConditionDefinition"
-                  }
+                {
+                  "$ref": "#/definitions/conditionDefinition"
+                },
+                {
+                  "$ref": "#/definitions/conditionSetInvokerDefinition"
+                },
+                {
+                  "$ref": "#/definitions/booleanConditionDefinition"
+                }
               ]
             }
           },
@@ -268,47 +268,38 @@
       "description": "Describes a single response message template",
       "type": "object",
       "properties": {
-        "template": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "$ref": "#/definitions/uniqueNameDefinition"
-            },
-            "type": {
-              "description": "Type of the resource. In case of text, it is embedded (resource contains the value), other case (*file) name of the file",
-              "type": "string",
-              "enum": [
-                "xml",
-                "text",
-                "html",
-                "json",
-                "xmlFile",
-                "textFile",
-                "htmlFile",
-                "jsonFile",
-                "external"
-              ]
-            },
-            "resource": {
-              "description": "Resource is always a String - meaning depends on the type, for example if that is 'external', then resource is a class name",
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "name",
-            "type",
-            "resource"
+        "name": {
+          "$ref": "#/definitions/uniqueNameDefinition"
+        },
+        "type": {
+          "description": "Type of the resource. In case of text, it is embedded (resource contains the value), other case (*file) name of the file",
+          "type": "string",
+          "enum": [
+            "xml",
+            "text",
+            "html",
+            "json",
+            "xmlFile",
+            "textFile",
+            "htmlFile",
+            "jsonFile",
+            "external"
           ]
+        },
+        "resource": {
+          "description": "Resource is always a String - meaning depends on the type, for example if that is 'external', then resource is a class name",
+          "type": "string",
+          "minLength": 1
         }
       },
       "additionalProperties": false,
       "required": [
-        "template"
+        "name",
+        "type",
+        "resource"
       ]
     },
-    "templateDescriptorDefinition": {
+    "templateArrayDefinition": {
       "description": "Array of templates.",
       "type": "array",
       "items": {
@@ -368,6 +359,9 @@
         },
         "templateFormatterSetInvoker": {
           "$ref": "#/definitions/templateFormatterSetInvokerDefinition"
+        },
+        "sequenceDescriptorName": {
+          "$ref": "#/definitions/uniqueNameDefinition"
         }
       },
       "additionalProperties": false,
@@ -457,7 +451,7 @@
           "$ref": "#/definitions/uniqueNameDefinition"
         },
         "conditionSet": {
-          "$ref": "#/definitions/booleanConditionDefinition"
+          "$ref": "#/definitions/conditionDescriptorDefinition"
         }
       },
       "additionalProperties": false,
@@ -534,13 +528,22 @@
           "conditionDescriptor": {
             "$ref": "#/definitions/conditionDescriptorDefinition"
           },
-          "dialogDescriptors": {
-            "description": "Array of dialog descriptor references - names",
+          "dialogDescriptorNames": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/uniqueNameDefinition"
+              "type": "object",
+              "properties": {
+                "name": {
+                  "$ref": "#/definitions/uniqueNameDefinition"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "name"
+              ]
             },
-            "minItems": 1
+            "minItems": 1,
+            "maxItems": 50
           },
           "parameters": {
             "$ref": "#/definitions/parameterDefinition"

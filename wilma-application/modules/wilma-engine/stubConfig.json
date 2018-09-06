@@ -1,5 +1,20 @@
 {
   "wilmaStubConfiguration": {
+    "sequenceDescriptors": [
+      {
+        "name": "SequenceDescriptorName",
+        "class": "com.epam.class",
+        "timeout": 120000,
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysFalseChecker"
+          }
+        },
+        "dialogDescriptorNames": [
+          { "name": "Testing Sequences" }
+        ]
+      }
+    ],
     "dialogDescriptors": [
       {
         "name": "Built-in default config - does nothing",
@@ -16,8 +31,8 @@
                       }
                     },
                     {
-                      "condition": {
-                        "class": "AlwaysFalseChecker"
+                      "conditionSetInvoker": {
+                        "name": "AlwaysFalse"
                       }
                     }
                   ]
@@ -49,16 +64,62 @@
           "code": 502,
           "delay": 0,
           "mimeType": "text/plain",
-          "templateName": "errorResponse"
+          "templateName": "template 1 - errorResponse"
+        }
+      },
+      {
+        "name": "Testing Sequences",
+        "usage": "always",
+        "conditionDescriptor": {
+                      "condition": {
+                        "class": "AlwaysFalseChecker"
+                      }
+        },
+        "responseDescriptor": {
+          "code": 502,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "template 2 - errorResponse",
+          "sequenceDescriptorName": "SequenceDescriptorName"
         }
       }
     ],
-    "templateDescriptor": [
+    "templates": [
       {
-        "template": {
-          "name": "errorResponse",
-          "type": "text",
-          "resource": "Bad Gateway"
+        "name": "template 1 - errorResponse",
+        "type": "text",
+        "resource": "Bad Gateway"
+      },
+      {
+        "name": "template 2 - errorResponse",
+        "type": "text",
+        "resource": "Bad Gateway"
+      }
+    ],
+    "conditionSets": [
+      {
+        "name": "AlwaysFalse",
+        "conditionSet": {
+          "condition": {
+            "class": "AlwaysFalseChecker"
+          }
+        }
+      },
+      {
+        "name": "AlwaysTrue",
+        "conditionSet": {
+          "and": [
+            {
+              "condition": {
+                "class": "AlwaysTrueChecker"
+              }
+            },
+            {
+              "condition": {
+                "class": "AlwaysTrueChecker"
+              }
+            }
+          ]
         }
       }
     ]

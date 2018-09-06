@@ -103,12 +103,14 @@ public class ResponseDescriptorJsonParser implements ObjectParser<ResponseDescri
             groupName = root.getString("groupName");
         }
         //TODO
-//        String sequenceDescriptorName = el.getAttribute("sequenceDescriptorName");
-//        String sequenceDescriptorKey = sequenceDescriptorKeyUtil.createDescriptorKey(groupName, sequenceDescriptorName);
-//        ResponseDescriptorAttributes responseDescriptorAttributes = new ResponseDescriptorAttributes.Builder().delay(delay).code(code)
-//                .mimeType(mimeType).template(template).sequenceDescriptorKey(sequenceDescriptorKey).build();
-        ResponseDescriptorAttributes responseDescriptorAttributes = new ResponseDescriptorAttributes.Builder().delay(delay).code(code)
-                .mimeType(mimeType).template(template).build();
+        String sequenceDescriptorName = null;
+        if (responseDescriptorObject.has("sequenceDescriptorName")) {
+            sequenceDescriptorName = responseDescriptorObject.getString("sequenceDescriptorName");
+        }
+        String sequenceDescriptorKey = sequenceDescriptorKeyUtil.createDescriptorKey(groupName, sequenceDescriptorName);
+        ResponseDescriptorAttributes responseDescriptorAttributes;
+        responseDescriptorAttributes = new ResponseDescriptorAttributes.Builder().delay(delay).code(code)
+                .mimeType(mimeType).template(template).sequenceDescriptorKey(sequenceDescriptorKey).build();
         return responseDescriptorAttributes;
     }
 
@@ -117,10 +119,10 @@ public class ResponseDescriptorJsonParser implements ObjectParser<ResponseDescri
         String type = null;
         String resourceString = null;
         boolean found = false;
-        if (root.has("templateDescriptor")) {
-            JSONArray templateArray = root.getJSONArray("templateDescriptor");
+        if (root.has("templates")) {
+            JSONArray templateArray = root.getJSONArray("templates");
             for (int i = 0; templateArray.length() > i; i++) {
-                JSONObject template = templateArray.getJSONObject(i).getJSONObject("template");
+                JSONObject template = templateArray.getJSONObject(i);
                 name = template.getString("name");
                 if (name.contentEquals(templateName)) {
                     type = template.getString("type");
@@ -130,7 +132,7 @@ public class ResponseDescriptorJsonParser implements ObjectParser<ResponseDescri
                 }
             }
         } else {
-            throw new DescriptorCannotBeParsedException("Template Descriptor is missing.");
+            throw new DescriptorCannotBeParsedException("There is no Template defined.");
         }
         if (!found) {
             throw new DescriptorCannotBeParsedException("Cannot find template with name: '" + templateName + "'.");

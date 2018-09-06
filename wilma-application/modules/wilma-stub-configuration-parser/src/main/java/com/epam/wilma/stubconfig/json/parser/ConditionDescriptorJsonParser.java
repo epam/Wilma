@@ -23,6 +23,7 @@ import com.epam.wilma.domain.stubconfig.dialog.condition.CompositeCondition;
 import com.epam.wilma.domain.stubconfig.dialog.condition.Condition;
 import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionType;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
@@ -39,16 +40,14 @@ import java.util.List;
 
 /**
  * Parses a ConditionDescriptor tag elements from Stub configuration JSON object.
- * @author Tamas_Kohegyi
  *
+ * @author Tamas_Kohegyi
  */
 @Component
 public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDescriptor> {
 
     private Integer maxDepthOfJsonTree;
 
-//    @Autowired
-//    private StubConfigXPathEvaluator xPathEvaluator;
     @Autowired
     private SimpleConditionJsonParser simpleConditionJsonParser;
     @Autowired
@@ -85,9 +84,9 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
                         parsedCondition.add(new CompositeCondition(ConditionType.NOT, parseCondition(conditions.getJSONObject(next), root, depth)));
                         break;
                     case TAGNAME_COND_SET_INVOKER:
-                        //TODO
-//                        int newDepth = validateDepth(depth, el.getAttribute("name"));
-//                        parseConditionSet(root, parsedCondition, el, newDepth);
+                        JSONObject conditionSetObject = conditions.getJSONObject(next);
+                        int newDepth = validateDepth(depth, conditionSetObject.getString("name"));
+                        parseConditionSet(root, parsedCondition, conditionSetObject, newDepth);
                         break;
                     case TAGNAME_CONDITION:
                         simpleConditionJsonParser.parseSimpleCondition(parsedCondition, conditions.getJSONObject(next));
@@ -99,11 +98,11 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
         }
         return parsedCondition;
     }
+
     private List<Condition> parseConditionArray(JSONArray conditions, final JSONObject root, final int depth, final ConditionType conditionType) {
         List<Condition> parsedCondition = new LinkedList<>();
         if (conditions != null) {
-            for (int i=0; i < conditions.length(); i++) {
-                JSONObject object = conditions.getJSONObject(i);
+            for (int i = 0; i < conditions.length(); i++) {
                 parsedCondition.add(new CompositeCondition(conditionType, parseCondition(conditions.getJSONObject(i), root, depth)));
             }
         }
@@ -111,12 +110,28 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
     }
 
     private void parseConditionSet(final JSONObject root, final List<Condition> parsedCondition, final JSONObject object, final int depth) {
-//TODO
-/*        String conditionSetName = el.getAttribute("name");
-        String expression = "/wilma:wilma-stub/wilma:condition-templates/wilma:condition-set[@name='" + conditionSetName + "']";
-        Element result = xPathEvaluator.getElementByXPath(expression, document);
-        parsedCondition.addAll(parseConditions(result.getChildNodes(), document, depth));
-        */
+        String conditionSetName = object.getString("name");
+        String name;
+        JSONObject condition = null;
+        boolean found = false;
+        if (root.has("conditionSets")) {
+            JSONArray conditionSetArray = root.getJSONArray("conditionSets");
+            for (int i = 0; conditionSetArray.length() > i; i++) {
+                JSONObject conditionSet = conditionSetArray.getJSONObject(i);
+                name = conditionSet.getString("name");
+                if (name.contentEquals(conditionSetName)) {
+                    condition = conditionSet.getJSONObject("conditionSet");
+                    found = true;
+                    break;
+                }
+            }
+        } else {
+            throw new DescriptorCannotBeParsedException("There is no Condition Set defined.");
+        }
+        if (!found) {
+            throw new DescriptorCannotBeParsedException("Cannot find Condition Set with name: '" + conditionSetName + "'.");
+        }
+        parsedCondition.addAll(parseCondition(condition, root, depth));
     }
 
     private int validateDepth(final int depth, final String invokerName) {

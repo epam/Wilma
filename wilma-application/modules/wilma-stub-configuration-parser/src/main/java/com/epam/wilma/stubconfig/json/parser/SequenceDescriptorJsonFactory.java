@@ -58,8 +58,7 @@ public class SequenceDescriptorJsonFactory {
      * @return a new {@link SequenceDescriptor} instance.
      */
     public SequenceDescriptor create(final JSONObject root, final JSONObject sequenceElement, final List<DialogDescriptor> dialogDescriptors) {
-//TODO
-//        List<ConditionDescriptor> conditionDescriptors = conditionDescriptorNodesParser.parseNodesOfElement(document, sequenceElement);
+ //       List<ConditionDescriptor> conditionDescriptors = conditionDescriptorNodesParser.parseNodesOfElement(document, sequenceElement);
    //     Map<String, DialogDescriptor> dialogDescriptorMap = dialogDescriptorMapper.groupByName(dialogDescriptors);
      //   List<DialogDescriptor> referencedDialogDescriptors = dialogDescriptorReferenceParser.parse(sequenceElement, dialogDescriptorMap);
        // SequenceDescriptorAttributes attributes = sequenceDescriptorAttributesParser.parseNode(sequenceElement, document);

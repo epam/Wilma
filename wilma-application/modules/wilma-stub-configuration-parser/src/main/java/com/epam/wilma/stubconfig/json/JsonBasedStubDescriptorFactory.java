@@ -27,6 +27,7 @@ import com.epam.wilma.stubconfig.dom.parser.StubResourceHolderUpdater;
 import com.epam.wilma.stubconfig.json.parser.StubDescriptorJsonParser;
 import com.epam.wilma.stubconfig.json.schema.StubConfigJsonSchemaParser;
 import org.everit.json.schema.Schema;
+import org.everit.json.schema.ValidationException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -74,6 +75,14 @@ public class JsonBasedStubDescriptorFactory implements StubDescriptorJsonFactory
             //TODO: validating
             //load the extra validation
             //understand the extra validation rules and do such extra validation
+            // - name in sequenceDescriptor array must be unique
+            // - name in conditionSets array must be unique
+            // - name in template array must be unique
+            // - name in dialog descriptors must be unique
+            // - name in templateFormatterSets must be unique
+            // - wilma stub groupName shall not contain chars: "|" ";"
+            // - sequenceDescriptor name shall not contain chars: "|" ";"
+            // - all class name must be valid/loadable
             //if everything goes well, continue with registering the stub configuration
             stubResourceHolderUpdater.initializeTemporaryResourceHolder();
             configurationAccess.setProperties();
@@ -83,7 +92,7 @@ public class JsonBasedStubDescriptorFactory implements StubDescriptorJsonFactory
             StubDescriptorAttributes attributes = stubDescriptor.getAttributes();
             stubResourceHolderUpdater.addDocumentToResourceHolder(attributes.getGroupName(), jsonStubDescriptor);
             return stubDescriptor;
-        } catch (JSONException e) {
+        } catch (ValidationException | JSONException e) {
             throw new DescriptorCannotBeParsedException("Stub descriptor cannot be parsed.", e);
         }
     }
