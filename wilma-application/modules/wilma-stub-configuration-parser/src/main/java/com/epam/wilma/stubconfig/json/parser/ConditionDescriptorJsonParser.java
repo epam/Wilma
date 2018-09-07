@@ -27,7 +27,7 @@ import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedExcept
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
-import com.epam.wilma.stubconfig.dom.parser.node.helper.ConditionTagNames;
+import com.epam.wilma.stubconfig.json.parser.helper.ConditionTagNames;
 import com.epam.wilma.stubconfig.json.parser.helper.ObjectParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -74,21 +74,20 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
             while (keys.hasNext()) {
                 String next = keys.next();
                 switch (ConditionTagNames.getTagName(next)) {
-                    case TAGNAME_AND:
+                    case TAG_NAME_AND:
                         parsedCondition.add(new CompositeCondition(ConditionType.AND, parseConditionArray(conditions.getJSONArray(next), root, depth, ConditionType.AND)));
                         break;
-                    case TAGNAME_OR:
+                    case TAG_NAME_OR:
                         parsedCondition.add(new CompositeCondition(ConditionType.OR, parseConditionArray(conditions.getJSONArray(next), root, depth, ConditionType.OR)));
                         break;
-                    case TAGNAME_NOT:
+                    case TAG_NAME_NOT:
                         parsedCondition.add(new CompositeCondition(ConditionType.NOT, parseCondition(conditions.getJSONObject(next), root, depth)));
                         break;
-                    case TAGNAME_COND_SET_INVOKER:
-                        JSONObject conditionSetObject = conditions.getJSONObject(next);
-                        int newDepth = validateDepth(depth, conditionSetObject.getString("name"));
-                        parseConditionSet(root, parsedCondition, conditionSetObject, newDepth);
+                    case TAG_NAME_COND_SET_INVOKER:
+                        int newDepth = validateDepth(depth, conditions.getString("conditionSetInvoker"));
+                        parseConditionSet(root, parsedCondition, conditions, newDepth);
                         break;
-                    case TAGNAME_CONDITION:
+                    case TAG_NAME_CONDITION:
                         simpleConditionJsonParser.parseSimpleCondition(parsedCondition, conditions.getJSONObject(next));
                         break;
                     default:
@@ -110,7 +109,7 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
     }
 
     private void parseConditionSet(final JSONObject root, final List<Condition> parsedCondition, final JSONObject object, final int depth) {
-        String conditionSetName = object.getString("name");
+        String conditionSetName = object.getString("conditionSetInvoker");
         String name;
         JSONObject condition = null;
         boolean found = false;

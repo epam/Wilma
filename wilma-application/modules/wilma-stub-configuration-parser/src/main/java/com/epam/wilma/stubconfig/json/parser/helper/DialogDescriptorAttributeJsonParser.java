@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.json.parser;
+package com.epam.wilma.stubconfig.json.parser.helper;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 

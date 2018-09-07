@@ -31,9 +31,7 @@
                       }
                     },
                     {
-                      "conditionSetInvoker": {
-                        "name": "AlwaysFalse"
-                      }
+                      "conditionSetInvoker": "AlwaysFalse"
                     }
                   ]
                 },
@@ -64,7 +62,22 @@
           "code": 502,
           "delay": 0,
           "mimeType": "text/plain",
-          "templateName": "template 1 - errorResponse"
+          "templateName": "template 1 - errorResponse",
+          "responseFormatterSet": [
+            {
+              "responseFormatter": {
+                "class": "com.blah"
+              }
+            },
+            {
+              "responseFormatter": {
+                "class": "com.blah"
+              }
+            },
+            {
+              "responseFormatterSetInvoker": "Invoked Response Formatter Set"
+            }
+          ]
         }
       },
       {
@@ -121,6 +134,18 @@
             }
           ]
         }
+      }
+    ],
+    "responseFormatterSets": [
+      {
+        "name": "Invoked Response Formatter Set",
+        "responseFormatterSet": [
+          {
+            "responseFormatter": {
+              "class": "com.blah"
+            }
+          }
+        ]
       }
     ]
   }

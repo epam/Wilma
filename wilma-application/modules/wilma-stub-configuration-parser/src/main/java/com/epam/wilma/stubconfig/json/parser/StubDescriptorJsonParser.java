@@ -26,6 +26,7 @@ import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
 import com.epam.wilma.domain.stubconfig.interceptor.InterceptorDescriptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
+import com.epam.wilma.stubconfig.json.parser.helper.DialogDescriptorAttributeJsonParser;
 import com.epam.wilma.stubconfig.json.parser.helper.ObjectParser;
 import org.json.JSONArray;
 import org.json.JSONObject;

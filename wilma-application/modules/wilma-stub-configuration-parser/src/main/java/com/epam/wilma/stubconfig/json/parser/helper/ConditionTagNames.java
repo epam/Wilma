@@ -24,12 +24,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 public enum ConditionTagNames {
-    TAGNAME_COND_SET_INVOKER("conditionSetInvoker"),
-    TAGNAME_CONDITION("condition"),
-    TAGNAME_NOT("not"),
-    TAGNAME_OR("or"),
-    TAGNAME_AND("and"),
-    TAGNAME_INVALID("");
+    TAG_NAME_COND_SET_INVOKER("conditionSetInvoker"),
+    TAG_NAME_CONDITION("condition"),
+    TAG_NAME_NOT("not"),
+    TAG_NAME_OR("or"),
+    TAG_NAME_AND("and"),
+    TAG_NAME_INVALID("");
 
     private String tagName;
 
@@ -38,17 +38,17 @@ public enum ConditionTagNames {
     }
 
     /**
-     * Returns the condition tag's child name enum value based on the XML tag name.
-     * @param xmlTagName is the XML tag name
+     * Returns the condition tag's child name enum value based on the json tag name.
+     * @param jsonTagName is the XML tag name
      * @return the mapped enum value
      */
-    public static ConditionTagNames getTagName(final String xmlTagName) {
-        ConditionTagNames result = ConditionTagNames.TAGNAME_INVALID;
-        if (xmlTagName != null) {
+    public static ConditionTagNames getTagName(final String jsonTagName) {
+        ConditionTagNames result = ConditionTagNames.TAG_NAME_INVALID;
+        if (jsonTagName != null) {
             boolean limitNotFound = false;
             ConditionTagNames[] limits = ConditionTagNames.values();
             for (int i = 0; i < limits.length && !limitNotFound; i++) {
-                if (xmlTagName.equals(limits[i].tagName)) {
+                if (jsonTagName.equals(limits[i].tagName)) {
                     result = limits[i];
                     limitNotFound = true;
                 }

@@ -33,8 +33,8 @@
         "conditionSets": {
           "$ref": "#/definitions/conditionSetArrayDefinition"
         },
-        "templateFormatterSets": {
-          "$ref": "#/definitions/templateFormatterSetArrayDefinition"
+        "responseFormatterSets": {
+          "$ref": "#/definitions/responseFormatterSetsArrayDefinition"
         }
       },
       "additionalProperties": false
@@ -97,43 +97,12 @@
       "type": "object",
       "properties": {
         "conditionSetInvoker": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "$ref": "#/definitions/uniqueNameDefinition"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "name"
-          ]
+          "$ref": "#/definitions/uniqueNameDefinition"
         }
       },
       "additionalProperties": false,
       "required": [
         "conditionSetInvoker"
-      ]
-    },
-    "templateFormatterSetInvokerDefinition": {
-      "description": "Object that holds a template formatter set invoker",
-      "type": "object",
-      "properties": {
-        "templateFormatterSetInvoker": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "$ref": "#/definitions/uniqueNameDefinition"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "name"
-          ]
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "templateFormatterSetInvoker"
       ]
     },
     "conditionDefinition": {
@@ -308,20 +277,59 @@
       "minItems": 1,
       "maxItems": 50
     },
-    "templateFormatterDefinition": {
-      "description": "Template formatter",
+    "responseFormatterSetInvokerDefinition": {
+      "description": "Object that holds a response formatter set invoker",
       "type": "object",
       "properties": {
-        "class": {
-          "$ref": "#/definitions/classNameDefinition"
-        },
-        "parameters": {
-          "$ref": "#/definitions/parameterDefinition"
+        "responseFormatterSetInvoker": {
+          "$ref": "#/definitions/uniqueNameDefinition"
         }
       },
+      "additionalProperties": false,
       "required": [
-        "class"
+        "responseFormatterSetInvoker"
       ]
+    },
+    "responseFormatterDefinition": {
+      "description": "Response formatter",
+      "type": "object",
+      "properties": {
+        "responseFormatter": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "$ref": "#/definitions/classNameDefinition"
+            },
+            "parameters": {
+              "$ref": "#/definitions/parameterDefinition"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "class"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "responseFormatter"
+      ]
+    },
+    "responseFormatterSetArrayDefinition": {
+      "description": "Describes the formatter method(s) applied on the specific template",
+      "type": "array",
+      "items": {
+        "oneOf" : [
+          {
+            "$ref": "#/definitions/responseFormatterDefinition"
+          },
+          {
+            "$ref": "#/definitions/responseFormatterSetInvokerDefinition"
+          }
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 25
     },
     "responseDescriptorDefinition": {
       "description": "Describes what answer should be sent back, and in case a template is used, what method should be used to make it up-to-date",
@@ -354,11 +362,8 @@
         "templateName": {
           "$ref": "#/definitions/uniqueNameDefinition"
         },
-        "templateFormatter": {
-          "$ref": "#/definitions/templateFormatterDefinition"
-        },
-        "templateFormatterSetInvoker": {
-          "$ref": "#/definitions/templateFormatterSetInvokerDefinition"
+        "responseFormatterSet": {
+          "$ref": "#/definitions/responseFormatterSetArrayDefinition"
         },
         "sequenceDescriptorName": {
           "$ref": "#/definitions/uniqueNameDefinition"
@@ -369,6 +374,33 @@
         "mimeType",
         "templateName"
       ]
+    },
+    "responseFormatterSetsDefinition": {
+      "description": "An array of response formatter sets",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/uniqueNameDefinition"
+        },
+        "responseFormatterSet": {
+          "$ref": "#/definitions/responseFormatterSetArrayDefinition"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "responseFormatterSet"
+      ],
+      "minItems": 1
+    },
+    "responseFormatterSetsArrayDefinition": {
+      "description": "Array of response Formatter sets.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/responseFormatterSetsDefinition"
+      },
+      "minItems": 1,
+      "maxItems": 25
     },
     "dialogDescriptorsDefinition": {
       "description": "Dialog Descriptor Array",
@@ -461,50 +493,11 @@
       ],
       "minItems": 1
     },
-    "templateFormatterSetDefinition": {
-      "description": "Set of template formatter",
-      "type": "object",
-      "properties": {
-        "name": {
-          "$ref": "#/definitions/uniqueNameDefinition"
-        },
-        "templateFormatterSet": {
-          "type": "object",
-          "properties": {
-            "templateFormatter": {
-              "$ref": "#/definitions/templateFormatterDefinition"
-            },
-            "templateFormatterSetInvoker": {
-              "$ref": "#/definitions/templateFormatterSetInvokerDefinition"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "templateFormatter"
-          ]
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "templateFormatterSet"
-      ],
-      "minItems": 1
-    },
     "conditionSetArrayDefinition": {
       "description": "Array of condition sets.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/conditionSetDefinition"
-      },
-      "minItems": 1,
-      "maxItems": 25
-    },
-    "templateFormatterSetArrayDefinition": {
-      "description": "Array of template formatter sets.",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/templateFormatterSetDefinition"
       },
       "minItems": 1,
       "maxItems": 25

@@ -20,6 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
+import com.epam.wilma.stubconfig.json.parser.helper.SequenceDescriptorJsonFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
