@@ -23,8 +23,6 @@ import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.initializer.sequencehandler.SequenceHandlerInitializer;
-import com.epam.wilma.stubconfig.json.parser.helper.ObjectParser;
-import com.epam.wilma.stubconfig.json.parser.helper.ParameterListParser;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
