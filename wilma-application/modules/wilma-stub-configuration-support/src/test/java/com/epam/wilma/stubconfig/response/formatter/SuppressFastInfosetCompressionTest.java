@@ -37,25 +37,25 @@ public class SuppressFastInfosetCompressionTest {
     }
 
     @Test
-    public void testFormatTemplateWithoutExistingHeader() throws Exception {
+    public void testFormatTemplateWithoutExistingHeader() {
         //GIVEN
         //SetUp
         given(request.getHeader(SuppressFastInfosetCompression.ACCEPT_HEADER_KEY)).willReturn(SuppressFastInfosetCompression.ACCEPT_VALUE_FASTINFOSET);
         given(response.getHeader(SuppressFastInfosetCompression.HEADER_KEY_SUPPRESS_ENCODING)).willReturn(null);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verify(response).addHeader(SuppressFastInfosetCompression.HEADER_KEY_SUPPRESS_ENCODING, SuppressFastInfosetCompression.FASTINFOSET);
     }
 
     @Test
-    public void testFormatTemplateWithExistingHeader() throws Exception {
+    public void testFormatTemplateWithExistingHeader() {
         //GIVEN
         //SetUp
         given(request.getHeader(SuppressFastInfosetCompression.ACCEPT_HEADER_KEY)).willReturn(SuppressFastInfosetCompression.ACCEPT_VALUE_FASTINFOSET);
         given(response.getHeader(SuppressFastInfosetCompression.HEADER_KEY_SUPPRESS_ENCODING)).willReturn(ANY_HEADER_VALUE);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verify(response).addHeader(SuppressFastInfosetCompression.HEADER_KEY_SUPPRESS_ENCODING, ANY_HEADER_VALUE + "," + SuppressFastInfosetCompression.FASTINFOSET);
     }

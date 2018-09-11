@@ -22,13 +22,13 @@ import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.domain.sequence.RequestResponsePair;
 import com.epam.wilma.sequence.formatters.helper.SequenceXmlTransformer;
 import com.epam.wilma.sequence.formatters.xsl.SequenceAwareXslResponseGenerator;
-import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
+import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,13 +40,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * XSL based version of {@link SequenceAwareXslBasedTemplateFormatter}.
+ * XSL based version of {@link SequenceAwareXslBasedResponseFormatter}.
  * The xsl file should be passed with key {@link com.epam.wilma.sequence.formatters.xsl.SequenceAwareXslTransformer#REQUEST_PARAMETER_NAME}.
  *
  * @author Balazs_Berkes
  */
 @Component
-public class SequenceAwareXslBasedTemplateFormatter implements TemplateFormatter {
+public class SequenceAwareXslBasedResponseFormatter implements ResponseFormatter {
 
     @Autowired
     private FileFactory fileFactory;
@@ -60,8 +60,8 @@ public class SequenceAwareXslBasedTemplateFormatter implements TemplateFormatter
     private SequenceXmlTransformer sequenceXmlTransformer;
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
-                                 final byte[] templateResource, final ParameterList params) throws Exception {
+    public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                                 final byte[] templateResource, final ParameterList params) {
         Map<String, RequestResponsePair> message = wilmaRequest.getSequence().getPairs();
 
         Map<String, String> nameToXml = sequenceXmlTransformer.transform(params, message);
@@ -78,7 +78,7 @@ public class SequenceAwareXslBasedTemplateFormatter implements TemplateFormatter
         try {
             result = fileUtils.getFileAsByteArray(xslFile);
         } catch (IOException e) {
-            throw new TemplateFormattingFailedException(
+            throw new ResponseFormattingFailedException(
                     "The previously defined xslFile='" + xslResourcePath + "' can not be read or does not exist.", e);
         }
         return result;
@@ -90,8 +90,8 @@ public class SequenceAwareXslBasedTemplateFormatter implements TemplateFormatter
         if (!paramList.isEmpty()) {
             xslResourceName = paramList.get(0).getValue();
         } else {
-            throw new TemplateFormattingFailedException(
-                    "The XslBasedTemplateFormatter must have one parameter in stub configuration to define necessary xsl template file.");
+            throw new ResponseFormattingFailedException(
+                    "The XslBasedResponseFormatter must have one parameter in stub configuration to define necessary xsl template file.");
         }
         return (stubResourcePathProvider.getTemplatesPathAsString() + "/" + xslResourceName).replace("\\", "/");
     }

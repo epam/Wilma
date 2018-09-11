@@ -21,28 +21,30 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.PatternSyntaxException;
 
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
 
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Searches for a given string to be replaced in a response template. If there is more than one parameter, then
- * it will look for all of them in the template. When a parameter name is found, it replaces the name with its value.
+ * Searches for a given regexp to be replaced in a response template. If there is more than one parameter, then
+ * it will look for all of them in the template. When a parameter name is matched, it replaces the name with its value.
  * @author Tunde_Kovacs
  *
  */
 @Component
-public class StringReplaceTemplateFormatter implements TemplateFormatter {
+public class StringRegexpReplaceResponseFormatter implements ResponseFormatter {
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+    public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
                                  final byte[] templateResource, final ParameterList params) throws Exception {
         byte[] result = templateResource;
         String template = null;
@@ -58,7 +60,11 @@ public class StringReplaceTemplateFormatter implements TemplateFormatter {
         for (Parameter param : params.getAllParameters()) {
             String name = param.getName();
             String value = param.getValue();
-            template = template.replace(name, value);
+            try {
+                template = template.replaceAll(name, value);
+            } catch (PatternSyntaxException e) {
+                throw new ResponseFormattingFailedException("Pattern syntax :'" + name + "' incorrect!", e);
+            }
         }
         return template;
     }

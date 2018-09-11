@@ -22,16 +22,16 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.sequence.formatters.helper.SequenceJsonTransformer;
-import com.epam.wilma.webapp.stub.response.formatter.json.JsonTemplateFormatter;
+import com.epam.wilma.webapp.stub.response.formatter.json.JsonResponseFormatter;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -51,13 +51,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author Balazs_Berkes
  */
 @Component
-public class SequenceAwareJsonTemplateFormatter implements TemplateFormatter {
+public class SequenceAwareJsonResponseFormatter implements ResponseFormatter {
 
     @Autowired
     private SequenceJsonTransformer sequenceJsonTransformer;
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+    public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
                                  final byte[] templateResource, final ParameterList params) throws Exception {
         JsonElement response = new JsonParser().parse(IOUtils.toString(templateResource, StandardCharsets.UTF_8.name()));
         new SessionAwareJsonTreeEvaluator(wilmaRequest.getBody(), wilmaRequest.getSequence(), params).replaceAllNonRecursive(response);
@@ -65,7 +65,7 @@ public class SequenceAwareJsonTemplateFormatter implements TemplateFormatter {
         return response.toString().getBytes();
     }
 
-    private final class SessionAwareJsonTreeEvaluator extends JsonTemplateFormatter.NonRecursiveJsonTreeEvaluator {
+    private final class SessionAwareJsonTreeEvaluator extends JsonResponseFormatter.NonRecursiveJsonTreeEvaluator {
 
         private static final String SELF_REQUEST_REFFERENCE = "request";
         private static final String SIMPLE_JSON_PATH_PREFIX = "$.";

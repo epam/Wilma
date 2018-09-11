@@ -57,29 +57,29 @@ public class HeaderFormatterTest {
     }
 
     @Test
-    public void testFormatterDoesNothingWhenParameterIsNull() throws Exception {
+    public void testFormatterDoesNothingWhenParameterIsNull() {
         //GIVEN
         //setup
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verifyZeroInteractions(request);
         verifyZeroInteractions(response);
     }
 
     @Test
-    public void testFormatterDoesNothingWhenParameterIsEmpty() throws Exception {
+    public void testFormatterDoesNothingWhenParameterIsEmpty() {
         //GIVEN
         given(parameterMap.isEmpty()).willReturn(true);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verifyZeroInteractions(request);
         verifyZeroInteractions(response);
     }
 
     @Test
-    public void testFormatterAddNewHeader() throws Exception {
+    public void testFormatterAddNewHeader() {
         //GIVEN
         given(parameterMap.isEmpty()).willReturn(false);
         given(response.containsHeader("A")).willReturn(false);
@@ -88,13 +88,13 @@ public class HeaderFormatterTest {
         parameters.add(p);
         given(parameterMap.getAllParameters()).willReturn(parameters);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verify(response).addHeader("A", "B");
     }
 
     @Test
-    public void testFormatterUpdateHeader() throws Exception {
+    public void testFormatterUpdateHeader() {
         //GIVEN
         given(parameterMap.isEmpty()).willReturn(false);
         given(response.containsHeader("A")).willReturn(true);
@@ -103,13 +103,13 @@ public class HeaderFormatterTest {
         parameters.add(p);
         given(parameterMap.getAllParameters()).willReturn(parameters);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verify(response).setHeader("A", "B");
     }
 
     @Test
-    public void testFormatterDoNothingWhenParameterIsWrongNB() throws Exception {
+    public void testFormatterDoNothingWhenParameterIsWrongNB() {
         //GIVEN
         given(parameterMap.isEmpty()).willReturn(false);
         List<Parameter> parameters = new ArrayList<>();
@@ -117,14 +117,14 @@ public class HeaderFormatterTest {
         parameters.add(p);
         given(parameterMap.getAllParameters()).willReturn(parameters);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verifyZeroInteractions(request);
         verifyZeroInteractions(response);
     }
 
     @Test
-    public void testFormatterDoNothingWhenParameterIsWrongEB() throws Exception {
+    public void testFormatterDoNothingWhenParameterIsWrongEB() {
         //GIVEN
         given(parameterMap.isEmpty()).willReturn(false);
         List<Parameter> parameters = new ArrayList<>();
@@ -132,14 +132,14 @@ public class HeaderFormatterTest {
         parameters.add(p);
         given(parameterMap.getAllParameters()).willReturn(parameters);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verifyZeroInteractions(request);
         verifyZeroInteractions(response);
     }
 
     @Test
-    public void testFormatterDoNothingWhenParameterIsWrongAE() throws Exception {
+    public void testFormatterDoNothingWhenParameterIsWrongAE() {
         //GIVEN
         given(parameterMap.isEmpty()).willReturn(false);
         List<Parameter> parameters = new ArrayList<>();
@@ -147,14 +147,14 @@ public class HeaderFormatterTest {
         parameters.add(p);
         given(parameterMap.getAllParameters()).willReturn(parameters);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verifyZeroInteractions(request);
         verifyZeroInteractions(response);
     }
 
     @Test
-    public void testFormatterDoNothingWhenParameterIsWrongAN() throws Exception {
+    public void testFormatterDoNothingWhenParameterIsWrongAN() {
         //GIVEN
         given(parameterMap.isEmpty()).willReturn(false);
         List<Parameter> parameters = new ArrayList<>();
@@ -162,7 +162,7 @@ public class HeaderFormatterTest {
         parameters.add(p);
         given(parameterMap.getAllParameters()).willReturn(parameters);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verifyZeroInteractions(request);
         verifyZeroInteractions(response);

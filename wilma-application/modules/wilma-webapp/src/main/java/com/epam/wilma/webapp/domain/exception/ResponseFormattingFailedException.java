@@ -21,17 +21,17 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.exception.SystemException;
 
 /**
- * It is thrown when a response template cannot be formatted.
+ * It is thrown when a response cannot be formatted.
  * @author Tunde_Kovacs
  *
  */
-public class TemplateFormattingFailedException extends SystemException {
+public class ResponseFormattingFailedException extends SystemException {
 
     /**
      * Exception constructor with a message.
      * @param message the message of the exception
      */
-    public TemplateFormattingFailedException(final String message) {
+    public ResponseFormattingFailedException(final String message) {
         super(message);
     }
 
@@ -40,7 +40,7 @@ public class TemplateFormattingFailedException extends SystemException {
      * @param message the message of the exception
      * @param throwable the cause of the exception
      */
-    public TemplateFormattingFailedException(final String message, final Throwable throwable) {
+    public ResponseFormattingFailedException(final String message, final Throwable throwable) {
         super(message, throwable);
     }
 

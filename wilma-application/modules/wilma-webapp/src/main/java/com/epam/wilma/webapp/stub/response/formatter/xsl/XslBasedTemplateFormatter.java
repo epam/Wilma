@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,10 +31,9 @@ import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
+import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,7 +45,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 @Component
-public class XslBasedTemplateFormatter implements TemplateFormatter {
+public class XslBasedTemplateFormatter implements ResponseFormatter {
 
     @Autowired
     private FileUtils fileUtils;
@@ -58,7 +58,7 @@ public class XslBasedTemplateFormatter implements TemplateFormatter {
     private XslResponseGenerator xslResponseGenerator;
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+    public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
                                  final byte[] templateResource, final ParameterList params) throws Exception {
         String xslResourcePath = checkAndGetXslResourcePath(params);
         byte[] xslResource = readXslResourceFromFileSystem(xslResourcePath);
@@ -72,7 +72,7 @@ public class XslBasedTemplateFormatter implements TemplateFormatter {
         try {
             result = fileUtils.getFileAsByteArray(xslFile);
         } catch (IOException e) {
-            throw new TemplateFormattingFailedException(
+            throw new ResponseFormattingFailedException(
                     "The previously defined xslFile='" + xslResourcePath + "' can not be read or does not exist.", e);
         }
         return result;
@@ -84,7 +84,7 @@ public class XslBasedTemplateFormatter implements TemplateFormatter {
         if (paramList.size() == 1) {
             xslResourceName = paramList.get(0).getValue();
         } else {
-            throw new TemplateFormattingFailedException(
+            throw new ResponseFormattingFailedException(
                     "The XslBasedTemplateFormatter must have one parameter in stub configuration to define necessary xsl template file.");
         }
         return (stubResourcePathProvider.getTemplatesPathAsString() + "/" + xslResourceName).replace("\\", "/");

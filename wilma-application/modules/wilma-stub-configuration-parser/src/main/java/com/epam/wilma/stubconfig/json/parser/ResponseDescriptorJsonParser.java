@@ -20,8 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatterDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateType;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
@@ -48,7 +48,7 @@ public class ResponseDescriptorJsonParser implements ObjectParser<ResponseDescri
 
     @Autowired
     @Qualifier("responseFormatterDescriptorJsonParser")
-    private ObjectParser<Set<TemplateFormatterDescriptor>> responseFormatterDescriptorJsonParser;
+    private ObjectParser<Set<ResponseFormatterDescriptor>> responseFormatterDescriptorJsonParser;
     @Autowired
     private TemplateFileReader templateFileReader;
     @Autowired
@@ -70,7 +70,7 @@ public class ResponseDescriptorJsonParser implements ObjectParser<ResponseDescri
         ResponseDescriptor responseDescriptor = null;
         if (responseDescriptorObject != null) {
             ResponseDescriptorAttributes attributes = getAttributes(responseDescriptorObject, root);
-            Set<TemplateFormatterDescriptor> responseFormatters = responseFormatterDescriptorJsonParser.parseObject(responseDescriptorObject, root);
+            Set<ResponseFormatterDescriptor> responseFormatters = responseFormatterDescriptorJsonParser.parseObject(responseDescriptorObject, root);
             responseDescriptor = new ResponseDescriptor(attributes, responseFormatters);
         }
         return responseDescriptor;

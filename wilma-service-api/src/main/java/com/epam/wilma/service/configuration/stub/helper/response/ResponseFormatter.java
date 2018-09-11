@@ -21,12 +21,12 @@ package com.epam.wilma.service.configuration.stub.helper.response;
 import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
 
 /**
- * Class that holds a single template formatter information.
+ * Class that holds a single response formatter information.
  *
  * @author Tamas_Kohegyi
  *
  */
-public class TemplateFormatter {
+public class ResponseFormatter {
     private String className;
     private ConfigurationParameter[] configurationParameters;
 
@@ -35,25 +35,25 @@ public class TemplateFormatter {
      * @param className is the name of the used formatter class
      * @param configurationParameters is the value of the parameters
      */
-    public TemplateFormatter(String className, ConfigurationParameter[] configurationParameters) {
+    public ResponseFormatter(String className, ConfigurationParameter[] configurationParameters) {
         this.className = className;
         this.configurationParameters = configurationParameters;
     }
 
     /**
-     * Generates String value for the template formatter.
+     * Generates String value for the response formatter.
      * @return with the config string
      */
     @Override
     public String toString() {
-        String templateFormatterString = "<template-formatter class=\"" + className + "\" >\n";
+        String responseFormatterString = "<template-formatter class=\"" + className + "\" >\n";
         if (configurationParameters != null) {
             //we have parameters too
             for (ConfigurationParameter configurationParameter : configurationParameters) {
-                templateFormatterString += "    " + configurationParameter.toString() + "\n";
+                responseFormatterString += "    " + configurationParameter.toString() + "\n";
             }
         }
-        templateFormatterString += "</template-formatter>\n";
-        return templateFormatterString;
+        responseFormatterString += "</template-formatter>\n";
+        return responseFormatterString;
     }
 }

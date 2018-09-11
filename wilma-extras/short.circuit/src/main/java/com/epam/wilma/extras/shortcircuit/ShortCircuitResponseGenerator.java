@@ -19,7 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import org.apache.commons.codec.binary.Base64;
@@ -35,7 +35,7 @@ import java.util.Set;
  *
  * @author tkohegyi, created on 2016. 02. 20.
  */
-public class ShortCircuitResponseGenerator implements TemplateGenerator, TemplateFormatter {
+public class ShortCircuitResponseGenerator implements TemplateGenerator, ResponseFormatter {
     private final Logger logger = LoggerFactory.getLogger(ShortCircuitResponseGenerator.class);
 
     @Override
@@ -44,7 +44,7 @@ public class ShortCircuitResponseGenerator implements TemplateGenerator, Templat
     }
 
     @Override
-    public byte[] formatTemplate(WilmaHttpRequest wilmaHttpRequest, HttpServletResponse httpServletResponse,
+    public byte[] formatResponse(WilmaHttpRequest wilmaHttpRequest, HttpServletResponse httpServletResponse,
                                  byte[] bytes, ParameterList parameterList) throws Exception {
         byte[] newBody;
         //prepare a key for this request

@@ -20,7 +20,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,18 +31,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Tamas_Kohegyi on 2018-01-15.
  */
-public class SuppressFastInfosetCompression implements TemplateFormatter, ResponseFormatter {
+public class SuppressFastInfosetCompression implements ResponseFormatter {
 
     static final String FASTINFOSET = "fastinfoset";
     static final String ACCEPT_VALUE_FASTINFOSET = "application/fastinfoset";
     static final String ACCEPT_HEADER_KEY = "Accept";
     static final String HEADER_KEY_SUPPRESS_ENCODING = "Wilma-Suppress-Encoding";
-
-    @Override
-    public byte[] formatTemplate(WilmaHttpRequest wilmaRequest, HttpServletResponse resp,
-                                 byte[] templateResource, ParameterList params) {
-        return formatResponse(wilmaRequest, resp, templateResource, params);
-    }
 
     @Override
     public byte[] formatResponse(WilmaHttpRequest wilmaRequest, HttpServletResponse resp,

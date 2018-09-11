@@ -22,7 +22,7 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.sequence.RequestResponsePair;
 import com.epam.wilma.domain.sequence.WilmaSequence;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,15 +30,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Template formatter that responds with the sequence request and response body pairs.
+ * Response formatter that responds with the sequence request and response body pairs.
  * @author Adam_Csaba_Kiraly
  */
-public class SequenceBodyTemplateFormatter implements TemplateFormatter {
+public class SequenceBodyTemplateFormatter implements ResponseFormatter {
 
     private static final String PAIR_TEMPLATE = "\n pair%s - request body: '%s', response body: '%s'";
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+    public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
                                  final byte[] templateResource, final ParameterList params) throws Exception {
         String result = "wilma-sequence key: ";
         WilmaSequence sequence = wilmaRequest.getSequence();

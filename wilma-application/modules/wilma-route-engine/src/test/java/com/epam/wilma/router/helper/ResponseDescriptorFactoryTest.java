@@ -57,7 +57,7 @@ public class ResponseDescriptorFactoryTest {
         assertEquals("404", actualAttributes.getCode());
         assertEquals(MimeType.TEXT.getOfficialMimeType(), actualAttributes.getMimeType());
         assertEquals(expectedTemplate, actualAttributes.getTemplate());
-        assertNull(responseDescriptor.getTemplateFormatters());
+        assertNull(responseDescriptor.getResponseFormatters());
     }
 
 }

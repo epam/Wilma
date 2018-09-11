@@ -22,10 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
@@ -43,7 +43,7 @@ public class TemporaryStubResourceHolder {
 
     private Map<String, byte[]> templates;
     private List<ConditionChecker> conditionCheckers;
-    private List<TemplateFormatter> templateFormatters;
+    private List<ResponseFormatter> responseFormatters;
     private List<RequestInterceptor> requestInterceptors;
     private List<ResponseInterceptor> responseInterceptors;
     private List<SequenceHandler> sequenceHandlers;
@@ -73,18 +73,18 @@ public class TemporaryStubResourceHolder {
 
     /**
      * Adds a new <tt>templateFormatter</tt> to the list of template formatters.
-     * @param templateFormatter the {@link TemplateFormatter} that will be added to the list
+     * @param responseFormatter the {@link ResponseFormatter} that will be added to the list
      */
-    public void addTemplateFormatter(final TemplateFormatter templateFormatter) {
-        templateFormatters.add(templateFormatter);
+    public void addTemplateFormatter(final ResponseFormatter responseFormatter) {
+        responseFormatters.add(responseFormatter);
     }
 
-    public void setTemplateFormatters(final List<TemplateFormatter> templateFormatters) {
-        this.templateFormatters = templateFormatters;
+    public void setResponseFormatters(final List<ResponseFormatter> responseFormatters) {
+        this.responseFormatters = responseFormatters;
     }
 
-    public List<TemplateFormatter> getTemplateFormatters() {
-        return templateFormatters;
+    public List<ResponseFormatter> getResponseFormatters() {
+        return responseFormatters;
     }
 
     /**
@@ -169,7 +169,7 @@ public class TemporaryStubResourceHolder {
      * Empties the template formatter list.
      */
     public void clearTemplateFormatters() {
-        templateFormatters.clear();
+        responseFormatters.clear();
     }
 
     /**

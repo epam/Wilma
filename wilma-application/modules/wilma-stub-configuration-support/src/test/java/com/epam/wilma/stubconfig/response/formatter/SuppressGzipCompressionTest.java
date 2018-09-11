@@ -37,25 +37,25 @@ public class SuppressGzipCompressionTest {
     }
 
     @Test
-    public void testFormatTemplateWithoutExistingHeader() throws Exception {
+    public void testFormatTemplateWithoutExistingHeader() {
         //GIVEN
         //SetUp
         given(request.getHeader(SuppressGzipCompression.HEADER_KEY_ACCEPT_ENCODING)).willReturn(SuppressGzipCompression.HEADER_VALUE_GZIP);
         given(response.getHeader(SuppressGzipCompression.HEADER_KEY_SUPPRESS_ENCODING)).willReturn(null);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verify(response).addHeader(SuppressGzipCompression.HEADER_KEY_SUPPRESS_ENCODING, SuppressGzipCompression.HEADER_VALUE_GZIP);
     }
 
     @Test
-    public void testFormatTemplateWithExistingHeader() throws Exception {
+    public void testFormatTemplateWithExistingHeader() {
         //GIVEN
         //SetUp
         given(request.getHeader(SuppressGzipCompression.HEADER_KEY_ACCEPT_ENCODING)).willReturn(SuppressGzipCompression.HEADER_VALUE_GZIP);
         given(response.getHeader(SuppressGzipCompression.HEADER_KEY_SUPPRESS_ENCODING)).willReturn(ANY_HEADER_VALUE);
         //WHEN
-        underTest.formatTemplate(request, response, null, parameterMap);
+        underTest.formatResponse(request, response, null, parameterMap);
         //THEN
         verify(response).addHeader(SuppressGzipCompression.HEADER_KEY_SUPPRESS_ENCODING, ANY_HEADER_VALUE + "," + SuppressGzipCompression.HEADER_VALUE_GZIP);
     }

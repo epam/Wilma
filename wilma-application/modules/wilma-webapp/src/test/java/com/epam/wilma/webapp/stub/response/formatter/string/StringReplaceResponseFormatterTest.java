@@ -31,11 +31,11 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Provides unit tests for the class {@link StringReplaceTemplateFormatter}.
+ * Provides unit tests for the class {@link StringReplaceResponseFormatter}.
  * @author Tunde_Kovacs
  *
  */
-public class StringReplaceTemplateFormatterTest {
+public class StringReplaceResponseFormatterTest {
 
     private byte[] templateResource;
     private ParameterList parameterList;
@@ -44,12 +44,12 @@ public class StringReplaceTemplateFormatterTest {
     private WilmaHttpRequest request;
 
     private HttpServletResponse response;
-    private StringReplaceTemplateFormatter underTest;
+    private StringReplaceResponseFormatter underTest;
 
     @BeforeMethod
     public void setUp() {
         parameterList = new ParameterList();
-        underTest = new StringReplaceTemplateFormatter();
+        underTest = new StringReplaceResponseFormatter();
 
     }
 
@@ -59,7 +59,7 @@ public class StringReplaceTemplateFormatterTest {
         templateResource = "this is a test template".getBytes();
         parameterList.addParameter(new Parameter("t", "blabla"));
         //WHEN
-        byte[] actual = underTest.formatTemplate(request, response, templateResource, parameterList);
+        byte[] actual = underTest.formatResponse(request, response, templateResource, parameterList);
         //THEN
         assertEquals(actual, "blablahis is a blablaesblabla blablaemplablablae".getBytes());
     }
@@ -72,7 +72,7 @@ public class StringReplaceTemplateFormatterTest {
         parameterList.addParameter(new Parameter("is", "is not"));
         parameterList.addParameter(new Parameter("a", "o"));
         //WHEN
-        byte[] actual = underTest.formatTemplate(request, response, templateResource, parameterList);
+        byte[] actual = underTest.formatResponse(request, response, templateResource, parameterList);
         //THEN
         assertEquals(actual, "bloblohis not is not o blobloesbloblo blobloemploblobloe".getBytes());
     }
@@ -82,7 +82,7 @@ public class StringReplaceTemplateFormatterTest {
         //GIVEN
         templateResource = "this is a test template".getBytes();
         //WHEN
-        byte[] actual = underTest.formatTemplate(request, response, templateResource, parameterList);
+        byte[] actual = underTest.formatResponse(request, response, templateResource, parameterList);
         //THEN
         assertEquals(actual, templateResource);
     }

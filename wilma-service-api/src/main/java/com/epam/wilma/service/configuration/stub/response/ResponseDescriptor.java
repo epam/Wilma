@@ -20,7 +20,7 @@ package com.epam.wilma.service.configuration.stub.response;
 
 import com.epam.wilma.service.configuration.stub.helper.other.Interceptor;
 import com.epam.wilma.service.configuration.stub.helper.response.Template;
-import com.epam.wilma.service.configuration.stub.helper.response.TemplateFormatter;
+import com.epam.wilma.service.configuration.stub.helper.response.ResponseFormatter;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class ResponseDescriptor {
     private String code;
     private String mimeType;
     private Template template;
-    private List<TemplateFormatter> templateFormatters;
+    private List<RsponseFormatter> responseFormatters;
     private List<Interceptor> interceptors;
 
     /**
@@ -44,16 +44,16 @@ public class ResponseDescriptor {
      * @param code               is the status code of the response
      * @param mimeType           is the mime type of the response
      * @param template           is the template that is used as response
-     * @param templateFormatters are the formatters to be applied on the template before sending the response back
+     * @param responseFormatters are the formatters to be applied on the template before sending the response back
      * @param interceptors       are the interceptor list to be added to the stub configuration
      */
     public ResponseDescriptor(String delay, String code, String mimeType, Template template,
-                              List<TemplateFormatter> templateFormatters, List<Interceptor> interceptors) {
+                              List<ResponseFormatter> responseFormatters, List<Interceptor> interceptors) {
         this.delay = delay;
         this.code = code;
         this.mimeType = mimeType;
         this.template = template;
-        this.templateFormatters = templateFormatters;
+        this.responseFormatters = responseFormatters;
         this.interceptors = interceptors;
     }
 

@@ -23,10 +23,10 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
 
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -46,11 +46,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author Balazs_Berkes
  */
 @Component
-public class JsonTemplateFormatter implements TemplateFormatter {
+public class JsonResponseFormatter implements ResponseFormatter {
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
-                                 final byte[] templateResource, final ParameterList params) throws Exception {
+    public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                                 final byte[] templateResource, final ParameterList params) {
         JsonElement response = new JsonParser().parse(new String(templateResource, StandardCharsets.UTF_8));
 
         new NonRecursiveJsonTreeEvaluator(wilmaRequest.getBody()).replaceAllNonRecursive(response);

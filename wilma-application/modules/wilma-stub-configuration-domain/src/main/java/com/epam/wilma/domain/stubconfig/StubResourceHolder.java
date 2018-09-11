@@ -18,23 +18,23 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
+import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
+import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
-import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
-import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
-import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
-import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Contains stub configuration resources (templates, template formatters, condition checkers,
  * interceptors and the previously parsed XML/JSON document).
+ *
  * @author Tamas_Bihari
  * @author Tunde_Kovacs
  * @author Balazs_Berkes
@@ -43,13 +43,13 @@ import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 @Component
 public class StubResourceHolder {
 
-    private Map<String, byte[]> templates;
-    private List<ConditionChecker> conditionCheckers;
-    private List<TemplateFormatter> templateFormatters;
-    private List<RequestInterceptor> requestInterceptors;
-    private List<ResponseInterceptor> responseInterceptors;
     private final Map<String, Document> stubConfigDocuments;
     private final Map<String, JSONObject> stubConfigJsonObjects;
+    private Map<String, byte[]> templates;
+    private List<ConditionChecker> conditionCheckers;
+    private List<ResponseFormatter> responseFormatters;
+    private List<RequestInterceptor> requestInterceptors;
+    private List<ResponseInterceptor> responseInterceptors;
     private List<SequenceHandler> sequenceHandlers;
 
     /**
@@ -69,20 +69,20 @@ public class StubResourceHolder {
         return conditionCheckers;
     }
 
-    public void setTemplateFormatters(final List<TemplateFormatter> templateFormatters) {
-        this.templateFormatters = templateFormatters;
+    public List<ResponseFormatter> getResponseFormatters() {
+        return responseFormatters;
     }
 
-    public List<TemplateFormatter> getTemplateFormatters() {
-        return templateFormatters;
-    }
-
-    public void setTemplates(final Map<String, byte[]> templates) {
-        this.templates = templates;
+    public void setResponseFormatters(final List<ResponseFormatter> responseFormatters) {
+        this.responseFormatters = responseFormatters;
     }
 
     public Map<String, byte[]> getTemplates() {
         return templates;
+    }
+
+    public void setTemplates(final Map<String, byte[]> templates) {
+        this.templates = templates;
     }
 
     public List<RequestInterceptor> getRequestInterceptors() {
@@ -111,8 +111,9 @@ public class StubResourceHolder {
 
     /**
      * Put the document of stub configuration into a Map with the give groupName.
+     *
      * @param groupName is the group name of the selected stub configuration
-     * @param document is the xml document of the selected stub configuration
+     * @param document  is the xml document of the selected stub configuration
      */
     public void setActualStubConfigDocument(final String groupName, final Document document) {
         stubConfigDocuments.put(groupName, document);
@@ -120,6 +121,7 @@ public class StubResourceHolder {
 
     /**
      * Get the document of stub configuration from a Map.
+     *
      * @param groupName is the group name of the selected stub configuration
      * @return the document of the selected stub configuration
      */
@@ -129,6 +131,7 @@ public class StubResourceHolder {
 
     /**
      * Get the JSON String of stub configuration from a Map.
+     *
      * @param groupName is the group name of the selected stub configuration
      * @return the JSON object of the selected stub configuration
      */
@@ -138,7 +141,8 @@ public class StubResourceHolder {
 
     /**
      * Put the String value of Json stub configuration into a Map with the give groupName.
-     * @param groupName is the group name of the selected stub configuration
+     *
+     * @param groupName  is the group name of the selected stub configuration
      * @param jsonObject is the string representation of the selected stub configuration
      */
     public void setActualStubConfigJsonObject(final String groupName, final JSONObject jsonObject) {

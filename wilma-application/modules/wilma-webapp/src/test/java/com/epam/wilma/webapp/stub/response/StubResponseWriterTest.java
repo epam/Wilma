@@ -42,7 +42,7 @@ import com.epam.wilma.webapp.stub.response.processor.StubResponseProcessor;
  */
 public class StubResponseWriterTest {
 
-    private static final String ERROR_MESSAGE_FOR_UNWANTED_RESQUESTS = "Wilma has declined this request.";
+    private static final String ERROR_MESSAGE_FOR_UNWANTED_REQUESTS = "Wilma has declined this request.";
     @Mock
     private StubResponseGenerator stubResponseGenerator;
     @Mock
@@ -107,7 +107,7 @@ public class StubResponseWriterTest {
         //THEN
         verify(resp).getOutputStream();
         verify(resp).setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-        verify(outputStream).write(ERROR_MESSAGE_FOR_UNWANTED_RESQUESTS.getBytes());
+        verify(outputStream).write(ERROR_MESSAGE_FOR_UNWANTED_REQUESTS.getBytes());
         verify(outputStream).close();
     }
 

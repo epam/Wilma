@@ -29,21 +29,21 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Unit test for {@code JsonTemplateFormatter}.
+ * Unit test for {@code JsonResponseFormatter}.
  *
  * @author Balazs_Berkes
  */
-public class JsonTemplateFormatterTest {
+public class JsonResponseFormatterTest {
 
     private WilmaHttpRequest wilmaRequest;
 
-    private JsonTemplateFormatter underTest;
+    private JsonResponseFormatter underTest;
 
     private HttpServletResponse response;
 
     @BeforeMethod
     public void setup() {
-        underTest = new JsonTemplateFormatter();
+        underTest = new JsonResponseFormatter();
     }
 
     @DataProvider(name = "messages")
@@ -55,7 +55,7 @@ public class JsonTemplateFormatterTest {
     public void testFormatTemplate(String request, String template, String expected) throws Exception {
         givenWilmaRequestWithBody(request);
 
-        byte[] formattedResponse = underTest.formatTemplate(wilmaRequest, response, template.getBytes(), null);
+        byte[] formattedResponse = underTest.formatResponse(wilmaRequest, response, template.getBytes(), null);
 
         assertEquals(whitespaceFree(new String(formattedResponse)), whitespaceFree(expected));
     }

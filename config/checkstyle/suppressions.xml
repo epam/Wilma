@@ -9,6 +9,6 @@
   <suppress checks="SuppressWarnings" files="com.epam.wilma.message.search.lucene.search.helper.IndexReaderFactory.java" />
   <suppress checks="VisibilityModifier" files="com.epam.wilma.engine.WilmaApplication.java"/>
   <suppress checks="ParameterNumber" files="com.epam.wilma.domain.stubconfig.response.ResponseDescriptorAttributes.java|com.epam.wilma.service.configuration.stub.response.ResponseDescriptor.java"/>
-  <suppress checks="IllegalInstantiation" files="com.epam.wilma.webapp.stub.response.formatter.json.JsonTemplateFormatter.java"/>
+  <suppress checks="IllegalInstantiation" files="com.epam.wilma.webapp.stub.response.formatter.json.JsonResponseFormatter.java"/>
   <suppress checks="RedundantThrows" files="com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationValidator.java|com.epam.wilma.service.configuration.stub.ResponseDescriptorBuilder.java|com.epam.wilma.service.configuration.stub.WilmaStub.java|com.epam.wilma.service.configuration.stub.WilmaStubTest.java"/>
 </suppressions>

@@ -53,7 +53,7 @@ public class StubResourceHolderUpdater {
      */
     public void updateResourceHolder() {
         stubResourceHolder.setConditionChekers(new ArrayList<>(temporaryStubResourceHolder.getConditionCheckers()));
-        stubResourceHolder.setTemplateFormatters(new ArrayList<>(temporaryStubResourceHolder.getTemplateFormatters()));
+        stubResourceHolder.setResponseFormatters(new ArrayList<>(temporaryStubResourceHolder.getResponseFormatters()));
         stubResourceHolder.setTemplates(new HashMap<>(temporaryStubResourceHolder.getTemplates()));
         updateRequestInterceptors();
         updateResponseInterceptors();
@@ -111,7 +111,7 @@ public class StubResourceHolderUpdater {
      */
     public void initializeTemporaryResourceHolder() {
         temporaryStubResourceHolder.setConditionCheckers(new ArrayList<>(internalResourceHolder.getConditionCheckers()));
-        temporaryStubResourceHolder.setTemplateFormatters(new ArrayList<>(internalResourceHolder.getTemplateFormatters()));
+        temporaryStubResourceHolder.setResponseFormatters(new ArrayList<>(internalResourceHolder.getResponseFormatters()));
         initializeRequestInterceptors();
         initializeResponseInterceptors();
         temporaryStubResourceHolder.setSequenceHandlers(new ArrayList<>(internalResourceHolder.getSequenceHandlers()));

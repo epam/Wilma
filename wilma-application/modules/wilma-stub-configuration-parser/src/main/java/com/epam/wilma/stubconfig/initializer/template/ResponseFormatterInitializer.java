@@ -20,7 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.stubconfig.initializer.CommonClassInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,12 +28,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Initializes template formatters with a given class.
+ * Initializes response formatters with a given class.
  *
  * @author Tunde_Kovacs
  */
 @Component
-public class TemplateFormatterInitializer extends CommonClassInitializer<TemplateFormatter> {
+public class ResponseFormatterInitializer extends CommonClassInitializer<ResponseFormatter> {
 
     @Autowired
     private StubResourcePathProvider stubResourcePathProvider;
@@ -46,18 +46,18 @@ public class TemplateFormatterInitializer extends CommonClassInitializer<Templat
     }
 
     @Override
-    protected List<TemplateFormatter> getExternalClassObjects() {
-        return stubResourceHolder.getTemplateFormatters();
+    protected List<ResponseFormatter> getExternalClassObjects() {
+        return stubResourceHolder.getResponseFormatters();
     }
 
     @Override
-    protected void addExternalClassObject(TemplateFormatter externalClassObject) {
+    protected void addExternalClassObject(ResponseFormatter externalClassObject) {
         stubResourceHolder.addTemplateFormatter(externalClassObject);
     }
 
     @Override
-    protected Class<TemplateFormatter> getExternalClassType() {
-        return TemplateFormatter.class;
+    protected Class<ResponseFormatter> getExternalClassType() {
+        return ResponseFormatter.class;
     }
 
 }

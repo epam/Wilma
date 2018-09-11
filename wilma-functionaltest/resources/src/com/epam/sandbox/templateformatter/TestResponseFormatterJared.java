@@ -11,17 +11,17 @@ package com.epam.sandbox.templateformatter;
 
 import com.epam.sandbox.common.SuperLogic;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 import javax.servlet.http.HttpServletResponse;
 
-public class TestTemplateFormatterJared implements TemplateFormatter {
+public class TestTemplateFormatterJared implements ResponseFormatter {
     
     SuperLogic superLogic = new SuperLogic();
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, HttpServletResponse resp,
+    public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, HttpServletResponse resp,
                                  final byte[] templateResource, final ParameterList params) throws Exception {
         if (superLogic.getResult()){
             return new byte[0];

@@ -20,7 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
 import org.mockito.InjectMocks;
@@ -39,17 +39,17 @@ import static org.mockito.BDDMockito.given;
 import static org.testng.Assert.assertEquals;
 
 /**
- * Provides unit tests for the class {@link TemplateFormatterInitializer}.
+ * Provides unit tests for the class {@link ResponseFormatterInitializer}.
  *
  * @author Tunde_Kovacs
  */
-public class TemplateFormatterInitializerTest {
+public class ResponseFormatterInitializerTest {
 
-    private static final String CHECKER_CLASS = "TestTemplateFormatter";
+    private static final String CHECKER_CLASS = "TestResponseFormatter";
     private static final String PATH = "config/template-formatters";
 
-    private TemplateFormatter templateFormatter;
-    private List<TemplateFormatter> templateFormatters;
+    private ResponseFormatter responseFormatter;
+    private List<ResponseFormatter> responseFormatters;
 
     @Mock
     private ApplicationContext appContext;
@@ -61,58 +61,58 @@ public class TemplateFormatterInitializerTest {
     private TemporaryStubResourceHolder stubResourceHolder;
 
     @InjectMocks
-    private TemplateFormatterInitializer underTest;
+    private ResponseFormatterInitializer underTest;
 
     @BeforeMethod
     public void setUp() {
-        underTest = Mockito.spy(new TemplateFormatterInitializer());
+        underTest = Mockito.spy(new ResponseFormatterInitializer());
         MockitoAnnotations.initMocks(this);
-        templateFormatters = new ArrayList<>();
-        given(stubResourceHolder.getTemplateFormatters()).willReturn(templateFormatters);
+        responseFormatters = new ArrayList<>();
+        given(stubResourceHolder.getResponseFormatters()).willReturn(responseFormatters);
     }
 
     @Test
     public void testGetTemplateFormatterWhenInternalExistsShouldReturnTemplateFormatter() {
         //GIVEN
-        templateFormatter = new TestTemplateFormatter();
-        templateFormatters.add(templateFormatter);
+        responseFormatter = new TestResponseFormatter();
+        responseFormatters.add(responseFormatter);
         //WHEN
-        TemplateFormatter actual = underTest.getExternalClassObject(CHECKER_CLASS);
+        ResponseFormatter actual = underTest.getExternalClassObject(CHECKER_CLASS);
         //THEN
-        assertEquals(actual, templateFormatter);
+        assertEquals(actual, responseFormatter);
     }
 
     @Test
     public void testGetTemplateFormatterWhenMoreInternalsExistShouldReturnTemplateFormatter() {
         //GIVEN
-        templateFormatters.clear();
-        templateFormatter = new ExampleFormatter();
-        templateFormatters.add(templateFormatter);
-        templateFormatter = new TestTemplateFormatter();
-        templateFormatters.add(templateFormatter);
+        responseFormatters.clear();
+        responseFormatter = new ExampleFormatter();
+        responseFormatters.add(responseFormatter);
+        responseFormatter = new TestResponseFormatter();
+        responseFormatters.add(responseFormatter);
         //WHEN
-        TemplateFormatter actual = underTest.getExternalClassObject(CHECKER_CLASS);
+        ResponseFormatter actual = underTest.getExternalClassObject(CHECKER_CLASS);
         //THEN
-        assertEquals(actual, templateFormatter);
+        assertEquals(actual, responseFormatter);
     }
 
     @Test
     public void testGetTemplateFormatterWhenExternalExistsShouldReturnTemplateFormatter() {
         //GIVEN
         given(stubResourcePathProvider.getTemplateFormattersPathAsString()).willReturn(PATH);
-        templateFormatter = new ExampleFormatter();
-        given(externalInitializer.loadExternalClass(CHECKER_CLASS, PATH, TemplateFormatter.class)).willReturn(templateFormatter);
+        responseFormatter = new ExampleFormatter();
+        given(externalInitializer.loadExternalClass(CHECKER_CLASS, PATH, ResponseFormatter.class)).willReturn(responseFormatter);
         //WHEN
-        TemplateFormatter actual = underTest.getExternalClassObject(CHECKER_CLASS);
+        ResponseFormatter actual = underTest.getExternalClassObject(CHECKER_CLASS);
         //THEN
-        assertEquals(actual.getClass(), templateFormatter.getClass());
+        assertEquals(actual.getClass(), responseFormatter.getClass());
     }
 
     @Test(expectedExceptions = DescriptorValidationFailedException.class)
     public void testGetTemplateFormatterWhenItDoesNotExistShouldThrowException() {
         //GIVEN
         given(stubResourcePathProvider.getTemplateFormattersPathAsString()).willReturn(PATH);
-        given(externalInitializer.loadExternalClass(CHECKER_CLASS, PATH, TemplateFormatter.class)).willThrow(new DescriptorValidationFailedException(CHECKER_CLASS));
+        given(externalInitializer.loadExternalClass(CHECKER_CLASS, PATH, ResponseFormatter.class)).willThrow(new DescriptorValidationFailedException(CHECKER_CLASS));
         //WHEN
         underTest.getExternalClassObject(CHECKER_CLASS);
         //THEN it should throw exception
@@ -121,23 +121,23 @@ public class TemplateFormatterInitializerTest {
     @Test
     public void testGetTemplateFormatterShouldReturnTemplateFormatter() {
         //GIVEN
-        given(appContext.getBean(CHECKER_CLASS, TemplateFormatter.class)).willThrow(new NoSuchBeanDefinitionException(""));
-        templateFormatter = new TestTemplateFormatter();
-        templateFormatters.add(templateFormatter);
+        given(appContext.getBean(CHECKER_CLASS, ResponseFormatter.class)).willThrow(new NoSuchBeanDefinitionException(""));
+        responseFormatter = new TestResponseFormatter();
+        responseFormatters.add(responseFormatter);
         //WHEN
-        TemplateFormatter actual = underTest.getExternalClassObject(CHECKER_CLASS);
+        ResponseFormatter actual = underTest.getExternalClassObject(CHECKER_CLASS);
         //THEN
-        assertEquals(actual, templateFormatter);
+        assertEquals(actual, responseFormatter);
     }
 
     @Test
     public void testGetTemplateFormatterShouldReturnTemplateFormatterWhenTheClassIsManagedBySpring() {
         //GIVEN
-        given(appContext.getBean(CHECKER_CLASS, TemplateFormatter.class)).willReturn(templateFormatter);
+        given(appContext.getBean(CHECKER_CLASS, ResponseFormatter.class)).willReturn(responseFormatter);
         //WHEN
-        TemplateFormatter actual = underTest.getExternalClassObject(CHECKER_CLASS);
+        ResponseFormatter actual = underTest.getExternalClassObject(CHECKER_CLASS);
         //THEN
-        assertEquals(actual, templateFormatter);
+        assertEquals(actual, responseFormatter);
     }
 
 }
