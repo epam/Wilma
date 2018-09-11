@@ -21,6 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.exception.StubConfigJsonSchemaException;
 import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.dom.parser.StubResourceHolderUpdater;
@@ -28,6 +29,7 @@ import com.epam.wilma.stubconfig.json.parser.StubDescriptorJsonParser;
 import com.epam.wilma.stubconfig.json.schema.StubConfigJsonSchemaParser;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -35,6 +37,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Loads the stub descriptor object model from an {@link InputStream} by reading it to a JSON Object and
@@ -72,17 +76,7 @@ public class JsonBasedStubDescriptorFactory implements StubDescriptorJsonFactory
             //validate against schema
             jsonSchema.validate(jsonStubDescriptor);
             //validate against extra rules (those cannot be im schema)
-            //TODO: validating
-            //load the extra validation
-            //understand the extra validation rules and do such extra validation
-            // - name in sequenceDescriptor array must be unique
-            // - name in conditionSets array must be unique
-            // - name in template array must be unique
-            // - name in dialog descriptors must be unique
-            // - name in templateFormatterSets must be unique
-            // - wilma stub groupName shall not contain chars: "|" ";"
-            // - sequenceDescriptor name shall not contain chars: "|" ";"
-            // - all class name must be valid/loadable
+            extraValidation(jsonStubDescriptor);
             //if everything goes well, continue with registering the stub configuration
             stubResourceHolderUpdater.initializeTemporaryResourceHolder();
             configurationAccess.setProperties();
@@ -92,9 +86,61 @@ public class JsonBasedStubDescriptorFactory implements StubDescriptorJsonFactory
             StubDescriptorAttributes attributes = stubDescriptor.getAttributes();
             stubResourceHolderUpdater.addDocumentToResourceHolder(attributes.getGroupName(), jsonStubDescriptor);
             return stubDescriptor;
-        } catch (ValidationException | JSONException e) {
+        } catch (ValidationException | JSONException | StubConfigJsonSchemaException e) {
             throw new DescriptorCannotBeParsedException("Stub descriptor cannot be parsed.", e);
         }
+    }
+
+    private void checkUniqueName(final String key, final JSONObject root, final String errorText) {
+        if (root.has(key)) {
+            JSONArray objectArray = root.getJSONArray(key);
+            Set<String> set = new HashSet<>();
+            for (int i = 0; i < objectArray.length(); i++) {
+                set.add(objectArray.getJSONObject(i).getString("name"));
+            }
+            if (set.size() != objectArray.length()) {
+                throw new StubConfigJsonSchemaException("Name duplication found at " + errorText);
+            }
+        }
+
+    }
+
+    private void extraValidation(final JSONObject jsonStubDescriptor) {
+        JSONObject root = jsonStubDescriptor.getJSONObject("wilmaStubConfiguration");
+        String key;
+        // - name in sequenceDescriptor array must be unique
+        checkUniqueName("sequenceDescriptor", root, "Sequence Descriptors");
+        // - name in conditionSets array must be unique
+        checkUniqueName("conditionSets", root, "Condition Sets");
+        // - name in template array must be unique
+        checkUniqueName("templates", root, "Templates");
+        // - name in dialog descriptors must be unique
+        checkUniqueName("dialogDescriptors", root, "Dialog Descriptors");
+        // - name in responseFormatterSets must be unique
+        checkUniqueName("responseFormatterSets", root, "Response Formatter Sets");
+        // - wilma stub groupName shall not contain chars: "|" ";"
+        key = "groupName";
+        if (root.has(key)) {
+            String name = root.getString(key);
+            if (name.contains("|") || name.contains(";")) {
+                throw new StubConfigJsonSchemaException("Stub Descriptor groupName='"
+                        + name + "' contains invalid character ('|' or ';')");
+            }
+        }
+        // - sequenceDescriptor name shall not contain chars: "|" ";"
+        key = "sequenceDescriptor";
+        if (root.has(key)) {
+            JSONArray sequenceDescriptor = root.getJSONArray(key);
+            for (int i = 0; i < sequenceDescriptor.length(); i++) {
+                String name = sequenceDescriptor.getJSONObject(i).getString("name");
+                if (name.contains("|") || name.contains(";")) {
+                    throw new StubConfigJsonSchemaException("Sequence Descriptor name='"
+                            + name + "' contains invalid character ('|' or ';')");
+                }
+            }
+        }
+        // - all class name must be valid/loadable
+        // -> this must be validated during the parse action of the specific object
     }
 
 }

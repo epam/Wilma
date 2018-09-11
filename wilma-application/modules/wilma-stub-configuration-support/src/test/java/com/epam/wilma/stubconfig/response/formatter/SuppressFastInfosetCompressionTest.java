@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.template.formatter;
+package com.epam.wilma.stubconfig.response.formatter;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
@@ -13,11 +13,11 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for {@link com.epam.wilma.stubconfig.template.formatter.SuppressGzipCompression}.
+ * Tests for {@link SuppressFastInfosetCompression}.
  *
  * @author Tamas_Kohegyi
  */
-public class SuppressGzipCompressionTest {
+public class SuppressFastInfosetCompressionTest {
 
     private static final String ANY_HEADER_VALUE = "value";
 
@@ -28,36 +28,36 @@ public class SuppressGzipCompressionTest {
     @Mock
     private ParameterList parameterMap;
 
-    private SuppressGzipCompression underTest;
+    private SuppressFastInfosetCompression underTest;
 
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        underTest = new SuppressGzipCompression();
+        underTest = new SuppressFastInfosetCompression();
     }
 
     @Test
     public void testFormatTemplateWithoutExistingHeader() throws Exception {
         //GIVEN
         //SetUp
-        given(request.getHeader(SuppressGzipCompression.HEADER_KEY_ACCEPT_ENCODING)).willReturn(SuppressGzipCompression.HEADER_VALUE_GZIP);
-        given(response.getHeader(SuppressGzipCompression.HEADER_KEY_SUPPRESS_ENCODING)).willReturn(null);
+        given(request.getHeader(SuppressFastInfosetCompression.ACCEPT_HEADER_KEY)).willReturn(SuppressFastInfosetCompression.ACCEPT_VALUE_FASTINFOSET);
+        given(response.getHeader(SuppressFastInfosetCompression.HEADER_KEY_SUPPRESS_ENCODING)).willReturn(null);
         //WHEN
         underTest.formatTemplate(request, response, null, parameterMap);
         //THEN
-        verify(response).addHeader(SuppressGzipCompression.HEADER_KEY_SUPPRESS_ENCODING, SuppressGzipCompression.HEADER_VALUE_GZIP);
+        verify(response).addHeader(SuppressFastInfosetCompression.HEADER_KEY_SUPPRESS_ENCODING, SuppressFastInfosetCompression.FASTINFOSET);
     }
 
     @Test
     public void testFormatTemplateWithExistingHeader() throws Exception {
         //GIVEN
         //SetUp
-        given(request.getHeader(SuppressGzipCompression.HEADER_KEY_ACCEPT_ENCODING)).willReturn(SuppressGzipCompression.HEADER_VALUE_GZIP);
-        given(response.getHeader(SuppressGzipCompression.HEADER_KEY_SUPPRESS_ENCODING)).willReturn(ANY_HEADER_VALUE);
+        given(request.getHeader(SuppressFastInfosetCompression.ACCEPT_HEADER_KEY)).willReturn(SuppressFastInfosetCompression.ACCEPT_VALUE_FASTINFOSET);
+        given(response.getHeader(SuppressFastInfosetCompression.HEADER_KEY_SUPPRESS_ENCODING)).willReturn(ANY_HEADER_VALUE);
         //WHEN
         underTest.formatTemplate(request, response, null, parameterMap);
         //THEN
-        verify(response).addHeader(SuppressGzipCompression.HEADER_KEY_SUPPRESS_ENCODING, ANY_HEADER_VALUE + "," + SuppressGzipCompression.HEADER_VALUE_GZIP);
+        verify(response).addHeader(SuppressFastInfosetCompression.HEADER_KEY_SUPPRESS_ENCODING, ANY_HEADER_VALUE + "," + SuppressFastInfosetCompression.FASTINFOSET);
     }
 
 }

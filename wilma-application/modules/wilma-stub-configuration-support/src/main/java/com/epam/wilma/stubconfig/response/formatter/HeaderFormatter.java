@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.template.formatter;
+package com.epam.wilma.stubconfig.response.formatter;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 
@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
@@ -33,13 +34,18 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Tamas_Kohegyi on 2016-02-22.
  */
-public class HeaderFormatter implements TemplateFormatter {
+public class HeaderFormatter implements TemplateFormatter, ResponseFormatter {
 
     private final Logger logger = LoggerFactory.getLogger(HeaderFormatter.class);
 
     @Override
     public byte[] formatTemplate(WilmaHttpRequest wilmaRequest, HttpServletResponse resp,
-                                 byte[] templateResource, ParameterList params) throws Exception {
+                                 byte[] templateResource, ParameterList params) {
+        return formatResponse(wilmaRequest, resp, templateResource, params);
+    }
+
+    @Override
+    public byte[] formatResponse(WilmaHttpRequest wilmaRequest, HttpServletResponse resp, byte[] responseResource, ParameterList params) {
         //we add/update headers based on params
         for (Parameter p : params.getAllParameters()) {
             String name = p.getName();
@@ -55,6 +61,6 @@ public class HeaderFormatter implements TemplateFormatter {
             }
         }
         //we don't touch the body part
-        return templateResource;
+        return responseResource;
     }
 }

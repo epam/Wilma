@@ -20,44 +20,40 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
-import com.epam.wilma.stubconfig.dom.parser.NodeParser;
-import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
 import com.epam.wilma.stubconfig.initializer.template.TemplateFormatterInitializer;
 import com.epam.wilma.stubconfig.json.parser.helper.ObjectParser;
+import com.epam.wilma.stubconfig.json.parser.helper.ParameterListParser;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
  * Builds a set of {@link TemplateFormatter}s from a JSON object.
- * @author Tamas_Kohegyi
  *
+ * @author Tamas_Kohegyi
  */
 @Component
-public class TemplateFormatterDescriptorJsonParser implements ObjectParser<Set<TemplateFormatterDescriptor>> {
+public class ResponseFormatterDescriptorJsonParser implements ObjectParser<Set<TemplateFormatterDescriptor>> {
 
-    private static final String TEMPLATE_FORMATTER_SET_INVOKER_TAG = "templateFormatterSetInvoker";
-    private static final String TEMPLATE_FORMATTER_TAG = "templateFormatter";
+    private static final String RESPONSE_FORMATTER_SET_INVOKER_TAG = "responseFormatterSetInvoker";
+    private static final String RESPONSE_FORMATTER_TAG = "responseFormatter";
     private Integer maxDepthOfJsonTree;
 
-//    @Autowired
-//    private StubConfigXPathEvaluator xPathEvaluator;
     @Autowired
     private TemplateFormatterInitializer formatterInitializer;
     @Autowired
     private StubConfigurationAccess configurationAccess;
+    @Autowired
+    private ParameterListParser parameterListParser;
 
     @Override
     public Set<TemplateFormatterDescriptor> parseObject(final JSONObject responseDescriptorObject, final JSONObject root) {
@@ -68,52 +64,57 @@ public class TemplateFormatterDescriptorJsonParser implements ObjectParser<Set<T
 
     private Set<TemplateFormatterDescriptor> parse(final JSONObject responseDescriptorObject, final JSONObject root, final int depth) {
         Set<TemplateFormatterDescriptor> templateFormatterSet = new LinkedHashSet<>();
-        //TODO
-        /*
-        if (node.getChildNodes() != null) {
-            NodeList templateFormatters = node.getChildNodes();
-            for (int i = 0; i < templateFormatters.getLength(); i++) {
-                if (templateFormatters.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                    Element el = (Element) templateFormatters.item(i);
-                    if (TEMPLATE_FORMATTER_TAG.equals(el.getTagName())) {
-                        templateFormatterSet.add(parseTemplateFormatter(el));
-                    } else if (TEMPLATE_FORMATTER_SET_INVOKER_TAG.equals(el.getTagName())) {
-                        String invokerName = el.getAttribute("name");
-                        int newDepth = validateDepth(depth, invokerName);
-                        templateFormatterSet.addAll(parseTemplateFormatterSet(invokerName, document, newDepth));
+        if (responseDescriptorObject.has("responseFormatterSet")) {
+            JSONArray responseFormatterSet = responseDescriptorObject.getJSONArray("responseFormatterSet");
+            for (int i = 0; i < responseFormatterSet.length(); i++) {
+                JSONObject formatter = responseFormatterSet.getJSONObject(i);
+                if (formatter.has(RESPONSE_FORMATTER_TAG)) {
+                    //response formatter
+                    templateFormatterSet.add(parseResponseFormatter(formatter.getJSONObject(RESPONSE_FORMATTER_TAG), root));
+                } else {
+                    if (formatter.has(RESPONSE_FORMATTER_SET_INVOKER_TAG)) {
+                        //response formatter set invoker
+                        String name = formatter.getString(RESPONSE_FORMATTER_SET_INVOKER_TAG);
+                        int newDepth = validateDepth(depth, name);
+                        templateFormatterSet.addAll(parseResponseFormatterSetInvoker(name, root, newDepth));
                     }
                 }
             }
-        }*/
+        }
         return templateFormatterSet;
     }
 
-    private Set<TemplateFormatterDescriptor> parseTemplateFormatterSet(final String templateFormatterSetName, final Document document, final int depth) {
-        //TODO
+    private Set<TemplateFormatterDescriptor> parseResponseFormatterSetInvoker(final String responseFormatterSetName, final JSONObject root, final int depth) {
         //String expression = "/wilma:wilma-stub/wilma:template-descriptor/wilma:template-formatter-set[@name='" + templateFormatterSetName + "']";
         //Element templateFormatterSet = xPathEvaluator.getElementByXPath(expression, document);
         //return parse(templateFormatterSet, document, depth);
-        return parse(null, null, depth);
+        JSONObject formatterSet = null;
+        boolean found = false;
+        if (root.has("responseFormatterSets")) {
+            JSONArray responseFormatterSetArray = root.getJSONArray("responseFormatterSets");
+            for (int i = 0; responseFormatterSetArray.length() > i; i++) {
+                JSONObject responseFormatterSet = responseFormatterSetArray.getJSONObject(i);
+                String name = responseFormatterSet.getString("name");
+                if (name.contentEquals(responseFormatterSetName)) {
+                    formatterSet = responseFormatterSet.getJSONObject("responseFormatterSet");
+                    found = true;
+                    break;
+                }
+            }
+        } else {
+            throw new DescriptorCannotBeParsedException("There is no Response Formatter Set defined.");
+        }
+        if (!found) {
+            throw new DescriptorCannotBeParsedException("Cannot find Response Formatter Set with name: '" + responseFormatterSetName + "'.");
+        }
+        return parse(formatterSet, root, depth);
     }
 
-    private TemplateFormatterDescriptor parseTemplateFormatter(final Element element) {
-        String clazz = element.getAttribute("class");
-        ParameterList params = parseTemplateFormatterParameters(element.getElementsByTagName("param"));
+    private TemplateFormatterDescriptor parseResponseFormatter(final JSONObject responseFormatterObject, final JSONObject root) {
+        String clazz = responseFormatterObject.getString("class");
+        ParameterList params = parameterListParser.parseObject(responseFormatterObject, root);
         TemplateFormatter templateFormatter = formatterInitializer.getExternalClassObject(clazz);
         return new TemplateFormatterDescriptor(templateFormatter, params);
-    }
-
-    private ParameterList parseTemplateFormatterParameters(final NodeList params) {
-        ParameterList parameterList = new ParameterList();
-        if (params != null) {
-            for (int i = 0; i < params.getLength(); i++) {
-                Element el = (Element) params.item(i);
-                String name = el.getAttribute("name");
-                String value = el.getAttribute("value");
-                parameterList.addParameter(new Parameter(name, value));
-            }
-        }
-        return parameterList;
     }
 
     private int validateDepth(final int depth, final String invokerName) {
@@ -121,7 +122,7 @@ public class TemplateFormatterDescriptorJsonParser implements ObjectParser<Set<T
         getMaxDepth();
         if (newDepth >= maxDepthOfJsonTree) {
             throw new DescriptorValidationFailedException(
-                    "Validation of stub descriptor failed: Response-descriptor subtree is too deep or contains circles, error occurs at: <template-formatter-set-invoker name='"
+                    "Validation of stub descriptor failed: Response-descriptor subtree is too deep or contains circles, error occurs at: responseFormatterSetInvoker = '"
                             + invokerName + "' ...>");
         }
         return newDepth;

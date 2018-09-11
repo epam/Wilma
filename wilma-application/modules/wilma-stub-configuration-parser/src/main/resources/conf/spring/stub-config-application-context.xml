@@ -45,6 +45,7 @@
   <bean id="AndRegExpChecker" name="AndRegExpChecker" class="com.epam.wilma.stubconfig.condition.checker.general.AndGeneralChecker" c:headerChecker-ref="AndHeaderRegExpChecker" c:bodyChecker-ref="AndBodyRegExpChecker" c:urlChecker-ref="alwaysFalseChecker" />
   <bean id="OrRegExpChecker" name="OrRegExpChecker" class="com.epam.wilma.stubconfig.condition.checker.general.OrGeneralChecker" c:headerChecker-ref="OrHeaderRegExpChecker" c:bodyChecker-ref="OrBodyRegExpChecker" c:urlChecker-ref="alwaysFalseChecker" />
   <!-- Built-in Template formatters -->
-  <bean id="SuppressGzipCompression" name="SuppressGzipCompression" class="com.epam.wilma.stubconfig.template.formatter.SuppressGzipCompression"/>
-  <bean id="SuppressFastInfosetCompression" name="SuppressFastInfosetCompression" class="com.epam.wilma.stubconfig.template.formatter.SuppressFastInfosetCompression"/>
+  <bean id="HeaderFormatter" name="HeaderFormatter" class="com.epam.wilma.stubconfig.response.formatter.HeaderFormatter"/>
+  <bean id="SuppressGzipCompression" name="SuppressGzipCompression" class="com.epam.wilma.stubconfig.response.formatter.SuppressGzipCompression"/>
+  <bean id="SuppressFastInfosetCompression" name="SuppressFastInfosetCompression" class="com.epam.wilma.stubconfig.response.formatter.SuppressFastInfosetCompression"/>
 </beans>

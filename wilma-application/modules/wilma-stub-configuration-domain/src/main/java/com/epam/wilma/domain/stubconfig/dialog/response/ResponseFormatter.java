@@ -1,4 +1,4 @@
-package com.epam.wilma.domain.stubconfig.dialog.response.template;
+package com.epam.wilma.domain.stubconfig.dialog.response;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 
@@ -24,24 +24,22 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Interface for stub template's formatter mechanism. All of the template formatters need to implement this interface.
+ * Interface for stub response's formatter mechanism. All of the response formatters need to implement this interface.
  *
- * @author Tamas_Bihari
- * @deprecated use ResponseFormatter class
+ * @author Tamas_Kohegyi
  */
-@Deprecated
-public interface TemplateFormatter {
+public interface ResponseFormatter {
 
     /**
-     * Formats a template with the given parameters.
+     * Formats a response with the given parameters.
      *
      * @param wilmaRequest     is a specific object, which contains the request headers and the uncompressed request body.
      * @param resp             is the HttpServletResponse itself, offering the possibility of setting response attributes directly
-     * @param templateResource is the specified template which will be modified by the formatter
-     * @param params           is the necessary parameters of the template formatter class
-     * @return with the formatted template resource
+     * @param responseResource is the specified response which will be modified by the formatter
+     * @param params           is the necessary parameters of the response formatter class
+     * @return with the formatted response resource
      * @throws Exception if error occurs, it will be caught by the stub mechanism
      */
-    byte[] formatTemplate(WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
-                          byte[] templateResource, final ParameterList params) throws Exception;
+    byte[] formatResponse(WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                          byte[] responseResource, final ParameterList params) throws Exception;
 }

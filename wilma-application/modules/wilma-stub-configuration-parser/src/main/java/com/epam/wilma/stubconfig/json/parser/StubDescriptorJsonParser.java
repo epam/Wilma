@@ -39,8 +39,8 @@ import java.util.List;
 
 /**
  * Builds a new {@link StubDescriptor} model from a given DOM document.
- * @author Tamas_Kohegyi
  *
+ * @author Tamas_Kohegyi
  */
 @Component
 public class StubDescriptorJsonParser {
@@ -60,6 +60,7 @@ public class StubDescriptorJsonParser {
 
     /**
      * Builds a new {@link StubDescriptor} domain model from a given DOM document.
+     *
      * @param jsonStubDescriptor the JSON Object of the stub descriptor
      * @return the newly built StubDescriptor
      */
@@ -84,13 +85,13 @@ public class StubDescriptorJsonParser {
         List<DialogDescriptor> dialogDescriptors = new ArrayList<DialogDescriptor>();
         if (root.has("dialogDescriptors")) {
             JSONArray dialogDescriptorsArray = root.getJSONArray("dialogDescriptors");
-                for (int i = 0; i < dialogDescriptorsArray.length(); i++) {
-                    JSONObject dialogDescriptor = dialogDescriptorsArray.getJSONObject(i);
-                    DialogDescriptorAttributes attributes = dialogDescriptorAttributeJsonParser.getAttributes(dialogDescriptor);
-                    ConditionDescriptor conditionDescriptor = conditionDescriptorJsonParser.parseObject(dialogDescriptor.getJSONObject(ConditionDescriptor.TAG_NAME_JSON), root);
-                    ResponseDescriptor responseDescriptor = responseDescriptorJsonParser.parseObject(dialogDescriptor.getJSONObject(ResponseDescriptor.TAG_NAME_JSON),root);
-                    dialogDescriptors.add(new DialogDescriptor(attributes, conditionDescriptor, responseDescriptor));
-                }
+            for (int i = 0; i < dialogDescriptorsArray.length(); i++) {
+                JSONObject dialogDescriptor = dialogDescriptorsArray.getJSONObject(i);
+                DialogDescriptorAttributes attributes = dialogDescriptorAttributeJsonParser.getAttributes(dialogDescriptor);
+                ConditionDescriptor conditionDescriptor = conditionDescriptorJsonParser.parseObject(dialogDescriptor.getJSONObject(ConditionDescriptor.TAG_NAME_JSON), root);
+                ResponseDescriptor responseDescriptor = responseDescriptorJsonParser.parseObject(dialogDescriptor.getJSONObject(ResponseDescriptor.TAG_NAME_JSON), root);
+                dialogDescriptors.add(new DialogDescriptor(attributes, conditionDescriptor, responseDescriptor));
+            }
         }
         return dialogDescriptors;
     }

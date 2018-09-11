@@ -66,12 +66,12 @@
           "responseFormatterSet": [
             {
               "responseFormatter": {
-                "class": "com.blah"
+                "class": "HeaderFormatter"
               }
             },
             {
               "responseFormatter": {
-                "class": "com.blah"
+                "class": "HeaderFormatter"
               }
             },
             {
@@ -142,7 +142,13 @@
         "responseFormatterSet": [
           {
             "responseFormatter": {
-              "class": "com.blah"
+              "class": "HeaderFormatter",
+              "parameters": [
+                {
+                  "name": "BLAH",
+                  "value": "BLAH"
+                }
+              ]
             }
           }
         ]

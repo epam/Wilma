@@ -28,8 +28,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Parses the attributes of a dialog descriptor object.
- * @author Tamas_Kohegyi
  *
+ * @author Tamas_Kohegyi
  */
 @Component
 public class DialogDescriptorAttributeJsonParser {
@@ -40,6 +40,7 @@ public class DialogDescriptorAttributeJsonParser {
 
     /**
      * Parses the attributes of a dialog descriptor object.
+     *
      * @param o the dialog descriptor that's attributes are parsed
      * @return a new {@link DialogDescriptorAttributes} instance
      */
@@ -56,7 +57,7 @@ public class DialogDescriptorAttributeJsonParser {
     }
 
     private DialogDescriptorAttributes createAttributes(final String name, final DialogDescriptorUsage usage, final long validityValue,
-            final String comment) {
+                                                        final String comment) {
         DialogDescriptorAttributes attributes = new DialogDescriptorAttributes(name, usage);
         setValidityValue(attributes, validityValue);
         attributes.setComment(comment);
@@ -87,9 +88,9 @@ public class DialogDescriptorAttributeJsonParser {
     private long getValidityValue(final long validityValue, final DialogDescriptorUsage usage) {
         long localValidityValue = validityValue;
         if (usage == DialogDescriptorUsage.TIMEOUT) {
-                long currentTimeInMillis = currentDateProvider.getCurrentTimeInMillis();
+            long currentTimeInMillis = currentDateProvider.getCurrentTimeInMillis();
             localValidityValue = currentTimeInMillis + validityValue * MILLISECOND_MULTIPLIER;
-            }
+        }
         return localValidityValue;
     }
 

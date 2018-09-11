@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.template.formatter;
+package com.epam.wilma.stubconfig.response.formatter;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 
@@ -35,7 +35,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
- * Tests for {@link com.epam.wilma.stubconfig.template.formatter.HeaderFormatter}.
+ * Tests for {@link HeaderFormatter}.
  *
  * @author Tamas_Kohegyi
  */

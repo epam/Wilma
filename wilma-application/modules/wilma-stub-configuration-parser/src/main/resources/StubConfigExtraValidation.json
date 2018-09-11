@@ -1,7 +1,0 @@
-{
-  "uniqueNames": [
-    {
-      "interceptors": "$.interceptors[*].name"
-    }
-  ]
-}

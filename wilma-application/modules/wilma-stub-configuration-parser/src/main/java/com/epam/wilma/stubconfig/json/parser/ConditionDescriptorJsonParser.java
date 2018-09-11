@@ -74,24 +74,24 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
             while (keys.hasNext()) {
                 String next = keys.next();
                 switch (ConditionTagNames.getTagName(next)) {
-                    case TAG_NAME_AND:
-                        parsedCondition.add(new CompositeCondition(ConditionType.AND, parseConditionArray(conditions.getJSONArray(next), root, depth, ConditionType.AND)));
-                        break;
-                    case TAG_NAME_OR:
-                        parsedCondition.add(new CompositeCondition(ConditionType.OR, parseConditionArray(conditions.getJSONArray(next), root, depth, ConditionType.OR)));
-                        break;
-                    case TAG_NAME_NOT:
-                        parsedCondition.add(new CompositeCondition(ConditionType.NOT, parseCondition(conditions.getJSONObject(next), root, depth)));
-                        break;
-                    case TAG_NAME_COND_SET_INVOKER:
-                        int newDepth = validateDepth(depth, conditions.getString("conditionSetInvoker"));
-                        parseConditionSet(root, parsedCondition, conditions, newDepth);
-                        break;
-                    case TAG_NAME_CONDITION:
-                        simpleConditionJsonParser.parseSimpleCondition(parsedCondition, conditions.getJSONObject(next));
-                        break;
-                    default:
-                        break;
+                case TAG_NAME_AND:
+                    parsedCondition.add(new CompositeCondition(ConditionType.AND, parseConditionArray(conditions.getJSONArray(next), root, depth, ConditionType.AND)));
+                    break;
+                case TAG_NAME_OR:
+                    parsedCondition.add(new CompositeCondition(ConditionType.OR, parseConditionArray(conditions.getJSONArray(next), root, depth, ConditionType.OR)));
+                    break;
+                case TAG_NAME_NOT:
+                    parsedCondition.add(new CompositeCondition(ConditionType.NOT, parseCondition(conditions.getJSONObject(next), root, depth)));
+                    break;
+                case TAG_NAME_COND_SET_INVOKER:
+                    int newDepth = validateDepth(depth, conditions.getString("conditionSetInvoker"));
+                    parseConditionSet(root, parsedCondition, conditions, newDepth);
+                    break;
+                case TAG_NAME_CONDITION:
+                    simpleConditionJsonParser.parseSimpleCondition(parsedCondition, conditions.getJSONObject(next));
+                    break;
+                default:
+                    break;
                 }
             }
         }

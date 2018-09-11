@@ -1,4 +1,4 @@
-package com.epam.wilma.domain.stubconfig.dialog.response.template;
+package com.epam.wilma.domain.stubconfig.dialog.response;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 
@@ -21,34 +21,32 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 /**
- * Holds template formatter details.
- * @author Tunde_Kovacs
- * @deprecated use ResponseFormatterDescriptor class
+ * Holds response formatter details.
+ * @author Tunde_Kovacs, Tamas_Kohegyo
  *
  */
-@Deprecated
-public class TemplateFormatterDescriptor {
+public class ResponseFormatterDescriptor {
 
-    private final TemplateFormatter templateFormatter;
+    private final ResponseFormatter responseFormatter;
     private final ParameterList params;
 
     /**
      * Constructs a new instance of template formatter.
-     * @param templateFormatter the type of template formatter
-     * @param params the parameters of the <tt>templateFormatter</tt>
+     * @param responseFormatter the type of response formatter
+     * @param params the parameters of the <tt>responseFormatter</tt>
      */
-    public TemplateFormatterDescriptor(final TemplateFormatter templateFormatter, final ParameterList params) {
+    public ResponseFormatterDescriptor(final ResponseFormatter responseFormatter, final ParameterList params) {
         super();
-        this.templateFormatter = templateFormatter;
+        this.responseFormatter = responseFormatter;
         this.params = params;
     }
 
-    public TemplateFormatter getTemplateFormatter() {
-        return templateFormatter;
+    public ResponseFormatter getResponseFormatter() {
+        return responseFormatter;
     }
 
     /**
-     * Returns the {@link TemplateFormatter}'s parameters.
+     * Returns the {@link ResponseFormatter}'s parameters.
      * @return the cloned map
      */
     public ParameterList getParams() {

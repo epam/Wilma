@@ -26,26 +26,16 @@ import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerat
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateType;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
 import com.epam.wilma.sequence.helper.SequenceDescriptorKeyUtil;
-import com.epam.wilma.stubconfig.dom.parser.NodeParser;
-import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
 import com.epam.wilma.stubconfig.initializer.template.TemplateFileReader;
 import com.epam.wilma.stubconfig.initializer.template.TemplateGeneratorInitializer;
 import com.epam.wilma.stubconfig.json.parser.helper.ObjectParser;
-import com.jayway.jsonpath.Criteria;
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.Filter;
-import com.jayway.jsonpath.JsonPath;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -57,8 +47,8 @@ import java.util.Set;
 public class ResponseDescriptorJsonParser implements ObjectParser<ResponseDescriptor> {
 
     @Autowired
-    @Qualifier("templateFormatterDescriptorJsonParser")
-    private ObjectParser<Set<TemplateFormatterDescriptor>> templateFormatterDescriptorJsonParser;
+    @Qualifier("responseFormatterDescriptorJsonParser")
+    private ObjectParser<Set<TemplateFormatterDescriptor>> responseFormatterDescriptorJsonParser;
     @Autowired
     private TemplateFileReader templateFileReader;
     @Autowired
@@ -70,8 +60,8 @@ public class ResponseDescriptorJsonParser implements ObjectParser<ResponseDescri
      * Builds a new {@link ResponseDescriptor} from a JSON object.
      *
      * @param responseDescriptorObject the response descriptor object that is parsed
-     * @param root               the JSONObject that is parsed, needed to be able to find objects outside
-     *                               the <tt>responseDescriptorNode</tt>
+     * @param root                     the JSONObject that is parsed, needed to be able to find objects outside
+     *                                 the <tt>responseDescriptorNode</tt>
      * @return a new {@link ResponseDescriptor}. If input parameter <tt>responseDescriptorObject</tt>
      * is null, it returns null.
      */
@@ -80,8 +70,8 @@ public class ResponseDescriptorJsonParser implements ObjectParser<ResponseDescri
         ResponseDescriptor responseDescriptor = null;
         if (responseDescriptorObject != null) {
             ResponseDescriptorAttributes attributes = getAttributes(responseDescriptorObject, root);
-            Set<TemplateFormatterDescriptor> templateFormatters = templateFormatterDescriptorJsonParser.parseObject(responseDescriptorObject, root);
-            responseDescriptor = new ResponseDescriptor(attributes, templateFormatters);
+            Set<TemplateFormatterDescriptor> responseFormatters = responseFormatterDescriptorJsonParser.parseObject(responseDescriptorObject, root);
+            responseDescriptor = new ResponseDescriptor(attributes, responseFormatters);
         }
         return responseDescriptor;
     }
@@ -102,7 +92,6 @@ public class ResponseDescriptorJsonParser implements ObjectParser<ResponseDescri
         if (root.has("groupName")) {
             groupName = root.getString("groupName");
         }
-        //TODO
         String sequenceDescriptorName = null;
         if (responseDescriptorObject.has("sequenceDescriptorName")) {
             sequenceDescriptorName = responseDescriptorObject.getString("sequenceDescriptorName");

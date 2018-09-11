@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.template.formatter;
+package com.epam.wilma.stubconfig.response.formatter;
 /*==========================================================================
 Copyright 2013-2018 EPAM Systems
 
@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
@@ -27,27 +28,34 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * A built-in template formatter class.
  * This class ensures that during generation of the response,
- * the final response will not be gzip-ped even if the request allows it.
+ * the final response will not be encoded with fastinfoset even if the request allows it.
  *
  * @author Tamas_Kohegyi on 2018-01-15.
  */
-public class SuppressGzipCompression implements TemplateFormatter {
+public class SuppressFastInfosetCompression implements TemplateFormatter, ResponseFormatter {
 
-    static final String HEADER_VALUE_GZIP = "gzip";
-    static final String HEADER_KEY_ACCEPT_ENCODING = "Accept-Encoding";
+    static final String FASTINFOSET = "fastinfoset";
+    static final String ACCEPT_VALUE_FASTINFOSET = "application/fastinfoset";
+    static final String ACCEPT_HEADER_KEY = "Accept";
     static final String HEADER_KEY_SUPPRESS_ENCODING = "Wilma-Suppress-Encoding";
 
     @Override
     public byte[] formatTemplate(WilmaHttpRequest wilmaRequest, HttpServletResponse resp,
-                                 byte[] templateResource, ParameterList params) throws Exception {
+                                 byte[] templateResource, ParameterList params) {
+        return formatResponse(wilmaRequest, resp, templateResource, params);
+    }
+
+    @Override
+    public byte[] formatResponse(WilmaHttpRequest wilmaRequest, HttpServletResponse resp,
+                                 byte[] responseResource, ParameterList params) {
         //force turn off gzip compression usage for this answer
-        String acceptEncodingHeader = wilmaRequest.getHeader(HEADER_KEY_ACCEPT_ENCODING);
-        if (acceptEncodingHeader != null && acceptEncodingHeader.contains(HEADER_VALUE_GZIP)) {
+        String acceptHeader = wilmaRequest.getHeader(ACCEPT_HEADER_KEY);
+        if (acceptHeader != null && acceptHeader.contains(ACCEPT_VALUE_FASTINFOSET)) {
             String existingHeaderContent = resp.getHeader(HEADER_KEY_SUPPRESS_ENCODING);
-            String newHeaderContent = existingHeaderContent == null ? HEADER_VALUE_GZIP : existingHeaderContent + "," + HEADER_VALUE_GZIP;
+            String newHeaderContent = existingHeaderContent == null ? FASTINFOSET : existingHeaderContent + "," + FASTINFOSET;
             resp.addHeader(HEADER_KEY_SUPPRESS_ENCODING, newHeaderContent);
         }
         //we don't touch the body part
-        return templateResource;
+        return responseResource;
     }
 }
