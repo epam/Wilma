@@ -34,7 +34,7 @@ public class ResponseDescriptor {
     private String code;
     private String mimeType;
     private Template template;
-    private List<RsponseFormatter> responseFormatters;
+    private List<ResponseFormatter> responseFormatters;
     private List<Interceptor> interceptors;
 
     /**
@@ -65,8 +65,8 @@ public class ResponseDescriptor {
     public String responseDescriptorToString() {
         String responseDescriptor = "<response-descriptor delay=\"" + delay + "\" "
                 + "code=\"" + code + "\" mimetype=\"" + mimeType + "\" template=\"" + template.getName() + "\" >\n";
-        for (TemplateFormatter templateFormatter : templateFormatters) {
-            responseDescriptor += templateFormatter.toString();
+        for (ResponseFormatter responseFormatter : responseFormatters) {
+            responseDescriptor += responseFormatter.toString();
         }
         responseDescriptor += "</response-descriptor>\n";
         return responseDescriptor;

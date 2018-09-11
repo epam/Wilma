@@ -21,8 +21,8 @@ package com.epam.wilma.service.configuration.stub;
 import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
 import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationException;
 import com.epam.wilma.service.configuration.stub.helper.other.Interceptor;
+import com.epam.wilma.service.configuration.stub.helper.response.ResponseFormatter;
 import com.epam.wilma.service.configuration.stub.helper.response.Template;
-import com.epam.wilma.service.configuration.stub.helper.response.TemplateFormatter;
 import com.epam.wilma.service.configuration.stub.helper.response.TemplateType;
 import com.epam.wilma.service.configuration.stub.request.RequestCondition;
 import com.epam.wilma.service.configuration.stub.response.ResponseDescriptor;
@@ -49,7 +49,7 @@ public class ResponseDescriptorBuilder {
     private String delay = "0";
     private String mimeType = MIME_TYPE_TEXT_PLAIN;
     private Template template = new Template(TemplateType.TEXT, "Wilma default response");
-    private List<TemplateFormatter> templateFormatters = new LinkedList<>();
+    private List<ResponseFormatter> responseFormatters = new LinkedList<>();
     private List<Interceptor> interceptors = new LinkedList<>();
 
     /**
@@ -134,7 +134,7 @@ public class ResponseDescriptorBuilder {
      * @return with the built Response Descriptor object
      */
     public ResponseDescriptor buildResponseDescriptor() {
-        return new ResponseDescriptor(delay, code, mimeType, template, templateFormatters, interceptors);
+        return new ResponseDescriptor(delay, code, mimeType, template, responseFormatters, interceptors);
     }
 
     /**
@@ -184,8 +184,8 @@ public class ResponseDescriptorBuilder {
      * @return with itself
      */
     public ResponseDescriptorBuilder applyFormatter(String formatterClass, ConfigurationParameter[] configurationParameters) {
-        TemplateFormatter templateFormatter = new TemplateFormatter(formatterClass, configurationParameters);
-        templateFormatters.add(templateFormatter);
+        ResponseFormatter templateFormatter = new ResponseFormatter(formatterClass, configurationParameters);
+        responseFormatters.add(templateFormatter);
         return this;
     }
 
