@@ -101,9 +101,9 @@ public class MultiPartFileProcessor {
         if ("stub-condition-checker".equals(fieldName) && isContentTypeJava(contentType)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getConditionCheckerPathAsString());
             result = "External condition checker class '" + resFileName + "' was uploaded to Wilma.";
-        } else if ("stub-template-formatter".equals(fieldName) && isContentTypeJava(contentType)) {
-            writeResourceToFile(resource, resFileName, stubResourcePathProvider.getTemplateFormattersPathAsString());
-            result = "External template formatter class '" + resFileName + "' was uploaded to Wilma.";
+        } else if ("stub-response-formatter".equals(fieldName) && isContentTypeJava(contentType)) {
+            writeResourceToFile(resource, resFileName, stubResourcePathProvider.getResponseFormattersPathAsString());
+            result = "External response formatter class '" + resFileName + "' was uploaded to Wilma.";
         } else if ("stub-interceptor".equals(fieldName)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getInterceptorPathAsString());
             result = "External interceptor '" + resFileName + "' was uploaded to Wilma.";

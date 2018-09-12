@@ -46,7 +46,7 @@ import static org.testng.Assert.assertEquals;
 public class ResponseFormatterInitializerTest {
 
     private static final String CHECKER_CLASS = "TestResponseFormatter";
-    private static final String PATH = "config/template-formatters";
+    private static final String PATH = "config/response-formatters";
 
     private ResponseFormatter responseFormatter;
     private List<ResponseFormatter> responseFormatters;
@@ -72,7 +72,7 @@ public class ResponseFormatterInitializerTest {
     }
 
     @Test
-    public void testGetTemplateFormatterWhenInternalExistsShouldReturnTemplateFormatter() {
+    public void testGetResponseFormatterWhenInternalExistsShouldReturnResponseFormatter() {
         //GIVEN
         responseFormatter = new TestResponseFormatter();
         responseFormatters.add(responseFormatter);
@@ -83,7 +83,7 @@ public class ResponseFormatterInitializerTest {
     }
 
     @Test
-    public void testGetTemplateFormatterWhenMoreInternalsExistShouldReturnTemplateFormatter() {
+    public void testGetResponseFormatterWhenMoreInternalsExistShouldReturnResponseFormatter() {
         //GIVEN
         responseFormatters.clear();
         responseFormatter = new ExampleFormatter();
@@ -97,9 +97,9 @@ public class ResponseFormatterInitializerTest {
     }
 
     @Test
-    public void testGetTemplateFormatterWhenExternalExistsShouldReturnTemplateFormatter() {
+    public void testGetResponseFormatterWhenExternalExistsShouldReturnResponseFormatter() {
         //GIVEN
-        given(stubResourcePathProvider.getTemplateFormattersPathAsString()).willReturn(PATH);
+        given(stubResourcePathProvider.getResponseFormattersPathAsString()).willReturn(PATH);
         responseFormatter = new ExampleFormatter();
         given(externalInitializer.loadExternalClass(CHECKER_CLASS, PATH, ResponseFormatter.class)).willReturn(responseFormatter);
         //WHEN
@@ -109,9 +109,9 @@ public class ResponseFormatterInitializerTest {
     }
 
     @Test(expectedExceptions = DescriptorValidationFailedException.class)
-    public void testGetTemplateFormatterWhenItDoesNotExistShouldThrowException() {
+    public void testGetResponseFormatterWhenItDoesNotExistShouldThrowException() {
         //GIVEN
-        given(stubResourcePathProvider.getTemplateFormattersPathAsString()).willReturn(PATH);
+        given(stubResourcePathProvider.getResponseFormattersPathAsString()).willReturn(PATH);
         given(externalInitializer.loadExternalClass(CHECKER_CLASS, PATH, ResponseFormatter.class)).willThrow(new DescriptorValidationFailedException(CHECKER_CLASS));
         //WHEN
         underTest.getExternalClassObject(CHECKER_CLASS);
@@ -119,7 +119,7 @@ public class ResponseFormatterInitializerTest {
     }
 
     @Test
-    public void testGetTemplateFormatterShouldReturnTemplateFormatter() {
+    public void testGetResponseFormatterShouldReturnResponseFormatter() {
         //GIVEN
         given(appContext.getBean(CHECKER_CLASS, ResponseFormatter.class)).willThrow(new NoSuchBeanDefinitionException(""));
         responseFormatter = new TestResponseFormatter();
@@ -131,7 +131,7 @@ public class ResponseFormatterInitializerTest {
     }
 
     @Test
-    public void testGetTemplateFormatterShouldReturnTemplateFormatterWhenTheClassIsManagedBySpring() {
+    public void testGetResponseFormatterShouldReturnResponseFormatterWhenTheClassIsManagedBySpring() {
         //GIVEN
         given(appContext.getBean(CHECKER_CLASS, ResponseFormatter.class)).willReturn(responseFormatter);
         //WHEN

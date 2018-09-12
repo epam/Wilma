@@ -35,7 +35,7 @@ public class StubResourcePathProvider {
 
     private String templatesPath;
     private String conditionCheckerPath;
-    private String templateFormattersPath;
+    private String responseFormattersPath;
     private String interceptorPath;
     private String jarPath;
     private String cachePath;
@@ -57,12 +57,12 @@ public class StubResourcePathProvider {
         return FileSystems.getDefault().getPath(conditionCheckerPath);
     }
 
-    public String getTemplateFormattersPathAsString() {
-        return templateFormattersPath;
+    public String getResponseFormattersPathAsString() {
+        return responseFormattersPath;
     }
 
-    public Path getTemplateFormatterPath() {
-        return FileSystems.getDefault().getPath(templateFormattersPath);
+    public Path getResponseFormatterPath() {
+        return FileSystems.getDefault().getPath(responseFormattersPath);
     }
 
     public String getInterceptorPathAsString() {
@@ -101,7 +101,7 @@ public class StubResourcePathProvider {
         List<String> result = new ArrayList<>();
         result.add(getConditionCheckerPathAsString());
         result.add(getInterceptorPathAsString());
-        result.add(getTemplateFormattersPathAsString());
+        result.add(getResponseFormattersPathAsString());
         result.add(getTemplatesPathAsString());
         result.add(getJarPathAsString());
         result.add(getSequenceHandlerPathAsString());
@@ -116,8 +116,8 @@ public class StubResourcePathProvider {
         this.conditionCheckerPath = conditionCheckerPath;
     }
 
-    public void setTemplateFormatterPath(final String templateFormattersPath) {
-        this.templateFormattersPath = templateFormattersPath;
+    public void setResponseFormatterPath(final String responseFormattersPath) {
+        this.responseFormattersPath = responseFormattersPath;
     }
 
     public void setInterceptorPath(final String interceptorPath) {

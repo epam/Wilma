@@ -44,14 +44,14 @@ import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceExcept
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 
 /**
- * Provides unit tests for the class {@link ExternalTemplateFormatterUploadServlet}.
+ * Provides unit tests for the class {@link ExternalResponseFormatterUploadServlet}.
  * @author Tunde_Kovacs
  *
  */
-public class ExternalTemplateFormatterUploadServletTest {
+public class ExternalResponseFormatterUploadServletTest {
 
     private static final String FILE_NAME = "resource file";
-    private static final String EXCEPTION_MESSAGE = "Could not upload external template formatter class: ";
+    private static final String EXCEPTION_MESSAGE = "Could not upload external response formatter class: ";
     private static final String PATH = "path";
 
     @Mock
@@ -70,7 +70,7 @@ public class ExternalTemplateFormatterUploadServletTest {
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
     @InjectMocks
-    private ExternalTemplateFormatterUploadServlet underTest;
+    private ExternalResponseFormatterUploadServlet underTest;
 
     @BeforeMethod
     public void setUp() throws IOException {
@@ -79,7 +79,7 @@ public class ExternalTemplateFormatterUploadServletTest {
         Whitebox.setInternalState(underTest, "stubResourcePathProvider", stubResourcePathProvider);
         Whitebox.setInternalState(underTest, "fileWriter", fileWriter);
         given(request.getInputStream()).willReturn(inputStream);
-        given(stubResourcePathProvider.getTemplateFormattersPathAsString()).willReturn(PATH);
+        given(stubResourcePathProvider.getResponseFormattersPathAsString()).willReturn(PATH);
     }
 
     @Test
@@ -113,7 +113,7 @@ public class ExternalTemplateFormatterUploadServletTest {
         //WHEN
         underTest.doGet(request, response);
         //THEN
-        verify(printWriter).write("Please give a name to the template formatter! e.g.:.../templateformatter?fileName=ExternalTemplateFormatter.class");
+        verify(printWriter).write("Please give a name to the response formatter! e.g.:.../responseformatter?fileName=ExternalResponseFormatter.class");
     }
 
     @Test

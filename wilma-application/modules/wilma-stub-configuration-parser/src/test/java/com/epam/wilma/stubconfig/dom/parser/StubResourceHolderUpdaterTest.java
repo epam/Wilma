@@ -120,7 +120,7 @@ public class StubResourceHolderUpdaterTest {
         underTest.clearTemporaryResourceHolder();
         //THEN
         verify(temporaryStubResourceHolder).clearConditionCheckers();
-        verify(temporaryStubResourceHolder).clearTemplateFormatters();
+        verify(temporaryStubResourceHolder).clearResponseFormatters();
         verify(temporaryStubResourceHolder).clearTemplates();
         verify(temporaryStubResourceHolder).clearRequestInterceptors();
         verify(temporaryStubResourceHolder).clearResponseInterceptors();

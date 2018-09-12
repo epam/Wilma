@@ -81,19 +81,19 @@ public class StubResponseGenerator {
         byte[] result = null;
         if (wilmaLoggerId != null) {
             ResponseDescriptorDTO responseDescriptorDTO = mapBasedResponseDescriptorAccess.getResponseDescriptor(wilmaLoggerId);
-            Set<ResponseFormatterDescriptor> templateFormatterDescriptors = responseDescriptorDTO.getResponseDescriptor().getResponseFormatters();
+            Set<ResponseFormatterDescriptor> responseFormatterDescriptors = responseDescriptorDTO.getResponseDescriptor().getResponseFormatters();
             //generate pure WilmaHttpRequest
             WilmaHttpRequest wilmaRequest = httpServletRequestTransformer.transformToWilmaHttpRequest(wilmaLoggerId, req, responseDescriptorDTO);
             //add wilma information to response header
             stubResponseHeaderConfigurer.addWilmaInfoToResponseHeader(req, resp, responseDescriptorDTO.getDialogDescriptorName());
             //set headers generate response body
-            result = generate(resp, responseDescriptorDTO, templateFormatterDescriptors, wilmaRequest);
+            result = generate(resp, responseDescriptorDTO, responseFormatterDescriptors, wilmaRequest);
         }
         return result;
     }
 
     private byte[] generate(final HttpServletResponse resp, final ResponseDescriptorDTO responseDescriptorDTO,
-            final Set<ResponseFormatterDescriptor> templateFormatterDescriptors, final WilmaHttpRequest wilmaRequest) {
+            final Set<ResponseFormatterDescriptor> responseFormatterDescriptors, final WilmaHttpRequest wilmaRequest) {
         byte[] result;
         ResponseDescriptor responseDescriptor = responseDescriptorDTO.getResponseDescriptor();
         try {
@@ -109,10 +109,10 @@ public class StubResponseGenerator {
             //set response status and content type
             stubResponseHeaderConfigurer.setResponseContentTypeAndStatus(resp, responseDescriptorDTO);
             //run formatters, with formatters we can overwrite both mime type and status code
-            if (templateFormatterDescriptors != null && !templateFormatterDescriptors.isEmpty()) {
-                for (ResponseFormatterDescriptor templateFormatterDescriptor : templateFormatterDescriptors) {
-                    ResponseFormatter templateFormatter = templateFormatterDescriptor.getResponseFormatter();
-                    result = templateFormatter.formatResponse(wilmaRequest, resp, result, templateFormatterDescriptor.getParams());
+            if (responseFormatterDescriptors != null && !responseFormatterDescriptors.isEmpty()) {
+                for (ResponseFormatterDescriptor responseFormatterDescriptor : responseFormatterDescriptors) {
+                    ResponseFormatter responseFormatter = responseFormatterDescriptor.getResponseFormatter();
+                    result = responseFormatter.formatResponse(wilmaRequest, resp, result, responseFormatterDescriptor.getParams());
                 }
             }
             //delay response if necessary

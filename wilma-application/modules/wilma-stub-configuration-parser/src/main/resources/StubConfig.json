@@ -1,13 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "Representation of Wilma stub configuration possibilities - DRAFT",
+  "description": "Representation of Wilma stub configuration possibilities",
   "type": "object",
   "properties": {
     "wilmaStubConfiguration": {
       "type": "object",
       "properties": {
         "groupName": {
-          "description": "The name of the Stub Configuration, if it is missing, the name will be considered as: Default",
+          "description": "The name of the Stub Configuration, if it is missing, the name will be considered as: 'Default'",
           "type": "string",
           "minLength": 1,
           "maxLength": 128,

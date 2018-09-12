@@ -42,11 +42,11 @@ import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Tests for {@link XslBasedTemplateFormatter}.
+ * Tests for {@link XslBasedResponseFormatter}.
  * @author Tamas_Bihari
  *
  */
-public class XslBasedTemplateFormatterTest {
+public class XslBasedResponseFormatterTest {
     private static final String XSL_PARAM_KEY = "xslFile";
 
     @Mock
@@ -63,7 +63,7 @@ public class XslBasedTemplateFormatterTest {
     private File file;
 
     @InjectMocks
-    private XslBasedTemplateFormatter underTest;
+    private XslBasedResponseFormatter underTest;
 
     private byte[] templateResource;
 

@@ -45,7 +45,7 @@ public class StubResourceHandlerServlet extends HttpServlet {
     private static final String TEMPLATE = "template";
     private static final String INTERCEPTOR = "interceptor";
     private static final String CONDITION_CHECKER = "condition-checker";
-    private static final String TEMPLATE_FORMATTER = "template-formatter";
+    private static final String RESPONSE_FORMATTER = "response-formatter";
     private static final String SEQUENCE_HANDLER = "sequence-handler";
     private static final String NO_TYPE_ERR_MSG = "Please provide a type parameter in the url!";
     private static final String APPLICATION_JSON = "application/json";
@@ -78,7 +78,7 @@ public class StubResourceHandlerServlet extends HttpServlet {
             if (path != null) {
                 writeResponse(req, resp, path);
             } else {
-                writeError(resp, String.format(ERROR_MESSAGE_TEMPLATE, type, INTERCEPTOR, CONDITION_CHECKER, TEMPLATE_FORMATTER, TEMPLATE, JAR,
+                writeError(resp, String.format(ERROR_MESSAGE_TEMPLATE, type, INTERCEPTOR, CONDITION_CHECKER, RESPONSE_FORMATTER, TEMPLATE, JAR,
                         SEQUENCE_HANDLER));
             }
         } else {
@@ -103,8 +103,8 @@ public class StubResourceHandlerServlet extends HttpServlet {
         Path path = null;
         if (CONDITION_CHECKER.equals(type)) {
             path = stubResourcePathProvider.getConditionCheckerPath();
-        } else if (TEMPLATE_FORMATTER.equals(type)) {
-            path = stubResourcePathProvider.getTemplateFormatterPath();
+        } else if (RESPONSE_FORMATTER.equals(type)) {
+            path = stubResourcePathProvider.getResponseFormatterPath();
         } else if (TEMPLATE.equals(type)) {
             path = stubResourcePathProvider.getTemplatesPath();
         } else if (INTERCEPTOR.equals(type)) {

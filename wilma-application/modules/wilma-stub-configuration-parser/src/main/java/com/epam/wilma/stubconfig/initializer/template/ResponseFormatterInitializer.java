@@ -42,7 +42,7 @@ public class ResponseFormatterInitializer extends CommonClassInitializer<Respons
 
     @Override
     protected String getPathOfExternalClasses() {
-        return stubResourcePathProvider.getTemplateFormattersPathAsString();
+        return stubResourcePathProvider.getResponseFormattersPathAsString();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ResponseFormatterInitializer extends CommonClassInitializer<Respons
 
     @Override
     protected void addExternalClassObject(ResponseFormatter externalClassObject) {
-        stubResourceHolder.addTemplateFormatter(externalClassObject);
+        stubResourceHolder.addResponseFormatter(externalClassObject);
     }
 
     @Override

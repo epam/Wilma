@@ -113,18 +113,18 @@ public class MultiPartFileProcessorTest {
     }
 
     @Test
-    public void testProcessUploadedFileShouldReturnWhenTemplateFormatterUploaded() {
+    public void testProcessUploadedFileShouldReturnWhenResponseFormatterUploaded() {
         //GIVEN
-        given(stubResourcePathProvider.getTemplateFormattersPathAsString()).willReturn("");
+        given(stubResourcePathProvider.getResponseFormattersPathAsString()).willReturn("");
         //WHEN
-        String actual = underTest.processUploadedFile(resource, OCTET_STREAM_CONTENT_TYPE, "stub-template-formatter", FILE_PATH);
+        String actual = underTest.processUploadedFile(resource, OCTET_STREAM_CONTENT_TYPE, "stub-response-formatter", FILE_PATH);
         //THEN
         verify(fileWriter).write(resource, "/" + FILE_PATH, EXCEPTION_MESSAGE);
-        assertEquals(actual, "External template formatter class '" + FILE_PATH + "' was uploaded to Wilma.");
+        assertEquals(actual, "External response formatter class '" + FILE_PATH + "' was uploaded to Wilma.");
     }
 
     @Test(expectedExceptions = CannotUploadExternalResourceException.class)
-    public void testProcessUploadedFileShouldThrowExceptionWhenUploadedTemplateFormatterContentTypeNotJavaOrOctetStream() {
+    public void testProcessUploadedFileShouldThrowExceptionWhenUploadedResponseFormatterContentTypeNotJavaOrOctetStream() {
         //GIVEN in setUp
         //WHEN
         underTest.processUploadedFile(resource, XML_CONTENT_TYPE, "stub-template-formatter", FILE_PATH);

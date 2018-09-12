@@ -79,7 +79,7 @@ public class StubResourceHolderUpdater {
      */
     public void clearTemporaryResourceHolder() {
         temporaryStubResourceHolder.clearConditionCheckers();
-        temporaryStubResourceHolder.clearTemplateFormatters();
+        temporaryStubResourceHolder.clearResponseFormatters();
         temporaryStubResourceHolder.clearTemplates();
         temporaryStubResourceHolder.clearRequestInterceptors();
         temporaryStubResourceHolder.clearResponseInterceptors();

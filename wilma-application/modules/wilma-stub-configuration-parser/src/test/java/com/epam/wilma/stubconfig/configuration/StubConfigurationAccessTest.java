@@ -82,14 +82,14 @@ public class StubConfigurationAccessTest {
     }
 
     @Test
-    public void testOnApplicationEventShouldSetTemplateFormatterPath() {
+    public void testOnApplicationEventShouldSetResponseFormatterPath() {
         //GIVEN
-        String templateFormatterPath = "templateFormatterPath";
-        given(propertyHolder.get("stub.template.formatter.path")).willReturn(templateFormatterPath);
+        String responseFormatterPath = "responseFormatterPath";
+        given(propertyHolder.get("stub.response.formatter.path")).willReturn(responseFormatterPath);
         //WHEN
         underTest.setProperties();
         //THEN
-        verify(stubResourcePathProvider).setTemplateFormatterPath(templateFormatterPath);
+        verify(stubResourcePathProvider).setResponseFormatterPath(responseFormatterPath);
     }
 
     @Test
@@ -141,6 +141,6 @@ public class StubConfigurationAccessTest {
         //WHEN
         underTest.setProperties();
         //THEN
-        verify(classNameMapper).initialize(new ArrayList<String>());
+        verify(classNameMapper).initialize(new ArrayList<>());
     }
 }

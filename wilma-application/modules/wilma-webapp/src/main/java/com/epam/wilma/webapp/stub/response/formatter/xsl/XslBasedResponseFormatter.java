@@ -39,13 +39,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Creates a response based on an XSL file and template XML using the request body.
- * The XSL file name always has to be defined as a template formatter param in the
+ * The XSL file name always has to be defined as a response formatter param in the
  * stub configuration!!!
  * @author Tamas_Bihari
  *
  */
 @Component
-public class XslBasedTemplateFormatter implements ResponseFormatter {
+public class XslBasedResponseFormatter implements ResponseFormatter {
 
     @Autowired
     private FileUtils fileUtils;
@@ -85,7 +85,7 @@ public class XslBasedTemplateFormatter implements ResponseFormatter {
             xslResourceName = paramList.get(0).getValue();
         } else {
             throw new ResponseFormattingFailedException(
-                    "The XslBasedTemplateFormatter must have one parameter in stub configuration to define necessary xsl template file.");
+                    "The XslBasedResponseFormatter must have one parameter in stub configuration to define necessary xsl template file.");
         }
         return (stubResourcePathProvider.getTemplatesPathAsString() + "/" + xslResourceName).replace("\\", "/");
     }

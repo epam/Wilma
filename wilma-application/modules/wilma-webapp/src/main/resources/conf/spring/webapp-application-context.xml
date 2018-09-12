@@ -55,7 +55,7 @@
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="schemaProviderServlet" p:name="schemaProviderServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalConditionCheckerUploadServlet" p:name="externalConditionCheckerUploadServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalInterceptorUploadServlet" p:name="externalInterceptorUploadServlet" />
-        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalTemplateFormatterUploadServlet" p:name="externalTemplateFormatterUploadServlet" />
+        <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalResponseFormatterUploadServlet" p:name="externalResponseFormatterUploadServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalJarUploadServlet" p:name="externalJarUploadServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalTemplateUploadServlet" p:name="externalTemplateUploadServlet" />
         <bean class="org.eclipse.jetty.servlet.ServletHolder" p:servlet-ref="externalSequenceHandlerUploadServlet" p:name="externalSequenceHandlerUploadServlet" />
@@ -109,7 +109,7 @@
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="schemaProviderServlet" p:pathSpec="/public/schema/StubConfig.xsd" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalInterceptorUploadServlet" p:pathSpec="/admin/stub/interceptor" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalConditionCheckerUploadServlet" p:pathSpec="/admin/stub/conditionchecker" />
-        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalTemplateFormatterUploadServlet" p:pathSpec="/admin/stub/templateformatter" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalResponseFormatterUploadServlet" p:pathSpec="/admin/stub/responseformatter" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalSequenceHandlerUploadServlet" p:pathSpec="/admin/stub/sequencehandler" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalJarUploadServlet" p:pathSpec="/admin/stub/jar" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalTemplateUploadServlet" p:pathSpec="/admin/stub/template" />

@@ -66,14 +66,14 @@ public class StubConfigurationAccess implements ConfigurationAccessBase {
     public void setProperties() {
         String templatePath = propertyHolder.get("stub.template.path");
         String conditionCheckerPath = propertyHolder.get("stub.condition.checker.path");
-        String templateFormatterPath = propertyHolder.get("stub.template.formatter.path");
+        String responseFormatterPath = propertyHolder.get("stub.response.formatter.path");
         String interceptorPath = propertyHolder.get("stub.interceptor.path");
         String jarPath = propertyHolder.get("stub.jar.path");
         String cachePath = propertyHolder.get("stub.descriptors.cache.path");
         String sequenceHandlerPath = propertyHolder.get("stub.sequence.handler.path");
         stubResourcePathProvider.setTemplatesPath(templatePath);
         stubResourcePathProvider.setConditionCheckerPath(conditionCheckerPath);
-        stubResourcePathProvider.setTemplateFormatterPath(templateFormatterPath);
+        stubResourcePathProvider.setResponseFormatterPath(responseFormatterPath);
         stubResourcePathProvider.setInterceptorPath(interceptorPath);
         stubResourcePathProvider.setJarPath(jarPath);
         stubResourcePathProvider.setCachePath(cachePath);

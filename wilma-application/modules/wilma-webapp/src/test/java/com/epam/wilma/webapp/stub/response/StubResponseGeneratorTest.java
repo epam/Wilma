@@ -95,9 +95,9 @@ public class StubResponseGeneratorTest {
     @Mock
     private Template template;
     @Mock
-    private ResponseFormatterDescriptor templateFormatterDescriptor;
+    private ResponseFormatterDescriptor responseFormatterDescriptor;
     @Mock
-    private ResponseFormatter templateFormatter;
+    private ResponseFormatter responseFormatter;
     @Mock
     private WilmaHttpRequest wilmaRequest;
     @Mock
@@ -112,19 +112,19 @@ public class StubResponseGeneratorTest {
     @InjectMocks
     private StubResponseGenerator underTest;
 
-    private Set<ResponseFormatterDescriptor> templateFormatterDescriptors;
+    private Set<ResponseFormatterDescriptor> responseFormatterDescriptors;
 
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        templateFormatterDescriptors = new HashSet<>();
+        responseFormatterDescriptors = new HashSet<>();
         given(responseDescriptorAccess.getResponseDescriptor(anyString())).willReturn(responseDescriptorDTO);
         given(responseDescriptorDTO.getResponseDescriptor()).willReturn(responseDescriptor);
         Template template = new Template(null, null, null);
         ResponseDescriptorAttributes attributes = new ResponseDescriptorAttributes.Builder().delay(0).mimeType(MimeType.HTML.getOfficialMimeType())
                 .template(template).sequenceDescriptorKey(SEQUENCE_DESCRIPTOR_KEY).build();
         given(responseDescriptor.getAttributes()).willReturn(attributes);
-        given(responseDescriptor.getResponseFormatters()).willReturn(templateFormatterDescriptors);
+        given(responseDescriptor.getResponseFormatters()).willReturn(responseFormatterDescriptors);
         given(requestTransformer.transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO)).willReturn(wilmaRequest);
         given(stackTraceConverter.getStackTraceAsString(Matchers.any(Exception.class))).willReturn("exception-message");
         given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
@@ -151,7 +151,7 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldTemplateFormatterDescriptorsFromResponseDescriptorDTO() {
+    public void testGenerateResponseShouldResponseFormatterDescriptorsFromResponseDescriptorDTO() {
         //GIVEN in setUp
         //WHEN
         underTest.generateResponse(request, response);
@@ -181,10 +181,10 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenTemplateFormatterDescriptorsArrayIsNull() throws InterruptedException {
+    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenResponseFormatterDescriptorsArrayIsNull() throws InterruptedException {
         //GIVEN
         mockTemplateResource();
-        templateFormatterDescriptors = null;
+        responseFormatterDescriptors = null;
         //WHEN
         byte[] actual = underTest.generateResponse(request, response);
         //THEN
@@ -194,7 +194,7 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenNoTemplateFormatterDefined() {
+    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenNoResponseFormatterDefined() {
         //GIVEN
         mockTemplateResource();
         //WHEN
@@ -205,14 +205,14 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenTemplateFormatterDefined() throws Exception {
+    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenResponseFormatterDefined() throws Exception {
         //GIVEN
         ParameterList params = new ParameterList();
-        templateFormatterDescriptors.add(templateFormatterDescriptor);
+        responseFormatterDescriptors.add(responseFormatterDescriptor);
         mockTemplateResource();
-        given(templateFormatterDescriptor.getParams()).willReturn(params);
-        given(templateFormatterDescriptor.getResponseFormatter()).willReturn(templateFormatter);
-        given(templateFormatter.formatResponse(wilmaRequest, response, templateResource, params)).willReturn(templateResource);
+        given(responseFormatterDescriptor.getParams()).willReturn(params);
+        given(responseFormatterDescriptor.getResponseFormatter()).willReturn(responseFormatter);
+        given(responseFormatter.formatResponse(wilmaRequest, response, templateResource, params)).willReturn(templateResource);
         //WHEN
         byte[] actual = underTest.generateResponse(request, response);
         //THEN
@@ -221,14 +221,14 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldReturnStackTraceAsResourceAndSetErrorResponseWhenTemplateFormattingFailed() throws Exception {
+    public void testGenerateResponseShouldReturnStackTraceAsResourceAndSetErrorResponseWhenResponseFormattingFailed() throws Exception {
         //GIVEN
         ParameterList params = new ParameterList();
-        templateFormatterDescriptors.add(templateFormatterDescriptor);
+        responseFormatterDescriptors.add(responseFormatterDescriptor);
         mockTemplateResource();
-        given(templateFormatterDescriptor.getResponseFormatter()).willReturn(templateFormatter);
-        given(templateFormatterDescriptor.getParams()).willReturn(params);
-        given(templateFormatter.formatResponse(wilmaRequest, response, templateResource, params)).willThrow(
+        given(responseFormatterDescriptor.getResponseFormatter()).willReturn(responseFormatter);
+        given(responseFormatterDescriptor.getParams()).willReturn(params);
+        given(responseFormatter.formatResponse(wilmaRequest, response, templateResource, params)).willThrow(
                 new ResponseFormattingFailedException("Response formatting failed....", new ResponseFormattingFailedException("")));
         //WHEN
         underTest.generateResponse(request, response);

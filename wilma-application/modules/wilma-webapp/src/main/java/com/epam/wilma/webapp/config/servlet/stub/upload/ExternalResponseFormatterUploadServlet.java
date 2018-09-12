@@ -32,16 +32,16 @@ import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 
 /**
- * Servlet for uploading an external template formatter class from an url and placing it into
+ * Servlet for uploading an external response formatter class from an url and placing it into
  * the corresponding resource folder.
  * @author Tunde_Kovacs
  *
  */
 @Component
-public class ExternalTemplateFormatterUploadServlet extends CommonExternalUploadServlet {
+public class ExternalResponseFormatterUploadServlet extends CommonExternalUploadServlet {
 
-    private static final String EXCEPTION_MESSAGE = "Could not upload external template formatter class: ";
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExternalTemplateFormatterUploadServlet.class);
+    private static final String EXCEPTION_MESSAGE = "Could not upload external response formatter class: ";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExternalResponseFormatterUploadServlet.class);
 
     private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
     private final StubResourcePathProvider stubResourcePathProvider;
@@ -54,7 +54,7 @@ public class ExternalTemplateFormatterUploadServlet extends CommonExternalUpload
      * @param fileWriter saves the uploaded resource for Wilma
      */
     @Autowired
-    public ExternalTemplateFormatterUploadServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler,
+    public ExternalResponseFormatterUploadServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler,
                                                   StubResourcePathProvider stubResourcePathProvider, FileWriter fileWriter) {
         this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
         this.stubResourcePathProvider = stubResourcePathProvider;
@@ -63,13 +63,13 @@ public class ExternalTemplateFormatterUploadServlet extends CommonExternalUpload
 
     @Override
     protected String returnHintMessage() {
-        return "Please give a name to the template formatter! e.g.:.../templateformatter?fileName=ExternalTemplateFormatter.class";
+        return "Please give a name to the response formatter! e.g.:.../responseformatter?fileName=ExternalResponseFormatter.class";
     }
 
     @Override
     protected void writeFile(InputStream inputStream, String fileName, HttpServletRequest request) {
-        fileWriter.write(inputStream, stubResourcePathProvider.getTemplateFormattersPathAsString() + "/" + fileName, EXCEPTION_MESSAGE);
-        LOGGER.info(urlAccessLogMessageAssembler.assembleMessage(request, "External template formatter class '" + fileName
+        fileWriter.write(inputStream, stubResourcePathProvider.getResponseFormattersPathAsString() + "/" + fileName, EXCEPTION_MESSAGE);
+        LOGGER.info(urlAccessLogMessageAssembler.assembleMessage(request, "External response formatter class '" + fileName
                 + "' was uploaded to Wilma."));
     }
 
