@@ -87,7 +87,16 @@ public class JsonBasedStubDescriptorFactory implements StubDescriptorJsonFactory
             stubResourceHolderUpdater.addDocumentToResourceHolder(attributes.getGroupName(), jsonStubDescriptor);
             return stubDescriptor;
         } catch (ValidationException | JSONException | StubConfigJsonSchemaException e) {
-            throw new DescriptorCannotBeParsedException("Stub descriptor cannot be parsed.", e);
+            String errorMessage = null;
+            if (e.getCause() != null) {
+                errorMessage = e.getCause().getMessage();
+            }
+            if (errorMessage != null && !errorMessage.isEmpty()) {
+                errorMessage = "Stub descriptor cannot be parsed: " + errorMessage;
+            } else {
+                errorMessage = "Stub descriptor cannot be parsed.";
+            }
+            throw new DescriptorCannotBeParsedException(errorMessage, e);
         }
     }
 
@@ -102,7 +111,6 @@ public class JsonBasedStubDescriptorFactory implements StubDescriptorJsonFactory
                 throw new StubConfigJsonSchemaException("Name duplication found at " + errorText);
             }
         }
-
     }
 
     private void extraValidation(final JSONObject jsonStubDescriptor) {

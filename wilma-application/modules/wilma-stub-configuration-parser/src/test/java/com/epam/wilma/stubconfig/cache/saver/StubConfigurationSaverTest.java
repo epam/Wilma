@@ -18,40 +18,38 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.transform.TransformerException;
-
+import com.epam.wilma.domain.stubconfig.StubDescriptor;
+import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
+import com.epam.wilma.domain.stubconfig.StubResourceHolder;
+import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
+import com.epam.wilma.domain.stubconfig.exception.JsonTransformationException;
+import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
+import com.epam.wilma.stubconfig.json.parser.helper.JsonBasedObjectTransformer;
+import org.json.JSONObject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.w3c.dom.Document;
 
-import com.epam.wilma.domain.stubconfig.StubDescriptor;
-import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
-import com.epam.wilma.domain.stubconfig.StubResourceHolder;
-import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
-import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
-import com.epam.wilma.stubconfig.dom.transformer.DomBasedDocumentTransformer;
-import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
+import javax.xml.transform.TransformerException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link StubConfigurationSaver}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class StubConfigurationSaverTest {
     private static final String TEST_PATH = "test/path";
     private static final String TEST_KEY = "TestKey";
-    private static final String STUB_CONFIG_XML_POSTFIX = "_stubConfig.xml";
+    private static final String STUB_CONFIG_JSON_POSTFIX = "_stubConfig.json";
 
     @Mock
     private StubResourceHolder stubResourceHolder;
@@ -64,9 +62,9 @@ public class StubConfigurationSaverTest {
     @Mock
     private StubDescriptorAttributes attributes;
     @Mock
-    private Document doc;
+    private JSONObject jsonObject;
     @Mock
-    private DomBasedDocumentTransformer documentTransformer;
+    private JsonBasedObjectTransformer documentTransformer;
     @Mock
     private Logger logger;
 
@@ -86,25 +84,25 @@ public class StubConfigurationSaverTest {
     }
 
     @Test
-    public void testSaveAllStubConfigurations() throws TransformerException, DocumentTransformationException {
+    public void testSaveAllStubConfigurations() throws TransformerException, JsonTransformationException {
         //GIVEN
-        given(stubResourceHolder.getActualStubConfigDocument(TEST_KEY)).willReturn(doc);
+        given(stubResourceHolder.getActualStubConfigJsonObject(TEST_KEY)).willReturn(jsonObject);
         //WHEN
         underTest.saveAllStubConfigurations(descriptors);
         //THEN
-        verify(stubResourceHolder).getActualStubConfigDocument(TEST_KEY);
-        verify(documentTransformer).transformToFile(doc, TEST_PATH + "/" + 1 + STUB_CONFIG_XML_POSTFIX, true);
+        verify(stubResourceHolder).getActualStubConfigJsonObject(TEST_KEY);
+        verify(documentTransformer).transformToFile(jsonObject, TEST_PATH + "/" + 1 + STUB_CONFIG_JSON_POSTFIX, true);
     }
 
-    @Test(expectedExceptions = DocumentTransformationException.class)
-    public void testSaveAllStubConfigurationsWhenOccurAnDocumentTransformationException() throws DocumentTransformationException,
-        TransformerException {
+    @Test(expectedExceptions = JsonTransformationException.class)
+    public void testSaveAllStubConfigurationsWhenOccurAnDocumentTransformationException() throws JsonTransformationException,
+            TransformerException {
         //GIVEN
-        doThrow(new TransformerException("Test")).when(documentTransformer).transformToFile(doc, TEST_PATH + "/" + 1 + STUB_CONFIG_XML_POSTFIX, true);
-        given(stubResourceHolder.getActualStubConfigDocument(TEST_KEY)).willReturn(doc);
+        doThrow(new TransformerException("Test")).when(documentTransformer).transformToFile(jsonObject, TEST_PATH + "/" + 1 + STUB_CONFIG_JSON_POSTFIX, true);
+        given(stubResourceHolder.getActualStubConfigJsonObject(TEST_KEY)).willReturn(jsonObject);
         //WHEN
         underTest.saveAllStubConfigurations(descriptors);
         //THEN
-        verify(stubResourceHolder).getActualStubConfigDocument(TEST_KEY);
+        verify(stubResourceHolder).getActualStubConfigJsonObject(TEST_KEY);
     }
 }

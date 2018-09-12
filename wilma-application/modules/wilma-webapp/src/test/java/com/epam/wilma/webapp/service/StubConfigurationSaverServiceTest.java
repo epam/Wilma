@@ -18,28 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import com.epam.wilma.domain.stubconfig.StubDescriptor;
+import com.epam.wilma.domain.stubconfig.exception.JsonTransformationException;
+import com.epam.wilma.router.RoutingService;
+import com.epam.wilma.stubconfig.cache.cleaner.CacheCleaner;
+import com.epam.wilma.stubconfig.cache.saver.StubConfigurationSaver;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.stubconfig.StubDescriptor;
-import com.epam.wilma.router.RoutingService;
-import com.epam.wilma.stubconfig.cache.cleaner.CacheCleaner;
-import com.epam.wilma.stubconfig.cache.saver.StubConfigurationSaver;
-import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link StubConfigurationSaverService}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class StubConfigurationSaverServiceTest {
     @Mock
@@ -61,7 +60,7 @@ public class StubConfigurationSaverServiceTest {
     }
 
     @Test
-    public void testSaveStubConfigurationsShouldCallCleanerThenSaver() throws DocumentTransformationException {
+    public void testSaveStubConfigurationsShouldCallCleanerThenSaver() throws JsonTransformationException {
         //GIVEN
         //WHEN
         underTest.saveStubConfigurations();

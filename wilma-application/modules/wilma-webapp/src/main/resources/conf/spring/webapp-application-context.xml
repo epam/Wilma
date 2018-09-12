@@ -106,7 +106,7 @@
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="blockLocalhostUsageOffServlet" p:pathSpec="/admin/localhost/off" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="blockLocalhostUsageStatusServlet" p:pathSpec="/public/localhost/status" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="maintainerPropertiesServlet" p:pathSpec="/public/maintainer" />
-        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="schemaProviderServlet" p:pathSpec="/public/schema/StubConfig.xsd" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="schemaProviderServlet" p:pathSpec="/public/schema/StubConfig.json" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalInterceptorUploadServlet" p:pathSpec="/admin/stub/interceptor" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalConditionCheckerUploadServlet" p:pathSpec="/admin/stub/conditionchecker" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalResponseFormatterUploadServlet" p:pathSpec="/admin/stub/responseformatter" />
@@ -119,7 +119,7 @@
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigurationDropperServlet" p:pathSpec="/admin/stub/drop" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigurationStatusServlet" p:pathSpec="/admin/stub/changestatus" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigurationSaverServlet" p:pathSpec="/admin/stub/save" />
-        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigHandlerServlet" p:pathSpec="/public/stub/stubconfig.xml" />
+        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigHandlerServlet" p:pathSpec="/public/stub/stubconfig.json" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="multiPartFormUploadServlet" p:pathSpec="/admin/stub/multiPartConfigFileUpload" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubDescriptorStatusServlet" p:pathSpec="/public/stubdescriptor" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubResourceHandlerServlet" p:pathSpec="/public/stubconfig/*" />

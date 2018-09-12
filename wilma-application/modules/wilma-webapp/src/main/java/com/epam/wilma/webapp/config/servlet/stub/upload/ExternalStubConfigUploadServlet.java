@@ -21,7 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
 import com.epam.wilma.router.RoutingService;
-import com.epam.wilma.stubconfig.StubDescriptorFactory;
+import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
 import com.epam.wilma.webapp.service.external.ServiceMap;
@@ -49,24 +49,25 @@ public class ExternalStubConfigUploadServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExternalStubConfigUploadServlet.class);
 
     private final UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
-    private final StubDescriptorFactory stubDescriptorFactory;
+    private final StubDescriptorJsonFactory stubDescriptorJsonFactory;
     private final RoutingService routingService;
     private final SequenceDescriptorHolder sequenceDescriptorHolder;
     private final ServiceMap serviceMap;
 
     /**
      * Constructor using spring framework to initialize the class.
+     *
      * @param urlAccessLogMessageAssembler is used to log the url access event
-     * @param stubDescriptorFactory factory of stub descriptors
-     * @param routingService provides access to the routing service
-     * @param sequenceDescriptorHolder provides access to the sequence descriptors
-     * @param serviceMap provides access to the internal service map
+     * @param stubDescriptorJsonFactory    factory of stub descriptors
+     * @param routingService               provides access to the routing service
+     * @param sequenceDescriptorHolder     provides access to the sequence descriptors
+     * @param serviceMap                   provides access to the internal service map
      */
     @Autowired
-    public ExternalStubConfigUploadServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, StubDescriptorFactory stubDescriptorFactory,
+    public ExternalStubConfigUploadServlet(UrlAccessLogMessageAssembler urlAccessLogMessageAssembler, StubDescriptorJsonFactory stubDescriptorJsonFactory,
                                            RoutingService routingService, SequenceDescriptorHolder sequenceDescriptorHolder, ServiceMap serviceMap) {
         this.urlAccessLogMessageAssembler = urlAccessLogMessageAssembler;
-        this.stubDescriptorFactory = stubDescriptorFactory;
+        this.stubDescriptorJsonFactory = stubDescriptorJsonFactory;
         this.routingService = routingService;
         this.sequenceDescriptorHolder = sequenceDescriptorHolder;
         this.serviceMap = serviceMap;
@@ -78,7 +79,7 @@ public class ExternalStubConfigUploadServlet extends HttpServlet {
         if (request.getContentLength() > 0) {
             ServletInputStream inputStream = request.getInputStream();
             try {
-                routingService.performModification(new NewStubDescriptorCommand(inputStream, stubDescriptorFactory, sequenceDescriptorHolder));
+                routingService.performModification(new NewStubDescriptorCommand(inputStream, stubDescriptorJsonFactory, sequenceDescriptorHolder));
                 serviceMap.detectServices();
                 LOGGER.info(urlAccessLogMessageAssembler.assembleMessage(request, "New stub configuration was uploaded to Wilma."));
             } catch (ClassNotFoundException | NoClassDefFoundError | SystemException e) {

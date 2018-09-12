@@ -25,7 +25,6 @@ import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +42,6 @@ import java.util.Map;
 @Component
 public class StubResourceHolder {
 
-    private final Map<String, Document> stubConfigDocuments;
     private final Map<String, JSONObject> stubConfigJsonObjects;
     private Map<String, byte[]> templates;
     private List<ConditionChecker> conditionCheckers;
@@ -56,8 +54,7 @@ public class StubResourceHolder {
      * Default constructor for {@link StubResourceHolder} creation which initializes templates map.
      */
     public StubResourceHolder() {
-        templates = new HashMap<String, byte[]>();
-        stubConfigDocuments = new HashMap<>();
+        templates = new HashMap<>();
         stubConfigJsonObjects = new HashMap<>();
     }
 
@@ -107,26 +104,6 @@ public class StubResourceHolder {
 
     public void setSequenceHandlers(final List<SequenceHandler> sequenceHandlers) {
         this.sequenceHandlers = sequenceHandlers;
-    }
-
-    /**
-     * Put the document of stub configuration into a Map with the give groupName.
-     *
-     * @param groupName is the group name of the selected stub configuration
-     * @param document  is the xml document of the selected stub configuration
-     */
-    public void setActualStubConfigDocument(final String groupName, final Document document) {
-        stubConfigDocuments.put(groupName, document);
-    }
-
-    /**
-     * Get the document of stub configuration from a Map.
-     *
-     * @param groupName is the group name of the selected stub configuration
-     * @return the document of the selected stub configuration
-     */
-    public Document getActualStubConfigDocument(final String groupName) {
-        return stubConfigDocuments.get(groupName);
     }
 
     /**

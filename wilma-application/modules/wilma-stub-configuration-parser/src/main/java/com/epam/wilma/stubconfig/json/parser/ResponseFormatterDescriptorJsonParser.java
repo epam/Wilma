@@ -96,7 +96,7 @@ public class ResponseFormatterDescriptorJsonParser implements ObjectParser<Set<R
                 JSONObject responseFormatterSet = responseFormatterSetArray.getJSONObject(i);
                 String name = responseFormatterSet.getString("name");
                 if (name.contentEquals(responseFormatterSetName)) {
-                    formatterSet = responseFormatterSet.getJSONObject("responseFormatterSet");
+                    formatterSet = responseFormatterSet;
                     found = true;
                     break;
                 }

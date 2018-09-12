@@ -27,19 +27,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.epam.wilma.stubconfig.json.parser.helper.JsonBasedObjectTransformer;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
 
 import com.epam.wilma.domain.stubconfig.StubResourceHolder;
-import com.epam.wilma.stubconfig.dom.transformer.DomBasedDocumentTransformer;
-import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
 import com.epam.wilma.webapp.config.servlet.stub.download.helper.ByteArrayConverter;
 
 /**
- * Servlet for downloading and displaying the actual stub configuration XML.
+ * Servlet for downloading and displaying the actual stub configuration JSON.
  * @author Tamas_Bihari
  *
  */
@@ -47,27 +44,26 @@ import com.epam.wilma.webapp.config.servlet.stub.download.helper.ByteArrayConver
 public class StubConfigHandlerServlet extends HttpServlet {
 
     private static final String ENCODING = "UTF-8";
-    private static final String XML = "application/xml";
+    private static final String JSON = "application/json";
     private static final String HTML = "text/html";
     private static final String TEXT = "text/plain";
     private static final String CONTENT_DISPOSITION = "Content-Disposition";
-    private static final String ERROR_MSG = "Something went wrong! The actually used configuration can not be transformed to an XML.";
+    private static final String ERROR_MSG = "Something went wrong! The actually used configuration can not be transformed to a JSON.";
 
-    private final Logger logger = LoggerFactory.getLogger(StubConfigHandlerServlet.class);
+    private final JsonBasedObjectTransformer jsonBasedObjectTransformer;
 
-    private final DomBasedDocumentTransformer domBasedDocumentTransformer;
     private final StubResourceHolder stubResourceHolder;
     private final ByteArrayConverter byteArrayConverter;
 
     /**
      * Constructor using spring framework to initialize the class.
-     * @param domBasedDocumentTransformer transfer the stub configuration into xml
+     * @param jsonBasedObjectTransformer transfer the stub configuration into json
      * @param stubResourceHolder provides the actual stub configuration
      * @param byteArrayConverter converts the xml into a byte array
      */
     @Autowired
-    public StubConfigHandlerServlet(DomBasedDocumentTransformer domBasedDocumentTransformer, StubResourceHolder stubResourceHolder, ByteArrayConverter byteArrayConverter) {
-        this.domBasedDocumentTransformer = domBasedDocumentTransformer;
+    public StubConfigHandlerServlet(JsonBasedObjectTransformer jsonBasedObjectTransformer, StubResourceHolder stubResourceHolder, ByteArrayConverter byteArrayConverter) {
+        this.jsonBasedObjectTransformer = jsonBasedObjectTransformer;
         this.stubResourceHolder = stubResourceHolder;
         this.byteArrayConverter = byteArrayConverter;
     }
@@ -76,7 +72,7 @@ public class StubConfigHandlerServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         String sourceParameter = req.getParameter("groupname");
         if (sourceParameter != null) {
-            byte[] xml = getActualUsedXMLDocument(sourceParameter);
+            byte[] xml = getActualUsedJson(sourceParameter);
             if (xml != null) {
                 setHeader(req, resp, sourceParameter);
                 writeStubConfigToResponse(req, resp, xml);
@@ -91,27 +87,21 @@ public class StubConfigHandlerServlet extends HttpServlet {
         doGet(req, resp);
     }
 
-    private byte[] getActualUsedXMLDocument(final String groupName) {
-        //get file from stubResourceHOlder and transform it
-        Document actualDocument = stubResourceHolder.getActualStubConfigDocument(groupName);
-        byte[] xml;
-        try {
-            xml = domBasedDocumentTransformer.transform(actualDocument);
-        } catch (DocumentTransformationException e) {
-            logger.debug(ERROR_MSG, e);
-            xml = null;
-        }
-        return xml;
+    private byte[] getActualUsedJson(final String groupName) {
+        //get file from stubResourceHolder and transform it
+        JSONObject actualObject = stubResourceHolder.getActualStubConfigJsonObject(groupName);
+        byte[] json = jsonBasedObjectTransformer.transform(actualObject);
+        return json;
     }
 
     private void setHeader(final HttpServletRequest req, final HttpServletResponse resp, final String groupname) {
         resp.setCharacterEncoding(ENCODING);
         String sourceParamerter = req.getParameter("source");
         if (sourceParamerter != null && "true".equalsIgnoreCase(sourceParamerter)) {
-            resp.setContentType(XML);
+            resp.setContentType(JSON);
         } else {
             resp.setContentType(TEXT);
-            resp.setHeader(CONTENT_DISPOSITION, "attachment;filename=" + groupname + "StubConfig.xml");
+            resp.setHeader(CONTENT_DISPOSITION, "attachment;filename=" + groupname + "StubConfig.json");
         }
     }
 

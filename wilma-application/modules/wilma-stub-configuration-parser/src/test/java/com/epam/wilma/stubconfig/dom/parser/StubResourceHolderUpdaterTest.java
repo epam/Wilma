@@ -26,13 +26,13 @@ import com.epam.wilma.domain.stubconfig.helper.InternalResourceHolder;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
+import org.json.JSONObject;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class StubResourceHolderUpdaterTest {
     @Mock
     private InternalResourceHolder internalResourceHolder;
     @Mock
-    private Document document;
+    private JSONObject jsonObject;
 
     @InjectMocks
     private StubResourceHolderUpdater underTest;
@@ -131,21 +131,21 @@ public class StubResourceHolderUpdaterTest {
     public void testAddDocumentToResourceHolderShouldSetDocument() {
         //GIVEN in setUp
         //WHEN
-        underTest.addDocumentToResourceHolder(DEFAULT_GROUPNAME, document);
+        underTest.addDocumentToResourceHolder(DEFAULT_GROUPNAME, jsonObject);
         //THEN
-        verify(stubResourceHolder).setActualStubConfigDocument(DEFAULT_GROUPNAME, document);
+        verify(stubResourceHolder).setActualStubConfigJsonObject(DEFAULT_GROUPNAME, jsonObject);
     }
 
     @Test
     public void testInitializeTemporaryResourceHolderShouldInitializeResources() {
         //GIVEN
         List<ConditionChecker> conditionCheckers = new ArrayList<>();
-        List<ResponseFormatter> templateFormatters = new ArrayList<>();
+        List<ResponseFormatter> responseFormatters = new ArrayList<>();
         List<RequestInterceptor> requestInterceptors = new ArrayList<>();
         List<ResponseInterceptor> responseInterceptors = new ArrayList<>();
         List<SequenceHandler> sequenceHandlers = new ArrayList<>();
         given(internalResourceHolder.getConditionCheckers()).willReturn(conditionCheckers);
-        given(internalResourceHolder.getResponseFormatters()).willReturn(templateFormatters);
+        given(internalResourceHolder.getResponseFormatters()).willReturn(responseFormatters);
         given(internalResourceHolder.getRequestInterceptors()).willReturn(requestInterceptors);
         given(internalResourceHolder.getResponseInterceptors()).willReturn(responseInterceptors);
         given(internalResourceHolder.getSequenceHandlers()).willReturn(sequenceHandlers);
@@ -153,7 +153,7 @@ public class StubResourceHolderUpdaterTest {
         underTest.initializeTemporaryResourceHolder();
         //THEN
         verify(temporaryStubResourceHolder).setConditionCheckers(conditionCheckers);
-        verify(temporaryStubResourceHolder).setResponseFormatters(templateFormatters);
+        verify(temporaryStubResourceHolder).setResponseFormatters(responseFormatters);
         verify(temporaryStubResourceHolder).setRequestInterceptors(requestInterceptors);
         verify(temporaryStubResourceHolder).setResponseInterceptors(responseInterceptors);
         verify(temporaryStubResourceHolder).setSequenceHandlers(sequenceHandlers);

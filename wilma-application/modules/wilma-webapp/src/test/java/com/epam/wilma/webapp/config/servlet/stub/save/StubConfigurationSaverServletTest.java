@@ -29,6 +29,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epam.wilma.domain.stubconfig.exception.JsonTransformationException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -36,7 +37,6 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import com.epam.wilma.webapp.service.StubConfigurationSaverService;
 
@@ -70,7 +70,7 @@ public class StubConfigurationSaverServletTest {
     }
 
     @Test
-    public void testDoGetShouldCallSaveStubConfigurations() throws ServletException, IOException, DocumentTransformationException {
+    public void testDoGetShouldCallSaveStubConfigurations() throws ServletException, IOException, JsonTransformationException {
         //GIVEN in setUp
         //WHEN
         underTest.doGet(request, response);
@@ -80,7 +80,7 @@ public class StubConfigurationSaverServletTest {
     }
 
     @Test
-    public void testDoPostShouldCallSaveStubConfigurations() throws ServletException, IOException, DocumentTransformationException {
+    public void testDoPostShouldCallSaveStubConfigurations() throws ServletException, IOException, JsonTransformationException {
         //GIVEN in setUp
         //WHEN
         underTest.doPost(request, response);
@@ -91,9 +91,9 @@ public class StubConfigurationSaverServletTest {
 
     @Test
     public void testDoGetShouldCallSaveStubConfigurationsWhenAnExceptionOccurred() throws ServletException, IOException,
-        DocumentTransformationException {
+            JsonTransformationException {
         //GIVEN
-        doThrow(new DocumentTransformationException("Test", new NullPointerException())).when(stubConfigurationSaverService).saveStubConfigurations();
+        doThrow(new JsonTransformationException("Test", new NullPointerException())).when(stubConfigurationSaverService).saveStubConfigurations();
         //WHEN
         underTest.doGet(request, response);
         //THEN

@@ -92,7 +92,7 @@ public class StubResourceHolderUpdater {
      * @param document is the XML document
      */
     public void addDocumentToResourceHolder(final String groupName, final Document document) {
-        stubResourceHolder.setActualStubConfigDocument(groupName, document);
+        //stubResourceHolder.setActualStubConfigDocument(groupName, document);
     }
 
     /**

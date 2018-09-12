@@ -21,7 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
 import com.epam.wilma.router.RoutingService;
-import com.epam.wilma.stubconfig.StubDescriptorFactory;
+import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
 import com.epam.wilma.webapp.service.external.ServiceMap;
@@ -62,7 +62,7 @@ public class ExternalStubConfigUploadServletTest {
     @Mock
     private PrintWriter writer;
     @Mock
-    private StubDescriptorFactory stubDescriptorFactory;
+    private StubDescriptorJsonFactory stubDescriptorJsonFactory;
     @Mock
     private RoutingService routingService;
     @Mock
@@ -81,7 +81,7 @@ public class ExternalStubConfigUploadServletTest {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
         Whitebox.setInternalState(underTest, "sequenceDescriptorHolder", sequenceDescriptorHolder);
-        Whitebox.setInternalState(underTest, "stubDescriptorFactory", stubDescriptorFactory);
+        Whitebox.setInternalState(underTest, "stubDescriptorJsonFactory", stubDescriptorJsonFactory);
         Whitebox.setInternalState(underTest, "routingService", routingService);
         Whitebox.setInternalState(underTest, "serviceMap", serviceMap);
         given(request.getInputStream()).willReturn(inputStream);

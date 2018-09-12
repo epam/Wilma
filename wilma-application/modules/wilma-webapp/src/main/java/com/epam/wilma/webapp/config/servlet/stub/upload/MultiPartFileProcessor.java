@@ -19,31 +19,30 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.InputStream;
-
+import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
+import com.epam.wilma.router.RoutingService;
+import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
+import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
+import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
+import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
 import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
-import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
-import com.epam.wilma.router.RoutingService;
-import com.epam.wilma.stubconfig.StubDescriptorFactory;
-import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
-import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
-import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
+import java.io.InputStream;
 
 /**
  * Class for processing, validating, and storing the resource after uploading.
+ *
  * @author Tamas_Bihari
  * @author Tamas Kohegyi
- *
  */
 @Component
 public class MultiPartFileProcessor {
     private static final String APPLICATION_JAVA = "application/java";
-    private static final String XML_CONTENT_TYPE = "text/xml";
     private static final String OCTET_STREAM_CONTENT_TYPE = "application/octet-stream";
+    private static final String JSON_CONTENT_TYPE = "application/json";
     private static final String EXCEPTION_MESSAGE = "Could not upload external resource ";
 
     @Autowired
@@ -51,7 +50,7 @@ public class MultiPartFileProcessor {
     @Autowired
     private FileWriter fileWriter;
     @Autowired
-    private StubDescriptorFactory stubConfigurationBuilder;
+    private StubDescriptorJsonFactory stubConfigurationJsonBuilder;
     @Autowired
     private RoutingService routingService;
     @Autowired
@@ -61,10 +60,11 @@ public class MultiPartFileProcessor {
 
     /**
      * Processes, validates and stores the uploaded resource.
-     * @param resource is the uploaded resource as {@link InputStream}
+     *
+     * @param resource    is the uploaded resource as {@link InputStream}
      * @param contentType is the content type of the resource
-     * @param fieldName is used to identify the resource type
-     * @param fileName is the name of the uploaded file
+     * @param fieldName   is used to identify the resource type
+     * @param fileName    is the name of the uploaded file
      * @return with the result message of the processing
      */
     public String processUploadedFile(final InputStream resource, final String contentType, final String fieldName, final String fileName) {
@@ -75,9 +75,9 @@ public class MultiPartFileProcessor {
         if (classUploadResult != null) {
             result = classUploadResult;
         } else {
-            if ("stub-configuration".equals(fieldName) && XML_CONTENT_TYPE.equals(contentType)) {
+            if ("stub-configuration".equals(fieldName) && JSON_CONTENT_TYPE.equals(contentType)) {
                 try {
-                    routingService.performModification(new NewStubDescriptorCommand(resource, stubConfigurationBuilder, sequenceDescriptorHolder));
+                    routingService.performModification(new NewStubDescriptorCommand(resource, stubConfigurationJsonBuilder, sequenceDescriptorHolder));
                     serviceMap.detectServices();
                 } catch (ClassNotFoundException e) {
                     result = "Uploading " + fileName + " failed with ClassNotFoundException.";
