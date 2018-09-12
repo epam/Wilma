@@ -23,8 +23,6 @@ import com.epam.wilma.engine.configuration.EngineConfigurationAccess;
 import com.epam.wilma.engine.configuration.domain.PropertyDTO;
 import com.epam.wilma.stubconfig.cache.cleaner.helper.StubConfigPathProvider;
 import com.epam.wilma.stubconfig.dom.parser.xsd.StubConfigSchemaParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,11 +36,9 @@ import java.util.List;
 @Component
 public class FileBasedStubConfigReader {
 
-    private final Logger logger = LoggerFactory.getLogger(FileBasedStubConfigReader.class);
-
-    private String xmlDescriptorsSourceFolderPath;
-    private String xmlDescriptorsPattern;
-    private String xmlDescriptorsCachePath;
+    private String jsonDescriptorsSourceFolderPath;
+    private String jsonDescriptorsPattern;
+    private String jsonDescriptorsCachePath;
     @Autowired
     private StubDescriptorReader stubDescriptorReader;
     @Autowired
@@ -58,27 +54,21 @@ public class FileBasedStubConfigReader {
      * Reads a new stub descriptor from a file and applies the new configuration in the core module.
      */
     public void readStubConfiguration() {
-        getXmlDescriptorPath();
+        getJsonDescriptorPath();
         stubConfigSchema.setSchema(stubConfigSchemaParser.parseSchema());
-        List<String> stubConfigPaths = cachePathProvider.getConfigPathsFromCache(xmlDescriptorsCachePath);
+        List<String> stubConfigPaths = cachePathProvider.getConfigPathsFromCache(jsonDescriptorsCachePath);
         if (!stubConfigPaths.isEmpty()) {
             stubDescriptorReader.loadSpecificStubDescriptors(stubConfigPaths);
         } else {
-            stubConfigPaths = cachePathProvider.getConfigPathsFromSpecificFolder(xmlDescriptorsSourceFolderPath, xmlDescriptorsPattern);
+            stubConfigPaths = cachePathProvider.getConfigPathsFromSpecificFolder(jsonDescriptorsSourceFolderPath, jsonDescriptorsPattern);
             stubDescriptorReader.loadSpecificStubDescriptors(stubConfigPaths);
         }
     }
 
-    private void getXmlDescriptorPath() {
+    private void getJsonDescriptorPath() {
         PropertyDTO properties = configurationAccess.getProperties();
-        xmlDescriptorsSourceFolderPath = properties.getStubConfigFolderPath();
-        xmlDescriptorsPattern = properties.getStubConfigPattern();
-        xmlDescriptorsCachePath = properties.getStubConfigCachePath();
-        Integer useJson = properties.getStubConfigExperimentalJson();
-        if (useJson.intValue() > 0) {
-            //Wow, we are just developing or testing the json based stub configuration functionality
-            logger.info("EXPERIMENTAL JSON STUB CONFIGURATION MODE IS ON - DON'T EXPECT THAT IT WORKS");
-            xmlDescriptorsPattern = xmlDescriptorsPattern.replaceAll(".xml", ".json");
-        }
+        jsonDescriptorsSourceFolderPath = properties.getStubConfigFolderPath();
+        jsonDescriptorsPattern = properties.getStubConfigPattern();
+        jsonDescriptorsCachePath = properties.getStubConfigCachePath();
     }
 }

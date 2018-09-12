@@ -19,14 +19,11 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
+import com.epam.wilma.router.RoutingService;
+import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
+import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
+import com.epam.wilma.webapp.service.command.factory.NewStubDescriptorJsonCommandFactory;
 import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -34,27 +31,29 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
-import com.epam.wilma.router.RoutingService;
-import com.epam.wilma.stubconfig.StubDescriptorFactory;
-import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
-import com.epam.wilma.webapp.service.command.factory.NewStubDescriptorCommandFactory;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link StubDescriptorReader}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class StubDescriptorReaderTest {
 
     @Mock
-    private StubDescriptorFactory stubConfigurationBuilder;
+    private StubDescriptorJsonFactory stubConfigurationJsonBuilder;
     @Mock
     private RoutingService routingService;
     @Mock
     private SequenceDescriptorHolder sequenceDescriptorHolder;
     @Mock
-    private NewStubDescriptorCommandFactory newStubDescriptorCommandFactory;
+    private NewStubDescriptorJsonCommandFactory newStubDescriptorJsonCommandFactory;
     @Mock
     private ServiceMap serviceMap;
 
@@ -74,7 +73,7 @@ public class StubDescriptorReaderTest {
         //GIVEN
         List<String> paths = new ArrayList<>();
         paths.add("test");
-        given(newStubDescriptorCommandFactory.create("test", stubConfigurationBuilder, sequenceDescriptorHolder)).willReturn(command);
+        given(newStubDescriptorJsonCommandFactory.create("test", stubConfigurationJsonBuilder, sequenceDescriptorHolder)).willReturn(command);
         //WHEN
         underTest.loadSpecificStubDescriptors(paths);
         //THEN
