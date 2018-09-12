@@ -46,7 +46,7 @@ public class SaveStubConfig extends WilmaTestCase {
 
     private static final String FILE_DELETION_EXCEPTION_TEMPLATE = "Can't delete file: '%s'";
     private static final String EXAMPLE_2 = "resources/example2.xml";
-    private static final String STUB_CONFIG_PATH = "resources/savedStubConfig.xml";
+    private static final String STUB_CONFIG_PATH = "resources/savedStubConfig.json";
 
     private final Logger logger = LoggerFactory.getLogger(SaveStubConfig.class);
 
@@ -73,7 +73,7 @@ public class SaveStubConfig extends WilmaTestCase {
      * @throws FileNotFoundException in case of error.
      */
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
-        String testServerUrl = getWilmaInternalUrl() + "config/public/stub/stubconfig.xml?groupname=Default";
+        String testServerUrl = getWilmaInternalUrl() + "config/public/stub/stubconfig.json?groupname=Default";
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
         String contentType = "xml";

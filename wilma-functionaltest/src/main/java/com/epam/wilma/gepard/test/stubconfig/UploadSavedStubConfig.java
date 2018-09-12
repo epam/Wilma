@@ -46,7 +46,7 @@ import java.util.List;
 @TestClass(id = "StubConfig", name = "Upload saved stub configuration")
 public class UploadSavedStubConfig extends WilmaTestCase {
 
-    private static final String STUB_CONFIG = "resources/savedStubConfig.xml";
+    private static final String STUB_CONFIG = "resources/savedStubConfig.json";
     private static final int ACCEPTED = 200;
     private static final int ALMOST_ACCEPTED = 500;
 

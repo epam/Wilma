@@ -33,7 +33,7 @@ import java.io.FileNotFoundException;
 @TestClass(id = "Basic - Proxy - SSL", name = "Proxy Answers")
 public class BasicProxySslBehaviorTest extends WilmaTestCase {
 
-    private static final String STUB_CONFIG_XML = "resources/stubConfig.xml";
+    private static final String STUB_CONFIG_JSON = "resources/stubConfig.json";
     private static final String RESOURCE = "resources/example4.xml";
     private static final String RESOURCE_FILE_NAME = "example4.xml";
     private static final String EXAMPLE_2 = "resources/example2.xml";
@@ -56,7 +56,7 @@ public class BasicProxySslBehaviorTest extends WilmaTestCase {
         clearAllOldStubConfigs();
         setLocalhostBlockingTo("off");
         uploadTemplateToWilma(RESOURCE_FILE_NAME, RESOURCE);
-        uploadStubConfigToWilma(STUB_CONFIG_XML);
+        uploadStubConfigToWilma(STUB_CONFIG_JSON);
         setOperationModeTo("wilma");
         setOriginalRequestMessageFromFile(EXAMPLE_2);
         setExpectedResponseMessageFromFile("resources/uc3_1TestResponse.txt");

@@ -34,7 +34,7 @@ import java.io.FileNotFoundException;
 public class BasicStubBehaviorTest extends WilmaTestCase {
     private static final String EXAMPLE_3_XML = "resources/example3.xml";
     private static final String RESOURCE_FILE_NAME = "example3.xml";
-    private static final String STUB_CONFIG = "resources/stubConfig.xml";
+    private static final String STUB_CONFIG = "resources/stubConfig.json";
 
     private String tcName = getDataDrivenTestParameter("PAR0");
     private String tcContentType = getDataDrivenTestParameter("PAR1");
