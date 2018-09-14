@@ -1,0 +1,35 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "dialog-descriptor1",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "OrPatternChecker",
+            "parameters": [
+              {
+                "name": "StringCheck",
+                "value": "exampleID=\"456\""
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "text/html",
+          "templateName": "htmlTemplate"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "htmlTemplate",
+        "type": "html",
+        "resource": "<head></head><body></body>"
+      }
+    ]
+  }
+}

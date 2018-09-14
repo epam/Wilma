@@ -37,7 +37,7 @@ import java.io.FileNotFoundException;
 @TestClass(id = "JsonStubbingWithSchemaCheck", name = "Json stubbing with Schema Check")
 public class JsonSchemaTest extends WilmaTestCase {
 
-    private static final String STUB_CONFIG_XML = "resources/stub/JSON/stubConfigWithJsonSchema.xml";
+    private static final String STUB_CONFIG_JSON = "resources/stub/JSON/stubConfigWithJsonSchema.json";
     private static final String SCHEMA_JSON = "resources/stub/JSON/jsonTestSchema.json";
     private static final String SCHEMA_FILE_NAME = "jsonTestSchema.json";
     private static final String GOOD_RESPONSE_FILE = "resources/stub/JSON/responseWithSchema.json";
@@ -54,7 +54,7 @@ public class JsonSchemaTest extends WilmaTestCase {
         uploadTemplateToWilma(SCHEMA_FILE_NAME, SCHEMA_JSON);
         uploadTemplateToWilma(GOOD_RESPONSE_FILE_NAME, GOOD_RESPONSE_FILE);
         uploadTemplateToWilma(BAD_RESPONSE_FILE_NAME, BAD_RESPONSE_FILE);
-        uploadStubConfigToWilma(STUB_CONFIG_XML);
+        uploadStubConfigToWilma(STUB_CONFIG_JSON);
     }
 
     /**

@@ -36,7 +36,7 @@ import org.junit.Test;
 @TestClass(id = "JsonStubbing", name = "Json stubbing")
 public class JsonTest extends WilmaTestCase {
 
-    private static final String STUB_CONFIG_XML = "resources/stub/JSON/stubConfigWithJson.xml";
+    private static final String STUB_CONFIG_JSON = "resources/stub/JSON/stubConfigWithJson.json";
     private static final String REQUEST_JSON = "resources/stub/JSON/request.json";
     private static final String EXPECTED_JSON = "resources/stub/JSON/response.json";
     private static final String TEMPLATE_JSON = "resources/stub/JSON/template.json";
@@ -57,7 +57,7 @@ public class JsonTest extends WilmaTestCase {
     @Test
     public void testJsonStubbing() throws Exception {
         uploadTemplateToWilma(TEMPLATE_FILE_NAME, TEMPLATE_JSON);
-        uploadStubConfigToWilma(STUB_CONFIG_XML);
+        uploadStubConfigToWilma(STUB_CONFIG_JSON);
         setOriginalRequestMessageFromFile(REQUEST_JSON);
         setExpectedResponseMessageFromFile(EXPECTED_JSON);
         RequestParameters requestParameters = createRequestParameters();

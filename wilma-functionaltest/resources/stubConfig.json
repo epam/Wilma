@@ -11,7 +11,7 @@
             "parameters": [
               {
                 "name": "MSG_ID",
-                "value": "exampleID=&quot;456&quot;"
+                "value": "exampleID=\"456\""
               }
             ]
           }

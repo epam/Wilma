@@ -1,0 +1,59 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "error-pattern-descriptor",
+        "usage": "always",
+        "validityValue": 2,
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "OrPatternChecker",
+            "parameters": [
+              {
+                "name": "StringCheck",
+                "value": "exampleID=\"456\""
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "application/xml",
+          "templateName": "xmlTemplate",
+          "responseFormatterSet": [
+            {
+              "responseFormatterSetInvoker": "ExampleTemplateFormatterSet"
+            }
+          ]
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "xmlTemplate",
+        "type": "xmlFile",
+        "resource": "templateExample.xml"
+      }
+    ],
+    "responseFormatterSets": [
+      {
+        "name": "ExampleTemplateFormatterSet",
+        "responseFormatterSet": [
+          {
+            "responseFormatter": {
+              "class": "XslBasedResponseFormatter",
+              "parameters": [
+                {
+                  "name": "xslFile",
+                  "value": "exampleBase.xsl"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

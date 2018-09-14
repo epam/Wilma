@@ -99,12 +99,12 @@ public class UploadSavedStubConfig extends WilmaTestCase {
         String testServerUrl = getWilmaStubConfigDescriptorsUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "application/xml";
+        String contentType = "application/json";
         String acceptHeader = "application/json";
         String contentEncoding = "";
         String acceptEncoding = "";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream("resources/DropableStubConfig.xml")).contentType(contentType).acceptHeader(acceptHeader)
+                .xmlIS(new FileInputStream("resources/DropableStubConfig.json")).contentType(contentType).acceptHeader(acceptHeader)
                 .contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
     }
 
@@ -119,7 +119,7 @@ public class UploadSavedStubConfig extends WilmaTestCase {
         String testServerUrl = getWilmaDropStubConfigUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "application/xml";
+        String contentType = "application/json";
         String acceptHeader = "application/json";
         String contentEncoding = "";
         String acceptEncoding = "";

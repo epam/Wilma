@@ -76,8 +76,8 @@ public class SaveStubConfig extends WilmaTestCase {
         String testServerUrl = getWilmaInternalUrl() + "config/public/stub/stubconfig.json?groupname=Default";
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "xml";
-        String acceptHeader = "xml";
+        String contentType = "json";
+        String acceptHeader = "json";
         String contentEncoding = "";
         String acceptEncoding = "";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)

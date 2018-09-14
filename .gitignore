@@ -15,7 +15,7 @@ build
 bin
 release
 out
-wilma-functionaltest/resources/savedStubConfig.xml
+wilma-functionaltest/resources/savedStubConfig.json
 wilma-functionaltest/gepard-run.log
 wilma-functionaltest/gradle
 wilma-functionaltest/gradlew*

@@ -33,7 +33,7 @@ import org.junit.Test;
 public class PackagedClassUploadingTest extends WilmaTestCase {
 
     private static final String EXAMPLE_2_XML = "resources/example2.xml";
-    private static final String STUB_CONFIG = "resources/classloader/new_stubconfig_packaged_class.xml";
+    private static final String STUB_CONFIG = "resources/classloader/new_stubconfig_packaged_class.json";
 
     private static final String CONDITION_CHECKER_NAME = "MyAlwaysTrueChecker.class";
     private static final String PACKAGED_CONDITION_CHECKER_PATH = "resources/classloader/MyAlwaysTrueChecker.class";
@@ -48,11 +48,11 @@ public class PackagedClassUploadingTest extends WilmaTestCase {
     }
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
-        String testServerUrl = getWilmaInternalUrl() + "config/stub/stubconfig.xml";
+        String testServerUrl = getWilmaInternalUrl() + "config/stub/stubconfig.json";
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "xml";
-        String acceptHeader = "xml";
+        String contentType = "json";
+        String acceptHeader = "json";
         String contentEncoding = "";
         String acceptEncoding = "";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
