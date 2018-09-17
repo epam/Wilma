@@ -4,7 +4,29 @@
       {
         "name": "error-pattern-descriptor",
         "usage": "always",
-        "validityValue": 2,
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "OrPatternChecker",
+            "parameters": [
+              {
+                "name": "StringCheck",
+                "value": "WILMA-ERESPONSE500"
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 502,
+          "delay": 5000,
+          "mimeType": "text/plain",
+          "templateName": "errorResponse"
+        }
+      },
+      {
+        "name": "dialog-descriptor1",
+        "usage": "always",
+        "validityValue": 2
         "comment": "random comment",
         "conditionDescriptor": {
           "condition": {
@@ -19,7 +41,7 @@
         },
         "responseDescriptor": {
           "code": 200,
-          "delay": 0,
+          "delay": 5000,
           "mimeType": "application/xml",
           "templateName": "xmlTemplate",
           "responseFormatterSet": [
@@ -31,6 +53,11 @@
       }
     ],
     "templates": [
+      {
+        "name": "errorResponse",
+        "type": "text",
+        "resource": "Bad Gateway"
+      },
       {
         "name": "xmlTemplate",
         "type": "xmlFile",
