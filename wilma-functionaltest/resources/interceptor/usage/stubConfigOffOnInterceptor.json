@@ -1,0 +1,11 @@
+{
+  "wilmaStubConfiguration": {
+    "interceptors": [
+      {
+        "name": "Dummy-Resp-Interceptor",
+        "class": "DummyRespInterceptor"
+      }
+    ]
+  }
+}
+

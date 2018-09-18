@@ -26,7 +26,7 @@
       {
         "name": "dialog-descriptor1",
         "usage": "always",
-        "validityValue": 2
+        "validityValue": 2,
         "comment": "random comment",
         "conditionDescriptor": {
           "condition": {

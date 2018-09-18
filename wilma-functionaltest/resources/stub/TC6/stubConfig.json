@@ -18,20 +18,26 @@
           }
         },
         "responseDescriptor": {
-          "code": 404,
+          "code": 200,
           "delay": 0,
           "mimeType": "application/xml",
-          "templateName": "template"
+          "templateName": "xmlTemplate",
+          "responseFormatterSet": [
+            {
+              "responseFormatter": {
+                "class": "ResponseFormatterWithError"
+              }
+            }
+          ]
         }
       }
     ],
     "templates": [
       {
-        "name": "template",
+        "name": "xmlTemplate",
         "type": "xml",
-        "resource": "<xml version=\"1.0\" encoding=\"UTF-8\"?><tag>Page Not Found Error</tag>"
+        "resource": "something"
       }
     ]
   }
 }
-

@@ -1,0 +1,10 @@
+{
+  "wilmaStubConfiguration": {
+    "interceptors": [
+      {
+        "name": "Custom-Postfix-Interceptor",
+        "class": "ThrowingNPEInterceptor"
+      }
+    ]
+  }
+}

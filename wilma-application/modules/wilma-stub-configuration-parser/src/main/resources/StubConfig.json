@@ -349,15 +349,7 @@
         },
         "mimeType": {
           "description": "Describes the response content type",
-          "type": "string",
-          "enum": [
-            "text/plain",
-            "text/html",
-            "text/xml",
-            "application/xml",
-            "application/soap+xml",
-            "application/json"
-          ]
+          "type": "string"
         },
         "templateName": {
           "$ref": "#/definitions/uniqueNameDefinition"

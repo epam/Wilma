@@ -35,9 +35,9 @@ import static org.junit.Assert.assertTrue;
  */
 @TestClass(id = "Stub Interceptor", name = "Stub - Interceptor usage test")
 public class InterceptorTest extends WilmaTestCase {
-    private static final String STUB_CONFIG_DEFAULT_INTERCEPTOR_SETUP_ON_ON = "resources/interceptor/usage/stubConfigOnOnInterceptor.xml";
-    private static final String STUB_CONFIG_DEFAULT_INTERCEPTOR_SETUP_ON_OFF = "resources/interceptor/usage/stubConfigOnOffInterceptor.xml";
-    private static final String STUB_CONFIG_DEFAULT_INTERCEPTOR_SETUP_OFF_ON = "resources/interceptor/usage/stubConfigOffOnInterceptor.xml";
+    private static final String STUB_CONFIG_DEFAULT_INTERCEPTOR_SETUP_ON_ON = "resources/interceptor/usage/stubConfigOnOnInterceptor.json";
+    private static final String STUB_CONFIG_DEFAULT_INTERCEPTOR_SETUP_ON_OFF = "resources/interceptor/usage/stubConfigOnOffInterceptor.json";
+    private static final String STUB_CONFIG_DEFAULT_INTERCEPTOR_SETUP_OFF_ON = "resources/interceptor/usage/stubConfigOffOnInterceptor.json";
     private static final String TEST_SERVER_RESPONSE = "resources/interceptor/usage/resetSequenceResponse.txt";
     private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/usage/";
     private static final String INTERCEPTOR_REQ_CLASS = "DummyReqInterceptor.class";

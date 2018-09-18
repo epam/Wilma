@@ -2,7 +2,7 @@
   "wilmaStubConfiguration": {
     "dialogDescriptors": [
       {
-        "name": "error-pattern-descriptor",
+        "name": "dialog-descriptor1",
         "usage": "always",
         "validityValue": 2,
         "comment": "random comment",

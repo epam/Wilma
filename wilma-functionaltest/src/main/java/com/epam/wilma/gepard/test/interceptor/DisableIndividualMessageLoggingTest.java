@@ -37,7 +37,7 @@ import static org.junit.Assert.fail;
  */
 @TestClass(id = "Stub Interceptor", name = "Disable Individual Message Logging Test")
 public class DisableIndividualMessageLoggingTest extends WilmaTestCase {
-    private static final String STUB_CONFIG = "resources/interceptor/IndividualMessageLogging/stubConfigInterceptorOn.xml";
+    private static final String STUB_CONFIG = "resources/interceptor/IndividualMessageLogging/stubConfigInterceptorOn.json";
     private static final String TEST_SERVER_RESPONSE = "resources/interceptor/usage/resetSequenceResponse.txt";
     private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/IndividualMessageLogging/";
     private static final String INTERCEPTOR_CLASS = "IndividualMessageLoggingInterceptor.class";

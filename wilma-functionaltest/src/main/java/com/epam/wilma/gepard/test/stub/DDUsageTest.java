@@ -34,9 +34,9 @@ import java.io.FileNotFoundException;
 @TestClass(id = "Stub DD Usage", name = "Stub - Dialog descriptor usage: hitcount, timeout, disabled")
 public class DDUsageTest extends WilmaTestCase {
 
-    private static final String STUB_CONFIG_WITH_HIT_COUNT = "resources/stub/usage/stubConfigWithHitcount.xml";
-    private static final String STUB_CONFIG_WITH_TIMEOUT = "resources/stub/usage/stubConfigWithTimeout.xml";
-    private static final String STUB_CONFIG_WITH_DISABLED = "resources/stub/usage/stubConfigWithDisabled.xml";
+    private static final String STUB_CONFIG_WITH_HIT_COUNT = "resources/stub/usage/stubConfigWithHitcount.json";
+    private static final String STUB_CONFIG_WITH_TIMEOUT = "resources/stub/usage/stubConfigWithTimeout.json";
+    private static final String STUB_CONFIG_WITH_DISABLED = "resources/stub/usage/stubConfigWithDisabled.json";
     private static final String REQUEST = "resources/example2.xml";
     private static final String STUB_RESPONSE = "resources/stub/usage/stubResponse.txt";
     private static final String TEST_SERVER_RESPONSE = "resources/uc3_1TestResponse.txt";

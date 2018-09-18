@@ -28,7 +28,7 @@
           "responseFormatterSet": [
             {
               "responseFormatter": {
-                "class": "JsonResourceFormatter",
+                "class": "JsonResponseFormatter",
                 "parameters": [
                   {
                     "name": "name",

@@ -8,7 +8,7 @@
         "comment": "random comment",
         "conditionDescriptor": {
           "condition": {
-            "class": "OrPatternChecker",
+            "class": "ConditionCheckerWithError",
             "parameters": [
               {
                 "name": "StringCheck",
@@ -18,20 +18,19 @@
           }
         },
         "responseDescriptor": {
-          "code": 404,
+          "code": 200,
           "delay": 0,
           "mimeType": "application/xml",
-          "templateName": "template"
+          "templateName": "xmlTemplate"
         }
       }
     ],
     "templates": [
       {
-        "name": "template",
+        "name": "xmlTemplate",
         "type": "xml",
-        "resource": "<xml version=\"1.0\" encoding=\"UTF-8\"?><tag>Page Not Found Error</tag>"
+        "resource": "something"
       }
     ]
   }
 }
-
