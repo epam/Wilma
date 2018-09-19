@@ -1,0 +1,29 @@
+{
+  "wilmaStubConfiguration": {
+    "interceptors": [
+      {
+        "name": "STS-Header-Remover-Interceptor",
+        "class": "HeaderUpdateInterceptor",
+        "parameters" : [
+          {
+            "name": "REMOVE",
+            "value": "X-XSS-Protection"
+          },
+          {
+            "name": "REMOVE",
+            "value": "upgrade-insecure-requests"
+          },
+          {
+            "name": "REMOVE",
+            "value": "Strict-Transport-Security"
+          },
+          {
+            "name": "HeaderUpdateInterceptor",
+            "value": "on"
+          }
+        ]
+      }
+    ]
+  }
+}
+

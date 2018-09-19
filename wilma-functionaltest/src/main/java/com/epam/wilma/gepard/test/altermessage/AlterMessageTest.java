@@ -38,7 +38,7 @@ import static org.junit.Assert.assertTrue;
  */
 @TestClass(id = "Proxy Alter Message", name = "Basic Test")
 public class AlterMessageTest extends WilmaTestCase {
-    private static final String STUB_CONFIG = "resources/interceptor/AlterProxyMessage/stubAlterMessage.xml";
+    private static final String STUB_CONFIG = "resources/interceptor/AlterProxyMessage/stubAlterMessage.json";
     private static final String TEST_SERVER_REQUEST = "NEED_ANSWER BLAH BLAH";
     private static final String TEST_SERVER_ALTERED_REQUEST = "NEED_ANSWER BAAH BAAH"; //L -> A
     private static final String TEST_SERVER_RESPONSE = "NEED_ANSWER AAAH AAAH";  //B -> A

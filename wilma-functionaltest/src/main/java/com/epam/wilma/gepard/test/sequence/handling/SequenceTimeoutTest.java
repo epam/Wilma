@@ -43,7 +43,7 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
     @Test
     public void testSequenceHandling() throws Exception {
         uploadJarToWilma("message-sequence.jar", "resources/sequence/message-sequence.jar");
-        uploadStubConfigToWilma("resources/sequence/timeoutStubConfig.xml");
+        uploadStubConfigToWilma("resources/sequence/timeoutStubConfig.json");
 
         RequestParameters firstRequestParameter = createRequestParametersWithBody("one");
         setExpectedResponseMessage("welcome");
@@ -56,7 +56,7 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
         RequestParameters secondRequestParameter = createRequestParametersWithBody("two");
         callWilmaWithPostMethodAndAssertResponse(secondRequestParameter);
 
-        updateDefaultGroupOfStubConfiguration("resources/sequence/sequenceDialogDescriptorStubConfig.xml");
+        updateDefaultGroupOfStubConfiguration("resources/sequence/sequenceDialogDescriptorStubConfig.json");
     }
 
     protected RequestParameters createRequestParametersWithBody(final String text) throws FileNotFoundException {

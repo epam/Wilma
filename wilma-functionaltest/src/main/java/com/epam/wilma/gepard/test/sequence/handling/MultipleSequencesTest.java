@@ -38,7 +38,7 @@ import org.junit.Test;
 @TestClass(id = "SequenceHandling", name = "Multiple Sequences - 1st and 3rd request belongs to one sequence; 2nd and 4th belongs to another sequence")
 public class MultipleSequencesTest extends SequenceHandlingTestBase {
     private static final String JAR_FILE_LOCATION = "resources/sequence/message-sequence.jar";
-    private static final String STUB_CONFIG_LOCATION = "resources/sequence/firstBodyLetterStubConfig.xml";
+    private static final String STUB_CONFIG_LOCATION = "resources/sequence/firstBodyLetterStubConfig.json";
     private static final String EXPECTED_FIRST_RESPONSE_FILE_LOCATION = "resources/sequence/firstBodyLetterExpectedResponse1.txt";
     private static final String EXPECTED_SECOND_RESPONSE_FILE_LOCATION = "resources/sequence/firstBodyLetterExpectedResponse2.txt";
 

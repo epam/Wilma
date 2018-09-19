@@ -1,0 +1,10 @@
+{
+  "wilmaStubConfiguration": {
+    "interceptors": [
+      {
+        "name": "Message-Logging-Influencer-Interceptor",
+        "class": "IndividualMessageLoggingInterceptor"
+      }
+    ]
+  }
+}
