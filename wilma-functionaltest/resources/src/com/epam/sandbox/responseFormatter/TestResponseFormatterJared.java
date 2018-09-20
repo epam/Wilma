@@ -1,5 +1,5 @@
 
-package com.epam.sandbox.templateformatter;
+package com.epam.sandbox.responseFormatter;
 
 /**
  * WARNING: THIS DOCUMENT CONTAINS CONFIDENTIAL INFORMATION PROPERTY OF EPAM SYSTEMS.
@@ -16,7 +16,7 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 import javax.servlet.http.HttpServletResponse;
 
-public class TestTemplateFormatterJared implements ResponseFormatter {
+public class TestResponseFormatterJared implements ResponseFormatter {
     
     SuperLogic superLogic = new SuperLogic();
 

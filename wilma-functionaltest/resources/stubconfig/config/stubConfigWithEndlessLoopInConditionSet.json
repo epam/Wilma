@@ -1,0 +1,42 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "dialog-descriptor1",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "conditionSetInvoker": "condition-set1"
+        },
+        "responseDescriptor": {
+          "code": 404,
+          "delay": 0,
+          "mimeType": "json",
+          "templateName": "exampleTemplate1"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "exampleTemplate1",
+        "type": "xml",
+        "resource": "something"
+      }
+    ],
+    "conditionSets": [
+      {
+        "name": "condition-set1",
+        "conditionDescriptor": {
+          "conditionSetInvoker": "condition-set2"
+        }
+      },
+      {
+        "name": "condition-set2",
+        "conditionDescriptor": {
+          "conditionSetInvoker": "condition-set1"
+        }
+      }
+    ]
+
+  }
+}

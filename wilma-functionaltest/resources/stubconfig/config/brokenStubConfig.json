@@ -1,0 +1,27 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "dialog-descriptor1",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "HeaderChecker",
+            "parameters": [
+              {
+                "name": "param1",
+                "value": "value1"
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 404,
+          "delay": 0,
+          "mimeType": "json",
+          "templateName": "exampleTemplate1"
+      }
+    ]
+  }
+}
