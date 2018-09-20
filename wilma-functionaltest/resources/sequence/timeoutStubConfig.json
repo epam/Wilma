@@ -1,0 +1,76 @@
+{
+  "wilmaStubConfiguration": {
+    "sequenceDescriptors": [
+      {
+        "name": "default-timeoutSequenceDescriptor",
+        "class": "com.epam.message.sequence.test.SingleSequenceHandler",
+        "timeout": 1,
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysTrueChecker"
+          }
+        }
+      }
+    ],
+    "dialogDescriptors": [
+      {
+        "name": "super-descriptor",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "com.epam.message.sequence.test.SimpleBodyChecker",
+            "parameters": [
+              {
+                "name": "text",
+                "value": "two"
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "notUsedResponse",
+          "responseFormatterSet": [
+            {
+              "responseFormatter": {
+                "class": "com.epam.message.sequence.test.SequenceBodyResponseFormatter"
+              }
+            }
+          ],
+          "sequenceDescriptorName": "default-timeoutSequenceDescriptor"
+        }
+      },
+      {
+        "name": "super-descriptor2",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysTrueChecker"
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "welcomeResponse"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "notUsedResponse",
+        "resource": "Not used :)",
+        "type": "text"
+      },
+      {
+        "name": "welcomeResponse",
+        "resource": "welcome",
+        "type": "text"
+      }
+    ]
+  }
+}

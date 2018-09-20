@@ -33,7 +33,7 @@ import java.util.TreeMap;
  * Response formatter that responds with the sequence request and response body pairs.
  * @author Adam_Csaba_Kiraly
  */
-public class SequenceBodyTemplateFormatter implements ResponseFormatter {
+public class SequenceBodyResponseFormatter implements ResponseFormatter {
 
     private static final String PAIR_TEMPLATE = "\n pair%s - request body: '%s', response body: '%s'";
 

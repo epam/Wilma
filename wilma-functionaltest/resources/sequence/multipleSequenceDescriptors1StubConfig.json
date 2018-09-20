@@ -1,0 +1,92 @@
+{
+  "wilmaStubConfiguration": {
+    "sequenceDescriptors": [
+      {
+        "name": "sequenceDescriptor1",
+        "class": "com.epam.message.sequence.test.SingleSequenceHandler",
+        "timeout": 120000,
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysTrueChecker"
+          }
+        }
+      },
+      {
+        "name": "sequenceDescriptor2",
+        "class": "com.epam.message.sequence.test.SingleSequenceHandler",
+        "timeout": 120000,
+        "conditionDescriptor": {
+          "condition": {
+            "class": "com.epam.message.sequence.test.SimpleBodyChecker",
+            "parameters": [
+              {
+                "name": "text",
+                "value": "a2"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "dialogDescriptors": [
+      {
+        "name": "super-descriptor",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "com.epam.message.sequence.test.SimpleBodyChecker",
+            "parameters": [
+              {
+                "name": "text",
+                "value": "b2"
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "notUsedResponse",
+          "responseFormatterSet": [
+            {
+              "responseFormatter": {
+                "class": "com.epam.message.sequence.test.SequenceBodyResponseFormatter"
+              }
+            }
+          ],
+          "sequenceDescriptorName": "sequenceDescriptor1"
+        }
+      },
+      {
+        "name": "super-descriptor2",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysTrueChecker"
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "welcomeResponse"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "notUsedResponse",
+        "resource": "Not used :)",
+        "type": "text"
+      },
+      {
+        "name": "welcomeResponse",
+        "resource": "welcome",
+        "type": "text"
+      }
+    ]
+  }
+}

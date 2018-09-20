@@ -36,7 +36,7 @@ import org.junit.Test;
 public class ActualStubConfigTest extends WilmaTestCase {
 
     private static final String EXAMPLE_2 = "resources/example2.xml";
-    private static final String STUB_CONFIG = "resources/actualStubConfig.xml";
+    private static final String STUB_CONFIG = "resources/actualStubConfig.json";
 
     @Test
     public void testStubConfig() throws Exception {
@@ -47,11 +47,11 @@ public class ActualStubConfigTest extends WilmaTestCase {
     }
 
     protected RequestParameters createRequestParameters() throws FileNotFoundException {
-        String testServerUrl = getWilmaInternalUrl() + "config/public/stub/stubconfig.xml?groupname=Default";
+        String testServerUrl = getWilmaInternalUrl() + "config/public/stub/stubconfig.json?groupname=Default";
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "xml";
-        String acceptHeader = "xml";
+        String contentType = "json";
+        String acceptHeader = "json";
         String contentEncoding = "";
         String acceptEncoding = "";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
