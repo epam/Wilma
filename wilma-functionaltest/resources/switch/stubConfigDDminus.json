@@ -7,7 +7,7 @@
         "comment": "random comment",
         "conditionDescriptor": {
           "condition": {
-            "class": "AlwaysTrueChecker"
+            "class": "AlwaysFalseChecker"
           }
         },
         "responseDescriptor": {

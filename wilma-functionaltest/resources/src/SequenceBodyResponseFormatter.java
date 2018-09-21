@@ -40,10 +40,10 @@ public class SequenceBodyResponseFormatter implements ResponseFormatter {
     @Override
     public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
                                  final byte[] templateResource, final ParameterList params) throws Exception {
-        String result = "wilma-sequence key: ";
+        String result = "there is no sequence";
         WilmaSequence sequence = wilmaRequest.getSequence();
         if (sequence != null) {
-            result += sequence.getSequenceKey();
+            result = "wilma-sequence key: '" + sequence.getSequenceKey() + "'";
             Map<String, RequestResponsePair> messages = sequence.getPairs();
             Map<String, RequestResponsePair> sortedMessages = new TreeMap<>(messages);
             int i = 0;
