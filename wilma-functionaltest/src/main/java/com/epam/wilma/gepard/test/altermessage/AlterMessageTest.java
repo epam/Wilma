@@ -62,7 +62,7 @@ public class AlterMessageTest extends WilmaTestCase {
         InputStream stream = new ByteArrayInputStream(TEST_SERVER_REQUEST.getBytes(StandardCharsets.UTF_8));
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
                 .contentType(contentType).acceptHeader(acceptHeader).acceptEncoding(acceptEncoding).contentEncoding(contentEncoding)
-                .customHeader("RemoveThis", "blah").customHeader("AlterMessage", "true").xmlIS(stream);
+                .customHeader("RemoveThis", "blah").customHeader("AlterMessage", "true").requestInputStream(stream);
     }
 
     @Test

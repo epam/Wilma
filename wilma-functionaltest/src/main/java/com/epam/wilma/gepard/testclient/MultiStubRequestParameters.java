@@ -76,8 +76,8 @@ public class MultiStubRequestParameters {
      * @param inputStream the input stream of the request
      * @return the request parameter
      */
-    public MultiStubRequestParameters xmlIS(final InputStream inputStream) {
-        requestParameters.xmlIS(inputStream);
+    public MultiStubRequestParameters requestInputStream(final InputStream inputStream) {
+        requestParameters.requestInputStream(inputStream);
         return this;
     }
 

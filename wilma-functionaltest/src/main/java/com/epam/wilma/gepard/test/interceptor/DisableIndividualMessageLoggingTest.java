@@ -58,7 +58,7 @@ public class DisableIndividualMessageLoggingTest extends WilmaTestCase {
         String contentType = "text/plain;charset=UTF-8";
         String acceptHeader = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(fileToSend)).contentType(contentType)
+                .requestInputStream(new FileInputStream(fileToSend)).contentType(contentType)
                 .acceptHeader(acceptHeader).contentEncoding("").acceptEncoding("");
     }
 

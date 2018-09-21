@@ -37,7 +37,7 @@ import java.io.FileNotFoundException;
 @TestClass(id = "Multi_StubConfig", name = "Drop the selected stub configuration")
 public class DropStubConfigTest extends WilmaTestCase {
 
-    private static final String STUB_CONFIG = "resources/DropableStubConfig.xml";
+    private static final String STUB_CONFIG = "resources/DropableStubConfig.json";
 
     @Test
     public void testDropStubConfigTest() throws Exception {
@@ -67,7 +67,7 @@ public class DropStubConfigTest extends WilmaTestCase {
         String contentEncoding = "";
         String acceptEncoding = "";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding);
     }
 
@@ -80,7 +80,7 @@ public class DropStubConfigTest extends WilmaTestCase {
         String contentEncoding = "";
         String acceptEncoding = "";
         return new MultiStubRequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding).groupName("test");
     }
 }

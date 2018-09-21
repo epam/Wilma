@@ -1,9 +1,9 @@
 #NAME,CONTENT_TYPE,ACCEPT_HEADER,CONTENT_ENCODING,ACCEPT_ENCODING,STUB_CONFIG,RESPONSE
 #Stub configuration
-XML - xsd_valid%xml%xml%no%no%resources/stubconfig/config/validStubConfig.xml%resources/stubconfig/nonErrorResponse.txt
-XML - xsd_validation_failed%xml%xml%no%no%resources/stubconfig/config/invalidStubConfig.xml%resources/stubconfig/config/xsdValidationFailedErrorResponse.txt
-XML - endless_loop_in_condition_set%xml%xml%no%no%resources/stubconfig/config/stubConfigWithEndlessLoopInConditionSet.xml%resources/stubconfig/config/conditionSetEndlessLoop.txt
-XML - endless_loop_in_template_formatter_set%xml%xml%no%no%resources/stubconfig/config/stubConfigWithEndlessLoopInTemplateFormatterSet.xml%resources/stubconfig/config/templateFormatterSetEndlessLoop.txt
-XML - invalid_xml_format_textfile%xml%xml%no%no%resources/stubconfig/config/txtFormatStubConfig.txt%resources/stubconfig/config/stubDescriptorCannotBeParsedErrorResponse.txt
-XML - invalid_xml_format_broken_xml%xml%xml%no%no%resources/stubconfig/config/brokenStubConfig.xml%resources/stubconfig/config/stubDescriptorCannotBeParsedErrorResponse.txt
-XML - invalid_xml_format_jpgfile%xml%xml%no%no%resources/stubconfig/config/invalidFormatStubConfig.jpg%resources/stubconfig/config/stubDescriptorCannotBeParsedErrorResponse.txt
+JSON - json_schema_valid%xml%xml%no%no%resources/stubconfig/config/validStubConfig.json%resources/stubconfig/nonErrorResponse.txt
+JSON - json_schema_validation_failed%xml%xml%no%no%resources/stubconfig/config/invalidStubConfig.json%resources/stubconfig/config/xsdValidationFailedErrorResponse.txt
+JSON - endless_loop_in_condition_set%xml%xml%no%no%resources/stubconfig/config/stubConfigWithEndlessLoopInConditionSet.json%resources/stubconfig/config/conditionSetEndlessLoop.txt
+JSON - endless_loop_in_response_formatter_set%xml%xml%no%no%resources/stubconfig/config/stubConfigWithEndlessLoopInResponseFormatterSet.json%resources/stubconfig/config/templateFormatterSetEndlessLoop.txt
+JSON - invalid_json_format_textfile%xml%xml%no%no%resources/stubconfig/config/txtFormatStubConfig.txt%resources/stubconfig/config/stubDescriptorCannotBeParsedErrorResponse.txt
+JSON - invalid_json_format_broken_xml%xml%xml%no%no%resources/stubconfig/config/brokenStubConfig.xml%resources/stubconfig/config/stubDescriptorCannotBeParsedErrorResponse.txt
+JSON - invalid_json_format_jpgfile%xml%xml%no%no%resources/stubconfig/config/invalidFormatStubConfig.jpg%resources/stubconfig/config/stubDescriptorCannotBeParsedErrorResponse.txt

@@ -93,7 +93,7 @@ public class SequenceHandlingTestXmlToJson extends SequenceHandlingTestBase {
         String contentEncoding = "identity";
         String acceptEncoding = "*";
         return new RequestParameters().testServerUrl(targetURL).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(resource)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(resource)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding).customHeader(SESSION_ID_NAME, SESSION_ID_VALUE);
     }
 

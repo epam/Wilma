@@ -79,6 +79,6 @@ public class JsonSchemaTest extends WilmaTestCase {
         String contentType = "application/json";
         String acceptHeader = "application/json";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(tcRequestFile)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding("").acceptEncoding("");
+                .requestInputStream(new FileInputStream(tcRequestFile)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding("").acceptEncoding("");
     }
 }

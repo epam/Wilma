@@ -62,7 +62,7 @@ public class ServerErrorTest extends WilmaTestCase {
         String contentEncoding = "";
         String acceptEncoding = "";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(AVAIL_SUMMARY_REQUEST_1_XML)).contentType(contentType).acceptHeader(acceptHeader)
+                .requestInputStream(new FileInputStream(AVAIL_SUMMARY_REQUEST_1_XML)).contentType(contentType).acceptHeader(acceptHeader)
                 .contentEncoding(contentEncoding).acceptEncoding(acceptEncoding).specialHeader(BYPASS);
     }
 

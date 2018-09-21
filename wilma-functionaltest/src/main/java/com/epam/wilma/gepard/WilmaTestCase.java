@@ -44,7 +44,7 @@ import java.util.List;
  */
 public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
 
-    public static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
+    public static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.json";
     protected static final String MESSAGE_NOT_YET_AVAILABLE = "Requested file not found.";
     private static final int WAIT_PERIOD_FOR_MESSAGE_LOG = 45;
     private static final int ONE_SECOND = 1000; // in msec
@@ -167,7 +167,7 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
         String testServerUrl = getWilmaStubConfigDescriptorsUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "application/xml";
+        String contentType = "application/json";
         String acceptHeader = "application/json";
         String contentEncoding = "";
         String acceptEncoding = "";
@@ -199,12 +199,12 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
         String testServerUrl = getWilmaDropStubConfigUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "application/xml";
+        String contentType = "application/json";
         String acceptHeader = "application/json";
         String contentEncoding = "";
         String acceptEncoding = "";
         return new MultiStubRequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(STUB_CONFIG_FIRST)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(STUB_CONFIG_FIRST)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding).groupName(groupname);
     }
 
