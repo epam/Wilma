@@ -316,7 +316,7 @@
       ]
     },
     "responseFormatterSetArrayDefinition": {
-      "description": "Describes the formatter method(s) applied on the specific template",
+      "description": "Describes the formatter method(s) applied on the specific response",
       "type": "array",
       "items": {
         "oneOf" : [
@@ -537,7 +537,8 @@
         "additionalProperties": false,
         "required": [
           "name",
-          "class"
+          "class",
+          "conditionDescriptor"
         ]
       },
       "minItems": 1,

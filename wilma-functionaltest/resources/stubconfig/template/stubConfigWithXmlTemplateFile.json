@@ -1,0 +1,29 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "dialog-descriptor",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "OrPatternChecker"
+          }
+        },
+        "responseDescriptor": {
+          "code": 404,
+          "delay": 0,
+          "mimeType": "xml",
+          "templateName": "exampleTemplate1"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "exampleTemplate1",
+        "type": "xmlFile",
+        "resource": "template.xml"
+      }
+    ]
+  }
+}

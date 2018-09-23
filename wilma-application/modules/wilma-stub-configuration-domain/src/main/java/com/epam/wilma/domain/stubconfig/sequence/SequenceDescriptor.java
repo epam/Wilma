@@ -36,7 +36,7 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
  */
 public class SequenceDescriptor {
     public static final String TAG_NAME = "sequence-descriptor";
-    public static final String TAG_NAME_JSON = "sequenceDescriptor";
+    public static final String TAG_NAME_JSON = "sequenceDescriptors";
     private final Map<String, WilmaSequence> sequences;
     private final List<ConditionDescriptor> conditionDescriptors;
     private final List<DialogDescriptor> dialogDescriptors;
