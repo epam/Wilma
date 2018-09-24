@@ -44,7 +44,7 @@ public class SequenceHandlingTestXmlToXml extends SequenceHandlingTestBase {
     private static final String JSON_REQUEST = "resources/sequence/live/req/JsonRequest.json";
     private static final String MAGIC_REQUEST = "resources/sequence/live/req/MagicRequest.xml";
     private static final String EXPECTED_RESPONSE = "<MyFavoriteString>1111AAAA-22BB-33CC-44DD-555555EEEEEE</MyFavoriteString>";
-    private static final String STUB_CONFIG_LOCATION = "resources/sequence/live/stubConfigXmlToXml.xml";
+    private static final String STUB_CONFIG_LOCATION = "resources/sequence/live/stubConfigXmlToXml.json";
 
     /**
      * Test the sequence handling part by using sessions.

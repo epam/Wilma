@@ -29,11 +29,11 @@
 #com.epam.wilma.gepard.test.interceptor.DisableIndividualMessageLoggingTest,,STUBCONFIG
 #com.epam.wilma.gepard.test.interceptor.ExceptionInInterceptorTest,,STUBCONFIG
 #com.epam.wilma.gepard.test.altermessage.AlterMessageTest,,STUBCONFIG
-com.epam.wilma.gepard.test.sequence.handling.SequenceKeyTest,2,STUBCONFIG
+#com.epam.wilma.gepard.test.sequence.handling.SequenceKeyTest,2,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.live.SequenceHandlingTestXmlToJson,,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.live.SequenceHandlingTestXmlToXml,,STUBCONFIG
-#com.epam.wilma.gepard.test.sequence.handling.live.SequenceHandlingTestJsonToXml,,STUBCONFIG
-#com.epam.wilma.gepard.test.sequence.handling.SequenceDialogDescriptorTest,,STUBCONFIG
+com.epam.wilma.gepard.test.sequence.handling.live.SequenceHandlingTestJsonToXml,,STUBCONFIG
+com.epam.wilma.gepard.test.sequence.handling.SequenceDialogDescriptorTest,,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.SequenceTimeoutTest,,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.SequenceEvaluationTest,2,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.MultipleSequencesTest,,STUBCONFIG

@@ -537,8 +537,7 @@
         "additionalProperties": false,
         "required": [
           "name",
-          "class",
-          "conditionDescriptor"
+          "class"
         ]
       },
       "minItems": 1,
