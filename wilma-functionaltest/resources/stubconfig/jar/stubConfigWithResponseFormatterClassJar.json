@@ -2,18 +2,18 @@
   "wilmaStubConfiguration": {
     "dialogDescriptors": [
       {
-        "name": "dialog-descriptor",
+        "name": "dialog-descriptor1",
         "usage": "always",
         "comment": "random comment",
         "conditionDescriptor": {
           "condition": {
-            "class": "com.epam.sandbox"
+            "class": "OrHeaderChecker"
           }
         },
         "responseDescriptor": {
           "code": 404,
           "delay": 0,
-          "mimeType": "xml",
+          "mimeType": "json",
           "templateName": "exampleTemplate1",
           "responseFormatterSet": [
             {
@@ -26,8 +26,8 @@
     "templates": [
       {
         "name": "exampleTemplate1",
-        "type": "external",
-        "resource": "com.epam.sandbox"
+        "type": "xml",
+        "resource": "something"
       }
     ],
     "responseFormatterSets": [
@@ -40,16 +40,6 @@
             }
           }
         ]
-      }
-    ],
-    "interceptors": [
-      {
-        "name": "Request-Interceptor-Jared",
-        "class": "com.epam.sandbox"
-      },
-      {
-        "name": "Response-Interceptor-Jared",
-        "class": "com.epam.sandbox"
       }
     ]
   }

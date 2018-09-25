@@ -1,4 +1,3 @@
-
 package com.epam.sandbox.responseFormatter;
 
 /**
@@ -17,15 +16,15 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import javax.servlet.http.HttpServletResponse;
 
 public class TestResponseFormatterJared implements ResponseFormatter {
-    
+
     SuperLogic superLogic = new SuperLogic();
 
     @Override
     public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, HttpServletResponse resp,
                                  final byte[] templateResource, final ParameterList params) throws Exception {
-        if (superLogic.getResult()){
+        if (superLogic.getResult()) {
             return new byte[0];
-        }else{
+        } else {
             return null;
         }
     }

@@ -1,1 +1,1 @@
-Stub config uploading failed: Validation of stub descriptor failed - External class 'config/sequencehandlers/com.epam.wilma.sequence.InvalidInterfaceExternalSequenceHandler' has not implemented the required interface: com.epam.wilma.domain.stubconfig.sequence.SequenceHandler
+Stub config uploading failed: Validation of stub descriptor failed - External class 'config/sequencehandlers/InvalidInterfaceExternalSequenceHandler' has not implemented the required interface: com.epam.wilma.domain.stubconfig.sequence.SequenceHandler
