@@ -2,9 +2,6 @@
   "wilmaStubConfiguration": {
     "dialogDescriptors": [
       {
-        "name": "dialog-descriptor1",
-        "usage": "always",
-        "comment": "random comment",
         "conditionDescriptor": {
           "condition": {
             "class": "OrPatternChecker",
@@ -19,16 +16,19 @@
         "responseDescriptor": {
           "code": 200,
           "delay": 0,
-          "mimeType": "json",
-          "templateName": "exampleTemplate1"
-        }
+          "templateName": "exampleTemplate1",
+          "mimeType": "json"
+        },
+        "usage": "always",
+        "name": "dialog-descriptor1",
+        "comment": "randomcomment"
       }
     ],
     "templates": [
       {
+        "resource": "{\"blah\":\"blah\"}",
         "name": "exampleTemplate1",
-        "type": "xmlFile",
-        "resource": "example4.xml"
+        "type": "text"
       }
     ]
   }

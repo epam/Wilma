@@ -27,8 +27,8 @@
     "templates": [
       {
         "name": "exampleTemplate1",
-        "type": "xmlFile",
-        "resource": "example4.xml"
+        "type": "text",
+        "resource": "{ \"blah\": \"blah\" }"
       }
     ]
   }

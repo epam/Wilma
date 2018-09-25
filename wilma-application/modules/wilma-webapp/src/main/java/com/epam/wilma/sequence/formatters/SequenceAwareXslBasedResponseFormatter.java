@@ -85,13 +85,12 @@ public class SequenceAwareXslBasedResponseFormatter implements ResponseFormatter
     }
 
     private String checkAndGetXslResourcePath(final ParameterList params) {
-        List<Parameter> paramList = params.getAllParameters();
         String xslResourceName;
-        if (!paramList.isEmpty()) {
-            xslResourceName = paramList.get(0).getValue();
-        } else {
+        if (params == null || params.get("xslFile") == null) {
             throw new ResponseFormattingFailedException(
-                    "The XslBasedResponseFormatter must have one parameter in stub configuration to define necessary xsl template file.");
+                    "The SequenceAwareXslBasedResponseFormatter must have 'xslFile' parameter in stub configuration to define necessary xsl template file.");
+        } else {
+            xslResourceName = params.get("xslFile");
         }
         return (stubResourcePathProvider.getTemplatesPathAsString() + "/" + xslResourceName).replace("\\", "/");
     }

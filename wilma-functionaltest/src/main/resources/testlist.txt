@@ -32,14 +32,14 @@
 #com.epam.wilma.gepard.test.sequence.handling.SequenceKeyTest,2,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.live.SequenceHandlingTestXmlToJson,,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.live.SequenceHandlingTestXmlToXml,,STUBCONFIG
-com.epam.wilma.gepard.test.sequence.handling.live.SequenceHandlingTestJsonToXml,,STUBCONFIG
-com.epam.wilma.gepard.test.sequence.handling.SequenceDialogDescriptorTest,,STUBCONFIG
+#com.epam.wilma.gepard.test.sequence.handling.live.SequenceHandlingTestJsonToXml,,STUBCONFIG
+#com.epam.wilma.gepard.test.sequence.handling.SequenceDialogDescriptorTest,,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.SequenceTimeoutTest,,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.SequenceEvaluationTest,2,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.MultipleSequencesTest,,STUBCONFIG
 #com.epam.wilma.gepard.test.sequence.handling.MultipleSequenceDescriptorsTest,2,STUBCONFIG
 #com.epam.wilma.gepard.test.stubconfig.ActualStubConfigTest,,STUBCONFIG
-#com.epam.wilma.gepard.test.stubconfig.StubConfigResourceTest,14,STUBCONFIG
+com.epam.wilma.gepard.test.stubconfig.StubConfigResourceTest,14,STUBCONFIG
 #com.epam.wilma.gepard.test.stubconfig.StubConfigBadResourceTest,11,STUBCONFIG
 #com.epam.wilma.gepard.test.stubconfig.StubConfigJarResourceTest,7,STUBCONFIG
 #com.epam.wilma.gepard.test.stubconfig.StubConfigTest,7,STUBCONFIG

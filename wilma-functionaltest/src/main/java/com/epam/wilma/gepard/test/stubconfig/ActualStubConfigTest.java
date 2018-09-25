@@ -41,7 +41,7 @@ public class ActualStubConfigTest extends WilmaTestCase {
     @Test
     public void testStubConfig() throws Exception {
         uploadStubConfigToWilma(STUB_CONFIG);
-        setExpectedResponseMessageFromFile("resources/ActualStubConfigTestResource.txt");
+        setExpectedResponseMessageFromFile("resources/ActualStubConfigTestResource.json");
         RequestParameters requestParameters = createRequestParameters();
         callWilmaWithPostMethodAndAssertResponse(requestParameters);
     }
