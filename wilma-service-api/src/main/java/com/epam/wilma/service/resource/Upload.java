@@ -45,7 +45,7 @@ public class Upload {
     private static final String CONDITION_CHECKER_UPLOAD_URL_POSTFIX = "config/admin/stub/conditionchecker";
     private static final String STUB_CONFIGURATION_UPLOAD_URL_POSTFIX = "config/admin/stub/stubconfig";
     private static final String TEMPLATE_UPLOAD_URL_POSTFIX = "config/admin/stub/templates";
-    private static final String TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX = "config/admin/stub/templateformatter";
+    private static final String RESPONSE_FORMATTER_UPLOAD_URL_POSTFIX = "config/admin/stub/responseformatter";
     private static final String FILE_NAME = "fileName";
     private static final String FILE_FROM_STRING = "directUpload";
 
@@ -113,7 +113,7 @@ public class Upload {
     public boolean uploadTemplateFormatter(String fileName, File file) {
         LOG.debug("Call template formatter upload API.");
 
-        String url = buildUrl(TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX, ImmutableMap.of(FILE_NAME, fileName));
+        String url = buildUrl(RESPONSE_FORMATTER_UPLOAD_URL_POSTFIX, ImmutableMap.of(FILE_NAME, fileName));
 
         return callFileUploadMethod(url, file);
     }

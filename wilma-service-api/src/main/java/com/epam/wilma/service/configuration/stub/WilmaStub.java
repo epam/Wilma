@@ -29,19 +29,42 @@ import java.util.Formatter;
  * Class that represents a stubbed request-response pairs.
  * Example configuration:
  * <p>
- * &lt;?xml version="1.0" encoding="UTF-8"?&gt;
- * &lt;wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- * xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd"&gt;
- * &lt;dialog-descriptor name="dummy-descriptor" usage="always" comment="random comment"&gt;
- * &lt;condition-descriptor&gt;
- * &lt;condition class="AlwaysFalseChecker" /&gt;
- * &lt;/condition-descriptor&gt;
- * &lt;response-descriptor code="502" delay="0" mimetype="text/plain" template="errorResponse" /&gt;
- * &lt;/dialog-descriptor&gt;
- * &lt;template-descriptor name="template-descriptor_1"&gt;
- * &lt;template name="errorResponse" type="text" resource="Bad Gateway" /&gt;
- * &lt;/template-descriptor&gt;
- * &lt;/wilma-stub&gt;
+ *
+ * {
+ *   "wilmaStubConfiguration": {
+ *     "dialogDescriptors": [
+ *       {
+ *         "name": "dialog-descriptor1",
+ *         "usage": "always",
+ *         "comment": "random comment",
+ *         "conditionDescriptor": {
+ *           "condition": {
+ *             "class": "OrPatternChecker",
+ *             "parameters": [
+ *               {
+ *                 "name": "MSG_ID",
+ *                 "value": "exampleID=\"456\""
+ *               }
+ *             ]
+ *           }
+ *         },
+ *         "responseDescriptor": {
+ *           "code": 200,
+ *           "delay": 0,
+ *           "mimeType": "application/xml",
+ *           "templateName": "exampleTemplate1"
+ *         }
+ *       }
+ *     ],
+ *     "templates": [
+ *       {
+ *         "name": "exampleTemplate1",
+ *         "type": "xmlFile",
+ *         "resource": "example4.xml"
+ *       }
+ *     ]
+ *   }
+ * }
  *
  * @author Tamas_Kohegyi
  */
@@ -80,6 +103,7 @@ public class WilmaStub {
         String usedTemplateAndFormatter = responseDescriptor.templateToString();
         String interceptorDescriptor = responseDescriptor.interceptorsToString();
         StringBuilder sb = new StringBuilder();
+        /*
         try (Formatter formatter = new Formatter(sb)) {
             String stubConfigurationFormatterString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                     + "<wilma-stub xmlns=\"http://epam.github.io/Wilma/xsd/StubConfig\" "
@@ -92,6 +116,19 @@ public class WilmaStub {
                     + "<template-descriptor name=\"%1$s\">\n%4$s</template-descriptor>\n"
                     + "%6$s"
                     + "</wilma-stub>";
+            formatter.format(stubConfigurationFormatterString, generatedName, conditionContent, responseContent,
+                    usedTemplateAndFormatter, groupName, interceptorDescriptor);
+        }
+        */
+        try (Formatter formatter = new Formatter(sb)) {
+            String stubConfigurationFormatterString = "{ \"wilmaStubConfiguration\": { "
+                    + " \"groupName\": \"%5$s\""
+                    + " \"dialogDescriptors\": [{ \"name\": \"%1$s\", \"usage\": \"always\", \"comment\": \"%1$s\","
+                    + "\"conditionDescriptor\": {%2$s}, \"responseDescriptor\": {%3$s}"
+                    + "}]," //dialogDescriptors end
+                    + " \"templates\": [{ %4$s }],"
+                    + " \"interceptors\": [{ %6$s }]"
+                    + "} }";
             formatter.format(stubConfigurationFormatterString, generatedName, conditionContent, responseContent,
                     usedTemplateAndFormatter, groupName, interceptorDescriptor);
         }
