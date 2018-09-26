@@ -22,24 +22,24 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * Test class for EscapeXml class.
+ * Test class for EscapeJson class.
  *
  * @author Tamas_Kohegyi
  */
-public class EscapeXmlTest {
+public class EscapeJsonTest {
 
-    private EscapeXml escapeXml = new EscapeXml();
+    private EscapeJson escapeJson = new EscapeJson();
 
     @Test
     public void testEscapingNullString() {
-        String revisedText = escapeXml.escapeXML(null);
+        String revisedText = escapeJson.escapeJson(null);
         Assert.assertNull(revisedText);
     }
 
     @Test
     public void testEscapingEmptyString() {
         String text = "";
-        String revisedText = escapeXml.escapeXML(text);
+        String revisedText = escapeJson.escapeJson(text);
         Assert.assertNotNull(revisedText);
         Assert.assertEquals(revisedText, text);
     }
@@ -47,7 +47,7 @@ public class EscapeXmlTest {
     @Test
     public void testEscapingNonProblematicString() {
         String text = "alma";
-        String revisedText = escapeXml.escapeXML(text);
+        String revisedText = escapeJson.escapeJson(text);
         Assert.assertNotNull(revisedText);
         Assert.assertEquals(revisedText, text);
     }
@@ -55,9 +55,9 @@ public class EscapeXmlTest {
     @Test
     public void testEscapingProblematicString() {
         String text = "alma<>\"\'&";
-        String revisedText = escapeXml.escapeXML(text);
+        String revisedText = escapeJson.escapeJson(text);
         Assert.assertNotNull(revisedText);
-        Assert.assertEquals(revisedText, "alma&lt;&gt;&quot;&#39;&amp;");
+        Assert.assertEquals(revisedText, "alma<>\\\"\'&");
     }
 
 }

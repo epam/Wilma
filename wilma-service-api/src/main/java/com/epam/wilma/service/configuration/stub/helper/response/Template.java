@@ -52,7 +52,7 @@ public class Template {
 
         String templateString = "    <template name=\"" + name
                 + "\" type=\"" + type.toString().toLowerCase()
-                + "\" resource=\"" + (TemplateType.needEscape(type) ? new EscapeXml().escapeXML(resource) : resource)
+                + "\" resource=\"" + (TemplateType.needEscape(type) ? new EscapeJson().escapeXML(resource) : resource)
                 + "\" />\n";
         return templateString;
     }

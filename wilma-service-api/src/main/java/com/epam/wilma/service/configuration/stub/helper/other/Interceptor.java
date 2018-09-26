@@ -50,14 +50,19 @@ public class Interceptor {
      */
     @Override
     public String toString() {
-        String interceptorString = "    <interceptor name=\"" + interceptorName + "\" class=\"" + className + "\" >\n";
+        String interceptorString = "{ \"name\": \"" + interceptorName + "\", \"class\": \"" + className + "\"";
         if (configurationParameters != null) {
             //we have parameters too
-            for (ConfigurationParameter configurationParameter : configurationParameters) {
-                interceptorString += "    " + configurationParameter.toString() + "\n";
+            interceptorString += ",\n \"parameters\": [\n";
+            for (int i = 0, size = configurationParameters.length; i < size; i++) {
+                if (i > 0) {
+                    interceptorString += ",\n";
+                }
+                interceptorString += configurationParameters[i].toString();
             }
+            interceptorString += "]\n";
         }
-        interceptorString += "    </interceptor>\n";
+        interceptorString += "}\n";
         return interceptorString;
     }
 }

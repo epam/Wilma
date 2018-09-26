@@ -20,19 +20,19 @@ package com.epam.wilma.service.configuration.stub.helper.response;
  ===========================================================================*/
 
 /**
- * Class to escape xml/html strings.
+ * Class to escape Json strings.
  *
  * @author Tamas_Kohegyi
  */
-public class EscapeXml {
+public class EscapeJson {
 
     /**
-     * Escape text so that it can be used as values of XML attributes, and can be viewed in an HTML page.
+     * Escape text so that it can be used as text representation of the value of a Json object.
      *
      * @param text is the text that should be escaped
-     * @return with a xml/html safe text
+     * @return with a json safe text
      */
-    public String escapeXML(final String text) {
+    public String escapeJson(final String text) {
         String revisedText = null;
         if (text != null) {
             StringBuilder sb = new StringBuilder(text.length() * 2);
@@ -40,19 +40,7 @@ public class EscapeXml {
                 char c = text.charAt(i);
                 switch (c) {
                 case '\"':
-                    sb.append("&quot;");
-                    break;
-                case '\'':
-                    sb.append("&#39;");
-                    break;
-                case '&':
-                    sb.append("&amp;");
-                    break;
-                case '<':
-                    sb.append("&lt;");
-                    break;
-                case '>':
-                    sb.append("&gt;");
+                    sb.append("\\\"");
                     break;
                 default:
                     sb.append(c);

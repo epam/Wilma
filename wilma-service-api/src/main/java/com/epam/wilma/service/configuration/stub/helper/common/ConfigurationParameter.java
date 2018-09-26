@@ -42,7 +42,7 @@ public class ConfigurationParameter {
      * Constructor when just the value has meaning.
      * In this case the name is self generated.
      *
-     * @param value is the value of the parametr
+     * @param value is the value of the parameter
      */
     public ConfigurationParameter(String value) {
         this.name = "generatedName" + UniqueGroupNameGenerator.getNextGeneratedId();
@@ -51,13 +51,13 @@ public class ConfigurationParameter {
 
     /**
      * Generates String value for the condition parameter.
-     * Example: &lt;param name="Content-Type" value="application/fastinfoset" /&gt;
+     * Example: { "name": "Content-Type", "value": "application/fastinfoset" }
      *
-     * @return with the string representation of a param element
+     * @return with the string representation of a parameter object
      */
     @Override
     public String toString() {
-        String stringValue = "    <param name=\"" + name + "\" value=\"" + value + "\" />";
+        String stringValue = "{ \"name=\": \"" + name + "\", \"value\": \"" + value + "\" }";
         return stringValue;
     }
 }
