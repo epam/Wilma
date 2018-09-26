@@ -1,5 +1,6 @@
 {
   "wilmaStubConfiguration": {
+    "groupName": "Droppable";
     "dialogDescriptors": [
       {
         "name": "error-pattern-descriptor1",

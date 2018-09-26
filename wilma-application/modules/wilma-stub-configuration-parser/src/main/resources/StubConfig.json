@@ -474,14 +474,14 @@
         "name": {
           "$ref": "#/definitions/uniqueNameDefinition"
         },
-        "conditionSet": {
+        "conditionDescriptor": {
           "$ref": "#/definitions/conditionDescriptorDefinition"
         }
       },
       "additionalProperties": false,
       "required": [
         "name",
-        "conditionSet"
+        "conditionDescriptor"
       ],
       "minItems": 1
     },

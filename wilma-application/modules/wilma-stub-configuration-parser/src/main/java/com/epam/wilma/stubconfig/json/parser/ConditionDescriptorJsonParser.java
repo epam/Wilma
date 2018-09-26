@@ -119,7 +119,7 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
                 JSONObject conditionSet = conditionSetArray.getJSONObject(i);
                 name = conditionSet.getString("name");
                 if (name.contentEquals(conditionSetName)) {
-                    condition = conditionSet.getJSONObject("conditionSet");
+                    condition = conditionSet.getJSONObject("conditionDescriptor");
                     found = true;
                     break;
                 }
@@ -139,7 +139,7 @@ public class ConditionDescriptorJsonParser implements ObjectParser<ConditionDesc
         if (newDepth >= maxDepthOfJsonTree) {
             throw new DescriptorValidationFailedException(
                     "Validation of stub descriptor failed: Condition-descriptor subtree is too deep or contains circles, error occurs at: conditionSetInvoker name='"
-                            + invokerName + "' ...>");
+                            + invokerName + "'");
         }
         return newDepth;
     }

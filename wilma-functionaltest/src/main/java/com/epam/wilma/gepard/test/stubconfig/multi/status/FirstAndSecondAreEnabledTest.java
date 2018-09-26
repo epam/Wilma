@@ -37,8 +37,8 @@ import java.io.FileNotFoundException;
 public class FirstAndSecondAreEnabledTest extends WilmaTestCase {
 
     private static final String STUB_CONFIG_FIRST_GROUP_NAME = "testFirst";
-    private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
-    private static final String STUB_CONFIG_SECOND = "resources/enabledisable/stubConfigSecond.xml";
+    private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.json";
+    private static final String STUB_CONFIG_SECOND = "resources/enabledisable/stubConfigSecond.json";
 
     @Test
     public void testBothOfThemAreEnabled() throws Exception {
@@ -58,7 +58,7 @@ public class FirstAndSecondAreEnabledTest extends WilmaTestCase {
         String testServerUrl = getWilmaStubConfigDescriptorsUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "application/xml";
+        String contentType = "application/json";
         String acceptHeader = "application/json";
         String contentEncoding = "";
         String acceptEncoding = "";

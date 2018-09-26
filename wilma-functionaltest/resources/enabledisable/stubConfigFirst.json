@@ -1,5 +1,6 @@
 {
   "wilmaStubConfiguration": {
+    "groupName": "testFirst",
     "dialogDescriptors": [
       {
         "name": "error-pattern-descriptor",

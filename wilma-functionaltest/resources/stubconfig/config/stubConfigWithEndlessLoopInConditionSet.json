@@ -2,41 +2,56 @@
   "wilmaStubConfiguration": {
     "dialogDescriptors": [
       {
-        "name": "dialog-descriptor1",
+        "name": "Built-in default config - does nothing",
         "usage": "always",
-        "comment": "random comment",
         "conditionDescriptor": {
-          "conditionSetInvoker": "condition-set1"
+          "conditionSetInvoker": "AlwaysFalse"
         },
         "responseDescriptor": {
-          "code": 404,
+          "code": 502,
           "delay": 0,
-          "mimeType": "json",
-          "templateName": "exampleTemplate1"
+          "mimeType": "text/plain",
+          "templateName": "template 1 - errorResponse",
+          "responseFormatterSet": [
+            {
+              "responseFormatterSetInvoker": "InvokedResponseFormatterSet"
+            }
+          ]
         }
       }
     ],
     "templates": [
       {
-        "name": "exampleTemplate1",
-        "type": "xml",
-        "resource": "something"
+        "name": "template 1 - errorResponse",
+        "type": "text",
+        "resource": "Bad Gateway"
       }
     ],
     "conditionSets": [
       {
-        "name": "condition-set1",
+        "name": "AlwaysFalse",
         "conditionDescriptor": {
-          "conditionSetInvoker": "condition-set2"
+          "conditionSetInvoker": "AlwaysTrue"
         }
       },
       {
-        "name": "condition-set2",
+        "name": "AlwaysTrue",
         "conditionDescriptor": {
-          "conditionSetInvoker": "condition-set1"
+          "conditionSetInvoker": "AlwaysFalse"
         }
       }
+    ],
+    "responseFormatterSets": [
+      {
+        "name": "Invoked Response Formatter Set",
+        "responseFormatterSet": [
+          {
+            "responseFormatter": {
+              "class": "SuppressGzipCompression"
+            }
+          }
+        ]
+      }
     ]
-
   }
 }

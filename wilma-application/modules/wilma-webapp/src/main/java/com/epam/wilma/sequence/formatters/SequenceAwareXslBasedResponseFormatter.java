@@ -21,11 +21,10 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.sequence.RequestResponsePair;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
-import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.sequence.RequestResponsePair;
 import com.epam.wilma.sequence.formatters.helper.SequenceXmlTransformer;
 import com.epam.wilma.sequence.formatters.xsl.SequenceAwareXslResponseGenerator;
 import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
@@ -36,7 +35,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
 
 /**

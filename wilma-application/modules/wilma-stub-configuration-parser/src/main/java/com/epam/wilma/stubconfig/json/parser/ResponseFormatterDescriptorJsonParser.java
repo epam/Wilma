@@ -123,7 +123,7 @@ public class ResponseFormatterDescriptorJsonParser implements ObjectParser<Set<R
         if (newDepth >= maxDepthOfJsonTree) {
             throw new DescriptorValidationFailedException(
                     "Validation of stub descriptor failed: Response-descriptor subtree is too deep or contains circles, error occurs at: responseFormatterSetInvoker = '"
-                            + invokerName + "' ...>");
+                            + invokerName + "'");
         }
         return newDepth;
     }

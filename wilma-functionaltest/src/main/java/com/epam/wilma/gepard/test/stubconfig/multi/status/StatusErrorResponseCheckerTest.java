@@ -37,7 +37,7 @@ import java.io.FileNotFoundException;
 @TestClass(id = "Multi_StubConfig", name = "Checks the error message of response in case of wrong format in nextstatus parameter")
 public class StatusErrorResponseCheckerTest extends WilmaTestCase {
     private static final String STUB_CONFIG_FIRST_GROUP_NAME = "testFirst";
-    private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
+    private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.json";
     private static final String ERROR_MSG = "Wrong format of direction parameter. \"nextstatus\" must be a boolean!";
 
     @Test
@@ -53,7 +53,7 @@ public class StatusErrorResponseCheckerTest extends WilmaTestCase {
         String testServerUrl = getWilmaChangeStubConfigStatusUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "application/xml";
+        String contentType = "application/json";
         String acceptHeader = "application/json";
         String contentEncoding = "";
         String acceptEncoding = "";

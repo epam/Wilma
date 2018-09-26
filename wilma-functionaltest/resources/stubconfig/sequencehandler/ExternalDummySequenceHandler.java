@@ -1,4 +1,4 @@
-package com.epam.message.sequence.test;
+package com.epam.wilma.sequencesandbox;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 

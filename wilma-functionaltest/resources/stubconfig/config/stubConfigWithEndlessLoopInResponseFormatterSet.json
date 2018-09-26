@@ -33,15 +33,19 @@
     "responseFormatterSets": [
       {
         "name": "response-formatter-set1",
-        "responseFormatterSet": {
-          "responseFormatterSetInvoker": "response-formatter-set2"
-        }
+        "responseFormatterSet": [
+          {
+            "responseFormatterSetInvoker": "response-formatter-set2"
+          }
+        ]
       },
       {
         "name": "response-formatter-set2",
-        "responseFormatterSet": {
-          "responseFormatterSetInvoker": "response-formatter-set1"
-        }
+        "responseFormatterSet": [
+          {
+            "responseFormatterSetInvoker": "response-formatter-set1"
+          }
+        ]
       }
     ]
   }

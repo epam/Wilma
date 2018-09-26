@@ -46,7 +46,7 @@ public class StubConfigTest extends WilmaTestCase {
     private String tcResponse = getDataDrivenTestParameter("PAR6");
 
     @Test
-    public void testStubConfigXmlHandling() throws Exception {
+    public void testStubConfigJsonHandling() throws Exception {
         stubConfigXml = tcStubConfig;
         setOriginalRequestMessageForStubConfig(stubConfigXml);
         setExpectedResponseMessageFromFile(tcResponse);
