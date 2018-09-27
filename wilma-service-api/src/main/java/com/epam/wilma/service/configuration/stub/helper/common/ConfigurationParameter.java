@@ -57,7 +57,7 @@ public class ConfigurationParameter {
      */
     @Override
     public String toString() {
-        String stringValue = "{ \"name=\": \"" + name + "\", \"value\": \"" + value + "\" }";
+        String stringValue = "{ \"name\": \"" + name + "\", \"value\": \"" + value + "\" }";
         return stringValue;
     }
 }

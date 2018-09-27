@@ -28,9 +28,7 @@ mainClassName = 'com.epam.wilma.service.client.WilmaService'
 
 buildscript {
     repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2"
@@ -44,7 +42,11 @@ jar {
     manifest.attributes( 'Main-Class': mainClassName)
     manifest.attributes( 'Implementation-Title': "$componentDescription - V$version")
     archiveName = "$componentName-$version"+'.jar'
-} 
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+}
 
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
@@ -52,6 +54,7 @@ dependencies {
     compile group: 'commons-httpclient', name: 'commons-httpclient', version:'3.1'
     compile group: 'commons-io', name: 'commons-io', version:'2.4'
     compile group: 'commons-validator', name: 'commons-validator', version:'1.4.1'
+    compile group: "com.github.everit-org.json-schema", name: "org.everit.json.schema", version: "1.9.1"
     compile 'org.json:json:20180813'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'

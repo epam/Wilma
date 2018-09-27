@@ -100,37 +100,21 @@ public class WilmaStub {
         String generatedName = "generated name";
         String conditionContent = requestCondition.toString();
         String responseContent = responseDescriptor.responseDescriptorToString();
-        String usedTemplateAndFormatter = responseDescriptor.templateToString();
+        String usedTemplate = responseDescriptor.templateToString();
         String interceptorDescriptor = responseDescriptor.interceptorsToString();
         StringBuilder sb = new StringBuilder();
-        /*
+
         try (Formatter formatter = new Formatter(sb)) {
-            String stubConfigurationFormatterString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                    + "<wilma-stub xmlns=\"http://epam.github.io/Wilma/xsd/StubConfig\" "
-                    + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" groupname=\"%5$s\" "
-                    + "xsi:schemaLocation=\"http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd\">\n"
-                    + "<dialog-descriptor name=\"%1$s\" usage=\"always\" comment=\"%1$s\">\n"
-                    + "<condition-descriptor>\n%2$s</condition-descriptor>\n"
-                    + "%3$s"
-                    + "</dialog-descriptor>\n"
-                    + "<template-descriptor name=\"%1$s\">\n%4$s</template-descriptor>\n"
-                    + "%6$s"
-                    + "</wilma-stub>";
-            formatter.format(stubConfigurationFormatterString, generatedName, conditionContent, responseContent,
-                    usedTemplateAndFormatter, groupName, interceptorDescriptor);
-        }
-        */
-        try (Formatter formatter = new Formatter(sb)) {
-            String stubConfigurationFormatterString = "{ \"wilmaStubConfiguration\": { "
-                    + " \"groupName\": \"%5$s\""
+            String stubConfigurationFormatterString = "{ \"wilmaStubConfiguration\": { \n"
+                    + " \"groupName\": \"%5$s\", \n"
                     + " \"dialogDescriptors\": [{ \"name\": \"%1$s\", \"usage\": \"always\", \"comment\": \"%1$s\","
-                    + "\"conditionDescriptor\": {%2$s}, \"responseDescriptor\": {%3$s}"
+                    + "\"conditionDescriptor\": %2$s, \"responseDescriptor\": %3$s"
                     + "}]," //dialogDescriptors end
-                    + " \"templates\": [{ %4$s }],"
-                    + " \"interceptors\": [{ %6$s }]"
+                    + "\n \"templates\": [ %4$s ],"
+                    + " %6$s \n"
                     + "} }";
             formatter.format(stubConfigurationFormatterString, generatedName, conditionContent, responseContent,
-                    usedTemplateAndFormatter, groupName, interceptorDescriptor);
+                    usedTemplate, groupName, interceptorDescriptor);
         }
         return sb.toString();
     }

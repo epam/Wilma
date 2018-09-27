@@ -146,7 +146,7 @@ public class ResponseDescriptorBuilder {
      */
     public WilmaStub build() {
         WilmaStub wilmaStub = new WilmaStub(groupName, requestCondition, buildResponseDescriptor());
-        LOG.debug("WilmaStub created, XML is:\n" + wilmaStub.toString());
+        LOG.debug("WilmaStub created, JSON is:\n" + wilmaStub.toString());
         return wilmaStub;
     }
 

@@ -63,12 +63,16 @@ public class ResponseDescriptor {
      * @return with the string representation of the response descriptor
      */
     public String responseDescriptorToString() {
-        String responseDescriptor = "<response-descriptor delay=\"" + delay + "\" "
-                + "code=\"" + code + "\" mimetype=\"" + mimeType + "\" template=\"" + template.getName() + "\" >\n";
-        for (ResponseFormatter responseFormatter : responseFormatters) {
-            responseDescriptor += responseFormatter.toString();
+        String responseDescriptor = "{ \"delay\": " + delay + ", "
+                + "\"code\": " + code + ", \"mimeType\": \"" + mimeType + "\", \"templateName\": \"" + template.getName() + "\"\n";
+        if (responseFormatters.size() > 0) {
+            responseDescriptor += ", \"responseFormatterSet\": [";
+            for (ResponseFormatter responseFormatter : responseFormatters) {
+                responseDescriptor += responseFormatter.toString();
+            }
+            responseDescriptor += "]";
         }
-        responseDescriptor += "</response-descriptor>\n";
+        responseDescriptor += "}";
         return responseDescriptor;
     }
 
@@ -80,11 +84,11 @@ public class ResponseDescriptor {
     public String interceptorsToString() {
         String interceptorDescriptor = "";
         if (interceptors != null && !interceptors.isEmpty()) {
-            interceptorDescriptor += "<interceptors>\n";
+            interceptorDescriptor += ",\n \"interceptors\": [\n";
             for (Interceptor interceptor : interceptors) {
                 interceptorDescriptor += interceptor.toString();
             }
-            interceptorDescriptor += "</interceptors>\n";
+            interceptorDescriptor += "\n]";
         }
         return interceptorDescriptor;
     }

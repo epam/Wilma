@@ -50,10 +50,10 @@ public class Template {
     @Override
     public String toString() {
 
-        String templateString = "    <template name=\"" + name
-                + "\" type=\"" + type.toString().toLowerCase()
-                + "\" resource=\"" + (TemplateType.needEscape(type) ? new EscapeJson().escapeXML(resource) : resource)
-                + "\" />\n";
+        String templateString = " { \"name\": \"" + name
+                + "\", \"type\": \"" + type.toString().toLowerCase()
+                + "\", \"resource\": \"" + new EscapeJson().escapeJson(resource)
+                + "\" }";
         return templateString;
     }
 
