@@ -19,6 +19,7 @@ package com.epam.wilma.service.configuration.stub;
  ===========================================================================*/
 
 import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
+import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameterArray;
 import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -35,6 +36,15 @@ public class WilmaStubTest {
     private WilmaStub wilmaStub;
 
     @Test
+    public void testCreateStubAbsoluteMinimal() throws StubConfigurationException {
+        //given
+        wilmaStub = new WilmaStubBuilder().build();
+        //when
+        //then
+        //if we are here, we are fine
+    }
+
+    @Test
     public void testCreateStubMinimal() throws StubConfigurationException {
         //given
         wilmaStub = new WilmaStubBuilder("myGroup")
@@ -42,7 +52,6 @@ public class WilmaStubTest {
                 .willRespondWith().plainTextResponse("blah")
                 .build();
         //when
-        wilmaStub.validateConfiguration();
         //then
         //if we are here, we are fine
     }
@@ -52,6 +61,7 @@ public class WilmaStubTest {
         //given, when and then
         ConfigurationParameter[] formatterParameters = new ConfigurationParameter[1];
         formatterParameters[0] = new ConfigurationParameter("fromtext", "totext");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(formatterParameters);
         wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike()
                 .notStart()
@@ -64,7 +74,7 @@ public class WilmaStubTest {
                 .orEnd()
                 .notEnd()
                 .willRespondWith().plainTextResponse("{ \"ERROR\":\"fromtext\" }").withStatus(404).withDelay(1000)
-                .applyFormatter("StringReplaceTemplateFormatter", formatterParameters).applyFormatter("JsonTemplateFormatter")
+                .applyFormatter("StringReplaceTemplateFormatter", configurationParameterArray).applyFormatter("JsonTemplateFormatter")
                 .build();
     }
 
@@ -73,8 +83,9 @@ public class WilmaStubTest {
         //given, when and then
         ConfigurationParameter[] configurationParameters = new ConfigurationParameter[1];
         configurationParameters[0] = new ConfigurationParameter("Content-Type", "text/plain");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(configurationParameters);
         wilmaStub = new WilmaStubBuilder()
-                .forRequestsLike().condition("HeaderParameterChecker", configurationParameters)
+                .forRequestsLike().condition("HeaderParameterChecker", configurationParameterArray)
                 .willRespondWith().generatedResponse("dummy.class").withMimeType("application/xml")
                 .build();
     }
@@ -84,8 +95,9 @@ public class WilmaStubTest {
         //given, when and then
         ConfigurationParameter[] conditionParameters = new ConfigurationParameter[1];
         conditionParameters[0] = new ConfigurationParameter("Content-Type", "text/plain");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(conditionParameters);
         wilmaStub = new WilmaStubBuilder()
-                .forRequestsLike().negatedCondition("HeaderParameterChecker", conditionParameters)
+                .forRequestsLike().negatedCondition("HeaderParameterChecker", configurationParameterArray)
                 .willRespondWith().generatedResponse("dummy.class")
                 .build();
     }
@@ -95,8 +107,9 @@ public class WilmaStubTest {
         //given, when and then
         ConfigurationParameter[] conditionParameters = new ConfigurationParameter[1];
         conditionParameters[0] = new ConfigurationParameter("somewhereinheader");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(conditionParameters);
         wilmaStub = new WilmaStubBuilder()
-                .forRequestsLike().condition("OrPatternChecker", conditionParameters)
+                .forRequestsLike().condition("OrPatternChecker", configurationParameterArray)
                 .willRespondWith().generatedResponse("dummy.class")
                 .build();
     }
@@ -168,26 +181,56 @@ public class WilmaStubTest {
     }
 
     @Test
-    public void testCreateStubOfInterceptor() throws StubConfigurationException {
+    public void testCreateStubOfInterceptorA() throws StubConfigurationException {
         //given, when
         ConfigurationParameter[] conditionParameters = new ConfigurationParameter[1];
         conditionParameters[0] = new ConfigurationParameter("somewhereinheader");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(conditionParameters);
         wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike().textInUrl("/blah")
                 .willRespondWith().xmlFileResponse("filename").withStatus(200)
                 .addInterceptor("interceptorName", "interceptorClass")
-                .addInterceptor("interceptorName", "interceptorClass", conditionParameters)
+                .addInterceptor("interceptorName", "interceptorClass", configurationParameterArray)
                 .build();
         //then
         Assert.assertTrue(wilmaStub.toString().contains("application/xml"), "Bad mime type was set.");
     }
 
     @Test
-    public void testCreateStubOfInterceptorMinimal() throws StubConfigurationException {
+    public void testCreateStubOfInterceptorB() throws StubConfigurationException {
+        //given, when
+        ConfigurationParameter[] conditionParameters = new ConfigurationParameter[1];
+        conditionParameters[0] = new ConfigurationParameter("somewhereinheader");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(conditionParameters);
+        wilmaStub = new WilmaStubBuilder()
+                .forRequestsLike().textInUrl("/blah")
+                .willRespondWith().xmlFileResponse("filename").withStatus(200)
+                .addInterceptor("interceptorName", "interceptorClass", configurationParameterArray)
+                .addInterceptor("interceptorName", "interceptorClass")
+                .build();
+        //then
+        Assert.assertTrue(wilmaStub.toString().contains("application/xml"), "Bad mime type was set.");
+    }
+
+    @Test
+    public void testCreateStubOfInterceptorMinimalA() throws StubConfigurationException {
         //given, when
         wilmaStub = new WilmaStubBuilder()
-                .forAnyRequest()
                 .addInterceptor("interceptorName", "interceptorClass")
+                .build();
+        //then
+        Assert.assertTrue(wilmaStub.toString().contains("interceptorName"), "Interceptor is missing.");
+    }
+
+    @Test
+    public void testCreateStubOfInterceptorMinimalB() throws StubConfigurationException {
+        //given
+        ConfigurationParameter[] conditionParameters = new ConfigurationParameter[1];
+        conditionParameters[0] = new ConfigurationParameter("somewhereinheader");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(conditionParameters);
+        //when
+        wilmaStub = new WilmaStubBuilder()
+                .addInterceptor("interceptorName", "interceptorClass", configurationParameterArray)
                 .build();
         //then
         Assert.assertTrue(wilmaStub.toString().contains("interceptorName"), "Interceptor is missing.");

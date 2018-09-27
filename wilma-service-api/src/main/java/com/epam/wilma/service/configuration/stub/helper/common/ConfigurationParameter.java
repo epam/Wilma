@@ -19,7 +19,7 @@ package com.epam.wilma.service.configuration.stub.helper.common;
  ===========================================================================*/
 
 /**
- * Class that holds a single condition Parameter.
+ * Class that holds a single Parameter.
  *
  * @author Tamas_Kohegyi
  */

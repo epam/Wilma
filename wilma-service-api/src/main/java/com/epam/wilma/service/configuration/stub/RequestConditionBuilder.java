@@ -18,7 +18,7 @@ package com.epam.wilma.service.configuration.stub;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
+import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameterArray;
 import com.epam.wilma.service.configuration.stub.request.RequestCondition;
 
 /**
@@ -103,25 +103,21 @@ public class RequestConditionBuilder {
     /**
      * General purpose condition class usage, with a parameter array.
      *
-     * @param className               is the condition class
-     * @param configurationParameters is the parameter array
-     * @param negate                  if true, then the condition should be negated
+     * @param className                   is the condition class
+     * @param configurationParameterArray is the parameter array
+     * @param negate                      if true, then the condition should be negated
      * @return with itself
      */
-    private RequestConditionBuilder condition(String className, ConfigurationParameter[] configurationParameters, boolean negate) {
+    private RequestConditionBuilder condition(String className, ConfigurationParameterArray configurationParameterArray, boolean negate) {
         String conditionString = "{ \"condition\": { \"class\": \"" + className + "\" ";
         if (negate) {
             conditionString += ", \"negate\": true ";
         }
-        if (configurationParameters != null) {
+        if (configurationParameterArray != null) {
             //we have parameters too
-            conditionString += ", \"parameters\": [ \n";
-            for (ConfigurationParameter configurationParameter : configurationParameters) {
-                conditionString += configurationParameter.toString() + "\n";
-            }
-            conditionString += "] ";
+            conditionString += ",\n " + configurationParameterArray.toString();
         }
-        conditionString += "}}\n";
+        conditionString += "\n  }\n }";
 
         configurationString += conditionString;
         return this;
@@ -130,23 +126,23 @@ public class RequestConditionBuilder {
     /**
      * General purpose condition class usage, with a parameter array.
      *
-     * @param className               is the condition class
-     * @param configurationParameters is the parameter array
+     * @param className                   is the condition class
+     * @param configurationParameterArray is the parameter array
      * @return with itself
      */
-    public RequestConditionBuilder condition(String className, ConfigurationParameter[] configurationParameters) {
-        return condition(className, configurationParameters, false);
+    public RequestConditionBuilder condition(String className, ConfigurationParameterArray configurationParameterArray) {
+        return condition(className, configurationParameterArray, false);
     }
 
     /**
      * General purpose condition class usage, with a parameter array.
      *
-     * @param className               is the condition class
-     * @param configurationParameters is the parameter array
+     * @param className                   is the condition class
+     * @param configurationParameterArray is the parameter array
      * @return with itself
      */
-    public RequestConditionBuilder negatedCondition(String className, ConfigurationParameter[] configurationParameters) {
-        return condition(className, configurationParameters, true);
+    public RequestConditionBuilder negatedCondition(String className, ConfigurationParameterArray configurationParameterArray) {
+        return condition(className, configurationParameterArray, true);
     }
 
     /**
@@ -179,7 +175,7 @@ public class RequestConditionBuilder {
      */
     public RequestConditionBuilder comingFrom(String hostName) {
         String conditionString = "{ \"condition\": { \"class\": \"AndUrlPatternChecker\",\n"
-                + "    \"parameters\": [{\"name\": \"irrelevant\" \"value\": \"//" + hostName + "\" }]\n"
+                + "    \"parameters\": [{\"name\": \"irrelevant\", \"value\": \"//" + hostName + "\" }]\n"
                 + "}\n}\n";
         configurationString += conditionString;
         return this;

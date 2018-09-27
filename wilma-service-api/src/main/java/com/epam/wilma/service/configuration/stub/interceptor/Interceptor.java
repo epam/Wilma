@@ -1,4 +1,4 @@
-package com.epam.wilma.service.configuration.stub.helper.response;
+package com.epam.wilma.service.configuration.stub.interceptor;
 /*==========================================================================
  Copyright since 2013, EPAM Systems
 
@@ -21,37 +21,41 @@ package com.epam.wilma.service.configuration.stub.helper.response;
 import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameterArray;
 
 /**
- * Class that holds a single response formatter information.
+ * Class that holds a single interceptor information.
  *
  * @author Tamas_Kohegyi
- *
  */
-public class ResponseFormatter {
+public class Interceptor {
+    private String interceptorName;
     private String className;
     private ConfigurationParameterArray configurationParameterArray;
 
     /**
-     * Constructor when both class name and parameter values has meaning.
-     * @param className is the name of the used formatter class
+     * Constructor when parameter values has meaning.
+     *
+     * @param interceptorName         is the name of the interceptor
+     * @param className               is the name of the used formatter class
      * @param configurationParameterArray is the value of the parameters
      */
-    public ResponseFormatter(String className, ConfigurationParameterArray configurationParameterArray) {
+    public Interceptor(String interceptorName, String className, ConfigurationParameterArray configurationParameterArray) {
+        this.interceptorName = interceptorName;
         this.className = className;
         this.configurationParameterArray = configurationParameterArray;
     }
 
     /**
-     * Generates String value for the response formatter.
+     * Generates String value for the interceptor.
+     *
      * @return with the config string
      */
     @Override
     public String toString() {
-        String responseFormatterString = "{ \"responseFormatter\": {\n  \"class\": \"" + className + "\"";
+        String interceptorString = "{ \"name\": \"" + interceptorName + "\", \"class\": \"" + className + "\"";
         if (configurationParameterArray != null) {
             //we have parameters too
-            responseFormatterString += ",\n" + configurationParameterArray.toString();
+            interceptorString += ",\n  " + configurationParameterArray.toString();
         }
-        responseFormatterString += "\n}";
-        return responseFormatterString;
+        interceptorString += "\n }\n";
+        return interceptorString;
     }
 }

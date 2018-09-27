@@ -18,7 +18,6 @@ package com.epam.wilma.service.configuration.stub.response;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.configuration.stub.helper.other.Interceptor;
 import com.epam.wilma.service.configuration.stub.helper.response.Template;
 import com.epam.wilma.service.configuration.stub.helper.response.ResponseFormatter;
 
@@ -35,7 +34,6 @@ public class ResponseDescriptor {
     private String mimeType;
     private Template template;
     private List<ResponseFormatter> responseFormatters;
-    private List<Interceptor> interceptors;
 
     /**
      * Creates a response descriptor with given parameters.
@@ -45,16 +43,14 @@ public class ResponseDescriptor {
      * @param mimeType           is the mime type of the response
      * @param template           is the template that is used as response
      * @param responseFormatters are the formatters to be applied on the template before sending the response back
-     * @param interceptors       are the interceptor list to be added to the stub configuration
      */
     public ResponseDescriptor(String delay, String code, String mimeType, Template template,
-                              List<ResponseFormatter> responseFormatters, List<Interceptor> interceptors) {
+                              List<ResponseFormatter> responseFormatters) {
         this.delay = delay;
         this.code = code;
         this.mimeType = mimeType;
         this.template = template;
         this.responseFormatters = responseFormatters;
-        this.interceptors = interceptors;
     }
 
     /**
@@ -63,34 +59,19 @@ public class ResponseDescriptor {
      * @return with the string representation of the response descriptor
      */
     public String responseDescriptorToString() {
-        String responseDescriptor = "{ \"delay\": " + delay + ", "
-                + "\"code\": " + code + ", \"mimeType\": \"" + mimeType + "\", \"templateName\": \"" + template.getName() + "\"\n";
+        String responseDescriptor = "{\n  \"delay\": " + delay
+                + ",\n  \"code\": " + code
+                + ",\n  \"mimeType\": \"" + mimeType + "\""
+                + ",\n  \"templateName\": \"" + template.getName() + "\"";
         if (responseFormatters.size() > 0) {
-            responseDescriptor += ", \"responseFormatterSet\": [";
+            responseDescriptor += ",\n  \"responseFormatterSet\": [\n";
             for (ResponseFormatter responseFormatter : responseFormatters) {
                 responseDescriptor += responseFormatter.toString();
             }
-            responseDescriptor += "]";
+            responseDescriptor += "\n  ]";
         }
-        responseDescriptor += "}";
+        responseDescriptor += "\n}";
         return responseDescriptor;
-    }
-
-    /**
-     * Generates the interceptor part of the stub configuration.
-     *
-     * @return with the string representation of the interceptors, or empty string
-     */
-    public String interceptorsToString() {
-        String interceptorDescriptor = "";
-        if (interceptors != null && !interceptors.isEmpty()) {
-            interceptorDescriptor += ",\n \"interceptors\": [\n";
-            for (Interceptor interceptor : interceptors) {
-                interceptorDescriptor += interceptor.toString();
-            }
-            interceptorDescriptor += "\n]";
-        }
-        return interceptorDescriptor;
     }
 
     /**

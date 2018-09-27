@@ -18,7 +18,11 @@ package com.epam.wilma.service.configuration.stub;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
+import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameterArray;
 import com.epam.wilma.service.configuration.stub.helper.common.UniqueGroupNameGenerator;
+import com.epam.wilma.service.configuration.stub.interceptor.InterceptorDescriptorBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Builder class for building a complete WilmaStub Configuration.
@@ -26,7 +30,9 @@ import com.epam.wilma.service.configuration.stub.helper.common.UniqueGroupNameGe
  * @author Tamas_Kohegyi
  */
 public class WilmaStubBuilder {
-    private String groupName = "Default";
+    private static final Logger LOG = LoggerFactory.getLogger(WilmaStubBuilder.class);
+
+    private String groupName;
 
     /**
      * Constructor with the possibility of specifying the group name.
@@ -64,4 +70,24 @@ public class WilmaStubBuilder {
                 .willRespondWith().plainTextResponse("dummy");
         return responseDescriptorBuilder;
     }
+
+    /**
+     * Builds minimal stub.
+     *
+     * @return with the stub config object
+     */
+    public WilmaStub build() {
+        WilmaStub wilmaStub = new WilmaStub(groupName, null, null, null);
+        LOG.debug("WilmaStub created, JSON is:\n" + wilmaStub.toString());
+        return wilmaStub;
+    }
+
+    public InterceptorDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass) {
+        return new InterceptorDescriptorBuilder(groupName).addInterceptor(interceptorName, interceptorClass);
+    }
+
+    public InterceptorDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass, ConfigurationParameterArray configurationParameterArray) {
+        return new InterceptorDescriptorBuilder(groupName).addInterceptor(interceptorName, interceptorClass, configurationParameterArray);
+    }
+
 }
