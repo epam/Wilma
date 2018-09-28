@@ -1,4 +1,4 @@
-package com.epam.wilma.service.configuration.stub.interceptor;
+package com.epam.wilma.service.configuration.stub;
 /*==========================================================================
  Copyright since 2013, EPAM Systems
 
@@ -18,9 +18,9 @@ package com.epam.wilma.service.configuration.stub.interceptor;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.configuration.stub.ResponseDescriptorBuilder;
-import com.epam.wilma.service.configuration.stub.WilmaStub;
 import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameterArray;
+import com.epam.wilma.service.configuration.stub.interceptor.Interceptor;
+import com.epam.wilma.service.configuration.stub.interceptor.InterceptorDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,9 +40,15 @@ public class InterceptorDescriptorBuilder {
     private ResponseDescriptorBuilder responseDescriptorBuilder;
 
 
+    /**
+     * Constructor of Interceptor Descriptor Builder.
+     *
+     * @param groupName is the stub configuration group name
+     */
     public InterceptorDescriptorBuilder(String groupName) {
         this.groupName = groupName;
     }
+
     /**
      * Add an interceptor to the stub configuration.
      *
@@ -57,8 +63,8 @@ public class InterceptorDescriptorBuilder {
     /**
      * Add an interceptor that has parameters, to the stub configuration.
      *
-     * @param interceptorName     name of the interceptor
-     * @param interceptorClass    the class name of the interceptor
+     * @param interceptorName             name of the interceptor
+     * @param interceptorClass            the class name of the interceptor
      * @param configurationParameterArray are the parameters of the interceptor
      * @return with itself
      */
@@ -67,6 +73,12 @@ public class InterceptorDescriptorBuilder {
         return this;
     }
 
+    /**
+     * Build method of the Stub Configuration.
+     * If there would be other objects in stub config than interceptors, it will let response descriptor builder to build the stub content.
+     *
+     * @return with the new WilmaStub object.
+     */
     public WilmaStub build() {
         InterceptorDescriptor interceptorDescriptor = new InterceptorDescriptor(interceptors);
         WilmaStub wilmaStub;
@@ -82,8 +94,9 @@ public class InterceptorDescriptorBuilder {
     /**
      * Add an interceptor to the stub configuration.
      *
-     * @param interceptorName  name of the interceptor
-     * @param interceptorClass the class name of the interceptor
+     * @param responseDescriptorBuilder to set the response descriptor builder, if it exists already
+     * @param interceptorName           name of the interceptor
+     * @param interceptorClass          the class name of the interceptor
      * @return with itself
      */
     public InterceptorDescriptorBuilder addInterceptor(ResponseDescriptorBuilder responseDescriptorBuilder, String interceptorName, String interceptorClass) {
@@ -94,12 +107,14 @@ public class InterceptorDescriptorBuilder {
     /**
      * Add an interceptor that has parameters, to the stub configuration.
      *
-     * @param interceptorName     name of the interceptor
-     * @param interceptorClass    the class name of the interceptor
+     * @param responseDescriptorBuilder   to set the response descriptor builder, if it exists already
+     * @param interceptorName             name of the interceptor
+     * @param interceptorClass            the class name of the interceptor
      * @param configurationParameterArray are the parameters of the interceptor
      * @return with itself
      */
-    public InterceptorDescriptorBuilder addInterceptor(ResponseDescriptorBuilder responseDescriptorBuilder, String interceptorName, String interceptorClass, ConfigurationParameterArray configurationParameterArray) {
+    public InterceptorDescriptorBuilder addInterceptor(ResponseDescriptorBuilder responseDescriptorBuilder,
+                                                       String interceptorName, String interceptorClass, ConfigurationParameterArray configurationParameterArray) {
         this.responseDescriptorBuilder = responseDescriptorBuilder;
         interceptors.add(new Interceptor(interceptorName, interceptorClass, configurationParameterArray));
         return this;

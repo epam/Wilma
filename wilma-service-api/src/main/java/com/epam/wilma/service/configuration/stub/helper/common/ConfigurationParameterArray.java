@@ -27,7 +27,7 @@ public class ConfigurationParameterArray {
     private ConfigurationParameter[] configurationParameters;
 
     /**
-     * New parameter array object
+     * New parameter array object.
      *
      * @param configurationParameters ae the initial parameters
      */

@@ -24,7 +24,6 @@ import com.epam.wilma.service.configuration.stub.helper.response.ResponseFormatt
 import com.epam.wilma.service.configuration.stub.helper.response.Template;
 import com.epam.wilma.service.configuration.stub.helper.response.TemplateType;
 import com.epam.wilma.service.configuration.stub.interceptor.InterceptorDescriptor;
-import com.epam.wilma.service.configuration.stub.interceptor.InterceptorDescriptorBuilder;
 import com.epam.wilma.service.configuration.stub.request.RequestCondition;
 import com.epam.wilma.service.configuration.stub.response.ResponseDescriptor;
 import org.slf4j.Logger;
@@ -154,6 +153,7 @@ public class ResponseDescriptorBuilder {
      * Build method of the Stub Configuration.
      * The group name, the request and the response descriptors are the main inputs.
      *
+     * @param interceptorDescriptor that hold the used interceptors
      * @return with the new WilmaStub object.
      * @throws StubConfigurationException then the stub configuration is not valid
      */
@@ -192,7 +192,7 @@ public class ResponseDescriptorBuilder {
     /**
      * Calls a template formatter class with parameters.
      *
-     * @param formatterClass          is the response formatter class
+     * @param formatterClass              is the response formatter class
      * @param configurationParameterArray is the parameters of the formatter class
      * @return with itself
      */
@@ -231,7 +231,7 @@ public class ResponseDescriptorBuilder {
 
     /**
      * Sets the mime type of the response.
-     * Deafult mime type is "text/plain"
+     * Default mime type is "text/plain"
      * Beware that *Response() methods sets the mime type accordingly,
      * so call this method only, if you would like to overwrite the default value.
      *
@@ -245,24 +245,28 @@ public class ResponseDescriptorBuilder {
 
     /**
      * Adds an interceptor.
-     * @param interceptorName
-     * @param interceptorClass
+     *
+     * @param interceptorName  specifies its name
+     * @param interceptorClass specifies the interceptor class
      * @return with an interceptorDescriptorBuilder class.
      */
     public InterceptorDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass) {
-        InterceptorDescriptorBuilder interceptorDescriptorBuilder = new InterceptorDescriptorBuilder(groupName).addInterceptor(this, interceptorName, interceptorClass);
+        InterceptorDescriptorBuilder interceptorDescriptorBuilder = new InterceptorDescriptorBuilder(groupName)
+                .addInterceptor(this, interceptorName, interceptorClass);
         return interceptorDescriptorBuilder;
     }
 
     /**
      * Adds an interceptor with parameters.
-     * @param interceptorName
-     * @param interceptorClass
-     * @param configurationParameterArray
+     *
+     * @param interceptorName             specifies its name
+     * @param interceptorClass            specifies the interceptor class
+     * @param configurationParameterArray specifies the array of parameters for the specific interceptor
      * @return with an interceptorDescriptorBuilder class.
      */
     public InterceptorDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass, ConfigurationParameterArray configurationParameterArray) {
-        InterceptorDescriptorBuilder interceptorDescriptorBuilder = new InterceptorDescriptorBuilder(groupName).addInterceptor(this, interceptorName, interceptorClass, configurationParameterArray);
+        InterceptorDescriptorBuilder interceptorDescriptorBuilder = new InterceptorDescriptorBuilder(groupName)
+                .addInterceptor(this, interceptorName, interceptorClass, configurationParameterArray);
         return interceptorDescriptorBuilder;
     }
 

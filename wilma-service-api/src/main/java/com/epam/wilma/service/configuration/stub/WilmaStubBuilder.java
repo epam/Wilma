@@ -20,7 +20,6 @@ package com.epam.wilma.service.configuration.stub;
 
 import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameterArray;
 import com.epam.wilma.service.configuration.stub.helper.common.UniqueGroupNameGenerator;
-import com.epam.wilma.service.configuration.stub.interceptor.InterceptorDescriptorBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,10 +81,25 @@ public class WilmaStubBuilder {
         return wilmaStub;
     }
 
+    /**
+     * Add an interceptor.
+     *
+     * @param interceptorName  specifies its name
+     * @param interceptorClass specifies the interceptor class
+     * @return with a builder for interceptors
+     */
     public InterceptorDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass) {
         return new InterceptorDescriptorBuilder(groupName).addInterceptor(interceptorName, interceptorClass);
     }
 
+    /**
+     * Adds an interceptor with parameters.
+     *
+     * @param interceptorName             specifies its name
+     * @param interceptorClass            specifies the interceptor class
+     * @param configurationParameterArray specifies the array of parameters for the specific interceptor
+     * @return with a builder for interceptors
+     */
     public InterceptorDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass, ConfigurationParameterArray configurationParameterArray) {
         return new InterceptorDescriptorBuilder(groupName).addInterceptor(interceptorName, interceptorClass, configurationParameterArray);
     }
