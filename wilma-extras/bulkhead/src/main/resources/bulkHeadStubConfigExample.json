@@ -1,0 +1,46 @@
+{
+  "wilmaStubConfiguration": {
+    "groupName": "BulkHead",
+    "dialogDescriptors": [
+      {
+        "name": "BulkHeadExampleConfiguration",
+        "usage": "always",
+        "comment": "Bulkhead, with 1/s protection and then returning with E503-Service Unavailable",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "com.epam.wilma.extras.bulkhead.BulkHeadChecker",
+            "parameters": [
+              {
+                "name": "headId",
+                "value": "ALLCASE_BULKHEAD"
+              },
+              {
+                "name": "headSpeed",
+                "value": "5"
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 503,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "bulkHeadTemplate"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "bulkHeadTemplate",
+        "type": "text",
+        "resource": "Service is overloaded, and protected by Wilma-BulkHead."
+      }
+    ],
+    "interceptors": [
+      {
+        "name": "Bulkhead Interceptor - Registers the External Service",
+        "class": "com.epam.wilma.extras.bulkhead.BulkHeadChecker"
+      }
+    ]
+  }
+}

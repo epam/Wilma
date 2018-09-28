@@ -41,6 +41,7 @@ public class BulkHeadChecker implements ExternalWilmaService, ConditionChecker, 
 
     private static final String HANDLED_SERVICE = "/bulkhead";
     private static final double DEFAULT_SPEED_LIMIT = 50.0; //default allowed speed is 50 hit per sec
+    private static final double ONE_SEC = 1000.0;
     private static final String BULKHEAD_PARAMETER_ID = "headId";
     private static final String BULKHEAD_PARAMETER_SPEED = "headSpeed";
     private static final Map<String, BulkHeadMapInformation> BULK_HEAD_MAP = new HashMap<>();
@@ -80,7 +81,7 @@ public class BulkHeadChecker implements ExternalWilmaService, ConditionChecker, 
                 long lastTime = info.getLastTime();
                 if (lastTime != now) {
                     //this is what we expect, let's calculate the load
-                    double speed = 1000.0 / (now - lastTime);
+                    double speed = ONE_SEC / (now - lastTime);
                     info.setLastSpeed(speed);
                     skipRequest = speed > speedLimit;
                     if (!skipRequest) {
