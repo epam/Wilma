@@ -64,11 +64,16 @@ public class ResponseDescriptor {
                 + ",\n  \"mimeType\": \"" + mimeType + "\""
                 + ",\n  \"templateName\": \"" + template.getName() + "\"";
         if (responseFormatters.size() > 0) {
-            responseDescriptor += ",\n  \"responseFormatterSet\": [\n";
+            responseDescriptor += ",\n  \"responseFormatterSet\": [\n  ";
+            boolean was = false;
             for (ResponseFormatter responseFormatter : responseFormatters) {
+                if (was) {
+                    responseDescriptor += ",\n  ";
+                }
                 responseDescriptor += responseFormatter.toString();
+                was = true;
             }
-            responseDescriptor += "\n  ]";
+            responseDescriptor += " ]";
         }
         responseDescriptor += "\n}";
         return responseDescriptor;

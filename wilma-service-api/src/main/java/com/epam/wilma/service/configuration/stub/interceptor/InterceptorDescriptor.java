@@ -46,7 +46,7 @@ public class InterceptorDescriptor {
     public String toString() {
         String interceptorDescriptor = "";
         if (interceptors != null && !interceptors.isEmpty()) {
-            interceptorDescriptor += ",\n  \"interceptors\": [\n";
+            interceptorDescriptor += "\"interceptors\": [\n";
             int i = 0;
             for (Interceptor interceptor : interceptors) {
                 if (i > 0) {

@@ -49,9 +49,9 @@ public class Template {
      */
     @Override
     public String toString() {
-
+        String typeString = type.toString().toLowerCase().replace("file", "File");
         String templateString = " { \"name\": \"" + name
-                + "\", \"type\": \"" + type.toString().toLowerCase()
+                + "\", \"type\": \"" + typeString
                 + "\", \"resource\": \"" + new EscapeJson().escapeJson(resource)
                 + "\" }";
         return templateString;

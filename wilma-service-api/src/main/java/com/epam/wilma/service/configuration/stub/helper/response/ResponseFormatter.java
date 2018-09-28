@@ -51,7 +51,7 @@ public class ResponseFormatter {
             //we have parameters too
             responseFormatterString += ",\n" + configurationParameterArray.toString();
         }
-        responseFormatterString += "\n}";
+        responseFormatterString += "  }}";
         return responseFormatterString;
     }
 }

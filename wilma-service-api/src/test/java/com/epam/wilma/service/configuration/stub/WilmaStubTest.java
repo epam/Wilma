@@ -57,7 +57,68 @@ public class WilmaStubTest {
     }
 
     @Test
-    public void testCreateStubExtremelyComplex() throws StubConfigurationException {
+    public void testResponseFormatterBasic() throws StubConfigurationException {
+        //given, when and then
+        ConfigurationParameter[] formatterParameters = new ConfigurationParameter[1];
+        formatterParameters[0] = new ConfigurationParameter("fromtext", "totext");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(formatterParameters);
+        wilmaStub = new WilmaStubBuilder()
+                .forAnyRequest()
+                .plainTextResponse("{ \"ERROR\":\"fromtext\" }").withStatus(404).withDelay(1000)
+                .applyFormatter("JsonTemplateFormatter")
+                .build();
+    }
+
+    @Test
+    public void testResponseFormatter() throws StubConfigurationException {
+        //given, when and then
+        ConfigurationParameter[] formatterParameters = new ConfigurationParameter[1];
+        formatterParameters[0] = new ConfigurationParameter("fromtext", "totext");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(formatterParameters);
+        wilmaStub = new WilmaStubBuilder()
+                .forAnyRequest()
+                .plainTextResponse("{ \"ERROR\":\"fromtext\" }").withStatus(404).withDelay(1000)
+                .applyFormatter("StringReplaceResponseFormatter", configurationParameterArray)
+                .applyFormatter("JsonTemplateFormatter")
+                .build();
+    }
+
+    @Test
+    public void testCreateStubExtremelyComplexA() throws StubConfigurationException {
+        //given, when and then
+        ConfigurationParameter[] formatterParameters = new ConfigurationParameter[1];
+        formatterParameters[0] = new ConfigurationParameter("fromtext", "totext");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(formatterParameters);
+        wilmaStub = new WilmaStubBuilder()
+                .forRequestsLike()
+                .orStart()
+                  .comingFrom("localhost")
+                .orEnd()
+                .willRespondWith().plainTextResponse("{ \"ERROR\":\"fromtext\" }").withStatus(404).withDelay(1000)
+                .applyFormatter("StringReplaceTemplateFormatter", configurationParameterArray).applyFormatter("JsonTemplateFormatter")
+                .build();
+    }
+
+    @Test
+    public void testCreateStubExtremelyComplexB() throws StubConfigurationException {
+        //given, when and then
+        ConfigurationParameter[] formatterParameters = new ConfigurationParameter[1];
+        formatterParameters[0] = new ConfigurationParameter("fromtext", "totext");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(formatterParameters);
+        wilmaStub = new WilmaStubBuilder()
+                .forRequestsLike()
+                .orStart()
+                  .comingFrom("localhost")
+                  .comingFrom("192.168.0.1")
+                .orEnd()
+                .willRespondWith().plainTextResponse("{ \"ERROR\":\"fromtext\" }").withStatus(404).withDelay(1000)
+                .applyFormatter("StringReplaceTemplateFormatter", configurationParameterArray)
+                .applyFormatter("JsonTemplateFormatter")
+                .build();
+    }
+
+    @Test
+    public void testCreateStubExtremelyComplexC() throws StubConfigurationException {
         //given, when and then
         ConfigurationParameter[] formatterParameters = new ConfigurationParameter[1];
         formatterParameters[0] = new ConfigurationParameter("fromtext", "totext");
@@ -65,16 +126,37 @@ public class WilmaStubTest {
         wilmaStub = new WilmaStubBuilder()
                 .forRequestsLike()
                 .notStart()
-                .orStart()
-                .andStart().withTextInHeader("blah").withHeader("blah2", "blah2").condition("AlwaysTrueChecker").andEnd()
-                .comingFrom("localhost")
-                .comingFrom("192.168.0.1")
-                .withTextInBody("somethingInBody")
-                .negatedCondition("AlwaysFalseChecker")
-                .orEnd()
+                  .orStart()
+                    .comingFrom("localhost")
+                    .comingFrom("192.168.0.1")
+                  .orEnd()
                 .notEnd()
                 .willRespondWith().plainTextResponse("{ \"ERROR\":\"fromtext\" }").withStatus(404).withDelay(1000)
-                .applyFormatter("StringReplaceTemplateFormatter", configurationParameterArray).applyFormatter("JsonTemplateFormatter")
+                .applyFormatter("StringReplaceTemplateFormatter", configurationParameterArray)
+                .applyFormatter("JsonTemplateFormatter")
+                .build();
+    }
+
+    @Test
+    public void testCreateStubExtremelyComplexD() throws StubConfigurationException {
+        //given, when and then
+        ConfigurationParameter[] formatterParameters = new ConfigurationParameter[1];
+        formatterParameters[0] = new ConfigurationParameter("fromtext", "totext");
+        ConfigurationParameterArray configurationParameterArray = new ConfigurationParameterArray(formatterParameters);
+        wilmaStub = new WilmaStubBuilder()
+                .forRequestsLike()
+                .notStart()
+                  .orStart()
+                    .andStart().withTextInHeader("blah").withHeader("blah2", "blah2").condition("AlwaysTrueChecker").andEnd()
+                    .comingFrom("localhost")
+                    .comingFrom("192.168.0.1")
+                    .withTextInBody("somethingInBody")
+                    .negatedCondition("AlwaysFalseChecker")
+                  .orEnd()
+                .notEnd()
+                .willRespondWith().plainTextResponse("{ \"ERROR\":\"fromtext\" }").withStatus(404).withDelay(1000)
+                .applyFormatter("StringReplaceTemplateFormatter", configurationParameterArray)
+                .applyFormatter("JsonTemplateFormatter")
                 .build();
     }
 
