@@ -22,10 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class holds information about a single circuitBreaker.
+ * This class holds information about the reverse proxy.
  * <p>
- * Variables belong to the Input Settings part are parameters of the circuit breaker interceptor.
- * Variables belong to the Status part hold the actual status of the circuit breaker.
  *
  * @author tkohegyi
  */

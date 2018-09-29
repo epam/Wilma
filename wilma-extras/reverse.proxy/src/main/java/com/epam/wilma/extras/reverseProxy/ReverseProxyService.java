@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.Set;
 
 /**
- * This class provides the Circuit Breaker Service calls by using the ExternalWilmaService extension point of Wilma.
+ * This class provides the Reverse Proxy Service calls by using the ExternalWilmaService extension point of Wilma.
  *
  * @author tkohegyi
  */
@@ -104,7 +104,7 @@ class ReverseProxyService extends ReverseProxyFileHandler implements ExternalWil
     }
 
     /**
-     * Method that handles request to save and load the Short Circuit Map.
+     * Method that handles request to save and load the Reverse Proxy Map.
      *
      * @param myMethod            POST (for Save) and GET (for Load) and DELETE for a selected
      * @param folder              is the folder to be used, or the identifier of the entry to be deleted
@@ -126,7 +126,7 @@ class ReverseProxyService extends ReverseProxyFileHandler implements ExternalWil
     }
 
     /**
-     * Gets the actual status of the Circuit Breaker Map.
+     * Gets the actual status of the Reverse Proxy Map.
      *
      * @param httpServletResponse is the response object
      * @return with the response body (and with the updated httpServletResponse object
