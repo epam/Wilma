@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Builds a new {@link StubDescriptor} model from a given DOM document.
+ * Builds a new {@link StubDescriptor} model from a given JSON Object.
  *
  * @author Tamas_Kohegyi
  */
@@ -59,7 +59,7 @@ public class StubDescriptorJsonParser {
     private InterceptorDescriptorJsonParser interceptorDescriptorJsonParser;
 
     /**
-     * Builds a new {@link StubDescriptor} domain model from a given DOM document.
+     * Builds a new {@link StubDescriptor} domain model from a given JSON Object.
      *
      * @param jsonStubDescriptor the JSON Object of the stub descriptor
      * @return the newly built StubDescriptor
@@ -70,7 +70,12 @@ public class StubDescriptorJsonParser {
         List<DialogDescriptor> dialogDescriptors = getDialogDescriptors(root);
         List<InterceptorDescriptor> interceptorDescriptors = getInterceptorDescriptors(root);
         List<SequenceDescriptor> sequenceDescriptors = sequenceDescriptorJsonParser.parse(root, dialogDescriptors);
-        return new StubDescriptor(attributes, dialogDescriptors, interceptorDescriptors, sequenceDescriptors);
+        //set validity - it is valid only if it has something inside
+        if (dialogDescriptors.size() + interceptorDescriptors.size() + sequenceDescriptors.size() > 0) {
+            attributes.setValid(true);
+        }
+        StubDescriptor stubDescriptor = new StubDescriptor(attributes, dialogDescriptors, interceptorDescriptors, sequenceDescriptors);
+        return stubDescriptor;
     }
 
     private StubDescriptorAttributes getStubDescriptorAttributes(final JSONObject root) {

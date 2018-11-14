@@ -73,6 +73,7 @@ public class NewStubDescriptorCommandTest {
         expected.put(GROUPNAME_FIRST, stubDescriptor);
         given(stubDescriptor.getAttributes()).willReturn(attributes);
         given(attributes.getGroupName()).willReturn(GROUPNAME_FIRST);
+        given(attributes.isValid()).willReturn(true);
         //WHEN
         underTest = new NewStubDescriptorCommand(inputStream, stubConfigurationJsonBuilder, sequenceDescriptorHolder);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);
@@ -87,6 +88,7 @@ public class NewStubDescriptorCommandTest {
         Map<String, StubDescriptor> expected = new LinkedHashMap<>(normalStubDescriptors);
         given(stubDescriptor.getAttributes()).willReturn(attributes);
         given(attributes.getGroupName()).willReturn(GROUPNAME_FIRST);
+        given(attributes.isValid()).willReturn(true);
         //WHEN
         underTest = new NewStubDescriptorCommand(inputStream, stubConfigurationJsonBuilder, sequenceDescriptorHolder);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);

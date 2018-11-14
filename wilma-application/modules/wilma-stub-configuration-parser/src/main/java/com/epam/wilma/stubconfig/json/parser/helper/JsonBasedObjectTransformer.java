@@ -61,7 +61,9 @@ public class JsonBasedObjectTransformer {
      */
     public void transformToFile(final JSONObject jsonObject, final String path, final boolean actualStatus) throws TransformerException {
         try {
-            jsonObject.getJSONObject("wilmaStubConfiguration").put("active", String.valueOf(actualStatus));
+            if (jsonObject.getJSONObject("wilmaStubConfiguration").has("active")) {
+                jsonObject.getJSONObject("wilmaStubConfiguration").put("active", String.valueOf(actualStatus));
+            }
             Writer output;
             String text = jsonObject.toString(INDENT_FACTOR);
             File file = new File(path);

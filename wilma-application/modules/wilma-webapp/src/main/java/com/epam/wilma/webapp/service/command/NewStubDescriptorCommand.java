@@ -61,6 +61,9 @@ public class NewStubDescriptorCommand implements StubDescriptorModificationComma
         String groupName = attributes.getGroupName();
         sequenceDescriptorHolder.addAllSequenceDescriptors(stubDescriptor);
         updated.put(groupName, stubDescriptor);
+        if (!attributes.isValid()) {
+            updated.remove(groupName);
+        }
         return updated;
     }
 
