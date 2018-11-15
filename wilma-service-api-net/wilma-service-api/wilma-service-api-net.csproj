@@ -99,8 +99,8 @@
     <Compile Include="StubClasses\StubConfig.cs" />
     <Compile Include="StubClasses\StubDescriptor.cs" />
     <Compile Include="StubClasses\Template.cs" />
-    <Compile Include="StubClasses\TemplateFormatter.cs" />
-    <Compile Include="StubClasses\TemplateFormatterDescriptor.cs" />
+    <Compile Include="StubClasses\ResponseFormatter.cs" />
+    <Compile Include="StubClasses\ResponseFormatterDescriptor.cs" />
     <Compile Include="StubClasses\WilmaSequence.cs" />
     <Compile Include="StubClasses\WilmaSequencePairs.cs" />
     <Compile Include="WilmaService.cs" />

@@ -37,27 +37,43 @@ namespace WilmaServiceNugetTestConsoleApp
             var ws = new WilmaService(wsConf, new Logger());
 
             ws.GetVersionInformationAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
+
             ws.GetActualLoadInformationAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
+
             ws.GetMessageLoggingStatusAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
 
-            ws.SetMessageLoggingStatusAsync(WilmaService.MessageLoggingControlStatus.On).ContinueWith(res => { if (res.Result) { ws.GetMessageLoggingStatusAsync().ContinueWith(res1 => { Console.WriteLine(res1.Result); }); } });
+            ws.SetMessageLoggingStatusAsync(WilmaService.MessageLoggingStatusEnum.On).ContinueWith(res => { if (res.Result) { ws.GetMessageLoggingStatusAsync().ContinueWith(res1 => { Console.WriteLine(res1.Result); }); } });
+            System.Threading.Thread.Sleep(250);
 
-            ws.SetOperationModeAsync(WilmaService.OperationModes.WILMA).ContinueWith(res1 => { ws.GetOperationModeAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
+            ws.SetOperationModeAsync(WilmaService.OperationModeEnum.WILMA).ContinueWith(res1 => { ws.GetOperationModeAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
+            System.Threading.Thread.Sleep(250);
 
-            ws.SetLocalhostBlockingStatusAsync(WilmaService.LocalhostControlStatuses.On).ContinueWith(res1 => { ws.GetLocalhostBlockingStatusAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
+            ws.SetLocalhostBlockingStatusAsync(WilmaService.LocalhostControlStatusEnum.On).ContinueWith(res1 => { ws.GetLocalhostBlockingStatusAsync().ContinueWith(res => { Console.WriteLine(res.Result); }); });
+            System.Threading.Thread.Sleep(250);
 
             ws.GetStubConfigInformationAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
 
-            ws.ChangeStubConfigStatusAsync("EPAMNEWS", WilmaService.StubConfigStatus.Enabled).ContinueWith(res => { Console.WriteLine(res.Result); });
-            ws.ChangeStubConfigOrderAsync("EPAMNEWS", WilmaService.StubConfigOrder.Up).ContinueWith(res => { Console.WriteLine(res.Result); });
+            ws.ChangeStubConfigStatusAsync("EPAMNEWS", WilmaService.StubConfigStatusEnum.Enabled).ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
+            ws.ChangeStubConfigOrderAsync("EPAMNEWS", WilmaService.StubConfigOrderEnum.Up).ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
             ws.DropStubConfigAsync("EPAMNEWS").ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
 
             ws.PersistActualStubConfigAsync().ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
 
             Upload(@"trial", ws.UploadConditionCheckerAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
             Upload(@"trial", ws.UploadTemplateAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            Upload(@"trial", ws.UploadTemplateFormatterAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
-            Upload(@"trial", ws.UploadStubConfigurationAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
+            Upload(@"trial", ws.UploadResponseFormatterAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
+            System.Threading.Thread.Sleep(250);
+            Upload("{\"wilmaStubConfiguration\": {}}", ws.UploadStubConfigurationAsync).ContinueWith(res => { Console.WriteLine(res.Result); });
 
             // ws.ShutdownApplicationAsync().ContinueWith(res => { Console.WriteLine("Wilma shuted down: {0}", res.Result);});
 
@@ -72,5 +88,15 @@ namespace WilmaServiceNugetTestConsoleApp
                 return res;
             }
         }
+
+        private static async Task<bool> Upload(string text, Func<string, string, Task<bool>> func)
+        {
+            {
+                var res = await func("", text);
+                return res;
+            }
+        }
+
+
     }
 }
