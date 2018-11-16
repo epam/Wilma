@@ -146,8 +146,8 @@ function getDialogDescriptors() {
             }
 
    		    html += '<tr><td colspan="2"><button class="btn btn-danger btn-admin" onclick="dropStubConfig(\'' + data.configs[i].groupname + '\');"  >Drop</button></td>'
-            + '<td class="button-group-right"><a style="color: #fff;" class="btn btn-primary btn-small" href="../config/public/stub/stubconfig.xml?groupname=' + data.configs[i].groupname + '"><i class="icon-download icon-white"></i> Download</a>'
-            + '<a style="color: #fff;" class="btn btn-primary btn-small" target="_blank" href="../config/public/stub/stubconfig.xml?source=true&groupname=' + data.configs[i].groupname + '">Source</a>'
+            + '<td class="button-group-right"><a style="color: #fff;" class="btn btn-primary btn-small" href="../config/public/stub/stubconfig.json?groupname=' + data.configs[i].groupname + '"><i class="icon-download icon-white"></i> Download</a>'
+            + '<a style="color: #fff;" class="btn btn-primary btn-small" target="_blank" href="../config/public/stub/stubconfig.json?source=true&groupname=' + data.configs[i].groupname + '">Source</a>'
    		    + '</td></tr></tbody></table>';
 		}
 		html += '<a style="color: #fff; float: right;" class="btn btn-primary btn-small btn-admin" onclick="saveStubConfigs();">Persist all configuration groups</a>'+

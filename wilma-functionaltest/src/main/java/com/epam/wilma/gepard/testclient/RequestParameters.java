@@ -92,7 +92,7 @@ public class RequestParameters {
      * @param inputStream the input stream of the request
      * @return the request parameter
      */
-    public RequestParameters xmlIS(final InputStream inputStream) {
+    public RequestParameters requestInputStream(final InputStream inputStream) {
         this.inputStream = inputStream;
         return this;
     }

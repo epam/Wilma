@@ -33,26 +33,26 @@
     <div class="config-set">
       <h3>Update configuration</h3><br/><br/>
       <ul class="nav nav-tabs" id="configuration-uploader-tabs">
-        <li class="active"><a href="#stubconfig">Stub configuration file</a></li>
+        <li class="active"><a href="#stubconfig">Stub configuration groups</a></li>
           <li><a href="#interceptors">Interceptors</a></li>
-          <li><a href="#conditionCheckers">Condition checker</a></li>
-          <li><a href="#templateFormatters">Template formatter</a></li>
-          <li><a href="#templates">Template</a></li>
-          <li><a href="#sequenceHandlers">Sequence handler</a></li>
-          <li><a href="#jar">Jar</a></li>
+          <li><a href="#conditionCheckers">Condition checkers</a></li>
+          <li><a href="#responseFormatters">Response formatters</a></li>
+          <li><a href="#templates">Templates</a></li>
+          <li><a href="#sequenceHandlers">Sequence handlers</a></li>
+          <li><a href="#jar">Jars</a></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="stubconfig">
         <br/>
           <fieldset class="form-horizontal">
-            <legend>Dialog descriptors of the actual stub configuration</legend>
+            <legend>Loaded stub configuration groups</legend>
             <div id="tables">
             </div>
           </fieldset>
           <br/>
           <fieldset>
             <legend>Upload a new stub configuration</legend>
-            <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select config xml</span> <input
+            <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select config JSON file</span> <input
               name="stub-configuration" type="file" data-url="../config/admin/stub/multiPartConfigFileUpload" />
             </span>
           </fieldset>
@@ -95,22 +95,22 @@
             </span>
           </fieldset>
         </div>
-        <div class="tab-pane" id="templateFormatters">
+        <div class="tab-pane" id="responseFormatters">
           <div class="config-set">
             <fieldset class="form-horizontal">
-              <legend>External template formatter classes</legend>
+              <legend>External response formatter classes</legend>
               <div class="control-group">
                 <span class="help-block">Click on a file to download its content.</span>
               </div>
               <div class="control-group">
-                <ol id="div-template-formatter-files"></ol>
+                <ol id="div-response-formatter-files"></ol>
               </div>
             </fieldset>
           </div>
           <fieldset>
-            <legend>Upload a template formatter class</legend>
-            <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select template formatter</span> <input
-              name="stub-template-formatter" type="file" data-url="../config/admin/stub/multiPartConfigFileUpload" />
+            <legend>Upload a response formatter class</legend>
+            <span class="btn btn-success fileinput-button"> <i class="icon-upload icon-white"></i> <span>Select response formatter</span> <input
+              name="stub-response-formatter" type="file" data-url="../config/admin/stub/multiPartConfigFileUpload" />
             </span>
           </fieldset>
         </div>

@@ -43,7 +43,7 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
     @Test
     public void testSequenceHandling() throws Exception {
         uploadJarToWilma("message-sequence.jar", "resources/sequence/message-sequence.jar");
-        uploadStubConfigToWilma("resources/sequence/timeoutStubConfig.xml");
+        uploadStubConfigToWilma("resources/sequence/timeoutStubConfig.json");
 
         RequestParameters firstRequestParameter = createRequestParametersWithBody("one");
         setExpectedResponseMessage("welcome");
@@ -56,7 +56,7 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
         RequestParameters secondRequestParameter = createRequestParametersWithBody("two");
         callWilmaWithPostMethodAndAssertResponse(secondRequestParameter);
 
-        updateDefaultGroupOfStubConfiguration("resources/sequence/sequenceDialogDescriptorStubConfig.xml");
+        updateDefaultGroupOfStubConfiguration("resources/sequence/sequenceDialogDescriptorStubConfig.json");
     }
 
     protected RequestParameters createRequestParametersWithBody(final String text) throws FileNotFoundException {
@@ -68,7 +68,7 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
         String acceptHeader = "xml";
         String contentEncoding = "no";
         String acceptEncoding = "no";
-        return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort).xmlIS(requestBody)
+        return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort).requestInputStream(requestBody)
                 .contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
     }
 
@@ -81,7 +81,7 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
         String acceptHeader = "xml";
         String contentEncoding = "no";
         String acceptEncoding = "no";
-        return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort).xmlIS(requestBody)
+        return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort).requestInputStream(requestBody)
                 .contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
     }
 }

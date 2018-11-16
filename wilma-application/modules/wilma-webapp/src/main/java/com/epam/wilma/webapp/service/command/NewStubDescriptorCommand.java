@@ -22,7 +22,7 @@ import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
 import com.epam.wilma.router.command.StubDescriptorModificationCommand;
-import com.epam.wilma.stubconfig.StubDescriptorFactory;
+import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
 
 import java.io.InputStream;
 import java.util.LinkedHashMap;
@@ -35,32 +35,35 @@ import java.util.Map;
  */
 public class NewStubDescriptorCommand implements StubDescriptorModificationCommand {
 
-    private final StubDescriptorFactory stubConfigurationBuilder;
+    private final StubDescriptorJsonFactory stubConfigurationJsonBuilder;
     private final InputStream inputStream;
     private final SequenceDescriptorHolder sequenceDescriptorHolder;
 
     /**
-     * Creates a Command which will parse the given stub configuration and put it into the collection.
+     * Creates a Command which will parse the given stub configuration and put it into the collection. JSON version.
      *
      * @param inputStream              is the stream of new stub configuration
-     * @param stubConfigurationBuilder creates a StubDescriptor object from a inputStream
+     * @param stubConfigurationJsonBuilder creates a StubDescriptor object from a inputStream
      * @param sequenceDescriptorHolder the object which will store the sequence descriptors
      */
-    public NewStubDescriptorCommand(final InputStream inputStream, final StubDescriptorFactory stubConfigurationBuilder,
+    public NewStubDescriptorCommand(final InputStream inputStream, final StubDescriptorJsonFactory stubConfigurationJsonBuilder,
                                     final SequenceDescriptorHolder sequenceDescriptorHolder) {
         this.inputStream = inputStream;
-        this.stubConfigurationBuilder = stubConfigurationBuilder;
+        this.stubConfigurationJsonBuilder = stubConfigurationJsonBuilder;
         this.sequenceDescriptorHolder = sequenceDescriptorHolder;
     }
 
     @Override
-    public Map<String, StubDescriptor> modify(final Map<String, StubDescriptor> stubDescriptors) throws ClassNotFoundException {
+    public Map<String, StubDescriptor> modify(final Map<String, StubDescriptor> stubDescriptors) {
         Map<String, StubDescriptor> updated = new LinkedHashMap<>(stubDescriptors);
-        StubDescriptor stubDescriptor = stubConfigurationBuilder.buildStubDescriptor(inputStream);
+        StubDescriptor stubDescriptor = stubConfigurationJsonBuilder.buildStubDescriptor(inputStream);
         StubDescriptorAttributes attributes = stubDescriptor.getAttributes();
         String groupName = attributes.getGroupName();
         sequenceDescriptorHolder.addAllSequenceDescriptors(stubDescriptor);
         updated.put(groupName, stubDescriptor);
+        if (!attributes.isValid()) {
+            updated.remove(groupName);
+        }
         return updated;
     }
 

@@ -38,8 +38,8 @@ import java.io.FileNotFoundException;
 public class MovedTheSecondConfigToUpTest extends WilmaTestCase {
 
     private static final String STUB_CONFIG_SECOND_GROUP_NAME = "testSecond";
-    private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.xml";
-    private static final String STUB_CONFIG_SECOND = "resources/enabledisable/stubConfigSecond.xml";
+    private static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.json";
+    private static final String STUB_CONFIG_SECOND = "resources/enabledisable/stubConfigSecond.json";
 
     @Test
     public void testInTheUploadingOrder() throws Exception {
@@ -67,7 +67,7 @@ public class MovedTheSecondConfigToUpTest extends WilmaTestCase {
         String contentEncoding = "";
         String acceptEncoding = "";
         return new MultiStubRequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(STUB_CONFIG_FIRST)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(STUB_CONFIG_FIRST)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding).groupName(groupname).direction(direction);
     }
 
@@ -80,7 +80,7 @@ public class MovedTheSecondConfigToUpTest extends WilmaTestCase {
         String contentEncoding = "";
         String acceptEncoding = "";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(STUB_CONFIG_FIRST)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(STUB_CONFIG_FIRST)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding);
     }
 }

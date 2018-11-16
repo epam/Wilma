@@ -29,6 +29,6 @@ dependencies {
     compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
     compile "$javaxServletApi"
     compile 'org.eclipse.jetty:jetty-server:8.1.16.v20140903'
-    compile 'org.json:json:20171018'
+    compile 'org.json:json:20180813'
     testCompile 'org.apache.ant:ant:1.9.4'
 }

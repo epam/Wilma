@@ -81,20 +81,20 @@ public class ConditionDescriptorParser implements NodeParser<ConditionDescriptor
                     Element el = (Element) conditions.item(i);
                     String xmlTagName = el.getTagName();
                     switch (ConditionTagNames.getTagName(xmlTagName)) {
-                    case TAGNAME_AND:
+                    case TAG_NAME_AND:
                         parsedCondition.add(new CompositeCondition(ConditionType.AND, parseConditions(el.getChildNodes(), document, depth)));
                         break;
-                    case TAGNAME_OR:
+                    case TAG_NAME_OR:
                         parsedCondition.add(new CompositeCondition(ConditionType.OR, parseConditions(el.getChildNodes(), document, depth)));
                         break;
-                    case TAGNAME_NOT:
+                    case TAG_NAME_NOT:
                         parsedCondition.add(new CompositeCondition(ConditionType.NOT, parseConditions(el.getChildNodes(), document, depth)));
                         break;
-                    case TAGNAME_COND_SET_INVOKER:
+                    case TAG_NAME_COND_SET_INVOKER:
                         int newDepth = validateDepth(depth, el.getAttribute("name"));
                         parseConditionSet(document, parsedCondition, el, newDepth);
                         break;
-                    case TAGNAME_CONDITION:
+                    case TAG_NAME_CONDITION:
                         simpleConditionParser.parseSimpleCondition(parsedCondition, el);
                         break;
                     default:
@@ -127,7 +127,7 @@ public class ConditionDescriptorParser implements NodeParser<ConditionDescriptor
     private void getMaxDepth() {
         if (maxDepthOfXmlTree == null) {
             PropertyDto properties = configurationAccess.getProperties();
-            maxDepthOfXmlTree = properties.getMaxDepthOfXmlTree();
+            maxDepthOfXmlTree = properties.getMaxDepthOfTree();
         }
     }
 }

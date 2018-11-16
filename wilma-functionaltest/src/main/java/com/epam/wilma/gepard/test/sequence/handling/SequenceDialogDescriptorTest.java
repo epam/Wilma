@@ -35,7 +35,7 @@ import java.io.InputStream;
 public class SequenceDialogDescriptorTest extends SequenceHandlingTestBase {
 
     private static final String EXPECTED_RESPONSE_FILE_LOCATION = "resources/sequence/dialogDescriptorReferenceExpectedResponse.txt";
-    private static final String STUB_CONFIG_LOCATION = "resources/sequence/sequenceDialogDescriptorStubConfig.xml";
+    private static final String STUB_CONFIG_LOCATION = "resources/sequence/sequenceDialogDescriptorStubConfig.json";
     private static final String JAR_FILE_LOCATION = "resources/sequence/message-sequence.jar";
 
     @Test
@@ -60,7 +60,7 @@ public class SequenceDialogDescriptorTest extends SequenceHandlingTestBase {
         String acceptHeader = "xml";
         String contentEncoding = "no";
         String acceptEncoding = "no";
-        return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort).xmlIS(requestBody)
+        return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort).requestInputStream(requestBody)
                 .contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
     }
 }

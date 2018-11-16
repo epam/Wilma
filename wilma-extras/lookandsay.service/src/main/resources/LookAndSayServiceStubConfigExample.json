@@ -1,0 +1,11 @@
+{
+  "wilmaStubConfiguration": {
+    "groupName": "Look-And-Say",
+    "interceptors": [
+      {
+        "name": "Look-And-Say Service",
+        "class": "com.epam.wilma.extras.lookandsayservice.LookAndSayServiceInterceptor"
+      }
+    ]
+  }
+}

@@ -37,23 +37,39 @@ import java.io.FileNotFoundException;
 @TestClass(id = "Multi_StubConfig", name = "Drop the selected stub configuration")
 public class DropStubConfigTest extends WilmaTestCase {
 
-    private static final String STUB_CONFIG = "resources/DropableStubConfig.xml";
+    private static final String STUB_CONFIG = "resources/DropableStubConfig.json";
+    private static final String STUB_GROUP_NAME = "Droppable";
 
     @Test
     public void testDropStubConfigTest() throws Exception {
         RequestParameters requestParameters = createRequestParameters();
-        ResponseHolder responseVersion = callWilmaWithPostMethod(requestParameters); //Get the actual DialogDescriptors
-        String expectedAnswer = responseVersion.getResponseMessage();
-
-        uploadStubConfigToWilma(STUB_CONFIG); //Upload a new stub configuration
-        logComment("Test config has uploaded!");
-
+        //Remove possible existing group: "Droppable"
         MultiStubRequestParameters multiStubRequestParameters = createMultiStubRequestParameters();
         callWilmaWithPostMethod(multiStubRequestParameters); //Delete the uploaded stub configuration
 
+        //Get the actual DialogDescriptors
+        ResponseHolder responseVersion = callWilmaWithPostMethod(requestParameters); //Get the actual DialogDescriptors
+        String expectedAnswer = responseVersion.getResponseMessage();
+
+        //upload a new config into Default group
+        uploadStubConfigToWilma(STUB_CONFIG); //Upload a new stub configuration
+        logComment("Test config has uploaded!");
+
+        //check that it is uploaded
         requestParameters = createRequestParameters();
         responseVersion = callWilmaWithPostMethod(requestParameters); //Get the actual DialogDescriptors again
         String resultAnswer = responseVersion.getResponseMessage();
+
+        Assert.assertNotEquals(expectedAnswer, resultAnswer);
+
+        //remove the config
+        multiStubRequestParameters = createMultiStubRequestParameters();
+        callWilmaWithPostMethod(multiStubRequestParameters); //Delete the uploaded stub configuration
+
+        //reread the config
+        requestParameters = createRequestParameters();
+        responseVersion = callWilmaWithPostMethod(requestParameters); //Get the actual DialogDescriptors again
+        resultAnswer = responseVersion.getResponseMessage();
 
         Assert.assertEquals(expectedAnswer, resultAnswer);
     }
@@ -62,12 +78,12 @@ public class DropStubConfigTest extends WilmaTestCase {
         String testServerUrl = getWilmaStubConfigDescriptorsUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "application/xml";
+        String contentType = "application/json";
         String acceptHeader = "application/json";
         String contentEncoding = "";
         String acceptEncoding = "";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding);
     }
 
@@ -75,12 +91,12 @@ public class DropStubConfigTest extends WilmaTestCase {
         String testServerUrl = getWilmaDropStubConfigUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "application/xml";
+        String contentType = "application/json";
         String acceptHeader = "application/json";
         String contentEncoding = "";
         String acceptEncoding = "";
         return new MultiStubRequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
-                .acceptEncoding(acceptEncoding).groupName("test");
+                .requestInputStream(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .acceptEncoding(acceptEncoding).groupName(STUB_GROUP_NAME);
     }
 }

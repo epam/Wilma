@@ -1,0 +1,158 @@
+{
+  "wilmaStubConfiguration": {
+    "sequenceDescriptors": [
+      {
+        "name": "SequenceDescriptorName",
+        "class": "com.epam.class",
+        "timeout": 120000,
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysFalseChecker"
+          }
+        },
+        "dialogDescriptorNames": [
+          { "name": "Testing Sequences" }
+        ]
+      }
+    ],
+    "dialogDescriptors": [
+      {
+        "name": "Built-in default config - does nothing",
+        "usage": "always",
+        "conditionDescriptor": {
+          "not": {
+            "not": {
+              "or": [
+                {
+                  "and": [
+                    {
+                      "condition": {
+                        "class": "AlwaysFalseChecker"
+                      }
+                    },
+                    {
+                      "conditionSetInvoker": "AlwaysFalse"
+                    }
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "condition": {
+                        "class": "AlwaysFalseChecker"
+                      }
+                    },
+                    {
+                      "condition": {
+                        "class": "AlwaysFalseChecker"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "condition": {
+                    "class": "AlwaysFalseChecker"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "responseDescriptor": {
+          "code": 502,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "template 1 - errorResponse",
+          "responseFormatterSet": [
+            {
+              "responseFormatter": {
+                "class": "HeaderFormatter"
+              }
+            },
+            {
+              "responseFormatter": {
+                "class": "HeaderFormatter"
+              }
+            },
+            {
+              "responseFormatterSetInvoker": "Invoked Response Formatter Set"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Testing Sequences",
+        "usage": "always",
+        "conditionDescriptor": {
+                      "condition": {
+                        "class": "AlwaysFalseChecker"
+                      }
+        },
+        "responseDescriptor": {
+          "code": 502,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "template 2 - errorResponse",
+          "sequenceDescriptorName": "SequenceDescriptorName"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "template 1 - errorResponse",
+        "type": "text",
+        "resource": "Bad Gateway"
+      },
+      {
+        "name": "template 2 - errorResponse",
+        "type": "text",
+        "resource": "Bad Gateway"
+      }
+    ],
+    "conditionSets": [
+      {
+        "name": "AlwaysFalse",
+        "conditionSet": {
+          "condition": {
+            "class": "AlwaysFalseChecker"
+          }
+        }
+      },
+      {
+        "name": "AlwaysTrue",
+        "conditionSet": {
+          "and": [
+            {
+              "condition": {
+                "class": "AlwaysTrueChecker"
+              }
+            },
+            {
+              "condition": {
+                "class": "AlwaysTrueChecker"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "responseFormatterSets": [
+      {
+        "name": "Invoked Response Formatter Set",
+        "responseFormatterSet": [
+          {
+            "responseFormatter": {
+              "class": "HeaderFormatter",
+              "parameters": [
+                {
+                  "name": "BLAH",
+                  "value": "BLAH"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

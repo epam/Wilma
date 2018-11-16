@@ -1,0 +1,1 @@
+Stub config uploading failed: Stub descriptor cannot be parsed, reason: #/wilmaStubConfiguration/dialogDescriptors/0: extraneous key [commentBad] is not permitted

@@ -46,7 +46,7 @@ import java.util.List;
 @TestClass(id = "StubConfig", name = "Upload saved stub configuration")
 public class UploadSavedStubConfig extends WilmaTestCase {
 
-    private static final String STUB_CONFIG = "resources/savedStubConfig.xml";
+    private static final String STUB_CONFIG = "resources/savedStubConfig.json";
     private static final int ACCEPTED = 200;
     private static final int ALMOST_ACCEPTED = 500;
 
@@ -99,12 +99,12 @@ public class UploadSavedStubConfig extends WilmaTestCase {
         String testServerUrl = getWilmaStubConfigDescriptorsUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "application/xml";
+        String contentType = "application/json";
         String acceptHeader = "application/json";
         String contentEncoding = "";
         String acceptEncoding = "";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream("resources/DropableStubConfig.xml")).contentType(contentType).acceptHeader(acceptHeader)
+                .requestInputStream(new FileInputStream("resources/DropableStubConfig.json")).contentType(contentType).acceptHeader(acceptHeader)
                 .contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
     }
 
@@ -119,12 +119,12 @@ public class UploadSavedStubConfig extends WilmaTestCase {
         String testServerUrl = getWilmaDropStubConfigUrl();
         String wilmaHost = getTestClassExecutionData().getEnvironment().getProperty("wilma.host");
         Integer wilmaPort = Integer.parseInt(getTestClassExecutionData().getEnvironment().getProperty("wilma.port.external"));
-        String contentType = "application/xml";
+        String contentType = "application/json";
         String acceptHeader = "application/json";
         String contentEncoding = "";
         String acceptEncoding = "";
         return new MultiStubRequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(STUB_CONFIG)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding).groupName(groupName);
     }
 

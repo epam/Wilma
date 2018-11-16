@@ -21,11 +21,11 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.util.Collections;
 import java.util.List;
 
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
@@ -40,7 +40,7 @@ public class InternalResourceHolder {
     @Autowired
     private List<ConditionChecker> conditionCheckers;
     @Autowired
-    private List<TemplateFormatter> templateFormatters;
+    private List<ResponseFormatter> responseFormatters;
     @Autowired(required = false)
     private List<RequestInterceptor> requestInterceptors;
     @Autowired(required = false)
@@ -52,8 +52,8 @@ public class InternalResourceHolder {
         return conditionCheckers;
     }
 
-    public List<TemplateFormatter> getTemplateFormatters() {
-        return templateFormatters;
+    public List<ResponseFormatter> getResponseFormatters() {
+        return responseFormatters;
     }
 
     public List<RequestInterceptor> getRequestInterceptors() {

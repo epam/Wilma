@@ -1,0 +1,86 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "error-pattern-descriptor",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "OrPatternChecker",
+            "parameters": [
+              {
+                "name": "StringCheck",
+                "value": "WILMA-ERESPONSE500"
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 502,
+          "delay": 5000,
+          "mimeType": "text/plain",
+          "templateName": "errorResponse"
+        }
+      },
+      {
+        "name": "dialog-descriptor1",
+        "usage": "always",
+        "validityValue": 2,
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "OrPatternChecker",
+            "parameters": [
+              {
+                "name": "StringCheck",
+                "value": "exampleID=\"456\""
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 5000,
+          "mimeType": "application/xml",
+          "templateName": "xmlTemplate",
+          "responseFormatterSet": [
+            {
+              "responseFormatterSetInvoker": "ExampleResponseFormatterSet"
+            }
+          ]
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "errorResponse",
+        "type": "text",
+        "resource": "Bad Gateway"
+      },
+      {
+        "name": "xmlTemplate",
+        "type": "xmlFile",
+        "resource": "templateExample.xml"
+      }
+    ],
+    "responseFormatterSets": [
+      {
+        "name": "ExampleResponseFormatterSet",
+        "responseFormatterSet": [
+          {
+            "responseFormatter": {
+              "class": "XslBasedResponseFormatter",
+              "parameters": [
+                {
+                  "name": "xslFile",
+                  "value": "exampleBase.xsl"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

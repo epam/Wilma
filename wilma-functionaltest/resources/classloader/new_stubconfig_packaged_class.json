@@ -1,0 +1,29 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "error-pattern-descriptor1",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "MyAlwaysTrueChecker"
+          }
+        },
+        "responseDescriptor": {
+          "code": 502,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "errorResponse"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "errorResponse",
+        "type": "text",
+        "resource": "Bad Gateway"
+      }
+    ]
+  }
+}

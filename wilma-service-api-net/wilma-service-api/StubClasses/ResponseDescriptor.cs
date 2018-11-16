@@ -36,12 +36,12 @@ namespace epam.wilma_service_api.StubClasses
         public string SequenceDescriptorKey { get; set; }
 
 
-        [JsonProperty("templateFormatterSet")]
-        public HashSet<TemplateFormatterDescriptor> TemplateFormatterSet { get; set; }
+        [JsonProperty("ResponseFormatterSet")]
+        public HashSet<ResponseFormatterDescriptor> ResponseFormatterSet { get; set; }
 
         public ResponseDescriptor()
         {
-            TemplateFormatterSet = new HashSet<TemplateFormatterDescriptor>();
+            ResponseFormatterSet = new HashSet<ResponseFormatterDescriptor>();
         }
     }
 }

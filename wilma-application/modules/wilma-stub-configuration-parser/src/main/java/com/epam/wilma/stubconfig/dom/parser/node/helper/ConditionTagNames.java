@@ -24,12 +24,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 public enum ConditionTagNames {
-    TAGNAME_COND_SET_INVOKER("condition-set-invoker"),
-    TAGNAME_CONDITION("condition"),
-    TAGNAME_NOT("not"),
-    TAGNAME_OR("or"),
-    TAGNAME_AND("and"),
-    TAGNAME_INVALID("");
+    TAG_NAME_COND_SET_INVOKER("condition-set-invoker"),
+    TAG_NAME_CONDITION("condition"),
+    TAG_NAME_NOT("not"),
+    TAG_NAME_OR("or"),
+    TAG_NAME_AND("and"),
+    TAG_NAME_INVALID("");
 
     private String xmlTagName;
 
@@ -43,7 +43,7 @@ public enum ConditionTagNames {
      * @return the mapped enum value
      */
     public static ConditionTagNames getTagName(final String xmlTagName) {
-        ConditionTagNames result = ConditionTagNames.TAGNAME_INVALID;
+        ConditionTagNames result = ConditionTagNames.TAG_NAME_INVALID;
         if (xmlTagName != null) {
             boolean limitNotFound = false;
             ConditionTagNames[] limits = ConditionTagNames.values();

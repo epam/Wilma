@@ -82,7 +82,7 @@ public class MessageMarkingTest extends WilmaTestCase {
         String contentEncoding = "gzip";
         String acceptEncoding = "gzip";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(EXAMPLE_2)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(EXAMPLE_2)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding);
     }
 

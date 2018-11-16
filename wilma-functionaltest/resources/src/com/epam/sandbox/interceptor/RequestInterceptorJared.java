@@ -19,7 +19,7 @@ public class RequestInterceptorJared implements RequestInterceptor {
 
     @Override
     public void onRequestReceive(final WilmaHttpRequest request, final ParameterList parameters) {
-        System.out.println("receive interceptor: " + superLogic.getResult());
+        System.out.println("request interceptor: " + superLogic.getResult());
     }
 
 }

@@ -36,4 +36,12 @@ public class DescriptorCannotBeParsedException extends SystemException {
         super(message, throwable);
     }
 
+    /**
+     * Exception constructor with a message and its cause.
+     * @param message the message of the exception
+     */
+    public DescriptorCannotBeParsedException(final String message) {
+        super(message);
+    }
+
 }

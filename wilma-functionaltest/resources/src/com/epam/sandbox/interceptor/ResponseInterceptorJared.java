@@ -11,6 +11,6 @@ public class ResponseInterceptorJared implements ResponseInterceptor{
 
     @Override
     public void onResponseReceive(WilmaHttpResponse response, ParameterList parameters){
-        System.out.println("receive interceptor: " + superLogic.getResult());
+        System.out.println("response interceptor: " + superLogic.getResult());
     }
 }

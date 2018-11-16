@@ -34,7 +34,7 @@ import java.io.FileNotFoundException;
 public class BasicStubBehaviorTest extends WilmaTestCase {
     private static final String EXAMPLE_3_XML = "resources/example3.xml";
     private static final String RESOURCE_FILE_NAME = "example3.xml";
-    private static final String STUB_CONFIG = "resources/stubConfig.xml";
+    private static final String STUB_CONFIG = "resources/stubConfig.json";
 
     private String tcName = getDataDrivenTestParameter("PAR0");
     private String tcContentType = getDataDrivenTestParameter("PAR1");
@@ -75,7 +75,7 @@ public class BasicStubBehaviorTest extends WilmaTestCase {
         String contentEncoding = tcContentEncoding;
         String acceptEncoding = tcAcceptEncoding;
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(EXAMPLE_3_XML)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(EXAMPLE_3_XML)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding);
     }
 }

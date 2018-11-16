@@ -20,8 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatterDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateType;
 import com.epam.wilma.sequence.helper.SequenceDescriptorKeyUtil;
@@ -52,7 +52,7 @@ public class ResponseDescriptorParser implements NodeParser<ResponseDescriptor> 
     private StubConfigXPathEvaluator xPathEvaluator;
     @Autowired
     @Qualifier("templateDescriptorParser")
-    private NodeParser<Set<TemplateFormatterDescriptor>> templateDescriptorParser;
+    private NodeParser<Set<ResponseFormatterDescriptor>> templateDescriptorParser;
     @Autowired
     private TemplateFileReader templateFileReader;
     @Autowired
@@ -75,8 +75,8 @@ public class ResponseDescriptorParser implements NodeParser<ResponseDescriptor> 
         if (responseDescriptorNode != null) {
             Element el = (Element) responseDescriptorNode;
             ResponseDescriptorAttributes attributes = getAttributes(el, document);
-            Set<TemplateFormatterDescriptor> templateFormatters = templateDescriptorParser.parseNode(el, document);
-            responseDescriptor = new ResponseDescriptor(attributes, templateFormatters);
+            Set<ResponseFormatterDescriptor> responseFormatters = templateDescriptorParser.parseNode(el, document);
+            responseDescriptor = new ResponseDescriptor(attributes, responseFormatters);
         }
         return responseDescriptor;
     }

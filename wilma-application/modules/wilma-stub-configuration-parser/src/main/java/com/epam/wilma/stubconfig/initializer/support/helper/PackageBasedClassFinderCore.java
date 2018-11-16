@@ -21,6 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.util.Set;
 
 import org.reflections.Reflections;
+import org.reflections.ReflectionsException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,8 +39,14 @@ public class PackageBasedClassFinderCore {
      * @param <T> the type of the {@link Class}
      * @return the subtypes of the given type that was found
      */
-    public <T> Set<Class<? extends T>> find(final String packageName, final Class<T> interfaceOrClass) {
+    public <T> Set<Class<? extends T>> find(final String packageName, final Class<T> interfaceOrClass) throws ClassNotFoundException {
         Reflections reflections = new Reflections(packageName);
-        return reflections.getSubTypesOf(interfaceOrClass);
+        Set<Class<? extends T>> subTypes;
+        try {
+            subTypes = reflections.getSubTypesOf(interfaceOrClass);
+        } catch (ReflectionsException e) {
+            throw new ClassNotFoundException("Cannot find '" + interfaceOrClass + "' in '" + packageName + "'", e);
+        }
+        return subTypes;
     }
 }

@@ -24,8 +24,8 @@ import com.epam.wilma.core.MapBasedResponseDescriptorAccess;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatterDescriptor;
 import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.sequence.helper.SequenceHeaderUtil;
@@ -81,19 +81,19 @@ public class StubResponseGenerator {
         byte[] result = null;
         if (wilmaLoggerId != null) {
             ResponseDescriptorDTO responseDescriptorDTO = mapBasedResponseDescriptorAccess.getResponseDescriptor(wilmaLoggerId);
-            Set<TemplateFormatterDescriptor> templateFormatterDescriptors = responseDescriptorDTO.getResponseDescriptor().getTemplateFormatters();
+            Set<ResponseFormatterDescriptor> responseFormatterDescriptors = responseDescriptorDTO.getResponseDescriptor().getResponseFormatters();
             //generate pure WilmaHttpRequest
             WilmaHttpRequest wilmaRequest = httpServletRequestTransformer.transformToWilmaHttpRequest(wilmaLoggerId, req, responseDescriptorDTO);
             //add wilma information to response header
             stubResponseHeaderConfigurer.addWilmaInfoToResponseHeader(req, resp, responseDescriptorDTO.getDialogDescriptorName());
             //set headers generate response body
-            result = generate(resp, responseDescriptorDTO, templateFormatterDescriptors, wilmaRequest);
+            result = generate(resp, responseDescriptorDTO, responseFormatterDescriptors, wilmaRequest);
         }
         return result;
     }
 
     private byte[] generate(final HttpServletResponse resp, final ResponseDescriptorDTO responseDescriptorDTO,
-            final Set<TemplateFormatterDescriptor> templateFormatterDescriptors, final WilmaHttpRequest wilmaRequest) {
+            final Set<ResponseFormatterDescriptor> responseFormatterDescriptors, final WilmaHttpRequest wilmaRequest) {
         byte[] result;
         ResponseDescriptor responseDescriptor = responseDescriptorDTO.getResponseDescriptor();
         try {
@@ -109,10 +109,10 @@ public class StubResponseGenerator {
             //set response status and content type
             stubResponseHeaderConfigurer.setResponseContentTypeAndStatus(resp, responseDescriptorDTO);
             //run formatters, with formatters we can overwrite both mime type and status code
-            if (templateFormatterDescriptors != null && !templateFormatterDescriptors.isEmpty()) {
-                for (TemplateFormatterDescriptor templateFormatterDescriptor : templateFormatterDescriptors) {
-                    TemplateFormatter templateFormatter = templateFormatterDescriptor.getTemplateFormatter();
-                    result = templateFormatter.formatTemplate(wilmaRequest, resp, result, templateFormatterDescriptor.getParams());
+            if (responseFormatterDescriptors != null && !responseFormatterDescriptors.isEmpty()) {
+                for (ResponseFormatterDescriptor responseFormatterDescriptor : responseFormatterDescriptors) {
+                    ResponseFormatter responseFormatter = responseFormatterDescriptor.getResponseFormatter();
+                    result = responseFormatter.formatResponse(wilmaRequest, resp, result, responseFormatterDescriptor.getParams());
                 }
             }
             //delay response if necessary

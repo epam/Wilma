@@ -44,7 +44,7 @@ public class SequenceHandlingTestJsonToXml extends SequenceHandlingTestBase {
     private static final String JSON_REQUEST = "resources/sequence/live/req/JsonRequest.json";
     private static final String MAGIC_REQUEST = "resources/sequence/live/req/MagicRequest.xml";
     private static final String EXPECTED_RESPONSE_FILE = "resources/sequence/live/expectedResponseForJsonToXml.txt";
-    private static final String STUB_CONFIG_LOCATION = "resources/sequence/live/stubConfigJsonToXml.xml";
+    private static final String STUB_CONFIG_LOCATION = "resources/sequence/live/stubConfigJsonToXml.json";
 
     /**
      * Test the sequence handling part by using sessions.
@@ -93,7 +93,7 @@ public class SequenceHandlingTestJsonToXml extends SequenceHandlingTestBase {
         String contentEncoding = "identity";
         String acceptEncoding = "*";
         return new RequestParameters().testServerUrl(targetURL).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(resource)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(resource)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding).customHeader(SESSION_ID_NAME, SESSION_ID_VALUE);
     }
 

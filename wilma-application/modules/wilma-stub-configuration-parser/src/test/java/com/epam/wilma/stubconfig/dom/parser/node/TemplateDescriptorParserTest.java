@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatterDescriptor;
+import com.epam.wilma.stubconfig.initializer.template.ResponseFormatterInitializer;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -38,13 +41,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.template.TemplateFormatterInitializer;
 
 /**
  * Provides unit tests for the class {@link TemplateDescriptorParser}.
@@ -69,9 +69,9 @@ public class TemplateDescriptorParserTest {
     @Mock
     private StubConfigXPathEvaluator xPathEvaluator;
     @Mock
-    private TemplateFormatterInitializer formatterInitializer;
+    private ResponseFormatterInitializer formatterInitializer;
     @Mock
-    private TemplateFormatter templateFormatter;
+    private ResponseFormatter templateFormatter;
     @Mock
     private StubConfigurationAccess configurationAccess;
     @Mock
@@ -97,9 +97,9 @@ public class TemplateDescriptorParserTest {
         given(formatterInitializer.getExternalClassObject("class")).willReturn(templateFormatter);
         mockTemplateFormatterAttributes();
         //WHEN
-        Set<TemplateFormatterDescriptor> actual = underTest.parseNode(node, document);
+        Set<ResponseFormatterDescriptor> actual = underTest.parseNode(node, document);
         //THEN
-        assertEquals(((TemplateFormatterDescriptor) actual.toArray()[0]).getTemplateFormatter(), templateFormatter);
+        assertEquals(((ResponseFormatterDescriptor) actual.toArray()[0]).getResponseFormatter(), templateFormatter);
     }
 
     @Test
@@ -110,9 +110,9 @@ public class TemplateDescriptorParserTest {
         given(element.getTagName()).willReturn(TEMPLATE_FORMATTER_TAG);
         mockTemplateFormatterAttributes();
         //WHEN
-        Set<TemplateFormatterDescriptor> actual = underTest.parseNode(node, document);
+        Set<ResponseFormatterDescriptor> actual = underTest.parseNode(node, document);
         //THEN
-        assertEquals(((TemplateFormatterDescriptor) actual.toArray()[0]).getParams().getAllParameters().get(0).getValue(), "value");
+        assertEquals(((ResponseFormatterDescriptor) actual.toArray()[0]).getParams().getAllParameters().get(0).getValue(), "value");
     }
 
     @Test
@@ -124,9 +124,9 @@ public class TemplateDescriptorParserTest {
         given(element.getAttribute("class")).willReturn("class");
         given(element.getElementsByTagName("param")).willReturn(null);
         //WHEN
-        Set<TemplateFormatterDescriptor> actual = underTest.parseNode(node, document);
+        Set<ResponseFormatterDescriptor> actual = underTest.parseNode(node, document);
         //THEN
-        assertTrue(((TemplateFormatterDescriptor) actual.toArray()[0]).getParams().getAllParameters().isEmpty());
+        assertTrue(((ResponseFormatterDescriptor) actual.toArray()[0]).getParams().getAllParameters().isEmpty());
     }
 
     @Test
@@ -134,16 +134,16 @@ public class TemplateDescriptorParserTest {
         //GIVEN
         getChildNodes();
         given(configurationAccess.getProperties()).willReturn(properties);
-        given(properties.getMaxDepthOfXmlTree()).willReturn(10);
+        given(properties.getMaxDepthOfTree()).willReturn(10);
         given(element.getNodeType()).willReturn(Node.ELEMENT_NODE);
         given(element.getTagName()).willReturn(TEMPLATE_FORMATTER_SET_INVOKER_TAG, TEMPLATE_FORMATTER_SET_INVOKER_TAG, TEMPLATE_FORMATTER_TAG);
         mockTemplateFormatterAttributes();
         given(xPathEvaluator.getElementByXPath(Mockito.anyString(), Mockito.eq(document))).willReturn(node);
         given(formatterInitializer.getExternalClassObject("class")).willReturn(templateFormatter);
         //WHEN
-        Set<TemplateFormatterDescriptor> actual = underTest.parseNode(node, document);
+        Set<ResponseFormatterDescriptor> actual = underTest.parseNode(node, document);
         //THEN
-        assertEquals(((TemplateFormatterDescriptor) actual.toArray()[0]).getTemplateFormatter(), templateFormatter);
+        assertEquals(((ResponseFormatterDescriptor) actual.toArray()[0]).getResponseFormatter(), templateFormatter);
     }
 
     @Test
@@ -151,7 +151,7 @@ public class TemplateDescriptorParserTest {
         //GIVEN
         given(node.getChildNodes()).willReturn(null);
         //WHEN
-        Set<TemplateFormatterDescriptor> actual = underTest.parseNode(node, document);
+        Set<ResponseFormatterDescriptor> actual = underTest.parseNode(node, document);
         //THEN
         assertTrue(actual.isEmpty());
     }
@@ -162,7 +162,7 @@ public class TemplateDescriptorParserTest {
         getChildNodes();
         given(element.getNodeType()).willReturn(Node.COMMENT_NODE);
         //WHEN
-        Set<TemplateFormatterDescriptor> actual = underTest.parseNode(node, document);
+        Set<ResponseFormatterDescriptor> actual = underTest.parseNode(node, document);
         //THEN
         assertTrue(actual.isEmpty());
     }
@@ -174,7 +174,7 @@ public class TemplateDescriptorParserTest {
         given(element.getNodeType()).willReturn(Node.ELEMENT_NODE);
         given(element.getTagName()).willReturn("someOtherTag");
         //WHEN
-        Set<TemplateFormatterDescriptor> actual = underTest.parseNode(node, document);
+        Set<ResponseFormatterDescriptor> actual = underTest.parseNode(node, document);
         //THEN
         assertTrue(actual.isEmpty());
     }

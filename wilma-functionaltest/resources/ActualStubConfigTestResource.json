@@ -1,0 +1,35 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "conditionDescriptor": {
+          "condition": {
+            "class": "OrPatternChecker",
+            "parameters": [
+              {
+                "name": "MSG_ID",
+                "value": "msgid=1234"
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "templateName": "exampleTemplate1",
+          "mimeType": "json"
+        },
+        "usage": "always",
+        "name": "dialog-descriptor1",
+        "comment": "randomcomment"
+      }
+    ],
+    "templates": [
+      {
+        "resource": "{\"blah\":\"blah\"}",
+        "name": "exampleTemplate1",
+        "type": "text"
+      }
+    ]
+  }
+}

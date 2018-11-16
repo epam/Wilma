@@ -98,7 +98,7 @@ public class ExternalClassInitializer {
                     + externalClassName + "' not found.", e);
         } catch (NoClassDefFoundError e) {
             throw new DescriptorValidationFailedException("Validation of stub descriptor failed - External class '" + classPath + "/"
-                    + externalClassName + "' cannot be loaded, probably cannot find the package.", e);
+                    + externalClassName + "' cannot be loaded. Issue: " + e.getMessage(), e);
         } catch (ClassFormatError e) {
             throw new DescriptorValidationFailedException("Validation of stub descriptor failed - External class '" + classPath + "/"
                     + externalClassName + "' has invalid class format.", e);

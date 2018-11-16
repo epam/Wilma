@@ -37,7 +37,7 @@ import static org.junit.Assert.fail;
  */
 @TestClass(id = "Stub Interceptor", name = "Disable Individual Message Logging Test")
 public class DisableIndividualMessageLoggingTest extends WilmaTestCase {
-    private static final String STUB_CONFIG = "resources/interceptor/IndividualMessageLogging/stubConfigInterceptorOn.xml";
+    private static final String STUB_CONFIG = "resources/interceptor/IndividualMessageLogging/stubConfigInterceptorOn.json";
     private static final String TEST_SERVER_RESPONSE = "resources/interceptor/usage/resetSequenceResponse.txt";
     private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/IndividualMessageLogging/";
     private static final String INTERCEPTOR_CLASS = "IndividualMessageLoggingInterceptor.class";
@@ -58,7 +58,7 @@ public class DisableIndividualMessageLoggingTest extends WilmaTestCase {
         String contentType = "text/plain;charset=UTF-8";
         String acceptHeader = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(fileToSend)).contentType(contentType)
+                .requestInputStream(new FileInputStream(fileToSend)).contentType(contentType)
                 .acceptHeader(acceptHeader).contentEncoding("").acceptEncoding("");
     }
 

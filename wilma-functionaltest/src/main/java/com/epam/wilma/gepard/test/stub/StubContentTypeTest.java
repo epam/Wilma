@@ -78,7 +78,7 @@ public class StubContentTypeTest extends WilmaTestCase {
         String contentEncoding = tcContentEncoding;
         String acceptEncoding = tcAcceptEncoding;
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(request)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(request)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding);
     }
 

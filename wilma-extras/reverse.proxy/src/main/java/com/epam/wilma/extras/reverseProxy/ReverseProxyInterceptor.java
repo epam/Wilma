@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Interceptor that implements request and response interceptor interfaces.
+ * Interceptor that implements request interceptor interfaces.
  *
  * @author tkohegyi
  */

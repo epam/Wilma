@@ -49,11 +49,11 @@ public class Template {
      */
     @Override
     public String toString() {
-
-        String templateString = "    <template name=\"" + name
-                + "\" type=\"" + type.toString().toLowerCase()
-                + "\" resource=\"" + (TemplateType.needEscape(type) ? new EscapeXml().escapeXML(resource) : resource)
-                + "\" />\n";
+        String typeString = type.toString().toLowerCase().replace("file", "File");
+        String templateString = " { \"name\": \"" + name
+                + "\", \"type\": \"" + typeString
+                + "\", \"resource\": \"" + new EscapeJson().escapeJson(resource)
+                + "\" }";
         return templateString;
     }
 

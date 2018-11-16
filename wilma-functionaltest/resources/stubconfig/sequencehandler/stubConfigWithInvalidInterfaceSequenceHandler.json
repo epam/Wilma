@@ -1,0 +1,45 @@
+{
+  "wilmaStubConfiguration": {
+    "sequenceDescriptors": [
+      {
+        "name": "somethingAnythingNothing",
+        "class": "InvalidInterfaceExternalSequenceHandler",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysFalseChecker"
+          }
+        },
+        "dialogDescriptorNames": [
+          {
+            "name": "error-pattern-descriptor"
+          }
+        ]
+      }
+    ],
+    "dialogDescriptors": [
+      {
+        "name": "error-pattern-descriptor",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysFalseChecker"
+          }
+        },
+        "responseDescriptor": {
+          "code": 502,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "errorResponse"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "errorResponse",
+        "resource": "Bad Gateway",
+        "type": "text"
+      }
+    ]
+  }
+}

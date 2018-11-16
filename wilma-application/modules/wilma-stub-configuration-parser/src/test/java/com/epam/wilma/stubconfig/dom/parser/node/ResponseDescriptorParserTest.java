@@ -28,6 +28,8 @@ import static org.testng.Assert.assertTrue;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatterDescriptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -39,8 +41,6 @@ import org.w3c.dom.Element;
 
 import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateType;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
@@ -76,13 +76,13 @@ public class ResponseDescriptorParserTest {
     @Mock
     private SequenceDescriptorKeyUtil sequenceDescriptorKeyUtil;
     @Mock
-    private NodeParser<Set<TemplateFormatterDescriptor>> templateDescriptorParser;
+    private NodeParser<Set<ResponseFormatterDescriptor>> templateDescriptorParser;
     @Mock
     private TemplateGenerator templateGenerator;
     @Mock
-    private TemplateFormatter templateFormatter;
-    private Set<TemplateFormatterDescriptor> templateFormatterSet;
-    private final TemplateFormatterDescriptor templateFormatterDescriptor = new TemplateFormatterDescriptor(templateFormatter, new ParameterList());
+    private ResponseFormatter templateFormatter;
+    private Set<ResponseFormatterDescriptor> templateFormatterSet;
+    private final ResponseFormatterDescriptor templateFormatterDescriptor = new ResponseFormatterDescriptor(templateFormatter, new ParameterList());
 
     @InjectMocks
     private ResponseDescriptorParser underTest;
@@ -223,7 +223,7 @@ public class ResponseDescriptorParserTest {
         //WHEN
         ResponseDescriptor actual = underTest.parseNode(responseDescriptorNode, document);
         //THEN
-        assertTrue(actual.getTemplateFormatters().contains(templateFormatterDescriptor));
+        assertTrue(actual.getResponseFormatters().contains(templateFormatterDescriptor));
     }
 
     @Test

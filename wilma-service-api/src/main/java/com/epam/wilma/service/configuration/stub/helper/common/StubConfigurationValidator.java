@@ -18,21 +18,16 @@ package com.epam.wilma.service.configuration.stub.helper.common;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * This validator class is used to check the generated config is valid or not.
@@ -40,30 +35,41 @@ import java.io.InputStream;
  * @author tkohegyi
  */
 public class StubConfigurationValidator {
+    static final String WILMA_SCHEMA = "StubConfig.json";
 
     /**
-     * Validates the specified string as stub configuration XML against the XSD.
+     * Validates the specified string as stub configuration Json against the Json Schema.
      *
      * @param candidateConfiguration is the candidate
      * @throws StubConfigurationException when the (structure) validation fails
      */
     public void validate(String candidateConfiguration) throws StubConfigurationException {
+        Schema jsonSchema;
         try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream("StubConfig.xsd");
-            Source schemaFile = new StreamSource(is);
-            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = factory.newSchema(schemaFile);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            dbFactory.setNamespaceAware(true);
-            dbFactory.setSchema(schema);
-            DocumentBuilder documentBuilder = dbFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(new InputSource(new ByteArrayInputStream(candidateConfiguration.getBytes("utf-8"))));
-            document.getDocumentElement().normalize();
-            //if we are here then the xml is valid
-        } catch (SAXException | ParserConfigurationException | IOException e) {
-            // instance document is invalid!
-            throw new StubConfigurationException("Stub Configuration structure is invalid.", e);
+            URL schemaFile = loadResource(WILMA_SCHEMA);
+            InputStream inputStream = schemaFile.openStream();
+            JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
+            jsonSchema = SchemaLoader.load(rawSchema);
+            //load the json file
+            JSONObject jsonStubDescriptor = new JSONObject(new JSONTokener(new ByteArrayInputStream(candidateConfiguration.getBytes("utf-8"))));
+            //validate against schema
+            jsonSchema.validate(jsonStubDescriptor);
+        } catch (IOException e) {
+            throw new StubConfigurationException("Cannot load: " + WILMA_SCHEMA
+                    + " as Json Schema to check the generated Stub Configuration, please notify Wilma maintainers.");
+        } catch (JSONException e) {
+            throw new StubConfigurationException("Parsing of stub config Json Schema failed, please notify Wilma maintainers.", e);
         }
     }
+
+    /**
+     * Loads a resource URL with the {@link ClassLoader}.
+     *
+     * @param name the name of the resource
+     * @return the resource URL
+     */
+    public URL loadResource(final String name) {
+        return this.getClass().getClassLoader().getResource(name);
+    }
+
 }

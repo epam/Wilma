@@ -285,11 +285,11 @@ namespace wilma_service_api_tests
         }
 
         [Test]
-        public void CreateWilmaService_CallUploadTemplateFormatterAsync_Success()
+        public void CreateWilmaService_CallUploadResponseFormatterAsync_Success()
         {
             var ws = PrepareWilmaPost("");
 
-            var res = ws.UploadTemplateFormatterAsync("", new MemoryStream()).Result;
+            var res = ws.UploadResponseFormatterAsync("", new MemoryStream()).Result;
 
             res.ShouldBeEquivalentTo(true);
         }
@@ -297,9 +297,10 @@ namespace wilma_service_api_tests
         [Test]
         public void CreateWilmaService_CallUploadStubConfigurationAsync_Success()
         {
+            string stubConfigContent = "{\"wilmaStubConfiguration\": {}}";
             var ws = PrepareWilmaPost("");
 
-            var res = ws.UploadStubConfigurationAsync("", new MemoryStream()).Result;
+            var res = ws.UploadStubConfigurationAsync("test.json", stubConfigContent).Result;
 
             res.ShouldBeEquivalentTo(true);
         }

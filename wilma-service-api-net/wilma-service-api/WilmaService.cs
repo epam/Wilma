@@ -677,9 +677,9 @@ namespace epam.wilma_service_api
         #region UPLOADS
 
         private const string CONDITION_CHECKER_UPLOAD_URL_POSTFIX = "config/admin/stub/conditionchecker?fileName={0}";
-        private const string STUB_CONFIGURATION_UPLOAD_URL_POSTFIX = "config/admin/stub/templates?fileName={0}";
-        private const string TEMPLATE_UPLOAD_URL_POSTFIX = "config/admin/stub/templateformatter?fileName={0}";
-        private const string TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX = "config/admin/stub/stubconfig?fileName={0}";
+        private const string TEMPLATE_UPLOAD_URL_POSTFIX = "config/admin/stub/template?fileName={0}";
+        private const string RESPONSE_FORMATTER_UPLOAD_URL_POSTFIX = "config/admin/stub/responseformatter?fileName={0}";
+        private const string STUB_CONFIGURATION_UPLOAD_URL_POSTFIX = "config/admin/stub/stubconfig?fileName={0}";
 
         /// <summary>
         /// Uploads condition checker configuration.
@@ -724,23 +724,23 @@ namespace epam.wilma_service_api
         }
 
         /// <summary>
-        /// Uploads template formatter.
+        /// Uploads response formatter.
         /// </summary>
         /// <param name="fileName">Name of file.</param>
         /// <param name="stream">FileStream to upload.</param>
         /// <returns>True if success, otherwise returns false.</returns>
-        public async Task<bool> UploadTemplateFormatterAsync(string fileName, Stream stream)
+        public async Task<bool> UploadResponseFormatterAsync(string fileName, Stream stream)
         {
-            _logger.Debug("WilmaService UploadTemplateFormatterAsync: {0}", fileName);
+            _logger.Debug("WilmaService UploadResponseFormatterAsync: {0}", fileName);
 
-            var resp = await _httpClient.PostAsync(GetUrl(TEMPLATE_FORMATTER_UPLOAD_URL_POSTFIX, fileName), new StreamContent(stream));
+            var resp = await _httpClient.PostAsync(GetUrl(RESPONSE_FORMATTER_UPLOAD_URL_POSTFIX, fileName), new StreamContent(stream));
             if (resp.IsSuccessStatusCode)
             {
-                _logger.Debug("WilmaService UploadTemplateFormatterAsync success.");
+                _logger.Debug("WilmaService UploadResponseFormatterAsync success.");
                 return true;
             }
 
-            _logger.Debug("WilmaService UploadTemplateFormatterAsync failed: {0}", resp.StatusCode);
+            _logger.Debug("WilmaService UploadResponseFormatterAsync failed: {0}", resp.StatusCode);
             return false;
         }
 
@@ -748,13 +748,14 @@ namespace epam.wilma_service_api
         /// Uploads Stub Configuration.
         /// </summary>
         /// <param name="fileName">Name of file.</param>
-        /// <param name="stream">FileStream to upload.</param>
+        /// <param name="str">Configuration in string format to upload.</param>
         /// <returns>True if success, otherwise returns false.</returns>
-        public async Task<bool> UploadStubConfigurationAsync(string fileName, Stream stream)
+        public async Task<bool> UploadStubConfigurationAsync(string fileName, String str)
         {
             _logger.Debug("WilmaService UploadStubConfigurationAsync: {0}", fileName);
-
-            var resp = await _httpClient.PostAsync(GetUrl(STUB_CONFIGURATION_UPLOAD_URL_POSTFIX, fileName), new StreamContent(stream));
+          
+            
+            var resp = await _httpClient.PostAsync(GetUrl(STUB_CONFIGURATION_UPLOAD_URL_POSTFIX, fileName), new StringContent(str, System.Text.Encoding.UTF8, "application/json"));
             if (resp.IsSuccessStatusCode)
             {
                 _logger.Debug("WilmaService UploadStubConfigurationAsync success.");

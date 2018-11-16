@@ -19,7 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import org.springframework.stereotype.Component;
 
@@ -31,11 +31,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author Tunde_Kovacs
  */
 @Component
-public class ExampleFormatter implements TemplateFormatter {
+public class ExampleFormatter implements ResponseFormatter {
 
     @Override
-    public byte[] formatTemplate(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
-                                 final byte[] templateResource, final ParameterList params) throws Exception {
+    public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
+                                 final byte[] templateResource, final ParameterList params) {
         return templateResource;
     }
 

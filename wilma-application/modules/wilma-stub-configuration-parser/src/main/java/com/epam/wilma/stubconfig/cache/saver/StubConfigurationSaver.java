@@ -18,27 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.domain.stubconfig.StubResourceHolder;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
+import com.epam.wilma.domain.stubconfig.exception.JsonTransformationException;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
-import com.epam.wilma.stubconfig.dom.transformer.DomBasedDocumentTransformer;
-import com.epam.wilma.domain.stubconfig.exception.DocumentTransformationException;
+import com.epam.wilma.stubconfig.json.parser.helper.JsonBasedObjectTransformer;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
  * This class provides the ability of saving stub configurations with in their order.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
+ * @author Tamas_Kohegyi
  */
 @Component
 public class StubConfigurationSaver {
-    private static final String STUB_CONFIG_XML_POSTFIX = "_stubConfig.xml";
+    private static final String STUB_CONFIG_JSON_POSTFIX = "_stubConfig.json";
     @Autowired
     private StubResourceHolder stubResourceHolder;
     @Autowired
@@ -46,17 +46,18 @@ public class StubConfigurationSaver {
     @Autowired
     private StubResourcePathProvider stubResourcePathProvider;
     @Autowired
-    private DomBasedDocumentTransformer documentTransformer;
+    private JsonBasedObjectTransformer jsonBasedObjectTransformer;
 
     private String cacheFolderPath;
 
     /**
      * This method will look up the path of the cache folder from properties.
-     * Then it gets stub descriptors in its parameter, and call the {@link DomBasedDocumentTransformer} with each document of stub configurations.
+     * Then it gets stub descriptors in its parameter, and call the {@link JsonBasedObjectTransformer} with each file of stub configurations.
+     *
      * @param descriptors is the collection of {@link StubDescriptor}s that you want to save
-     * @throws DocumentTransformationException is thrown when {@link Document} can not be transformed
+     * @throws JsonTransformationException is thrown when {@link JSONObject} can not be transformed
      */
-    public void saveAllStubConfigurations(final Map<String, StubDescriptor> descriptors) throws DocumentTransformationException {
+    public void saveAllStubConfigurations(final Map<String, StubDescriptor> descriptors) throws JsonTransformationException {
         getCacheFolderPath();
         int index = 1;
         for (String groupname : descriptors.keySet()) {
@@ -66,13 +67,15 @@ public class StubConfigurationSaver {
         }
     }
 
-    private void tryToSaveActualStubConfig(final StubDescriptor descriptor, final int index, final String groupname) throws DocumentTransformationException {
+    private void tryToSaveActualStubConfig(final StubDescriptor descriptor, final int index, final String groupname) throws JsonTransformationException {
         try {
-            Document actualDocument = stubResourceHolder.getActualStubConfigDocument(groupname);
-            documentTransformer.transformToFile(actualDocument, cacheFolderPath + "/" + index + STUB_CONFIG_XML_POSTFIX, descriptor.getAttributes()
-                    .isActive());
+            JSONObject actualObject = stubResourceHolder.getActualStubConfigJsonObject(groupname);
+            if (actualObject != null) {
+                jsonBasedObjectTransformer.transformToFile(actualObject, cacheFolderPath + "/" + index + STUB_CONFIG_JSON_POSTFIX, descriptor.getAttributes()
+                        .isActive());
+            }
         } catch (Exception e) {
-            throw new DocumentTransformationException(groupname + "'s stub configuration XML can not be transformed. ", e);
+            throw new JsonTransformationException(groupname + "'s stub configuration JSON can not be transformed. ", e);
         }
     }
 

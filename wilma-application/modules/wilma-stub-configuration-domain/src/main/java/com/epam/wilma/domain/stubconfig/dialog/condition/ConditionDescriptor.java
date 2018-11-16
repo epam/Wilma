@@ -31,6 +31,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 public class ConditionDescriptor {
 
     public static final String TAG_NAME = "condition-descriptor";
+    public static final String TAG_NAME_JSON = "conditionDescriptor";
 
     private final Condition condition;
 

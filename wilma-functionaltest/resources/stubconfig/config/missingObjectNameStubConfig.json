@@ -1,0 +1,21 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysTrueChecker",
+            "parameters": [
+              {
+                "name": "param1",
+                "value": "value1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

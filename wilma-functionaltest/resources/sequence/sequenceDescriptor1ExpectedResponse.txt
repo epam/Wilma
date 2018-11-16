@@ -1,4 +1,4 @@
-wilma-sequence key: single
+wilma-sequence key: 'single'
  pair1 - request body: 'a1', response body: 'welcome'
  pair2 - request body: 'b1', response body: 'welcome'
  pair3 - request body: 'a2', response body: 'welcome'

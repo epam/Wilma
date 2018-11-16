@@ -36,9 +36,9 @@ import java.util.List;
 @Component
 public class FileBasedStubConfigReader {
 
-    private String xmlDescriptorsSourceFolderPath;
-    private String xmlDescriptorsPattern;
-    private String xmlDescriptorsCachePath;
+    private String jsonDescriptorsSourceFolderPath;
+    private String jsonDescriptorsPattern;
+    private String jsonDescriptorsCachePath;
     @Autowired
     private StubDescriptorReader stubDescriptorReader;
     @Autowired
@@ -54,21 +54,21 @@ public class FileBasedStubConfigReader {
      * Reads a new stub descriptor from a file and applies the new configuration in the core module.
      */
     public void readStubConfiguration() {
-        getXmlDescriptorPath();
+        getJsonDescriptorPath();
         stubConfigSchema.setSchema(stubConfigSchemaParser.parseSchema());
-        List<String> stubConfigPaths = cachePathProvider.getConfigPathsFromCache(xmlDescriptorsCachePath);
+        List<String> stubConfigPaths = cachePathProvider.getConfigPathsFromCache(jsonDescriptorsCachePath);
         if (!stubConfigPaths.isEmpty()) {
             stubDescriptorReader.loadSpecificStubDescriptors(stubConfigPaths);
         } else {
-            stubConfigPaths = cachePathProvider.getConfigPathsFromSpecificFolder(xmlDescriptorsSourceFolderPath, xmlDescriptorsPattern);
+            stubConfigPaths = cachePathProvider.getConfigPathsFromSpecificFolder(jsonDescriptorsSourceFolderPath, jsonDescriptorsPattern);
             stubDescriptorReader.loadSpecificStubDescriptors(stubConfigPaths);
         }
     }
 
-    private void getXmlDescriptorPath() {
+    private void getJsonDescriptorPath() {
         PropertyDTO properties = configurationAccess.getProperties();
-        xmlDescriptorsSourceFolderPath = properties.getStubConfigFolderPath();
-        xmlDescriptorsPattern = properties.getStubConfigPattern();
-        xmlDescriptorsCachePath = properties.getStubConfigCachePath();
+        jsonDescriptorsSourceFolderPath = properties.getStubConfigFolderPath();
+        jsonDescriptorsPattern = properties.getStubConfigPattern();
+        jsonDescriptorsCachePath = properties.getStubConfigCachePath();
     }
 }

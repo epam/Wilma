@@ -1,0 +1,10 @@
+{
+  "wilmaStubConfiguration": {
+    "interceptors": [
+      {
+        "name": "Alter-Message-Interceptor",
+        "class": "MessageAlterInterceptor"
+      }
+    ]
+  }
+}

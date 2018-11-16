@@ -33,7 +33,7 @@ import org.junit.Test;
 @TestClass(id = "Basic - Proxy", name = "Proxy Answers")
 public class BasicProxyBehaviorTest extends WilmaTestCase {
 
-    private static final String STUB_CONFIG_XML = "resources/stubConfig.xml";
+    private static final String STUB_CONFIG_JSON = "resources/stubConfig.json";
     private static final String RESOURCE = "resources/example4.xml";
     private static final String RESOURCE_FILE_NAME = "example4.xml";
     private static final String EXAMPLE_2 = "resources/example2.xml";
@@ -56,7 +56,7 @@ public class BasicProxyBehaviorTest extends WilmaTestCase {
         clearAllOldStubConfigs();
         setLocalhostBlockingTo("off");
         uploadTemplateToWilma(RESOURCE_FILE_NAME, RESOURCE);
-        uploadStubConfigToWilma(STUB_CONFIG_XML);
+        uploadStubConfigToWilma(STUB_CONFIG_JSON);
         setOperationModeTo("wilma");
         setOriginalRequestMessageFromFile(EXAMPLE_2);
         setExpectedResponseMessageFromFile("resources/uc3_1TestResponse.txt");
@@ -77,7 +77,7 @@ public class BasicProxyBehaviorTest extends WilmaTestCase {
         String contentEncoding = tcContentEncoding;
         String acceptEncoding = tcAcceptEncoding;
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(EXAMPLE_2)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(EXAMPLE_2)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding);
     }
 }

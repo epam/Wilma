@@ -1,0 +1,57 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "Built-in default config - does nothing",
+        "usage": "always",
+        "conditionDescriptor": {
+          "conditionSetInvoker": "AlwaysFalse"
+        },
+        "responseDescriptor": {
+          "code": 502,
+          "delay": 0,
+          "mimeType": "text/plain",
+          "templateName": "template 1 - errorResponse",
+          "responseFormatterSet": [
+            {
+              "responseFormatterSetInvoker": "InvokedResponseFormatterSet"
+            }
+          ]
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "template 1 - errorResponse",
+        "type": "text",
+        "resource": "Bad Gateway"
+      }
+    ],
+    "conditionSets": [
+      {
+        "name": "AlwaysFalse",
+        "conditionDescriptor": {
+          "conditionSetInvoker": "AlwaysTrue"
+        }
+      },
+      {
+        "name": "AlwaysTrue",
+        "conditionDescriptor": {
+          "conditionSetInvoker": "AlwaysFalse"
+        }
+      }
+    ],
+    "responseFormatterSets": [
+      {
+        "name": "Invoked Response Formatter Set",
+        "responseFormatterSet": [
+          {
+            "responseFormatter": {
+              "class": "SuppressGzipCompression"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

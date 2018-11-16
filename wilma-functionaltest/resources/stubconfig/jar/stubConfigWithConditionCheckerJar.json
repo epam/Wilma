@@ -1,0 +1,29 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "dialog-descriptor1",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "com.epam.sandbox"
+          }
+        },
+        "responseDescriptor": {
+          "code": 404,
+          "delay": 0,
+          "mimeType": "xml",
+          "templateName": "exampleTemplate1"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "exampleTemplate1",
+        "type": "xml",
+        "resource": "templateExample.xml"
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "dialog-descriptor1",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysTrueChecker"
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "text",
+          "templateName": "exampleTemplate1"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "exampleTemplate1",
+        "type": "text",
+        "resource": "stub response for dd plus"
+      }
+    ]
+  }
+}

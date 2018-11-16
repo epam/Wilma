@@ -1,0 +1,1 @@
+Stub config uploading failed: Validation of stub descriptor failed: Response-descriptor subtree is too deep or contains circles, error occurs at: responseFormatterSetInvoker = 'response-formatter-set2'

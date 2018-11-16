@@ -1,0 +1,17 @@
+{
+  "wilmaStubConfiguration": {
+    "groupName": "Replicator",
+    "interceptors": [
+      {
+        "name": "Replicator",
+        "class": "com.epam.wilma.extras.replicator.interceptor.ReplicatorInterceptor",
+        "parameters": [
+          {
+            "name": "https://github.com/epam/Wilma/tree/master/wilma-extras/replicator",
+            "value": "http://localhost:9090/replicator"
+          }
+        ]
+      }
+    ]
+  }
+}

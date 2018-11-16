@@ -26,6 +26,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 public class StubDescriptorAttributes {
     private final String groupName;
     private boolean active = true;
+    private boolean valid = false;
 
     /**
      * Constructs a new instance of stub descriptor attributes.
@@ -45,6 +46,7 @@ public class StubDescriptorAttributes {
         super();
         this.groupName = groupName;
         this.active = active;
+        this.valid = false; //not yet valid by default
     }
 
     public String getGroupName() {
@@ -59,4 +61,11 @@ public class StubDescriptorAttributes {
         this.active = active;
     }
 
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
 }

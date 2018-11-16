@@ -1,1 +1,0 @@
-Could not upload external template formatter class: 'config/formatters/InvalidClassFormatExternalTemplateFormatter.class' has invalid class format.

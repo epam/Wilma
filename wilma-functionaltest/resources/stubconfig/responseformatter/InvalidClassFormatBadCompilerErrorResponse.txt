@@ -1,0 +1,1 @@
+Could not upload external response formatter class: 'config/formatters/InvalidClass.class' has invalid class format.

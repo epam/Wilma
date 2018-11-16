@@ -1,0 +1,1 @@
+Stub config uploading failed: Validation of stub descriptor failed - External class 'config/formatters/InvalidInterfaceExternalResponseFormatter' has not implemented the required interface: com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter

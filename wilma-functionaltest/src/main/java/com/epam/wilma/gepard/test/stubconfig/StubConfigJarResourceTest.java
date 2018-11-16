@@ -65,7 +65,7 @@ public class StubConfigJarResourceTest extends WilmaTestCase {
         String contentEncoding = tcContentEncoding;
         String acceptEncoding = tcAcceptEncoding;
         return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(stubConfigXml)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(stubConfigXml)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding);
     }
 

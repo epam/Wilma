@@ -23,7 +23,7 @@ import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
+import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
 import com.epam.wilma.webapp.stub.servlet.helper.ByteArrayInputStreamFactory;
 
 /**
@@ -44,7 +44,7 @@ public class XslResponseGenerator {
      * @param requestXml the input xml that will be transformed
      * @param xsl the xsl file that will be used to format the response template
      * @param template the response template that will be formatted
-     * @throws TemplateFormattingFailedException it is thrown if an exceptional condition occures during the transformation process
+     * @throws ResponseFormattingFailedException it is thrown if an exceptional condition occures during the transformation process
      * @return the output xml
      */
     public byte[] generateResponse(final byte[] requestXml, final byte[] xsl, final byte[] template) {
@@ -55,7 +55,7 @@ public class XslResponseGenerator {
         try {
             result = transformer.transform(xslInputStream, requestInputStream, templateInputStream);
         } catch (Exception e) {
-            throw new TemplateFormattingFailedException("Template formatting failed with xslt:" + xsl, e);
+            throw new ResponseFormattingFailedException("Template formatting failed with xslt:" + xsl, e);
         }
         return result;
     }

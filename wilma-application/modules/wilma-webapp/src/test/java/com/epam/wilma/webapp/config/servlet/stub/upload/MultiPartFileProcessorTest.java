@@ -25,6 +25,7 @@ import static org.testng.Assert.assertEquals;
 
 import java.io.InputStream;
 
+import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
 import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -47,7 +48,7 @@ import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
  */
 public class MultiPartFileProcessorTest {
     private static final String APPLICATION_JAVA = "application/java";
-    private static final String XML_CONTENT_TYPE = "text/xml";
+    private static final String JSON_CONTENT_TYPE = "application/json";
     private static final String OCTET_STREAM_CONTENT_TYPE = "application/octet-stream";
     private static final String EXCEPTION_MESSAGE = "Could not upload external resource ";
     private static final String FILE_PATH = "proba.file";
@@ -59,7 +60,7 @@ public class MultiPartFileProcessorTest {
     @Mock
     private FileWriter fileWriter;
     @Mock
-    private StubDescriptorFactory stubConfigurationBuilder;
+    private StubDescriptorJsonFactory stubConfigurationJsonBuilder;
     @Mock
     private RoutingService routingService;
     @Mock
@@ -79,7 +80,7 @@ public class MultiPartFileProcessorTest {
     public void testProcessUploadedFileShouldReturnWhenStubConfigIsValid() throws ClassNotFoundException {
         //GIVEN in setUp
         //WHEN
-        String actual = underTest.processUploadedFile(resource, XML_CONTENT_TYPE, "stub-configuration", FILE_PATH);
+        String actual = underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "stub-configuration", FILE_PATH);
         //THEN
         verify(routingService).performModification(Mockito.any(NewStubDescriptorCommand.class));
         assertEquals(actual, "New stub configuration was uploaded to Wilma.");
@@ -108,26 +109,26 @@ public class MultiPartFileProcessorTest {
     public void testProcessUploadedFileShouldThrowExceptionWhenUploadedFileContentTypeNotJavaOrOctetStream() {
         //GIVEN in setUp
         //WHEN
-        underTest.processUploadedFile(resource, XML_CONTENT_TYPE, "stub-condition-checker", FILE_PATH);
+        underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "stub-condition-checker", FILE_PATH);
         //THEN exception is thrown
     }
 
     @Test
-    public void testProcessUploadedFileShouldReturnWhenTemplateFormatterUploaded() {
+    public void testProcessUploadedFileShouldReturnWhenResponseFormatterUploaded() {
         //GIVEN
-        given(stubResourcePathProvider.getTemplateFormattersPathAsString()).willReturn("");
+        given(stubResourcePathProvider.getResponseFormattersPathAsString()).willReturn("");
         //WHEN
-        String actual = underTest.processUploadedFile(resource, OCTET_STREAM_CONTENT_TYPE, "stub-template-formatter", FILE_PATH);
+        String actual = underTest.processUploadedFile(resource, OCTET_STREAM_CONTENT_TYPE, "stub-response-formatter", FILE_PATH);
         //THEN
         verify(fileWriter).write(resource, "/" + FILE_PATH, EXCEPTION_MESSAGE);
-        assertEquals(actual, "External template formatter class '" + FILE_PATH + "' was uploaded to Wilma.");
+        assertEquals(actual, "External response formatter class '" + FILE_PATH + "' was uploaded to Wilma.");
     }
 
     @Test(expectedExceptions = CannotUploadExternalResourceException.class)
-    public void testProcessUploadedFileShouldThrowExceptionWhenUploadedTemplateFormatterContentTypeNotJavaOrOctetStream() {
+    public void testProcessUploadedFileShouldThrowExceptionWhenUploadedResponseFormatterContentTypeNotJavaOrOctetStream() {
         //GIVEN in setUp
         //WHEN
-        underTest.processUploadedFile(resource, XML_CONTENT_TYPE, "stub-template-formatter", FILE_PATH);
+        underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "stub-response-formatter", FILE_PATH);
         //THEN exception is thrown
     }
 
@@ -146,7 +147,7 @@ public class MultiPartFileProcessorTest {
     public void testProcessUploadedFileShouldReturnWhenUploadedingFileFromUnknownInputField() {
         //GIVEN in setUp
         //WHEN
-        underTest.processUploadedFile(resource, XML_CONTENT_TYPE, "asdfasdf", FILE_PATH);
+        underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "asdfasdf", FILE_PATH);
         //THEN exception is thrown
     }
 

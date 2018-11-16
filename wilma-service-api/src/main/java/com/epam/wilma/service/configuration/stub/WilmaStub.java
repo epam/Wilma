@@ -20,28 +20,12 @@ package com.epam.wilma.service.configuration.stub;
 
 import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationException;
 import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationValidator;
+import com.epam.wilma.service.configuration.stub.interceptor.InterceptorDescriptor;
 import com.epam.wilma.service.configuration.stub.request.RequestCondition;
 import com.epam.wilma.service.configuration.stub.response.ResponseDescriptor;
 
-import java.util.Formatter;
-
 /**
- * Class that represents a stubbed request-response pairs.
- * Example configuration:
- * <p>
- * &lt;?xml version="1.0" encoding="UTF-8"?&gt;
- * &lt;wilma-stub xmlns="http://epam.github.io/Wilma/xsd/StubConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- * xsi:schemaLocation="http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd"&gt;
- * &lt;dialog-descriptor name="dummy-descriptor" usage="always" comment="random comment"&gt;
- * &lt;condition-descriptor&gt;
- * &lt;condition class="AlwaysFalseChecker" /&gt;
- * &lt;/condition-descriptor&gt;
- * &lt;response-descriptor code="502" delay="0" mimetype="text/plain" template="errorResponse" /&gt;
- * &lt;/dialog-descriptor&gt;
- * &lt;template-descriptor name="template-descriptor_1"&gt;
- * &lt;template name="errorResponse" type="text" resource="Bad Gateway" /&gt;
- * &lt;/template-descriptor&gt;
- * &lt;/wilma-stub&gt;
+ * Class that represents a Wilma Stub Configuration.
  *
  * @author Tamas_Kohegyi
  */
@@ -49,6 +33,7 @@ public class WilmaStub {
 
     private RequestCondition requestCondition;
     private ResponseDescriptor responseDescriptor;
+    private InterceptorDescriptor interceptorDescriptor;
     private String groupName;
 
     /**
@@ -57,45 +42,51 @@ public class WilmaStub {
      * @param groupName          is the group name the stub configuration belongs to
      * @param requestCondition   defines the condition(s) for the request
      * @param responseDescriptor defines the response to be sent back
+     * @param interceptorDescriptor defines the used interceptors
      * @throws StubConfigurationException if the stub configuration structure is invalid
      */
-    public WilmaStub(String groupName, RequestCondition requestCondition, ResponseDescriptor responseDescriptor) {
+    public WilmaStub(String groupName, RequestCondition requestCondition, ResponseDescriptor responseDescriptor, InterceptorDescriptor interceptorDescriptor) {
         this.requestCondition = requestCondition;
         this.responseDescriptor = responseDescriptor;
+        this.interceptorDescriptor = interceptorDescriptor;
         this.groupName = groupName;
         //need to validate both the request condition, and the response descriptor
         validateConfiguration();
     }
 
     /**
-     * Produces a WilmaStub configuration XML.
+     * Produces a WilmaStub configuration Json.
      *
-     * @return xml content
+     * @return json content
      */
     @Override
     public String toString() {
         String generatedName = "generated name";
-        String conditionContent = requestCondition.toString();
-        String responseContent = responseDescriptor.responseDescriptorToString();
-        String usedTemplateAndFormatter = responseDescriptor.templateToString();
-        String interceptorDescriptor = responseDescriptor.interceptorsToString();
-        StringBuilder sb = new StringBuilder();
-        try (Formatter formatter = new Formatter(sb)) {
-            String stubConfigurationFormatterString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                    + "<wilma-stub xmlns=\"http://epam.github.io/Wilma/xsd/StubConfig\" "
-                    + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" groupname=\"%5$s\" "
-                    + "xsi:schemaLocation=\"http://epam.github.io/Wilma/xsd/StubConfig http://epam.github.io/Wilma/xsd/StubConfig.xsd\">\n"
-                    + "<dialog-descriptor name=\"%1$s\" usage=\"always\" comment=\"%1$s\">\n"
-                    + "<condition-descriptor>\n%2$s</condition-descriptor>\n"
-                    + "%3$s"
-                    + "</dialog-descriptor>\n"
-                    + "<template-descriptor name=\"%1$s\">\n%4$s</template-descriptor>\n"
-                    + "%6$s"
-                    + "</wilma-stub>";
-            formatter.format(stubConfigurationFormatterString, generatedName, conditionContent, responseContent,
-                    usedTemplateAndFormatter, groupName, interceptorDescriptor);
+        String conditionContent = "";
+        if (requestCondition != null) {
+            conditionContent = requestCondition.toString();
         }
-        return sb.toString();
+        String responseContent = "";
+        String usedTemplate = "";
+        if (responseDescriptor != null) {
+            responseContent = responseDescriptor.responseDescriptorToString();
+            usedTemplate = responseDescriptor.templateToString();
+        }
+
+        String stubConfigurationFormatterString = "{ \"wilmaStubConfiguration\": { \n"
+                + " \"groupName\": \"" + groupName + "\"";
+        if (responseDescriptor != null) {
+            stubConfigurationFormatterString += ",\n  \"dialogDescriptors\": [{ \"name\": \"" + generatedName + "\","
+                    + " \"usage\": \"always\", \"comment\": \"" + generatedName + "\","
+                    + "\n  \"conditionDescriptor\": " + conditionContent + ",\n  \"responseDescriptor\": " + responseContent
+                    + "}]," //dialogDescriptors end
+                    + "\n  \"templates\": [ " + usedTemplate + " ]";
+        }
+        if (interceptorDescriptor != null) {
+            stubConfigurationFormatterString += ",\n  " + interceptorDescriptor.toString();
+        }
+        stubConfigurationFormatterString += "\n  }\n}";
+        return stubConfigurationFormatterString;
     }
 
     /**

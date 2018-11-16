@@ -46,7 +46,7 @@ import com.epam.wilma.stubconfig.dom.parser.xsd.StubConfigSchemaParser;
 public class FileBasedStubConfigReaderTest {
 
     private static final String DESCRIPTOR_PATH = "config";
-    private static final String DESCRIPTOR_PATTERN = "*_stubConfig.xml";
+    private static final String DESCRIPTOR_PATTERN = "*_stubConfig.json";
     private static final String DESCRIPTOR_CACHE_PATH = "config/cache";
     @Mock
     private StubDescriptorReader stubDescriptorReader;

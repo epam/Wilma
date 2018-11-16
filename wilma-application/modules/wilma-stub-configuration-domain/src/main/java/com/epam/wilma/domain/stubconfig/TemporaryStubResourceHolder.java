@@ -22,16 +22,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
 /**
- * Contains temporary stub configuration resources (templates, template formatters, condition checkers, interceptors).
+ * Contains temporary stub configuration resources (templates, response formatters, condition checkers, interceptors).
  * This is needed in order to keep consistent state of the resource holder. During the stub config parsing,
  * inconsistent state of resources would be produced if some external classes would be loaded directly into
  * the resource holder object while some others are not yet validated.
@@ -43,7 +43,7 @@ public class TemporaryStubResourceHolder {
 
     private Map<String, byte[]> templates;
     private List<ConditionChecker> conditionCheckers;
-    private List<TemplateFormatter> templateFormatters;
+    private List<ResponseFormatter> responseFormatters;
     private List<RequestInterceptor> requestInterceptors;
     private List<ResponseInterceptor> responseInterceptors;
     private List<SequenceHandler> sequenceHandlers;
@@ -52,7 +52,7 @@ public class TemporaryStubResourceHolder {
      * Default constructor for {@link StubResourceHolder} creation which initializes templates map.
      */
     public TemporaryStubResourceHolder() {
-        templates = new HashMap<String, byte[]>();
+        templates = new HashMap<>();
     }
 
     /**
@@ -72,19 +72,19 @@ public class TemporaryStubResourceHolder {
     }
 
     /**
-     * Adds a new <tt>templateFormatter</tt> to the list of template formatters.
-     * @param templateFormatter the {@link TemplateFormatter} that will be added to the list
+     * Adds a new <tt>responseFormatter</tt> to the list of response formatters.
+     * @param responseFormatter the {@link ResponseFormatter} that will be added to the list
      */
-    public void addTemplateFormatter(final TemplateFormatter templateFormatter) {
-        templateFormatters.add(templateFormatter);
+    public void addResponseFormatter(final ResponseFormatter responseFormatter) {
+        responseFormatters.add(responseFormatter);
     }
 
-    public void setTemplateFormatters(final List<TemplateFormatter> templateFormatters) {
-        this.templateFormatters = templateFormatters;
+    public void setResponseFormatters(final List<ResponseFormatter> responseFormatters) {
+        this.responseFormatters = responseFormatters;
     }
 
-    public List<TemplateFormatter> getTemplateFormatters() {
-        return templateFormatters;
+    public List<ResponseFormatter> getResponseFormatters() {
+        return responseFormatters;
     }
 
     /**
@@ -166,10 +166,10 @@ public class TemporaryStubResourceHolder {
     }
 
     /**
-     * Empties the template formatter list.
+     * Empties the response formatter list.
      */
-    public void clearTemplateFormatters() {
-        templateFormatters.clear();
+    public void clearResponseFormatters() {
+        responseFormatters.clear();
     }
 
     /**

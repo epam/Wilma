@@ -1,0 +1,61 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "dialog-descriptor",
+        "usage": "always",
+        "comment": "random comment",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "OrPatternChecker"
+          }
+        },
+        "responseDescriptor": {
+          "code": 404,
+          "delay": 0,
+          "mimeType": "json",
+          "templateName": "exampleTemplate1",
+          "responseFormatterSet": [
+            {
+              "responseFormatter": {
+                "class": "XslBasedTemplateFormatter",
+                "parameters": [
+                  {
+                    "name": "param1",
+                    "value": "value1"
+                  },
+                  {
+                    "name": "param2",
+                    "value": "value2"
+                  }
+                ]
+              }
+            },
+            {
+              "responseFormatterSetInvoker": "response-formatter-set1"
+            }
+          ]
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "exampleTemplate1",
+        "type": "xml",
+        "resource": "something"
+      }
+    ],
+    "responseFormatterSets": [
+      {
+        "name": "response-formatter-set1",
+        "responseFormatterSet": [
+          {
+            "responseFormatter": {
+              "class": "InvalidClassFormatExternalResponseFormatter"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

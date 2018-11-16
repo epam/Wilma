@@ -53,7 +53,7 @@ public class StubResourceHandlerServletTest {
     private static final String TEMPLATE = "template";
     private static final String INTERCEPTOR = "interceptor";
     private static final String CONDITION_CHECKER = "condition-checker";
-    private static final String TEMPLATE_FORMATTER = "template-formatter";
+    private static final String RESPONSE_FORMATTER = "response-formatter";
     private static final String JAR = "jar";
     private static final String SEQUENCE_HANDLER = "sequence-handler";
     private static final String APPLICATION_JSON = "application/json";
@@ -129,11 +129,11 @@ public class StubResourceHandlerServletTest {
     }
 
     @Test
-    public void testDoGetWhenTypeIsTemplateFormatterShouldWriteResourceToResponse() throws ServletException, IOException {
+    public void testDoGetWhenTypeIsResponseFormatterShouldWriteResourceToResponse() throws ServletException, IOException {
         //GIVEN
-        String expectedResult = "{\"files\":[\"TemplateFormatter.class\"]}";
-        given(request.getParameter(TYPE_PARAMETER)).willReturn(TEMPLATE_FORMATTER);
-        given(stubResourcePathProvider.getTemplateFormatterPath()).willReturn(path);
+        String expectedResult = "{\"files\":[\"ResponseFormatter.class\"]}";
+        given(request.getParameter(TYPE_PARAMETER)).willReturn(RESPONSE_FORMATTER);
+        given(stubResourcePathProvider.getResponseFormatterPath()).willReturn(path);
         given(path.toFile()).willReturn(file);
         given(fileListJsonBuilder.buildFileListJson(file)).willReturn(expectedResult);
         //WHEN
@@ -193,7 +193,7 @@ public class StubResourceHandlerServletTest {
         underTest.doGet(request, response);
         //THEN
         verify(writer).write(
-                String.format(ERROR_MESSAGE_TEMPLATE, type, INTERCEPTOR, CONDITION_CHECKER, TEMPLATE_FORMATTER, TEMPLATE, JAR, SEQUENCE_HANDLER));
+                String.format(ERROR_MESSAGE_TEMPLATE, type, INTERCEPTOR, CONDITION_CHECKER, RESPONSE_FORMATTER, TEMPLATE, JAR, SEQUENCE_HANDLER));
     }
 
     @Test

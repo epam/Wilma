@@ -63,7 +63,7 @@ public class SequenceKeyTest extends SequenceHandlingTestBase {
         String acceptHeader = "xml";
         String contentEncoding = "no";
         String acceptEncoding = "no";
-        return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort).xmlIS(requestBody)
+        return new RequestParameters().testServerUrl(testServerUrl).useProxy(true).wilmaHost(wilmaHost).wilmaPort(wilmaPort).requestInputStream(requestBody)
                 .contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
     }
 }

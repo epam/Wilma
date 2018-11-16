@@ -1,3 +1,3 @@
 #NAME#REQUEST_BODY#JAR_FILE#STUBCONFIG_FILE#FINAL_RESPONSE_FILE
-1st sequence should answer%a1 b1 a2 b2%resources/sequence/message-sequence.jar%resources/sequence/multipleSequenceDescriptors1StubConfig.xml%resources/sequence/sequenceDescriptor1ExpectedResponse.txt
-2nd sequence should answer%a1 b1 a2 b2%resources/sequence/message-sequence.jar%resources/sequence/multipleSequenceDescriptors2StubConfig.xml%resources/sequence/sequenceDescriptor2ExpectedResponse.txt
+1st sequence should answer%a1 b1 a2 b2%resources/sequence/message-sequence.jar%resources/sequence/multipleSequenceDescriptors1StubConfig.json%resources/sequence/sequenceDescriptor1ExpectedResponse.txt
+2nd sequence should answer%a1 b1 a2 b2%resources/sequence/message-sequence.jar%resources/sequence/multipleSequenceDescriptors2StubConfig.json%resources/sequence/sequenceDescriptor2ExpectedResponse.txt

@@ -27,14 +27,14 @@ import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatterDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatter;
-import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateFormatterDescriptor;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.sequence.helper.SequenceHeaderUtil;
 import com.epam.wilma.sequence.matcher.SequenceMatcher;
-import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
+import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
 import com.epam.wilma.webapp.stub.response.support.HttpServletRequestTransformer;
 import com.epam.wilma.webapp.stub.response.support.SequenceResponseGuard;
 import com.epam.wilma.webapp.stub.response.support.StubResponseHeaderConfigurer;
@@ -95,9 +95,9 @@ public class StubResponseGeneratorTest {
     @Mock
     private Template template;
     @Mock
-    private TemplateFormatterDescriptor templateFormatterDescriptor;
+    private ResponseFormatterDescriptor responseFormatterDescriptor;
     @Mock
-    private TemplateFormatter templateFormatter;
+    private ResponseFormatter responseFormatter;
     @Mock
     private WilmaHttpRequest wilmaRequest;
     @Mock
@@ -112,19 +112,19 @@ public class StubResponseGeneratorTest {
     @InjectMocks
     private StubResponseGenerator underTest;
 
-    private Set<TemplateFormatterDescriptor> templateFormatterDescriptors;
+    private Set<ResponseFormatterDescriptor> responseFormatterDescriptors;
 
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        templateFormatterDescriptors = new HashSet<>();
+        responseFormatterDescriptors = new HashSet<>();
         given(responseDescriptorAccess.getResponseDescriptor(anyString())).willReturn(responseDescriptorDTO);
         given(responseDescriptorDTO.getResponseDescriptor()).willReturn(responseDescriptor);
         Template template = new Template(null, null, null);
         ResponseDescriptorAttributes attributes = new ResponseDescriptorAttributes.Builder().delay(0).mimeType(MimeType.HTML.getOfficialMimeType())
                 .template(template).sequenceDescriptorKey(SEQUENCE_DESCRIPTOR_KEY).build();
         given(responseDescriptor.getAttributes()).willReturn(attributes);
-        given(responseDescriptor.getTemplateFormatters()).willReturn(templateFormatterDescriptors);
+        given(responseDescriptor.getResponseFormatters()).willReturn(responseFormatterDescriptors);
         given(requestTransformer.transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO)).willReturn(wilmaRequest);
         given(stackTraceConverter.getStackTraceAsString(Matchers.any(Exception.class))).willReturn("exception-message");
         given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
@@ -151,13 +151,13 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldTemplateFormatterDescriptorsFromResponseDescriptorDTO() {
+    public void testGenerateResponseShouldResponseFormatterDescriptorsFromResponseDescriptorDTO() {
         //GIVEN in setUp
         //WHEN
         underTest.generateResponse(request, response);
         //THEN
         verify(responseDescriptorDTO, times(2)).getResponseDescriptor();
-        verify(responseDescriptor).getTemplateFormatters();
+        verify(responseDescriptor).getResponseFormatters();
     }
 
     @Test
@@ -181,10 +181,10 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenTemplateFormatterDescriptorsArrayIsNull() throws InterruptedException {
+    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenResponseFormatterDescriptorsArrayIsNull() throws InterruptedException {
         //GIVEN
         mockTemplateResource();
-        templateFormatterDescriptors = null;
+        responseFormatterDescriptors = null;
         //WHEN
         byte[] actual = underTest.generateResponse(request, response);
         //THEN
@@ -194,7 +194,7 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenNoTemplateFormatterDefined() throws InterruptedException {
+    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenNoResponseFormatterDefined() {
         //GIVEN
         mockTemplateResource();
         //WHEN
@@ -205,14 +205,14 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenTemplateFormatterDefined() throws Exception {
+    public void testGenerateResponseShouldReturnTemplateResourceAndSetResponseHeadersWhenResponseFormatterDefined() throws Exception {
         //GIVEN
         ParameterList params = new ParameterList();
-        templateFormatterDescriptors.add(templateFormatterDescriptor);
+        responseFormatterDescriptors.add(responseFormatterDescriptor);
         mockTemplateResource();
-        given(templateFormatterDescriptor.getParams()).willReturn(params);
-        given(templateFormatterDescriptor.getTemplateFormatter()).willReturn(templateFormatter);
-        given(templateFormatter.formatTemplate(wilmaRequest, response, templateResource, params)).willReturn(templateResource);
+        given(responseFormatterDescriptor.getParams()).willReturn(params);
+        given(responseFormatterDescriptor.getResponseFormatter()).willReturn(responseFormatter);
+        given(responseFormatter.formatResponse(wilmaRequest, response, templateResource, params)).willReturn(templateResource);
         //WHEN
         byte[] actual = underTest.generateResponse(request, response);
         //THEN
@@ -221,19 +221,19 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldReturnStackTraceAsResourceAndSetErrorResponseWhenTemplateFormattingFailed() throws Exception {
+    public void testGenerateResponseShouldReturnStackTraceAsResourceAndSetErrorResponseWhenResponseFormattingFailed() throws Exception {
         //GIVEN
         ParameterList params = new ParameterList();
-        templateFormatterDescriptors.add(templateFormatterDescriptor);
+        responseFormatterDescriptors.add(responseFormatterDescriptor);
         mockTemplateResource();
-        given(templateFormatterDescriptor.getTemplateFormatter()).willReturn(templateFormatter);
-        given(templateFormatterDescriptor.getParams()).willReturn(params);
-        given(templateFormatter.formatTemplate(wilmaRequest, response, templateResource, params)).willThrow(
-                new TemplateFormattingFailedException("Template formatting failed....", new TemplateFormattingFailedException("")));
+        given(responseFormatterDescriptor.getResponseFormatter()).willReturn(responseFormatter);
+        given(responseFormatterDescriptor.getParams()).willReturn(params);
+        given(responseFormatter.formatResponse(wilmaRequest, response, templateResource, params)).willThrow(
+                new ResponseFormattingFailedException("Response formatting failed....", new ResponseFormattingFailedException("")));
         //WHEN
         underTest.generateResponse(request, response);
         //THEN
-        verify(stackTraceConverter).getStackTraceAsString(Matchers.any(TemplateFormattingFailedException.class));
+        verify(stackTraceConverter).getStackTraceAsString(Matchers.any(ResponseFormattingFailedException.class));
         verify(headerConfigurer).setErrorResponseContentTypeAndStatus(response);
     }
 
@@ -256,7 +256,7 @@ public class StubResponseGeneratorTest {
     }
 
     @Test
-    public void testGenerateResponseShouldReturnWithNullWhenNotFindWilmaLoggerIdInRequestHeader() throws Exception {
+    public void testGenerateResponseShouldReturnWithNullWhenNotFindWilmaLoggerIdInRequestHeader() {
         //GIVEN
         given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(null);
         //WHEN

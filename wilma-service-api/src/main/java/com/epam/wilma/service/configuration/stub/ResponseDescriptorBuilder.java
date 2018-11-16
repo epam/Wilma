@@ -18,12 +18,12 @@ package com.epam.wilma.service.configuration.stub;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
+import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameterArray;
 import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationException;
-import com.epam.wilma.service.configuration.stub.helper.other.Interceptor;
+import com.epam.wilma.service.configuration.stub.helper.response.ResponseFormatter;
 import com.epam.wilma.service.configuration.stub.helper.response.Template;
-import com.epam.wilma.service.configuration.stub.helper.response.TemplateFormatter;
 import com.epam.wilma.service.configuration.stub.helper.response.TemplateType;
+import com.epam.wilma.service.configuration.stub.interceptor.InterceptorDescriptor;
 import com.epam.wilma.service.configuration.stub.request.RequestCondition;
 import com.epam.wilma.service.configuration.stub.response.ResponseDescriptor;
 import org.slf4j.Logger;
@@ -49,8 +49,7 @@ public class ResponseDescriptorBuilder {
     private String delay = "0";
     private String mimeType = MIME_TYPE_TEXT_PLAIN;
     private Template template = new Template(TemplateType.TEXT, "Wilma default response");
-    private List<TemplateFormatter> templateFormatters = new LinkedList<>();
-    private List<Interceptor> interceptors = new LinkedList<>();
+    private List<ResponseFormatter> responseFormatters = new LinkedList<>();
 
     /**
      * Constructor of Response Descriptor builder.
@@ -134,7 +133,7 @@ public class ResponseDescriptorBuilder {
      * @return with the built Response Descriptor object
      */
     public ResponseDescriptor buildResponseDescriptor() {
-        return new ResponseDescriptor(delay, code, mimeType, template, templateFormatters, interceptors);
+        return new ResponseDescriptor(delay, code, mimeType, template, responseFormatters);
     }
 
     /**
@@ -145,8 +144,22 @@ public class ResponseDescriptorBuilder {
      * @throws StubConfigurationException then the stub configuration is not valid
      */
     public WilmaStub build() {
-        WilmaStub wilmaStub = new WilmaStub(groupName, requestCondition, buildResponseDescriptor());
-        LOG.debug("WilmaStub created, XML is:\n" + wilmaStub.toString());
+        WilmaStub wilmaStub = new WilmaStub(groupName, requestCondition, buildResponseDescriptor(), null);
+        LOG.debug("WilmaStub created, JSON is:\n" + wilmaStub.toString());
+        return wilmaStub;
+    }
+
+    /**
+     * Build method of the Stub Configuration.
+     * The group name, the request and the response descriptors are the main inputs.
+     *
+     * @param interceptorDescriptor that hold the used interceptors
+     * @return with the new WilmaStub object.
+     * @throws StubConfigurationException then the stub configuration is not valid
+     */
+    public WilmaStub build(InterceptorDescriptor interceptorDescriptor) {
+        WilmaStub wilmaStub = new WilmaStub(groupName, requestCondition, buildResponseDescriptor(), interceptorDescriptor);
+        LOG.debug("WilmaStub created, JSON is:\n" + wilmaStub.toString());
         return wilmaStub;
     }
 
@@ -179,13 +192,13 @@ public class ResponseDescriptorBuilder {
     /**
      * Calls a template formatter class with parameters.
      *
-     * @param formatterClass          is the template formatter class
-     * @param configurationParameters is the parameters of the formatter class
+     * @param formatterClass              is the response formatter class
+     * @param configurationParameterArray is the parameters of the formatter class
      * @return with itself
      */
-    public ResponseDescriptorBuilder applyFormatter(String formatterClass, ConfigurationParameter[] configurationParameters) {
-        TemplateFormatter templateFormatter = new TemplateFormatter(formatterClass, configurationParameters);
-        templateFormatters.add(templateFormatter);
+    public ResponseDescriptorBuilder applyFormatter(String formatterClass, ConfigurationParameterArray configurationParameterArray) {
+        ResponseFormatter templateFormatter = new ResponseFormatter(formatterClass, configurationParameterArray);
+        responseFormatters.add(templateFormatter);
         return this;
     }
 
@@ -218,7 +231,7 @@ public class ResponseDescriptorBuilder {
 
     /**
      * Sets the mime type of the response.
-     * Deafult mime type is "text/plain"
+     * Default mime type is "text/plain"
      * Beware that *Response() methods sets the mime type accordingly,
      * so call this method only, if you would like to overwrite the default value.
      *
@@ -231,26 +244,30 @@ public class ResponseDescriptorBuilder {
     }
 
     /**
-     * Add an interceptor to the stub configuration.
+     * Adds an interceptor.
      *
-     * @param interceptorName  name of the interceptor
-     * @param interceptorClass the class name of the interceptor
-     * @return with itself
+     * @param interceptorName  specifies its name
+     * @param interceptorClass specifies the interceptor class
+     * @return with an interceptorDescriptorBuilder class.
      */
-    public ResponseDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass) {
-        return addInterceptor(interceptorName, interceptorClass, null);
+    public InterceptorDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass) {
+        InterceptorDescriptorBuilder interceptorDescriptorBuilder = new InterceptorDescriptorBuilder(groupName)
+                .addInterceptor(this, interceptorName, interceptorClass);
+        return interceptorDescriptorBuilder;
     }
 
     /**
-     * Add an interceptor that has parameters, to the stub configuration.
+     * Adds an interceptor with parameters.
      *
-     * @param interceptorName     name of the interceptor
-     * @param interceptorClass    the class name of the interceptor
-     * @param conditionParameters are the parameters of the interceptor
-     * @return with itself
+     * @param interceptorName             specifies its name
+     * @param interceptorClass            specifies the interceptor class
+     * @param configurationParameterArray specifies the array of parameters for the specific interceptor
+     * @return with an interceptorDescriptorBuilder class.
      */
-    public ResponseDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass, ConfigurationParameter[] conditionParameters) {
-        interceptors.add(new Interceptor(interceptorName, interceptorClass, conditionParameters));
-        return this;
+    public InterceptorDescriptorBuilder addInterceptor(String interceptorName, String interceptorClass, ConfigurationParameterArray configurationParameterArray) {
+        InterceptorDescriptorBuilder interceptorDescriptorBuilder = new InterceptorDescriptorBuilder(groupName)
+                .addInterceptor(this, interceptorName, interceptorClass, configurationParameterArray);
+        return interceptorDescriptorBuilder;
     }
+
 }

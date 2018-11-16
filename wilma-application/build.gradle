@@ -57,11 +57,9 @@ task deleteRelease(type: Delete) {
 
 def myCopySpec = project.copySpec {
    from(rootProject.rootDir.absolutePath + '/wilma-application/modules/wilma-engine/') {
-     include 'wilma.conf.properties'
-     include 'readme.txt'
-     include 'stubConfig.xml'
-     include 'config/condition-checkers/ExampleConditionChecker.java'
-     include 'config/formatters/ExampleTemplateFormatter.java'
+       include 'wilma.conf.properties'
+       include 'readme.txt'
+       include 'stubConfig.json'
    }
    from(rootProject.rootDir.absolutePath + '/wilma-application/modules/wilma-engine/build/libs/') {
      include "wilma-$wilmaVersion.$buildNumber" + '.jar'
@@ -87,6 +85,12 @@ task createDir {
 	dependsOn copyToReleaseRoot
 	doLast{
 	    file(rootProject.rootDir.absolutePath + '/wilma-application/release/config/templates').mkdirs()
+        file(rootProject.rootDir.absolutePath + '/wilma-application/release/config/formatters').mkdirs()
+        file(rootProject.rootDir.absolutePath + '/wilma-application/release/config/interceptors').mkdirs()
+        file(rootProject.rootDir.absolutePath + '/wilma-application/release/config/cache/stub_descriptors').mkdirs()
+        file(rootProject.rootDir.absolutePath + '/wilma-application/release/config/condition-checkers').mkdirs()
+        file(rootProject.rootDir.absolutePath + '/wilma-application/release/config/jar').mkdirs()
+        file(rootProject.rootDir.absolutePath + '/wilma-application/release/config/sequencehandlers').mkdirs()
 	}
 }
 

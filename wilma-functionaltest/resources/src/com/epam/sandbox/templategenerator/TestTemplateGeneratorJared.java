@@ -5,14 +5,14 @@ import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerat
 
 
 public class TestTemplateGeneratorJared implements TemplateGenerator {
-    
+
     private SuperLogic superLogic = new SuperLogic();
 
     @Override
     public byte[] generateTemplate() {
-        if (superLogic.getResult()){
+        if (superLogic.getResult()) {
             return null;
-        }else{
+        } else {
             return new byte[]{};
         }
     }

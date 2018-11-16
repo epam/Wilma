@@ -41,7 +41,8 @@ public class PropertyDTO {
      */
     //CHECKSTYLE OFF
     //more than 4 input field is allowed here
-    public PropertyDTO(final Integer proxyPort, final Integer wilmaPort, final String stubConfigFolderPath, final String stubConfigPattern, final String stubConfigCachePath) {
+    public PropertyDTO(final Integer proxyPort, final Integer wilmaPort,
+                       final String stubConfigFolderPath, final String stubConfigPattern, final String stubConfigCachePath) {
         //CHECKSTYLE ON
         super();
         this.proxyPort = proxyPort;
@@ -70,4 +71,5 @@ public class PropertyDTO {
     public String getStubConfigCachePath() {
         return stubConfigCachePath;
     }
+
 }

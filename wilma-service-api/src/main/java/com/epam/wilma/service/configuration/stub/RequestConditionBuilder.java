@@ -18,7 +18,7 @@ package com.epam.wilma.service.configuration.stub;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
+import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameterArray;
 import com.epam.wilma.service.configuration.stub.request.RequestCondition;
 
 /**
@@ -30,6 +30,7 @@ public class RequestConditionBuilder {
 
     private String configurationString = "";
     private String groupName;
+    private boolean needComma;
 
     /**
      * Initiates a builder class to build up the request condition part of the configuration.
@@ -40,112 +41,127 @@ public class RequestConditionBuilder {
         this.groupName = groupName;
     }
 
+    private void handleComma() {
+        if (needComma) {
+            configurationString += ",\n  ";
+        }
+        needComma = false;
+    }
+
     /**
-     * Opens an &lt;and&gt; ... &lt;/and&gt; section, do not forget to call the @see andEnd() method to close it.
+     * Opens an "and" : [ ... ] section, do not forget to call the @see andEnd() method to close it.
      *
      * @return with itself
      */
     public RequestConditionBuilder andStart() {
-        configurationString += "<and>\n";
+        handleComma();
+        configurationString += "{ \"and\": [\n  ";
+        needComma = false;
         return this;
     }
 
     /**
-     * Closes an &lt;and&gt; ... &lt;/and&gt; section, that was previously opened with @see andStart().
+     * Closes an "and" : [ ... ] section, that was previously opened with @see andStart().
      *
      * @return with itself
      */
     public RequestConditionBuilder andEnd() {
-        configurationString += "</and>\n";
+        configurationString += "\n ] }";
+        needComma = true;
         return this;
     }
 
     /**
-     * Opens an &lt;or&gt; ... &lt;/or&gt; section, do not forget to call the @see orEnd() method to close it.
+     * Opens an "or" : [ ... ] section, do not forget to call the @see orEnd() method to close it.
      *
      * @return with itself
      */
     public RequestConditionBuilder orStart() {
-        configurationString += "<or>\n";
+        handleComma();
+        configurationString += "{ \"or\": [\n  ";
+        needComma = false;
         return this;
     }
 
     /**
-     * Closes an &lt;or&gt; ... &lt;/or&gt; section, that was previously opened with @see orStart().
+     * Closes an "or" : [ ... ] section, that was previously opened with @see orStart().
      *
      * @return with itself
      */
     public RequestConditionBuilder orEnd() {
-        configurationString += "</or>\n";
+        configurationString += "\n ] }";
+        needComma = true;
         return this;
     }
 
     /**
-     * Opens an &lt;not&gt; ... &lt;/not&gt; section, do not forget to call the @see notEnd() method to close it.
+     * Opens an "or" : { ... } section, do not forget to call the @see notEnd() method to close it.
      *
      * @return with itself
      */
     public RequestConditionBuilder notStart() {
-        configurationString += "<not>\n";
+        handleComma();
+        configurationString += "{ \"not\": \n  ";
+        needComma = false;
         return this;
     }
 
     /**
-     * Closes an &lt;not&gt; ... &lt;/not&gt; section, that was previously opened with @see notStart().
+     * Closes an "or" : { ... } section, that was previously opened with @see notStart().
      *
      * @return with itself
      */
     public RequestConditionBuilder notEnd() {
-        configurationString += "</not>\n";
+        configurationString += "\n }";
+        needComma = true;
         return this;
     }
 
     /**
      * General purpose condition class usage, with a parameter array.
      *
-     * @param className               is the condition class
-     * @param configurationParameters is the parameter array
-     * @param negate                  if true, then the condition should be negated
+     * @param className                   is the condition class
+     * @param configurationParameterArray is the parameter array
+     * @param negate                      if true, then the condition should be negated
      * @return with itself
      */
-    private RequestConditionBuilder condition(String className, ConfigurationParameter[] configurationParameters, boolean negate) {
-        String conditionString = "<condition class=\"" + className + "\" ";
+    private RequestConditionBuilder condition(String className, ConfigurationParameterArray configurationParameterArray, boolean negate) {
+        handleComma();
+        String conditionString = "{ \"condition\": { \"class\": \"" + className + "\" ";
         if (negate) {
-            conditionString += "negate=\"true\" ";
+            conditionString += ", \"negate\": true ";
         }
-        conditionString += ">\n";
-        if (configurationParameters != null) {
+        if (configurationParameterArray != null) {
             //we have parameters too
-            for (ConfigurationParameter configurationParameter : configurationParameters) {
-                conditionString += configurationParameter.toString() + "\n";
-            }
+            conditionString += ",\n " + configurationParameterArray.toString();
         }
-        conditionString += "</condition>\n";
+        conditionString += "\n  }\n }";
 
         configurationString += conditionString;
+        needComma = true;
         return this;
     }
 
     /**
      * General purpose condition class usage, with a parameter array.
      *
-     * @param className               is the condition class
-     * @param configurationParameters is the parameter array
+     * @param className                   is the condition class
+     * @param configurationParameterArray is the parameter array
      * @return with itself
      */
-    public RequestConditionBuilder condition(String className, ConfigurationParameter[] configurationParameters) {
-        return condition(className, configurationParameters, false);
+    public RequestConditionBuilder condition(String className, ConfigurationParameterArray configurationParameterArray) {
+        return condition(className, configurationParameterArray, false);
     }
 
     /**
      * General purpose condition class usage, with a parameter array.
      *
-     * @param className               is the condition class
-     * @param configurationParameters is the parameter array
+     * @param className                   is the condition class
+     * @param configurationParameterArray is the parameter array
      * @return with itself
      */
-    public RequestConditionBuilder negatedCondition(String className, ConfigurationParameter[] configurationParameters) {
-        return condition(className, configurationParameters, true);
+    public RequestConditionBuilder negatedCondition(String className, ConfigurationParameterArray configurationParameterArray) {
+        return condition(className, configurationParameterArray, true);
     }
 
     /**
@@ -177,16 +193,20 @@ public class RequestConditionBuilder {
      * @return with itself
      */
     public RequestConditionBuilder comingFrom(String hostName) {
-        String conditionString = "<condition class=\"AndUrlPatternChecker\">\n"
-                + "    <param name=\"irrelevant\" value=\"//" + hostName + "\" />\n"
-                + "</condition>\n";
+        handleComma();
+        String conditionString = "{ \"condition\": { \"class\": \"AndUrlPatternChecker\",\n"
+                + "    \"parameters\": [{\"name\": \"irrelevant\", \"value\": \"//" + hostName + "\" }]"
+                + "}\n}\n";
         configurationString += conditionString;
+        needComma = true;
         return this;
     }
 
     private RequestConditionBuilder withMethod(final String methodName) {
-        String conditionString = "<condition class=\"" + methodName + "MethodChecker\" />\n";
+        handleComma();
+        String conditionString = "{ \"condition\": { \"class\": \"" + methodName + "MethodChecker\" }}";
         configurationString += conditionString;
+        needComma = true;
         return this;
     }
 
@@ -252,10 +272,11 @@ public class RequestConditionBuilder {
      * @return with itself
      */
     public RequestConditionBuilder withHeader(String name, String value) {
-        String conditionString = "<condition class=\"HeaderParameterChecker\">\n"
-                + "    <param name=\"" + name + "\" value=\"" + value + "\" />\n"
-                + "</condition>\n";
+        handleComma();
+        String conditionString = "{ \"condition\": { \"class\": \"HeaderParameterChecker\","
+                + "   \"parameters\": [{ \"name\": \"" + name + "\", \"value\": \"" + value + "\"}] }}";
         configurationString += conditionString;
+        needComma = true;
         return this;
     }
 
@@ -266,10 +287,11 @@ public class RequestConditionBuilder {
      * @return with itself
      */
     public RequestConditionBuilder withTextInHeader(String pattern) {
-        String conditionString = "<condition class=\"AndHeaderPatternChecker\">\n"
-                + "    <param name=\"irrelevant\" value=\"" + pattern + "\" />\n"
-                + "</condition>\n";
+        handleComma();
+        String conditionString = "{ \"condition\": { \"class\": \"AndHeaderPatternChecker\","
+                + "   \"parameters\": [{ \"name\": \"irrelevant\", \"value\": \"" + pattern + "\"}] }}";
         configurationString += conditionString;
+        needComma = true;
         return this;
     }
 
@@ -280,10 +302,11 @@ public class RequestConditionBuilder {
      * @return with itself
      */
     public RequestConditionBuilder withTextInBody(String pattern) {
-        String conditionString = "<condition class=\"AndBodyPatternChecker\">\n"
-                + "    <param name=\"irrelevant\" value=\"" + pattern + "\" />\n"
-                + "</condition>\n";
+        handleComma();
+        String conditionString = "{ \"condition\": { \"class\": \"AndBodyPatternChecker\","
+                + "   \"parameters\": [{ \"name\": \"irrelevant\", \"value\": \"" + pattern + "\"}] }}";
         configurationString += conditionString;
+        needComma = true;
         return this;
     }
 
@@ -294,10 +317,11 @@ public class RequestConditionBuilder {
      * @return with itself
      */
     public RequestConditionBuilder textInUrl(String textInUrl) {
-        String conditionString = "<condition class=\"AndUrlPatternChecker\">\n"
-                + "    <param name=\"irrelevant\" value=\"" + textInUrl + "\" />\n"
-                + "</condition>\n";
+        handleComma();
+        String conditionString = "{ \"condition\": { \"class\": \"AndUrlPatternChecker\","
+                + "   \"parameters\": [{ \"name\": \"irrelevant\", \"value\": \"" + textInUrl + "\"}] }}";
         configurationString += conditionString;
+        needComma = true;
         return this;
     }
 

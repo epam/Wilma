@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -52,7 +53,7 @@ public class StubResourceHolderUpdater {
      */
     public void updateResourceHolder() {
         stubResourceHolder.setConditionChekers(new ArrayList<>(temporaryStubResourceHolder.getConditionCheckers()));
-        stubResourceHolder.setTemplateFormatters(new ArrayList<>(temporaryStubResourceHolder.getTemplateFormatters()));
+        stubResourceHolder.setResponseFormatters(new ArrayList<>(temporaryStubResourceHolder.getResponseFormatters()));
         stubResourceHolder.setTemplates(new HashMap<>(temporaryStubResourceHolder.getTemplates()));
         updateRequestInterceptors();
         updateResponseInterceptors();
@@ -78,7 +79,7 @@ public class StubResourceHolderUpdater {
      */
     public void clearTemporaryResourceHolder() {
         temporaryStubResourceHolder.clearConditionCheckers();
-        temporaryStubResourceHolder.clearTemplateFormatters();
+        temporaryStubResourceHolder.clearResponseFormatters();
         temporaryStubResourceHolder.clearTemplates();
         temporaryStubResourceHolder.clearRequestInterceptors();
         temporaryStubResourceHolder.clearResponseInterceptors();
@@ -87,11 +88,20 @@ public class StubResourceHolderUpdater {
 
     /**
      * Add the XML document to {@link StubResourceHolder}.
-     * @param groupName is the groupname attribute of stub configuration
+     * @param groupName is the group name attribute of stub configuration
      * @param document is the XML document
      */
     public void addDocumentToResourceHolder(final String groupName, final Document document) {
-        stubResourceHolder.setActualStubConfigDocument(groupName, document);
+        //stubResourceHolder.setActualStubConfigDocument(groupName, document);
+    }
+
+    /**
+     * Add the JSON Object to {@link StubResourceHolder}.
+     * @param groupName is the group name attribute of stub configuration
+     * @param jsonObject is the json object
+     */
+    public void addDocumentToResourceHolder(final String groupName, final JSONObject jsonObject) {
+        stubResourceHolder.setActualStubConfigJsonObject(groupName, jsonObject);
     }
 
     /**
@@ -101,7 +111,7 @@ public class StubResourceHolderUpdater {
      */
     public void initializeTemporaryResourceHolder() {
         temporaryStubResourceHolder.setConditionCheckers(new ArrayList<>(internalResourceHolder.getConditionCheckers()));
-        temporaryStubResourceHolder.setTemplateFormatters(new ArrayList<>(internalResourceHolder.getTemplateFormatters()));
+        temporaryStubResourceHolder.setResponseFormatters(new ArrayList<>(internalResourceHolder.getResponseFormatters()));
         initializeRequestInterceptors();
         initializeResponseInterceptors();
         temporaryStubResourceHolder.setSequenceHandlers(new ArrayList<>(internalResourceHolder.getSequenceHandlers()));

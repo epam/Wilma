@@ -49,7 +49,7 @@ public class UploadTest {
     private static final String STUB_CONFIGURATION_UPLOAD_URL = "http://host:1/config/admin/stub/stubconfig?fileName=testfile1";
     private static final String STUB_CONFIGURATION_UPLOAD_URL_FOR_STRING = "http://host:1/config/admin/stub/stubconfig?fileName=directUpload";
     private static final String TEMPLATE_UPLOAD_URL = "http://host:1/config/admin/stub/templates?fileName=testfile1";
-    private static final String TEMPLATE_FORMATTER_UPLOAD_URL = "http://host:1/config/admin/stub/templateformatter?fileName=testfile1";
+    private static final String RESPONSE_FORMATTER_UPLOAD_URL = "http://host:1/config/admin/stub/responseformatter?fileName=testfile1";
     private static final String FILENAME = "testfile1";
 
     @Mock
@@ -138,7 +138,7 @@ public class UploadTest {
 
         verify(client).uploadFile(url.capture(), file.capture());
 
-        assertEquals(url.getValue(), TEMPLATE_FORMATTER_UPLOAD_URL);
+        assertEquals(url.getValue(), RESPONSE_FORMATTER_UPLOAD_URL);
         assertEquals(file.getValue(), testFile);
     }
 

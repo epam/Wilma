@@ -85,7 +85,7 @@ public abstract class SequenceHandlingTestBase extends WilmaTestCase {
         String acceptHeader = "xml";
         String contentEncoding = "no";
         String acceptEncoding = "no";
-        return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort).xmlIS(requestBody)
+        return new RequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort).requestInputStream(requestBody)
                 .contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
     }
 
@@ -117,7 +117,7 @@ public abstract class SequenceHandlingTestBase extends WilmaTestCase {
         String contentEncoding = "";
         String acceptEncoding = "";
         return new MultiStubRequestParameters().testServerUrl(testServerUrl).useProxy(false).wilmaHost(wilmaHost).wilmaPort(wilmaPort)
-                .xmlIS(new FileInputStream(resourcePath)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
+                .requestInputStream(new FileInputStream(resourcePath)).contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding)
                 .acceptEncoding(acceptEncoding).groupName(groupname);
     }
 }

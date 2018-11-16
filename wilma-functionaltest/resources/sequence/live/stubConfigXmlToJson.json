@@ -1,0 +1,128 @@
+{
+  "wilmaStubConfiguration": {
+    "sequenceDescriptors": [
+      {
+        "name": "session-collector",
+        "class": "SessionIdBasedSequenceHandler",
+        "timeout": 600000,
+        "conditionDescriptor": {
+          "condition": {
+            "class": "SessionIdChecker",
+            "parameters": [
+              {
+                "name": "SESSION-ID",
+                "value": "something"
+              }
+            ]
+          }
+        },
+        "parameters": [
+          {
+            "name": "headerName",
+            "value": "SESSION-ID"
+          }
+        ]
+      }
+    ],
+    "dialogDescriptors": [
+      {
+        "name": "dialog-descriptor-OriginalRequest-OriginalResponse",
+        "usage": "always",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "CustomXQueryBodyChecker",
+            "parameters": [
+              {
+                "name": "xquery",
+                "value": "(count(//*[local-name()='OriginalRequest'][1])=1)"
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "templateName": "template_OriginalResponse",
+          "mimeType": "text/xml",
+          "sequenceDescriptorName": "session-collector"
+        }
+      },
+      {
+        "name": "dialog-descriptor-MagicRequest-MagicResponse",
+        "usage": "always",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "CustomXQueryBodyChecker",
+            "parameters": [
+              {
+                "name": "xquery",
+                "value": "(count(//*[local-name()='MagicRequest'][1])=1)"
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "templateName": "template_MagicResponse",
+          "mimeType": "text/xml",
+          "sequenceDescriptorName": "session-collector"
+        }
+      },
+      {
+        "name": "dialog-descriptor-JsonRequest",
+        "usage": "always",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "JsonPathChecker",
+            "parameters": [
+              {
+                "name": "expected",
+                "value": "par avion"
+              },
+              {
+                "name": "jsonPath",
+                "value": "$.secret"
+              },
+              {
+                "name": "expected",
+                "value": "1234asdf"
+              }
+            ]
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "templateName": "InformationTemplate",
+          "responseFormatterSet": [
+            {
+              "responseFormatter": {
+                "class": "SequenceAwareJsonResponseFormatter"
+              }
+            }
+          ],
+          "mimeType": "application/json",
+          "sequenceDescriptorName": "session-collector"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "template_OriginalResponse",
+        "resource": "OriginalResponse.xml",
+        "type": "xmlFile"
+      },
+      {
+        "name": "InformationTemplate",
+        "resource": "InformationJson.json",
+        "type": "jsonFile"
+      },
+      {
+        "name": "template_MagicResponse",
+        "resource": "MagicResponse.xml",
+        "type": "xmlFile"
+      }
+    ]
+  }
+}

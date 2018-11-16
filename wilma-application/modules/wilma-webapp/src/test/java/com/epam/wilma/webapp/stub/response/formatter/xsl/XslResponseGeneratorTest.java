@@ -32,7 +32,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
-import com.epam.wilma.webapp.domain.exception.TemplateFormattingFailedException;
+import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
 import com.epam.wilma.webapp.stub.servlet.helper.ByteArrayInputStreamFactory;
 
 /**
@@ -78,7 +78,7 @@ public class XslResponseGeneratorTest {
         assertEquals(actual, response);
     }
 
-    @Test(expectedExceptions = TemplateFormattingFailedException.class)
+    @Test(expectedExceptions = ResponseFormattingFailedException.class)
     public void testGenerateResponseWhenSaxonApiExceptionDuringTransformShouldThrowException() throws SaxonApiException, SAXException {
         //GIVEN
         given(transformer.transform(xslInputStream, requestInputStream, templateInputStream)).willThrow(new SaxonApiException("exception"));
@@ -87,7 +87,7 @@ public class XslResponseGeneratorTest {
         //THEN it should throw excpetion
     }
 
-    @Test(expectedExceptions = TemplateFormattingFailedException.class)
+    @Test(expectedExceptions = ResponseFormattingFailedException.class)
     public void testGenerateResponseWhenSAXExceptionDuringTransformShouldThrowException() throws SaxonApiException, SAXException {
         //GIVEN
         given(transformer.transform(xslInputStream, requestInputStream, templateInputStream)).willThrow(new SAXException());
