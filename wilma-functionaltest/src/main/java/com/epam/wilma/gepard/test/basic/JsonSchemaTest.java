@@ -38,7 +38,7 @@ import java.io.FileNotFoundException;
 public class JsonSchemaTest extends WilmaTestCase {
 
     private static final String STUB_CONFIG_JSON = "resources/stub/JSON/stubConfigWithJsonSchema.json";
-    private static final String SCHEMA_JSON = "resources/stub/JSON/jsonTestSchema.json";
+    private static final String SCHEMA_JSON = "resources/stub/JSON/JsonTestSchema.json";
     private static final String SCHEMA_FILE_NAME = "jsonTestSchema.json";
     private static final String GOOD_RESPONSE_FILE = "resources/stub/JSON/responseWithSchema.json";
     private static final String GOOD_RESPONSE_FILE_NAME = "responseWithSchema.json";

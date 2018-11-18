@@ -64,12 +64,11 @@ public class JsonBasedObjectTransformer {
             if (jsonObject.getJSONObject("wilmaStubConfiguration").has("active")) {
                 jsonObject.getJSONObject("wilmaStubConfiguration").put("active", String.valueOf(actualStatus));
             }
-            Writer output;
             String text = jsonObject.toString(INDENT_FACTOR);
             File file = new File(path);
-            output = new BufferedWriter(new FileWriter(file));
-            output.write(text);
-            output.close();
+            try (Writer output = new BufferedWriter(new FileWriter(file))){
+                output.write(text);
+            }
         } catch (IOException e) {
             throw new TransformerException(e);
         }
