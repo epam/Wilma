@@ -20,8 +20,10 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.io.ByteArrayOutputStream;
 
+import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.Serializer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,12 +34,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class SerializerFactory {
 
+    @Autowired
+    private ProcessorFactory processorFactory;
+
     /**
      * Creates new instances of {@link Serializer}.
      * @return the new instance
      */
     public Serializer createSerializer() {
-        return new Serializer();
+        Processor processor = processorFactory.createProcessor();
+        Serializer serializer = processor.newSerializer();
+        return serializer;
     }
 
     /**
@@ -46,6 +53,8 @@ public class SerializerFactory {
      * @return the new instance
      */
     public Serializer createSerializer(final ByteArrayOutputStream baos) {
-        return new Serializer(baos);
+        Processor processor = processorFactory.createProcessor();
+        Serializer serializer = processor.newSerializer(baos);
+        return serializer;
     }
 }
