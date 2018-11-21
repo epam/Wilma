@@ -86,7 +86,7 @@ public class JsonBasedStubDescriptorFactory implements StubDescriptorJsonFactory
             StubDescriptorAttributes attributes = stubDescriptor.getAttributes();
             stubResourceHolderUpdater.addDocumentToResourceHolder(attributes.getGroupName(), jsonStubDescriptor);
             return stubDescriptor;
-        } catch (ValidationException e){
+        } catch (ValidationException e) {
             String errorMessage = "Stub descriptor cannot be parsed, reason: " + e.getMessage();
             throw new DescriptorCannotBeParsedException(errorMessage, e);
         } catch (JSONException | StubConfigJsonSchemaException e) {

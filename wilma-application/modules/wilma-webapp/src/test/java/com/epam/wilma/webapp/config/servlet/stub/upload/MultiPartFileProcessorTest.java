@@ -19,13 +19,12 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.InputStream;
-
+import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
+import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
+import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
+import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
+import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
 import com.epam.wilma.webapp.service.external.ServiceMap;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -34,17 +33,16 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
-import com.epam.wilma.router.RoutingService;
-import com.epam.wilma.stubconfig.StubDescriptorFactory;
-import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
-import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
-import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
+import java.io.InputStream;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Tests for {@link MultiPartFileProcessor}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class MultiPartFileProcessorTest {
     private static final String APPLICATION_JAVA = "application/java";

@@ -19,14 +19,13 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Iterator;
-import java.util.Set;
-
-import com.epam.wilma.domain.stubconfig.exception.StubConfigJsonParserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Used for finding classes of a certain type and package.

@@ -37,6 +37,7 @@ public class PackageBasedClassFinderCore {
      * @param interfaceOrClass the given type
      * @param packageName the given package
      * @param <T> the type of the {@link Class}
+     * @throws ClassNotFoundException in case of error
      * @return the subtypes of the given type that was found
      */
     public <T> Set<Class<? extends T>> find(final String packageName, final Class<T> interfaceOrClass) throws ClassNotFoundException {

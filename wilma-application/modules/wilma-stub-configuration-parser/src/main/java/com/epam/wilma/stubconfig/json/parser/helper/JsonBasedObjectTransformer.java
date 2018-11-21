@@ -66,7 +66,7 @@ public class JsonBasedObjectTransformer {
             }
             String text = jsonObject.toString(INDENT_FACTOR);
             File file = new File(path);
-            try (Writer output = new BufferedWriter(new FileWriter(file))){
+            try (Writer output = new BufferedWriter(new FileWriter(file))) {
                 output.write(text);
             }
         } catch (IOException e) {
