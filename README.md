@@ -68,7 +68,9 @@ There are several ways you can help us:
 #### Building with Gradle
 The project can be built by following the instructions described [here](https://github.com/epam/Wilma/wiki/DEV,-Build-from-Scratch).
 This way of build is recommended for contributors only, End-Users, please use the pre-built downloadable releases from [here](https://github.com/epam/Wilma/releases), or use the docker image.
-Actual build status: [![Build Status](https://travis-ci.org/epam/Wilma.svg?branch=master)](https://travis-ci.org/epam/Wilma)
+
+[![Build Status](https://travis-ci.org/epam/Wilma.svg?branch=master)](https://travis-ci.org/epam/Wilma)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=epam%2FWilma&metric=alert_status)](https://sonarcloud.io/dashboard?id=epam%2FWilma)
 
 ## Detailed information
 * Check the [Wiki](https://github.com/epam/Wilma/wiki) and [Issues](https://github.com/epam/Wilma/issues) link on GitHub
