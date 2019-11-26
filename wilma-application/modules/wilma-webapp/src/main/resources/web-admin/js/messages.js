@@ -25,17 +25,6 @@ $(document).ready(function() {
 		$("#span-messages-messagesCount").text(data.countOfMessages);
 	});	
 
-	// GETs maintainer properties
-	$.get('../config/public/maintainer', function(data) {
-		$("#span-maintainer-method").html(data.maintainerMethod);
-		$("#span-cron-expression").html(data.cronExpression);
-		if (data.maintainerMethod === "filelimit") {
-			$("#span-method-property").text(data.fileLimit);
-		} else {
-			$("#span-method-property").html(data.timeLimit);
-		}
-	});
-
 	// GETs list of message files and creates links from each
 	$.get('../config/public/messages', function(data) {
 		for ( var i = 0; i < data.files.length; i++) {

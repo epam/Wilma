@@ -608,7 +608,7 @@ p {
 }
 
 .lead {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 21px;
   font-weight: 200;
   line-height: 30px
@@ -961,7 +961,7 @@ legend {
   display: block;
   width: 100%;
   padding: 0;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   font-size: 21px;
   line-height: 40px;
   color: #333;

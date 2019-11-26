@@ -29,6 +29,17 @@ $(document).ready(function() {
 		});
 	});
 
+	// GETs maintainer properties
+	$.get('../config/public/maintainer', function(data) {
+		$("#span-maintainer-method").html(data.maintainerMethod);
+		$("#span-cron-expression").html(data.cronExpression);
+		if (data.maintainerMethod === "filelimit") {
+			$("#span-method-property").text(data.fileLimit);
+		} else {
+			$("#span-method-property").html(data.timeLimit);
+		}
+	});
+
 	// gets operation mode status and sets the buttons
 	$.get('../config/public/switch/status', function(data) {
 		if (data.proxyMode) {
