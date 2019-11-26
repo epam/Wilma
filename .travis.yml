@@ -7,7 +7,7 @@ install:
  - mkdir $HOME/localrepo/
 script:
  - ./gradlew -b browsermob-proxy/build.gradle build createPom uploadArchives -x checkstyleMain -x checkstyleTest -PlocalRepository=file:///$HOME/localrepo/ -PbuildNumber=$TRAVIS_BUILD_NUMBER
- - ./gradlew build release sonarcube -PlocalRepository=file:///$HOME/localrepo/
+ - ./gradlew build release sonarqube -PlocalRepository=file:///$HOME/localrepo/
  - ./gradlew -b wilma-service-api/build.gradle build createPom uploadArchives -PlocalRepository=file:///$HOME/localrepo/ -PbuildNumber=$TRAVIS_BUILD_NUMBER
  - ./gradlew -b wilma-test/wilma-test-client/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=$TRAVIS_BUILD_NUMBER
  - ./gradlew -b wilma-test/wilma-test-server/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=$TRAVIS_BUILD_NUMBER
