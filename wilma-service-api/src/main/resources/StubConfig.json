@@ -143,8 +143,8 @@
       "minItems": 1,
       "maxItems": 25
     },
-    "booleanConditionDefinition": {
-      "description": "Boolean condition, like and, or not",
+    "logicalConditionDefinition": {
+      "description": "Logical evaluation on condition(s), like 'and', 'or', and 'not'",
       "type": "object",
       "oneOf": [
         {
@@ -161,14 +161,17 @@
                     "$ref": "#/definitions/conditionSetInvokerDefinition"
                   },
                   {
-                    "$ref": "#/definitions/booleanConditionDefinition"
+                    "$ref": "#/definitions/logicalConditionDefinition"
                   }
                 ]
               },
               "minItems": 1
             }
           },
-          "additionalProperties": false
+          "additionalProperties": false,
+          "required": [
+            "and"
+          ]
         },
         {
           "type": "object",
@@ -184,14 +187,17 @@
                     "$ref": "#/definitions/conditionSetInvokerDefinition"
                   },
                   {
-                    "$ref": "#/definitions/booleanConditionDefinition"
+                    "$ref": "#/definitions/logicalConditionDefinition"
                   }
                 ]
               },
               "minItems": 1
             }
           },
-          "additionalProperties": false
+          "additionalProperties": false,
+          "required": [
+            "or"
+          ]
         },
         {
           "type": "object",
@@ -206,7 +212,7 @@
                   "$ref": "#/definitions/conditionSetInvokerDefinition"
                 },
                 {
-                  "$ref": "#/definitions/booleanConditionDefinition"
+                  "$ref": "#/definitions/logicalConditionDefinition"
                 }
               ]
             }
@@ -229,7 +235,7 @@
           "$ref": "#/definitions/conditionSetInvokerDefinition"
         },
         {
-          "$ref": "#/definitions/booleanConditionDefinition"
+          "$ref": "#/definitions/logicalConditionDefinition"
         }
       ]
     },
