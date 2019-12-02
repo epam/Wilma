@@ -36,10 +36,10 @@ public interface ResponseFormatter {
      * @param wilmaRequest     is a specific object, which contains the request headers and the uncompressed request body.
      * @param resp             is the HttpServletResponse itself, offering the possibility of setting response attributes directly
      * @param responseResource is the specified response which will be modified by the formatter
-     * @param params           is the necessary parameters of the response formatter class
+     * @param parameters       is the necessary parameters of the response formatter class
      * @return with the formatted response resource
      * @throws Exception if error occurs, it will be caught by the stub mechanism
      */
     byte[] formatResponse(WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
-                          byte[] responseResource, final ParameterList params) throws Exception;
+                          byte[] responseResource, final ParameterList parameters) throws Exception;
 }
