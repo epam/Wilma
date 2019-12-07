@@ -7,7 +7,7 @@ This plugin example was created to show how Wilma can act as a special kind of C
 So what kind of Chaos Monkey this example will show? This will simulate the following error situations:
 
  - E404 error will be received as response for every 5 requests, randomly
- - response timeout will be cause for every 10 requests, randomly
+ - response timeout will be caused for every 10 requests, randomly
  - E500 error will be received as response for every 25 requests, randomly
  
 Implementation

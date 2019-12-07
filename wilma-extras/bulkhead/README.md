@@ -4,7 +4,7 @@ Wilma Plugin Example - Bulkhead
 Purpose of this example
 ---------------------------------------
 This plugin example was created to show an extra, maybe uncommon usage of the Wilma proxy.
-With this plugin, Wilma acts as a Bulkhead for a service. What "Bulkhead" means? - just search for "Bulkhead software pattern" on the WWW. 
+With this plugin, Wilma acts as a Bulkhead for a service. What "Bulkhead" means? - just search for "Bulkhead software pattern" on the web. 
 
 Implementation
 ---------------------------------------
@@ -16,7 +16,7 @@ To implement it, we used only 2 classes:
 of the services by using the "WilmaExternalService" interface.
  - "BulkHeadMapInformation" stores load information for a specific service
  
-Please see `bulkHeadStubConfigExample.xml` for example configuration. 
+Please see `bulkHeadStubConfigExample.json` for example configuration. 
 In the example configuration all the incoming requests are counted, and 5 hit/sec is the highest hit-rate that is allowed in bulkhead. 
 In real life much higher numbers are used here. 
 

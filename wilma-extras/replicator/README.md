@@ -57,9 +57,18 @@ Then start the environment:
 - In your browser, try to load https://github.com/epam/Wilma/tree/replicator/wilma-extras/replicator - the page should be loaded normally
 - If you check the content of the config file, you will recognize the interceptor part:
 ```
-<interceptor name="replicator" class="com.epam.wilma.extras.replicator.interceptor.ReplicatorInterceptor">
-            <param name="https://github.com/epam/Wilma/tree/replicator/wilma-extras/replicator" value="http://localhost:9090/replicator" />
-</interceptor>
+    "interceptors": [
+      {
+        "name": "Replicator",
+        "class": "com.epam.wilma.extras.replicator.interceptor.ReplicatorInterceptor",
+        "parameters": [
+          {
+            "name": "https://github.com/epam/Wilma/tree/master/wilma-extras/replicator",
+            "value": "http://localhost:9090/replicator"
+          }
+        ]
+      }
+    ]
 ```
 - This means that the ReplicatorInterceptor will be called when a message arrives to the proxy. The interceptor has a parameter, its name specifies the URL of the target. 
 If a request arrives that matches to the URL, the ReplicatorInterceptor will replicate the request and send the request to the secondary server that is given as value of the parameter, 
