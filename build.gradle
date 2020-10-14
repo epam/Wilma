@@ -19,7 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 apply from: 'common.gradle'
 
 subprojects {
-    apply from: new File(".").absolutePath + '/common.gradle'
+    apply from: "$rootDir/common.gradle"
 
     subprojects {
         task allDeps(type: DependencyReportTask) {}
