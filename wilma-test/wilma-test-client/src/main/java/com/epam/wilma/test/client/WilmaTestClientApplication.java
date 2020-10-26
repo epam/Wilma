@@ -23,8 +23,8 @@ import java.util.Properties;
 /**
  * Starts the test client application. It is able to send an HTTP request to a configured address through a configured proxy.
  * It needs 2 program arguments: a properties file, where the server URL and the proxy address is configured, and the path of an XML file that will be sent in the request body.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public final class WilmaTestClientApplication {
 
@@ -33,6 +33,7 @@ public final class WilmaTestClientApplication {
 
     /**
      * Starts the test client application.
+     *
      * @param args the program arguments
      */
     public static void main(final String[] args) {
