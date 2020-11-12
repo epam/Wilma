@@ -66,13 +66,13 @@ public class NameSpaceProvider {
 
             // This method isn't necessary for XPath processing.
             @Override
-            public String getPrefix(final String uri) {
+            public String getPrefix(String namespaceURI) {
                 throw new UnsupportedOperationException();
             }
 
             // This method isn't necessary for XPath processing either.
             @Override
-            public Iterator<?> getPrefixes(final String uri) {
+            public Iterator getPrefixes(String namespaceURI) {
                 throw new UnsupportedOperationException();
             }
         });

@@ -18,31 +18,31 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-
+import com.epam.wilma.message.search.domain.exception.SystemException;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.beans.factory.BeanCreationException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.domain.exception.SystemException;
+import java.util.zip.DataFormatException;
+
+import static org.mockito.BDDMockito.given;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 /**
  * Unit tests for the class {@link SystemExceptionSelector}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class SystemExceptionSelectorTest {
 
     private SystemExceptionSelector underTest;
 
     @Mock
-    private ApplicationException applicationException;
+    private DataFormatException dataFormatException;
     @Mock
     private SystemException invalidPropertyException;
 
@@ -79,8 +79,8 @@ public class SystemExceptionSelectorTest {
     @Test
     public void testGetSystemExceptionShouldReturnWithNullWhenExceptionCauseNotContainSystemException() {
         //GIVEN
-        given(beanCreationException.getMostSpecificCause()).willReturn(applicationException);
-        given(beanCreationException.getCause()).willReturn(applicationException, applicationException);
+        given(beanCreationException.getMostSpecificCause()).willReturn(dataFormatException);
+        given(beanCreationException.getCause()).willReturn(dataFormatException, dataFormatException);
         //WHEN
         SystemException actual = underTest.getSystemException(beanCreationException);
         //THEN
