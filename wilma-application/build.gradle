@@ -23,6 +23,16 @@ allprojects  {
     apply plugin: 'jacoco'
 }
 
+jacoco {
+    toolVersion = "0.8.2"
+}
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+test.finalizedBy jacocoTestReport
+
 ext.javaxServletApi='javax.servlet:javax.servlet-api:3.1.0'
 
 ext.componentFullName=
@@ -40,15 +50,6 @@ task docs(type: Javadoc) {
 
 task checkstyle(type: Checkstyle) {
     dependsOn subprojects.checkstyleMain
-}
-
-configurations {
-    jacoco {
-    }
-}
-
-dependencies {
-    jacoco 'org.jacoco:org.jacoco.core:0.8.0'
 }
 
 task deleteRelease(type: Delete) {
