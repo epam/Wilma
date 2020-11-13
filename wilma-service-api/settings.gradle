@@ -2,4 +2,4 @@
  * This settings file is a dummy file to ensure smooth upgrade to Gradle 5.0.
  */
 
-enableFeaturePreview('STABLE_PUBLISHING')
+//enableFeaturePreview('STABLE_PUBLISHING')
