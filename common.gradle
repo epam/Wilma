@@ -51,7 +51,7 @@ task sourceZip(type: Zip) {
     extension 'jar'
 }
 
-checkstyle.configFile = file(new File(".").absolutePath + "/config/checkstyle/checkstyle.xml")
-checkstyle.configProperties = ['samedir' : new File(".").absolutePath + "/config/checkstyle"]
+checkstyle.configFile = file("$rootProject.rootDir/config/checkstyle/checkstyle.xml")
+checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/config/checkstyle"]
 checkstyle.toolVersion = '5.6'
 checkstyle.ignoreFailures = true

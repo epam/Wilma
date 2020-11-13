@@ -3,6 +3,9 @@ group 'com.epam.wilma'
 apply plugin: 'java'
 apply from: '../../common.gradle'
 
+checkstyle.configFile = file("$rootProject.rootDir/../../config/checkstyle/checkstyle.xml")
+checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/../../config/checkstyle"]
+
 dependencies {
     compile files("../../wilma-application/release/wilma-$version" + '.jar')
     //this httpclient need to be in synch with httpclient used by the proxy lib of wilma

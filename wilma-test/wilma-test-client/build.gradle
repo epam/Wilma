@@ -23,6 +23,9 @@ apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'application'
 apply from: '../../common.gradle'
 
+checkstyle.configFile = file("$rootProject.rootDir/../../config/checkstyle/checkstyle.xml")
+checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/../../config/checkstyle"]
+
 buildscript {
     repositories { jcenter() }
     dependencies {

@@ -3,6 +3,9 @@ group 'com.epam.wilma'
 apply plugin: 'java'
 apply from: '../../common.gradle'
 
+checkstyle.configFile = file("$rootProject.rootDir/../../config/checkstyle/checkstyle.xml")
+checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/../../config/checkstyle"]
+
 dependencies {
     compile files("../../wilma-application/release/wilma-$version" + '.jar')
     testCompile group: 'junit', name: 'junit', version: '4.12'
