@@ -19,16 +19,16 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 ext.componentDescription = "Wilma Test Server"
 
-buildscript {
-    repositories { jcenter() }
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
-    }
-}
-
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'application'
 apply from: '../../common.gradle'
+
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.0.0'
+    }
+}
 
 mainClassName = 'com.epam.wilma.test.server.WilmaTestServerApplication'
 
