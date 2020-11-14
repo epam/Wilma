@@ -23,6 +23,9 @@ apply from: '../common.gradle'
 
 version = "2.0-beta-8-wilma-" + "$wilmaVersion"+'.'+"$buildNumber"
 
+checkstyle.configFile = file("$rootProject.rootDir/../config/checkstyle/checkstyle.xml")
+checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/../config/checkstyle"]
+
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
@@ -37,6 +40,9 @@ dependencies {
     // also:  4.3.6: this release HttpClient disables all versions of SSL (including SSLv3) in favor of the TLS protocol by default.
     // Those users who wish to continue using SSLv3 need to explicitly enable support for it.
     // help info: http://stackoverflow.com/questions/1828775/how-to-handle-invalid-ssl-certificates-with-apache-httpclient
+    //
+    // + info: version of httpclient lib must be the same at "replicator" extension
+    //
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version:'4.2.3'
     compile group: 'org.apache.httpcomponents', name: 'httpmime', version:'4.2.3'
     compile group: 'org.apache.commons', name: 'commons-io', version:'1.3.2'

@@ -22,10 +22,6 @@ ext.componentDescription = "Wilma-Service-API"
 apply plugin: 'maven-publish'
 apply plugin: 'application'
 apply plugin: 'jacoco'
-apply from: '../common.gradle'
-
-checkstyle.configFile = file("$rootProject.rootDir/../../config/checkstyle/checkstyle.xml")
-checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/../../config/checkstyle"]
 
 mainClassName = 'com.epam.wilma.service.client.WilmaService'
 

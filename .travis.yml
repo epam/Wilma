@@ -1,25 +1,13 @@
 language: java
 jdk:
- - openjdk8
+ - openjdk11
 before_install:
  - chmod +x gradlew
 install:
  - mkdir $HOME/localrepo/
 script:
  - ./gradlew -b browsermob-proxy/build.gradle build createPom uploadArchives -x checkstyleMain -x checkstyleTest -PlocalRepository=file:///$HOME/localrepo/ -PbuildNumber=$TRAVIS_BUILD_NUMBER
- - ./gradlew build release sonarqube -PlocalRepository=file:///$HOME/localrepo/
- - ./gradlew -b wilma-service-api/build.gradle build createPom uploadArchives -PlocalRepository=file:///$HOME/localrepo/ -PbuildNumber=$TRAVIS_BUILD_NUMBER
- - ./gradlew -b wilma-test/wilma-test-client/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=$TRAVIS_BUILD_NUMBER
- - ./gradlew -b wilma-test/wilma-test-server/build.gradle build -x checkstyleMain -x checkstyleTest -PbuildNumber=$TRAVIS_BUILD_NUMBER
- - ./gradlew -b wilma-service-api/build.gradle clean build createPom uploadArchives -PlocalRepository=file:///$HOME/localrepo/
- - ./gradlew -b wilma-functionaltest/build.gradle build -PlocalRepository=file:///$HOME/localrepo/
- - ./gradlew -b wilma-extras/bulkhead/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
- - ./gradlew -b wilma-extras/circuit.breaker/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
- - ./gradlew -b wilma-extras/lookandsay.service/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
- - ./gradlew -b wilma-extras/random.error.generator/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
- - ./gradlew -b wilma-extras/replicator/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
- - ./gradlew -b wilma-extras/reverse.proxy/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
- - ./gradlew -b wilma-extras/short.circuit/build.gradle clean build -PlocalRepository=file:///$HOME/localrepo/
+ - ./gradlew build release sonarqube createPom uploadArchives -PlocalRepository=file:///$HOME/localrepo/ -PbuildNumber=$TRAVIS_BUILD_NUMBER
 branches:
   only:
   - master

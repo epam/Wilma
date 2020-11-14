@@ -31,6 +31,7 @@ apply plugin: 'eclipse'
 apply plugin: 'checkstyle'
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'jacoco'
 
 version = "$wilmaVersion"+'.'+"$buildNumber"
 
@@ -38,6 +39,7 @@ repositories {
     jcenter()
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "${myLocalRepository}" }
+    maven { url "https://repository.mulesoft.org/nexus/content/repositories/public/" }
 }
 
 // Source and target info
@@ -51,7 +53,15 @@ task sourceZip(type: Zip) {
     extension 'jar'
 }
 
-checkstyle.configFile = file("$rootProject.rootDir/config/checkstyle/checkstyle.xml")
-checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/config/checkstyle"]
 checkstyle.toolVersion = '5.6'
 checkstyle.ignoreFailures = true
+
+jacoco {
+    toolVersion = "0.8.2"
+}
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+test.finalizedBy jacocoTestReport

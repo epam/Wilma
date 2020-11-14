@@ -19,20 +19,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'wilma application'
 
-allprojects  {
-    apply plugin: 'jacoco'
-}
-
-jacoco {
-    toolVersion = "0.8.2"
-}
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
-}
-test.finalizedBy jacocoTestReport
-
 ext.javaxServletApi='javax.servlet:javax.servlet-api:3.1.0'
 
 ext.componentFullName=

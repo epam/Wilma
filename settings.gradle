@@ -45,3 +45,26 @@ include 'wilma-application:wilma-message-sequence'
 for (subproject in (project(':wilma-application')).children){
 	subproject.projectDir = file("$rootDir/wilma-application/modules/$subproject.name")
 }
+
+include 'wilma-extras:bulkhead'
+include 'wilma-extras:circuit.breaker'
+include 'wilma-extras:lookandsay.service'
+include 'wilma-extras:random.error.generator'
+include 'wilma-extras:replicator'
+include 'wilma-extras:reverse.proxy'
+include 'wilma-extras:short.circuit'
+
+for (subproject in (project(':wilma-extras')).children){
+	subproject.projectDir = file("$rootDir/wilma-extras/$subproject.name")
+}
+
+include 'wilma-test:wilma-test-client'
+include 'wilma-test:wilma-test-server'
+
+for (subproject in (project(':wilma-test')).children){
+	subproject.projectDir = file("$rootDir/wilma-test/$subproject.name")
+}
+
+include 'wilma-service-api'
+
+include 'wilma-functionaltest'
