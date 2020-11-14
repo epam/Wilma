@@ -101,15 +101,23 @@ class ReverseProxyFileHandler {
         // if file does not exists, then create it
         if (!file.exists()) {
             if (file.getParentFile() != null) {
-                file.getParentFile().mkdirs();
+                if (!file.getParentFile().mkdirs()) {
+                    //ups, cannot create the necessary folder
+                    logger.error("ReverseProxy - cannot create folder: {}", file.getParentFile().getName());
+                    return;
+                }
             }
-            file.createNewFile();
+            if (!file.createNewFile()) {
+                //ups, cannot save
+                logger.error("ReverseProxy - cannot create file: {}", file.getName());
+                return;
+            }
         }
-        FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(file);
-        fos.write(("{\n  \"identifier\": \"" + entryKey + "\",\n").getBytes());
-        fos.write(("  \"originalTarget\": \"" + information.getOriginalTarget() + "\",\n").getBytes());
-        fos.write(("  \"realTarget\": \"" + information.getRealTarget() + "\"\n}\n").getBytes());
-        fos.close();
+        try (FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(file)) {
+            fos.write(("{\n  \"identifier\": \"" + entryKey + "\",\n").getBytes());
+            fos.write(("  \"originalTarget\": \"" + information.getOriginalTarget() + "\",\n").getBytes());
+            fos.write(("  \"realTarget\": \"" + information.getRealTarget() + "\"\n}\n").getBytes());
+        }
     }
 
     /**
@@ -122,17 +130,17 @@ class ReverseProxyFileHandler {
         File folderFile = new File(path);
         File[] listOfFiles = folderFile.listFiles();
         if (listOfFiles != null) {
-            for (int i = 0; i < listOfFiles.length; i++) {
-                if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(".json")) {
+            for (File listOfFile : listOfFiles) {
+                if (listOfFile.isFile() && listOfFile.getName().endsWith(".json")) {
                     try {
-                        ReverseProxyInformation mapObject = loadMapObject(listOfFiles[i].getAbsolutePath());
+                        ReverseProxyInformation mapObject = loadMapObject(listOfFile.getAbsolutePath());
                         if (mapObject != null) {
                             synchronized (REVERSE_PROXY_INFORMATION_MAP) {
                                 REVERSE_PROXY_INFORMATION_MAP.put(mapObject.getIdentifier(), mapObject);
                             }
                         }
                     } catch (JSONException e) {
-                        logger.info("Cannot load JSON file to Reverse Proxy map: " + listOfFiles[i].getAbsolutePath() + ", error:" + e.getLocalizedMessage());
+                        logger.info("Cannot load JSON file to Reverse Proxy map: " + listOfFile.getAbsolutePath() + ", error:" + e.getLocalizedMessage());
                     }
                 }
             }

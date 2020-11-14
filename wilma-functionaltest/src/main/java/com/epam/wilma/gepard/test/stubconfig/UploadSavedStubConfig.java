@@ -23,8 +23,6 @@ import com.epam.wilma.gepard.WilmaTestCase;
 import com.epam.wilma.gepard.testclient.MultiStubRequestParameters;
 import com.epam.wilma.gepard.testclient.RequestParameters;
 import com.epam.wilma.gepard.testclient.ResponseHolder;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -33,9 +31,6 @@ import java.nio.file.FileSystemException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Uploads the saved stub configuration back to wilma in order to keep the consistency of the
@@ -75,18 +70,6 @@ public class UploadSavedStubConfig extends WilmaTestCase {
         } catch (FileSystemException e) {
             logComment("Ups, cannot delete the file, reason: " + e.getLocalizedMessage());
         }
-    }
-
-    private List<String> getGroupNamesFromJson(final String response) throws Exception {
-        List<String> result = new ArrayList<>();
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode actualObj = mapper.readValue(response, JsonNode.class);
-        JsonNode configs = actualObj.path("configs");
-        Iterator<JsonNode> iterator = configs.getElements();
-        while (iterator.hasNext()) {
-            result.add(iterator.next().path("groupname").getTextValue());
-        }
-        return result;
     }
 
     /**

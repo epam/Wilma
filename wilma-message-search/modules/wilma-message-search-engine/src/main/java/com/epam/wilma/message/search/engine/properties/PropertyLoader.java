@@ -62,10 +62,9 @@ public class PropertyLoader {
      */
     public Properties loadProperties(final String configFile) {
         Properties properties = new Properties();
-        try {
-            checkPropertyFileArgument(configFile);
-            InputStream inputStream = new FileInputStream(configFile);
-            properties.load(inputStream);
+        checkPropertyFileArgument(configFile);
+        try (InputStream localInputStream = new FileInputStream(configFile)) {
+            properties.load(localInputStream);
             logger.debug("Properties loaded from external configuration.");
         } catch (IOException e) {
             throw new PropertiesNotAvailableException("Configuration file " + configFile + " cannot be loaded", e);

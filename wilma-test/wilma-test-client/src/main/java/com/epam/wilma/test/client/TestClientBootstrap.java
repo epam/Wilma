@@ -19,19 +19,19 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Bootstraps the client application by loading the properties file, and calling the business logic.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class TestClientBootstrap {
 
@@ -39,8 +39,9 @@ public class TestClientBootstrap {
 
     /**
      * Bootstraps the client application by loading the properties file, and calling the business logic.
-     * @param args the program arguments
-     * @param properties where the properties will be loaded
+     *
+     * @param args              the program arguments
+     * @param properties        where the properties will be loaded
      * @param httpRequestSender the class that sends the request to the server
      */
     public void bootstrap(final String[] args, final Properties properties, final HttpRequestSender httpRequestSender) {
@@ -75,6 +76,7 @@ public class TestClientBootstrap {
                             Thread.sleep(pauseBetweenRequests);
                         } catch (InterruptedException e) {
                             logger.error("InterruptedException raised in endless loop.", e);
+                            isEndlessLoop = false; //ok, let's exit
                         }
                     } while (isEndlessLoop);
                 }
@@ -90,7 +92,6 @@ public class TestClientBootstrap {
         } else {
             logger.error("Exactly two program arguments expected (properties file and the xml to send).");
         }
-
     }
 
     private InputStream getFileInputStream(final String filename) throws FileNotFoundException {

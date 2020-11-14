@@ -93,32 +93,40 @@ class ShortCircuitResponseInformationFileHandler {
         // if file does not exists, then create it
         if (!file.exists()) {
             if (file.getParentFile() != null) {
-                file.getParentFile().mkdirs();
-            }
-            file.createNewFile();
-        }
-        FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(file);
-        fos.write(("{\n  \"Key\": \"" + entryKey + "\",\n").getBytes());
-        fos.write(("  \"ResponseCode\": " + information.getStatusCode() + ",\n").getBytes());
-        fos.write(("  \"ContentType\": \"" + information.getContentType() + "\",\n").getBytes());
-        Map<String, String> headers = information.getHeaders();
-        if (headers != null) {
-            fos.write("  \"Headers\": [".getBytes());
-            int j = 1;
-            for (String key : headers.keySet()) {
-                fos.write(("    { \"" + key + "\": \"" + encodeString(headers.get(key)) + "\" }").getBytes());
-                if (j != headers.size()) {
-                    fos.write(",".getBytes());
+                if (!file.getParentFile().mkdirs()) {
+                    //ups, cannot create the necessary folder
+                    logger.error("ShortCircuit - cannot create folder: {}", file.getParentFile().getName());
+                    return;
                 }
-                fos.write("\n".getBytes());
-                j++;
             }
-            fos.write("  ],\n".getBytes());
+            if (!file.createNewFile()) {
+                //ups, cannot save
+                logger.error("ShortCircuit - cannot create file: {}", file.getName());
+                return;
+            }
         }
-        fos.write("  \"Body\": ".getBytes());
-        String myBody = new JSONObject().put("Body", encodeString(information.getBody())).toString();
-        fos.write((myBody + "\n}").getBytes());
-        fos.close();
+        try (FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(file)) {
+            fos.write(("{\n  \"Key\": \"" + entryKey + "\",\n").getBytes());
+            fos.write(("  \"ResponseCode\": " + information.getStatusCode() + ",\n").getBytes());
+            fos.write(("  \"ContentType\": \"" + information.getContentType() + "\",\n").getBytes());
+            Map<String, String> headers = information.getHeaders();
+            if (headers != null) {
+                fos.write("  \"Headers\": [".getBytes());
+                int j = 1;
+                for (String key : headers.keySet()) {
+                    fos.write(("    { \"" + key + "\": \"" + encodeString(headers.get(key)) + "\" }").getBytes());
+                    if (j != headers.size()) {
+                        fos.write(",".getBytes());
+                    }
+                    fos.write("\n".getBytes());
+                    j++;
+                }
+                fos.write("  ],\n".getBytes());
+            }
+            fos.write("  \"Body\": ".getBytes());
+            String myBody = new JSONObject().put("Body", encodeString(information.getBody())).toString();
+            fos.write((myBody + "\n}").getBytes());
+        }
     }
 
     /**
@@ -132,17 +140,17 @@ class ShortCircuitResponseInformationFileHandler {
         File folderFile = new File(path);
         File[] listOfFiles = folderFile.listFiles();
         if (listOfFiles != null) {
-            for (int i = 0; i < listOfFiles.length; i++) {
-                if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(".json")) {
+            for (File listOfFile : listOfFiles) {
+                if (listOfFile.isFile() && listOfFile.getName().endsWith(".json")) {
                     try {
-                        ShortCircuitResponseInformation mapObject = loadMapObject(listOfFiles[i].getAbsolutePath());
+                        ShortCircuitResponseInformation mapObject = loadMapObject(listOfFile.getAbsolutePath());
                         if (mapObject != null) {
                             synchronized (SHORT_CIRCUIT_MAP_GUARD) {
                                 SHORT_CIRCUIT_MAP.put(mapObject.getHashCode(), mapObject);
                             }
                         }
                     } catch (JSONException e) {
-                        logger.info("Cannot load JSON file to Short Circuit map: " + listOfFiles[i].getAbsolutePath() + ", error:" + e.getLocalizedMessage());
+                        logger.info("Cannot load JSON file to Short Circuit map: {}, error: {}", listOfFile.getAbsolutePath(), e.getLocalizedMessage());
                     }
                 }
             }
@@ -163,7 +171,7 @@ class ShortCircuitResponseInformationFileHandler {
                 String body = decodeString(obj.getJSONObject("Body").getString("Body"));
                 JSONArray headerArray = obj.getJSONArray("Headers");
                 ShortCircuitResponseInformation information = null;
-                if (hashKey != null && contentType != null && body != null) {
+                if (hashKey != null && contentType != null) {
                     information = new ShortCircuitResponseInformation(Long.MAX_VALUE);
                     information.setHashCode(hashKey);
                     information.setStatusCode(responseCode);

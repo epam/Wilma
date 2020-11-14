@@ -56,21 +56,22 @@ public class TestServerBootstrap {
             try {
                 String fileName = args[0];
                 if (args[0].endsWith(".properties")) {
-                    InputStream inputStream = new FileInputStream(fileName);
-                    properties.load(inputStream);
-                    Integer httpPort = Integer.parseInt(properties.getProperty("server.port.http"));
-                    Integer httpsPort = Integer.parseInt(properties.getProperty("server.port.https"));
-                    Boolean isPerfTest = Boolean.valueOf(properties.getProperty("perftest"));
-                    logger.info("Http Server is running on port: " + httpPort);
-                    logger.info("HttpS Server is running on port: " + httpsPort);
-                    String methodInfo;
-                    if (isPerfTest) {
-                        methodInfo = "Performance";
-                    } else {
-                        methodInfo = "Functional";
+                    try (InputStream inputStream = new FileInputStream(fileName)) {
+                        properties.load(inputStream);
+                        Integer httpPort = Integer.parseInt(properties.getProperty("server.port.http"));
+                        Integer httpsPort = Integer.parseInt(properties.getProperty("server.port.https"));
+                        Boolean isPerfTest = Boolean.valueOf(properties.getProperty("perftest"));
+                        logger.info("Http Server is running on port: {}", httpPort);
+                        logger.info("HttpS Server is running on port: {}", httpsPort);
+                        String methodInfo;
+                        if (isPerfTest) {
+                            methodInfo = "Performance";
+                        } else {
+                            methodInfo = "Functional";
+                        }
+                        logger.info("Test Server method: {}", methodInfo);
+                        jettyServer.configureAndStart(new Server(), httpPort, httpsPort, isPerfTest);
                     }
-                    logger.info("Test Server method: " + methodInfo);
-                    jettyServer.configureAndStart(new Server(), httpPort, httpsPort, isPerfTest);
                 } else {
                     logger.error("Specified property file's extension is not \"properties\"!");
                 }

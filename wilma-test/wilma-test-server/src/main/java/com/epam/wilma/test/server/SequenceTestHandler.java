@@ -68,7 +68,7 @@ public class SequenceTestHandler extends AbstractHandler {
 
     @Override
     public void handle(final String path, final Request baseRequest, final HttpServletRequest httpServletRequest,
-            final HttpServletResponse httpServletResponse) throws IOException, ServletException {
+            final HttpServletResponse httpServletResponse) throws IOException {
         if (PATH_TO_HANDLE_SEQUENCE.equals(path)) {
             String parameter = baseRequest.getQueryString();
             setAnswer(baseRequest, httpServletRequest, httpServletResponse, parameter);
@@ -91,6 +91,7 @@ public class SequenceTestHandler extends AbstractHandler {
             } catch (InterruptedException e) {
                 logger.error(INTERRUPTED_EXCEPTION_MESSAGE, e);
                 response = INTERNAL_ERROR_MESSAGE;
+                Thread.currentThread().interrupt();
             }
             httpServletResponse.setContentType("text/plain;charset=UTF-8");
             responseBodyAsBytes = response.getBytes();
@@ -123,6 +124,7 @@ public class SequenceTestHandler extends AbstractHandler {
             } catch (InterruptedException e) {
                 logger.error(INTERRUPTED_EXCEPTION_MESSAGE, e);
                 response = INTERNAL_ERROR_MESSAGE;
+                Thread.currentThread().interrupt();
             }
             httpServletResponse.setContentType("text/plain;charset=UTF-8");
             responseBodyAsBytes = response.getBytes();

@@ -147,7 +147,7 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
         logStep("Uploading stub configuration.");
         logComment("Prepared Stub Configuration Info", u.escapeHTML(wilmaStubConfiguration.toString()));
 
-        boolean b =  wilmaService.uploadStubConfiguration(wilmaStubConfiguration);
+        boolean b = wilmaService.uploadStubConfiguration(wilmaStubConfiguration);
         if (b) {
             logComment("Stub configuration upload was successful.");
         } else {
@@ -175,7 +175,14 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
                 .contentType(contentType).acceptHeader(acceptHeader).contentEncoding(contentEncoding).acceptEncoding(acceptEncoding);
     }
 
-    private List<String> getGroupNamesFromJson(final String response) throws Exception {
+    /**
+     * Get group name of a Wilma config json.
+     *
+     * @param response is the config as a String
+     * @return with the group names
+     * @throws Exception if issue happend during the search for the group names
+     */
+    protected List<String> getGroupNamesFromJson(final String response) throws Exception {
         List<String> result = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode actualObj = mapper.readValue(response, JsonNode.class);
