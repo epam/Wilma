@@ -29,7 +29,8 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile 'com.sun.xml.fastinfoset:FastInfoset:1.2.13'
-    compile "com.epam.wilma:wilma-service-api:$version"
+    compile project(':wilma-service-api')
+//    compile "com.epam.wilma:wilma-service-api:$version"
     compile 'com.github.everit-org.json-schema:org.everit.json.schema:1.9.1'
 }
 
