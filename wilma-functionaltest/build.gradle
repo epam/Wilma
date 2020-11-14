@@ -59,3 +59,7 @@ run {
     logging.captureStandardOutput LogLevel.QUIET
 }
 
+task runFunctionalTest {
+    dependsOn ':wilma-functionaltest:run'
+}
+
