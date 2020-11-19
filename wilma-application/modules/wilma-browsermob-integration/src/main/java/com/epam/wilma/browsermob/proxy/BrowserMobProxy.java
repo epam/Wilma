@@ -25,8 +25,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.browsermob.Proxy;
-import com.epam.wilma.browsermob.configuration.BrowserMobConfigurationAccess;
+import com.epam.wilma.proxy.Proxy;
+import com.epam.wilma.browsermob.configuration.ProxyConfigurationAccess;
 import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.browsermob.domain.exception.ProxyCannotBeStartedException;
 import com.epam.wilma.browsermob.interceptor.BrowserMobRequestInterceptor;
@@ -53,7 +53,7 @@ public class BrowserMobProxy implements Proxy {
     @Autowired
     private BrowserMobResponseInterceptor responseInterceptor;
     @Autowired
-    private BrowserMobConfigurationAccess configurationAccess;
+    private ProxyConfigurationAccess configurationAccess;
 
     public static boolean getResponseVolatile() {
         return ProxyServer.getResponseVolatile();

@@ -20,9 +20,10 @@ package com.epam.wilma.engine.bootstrap;
 ===========================================================================*/
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.browsermob.Proxy;
+import com.epam.wilma.proxy.Proxy;
 import com.epam.wilma.common.helper.WilmaService;
 import com.epam.wilma.engine.bootstrap.helper.ApplicationContextCloser;
 import com.epam.wilma.maintainer.LogFileMaintainer;
@@ -40,7 +41,8 @@ public class WilmaEngine extends AbstractIdleService implements WilmaService {
 
     @Autowired
     private JettyServer webAppServer;
-    @Autowired
+    //can be proxyBrowserUp or browserMobProxy
+    @Autowired @Qualifier("browserMobProxy")
     private Proxy proxy;
     @Autowired
     private LogFileMaintainer logFileMaintainer;

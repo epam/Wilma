@@ -22,8 +22,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
 
-import java.io.InputStream;
-
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
 
 import org.mockito.InjectMocks;
@@ -35,7 +33,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.wilma.browsermob.transformer.BrowserMobRequestUpdater;
-import com.epam.wilma.browsermob.transformer.HttpRequestTransformer;
+import com.epam.wilma.browsermob.transformer.BrowserMobHttpRequestTransformer;
 import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
@@ -50,15 +48,13 @@ public class BrowserMobRequestInterceptorTest {
     private static final String EMPTY_STRING = "";
 
     @Mock
-    private HttpRequestTransformer httpRequestTransformer;
+    private BrowserMobHttpRequestTransformer browserMobHttpRequestTransformer;
     @Mock
     private BrowserMobHttpRequest bmRequest;
     @Mock
     private WilmaHttpRequest wilmaRequest;
     @Mock
     private Logger logger;
-    @Mock
-    private InputStream inputStream;
     @Mock
     private WilmaHttpRequestProcessor wilmaHttpRequestHandler;
     @Mock
@@ -77,7 +73,7 @@ public class BrowserMobRequestInterceptorTest {
     public void testProcessShouldLogErrorWhenRequestTransformerThrowsApplicationException() throws ApplicationException {
         // GIVEN
         ApplicationException e = new ApplicationException(EMPTY_STRING);
-        given(httpRequestTransformer.transformRequest(bmRequest)).willThrow(e);
+        given(browserMobHttpRequestTransformer.transformRequest(bmRequest)).willThrow(e);
         // WHEN
         underTest.process(bmRequest);
         // THEN
@@ -88,7 +84,7 @@ public class BrowserMobRequestInterceptorTest {
     public void testProcessShouldLogErrorWhenHandleRequestThrowsApplicationException() throws ApplicationException {
         // GIVEN
         ApplicationException e = new ApplicationException(EMPTY_STRING);
-        given(httpRequestTransformer.transformRequest(bmRequest)).willReturn(wilmaRequest);
+        given(browserMobHttpRequestTransformer.transformRequest(bmRequest)).willReturn(wilmaRequest);
         willThrow(e).given(wilmaHttpRequestHandler).processRequest(wilmaRequest);
         // WHEN
         underTest.process(bmRequest);
@@ -99,7 +95,7 @@ public class BrowserMobRequestInterceptorTest {
     @Test
     public void testProcessShouldReturnProperly() throws ApplicationException {
         // GIVEN
-        given(httpRequestTransformer.transformRequest(bmRequest)).willReturn(wilmaRequest);
+        given(browserMobHttpRequestTransformer.transformRequest(bmRequest)).willReturn(wilmaRequest);
         // WHEN
         underTest.process(bmRequest);
         // THEN

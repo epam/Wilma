@@ -18,13 +18,12 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.browsermob.configuration.BrowserMobConfigurationAccess;
+import com.epam.wilma.browsermob.configuration.ProxyConfigurationAccess;
 import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.browsermob.domain.exception.ProxyCannotBeStartedException;
 import com.epam.wilma.browsermob.interceptor.BrowserMobRequestInterceptor;
 import com.epam.wilma.browsermob.interceptor.BrowserMobResponseInterceptor;
 import net.lightbody.bmp.proxy.ProxyServer;
-import net.lightbody.bmp.proxy.jetty.http.SocketListener;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
@@ -35,8 +34,6 @@ import org.slf4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.nio.file.Path;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
@@ -61,11 +58,7 @@ public class BrowserMobProxyTest {
     @Mock
     private BrowserMobResponseInterceptor loggingResponseInterceptor;
     @Mock
-    private BrowserMobConfigurationAccess configurationAccess;
-    @Mock
-    private SocketListener listener;
-    @Mock
-    private Path path;
+    private ProxyConfigurationAccess configurationAccess;
     @Mock
     private Logger logger;
 

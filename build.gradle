@@ -20,6 +20,10 @@ plugins {
     id "org.sonarqube" version "3.0"
 }
 
+ext {
+    nettyVersion = '4.1.50.Final'
+}
+
 apply from: 'common.gradle'
 
 subprojects {

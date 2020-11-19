@@ -28,7 +28,7 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.browsermob.Proxy;
+import com.epam.wilma.proxy.Proxy;
 import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.engine.bootstrap.helper.ApplicationContextCloser;
 import com.epam.wilma.maintainer.LogFileMaintainer;

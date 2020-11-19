@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.browsermob.transformer.HttpResponseTransformer;
+import com.epam.wilma.browsermob.transformer.BrowserMobHttpResponseTransformer;
 import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
@@ -52,7 +52,7 @@ public class BrowserMobResponseInterceptorTest {
     @Mock
     private WilmaHttpResponse wilmaResponse;
     @Mock
-    private HttpResponseTransformer responseTransformer;
+    private BrowserMobHttpResponseTransformer responseTransformer;
     @Mock
     private WilmaHttpResponseProcessor responseHandler;
     @Mock

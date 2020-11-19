@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.browsermob.transformer.HttpResponseTransformer;
+import com.epam.wilma.browsermob.transformer.BrowserMobHttpResponseTransformer;
 import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
@@ -42,7 +42,7 @@ public class BrowserMobResponseInterceptor implements ResponseInterceptor {
 
     private final Logger logger = LoggerFactory.getLogger(BrowserMobResponseInterceptor.class);
     @Autowired
-    private HttpResponseTransformer responseTransformer;
+    private BrowserMobHttpResponseTransformer responseTransformer;
     @Autowired
     private BrowserMobResponseUpdater browserMobResponseUpdater;
     @Autowired

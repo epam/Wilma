@@ -9,6 +9,11 @@ It is written in Java, and the solution consists of two standalone applications:
 * **Wilma** application is the highly configurable **Service Virtualization** tool
 * **Wilma Message Search** application (optional component) provides high performance searching capability of the request-response pairs that were logged by Wilma application.
 
+WARNING!
+========
+**Wilma is under mayor update (preparing V2.0) which means if you get th source and compile yourself, not all the functions might work!
+If you don't want to deal with broken features, aways use the Release versions!**
+
 # Quick intro for end users
 ## Wilma application
 #### Requirements

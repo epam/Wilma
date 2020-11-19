@@ -18,22 +18,29 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 repositories {
-  maven { url "${myLocalRepository}" }
+    maven { url "${myLocalRepository}" }
+    maven { url "https://oss.sonatype.org/service/local/staging/deploy/maven2/" }
 }
 
 description = 'wilma browsermob integration'
 dependencies {
-  compile project(':wilma-application:wilma-domain')
-  compile project(':wilma-application:wilma-common')
-  compile project(':wilma-application:wilma-core')
-  compile project(':wilma-application:wilma-properties')
+    compile project(':wilma-application:wilma-domain')
+    compile project(':wilma-application:wilma-common')
+    compile project(':wilma-application:wilma-core')
+    compile project(':wilma-application:wilma-properties')
+    //original browserUp build
+    compile('com.browserup:browserup-proxy-core:2.1.1')
+    compile('com.browserup:browserup-proxy-mitm:2.1.1')
 
-  compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.6.177'){
-//  compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.6.DEV'){
-  	exclude (module:'slf4j-jdk14')
-  	exclude (module:'commons-logging')
-  	exclude (module:'dom4j')
-  	exclude (module:'jdom')
-  }
-  
+
+    //local browserUp build
+//    compile('com.browserup:browserup-proxy-core:2.1.1-wilma')
+//    compile('com.browserup:browserup-proxy-mitm:2.1.1-wilma')
+    implementation "io.netty:netty-all:${nettyVersion}"
+    compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.6.177') {
+        exclude (module:'slf4j-jdk14')
+        exclude (module:'commons-logging')
+        exclude (module:'dom4j')
+        exclude (module:'jdom')
+    }
 }

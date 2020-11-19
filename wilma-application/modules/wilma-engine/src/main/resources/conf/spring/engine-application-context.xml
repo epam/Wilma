@@ -20,7 +20,9 @@
        <constructor-arg value="%s &#10;Copyright since 2013, EPAM Systems - GNU GPL-V3.0 License&#10;Used proxy port: %d &#10;Wilma UI is available via URL: http://localhost:%d/index/ &#10;Application logs are stored in '%s' folder.&#10;Request-response pairs are stored in '%s' folder." />
    </bean>
 
-  <bean class="net.lightbody.bmp.proxy.ProxyServer" />
+    <bean class="net.lightbody.bmp.proxy.ProxyServer" />
+    <!--bean class="com.epam.wilma.browserup.proxy.BrowserUpProxy" /-->
+
   <bean id="simpleDateFormatterForAlerts" class="java.text.SimpleDateFormat">
     <constructor-arg index="0" value="yyyy-MM-dd HH:mm:ss" />
   </bean>

@@ -139,8 +139,7 @@ public final class Address {
                     return null;
                 data[j++] = (byte) (x >>> 8);
                 data[j++] = (byte) (x & 0xFF);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 return null;
             }
         }
@@ -246,8 +245,7 @@ public final class Address {
             if (records == null)
                 throw new UnknownHostException("unknown host");
             return records;
-        }
-        catch (TextParseException e) {
+        } catch (TextParseException e) {
             throw new UnknownHostException("invalid name");
         }
     }

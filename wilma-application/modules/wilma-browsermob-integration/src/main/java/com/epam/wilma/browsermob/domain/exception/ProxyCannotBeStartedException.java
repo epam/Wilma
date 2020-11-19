@@ -22,7 +22,7 @@ import com.epam.wilma.domain.exception.SystemException;
 
 /**
  * Exception that is thrown when the proxy server cannot be started.
- * @author Marton_Sereg
+ * @author Marton_Sereg, Tamas Kohegyi
  *
  */
 public class ProxyCannotBeStartedException extends SystemException {
@@ -34,6 +34,14 @@ public class ProxyCannotBeStartedException extends SystemException {
      */
     public ProxyCannotBeStartedException(final String message, final Throwable throwable) {
         super(message, throwable);
+    }
+
+    /**
+     * Constructor with cause of exception.
+     * @param message message of the exception
+     */
+    public ProxyCannotBeStartedException(final String message) {
+        super(message);
     }
 
 }

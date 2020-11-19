@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.browsermob.transformer.BrowserMobRequestUpdater;
-import com.epam.wilma.browsermob.transformer.HttpRequestTransformer;
+import com.epam.wilma.browsermob.transformer.BrowserMobHttpRequestTransformer;
 import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
@@ -45,7 +45,7 @@ public class BrowserMobRequestInterceptor implements RequestInterceptor {
     private final Logger logger = LoggerFactory.getLogger(BrowserMobRequestInterceptor.class);
 
     @Autowired
-    private HttpRequestTransformer httpRequestTransformer;
+    private BrowserMobHttpRequestTransformer browserMobHttpRequestTransformer;
     @Autowired
     private BrowserMobRequestUpdater browserMobRequestUpdater;
     @Autowired
@@ -54,7 +54,7 @@ public class BrowserMobRequestInterceptor implements RequestInterceptor {
     @Override
     public void process(final BrowserMobHttpRequest request) {
         try {
-            WilmaHttpRequest wilmaHttpRequest = httpRequestTransformer.transformRequest(request);
+            WilmaHttpRequest wilmaHttpRequest = browserMobHttpRequestTransformer.transformRequest(request);
             wilmaHttpRequestProcessor.processRequest(wilmaHttpRequest);
             browserMobRequestUpdater.updateRequest(request, wilmaHttpRequest);
         } catch (ApplicationException e) {
