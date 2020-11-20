@@ -20,12 +20,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
-import com.epam.wilma.browserup.transformer.BrowserUpResponseUpdater;
 import com.epam.wilma.browserup.transformer.BrowserUpHttpResponseTransformer;
+import com.epam.wilma.browserup.transformer.BrowserUpResponseUpdater;
 import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import io.netty.handler.codec.http.HttpResponse;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -40,19 +41,21 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Test class for BrowserUpResponseInterceptor.
- * @author Tamas Kohegyi
  *
+ * @author Tamas Kohegyi
  */
 public class BrowserUpResponseInterceptorTest {
 
     @InjectMocks
     private BrowserUpResponseInterceptor underTest;
     @Mock
-    HttpResponse response;
+    private HttpResponse response;
     @Mock
-    HttpMessageContents contents;
+    private HttpMessageContents contents;
     @Mock
-    HttpMessageInfo messageInfo;
+    private HttpMessageInfo messageInfo;
+    @Mock
+    private PreservedInformation preservedInformation;
     @Mock
     private WilmaHttpResponse wilmaResponse;
     @Mock
@@ -75,7 +78,7 @@ public class BrowserUpResponseInterceptorTest {
         // GIVEN
         given(responseTransformer.transformResponse(response, contents, messageInfo)).willReturn(wilmaResponse);
         // WHEN
-        underTest.filterResponse(response, contents, messageInfo);
+        underTest.filterResponse(response, contents, messageInfo, preservedInformation);
         // THEN
         verify(responseHandler).processResponse(wilmaResponse);
         verify(browserMobResponseUpdater).updateResponse(response, contents, messageInfo, wilmaResponse);
@@ -88,7 +91,7 @@ public class BrowserUpResponseInterceptorTest {
         given(responseTransformer.transformResponse(response, contents, messageInfo)).willReturn(wilmaResponse);
         BDDMockito.willThrow(e).given(responseHandler).processResponse(wilmaResponse);
         // WHEN
-        underTest.filterResponse(response, contents, messageInfo);
+        underTest.filterResponse(response, contents, messageInfo, preservedInformation);
         // THEN
         verify(logger).error("exception", e);
     }

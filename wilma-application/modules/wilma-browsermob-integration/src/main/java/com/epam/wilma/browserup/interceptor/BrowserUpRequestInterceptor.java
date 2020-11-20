@@ -17,16 +17,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
+
 import com.browserup.bup.filters.RequestFilter;
 import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
-import com.epam.wilma.browserup.transformer.BrowserUpRequestUpdater;
 import com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer;
+import com.epam.wilma.browserup.transformer.BrowserUpRequestUpdater;
 import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,7 @@ public class BrowserUpRequestInterceptor implements RequestFilter {
     private WilmaHttpRequestProcessor wilmaHttpRequestProcessor;
 
     @Override
-    public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+    public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo, PreservedInformation preservedInformation) {
         try {
             WilmaHttpRequest wilmaHttpRequest = browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo);
             wilmaHttpRequestProcessor.processRequest(wilmaHttpRequest);

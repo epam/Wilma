@@ -20,12 +20,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
-import com.epam.wilma.browserup.transformer.BrowserUpRequestUpdater;
 import com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer;
+import com.epam.wilma.browserup.transformer.BrowserUpRequestUpdater;
 import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import io.netty.handler.codec.http.HttpRequest;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -46,11 +47,13 @@ import static org.mockito.Mockito.verify;
 public class BrowserUpRequestInterceptorTest {
     private static final String EMPTY_STRING = "";
     @Mock
-    HttpRequest request;
+    private HttpRequest request;
     @Mock
-    HttpMessageContents contents;
+    private HttpMessageContents contents;
     @Mock
-    HttpMessageInfo messageInfo;
+    private HttpMessageInfo messageInfo;
+    @Mock
+    private PreservedInformation preservedInformation;
     @Mock
     private BrowserUpHttpRequestTransformer browserUpHttpRequestTransformer;
     @Mock
@@ -77,7 +80,7 @@ public class BrowserUpRequestInterceptorTest {
         ApplicationException e = new ApplicationException(EMPTY_STRING);
         given(browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo)).willThrow(e);
         // WHEN
-        underTest.filterRequest(request, contents, messageInfo);
+        underTest.filterRequest(request, contents, messageInfo, preservedInformation);
         // THEN
         verify(logger).error(EMPTY_STRING, e);
     }
@@ -89,7 +92,7 @@ public class BrowserUpRequestInterceptorTest {
         given(browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo)).willReturn(wilmaRequest);
         willThrow(e).given(wilmaHttpRequestHandler).processRequest(wilmaRequest);
         // WHEN
-        underTest.filterRequest(request, contents, messageInfo);
+        underTest.filterRequest(request, contents, messageInfo, preservedInformation);
         // THEN
         verify(logger).error(EMPTY_STRING, e);
     }
@@ -99,7 +102,7 @@ public class BrowserUpRequestInterceptorTest {
         // GIVEN
         given(browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo)).willReturn(wilmaRequest);
         // WHEN
-        underTest.filterRequest(request, contents, messageInfo);
+        underTest.filterRequest(request, contents, messageInfo, preservedInformation);
         // THEN
         verify(wilmaHttpRequestHandler).processRequest(wilmaRequest);
         verify(browserMobRequestUpdater).updateRequest(request, contents, messageInfo, wilmaRequest);

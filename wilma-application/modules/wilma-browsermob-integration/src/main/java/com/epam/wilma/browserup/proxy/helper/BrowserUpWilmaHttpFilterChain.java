@@ -34,6 +34,7 @@ import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.littleshoot.proxy.HttpFilters;
 import org.littleshoot.proxy.HttpFiltersAdapter;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +74,7 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
     }
 
     @Override
-    public HttpResponse clientToProxyRequest(HttpObject httpObject) {
+    public HttpResponse clientToProxyRequest(HttpObject httpObject, PreservedInformation preservedInformation) {
         if (proxyServer.isStopped()) {
             log.warn("Aborting request to {} because proxy is stopped", originalRequest.getUri());
             HttpResponse abortedResponse = new DefaultFullHttpResponse(originalRequest.getProtocolVersion(), HttpResponseStatus.SERVICE_UNAVAILABLE);
@@ -83,7 +84,7 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
 
         for (HttpFilters filter : filters) {
             try {
-                HttpResponse filterResponse = filter.clientToProxyRequest(httpObject);
+                HttpResponse filterResponse = filter.clientToProxyRequest(httpObject, preservedInformation);
                 if (filterResponse != null) {
                     // if we are short-circuiting the response to an HttpRequest, update ModifiedRequestAwareFilter instances
                     // with this (possibly) modified HttpRequest before returning the short-circuit response
@@ -108,10 +109,10 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
     }
 
     @Override
-    public HttpResponse proxyToServerRequest(HttpObject httpObject) {
+    public HttpResponse proxyToServerRequest(HttpObject httpObject, PreservedInformation preservedInformation) {
         for (HttpFilters filter : filters) {
             try {
-                HttpResponse filterResponse = filter.proxyToServerRequest(httpObject);
+                HttpResponse filterResponse = filter.proxyToServerRequest(httpObject, preservedInformation);
                 if (filterResponse != null) {
                     return filterResponse;
                 }

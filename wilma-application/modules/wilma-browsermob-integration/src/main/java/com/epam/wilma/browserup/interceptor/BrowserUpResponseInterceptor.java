@@ -21,12 +21,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.browserup.bup.filters.ResponseFilter;
 import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
-import com.epam.wilma.browserup.transformer.BrowserUpResponseUpdater;
 import com.epam.wilma.browserup.transformer.BrowserUpHttpResponseTransformer;
+import com.epam.wilma.browserup.transformer.BrowserUpResponseUpdater;
 import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import io.netty.handler.codec.http.HttpResponse;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class BrowserUpResponseInterceptor implements ResponseFilter {
     private WilmaHttpResponseProcessor responseProcessor;
 
     @Override
-    public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+    public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo, PreservedInformation preservedInformation) {
         try {
             WilmaHttpResponse wilmaResponse = responseTransformer.transformResponse(response, contents, messageInfo);
             responseProcessor.processResponse(wilmaResponse);

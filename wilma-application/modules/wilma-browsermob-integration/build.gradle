@@ -29,13 +29,13 @@ dependencies {
     compile project(':wilma-application:wilma-core')
     compile project(':wilma-application:wilma-properties')
     //original browserUp build
-    compile('com.browserup:browserup-proxy-core:2.1.1')
-    compile('com.browserup:browserup-proxy-mitm:2.1.1')
+//    compile('com.browserup:browserup-proxy-core:2.1.1')
+//    compile('com.browserup:browserup-proxy-mitm:2.1.1')
 
 
     //local browserUp build
-//    compile('com.browserup:browserup-proxy-core:2.1.1-wilma')
-//    compile('com.browserup:browserup-proxy-mitm:2.1.1-wilma')
+    compile('com.browserup:browserup-proxy-core:2.1.1-Wilma')
+    compile('com.browserup:browserup-proxy-mitm:2.1.1-Wilma')
     implementation "io.netty:netty-all:${nettyVersion}"
     compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.6.177') {
         exclude (module:'slf4j-jdk14')

@@ -24,22 +24,17 @@ import com.epam.browsermob.messagemarker.idgenerator.TimeStampBasedIdGenerator;
 import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
 import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.browserup.proxy.helper.BrowserUpProxyServer;
-import com.epam.wilma.proxy.helper.InputStreamConverter;
-import com.epam.wilma.proxy.helper.WilmaRequestFactory;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.proxy.helper.WilmaRequestFactory;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
-import org.apache.http.Header;
-import org.apache.http.client.methods.HttpRequestBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -71,7 +66,7 @@ public class BrowserUpHttpRequestTransformer {
         WilmaHttpRequest result = requestFactory.createNewWilmaHttpRequest();
         result.setRequestLine(request.uri());
         HttpHeaders httpHeaders = request.headers();
-        for (Map.Entry<String,String> entry : httpHeaders.entries()) {
+        for (Map.Entry<String, String> entry : httpHeaders.entries()) {
             result.addHeader(entry.getKey(), entry.getValue());
         }
         String body = new String(contents.getBinaryContents());
