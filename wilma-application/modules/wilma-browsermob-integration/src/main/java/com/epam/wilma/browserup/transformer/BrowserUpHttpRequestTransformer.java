@@ -29,6 +29,7 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.proxy.helper.WilmaRequestFactory;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class BrowserUpHttpRequestTransformer {
      * @return Wilma's own representation of the HTTP request
      * @throws ApplicationException when request body cannot be read
      */
-    public WilmaHttpRequest transformRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) throws ApplicationException {
+    public WilmaHttpRequest transformRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo, PreservedInformation preservedInformation) throws ApplicationException {
         WilmaHttpRequest result = requestFactory.createNewWilmaHttpRequest();
         result.setRequestLine(request.uri());
         HttpHeaders httpHeaders = request.headers();

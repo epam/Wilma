@@ -46,7 +46,7 @@ public class BrowserUpResponseInterceptor implements ResponseFilter {
     @Override
     public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo, PreservedInformation preservedInformation) {
         try {
-            WilmaHttpResponse wilmaResponse = responseTransformer.transformResponse(response, contents, messageInfo);
+            WilmaHttpResponse wilmaResponse = responseTransformer.transformResponse(response, contents, messageInfo, preservedInformation);
             responseProcessor.processResponse(wilmaResponse);
             browserUpResponseUpdater.updateResponse(response, contents, messageInfo, wilmaResponse);
         } catch (ApplicationException e) {

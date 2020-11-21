@@ -78,7 +78,7 @@ public class BrowserUpRequestInterceptorTest {
     public void testProcessShouldLogErrorWhenRequestTransformerThrowsApplicationException() throws ApplicationException {
         // GIVEN
         ApplicationException e = new ApplicationException(EMPTY_STRING);
-        given(browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo)).willThrow(e);
+        given(browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo, preservedInformation)).willThrow(e);
         // WHEN
         underTest.filterRequest(request, contents, messageInfo, preservedInformation);
         // THEN
@@ -89,7 +89,7 @@ public class BrowserUpRequestInterceptorTest {
     public void testProcessShouldLogErrorWhenHandleRequestThrowsApplicationException() throws ApplicationException {
         // GIVEN
         ApplicationException e = new ApplicationException(EMPTY_STRING);
-        given(browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo)).willReturn(wilmaRequest);
+        given(browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo, preservedInformation)).willReturn(wilmaRequest);
         willThrow(e).given(wilmaHttpRequestHandler).processRequest(wilmaRequest);
         // WHEN
         underTest.filterRequest(request, contents, messageInfo, preservedInformation);
@@ -100,7 +100,7 @@ public class BrowserUpRequestInterceptorTest {
     @Test
     public void testProcessShouldReturnProperly() throws ApplicationException {
         // GIVEN
-        given(browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo)).willReturn(wilmaRequest);
+        given(browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo, preservedInformation)).willReturn(wilmaRequest);
         // WHEN
         underTest.filterRequest(request, contents, messageInfo, preservedInformation);
         // THEN

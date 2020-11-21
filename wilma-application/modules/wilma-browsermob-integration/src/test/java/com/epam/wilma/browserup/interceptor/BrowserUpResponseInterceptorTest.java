@@ -76,7 +76,7 @@ public class BrowserUpResponseInterceptorTest {
     @Test
     public void testProcessShouldCallLogger() throws ApplicationException {
         // GIVEN
-        given(responseTransformer.transformResponse(response, contents, messageInfo)).willReturn(wilmaResponse);
+        given(responseTransformer.transformResponse(response, contents, messageInfo, preservedInformation)).willReturn(wilmaResponse);
         // WHEN
         underTest.filterResponse(response, contents, messageInfo, preservedInformation);
         // THEN
@@ -88,7 +88,7 @@ public class BrowserUpResponseInterceptorTest {
     public void testProcessWhenApplicationExceptionIsThrownShouldLogError() throws ApplicationException {
         // GIVEN
         ApplicationException e = new ApplicationException("exception");
-        given(responseTransformer.transformResponse(response, contents, messageInfo)).willReturn(wilmaResponse);
+        given(responseTransformer.transformResponse(response, contents, messageInfo, preservedInformation)).willReturn(wilmaResponse);
         BDDMockito.willThrow(e).given(responseHandler).processResponse(wilmaResponse);
         // WHEN
         underTest.filterResponse(response, contents, messageInfo, preservedInformation);

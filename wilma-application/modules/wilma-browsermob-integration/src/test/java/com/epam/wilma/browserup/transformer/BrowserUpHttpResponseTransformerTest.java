@@ -29,6 +29,7 @@ import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -68,6 +69,8 @@ public class BrowserUpHttpResponseTransformerTest {
     @Mock
     private HttpMessageInfo messageInfo;
     @Mock
+    private PreservedInformation preservedInformation;
+    @Mock
     private MessageConfigurationAccess configurationAccess;
     @Mock
     private WilmaResponseFactory responseFactory;
@@ -93,7 +96,7 @@ public class BrowserUpHttpResponseTransformerTest {
         setMocksForMessageContent();
         setMocksForMessageConfiguration();
         //WHEN
-        underTest.transformResponse(response, contents, messageInfo);
+        underTest.transformResponse(response, contents, messageInfo, preservedInformation);
         //THEN
         verify(result).addRequestHeader("A", "B");
     }
@@ -103,7 +106,7 @@ public class BrowserUpHttpResponseTransformerTest {
         setMocksForMessageContent();
         setMocksForMessageConfiguration();
         //WHEN
-        underTest.transformResponse(response, contents, messageInfo);
+        underTest.transformResponse(response, contents, messageInfo, preservedInformation);
         //THEN
         verify(result).addHeader("C", "D");
     }
@@ -114,7 +117,7 @@ public class BrowserUpHttpResponseTransformerTest {
         setMocksForMessageConfiguration();
         //given(browserMobHttpResponse.getEntry().getWilmaEntryId()).willReturn(PREFIX);
         //WHEN
-        underTest.transformResponse(response, contents, messageInfo);
+        underTest.transformResponse(response, contents, messageInfo, preservedInformation);
         //THEN
         verify(result).setWilmaMessageId(PREFIX + "_" + "");
     }
@@ -124,7 +127,7 @@ public class BrowserUpHttpResponseTransformerTest {
         setMocksForMessageContent();
         setMocksForMessageConfiguration();
         //WHEN
-        underTest.transformResponse(response, contents, messageInfo);
+        underTest.transformResponse(response, contents, messageInfo, preservedInformation);
         //THEN
         verify(result).setBody(RESPONSE_BODY);
     }
@@ -135,7 +138,7 @@ public class BrowserUpHttpResponseTransformerTest {
         setMocksForMessageConfiguration();
         given(contents.getContentType()).willReturn(CONTENT_TYPE);
         //WHEN
-        underTest.transformResponse(response, contents, messageInfo);
+        underTest.transformResponse(response, contents, messageInfo, preservedInformation);
         //THEN
         verify(result).setContentType(CONTENT_TYPE);
     }
@@ -145,7 +148,7 @@ public class BrowserUpHttpResponseTransformerTest {
         setMocksForMessageContent();
         setMocksForMessageConfiguration();
         //WHEN
-        underTest.transformResponse(response, contents, messageInfo);
+        underTest.transformResponse(response, contents, messageInfo, preservedInformation);
         //THEN
         verify(result).setStatusCode(200);
     }
@@ -157,7 +160,7 @@ public class BrowserUpHttpResponseTransformerTest {
         given(request.uri()).willReturn(REQUEST_LINE);
         //given(request.getProxyRequestURI().toString()).willReturn(REQUEST_PROXY_LINE);
         //WHEN
-        underTest.transformResponse(response, contents, messageInfo);
+        underTest.transformResponse(response, contents, messageInfo, preservedInformation);
         //THEN
         verify(result).setRequestLine(REQUEST_LINE);
         verify(result).setProxyRequestLine(REQUEST_LINE); //TODO should be REQUEST_PROXY_LINE

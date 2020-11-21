@@ -48,7 +48,7 @@ public class BrowserUpRequestInterceptor implements RequestFilter {
     @Override
     public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo, PreservedInformation preservedInformation) {
         try {
-            WilmaHttpRequest wilmaHttpRequest = browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo);
+            WilmaHttpRequest wilmaHttpRequest = browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo, preservedInformation);
             wilmaHttpRequestProcessor.processRequest(wilmaHttpRequest);
             browserUpRequestUpdater.updateRequest(request, contents, messageInfo, wilmaHttpRequest);
         } catch (ApplicationException e) {

@@ -28,6 +28,7 @@ import com.epam.wilma.proxy.helper.WilmaRequestFactory;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -60,6 +61,8 @@ public class BrowserUpHttpRequestTransformerTest {
     @Mock
     private HttpMessageInfo messageInfo;
     @Mock
+    private PreservedInformation preservedInformation;
+    @Mock
     private MessageConfigurationAccess configurationAccess;
     @Mock
     private WilmaRequestFactory requestFactory;
@@ -77,7 +80,7 @@ public class BrowserUpHttpRequestTransformerTest {
     public void testTransformRequestShouldAddHeaders() throws ApplicationException {
         //GIVEN
         //WHEN
-        WilmaHttpRequest actual = underTest.transformRequest(request, contents, messageInfo);
+        WilmaHttpRequest actual = underTest.transformRequest(request, contents, messageInfo, preservedInformation);
         //THEN
         verify(wilmaHttpRequest).addHeader(Mockito.anyString(), Mockito.anyString());
         assertEquals(actual.getRequestLine(), wilmaHttpRequest.getRequestLine());
@@ -88,7 +91,7 @@ public class BrowserUpHttpRequestTransformerTest {
     public void testTransformRequestShouldSetWilmaMessageId() throws ApplicationException {
         //GIVEN
         //WHEN
-        WilmaHttpRequest actual = underTest.transformRequest(request, contents, messageInfo);
+        WilmaHttpRequest actual = underTest.transformRequest(request, contents, messageInfo, preservedInformation);
         //THEN
         verify(wilmaHttpRequest).setWilmaMessageId(anyString());
     }
@@ -98,7 +101,7 @@ public class BrowserUpHttpRequestTransformerTest {
         //GIVEN
         String body = setMocksForBody();
         //WHEN
-        WilmaHttpRequest actual = underTest.transformRequest(request, contents, messageInfo);
+        WilmaHttpRequest actual = underTest.transformRequest(request, contents, messageInfo, preservedInformation);
         //THEN
         verify(wilmaHttpRequest).setBody(body);
         assertEquals(actual.getBody(), wilmaHttpRequest.getBody());

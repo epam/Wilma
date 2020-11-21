@@ -109,10 +109,10 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
     }
 
     @Override
-    public HttpResponse proxyToServerRequest(HttpObject httpObject, PreservedInformation preservedInformation) {
+    public HttpResponse proxyToServerRequest(HttpObject httpObject) {
         for (HttpFilters filter : filters) {
             try {
-                HttpResponse filterResponse = filter.proxyToServerRequest(httpObject, preservedInformation);
+                HttpResponse filterResponse = filter.proxyToServerRequest(httpObject);
                 if (filterResponse != null) {
                     return filterResponse;
                 }
@@ -137,12 +137,12 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
 
 
     @Override
-    public HttpObject serverToProxyResponse(HttpObject httpObject) {
+    public HttpObject serverToProxyResponse(HttpObject httpObject, PreservedInformation preservedInformation) {
         HttpObject processedHttpObject = httpObject;
 
         for (HttpFilters filter : filters) {
             try {
-                processedHttpObject = filter.serverToProxyResponse(processedHttpObject);
+                processedHttpObject = filter.serverToProxyResponse(processedHttpObject, preservedInformation);
                 if (processedHttpObject == null) {
                     return null;
                 }

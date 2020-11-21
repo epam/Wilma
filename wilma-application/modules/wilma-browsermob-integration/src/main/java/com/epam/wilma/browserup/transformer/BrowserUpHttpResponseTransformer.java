@@ -27,6 +27,7 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +53,7 @@ public class BrowserUpHttpResponseTransformer {
      * @param response the BrowserMob specific HTTP response to transform
      * @return Wilma's own representation of the HTTP response
      */
-    public WilmaHttpResponse transformResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+    public WilmaHttpResponse transformResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo, PreservedInformation preservedInformation) {
         WilmaHttpResponse result = responseFactory.createNewWilmaHttpResponse(true);
 
         HttpHeaders httpHeaders = response.headers();
