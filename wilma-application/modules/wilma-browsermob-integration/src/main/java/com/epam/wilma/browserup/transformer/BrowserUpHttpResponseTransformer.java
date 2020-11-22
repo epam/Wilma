@@ -22,17 +22,25 @@ import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
 import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
 import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
+import com.epam.wilma.browserup.interceptor.BrowserUpRequestInterceptor;
 import com.epam.wilma.proxy.helper.WilmaResponseFactory;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import org.littleshoot.proxy.extras.PreservedInformation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.util.Map;
+
+import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_MSG_ID;
+import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_ORIGINAL_URI;
+import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_REMOTE_ADDRESS;
+import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.TIME_STAMP_BASED_ID_GENERATOR;
 
 /**
  * Executes transformations between a BrowserUp specific HTTP response and Wilma's own representation of an HTTP response.
@@ -41,6 +49,8 @@ import java.util.Map;
  */
 @Component
 public class BrowserUpHttpResponseTransformer {
+
+    private final Logger logger = LoggerFactory.getLogger(BrowserUpHttpResponseTransformer.class);
 
     @Autowired
     private WilmaResponseFactory responseFactory;
@@ -67,21 +77,39 @@ public class BrowserUpHttpResponseTransformer {
         }
 
         result.setRequestLine(httpRequest.uri());
-        result.setProxyRequestLine(httpRequest.uri()); //TODO, WARNING, original URI is not yet preserved ! response.getProxyRequestURI().toString()
+
+        String proxyRequestLine = "ERROR";
+        if (preservedInformation != null && preservedInformation.informationMap.containsKey(PROVIDED_WILMA_ORIGINAL_URI)) {
+            proxyRequestLine = (String) preservedInformation.informationMap.get(PROVIDED_WILMA_ORIGINAL_URI);
+        } else {
+            logger.warn("Cannot find original uri of request - contact to Wilma maintainers.");
+        }
+        result.setProxyRequestLine(proxyRequestLine);
+
         String body = new String(contents.getBinaryContents());
         int status = response.status().code();
         result.setBody(body);
-        result.setInputStream(new ByteArrayInputStream(contents.getBinaryContents()));
         result.setContentType(contents.getContentType());
         result.setStatusCode(status);
 
         //set Wilma Message Id
         String instancePrefix = prepareInstancePrefix();
-        String wilmaEntryId = ""; //TODO this may cause problem, since we must have wilma entry ID info! instancePrefix + response.getEntry().getWilmaEntryId()
+        String wilmaEntryId;
+        if (preservedInformation != null && preservedInformation.informationMap.containsKey(PROVIDED_WILMA_MSG_ID)) {
+            wilmaEntryId = (String) preservedInformation.informationMap.get(PROVIDED_WILMA_MSG_ID);
+        } else {
+            wilmaEntryId = TIME_STAMP_BASED_ID_GENERATOR.nextIdentifier() + "panic";
+            logger.warn("Cannot find wilma message id of request - contact to Wilma maintainers.");
+        }
         result.setWilmaMessageId(instancePrefix + wilmaEntryId);
 
         //set remote addr
-        String ipAddress = ""; //TODO - need to know server ip address somehow - response.getEntry().getServerIPAddress();
+        String ipAddress = "";
+        if (preservedInformation != null && preservedInformation.informationMap.containsKey(PROVIDED_WILMA_REMOTE_ADDRESS)) {
+            ipAddress = (String) preservedInformation.informationMap.get(PROVIDED_WILMA_REMOTE_ADDRESS);
+        } else {
+            logger.warn("Cannot find wilma remote address of request - contact to Wilma maintainers.");
+        }
         result.setRemoteAddr(ipAddress);
 
         return result;

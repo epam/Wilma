@@ -51,12 +51,13 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
     private static final Logger log = LoggerFactory.getLogger(BrowserUpHttpFilterChain.class);
 
     private final BrowserUpProxyServer proxyServer;
+    private final PreservedInformation preservedInformation;
 
     private final List<HttpFilters> filters;
 
     public BrowserUpWilmaHttpFilterChain(BrowserUpProxyServer proxyServer, HttpRequest originalRequest, ChannelHandlerContext ctx) {
         super(originalRequest, ctx);
-
+        preservedInformation = new PreservedInformation();
         this.proxyServer = proxyServer;
 
         if (proxyServer.getFilterFactories() != null) {
@@ -82,9 +83,11 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
             return abortedResponse;
         }
 
+        preservedInformation.informationMap.clear();
+
         for (HttpFilters filter : filters) {
             try {
-                HttpResponse filterResponse = filter.clientToProxyRequest(httpObject, preservedInformation);
+                HttpResponse filterResponse = filter.clientToProxyRequest(httpObject, this.preservedInformation);
                 if (filterResponse != null) {
                     // if we are short-circuiting the response to an HttpRequest, update ModifiedRequestAwareFilter instances
                     // with this (possibly) modified HttpRequest before returning the short-circuit response
@@ -140,9 +143,10 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
     public HttpObject serverToProxyResponse(HttpObject httpObject, PreservedInformation preservedInformation) {
         HttpObject processedHttpObject = httpObject;
 
+        preservedInformation.informationMap.clear();
         for (HttpFilters filter : filters) {
             try {
-                processedHttpObject = filter.serverToProxyResponse(processedHttpObject, preservedInformation);
+                processedHttpObject = filter.serverToProxyResponse(processedHttpObject, this.preservedInformation);
                 if (processedHttpObject == null) {
                     return null;
                 }

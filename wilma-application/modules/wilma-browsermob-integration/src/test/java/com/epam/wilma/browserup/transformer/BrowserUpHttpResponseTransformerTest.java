@@ -36,6 +36,9 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_MSG_ID;
+import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_ORIGINAL_URI;
+import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_REMOTE_ADDRESS;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
@@ -88,6 +91,10 @@ public class BrowserUpHttpResponseTransformerTest {
         httpResponseHeaders.add("C", "D");
         given(response.headers()).willReturn(httpResponseHeaders);
         given(request.headers()).willReturn(httpRequestHeaders);
+        preservedInformation = new PreservedInformation();
+        preservedInformation.informationMap.put(PROVIDED_WILMA_MSG_ID, PROVIDED_WILMA_MSG_ID);
+        preservedInformation.informationMap.put(PROVIDED_WILMA_ORIGINAL_URI, PROVIDED_WILMA_ORIGINAL_URI);
+        preservedInformation.informationMap.put(PROVIDED_WILMA_REMOTE_ADDRESS, PROVIDED_WILMA_REMOTE_ADDRESS);
     }
 
     @Test
@@ -115,11 +122,10 @@ public class BrowserUpHttpResponseTransformerTest {
     public void testTransformShouldSetResponseWilmaMessageId() {
         setMocksForMessageContent();
         setMocksForMessageConfiguration();
-        //given(browserMobHttpResponse.getEntry().getWilmaEntryId()).willReturn(PREFIX);
         //WHEN
         underTest.transformResponse(response, contents, messageInfo, preservedInformation);
         //THEN
-        verify(result).setWilmaMessageId(PREFIX + "_" + "");
+        verify(result).setWilmaMessageId(PREFIX + "_" + preservedInformation.informationMap.get(PROVIDED_WILMA_MSG_ID));
     }
 
     @Test
@@ -158,12 +164,11 @@ public class BrowserUpHttpResponseTransformerTest {
         setMocksForMessageContent();
         setMocksForMessageConfiguration();
         given(request.uri()).willReturn(REQUEST_LINE);
-        //given(request.getProxyRequestURI().toString()).willReturn(REQUEST_PROXY_LINE);
         //WHEN
         underTest.transformResponse(response, contents, messageInfo, preservedInformation);
         //THEN
         verify(result).setRequestLine(REQUEST_LINE);
-        verify(result).setProxyRequestLine(REQUEST_LINE); //TODO should be REQUEST_PROXY_LINE
+        verify(result).setProxyRequestLine(PROVIDED_WILMA_ORIGINAL_URI);
     }
 
 

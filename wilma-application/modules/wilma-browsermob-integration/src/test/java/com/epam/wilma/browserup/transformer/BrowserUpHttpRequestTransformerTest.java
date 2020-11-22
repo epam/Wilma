@@ -25,10 +25,13 @@ import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.proxy.helper.WilmaRequestFactory;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import org.littleshoot.proxy.extras.PreservedInformation;
+import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -36,9 +39,16 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.net.SocketAddress;
+
+import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_MSG_ID;
+import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_ORIGINAL_URI;
+import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_REMOTE_ADDRESS;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -51,6 +61,7 @@ public class BrowserUpHttpRequestTransformerTest {
     private static final String PREFIX = "prefix";
 
     private HttpHeaders httpHeaders;
+    private PreservedInformation preservedInformation;
 
     @Mock
     private WilmaHttpRequest wilmaHttpRequest;
@@ -58,14 +69,18 @@ public class BrowserUpHttpRequestTransformerTest {
     private HttpRequest request;
     @Mock
     private HttpMessageContents contents;
-    @Mock
+    @Mock (answer = Answers.RETURNS_DEEP_STUBS)
     private HttpMessageInfo messageInfo;
-    @Mock
-    private PreservedInformation preservedInformation;
     @Mock
     private MessageConfigurationAccess configurationAccess;
     @Mock
     private WilmaRequestFactory requestFactory;
+    @Mock
+    private ChannelHandlerContext channelHandlerContext;
+    @Mock
+    private Channel channel;
+    @Mock
+    private SocketAddress socketAddress;
 
     @InjectMocks
     private BrowserUpHttpRequestTransformer underTest;
@@ -74,6 +89,14 @@ public class BrowserUpHttpRequestTransformerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         setDefaultMocks();
+        preservedInformation = new PreservedInformation();
+        preservedInformation.informationMap.put(PROVIDED_WILMA_MSG_ID, PROVIDED_WILMA_MSG_ID);
+        preservedInformation.informationMap.put(PROVIDED_WILMA_ORIGINAL_URI, PROVIDED_WILMA_ORIGINAL_URI);
+        preservedInformation.informationMap.put(PROVIDED_WILMA_REMOTE_ADDRESS, PROVIDED_WILMA_REMOTE_ADDRESS);
+        when(messageInfo.getChannelHandlerContext()).thenReturn(channelHandlerContext);
+        when(channelHandlerContext.channel()).thenReturn(channel);
+        when(channel.remoteAddress()).thenReturn(socketAddress);
+        when(socketAddress.toString()).thenReturn(PROVIDED_WILMA_REMOTE_ADDRESS);
     }
 
     @Test

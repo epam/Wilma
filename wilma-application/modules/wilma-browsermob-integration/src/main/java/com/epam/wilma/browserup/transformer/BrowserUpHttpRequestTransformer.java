@@ -23,15 +23,12 @@ import com.browserup.bup.util.HttpMessageInfo;
 import com.epam.browsermob.messagemarker.idgenerator.TimeStampBasedIdGenerator;
 import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
 import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
-import com.epam.wilma.browserup.proxy.helper.BrowserUpProxyServer;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.proxy.helper.WilmaRequestFactory;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import org.littleshoot.proxy.extras.PreservedInformation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,8 +46,10 @@ import java.util.Map;
 @Component
 public class BrowserUpHttpRequestTransformer {
 
-    private static final Logger log = LoggerFactory.getLogger(BrowserUpProxyServer.class);
-    private static final TimeStampBasedIdGenerator TIME_STAMP_BASED_ID_GENERATOR = new TimeStampBasedIdGenerator();
+    public static final String PROVIDED_WILMA_MSG_ID = "WILMA_MSG_ID";
+    public static final String PROVIDED_WILMA_ORIGINAL_URI = "WILMA_ORIGINAL_URI";
+    public static final String PROVIDED_WILMA_REMOTE_ADDRESS = "WILMA_REMOTE_ADDRESS";
+    public static final TimeStampBasedIdGenerator TIME_STAMP_BASED_ID_GENERATOR = new TimeStampBasedIdGenerator();
 
     @Autowired
     private WilmaRequestFactory requestFactory;
@@ -74,12 +73,15 @@ public class BrowserUpHttpRequestTransformer {
         InputStream bodyStream = new ByteArrayInputStream(contents.getBinaryContents());
         result.setInputStream(bodyStream);
         result.setBody(body);
+        URI uri;
         try {
-            result.setUri(new URI(request.uri()));
+            uri = new URI(request.uri());
+            result.setUri(uri);
         } catch (URISyntaxException e) {
             throw new ApplicationException("Invalid URI arrived at request.", e);
         }
         result.setResponseVolatile(true); //it is always volatile
+
         //prepare instance prefix
         MessagePropertyDTO properties = configurationAccess.getProperties();
         String instancePrefix = properties.getInstancePrefix();
@@ -88,12 +90,17 @@ public class BrowserUpHttpRequestTransformer {
         } else {
             instancePrefix = "";
         }
-        //messageInfo.getChannelHandlerContext().channel().id().toString();
+
         //set Wilma Message Id
-        result.setWilmaMessageId(instancePrefix + TIME_STAMP_BASED_ID_GENERATOR.nextIdentifier());
+        String wilmaMessageId = instancePrefix + TIME_STAMP_BASED_ID_GENERATOR.nextIdentifier();
+        result.setWilmaMessageId(wilmaMessageId);
+        preservedInformation.informationMap.put(PROVIDED_WILMA_MSG_ID, wilmaMessageId);
+        preservedInformation.informationMap.put(PROVIDED_WILMA_ORIGINAL_URI, request.uri());
 
         //set remote addr
-        result.setRemoteAddr(null); //TODO, cannot determine remote address, this might be problematic
+        String remoteAddress = messageInfo.getChannelHandlerContext().channel().remoteAddress().toString();
+        preservedInformation.informationMap.put(PROVIDED_WILMA_REMOTE_ADDRESS, request.uri());
+        result.setRemoteAddr(remoteAddress);
 
         return result;
     }

@@ -34,6 +34,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.NotSerializableException;
+
 @Component
 public class BrowserUpRequestInterceptor implements RequestFilter {
     private final Logger logger = LoggerFactory.getLogger(BrowserUpRequestInterceptor.class);

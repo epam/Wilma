@@ -34,8 +34,8 @@ dependencies {
 
 
     //local browserUp build
-    compile('com.browserup:browserup-proxy-core:2.1.1-Wilma')
-    compile('com.browserup:browserup-proxy-mitm:2.1.1-Wilma')
+    implementation('com.browserup:browserup-proxy-core:2.1.1-Wilma')
+    implementation('com.browserup:browserup-proxy-mitm:2.1.1-Wilma')
     implementation "io.netty:netty-all:${nettyVersion}"
     compile ('com.epam.wilma:browsermob-proxy:2.0-beta-8-wilma-1.6.177') {
         exclude (module:'slf4j-jdk14')
