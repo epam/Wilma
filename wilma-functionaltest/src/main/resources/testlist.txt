@@ -7,9 +7,9 @@
 #com.epam.wilma.gepard.test.basic.VersionTest,,STUBCONFIG
 #com.epam.wilma.gepard.test.basic.TestServerVersionTest,,STUBCONFIG
 com.epam.wilma.gepard.test.basic.BasicProxyBehaviorTest,4,STUBCONFIG
-#com.epam.wilma.gepard.test.basic.BasicProxySslBehaviorTest,4,STUBCONFIG
+com.epam.wilma.gepard.test.basic.BasicProxySslBehaviorTest,4,STUBCONFIG
 com.epam.wilma.gepard.test.basic.BasicStubBehaviorTest,4,STUBCONFIG
-#com.epam.wilma.gepard.test.basic.BasicStubSslBehaviorTest,4,STUBCONFIG
+com.epam.wilma.gepard.test.basic.BasicStubSslBehaviorTest,4,STUBCONFIG
 #com.epam.wilma.gepard.test.basic.ServerErrorTest,6,STUBCONFIG
 #com.epam.wilma.gepard.test.basic.JsonTest,1,STUBCONFIG
 #com.epam.wilma.gepard.test.basic.JsonSchemaTest,2,STUBCONFIG

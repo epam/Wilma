@@ -27,11 +27,11 @@ import com.browserup.bup.filters.BrowserUpHttpFilterChain;
 import com.browserup.bup.filters.ModifiedRequestAwareFilter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpUtil;
 import org.littleshoot.proxy.HttpFilters;
 import org.littleshoot.proxy.HttpFiltersAdapter;
 import org.littleshoot.proxy.extras.PreservedInformation;
@@ -51,13 +51,11 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
     private static final Logger log = LoggerFactory.getLogger(BrowserUpHttpFilterChain.class);
 
     private final BrowserUpProxyServer proxyServer;
-    private final PreservedInformation preservedInformation;
 
     private final List<HttpFilters> filters;
 
     public BrowserUpWilmaHttpFilterChain(BrowserUpProxyServer proxyServer, HttpRequest originalRequest, ChannelHandlerContext ctx) {
         super(originalRequest, ctx);
-        preservedInformation = new PreservedInformation();
         this.proxyServer = proxyServer;
 
         if (proxyServer.getFilterFactories() != null) {
@@ -77,17 +75,15 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
     @Override
     public HttpResponse clientToProxyRequest(HttpObject httpObject, PreservedInformation preservedInformation) {
         if (proxyServer.isStopped()) {
-            log.warn("Aborting request to {} because proxy is stopped", originalRequest.getUri());
-            HttpResponse abortedResponse = new DefaultFullHttpResponse(originalRequest.getProtocolVersion(), HttpResponseStatus.SERVICE_UNAVAILABLE);
-            HttpHeaders.setContentLength(abortedResponse, 0L);
+            log.warn("Aborting request to {} because proxy is stopped", originalRequest.uri());
+            HttpResponse abortedResponse = new DefaultFullHttpResponse(originalRequest.protocolVersion(), HttpResponseStatus.SERVICE_UNAVAILABLE);
+            HttpUtil.setContentLength(abortedResponse, 0L);
             return abortedResponse;
         }
 
-        preservedInformation.informationMap.clear();
-
         for (HttpFilters filter : filters) {
             try {
-                HttpResponse filterResponse = filter.clientToProxyRequest(httpObject, this.preservedInformation);
+                HttpResponse filterResponse = filter.clientToProxyRequest(httpObject, preservedInformation);
                 if (filterResponse != null) {
                     // if we are short-circuiting the response to an HttpRequest, update ModifiedRequestAwareFilter instances
                     // with this (possibly) modified HttpRequest before returning the short-circuit response
@@ -143,10 +139,9 @@ public class BrowserUpWilmaHttpFilterChain extends HttpFiltersAdapter {
     public HttpObject serverToProxyResponse(HttpObject httpObject, PreservedInformation preservedInformation) {
         HttpObject processedHttpObject = httpObject;
 
-        preservedInformation.informationMap.clear();
         for (HttpFilters filter : filters) {
             try {
-                processedHttpObject = filter.serverToProxyResponse(processedHttpObject, this.preservedInformation);
+                processedHttpObject = filter.serverToProxyResponse(processedHttpObject, preservedInformation);
                 if (processedHttpObject == null) {
                     return null;
                 }

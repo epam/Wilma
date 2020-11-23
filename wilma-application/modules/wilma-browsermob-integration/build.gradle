@@ -28,10 +28,6 @@ dependencies {
     compile project(':wilma-application:wilma-common')
     compile project(':wilma-application:wilma-core')
     compile project(':wilma-application:wilma-properties')
-    //original browserUp build
-//    compile('com.browserup:browserup-proxy-core:2.1.1')
-//    compile('com.browserup:browserup-proxy-mitm:2.1.1')
-
 
     //local browserUp build
     implementation('com.browserup:browserup-proxy-core:2.1.1-Wilma')

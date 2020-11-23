@@ -33,7 +33,8 @@ import java.io.FileNotFoundException;
 @TestClass(id = "Basic - Stub - SSL", name = "Stub Answers")
 public class BasicStubSslBehaviorTest extends WilmaTestCase {
     private static final String EXAMPLE_3_XML = "resources/example3.xml";
-    private static final String RESOURCE_FILE_NAME = "example3.xml";
+    private static final String EXAMPLE_4_XML = "resources/example4.xml";
+    private static final String RESOURCE_FILE_NAME = "example4.xml";
     private static final String STUB_CONFIG = "resources/stubConfig.json";
 
     private String tcName = getDataDrivenTestParameter("PAR0");
@@ -54,7 +55,7 @@ public class BasicStubSslBehaviorTest extends WilmaTestCase {
         //given
         clearAllOldStubConfigs();
         setOperationModeTo("wilma");
-        uploadTemplateToWilma(RESOURCE_FILE_NAME, EXAMPLE_3_XML);
+        uploadTemplateToWilma(RESOURCE_FILE_NAME, EXAMPLE_4_XML);
         uploadStubConfigToWilma(STUB_CONFIG);
         setOriginalRequestMessageFromFile(EXAMPLE_3_XML);
         setExpectedResponseMessageFromFile("resources/uc3_2TestResponse.txt");

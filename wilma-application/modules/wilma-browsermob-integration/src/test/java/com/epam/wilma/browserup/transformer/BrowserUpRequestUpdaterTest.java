@@ -27,6 +27,7 @@ import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
@@ -40,7 +41,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Provides unit tests for the class {@link BrowserUpRequestUpdater}.
@@ -48,6 +51,8 @@ import static org.mockito.Mockito.verify;
  * @author Tamas_Kohegyi
  */
 public class BrowserUpRequestUpdaterTest {
+
+    private PreservedInformation preservedInformation;
 
     @Mock
     HttpRequest request;
@@ -66,8 +71,11 @@ public class BrowserUpRequestUpdaterTest {
     private BrowserUpRequestUpdater underTest;
 
     @BeforeMethod
-    public void setUp() {
+    public void setUp() throws URISyntaxException {
         MockitoAnnotations.initMocks(this);
+        preservedInformation = new PreservedInformation();
+        when(wilmaHttpRequest.getUri()).thenReturn(new URI("http://localhost:1234/a"));
+        when(request.uri()).thenReturn("http://something.com/a");
     }
 
     @Test
@@ -79,9 +87,9 @@ public class BrowserUpRequestUpdaterTest {
         String mockID = "WILMA-LOG-MOCK-ID";
         given(wilmaHttpRequest.getWilmaMessageId()).willReturn(mockID);
         //WHEN
-        underTest.updateRequest(request, contents, messageInfo, wilmaHttpRequest);
+        underTest.updateRequest(request, contents, messageInfo, wilmaHttpRequest, preservedInformation);
         //THEN
-        verify(request).setUri(uri.toString());
+        verify(request).setUri(anyString());
     }
 
     @Test
@@ -98,7 +106,7 @@ public class BrowserUpRequestUpdaterTest {
         given(request.headers()).willReturn(httpHeaders);
         given(httpHeaders.get("A")).willReturn("C");
         //WHEN
-        underTest.updateRequest(request, contents, messageInfo, wilmaHttpRequest);
+        underTest.updateRequest(request, contents, messageInfo, wilmaHttpRequest, preservedInformation);
         //THEN
         verify(httpHeaders).add("A", "B");
     }
@@ -117,7 +125,7 @@ public class BrowserUpRequestUpdaterTest {
         given(request.headers()).willReturn(httpHeaders);
         given(httpHeaders.get("A")).willReturn("C");
         //WHEN
-        underTest.updateRequest(request, contents, messageInfo, wilmaHttpRequest);
+        underTest.updateRequest(request, contents, messageInfo, wilmaHttpRequest, preservedInformation);
         //THEN
         verify(httpHeaders).remove("A");
     }
@@ -131,7 +139,7 @@ public class BrowserUpRequestUpdaterTest {
         given(wilmaHttpRequest.getNewBody()).willReturn("NEW BODY".getBytes());
         given(wilmaHttpRequest.getUri()).willReturn(uri);
         //WHEN
-        underTest.updateRequest(request, contents, messageInfo, wilmaHttpRequest);
+        underTest.updateRequest(request, contents, messageInfo, wilmaHttpRequest, preservedInformation);
         //THEN
         verify(contents).setBinaryContents(Matchers.anyObject());
     }

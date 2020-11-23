@@ -99,7 +99,7 @@ public class BrowserUpHttpRequestTransformer {
 
         //set remote addr
         String remoteAddress = messageInfo.getChannelHandlerContext().channel().remoteAddress().toString();
-        preservedInformation.informationMap.put(PROVIDED_WILMA_REMOTE_ADDRESS, request.uri());
+        preservedInformation.informationMap.put(PROVIDED_WILMA_REMOTE_ADDRESS, remoteAddress);
         result.setRemoteAddr(remoteAddress);
 
         return result;

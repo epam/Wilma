@@ -24,6 +24,7 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import io.netty.handler.codec.http.HttpRequest;
+import org.littleshoot.proxy.extras.PreservedInformation;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -35,11 +36,12 @@ import java.util.Map;
  */
 @Component
 public class BrowserUpRequestUpdater {
+    private final static String WILMA_STUB_IN_USE = "WILMA_STUB_IN_USE";
 
     /**
      * Updates BrowserUp specific HTTP request. Adds wilma logger id to headers and updates URI.
      */
-    public void updateRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo, WilmaHttpRequest wilmaHttpRequest) {
+    public void updateRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo, WilmaHttpRequest wilmaHttpRequest, PreservedInformation preservedInformation) {
         // Update the headers of the original request with extra headers added/removed by Req interceptors
         // Note, that when we redirect the request to the stub, we always add the message id to the extra headers part
 
@@ -75,6 +77,11 @@ public class BrowserUpRequestUpdater {
         //set response volatility approach
         //N/A response is always volatile
         //switch between original uri (proxy mode selected) or wilma internal uri (stub mode selected)
-        request.setUri(wilmaHttpRequest.getUri().toString());
+        String newUriString = wilmaHttpRequest.getUri().toString();
+        if (!request.uri().equals(newUriString)) {
+            //stubbed
+            request.setUri(newUriString);
+            preservedInformation.informationMap.put(WILMA_STUB_IN_USE, WILMA_STUB_IN_USE);
+        }
     }
 }

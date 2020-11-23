@@ -53,4 +53,77 @@ public class ServerFactory {
         server.setStopAtShutdown(true);
         return server;
     }
+
+    /* TODO: NEXT GENERATION OF THE WILMA SERVER, with jetty 9.4.31.v20200723
+    public Server createServer(final ServerProperties serverProperties) {
+        Server server = new Server();
+        HttpConfiguration httpConfiguration = getHttpConnector(serverProperties);
+
+        ServerConnector http = new ServerConnector(server, new HttpConnectionFactory(httpConfiguration));
+        http.setPort(serverProperties.getProxyPort());
+        http.setIdleTimeout(30000);
+
+        server.setConnectors(new Connector[]{http});
+        server.setStopTimeout(SHUTDOWN_TIMEOUT);
+        server.setStopAtShutdown(true);
+        return server;
+    }
+
+    private HttpConfiguration getHttpConnector(final ServerProperties serverProperties) {
+        HttpConfiguration http_config = new HttpConfiguration();
+        http_config.setSecureScheme("https");
+        http_config.setSecurePort(serverProperties.getProxyPort());
+        http_config.setOutputBufferSize(serverProperties.getResponseBufferSize());
+        //NOTE: serverProperties.getRequestBufferSize() is not used anymore
+        return http_config;
+    }
+
+    /*
+    private Connector getHttpSConnector(final ServerProperties serverProperties) {
+
+        // SSL Context Factory for HTTPS and SPDY
+        // SSL requires a certificate so we configure a factory for ssl contents
+        // with information pointing to what keystore the ssl connection needs
+        // to know about. Much more configuration is available the ssl context,
+        // including things like choosing the particular certificate out of a
+        // keystore to be used.
+        String keyStoreFile = "certificate/wilmaKeystore.jks";
+        File keystoreFile = new File(keyStoreFile);
+        if (!keystoreFile.exists())
+        {
+            throw new FileNotFoundException(keyStoreFile);
+        }
+        SslContextFactory sslContextFactory = new SslContextFactory();
+        sslContextFactory.setKeyStorePath(keyStoreFile);
+        sslContextFactory.setKeyStorePassword("secret123");
+        sslContextFactory.setKeyManagerPassword("secret123");
+
+        // HTTPS Configuration
+        // A new HttpConfiguration object is needed for the next connector and
+        // you can pass the old one as an argument to effectively clone the
+        // contents. On this HttpConfiguration object we add a
+        // SecureRequestCustomizer which is how a new connector is able to
+        // resolve the https connection before handing control over to the Jetty
+        // Server.
+        HttpConfiguration https_config = new HttpConfiguration(http_config);
+        https_config.addCustomizer(new SecureRequestCustomizer());
+
+        // HTTPS connector
+        // We create a second ServerConnector, passing in the http configuration
+        // we just made along with the previously created ssl context factory.
+        // Next we set the port and a longer idle timeout.
+        ServerConnector https = new ServerConnector(server,
+                new SslConnectionFactory(sslContextFactory, "http/1.1"),
+                new HttpConnectionFactory(https_config));
+        https.setPort(8443);
+        https.setIdleTimeout(500000);
+
+        // Here you see the server having multiple connectors registered with
+        // it, now requests can flow into the server from both http and https
+        // urls to their respective ports and be processed accordingly by jetty.
+        // A simple handler is also registered with the server so the example
+        // has something to pass requests off to.
+
+    } */
+
 }

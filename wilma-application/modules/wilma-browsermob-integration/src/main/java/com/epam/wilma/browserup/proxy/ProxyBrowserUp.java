@@ -96,11 +96,9 @@ public class ProxyBrowserUp implements Proxy {
     public void start() {
         try {
             getProperties();
+            server.setTrustAllServers(true);
             server.start(proxyPort, requestTimeout);
-            //TODO BrowserUpProxyServer.setResponseVolatile(responseVolatile);
             //TODO BrowserUpProxyServer.setShouldKeepSslConnectionAlive(shouldKeepSslConnectionAlive);
-            //TODO server.setCaptureContent(true);
-            //TODO server.setCaptureBinaryContent(true);
             server.addRequestFilter(requestFilter);
             server.addResponseFilter(responseFilter);
         } catch (Exception e) {

@@ -105,6 +105,6 @@ public class BrowserUpRequestInterceptorTest {
         underTest.filterRequest(request, contents, messageInfo, preservedInformation);
         // THEN
         verify(wilmaHttpRequestHandler).processRequest(wilmaRequest);
-        verify(browserMobRequestUpdater).updateRequest(request, contents, messageInfo, wilmaRequest);
+        verify(browserMobRequestUpdater).updateRequest(request, contents, messageInfo, wilmaRequest, preservedInformation);
     }
 }

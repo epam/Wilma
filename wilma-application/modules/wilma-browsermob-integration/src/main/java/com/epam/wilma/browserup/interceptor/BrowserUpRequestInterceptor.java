@@ -34,8 +34,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.NotSerializableException;
-
 @Component
 public class BrowserUpRequestInterceptor implements RequestFilter {
     private final Logger logger = LoggerFactory.getLogger(BrowserUpRequestInterceptor.class);
@@ -52,7 +50,7 @@ public class BrowserUpRequestInterceptor implements RequestFilter {
         try {
             WilmaHttpRequest wilmaHttpRequest = browserUpHttpRequestTransformer.transformRequest(request, contents, messageInfo, preservedInformation);
             wilmaHttpRequestProcessor.processRequest(wilmaHttpRequest);
-            browserUpRequestUpdater.updateRequest(request, contents, messageInfo, wilmaHttpRequest);
+            browserUpRequestUpdater.updateRequest(request, contents, messageInfo, wilmaHttpRequest, preservedInformation);
         } catch (ApplicationException e) {
             logger.error(e.getMessage(), e);
         }
