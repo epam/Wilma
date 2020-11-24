@@ -22,7 +22,7 @@ dependencies {
     compile project(':wilma-application:wilma-domain')
     compile project(':wilma-application:wilma-stub-configuration-domain')
     compile project(':wilma-application:wilma-common')
-    compile project(':wilma-application:wilma-browsermob-integration')
+    compile project(':wilma-application:wilma-proxy-integration')
     compile 'org.json:json:20180813'
     compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
     compile group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.12.1'

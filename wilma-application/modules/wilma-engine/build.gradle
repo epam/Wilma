@@ -74,7 +74,7 @@ repositories {
 }
 
 dependencies {
-    compile project(':wilma-application:wilma-browsermob-integration')
+    compile project(':wilma-application:wilma-proxy-integration')
     compile project(':wilma-application:wilma-webapp')
     compile project(':wilma-application:wilma-message-maintainer')
     compile project(':wilma-application:wilma-safeguard')
