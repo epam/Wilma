@@ -56,9 +56,9 @@ public class BrowserUpHttpResponseTransformer {
     private MessageConfigurationAccess configurationAccess;
 
     /**
-     * Transforms a BrowserMob specific HTTP response to Wilma's own representation of an HTTP response.
+     * Transforms a BrowserUp specific HTTP response to Wilma's own representation of an HTTP response.
      *
-     * @param response the BrowserMob specific HTTP response to transform
+     * @param response the BrowserUp specific HTTP response to transform
      * @return Wilma's own representation of the HTTP response
      */
     public WilmaHttpResponse transformResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo, PreservedInformation preservedInformation) {

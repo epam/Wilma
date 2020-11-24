@@ -57,7 +57,7 @@ public class BrowserUpHttpRequestTransformer {
     private MessageConfigurationAccess configurationAccess;
 
     /**
-     * Transforms a BrowserMob specific HTTP request to Wilma's own representation of an HTTP request.
+     * Transforms a BrowserUp specific HTTP request to Wilma's own representation of an HTTP request.
      *
      * @return Wilma's own representation of the HTTP request
      * @throws ApplicationException when request body cannot be read

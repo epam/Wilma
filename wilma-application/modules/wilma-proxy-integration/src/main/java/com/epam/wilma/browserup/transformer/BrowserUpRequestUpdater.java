@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * Updates BrowserMob specific HTTP request using {@link WilmaHttpRequest}.
+ * Updates BrowserUp specific HTTP request using {@link WilmaHttpRequest}.
  *
  * @author Tamas Kohegyi
  */

@@ -74,7 +74,7 @@ import com.browserup.bup.util.BrowserUpHttpUtil;
 import com.browserup.bup.util.HttpStatusClass;
 import com.browserup.harreader.model.Har;
 import com.browserup.harreader.model.HarEntry;
-import com.epam.wilma.browsermob.domain.exception.ProxyCannotBeStartedException;
+import com.epam.wilma.proxy.exception.ProxyCannotBeStartedException;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MapMaker;

@@ -63,7 +63,7 @@ public class BrowserUpResponseInterceptorTest {
     @Mock
     private WilmaHttpResponseProcessor responseHandler;
     @Mock
-    private BrowserUpResponseUpdater browserMobResponseUpdater;
+    private BrowserUpResponseUpdater browserUpResponseUpdater;
     @Mock
     private Logger logger;
 
@@ -81,7 +81,7 @@ public class BrowserUpResponseInterceptorTest {
         underTest.filterResponse(response, contents, messageInfo, preservedInformation);
         // THEN
         verify(responseHandler).processResponse(wilmaResponse);
-        verify(browserMobResponseUpdater).updateResponse(response, contents, messageInfo, wilmaResponse);
+        verify(browserUpResponseUpdater).updateResponse(response, contents, messageInfo, wilmaResponse);
     }
 
     @Test

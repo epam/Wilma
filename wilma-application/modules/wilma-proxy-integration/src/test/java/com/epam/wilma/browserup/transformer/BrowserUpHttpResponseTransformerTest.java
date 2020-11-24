@@ -44,7 +44,7 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
 
 /**
- * Provides unit tests for the <tt>BrowserMobHttpResponseTransformer</tt> class.
+ * Provides unit tests for the <tt>BrowserUpHttpResponseTransformer</tt> class.
  *
  * @author Tunde_Kovacs
  */

@@ -21,7 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.proxy.Proxy;
 import com.epam.wilma.proxy.configuration.ProxyConfigurationAccess;
 import com.epam.wilma.proxy.configuration.domain.ProxyPropertyDTO;
-import com.epam.wilma.browsermob.domain.exception.ProxyCannotBeStartedException;
+import com.epam.wilma.proxy.exception.ProxyCannotBeStartedException;
 import com.epam.wilma.browserup.interceptor.BrowserUpRequestInterceptor;
 import com.epam.wilma.browserup.interceptor.BrowserUpResponseInterceptor;
 import com.epam.wilma.browserup.proxy.helper.BrowserUpProxyServer;

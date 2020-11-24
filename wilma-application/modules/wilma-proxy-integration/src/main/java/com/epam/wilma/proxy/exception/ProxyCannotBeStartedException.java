@@ -1,4 +1,4 @@
-package com.epam.wilma.browsermob.domain.exception;
+package com.epam.wilma.proxy.exception;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 
