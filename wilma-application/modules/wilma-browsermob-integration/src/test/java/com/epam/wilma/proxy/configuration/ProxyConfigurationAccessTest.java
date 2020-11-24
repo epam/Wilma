@@ -1,4 +1,4 @@
-package com.epam.wilma.browsermob.configuration;
+package com.epam.wilma.proxy.configuration;
 
 /*==========================================================================
 Copyright since 2013, EPAM Systems
@@ -22,13 +22,14 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import static org.mockito.BDDMockito.given;
 import static org.testng.Assert.assertEquals;
 
+import com.epam.wilma.proxy.configuration.ProxyConfigurationAccess;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
+import com.epam.wilma.proxy.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.properties.PropertyHolder;
 
 /**

@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import net.lightbody.bmp.proxy.ProxyServer;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -62,7 +61,6 @@ public class ResponseMessageVolatilityStatusServletTest {
     public void doGetShouldWriteJsonMessage() throws ServletException, IOException {
         //GIVEN request and response
         given(resp.getWriter()).willReturn(printWriter);
-        ProxyServer.setResponseVolatile(true);
         //WHEN
         underTest.doGet(req, resp);
         //THEN
@@ -74,7 +72,6 @@ public class ResponseMessageVolatilityStatusServletTest {
     public void doPostShouldCallDoGet() throws ServletException, IOException {
         //GIVEN request and response
         given(resp.getWriter()).willReturn(printWriter);
-        ProxyServer.setResponseVolatile(true);
         //WHEN
         underTest.doPost(req, resp);
         //THEN

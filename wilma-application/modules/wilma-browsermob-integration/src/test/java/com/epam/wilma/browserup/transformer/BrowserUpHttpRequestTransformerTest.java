@@ -20,8 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
-import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
-import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
+import com.epam.wilma.proxy.configuration.MessageConfigurationAccess;
+import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.proxy.helper.WilmaRequestFactory;
@@ -46,7 +46,6 @@ import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransform
 import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_REMOTE_ADDRESS;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;

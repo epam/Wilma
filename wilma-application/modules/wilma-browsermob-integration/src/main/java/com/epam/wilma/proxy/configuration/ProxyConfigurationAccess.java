@@ -1,4 +1,4 @@
-package com.epam.wilma.browsermob.configuration;
+package com.epam.wilma.proxy.configuration;
 
 /*==========================================================================
 Copyright since 2013, EPAM Systems
@@ -22,7 +22,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
+import com.epam.wilma.proxy.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.common.configuration.ConfigurationAccessBase;
 import com.epam.wilma.properties.PropertyHolder;
 

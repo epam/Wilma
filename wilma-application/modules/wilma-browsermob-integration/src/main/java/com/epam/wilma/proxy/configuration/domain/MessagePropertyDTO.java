@@ -1,6 +1,6 @@
-package com.epam.wilma.browserup.proxy.helper;
+package com.epam.wilma.proxy.configuration.domain;
 /*==========================================================================
-Copyright since 2020, EPAM Systems
+Copyright since 2013, EPAM Systems
 
 This file is part of Wilma.
 
@@ -18,17 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Date;
+/**
+ * Holds module specific properties.
+ * @author Tamas Kohegyi
+ *
+ */
+public class MessagePropertyDTO {
 
-public class CurrentDateProvider {
-    public CurrentDateProvider() {
+    private final String instancePrefix;
+
+    /**
+     * Constructs a new property holding object with the given fields.
+     * @param instancePrefix is used as Wilma instance prefix for logging the messages
+     */
+    public MessagePropertyDTO(String instancePrefix) {
+        super();
+        this.instancePrefix = instancePrefix;
     }
 
-    public Date getCurrentDate() {
-        return new Date();
-    }
-
-    public long getCurrentTimeInMillis() {
-        return System.currentTimeMillis();
+    public String getInstancePrefix() {
+        return instancePrefix;
     }
 }

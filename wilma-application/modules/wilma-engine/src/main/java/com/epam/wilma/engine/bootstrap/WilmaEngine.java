@@ -41,7 +41,6 @@ public class WilmaEngine extends AbstractIdleService implements WilmaService {
 
     @Autowired
     private JettyServer webAppServer;
-    //can be proxyBrowserUp or browserMobProxy
     @Autowired @Qualifier("proxyBrowserUp")
     private Proxy proxy;
     @Autowired

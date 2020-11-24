@@ -20,9 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
-import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
-import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
-import com.epam.wilma.browserup.interceptor.BrowserUpRequestInterceptor;
+import com.epam.wilma.proxy.configuration.MessageConfigurationAccess;
+import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.proxy.helper.WilmaResponseFactory;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
@@ -34,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
 import java.util.Map;
 
 import static com.epam.wilma.browserup.transformer.BrowserUpHttpRequestTransformer.PROVIDED_WILMA_MSG_ID;

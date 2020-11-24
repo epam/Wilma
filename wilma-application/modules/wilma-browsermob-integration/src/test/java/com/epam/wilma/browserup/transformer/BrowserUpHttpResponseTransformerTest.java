@@ -20,8 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
-import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
-import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
+import com.epam.wilma.proxy.configuration.MessageConfigurationAccess;
+import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.proxy.helper.WilmaResponseFactory;
 import io.netty.handler.codec.http.DefaultHttpHeaders;

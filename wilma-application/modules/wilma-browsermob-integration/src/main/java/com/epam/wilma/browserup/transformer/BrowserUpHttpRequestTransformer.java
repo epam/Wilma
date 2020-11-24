@@ -20,11 +20,11 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
-import com.epam.browsermob.messagemarker.idgenerator.TimeStampBasedIdGenerator;
-import com.epam.wilma.browsermob.configuration.MessageConfigurationAccess;
-import com.epam.wilma.browsermob.configuration.domain.MessagePropertyDTO;
+import com.epam.wilma.proxy.configuration.MessageConfigurationAccess;
+import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.proxy.helper.TimeStampBasedIdGenerator;
 import com.epam.wilma.proxy.helper.WilmaRequestFactory;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;

@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.browsermob.configuration.ProxyConfigurationAccess;
-import com.epam.wilma.browsermob.configuration.domain.ProxyPropertyDTO;
+import com.epam.wilma.proxy.configuration.ProxyConfigurationAccess;
+import com.epam.wilma.proxy.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.browsermob.domain.exception.ProxyCannotBeStartedException;
 import com.epam.wilma.browserup.interceptor.BrowserUpRequestInterceptor;
 import com.epam.wilma.browserup.interceptor.BrowserUpResponseInterceptor;

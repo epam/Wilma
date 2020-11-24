@@ -19,7 +19,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
-import net.lightbody.bmp.proxy.ProxyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +53,7 @@ public class ResponseMessageVolatilityOffServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        logger.info(urlAccessLogMessageAssembler.assembleMessage(req, "Response Message Volatility: OFF"));
-        ProxyServer.setResponseVolatile(false);
+        logger.info(urlAccessLogMessageAssembler.assembleMessage(req, "Response Message Volatility: OFF (Deprecated, not in use)"));
     }
 
     @Override
