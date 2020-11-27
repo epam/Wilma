@@ -11,8 +11,10 @@ It is written in Java, and the solution consists of two standalone applications:
 
 WARNING!
 ========
-**Wilma is under mayor update (preparing V2.0) which means if you get th source and compile yourself, not all the functions might work!
-If you don't want to deal with broken features, aways use the Release versions!**
+**Wilma is under mayor update (preparing V2.0) which means if you get the source and compile yourself, not all the functions might work!
+If you don't want to deal with broken features, always use the Released versions!**
+
+**You must also should know that V1.6 release works reliable with HTTP only, since the supported HTTPS protocols (SSLv3, TLS1) become obsolete since the last release.**
 
 # Quick intro for end users
 ## Wilma application
