@@ -30,13 +30,21 @@ dependencies {
     compile project(':wilma-application:wilma-properties')
 
     //local browserUp build
-    implementation('com.browserup:browserup-proxy-core:2.1.1-Wilma')
-    implementation('com.browserup:browserup-proxy-mitm:2.1.1-Wilma')
-    implementation "io.netty:netty-all:${nettyVersion}"
+    //implementation('com.browserup:browserup-proxy-core:2.1.1-Wilma')
+    //implementation('com.browserup:browserup-proxy-mitm:2.1.1-Wilma')
+    //implementation "io.netty:netty-all:${nettyVersion}"
 
     //local mitmProxy build
-    implementation('com.epam.mitm:mitmProxy:0.3-beta-wilma-2.0.DEV') {
+    implementation('com.epam.mitm:mitmProxy:0.5-beta-wilma-2.0.DEV') {
         exclude(group: 'org.eclipse.jetty', module: 'jetty-server')
         exclude(group: 'org.eclipse.jetty', module: 'jetty-servlet')
     }
+
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testCompile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
+    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
+    testCompile (group: 'io.netty', name: 'netty-all', version: '4.1.51.Final')
+    testCompile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.31.v20200723'
 }
+
+test.useJUnit()
