@@ -35,7 +35,7 @@ dependencies {
     implementation "io.netty:netty-all:${nettyVersion}"
 
     //local mitmProxy build
-    implementation('com.epam.mitm:mitmProxy:0.2-beta-wilma-2.0.DEV') {
+    implementation('com.epam.mitm:mitmProxy:0.3-beta-wilma-2.0.DEV') {
         exclude(group: 'org.eclipse.jetty', module: 'jetty-server')
         exclude(group: 'org.eclipse.jetty', module: 'jetty-servlet')
     }
