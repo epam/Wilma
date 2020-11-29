@@ -46,7 +46,7 @@ import static org.mockito.BDDMockito.willThrow;
  *
  * @author Marton_Sereg, Tamas_Kohegyi
  */
-public class MitmProxyTest {
+public class ProxyIntegrationTest {
 
     private static final String EXCPEPTION_MESSAGE = "excpeption message";
     private ProxyPropertyDTO propertiesDTO;

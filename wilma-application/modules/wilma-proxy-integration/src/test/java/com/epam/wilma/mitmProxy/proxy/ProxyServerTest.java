@@ -1,10 +1,11 @@
 package com.epam.wilma.mitmProxy.proxy;
 
 import com.epam.mitm.proxy.ProxyServer;
-import com.epam.wilma.mitmProxy.proxy.helper.AbstractMitmProxyTestTool;
+import com.epam.wilma.mitmProxy.proxy.helper.AbstractProxyTool;
 import com.epam.wilma.mitmProxy.proxy.helper.DefaultRequestInterceptor;
 import com.epam.wilma.mitmProxy.proxy.helper.DefaultResponseInterceptor;
 import com.epam.wilma.mitmProxy.proxy.helper.ResponseInfo;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests just a single basic proxy running as a man in the middle.
  */
-public class ProxyServerTest extends AbstractMitmProxyTestTool {
+public class ProxyServerTest extends AbstractProxyTool {
 
     @Override
     protected void setUp() {
@@ -36,7 +37,8 @@ public class ProxyServerTest extends AbstractMitmProxyTestTool {
         assertEquals(1, requestCount.get());
     }
 
-    //@Test
+    @Ignore
+    @Test
     public void testSimpleGetRequestOverHTTPS() throws Exception {
         ResponseInfo proxiedResponse = httpGetWithApacheClient(httpsWebHost, NO_NEED_STUB_RESPONSE, true, false);
         assertEquals(200, proxiedResponse.getStatusCode());
@@ -54,7 +56,8 @@ public class ProxyServerTest extends AbstractMitmProxyTestTool {
         assertEquals(1, requestCount.get());
     }
 
-    //@Test
+    @Ignore
+    @Test
     public void testSimplePostRequestOverHTTPS() throws Exception {
         ResponseInfo proxiedResponse = httpPostWithApacheClient(httpsWebHost, NO_NEED_STUB_RESPONSE, true);
         assertEquals(200, proxiedResponse.getStatusCode());

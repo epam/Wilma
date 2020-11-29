@@ -18,31 +18,31 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import org.eclipse.jetty.server.Request;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 
-import org.eclipse.jetty.server.Request;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test class for {@link ExampleHandler}.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class ExampleHandlerTest {
 
@@ -72,13 +72,14 @@ public class ExampleHandlerTest {
     @Mock
     private PrintWriter writer;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        underTest = Mockito.spy(underTest);
+        underTest = Mockito.spy(new ExampleHandler(inputStreamConverter));
     }
 
-    @Test(enabled = false)
+    @Test
+    @Ignore
     public final void testHandleShouldReturnResponse() throws IOException, ServletException {
         // GIVEN
         given(inputStreamConverter.getStringFromStream(requestBody)).willReturn("exampleID=\"123\"");

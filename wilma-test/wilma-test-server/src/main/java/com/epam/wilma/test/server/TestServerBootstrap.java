@@ -76,9 +76,9 @@ public class TestServerBootstrap {
                     logger.error("Specified property file's extension is not \"properties\"!");
                 }
             } catch (FileNotFoundException e) {
-                logger.error("Specified property file not found!", e);
+                logger.error("Specified property file not found!");
             } catch (NumberFormatException e) {
-                logger.error("One of server.port.http and server.port.https properties is not a valid port number.", e);
+                logger.error("One of server.port.http and server.port.https properties is not a valid port number.");
             } catch (IOException e) {
                 logger.error("Property file cannot be read.");
             } catch (SystemException e) {

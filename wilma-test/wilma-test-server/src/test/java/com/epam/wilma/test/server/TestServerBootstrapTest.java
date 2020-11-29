@@ -30,12 +30,12 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import org.eclipse.jetty.server.Server;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 /**
  * Test class for {@link TestServerBootstrap}.
@@ -59,7 +59,7 @@ public class TestServerBootstrapTest {
     @Mock
     private JettyServer jettyServer;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         underTest.setLogger(logger);

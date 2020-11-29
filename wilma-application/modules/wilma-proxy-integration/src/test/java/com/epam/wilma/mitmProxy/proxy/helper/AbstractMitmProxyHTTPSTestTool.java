@@ -9,6 +9,7 @@ import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
@@ -112,23 +113,17 @@ public abstract class AbstractMitmProxyHTTPSTestTool {
 
     protected ResponseInfo httpGetWithApacheClient(HttpHost host, String resourceUrl, boolean isProxied, boolean callHeadFirst)
             throws Exception {
-        DefaultHttpClient httpClient = TestUtils.buildHttpClient();
+        final CloseableHttpClient httpClient = TestUtils.buildHttpClient(isProxied, proxyServer.getPort());
         try {
-            if (isProxied) {
-                HttpHost proxy = new HttpHost("127.0.0.1", proxyServer.getPort());
-                httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-            }
 
             Integer contentLength = null;
             if (callHeadFirst) {
                 HttpHead request = new HttpHead(resourceUrl);
-                request.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
                 HttpResponse response = httpClient.execute(host, request);
-                contentLength = new Integer(response.getFirstHeader("Content-Length").getValue());
+                contentLength = Integer.valueOf(response.getFirstHeader("Content-Length").getValue());
             }
 
             HttpGet request = new HttpGet(resourceUrl);
-            request.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
 
             HttpResponse response = httpClient.execute(host, request);
             HttpEntity resEntity = response.getEntity();
@@ -137,11 +132,11 @@ public abstract class AbstractMitmProxyHTTPSTestTool {
                 assertEquals(
                         "Content-Length from GET should match that from HEAD",
                         contentLength,
-                        new Integer(response.getFirstHeader("Content-Length").getValue()));
+                        Integer.valueOf(response.getFirstHeader("Content-Length").getValue()));
             }
             return new ResponseInfo(response.getStatusLine().getStatusCode(), EntityUtils.toString(resEntity));
         } finally {
-            httpClient.getConnectionManager().shutdown();
+            httpClient.close();
         }
     }
 

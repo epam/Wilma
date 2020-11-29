@@ -33,7 +33,7 @@ import java.io.FileNotFoundException;
 
 /**
  * Create a new server that listens on the port given in the properties file, and adds the handler to the server.
- * @author Marton_Sereg
+ * @author Marton_Sereg, Tamas_Kohegyi
  *
  */
 public class JettyServer {
@@ -75,16 +75,16 @@ public class JettyServer {
             // to know about. Much more configuration is available the ssl context,
             // including things like choosing the particular certificate out of a
             // keystore to be used.
-            String keyStoreFile = "certificate/wilmaKeystore.jks";
+            String keyStoreFile = "certificate/wilmaTestServer.jks";
             File keystoreFile = new File(keyStoreFile);
             if (!keystoreFile.exists())
             {
                 throw new FileNotFoundException(keyStoreFile);
             }
-            SslContextFactory sslContextFactory = new SslContextFactory();
+            SslContextFactory sslContextFactory = new SslContextFactory.Server.Server();
             sslContextFactory.setKeyStorePath(keyStoreFile);
-            sslContextFactory.setKeyStorePassword("secret123");
-            sslContextFactory.setKeyManagerPassword("secret123");
+            sslContextFactory.setKeyStorePassword("vvilma");
+            sslContextFactory.setKeyManagerPassword("vvilma");
 
             // HTTPS Configuration
             // A new HttpConfiguration object is needed for the next connector and

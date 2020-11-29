@@ -1,7 +1,6 @@
 package com.epam.wilma.mitmProxy.proxy.helper;
 
 import com.epam.mitm.proxy.ProxyServer;
-import com.epam.wilma.mitmProxy.proxy.MitmProxy;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -10,6 +9,7 @@ import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.Assert.assertEquals;
@@ -27,13 +28,13 @@ import static org.junit.Assert.assertEquals;
  * Base for tests that test the proxy. This base class encapsulates all of the
  * testing infrastructure.
  */
-public abstract class AbstractMitmProxyTestTool {
+public abstract class AbstractProxyTool {
 
     /**
      * The server used by the tests.
      */
     public static final int PROXY_TIMEOUT = 60000; //1 minute
-    protected final static Logger LOGGER = LoggerFactory.getLogger(AbstractMitmProxyTestTool.class);
+    protected final static Logger LOGGER = LoggerFactory.getLogger(AbstractProxyTool.class);
     protected static final String NO_NEED_STUB_RESPONSE = "/getServer";
     protected static final String NEED_STUB_RESPONSE = "/getStub";
     protected static final String SERVER_BACKEND = "server-backend";
@@ -62,6 +63,10 @@ public abstract class AbstractMitmProxyTestTool {
         initializeCounters();
         startServers();
         startProxy();
+        LOGGER.info("*** Backed http Server started on port: {}", webServerPort);
+        LOGGER.info("*** Backed httpS Server started on port: {}", httpsWebServerPort);
+        LOGGER.info("*** Backed http/stub Server started on port: {}", stubServerPort);
+        LOGGER.info("*** Proxy Server started on port: {}", proxyPort);
         //and finally
         setUp();
     }
@@ -130,15 +135,9 @@ public abstract class AbstractMitmProxyTestTool {
 
 
     protected ResponseInfo httpPostWithApacheClient(HttpHost host, String resourceUrl, boolean isProxied) throws Exception {
-        final DefaultHttpClient httpClient = TestUtils.buildHttpClient();
+        final CloseableHttpClient httpClient = TestUtils.buildHttpClient(isProxied, proxyServer.getPort());
         try {
-            if (isProxied) {
-                final HttpHost proxy = new HttpHost("127.0.0.1", proxyPort);
-                httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-            }
-
             final HttpPost request = new HttpPost(resourceUrl);
-            request.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
             final StringEntity entity = new StringEntity("adsf", "UTF-8");
             entity.setChunked(true);
             request.setEntity(entity);
@@ -147,29 +146,23 @@ public abstract class AbstractMitmProxyTestTool {
             final HttpEntity resEntity = response.getEntity();
             return new ResponseInfo(response.getStatusLine().getStatusCode(), EntityUtils.toString(resEntity));
         } finally {
-            httpClient.getConnectionManager().shutdown();
+            httpClient.close();
         }
     }
 
     protected ResponseInfo httpGetWithApacheClient(HttpHost host, String resourceUrl, boolean isProxied, boolean callHeadFirst)
             throws Exception {
-        DefaultHttpClient httpClient = TestUtils.buildHttpClient();
+        final CloseableHttpClient httpClient = TestUtils.buildHttpClient(isProxied, proxyServer.getPort());
         try {
-            if (isProxied) {
-                HttpHost proxy = new HttpHost("127.0.0.1", proxyServer.getPort());
-                httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-            }
 
             Integer contentLength = null;
             if (callHeadFirst) {
                 HttpHead request = new HttpHead(resourceUrl);
-                request.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
                 HttpResponse response = httpClient.execute(host, request);
-                contentLength = new Integer(response.getFirstHeader("Content-Length").getValue());
+                contentLength = Integer.valueOf(response.getFirstHeader("Content-Length").getValue());
             }
 
             HttpGet request = new HttpGet(resourceUrl);
-            request.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
 
             HttpResponse response = httpClient.execute(host, request);
             HttpEntity resEntity = response.getEntity();
@@ -178,11 +171,11 @@ public abstract class AbstractMitmProxyTestTool {
                 assertEquals(
                         "Content-Length from GET should match that from HEAD",
                         contentLength,
-                        new Integer(response.getFirstHeader("Content-Length").getValue()));
+                        Integer.valueOf(response.getFirstHeader("Content-Length").getValue()));
             }
             return new ResponseInfo(response.getStatusLine().getStatusCode(), EntityUtils.toString(resEntity));
         } finally {
-            httpClient.getConnectionManager().shutdown();
+            httpClient.close();
         }
     }
 
