@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.mitmProxy.proxy.MitmProxy;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -39,7 +40,7 @@ public class ResponseMessageVolatilityStatusServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        boolean responseVolatility = true;
+        boolean responseVolatility = MitmProxy.getResponseVolatile();
         out.write("{\"responseVolatility\":" + responseVolatility + "}");
         out.flush();
         out.close();
