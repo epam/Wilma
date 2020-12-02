@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.mitmProxy.proxy.MitmProxy;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +33,8 @@ import java.io.IOException;
 
 /**
  * This servlet that is used to switch on response message volatility when called.
- * @author Tamas_Kohegyi
  *
+ * @author Tamas_Kohegyi
  */
 @Component
 public class ResponseMessageVolatilityOnServlet extends HttpServlet {
@@ -44,6 +45,7 @@ public class ResponseMessageVolatilityOnServlet extends HttpServlet {
 
     /**
      * Constructor using spring framework to initialize the class.
+     *
      * @param urlAccessLogMessageAssembler is use to log the url access
      */
     @Autowired
@@ -53,7 +55,8 @@ public class ResponseMessageVolatilityOnServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        logger.info(urlAccessLogMessageAssembler.assembleMessage(req, "Response Message Volatility: ON (Deprecated, not in use)"));
+        MitmProxy.setResponseVolatile(true);
+        logger.info(urlAccessLogMessageAssembler.assembleMessage(req, "Response Message Volatility: ON"));
     }
 
     @Override
