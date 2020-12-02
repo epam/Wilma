@@ -1,0 +1,513 @@
+08:25:30.396 [Test worker] INFO  org.eclipse.jetty.util.log - Logging initialized @1381ms to org.eclipse.jetty.util.log.Slf4jLog
+08:25:30.583 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:30.646 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@6db76bab{HTTP/1.1, (http/1.1)}{0.0.0.0:52343}
+08:25:30.661 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@5ad3e759{SSL, (ssl, http/1.1)}{0.0.0.0:52356}
+08:25:30.661 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @1649ms
+08:25:30.661 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:30.677 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@48bb819f{HTTP/1.1, (http/1.1)}{0.0.0.0:52369}
+08:25:30.677 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @1656ms
+08:25:30.708 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: SocketListener0@0.0.0.0:0
+08:25:30.740 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.jetty.http.ResourceCache@68c3cef4
+08:25:30.740 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: HttpContext[/,/]
+08:25:30.740 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Added HttpContext[/,/] for host *
+08:25:31.130 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.130 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting net.lightbody.bmp.proxy.jetty.jetty.BmpServer@69fa76c3
+08:25:31.130 [Test worker] INFO  n.l.bmp.proxy.jetty.http.HttpServer - Version Jetty/5.1.x
+08:25:31.130 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - LISTENERS: [SocketListener0@0.0.0.0:0]
+08:25:31.130 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - HANDLER: {null={/=[HttpContext[/,/]]}}
+08:25:31.130 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting HttpContext[/,/]
+08:25:31.130 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Init classloader from null, jdk.internal.loader.ClassLoaders$AppClassLoader@2aae9190 for HttpContext[/,/]
+08:25:31.130 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Started net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.130 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started HttpContext[/,/]
+08:25:31.130 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Started SocketListener on 0.0.0.0:52382
+08:25:31.130 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started net.lightbody.bmp.proxy.jetty.jetty.BmpServer@69fa76c3
+08:25:31.130 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http Server started on port: 52343
+08:25:31.130 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed httpS Server started on port: 52356
+08:25:31.130 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http/stub Server started on port: 52369
+08:25:31.130 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Proxy Server started on port: 52382
+08:25:31.130 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - STUB URL used: http://127.0.0.1:52369/stub
+08:25:31.396 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager is shutting down
+08:25:31.396 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager shut down
+08:25:31.396 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping net.lightbody.bmp.proxy.jetty.jetty.BmpServer@69fa76c3
+08:25:31.396 [Test worker] DEBUG n.l.b.p.jetty.util.ThreadedServer - closing ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52382]
+08:25:31.396 [Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52382]] INFO  n.l.b.p.jetty.util.ThreadedServer - Stopping Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52382]
+08:25:31.505 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Stopped SocketListener on 0.0.0.0:52382
+08:25:31.505 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping HttpContext[/,/]
+08:25:31.505 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Stopped net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.521 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped HttpContext[/,/]
+08:25:31.521 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped net.lightbody.bmp.proxy.jetty.jetty.BmpServer@69fa76c3
+08:25:31.536 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@6db76bab{HTTP/1.1, (http/1.1)}{0.0.0.0:0}
+08:25:31.536 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@5ad3e759{SSL, (ssl, http/1.1)}{0.0.0.0:0}
+08:25:31.536 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:31.552 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@25eafe22{HTTP/1.1, (http/1.1)}{0.0.0.0:52385}
+08:25:31.552 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@796a9d68{SSL, (ssl, http/1.1)}{0.0.0.0:52398}
+08:25:31.552 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @2543ms
+08:25:31.552 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:31.568 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@76cd0126{HTTP/1.1, (http/1.1)}{0.0.0.0:52411}
+08:25:31.568 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @2550ms
+08:25:31.568 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: SocketListener1@0.0.0.0:0
+08:25:31.568 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.jetty.http.ResourceCache@152299ba
+08:25:31.568 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: HttpContext[/,/]
+08:25:31.568 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Added HttpContext[/,/] for host *
+08:25:31.583 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.583 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting net.lightbody.bmp.proxy.jetty.jetty.BmpServer@2da366e5
+08:25:31.583 [Test worker] INFO  n.l.bmp.proxy.jetty.http.HttpServer - Version Jetty/5.1.x
+08:25:31.583 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - LISTENERS: [SocketListener1@0.0.0.0:0]
+08:25:31.583 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - HANDLER: {null={/=[HttpContext[/,/]]}}
+08:25:31.583 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting HttpContext[/,/]
+08:25:31.583 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Init classloader from null, jdk.internal.loader.ClassLoaders$AppClassLoader@2aae9190 for HttpContext[/,/]
+08:25:31.583 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Started net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.583 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started HttpContext[/,/]
+08:25:31.583 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Started SocketListener on 0.0.0.0:52424
+08:25:31.583 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started net.lightbody.bmp.proxy.jetty.jetty.BmpServer@2da366e5
+08:25:31.583 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http Server started on port: 52385
+08:25:31.583 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed httpS Server started on port: 52398
+08:25:31.583 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http/stub Server started on port: 52411
+08:25:31.583 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Proxy Server started on port: 52424
+08:25:31.583 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - STUB URL used: http://127.0.0.1:52411/stub
+08:25:31.599 [SocketListener1-1] DEBUG n.l.b.p.jetty.http.HttpConnection - new HttpConnection: Socket[addr=/127.0.0.1,port=52425,localport=52424]
+08:25:31.630 [SocketListener1-1] DEBUG n.l.b.p.jetty.http.HttpConnection - REQUEST from SocketListener1@0.0.0.0:52424:
+POST http://127.0.0.1:52385/getServer HTTP/1.1
+Transfer-Encoding: chunked
+Content-Type: text/plain; charset=UTF-8
+Host: 127.0.0.1:52385
+Proxy-Connection: keep-alive
+User-Agent: Apache-HttpClient/4.5.12 (Java/11.0.2)
+Accept-Encoding: gzip,deflate
+
+
+08:25:31.630 [SocketListener1-1] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Try HttpContext[/,/],0
+08:25:31.630 [SocketListener1-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handler net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.646 [SocketListener1-1] INFO  c.e.w.m.p.h.DefaultRequestInterceptor - Request Interceptor Called - Request untouched.
+08:25:31.646 [SocketListener1-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection request: [route: {}->http://127.0.0.1:52385][total available: 0; route allocated: 0 of 6; total allocated: 0 of 30]
+08:25:31.646 [SocketListener1-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection leased: [id: 0][route: {}->http://127.0.0.1:52385][total available: 0; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:31.755 [qtp205869364-73] INFO  c.e.w.m.proxy.helper.TestUtils - Done reading # of bytes: 4
+08:25:31.771 [SocketListener1-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection [id: 0][route: {}->http://127.0.0.1:52385] can be kept alive indefinitely
+08:25:31.771 [SocketListener1-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection released: [id: 0][route: {}->http://127.0.0.1:52385][total available: 1; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:31.771 [SocketListener1-1] INFO  c.e.w.m.p.h.DefaultResponseInterceptor - Response Interceptor Called, status: 200
+08:25:31.771 [SocketListener1-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handled by net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.771 [SocketListener1-1] DEBUG n.l.b.p.jetty.http.HttpConnection - RESPONSE:
+HTTP/1.1 200 OK
+Date: Mon, 30 Nov 2020 07:25:31 GMT
+Server: Jetty/5.1.x (Windows 10/10.0 amd64 java/11.0.2
+Date: Mon, 30 Nov 2020 07:25:31 GMT
+Content-Length: 14
+Server: Jetty(9.4.31.v20200723)
+
+
+08:25:31.771 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager is shutting down
+08:25:31.771 [SocketListener1-1] DEBUG n.l.b.p.jetty.http.HttpConnection - java.net.SocketException: Connection reset
+08:25:31.771 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager shut down
+08:25:31.771 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping net.lightbody.bmp.proxy.jetty.jetty.BmpServer@2da366e5
+08:25:31.771 [Test worker] DEBUG n.l.b.p.jetty.util.ThreadedServer - closing ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52424]
+08:25:31.771 [Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52424]] INFO  n.l.b.p.jetty.util.ThreadedServer - Stopping Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52424]
+08:25:31.880 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Stopped SocketListener on 0.0.0.0:52424
+08:25:31.880 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping HttpContext[/,/]
+08:25:31.880 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Stopped net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.896 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped HttpContext[/,/]
+08:25:31.896 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped net.lightbody.bmp.proxy.jetty.jetty.BmpServer@2da366e5
+08:25:31.896 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@25eafe22{HTTP/1.1, (http/1.1)}{0.0.0.0:0}
+08:25:31.896 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@796a9d68{SSL, (ssl, http/1.1)}{0.0.0.0:0}
+08:25:31.896 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:31.896 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@230a9af7{HTTP/1.1, (http/1.1)}{0.0.0.0:52427}
+08:25:31.911 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@307fc86a{SSL, (ssl, http/1.1)}{0.0.0.0:52440}
+08:25:31.911 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @2891ms
+08:25:31.911 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:31.911 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@25b08f24{HTTP/1.1, (http/1.1)}{0.0.0.0:52453}
+08:25:31.911 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @2895ms
+08:25:31.911 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: SocketListener2@0.0.0.0:0
+08:25:31.911 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.jetty.http.ResourceCache@3675c3ef
+08:25:31.911 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: HttpContext[/,/]
+08:25:31.911 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Added HttpContext[/,/] for host *
+08:25:31.927 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.927 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting net.lightbody.bmp.proxy.jetty.jetty.BmpServer@3ed48c44
+08:25:31.927 [Test worker] INFO  n.l.bmp.proxy.jetty.http.HttpServer - Version Jetty/5.1.x
+08:25:31.927 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - LISTENERS: [SocketListener2@0.0.0.0:0]
+08:25:31.927 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - HANDLER: {null={/=[HttpContext[/,/]]}}
+08:25:31.927 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting HttpContext[/,/]
+08:25:31.927 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Init classloader from null, jdk.internal.loader.ClassLoaders$AppClassLoader@2aae9190 for HttpContext[/,/]
+08:25:31.927 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Started net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.927 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started HttpContext[/,/]
+08:25:31.927 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Started SocketListener on 0.0.0.0:52466
+08:25:31.927 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started net.lightbody.bmp.proxy.jetty.jetty.BmpServer@3ed48c44
+08:25:31.927 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http Server started on port: 52427
+08:25:31.927 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed httpS Server started on port: 52440
+08:25:31.927 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http/stub Server started on port: 52453
+08:25:31.927 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Proxy Server started on port: 52466
+08:25:31.927 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - STUB URL used: http://127.0.0.1:52453/stub
+08:25:31.927 [SocketListener2-1] DEBUG n.l.b.p.jetty.http.HttpConnection - new HttpConnection: Socket[addr=/127.0.0.1,port=52467,localport=52466]
+08:25:31.927 [SocketListener2-1] DEBUG n.l.b.p.jetty.http.HttpConnection - REQUEST from SocketListener2@0.0.0.0:52466:
+POST http://127.0.0.1:52427/getStub HTTP/1.1
+Transfer-Encoding: chunked
+Content-Type: text/plain; charset=UTF-8
+Host: 127.0.0.1:52427
+Proxy-Connection: keep-alive
+User-Agent: Apache-HttpClient/4.5.12 (Java/11.0.2)
+Accept-Encoding: gzip,deflate
+
+
+08:25:31.927 [SocketListener2-1] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Try HttpContext[/,/],0
+08:25:31.927 [SocketListener2-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handler net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.927 [SocketListener2-1] INFO  c.e.w.m.p.h.DefaultRequestInterceptor - Request Interceptor Called - Redirect to STUB: http://127.0.0.1:52453/stub
+08:25:31.927 [SocketListener2-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection request: [route: {}->http://127.0.0.1:52453][total available: 0; route allocated: 0 of 6; total allocated: 0 of 30]
+08:25:31.927 [SocketListener2-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection leased: [id: 1][route: {}->http://127.0.0.1:52453][total available: 0; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:31.927 [qtp2013250500-101] INFO  c.e.w.m.proxy.helper.TestUtils - STUB found in request
+08:25:31.927 [qtp2013250500-101] INFO  c.e.w.m.proxy.helper.TestUtils - Done reading # of bytes: 4
+08:25:31.927 [SocketListener2-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection [id: 1][route: {}->http://127.0.0.1:52453] can be kept alive indefinitely
+08:25:31.927 [SocketListener2-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection released: [id: 1][route: {}->http://127.0.0.1:52453][total available: 1; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:31.927 [SocketListener2-1] INFO  c.e.w.m.p.h.DefaultResponseInterceptor - Response Interceptor Called, status: 200
+08:25:31.927 [SocketListener2-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handled by net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:31.927 [SocketListener2-1] DEBUG n.l.b.p.jetty.http.HttpConnection - RESPONSE:
+HTTP/1.1 200 OK
+Date: Mon, 30 Nov 2020 07:25:31 GMT
+Server: Jetty/5.1.x (Windows 10/10.0 amd64 java/11.0.2
+Date: Mon, 30 Nov 2020 07:25:31 GMT
+Content-Length: 12
+Server: Jetty(9.4.31.v20200723)
+
+
+08:25:31.927 [SocketListener2-1] DEBUG n.l.b.p.jetty.http.HttpConnection - java.net.SocketException: Connection reset
+08:25:31.927 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager is shutting down
+08:25:31.927 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager shut down
+08:25:31.927 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping net.lightbody.bmp.proxy.jetty.jetty.BmpServer@3ed48c44
+08:25:31.927 [Test worker] DEBUG n.l.b.p.jetty.util.ThreadedServer - closing ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52466]
+08:25:31.927 [Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52466]] INFO  n.l.b.p.jetty.util.ThreadedServer - Stopping Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52466]
+08:25:32.036 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Stopped SocketListener on 0.0.0.0:52466
+08:25:32.036 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping HttpContext[/,/]
+08:25:32.036 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Stopped net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.052 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped HttpContext[/,/]
+08:25:32.052 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped net.lightbody.bmp.proxy.jetty.jetty.BmpServer@3ed48c44
+08:25:32.052 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@230a9af7{HTTP/1.1, (http/1.1)}{0.0.0.0:0}
+08:25:32.052 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@307fc86a{SSL, (ssl, http/1.1)}{0.0.0.0:0}
+08:25:32.052 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:32.052 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@751713b4{HTTP/1.1, (http/1.1)}{0.0.0.0:52469}
+08:25:32.068 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@d00dd7d{SSL, (ssl, http/1.1)}{0.0.0.0:52482}
+08:25:32.068 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @3047ms
+08:25:32.068 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:32.068 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@6fb3a436{HTTP/1.1, (http/1.1)}{0.0.0.0:52495}
+08:25:32.068 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @3051ms
+08:25:32.068 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: SocketListener3@0.0.0.0:0
+08:25:32.068 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.jetty.http.ResourceCache@1362eb22
+08:25:32.068 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: HttpContext[/,/]
+08:25:32.068 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Added HttpContext[/,/] for host *
+08:25:32.083 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.083 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting net.lightbody.bmp.proxy.jetty.jetty.BmpServer@4888ac6
+08:25:32.083 [Test worker] INFO  n.l.bmp.proxy.jetty.http.HttpServer - Version Jetty/5.1.x
+08:25:32.083 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - LISTENERS: [SocketListener3@0.0.0.0:0]
+08:25:32.083 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - HANDLER: {null={/=[HttpContext[/,/]]}}
+08:25:32.083 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting HttpContext[/,/]
+08:25:32.083 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Init classloader from null, jdk.internal.loader.ClassLoaders$AppClassLoader@2aae9190 for HttpContext[/,/]
+08:25:32.083 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Started net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.083 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started HttpContext[/,/]
+08:25:32.083 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Started SocketListener on 0.0.0.0:52508
+08:25:32.083 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started net.lightbody.bmp.proxy.jetty.jetty.BmpServer@4888ac6
+08:25:32.083 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http Server started on port: 52469
+08:25:32.083 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed httpS Server started on port: 52482
+08:25:32.083 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http/stub Server started on port: 52495
+08:25:32.083 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Proxy Server started on port: 52508
+08:25:32.083 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - STUB URL used: http://127.0.0.1:52495/stub
+08:25:32.083 [SocketListener3-1] DEBUG n.l.b.p.jetty.http.HttpConnection - new HttpConnection: Socket[addr=/127.0.0.1,port=52509,localport=52508]
+08:25:32.083 [SocketListener3-1] DEBUG n.l.b.p.jetty.http.HttpConnection - REQUEST from SocketListener3@0.0.0.0:52508:
+GET http://127.0.0.1:52469/getStub HTTP/1.1
+Host: 127.0.0.1:52469
+Proxy-Connection: keep-alive
+User-Agent: Apache-HttpClient/4.5.12 (Java/11.0.2)
+Accept-Encoding: gzip,deflate
+
+
+08:25:32.083 [SocketListener3-1] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Try HttpContext[/,/],0
+08:25:32.083 [SocketListener3-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handler net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.083 [SocketListener3-1] INFO  c.e.w.m.p.h.DefaultRequestInterceptor - Request Interceptor Called - Redirect to STUB: http://127.0.0.1:52495/stub
+08:25:32.083 [SocketListener3-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection request: [route: {}->http://127.0.0.1:52495][total available: 0; route allocated: 0 of 6; total allocated: 0 of 30]
+08:25:32.083 [SocketListener3-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection leased: [id: 2][route: {}->http://127.0.0.1:52495][total available: 0; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:32.083 [qtp1265276759-129] INFO  c.e.w.m.proxy.helper.TestUtils - STUB found in request
+08:25:32.083 [qtp1265276759-129] INFO  c.e.w.m.proxy.helper.TestUtils - Done reading # of bytes: 0
+08:25:32.083 [SocketListener3-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection [id: 2][route: {}->http://127.0.0.1:52495] can be kept alive indefinitely
+08:25:32.083 [SocketListener3-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection released: [id: 2][route: {}->http://127.0.0.1:52495][total available: 1; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:32.083 [SocketListener3-1] INFO  c.e.w.m.p.h.DefaultResponseInterceptor - Response Interceptor Called, status: 200
+08:25:32.083 [SocketListener3-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handled by net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.083 [SocketListener3-1] DEBUG n.l.b.p.jetty.http.HttpConnection - RESPONSE:
+HTTP/1.1 200 OK
+Date: Mon, 30 Nov 2020 07:25:32 GMT
+Server: Jetty/5.1.x (Windows 10/10.0 amd64 java/11.0.2
+Date: Mon, 30 Nov 2020 07:25:32 GMT
+Content-Length: 12
+Server: Jetty(9.4.31.v20200723)
+
+
+08:25:32.083 [SocketListener3-1] DEBUG n.l.b.p.jetty.http.HttpConnection - java.net.SocketException: Connection reset
+08:25:32.083 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager is shutting down
+08:25:32.083 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager shut down
+08:25:32.083 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping net.lightbody.bmp.proxy.jetty.jetty.BmpServer@4888ac6
+08:25:32.083 [Test worker] DEBUG n.l.b.p.jetty.util.ThreadedServer - closing ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52508]
+08:25:32.083 [Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52508]] INFO  n.l.b.p.jetty.util.ThreadedServer - Stopping Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52508]
+08:25:32.193 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Stopped SocketListener on 0.0.0.0:52508
+08:25:32.193 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping HttpContext[/,/]
+08:25:32.193 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Stopped net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.208 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped HttpContext[/,/]
+08:25:32.208 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped net.lightbody.bmp.proxy.jetty.jetty.BmpServer@4888ac6
+08:25:32.208 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@751713b4{HTTP/1.1, (http/1.1)}{0.0.0.0:0}
+08:25:32.208 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@d00dd7d{SSL, (ssl, http/1.1)}{0.0.0.0:0}
+08:25:32.208 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:32.224 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@3fded0dd{HTTP/1.1, (http/1.1)}{0.0.0.0:52511}
+08:25:32.224 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@1423be23{SSL, (ssl, http/1.1)}{0.0.0.0:52524}
+08:25:32.224 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @3210ms
+08:25:32.224 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:32.224 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@197dc229{HTTP/1.1, (http/1.1)}{0.0.0.0:52537}
+08:25:32.224 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @3214ms
+08:25:32.224 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: SocketListener4@0.0.0.0:0
+08:25:32.224 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.jetty.http.ResourceCache@7f5426b9
+08:25:32.224 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: HttpContext[/,/]
+08:25:32.224 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Added HttpContext[/,/] for host *
+08:25:32.240 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.240 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting net.lightbody.bmp.proxy.jetty.jetty.BmpServer@1cd78387
+08:25:32.240 [Test worker] INFO  n.l.bmp.proxy.jetty.http.HttpServer - Version Jetty/5.1.x
+08:25:32.240 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - LISTENERS: [SocketListener4@0.0.0.0:0]
+08:25:32.240 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - HANDLER: {null={/=[HttpContext[/,/]]}}
+08:25:32.240 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting HttpContext[/,/]
+08:25:32.240 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Init classloader from null, jdk.internal.loader.ClassLoaders$AppClassLoader@2aae9190 for HttpContext[/,/]
+08:25:32.240 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Started net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.240 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started HttpContext[/,/]
+08:25:32.240 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Started SocketListener on 0.0.0.0:52550
+08:25:32.240 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started net.lightbody.bmp.proxy.jetty.jetty.BmpServer@1cd78387
+08:25:32.240 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http Server started on port: 52511
+08:25:32.240 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed httpS Server started on port: 52524
+08:25:32.240 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http/stub Server started on port: 52537
+08:25:32.240 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Proxy Server started on port: 52550
+08:25:32.240 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - STUB URL used: http://127.0.0.1:52537/stub
+08:25:32.240 [SocketListener4-1] DEBUG n.l.b.p.jetty.http.HttpConnection - new HttpConnection: Socket[addr=/127.0.0.1,port=52551,localport=52550]
+08:25:32.255 [SocketListener4-1] DEBUG n.l.b.p.jetty.http.HttpConnection - REQUEST from SocketListener4@0.0.0.0:52550:
+CONNECT 127.0.0.1:52524 HTTP/1.1
+Host: 127.0.0.1:52524
+User-Agent: Apache-HttpClient/4.5.12 (Java/11.0.2)
+
+
+08:25:32.255 [SocketListener4-1] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Try HttpContext[/,/],0
+08:25:32.255 [SocketListener4-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handler net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.255 [SocketListener4-1] DEBUG n.l.b.p.s.SeleniumProxyHandler - CONNECT: 127.0.0.1:52524
+08:25:32.255 [SocketListener4-1] DEBUG n.l.bmp.proxy.util.ResourceExtractor - Extracting /sslSupport to C:\Users\apa\AppData\Local\Temp\seleniumSslSupport2076929370522240069127.0.0.1
+08:25:32.740 [SocketListener4-1] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: SeleniumProxyHandler$SslRelay5@0.0.0.0:0
+08:25:32.740 [SocketListener4-1] INFO  n.l.bmp.proxy.jetty.util.Credential - Checking Resource aliases
+08:25:32.802 [SocketListener4-1] INFO  n.l.b.p.jetty.http.SocketListener - Started SocketListener on 0.0.0.0:52552
+08:25:32.802 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.b.p.jetty.http.HttpConnection - new HttpConnection: Socket[addr=/127.0.0.1,port=52553,localport=52552]
+08:25:32.802 [SocketListener4-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handled by net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.802 [SocketListener4-1] DEBUG n.l.b.p.jetty.http.HttpConnection - RESPONSE:
+HTTP/1.1 200 OK
+Date: Mon, 30 Nov 2020 07:25:32 GMT
+Server: Jetty/5.1.x (Windows 10/10.0 amd64 java/11.0.2
+Connection: close
+Content-Length: 0
+
+
+08:25:32.802 [SocketListener4-1] DEBUG n.l.b.p.jetty.http.HttpConnection - Tunnel: net.lightbody.bmp.proxy.jetty.http.HttpTunnel@794d79d4
+08:25:32.943 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.b.p.jetty.http.HttpConnection - REQUEST from SeleniumProxyHandler$SslRelay5@0.0.0.0:52552:
+GET https://127.0.0.1:52524/getStub HTTP/1.1
+Host: 127.0.0.1:52524
+Connection: keep-alive
+User-Agent: Apache-HttpClient/4.5.12 (Java/11.0.2)
+Accept-Encoding: gzip,deflate
+
+
+08:25:32.943 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Try HttpContext[/,/],0
+08:25:32.943 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handler net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.943 [SeleniumProxyHandler$SslRelay5-1] INFO  c.e.w.m.p.h.DefaultRequestInterceptor - Request Interceptor Called - Redirect to STUB: http://127.0.0.1:52537/stub
+08:25:32.943 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection request: [route: {}->http://127.0.0.1:52537][total available: 0; route allocated: 0 of 6; total allocated: 0 of 30]
+08:25:32.943 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection leased: [id: 3][route: {}->http://127.0.0.1:52537][total available: 0; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:32.943 [qtp1701675312-161] INFO  c.e.w.m.proxy.helper.TestUtils - STUB found in request
+08:25:32.958 [qtp1701675312-161] INFO  c.e.w.m.proxy.helper.TestUtils - Done reading # of bytes: 0
+08:25:32.958 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection [id: 3][route: {}->http://127.0.0.1:52537] can be kept alive indefinitely
+08:25:32.958 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection released: [id: 3][route: {}->http://127.0.0.1:52537][total available: 1; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:32.958 [SeleniumProxyHandler$SslRelay5-1] INFO  c.e.w.m.p.h.DefaultResponseInterceptor - Response Interceptor Called, status: 200
+08:25:32.958 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handled by net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:32.958 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.b.p.jetty.http.HttpConnection - RESPONSE:
+HTTP/1.1 200 OK
+Date: Mon, 30 Nov 2020 07:25:32 GMT
+Server: Jetty/5.1.x (Windows 10/10.0 amd64 java/11.0.2
+Date: Mon, 30 Nov 2020 07:25:32 GMT
+Content-Length: 12
+Server: Jetty(9.4.31.v20200723)
+
+
+08:25:32.958 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - remove component: SeleniumProxyHandler$SslRelay5@0.0.0.0:52552
+08:25:32.958 [Test worker] DEBUG n.l.b.p.jetty.util.ThreadedServer - closing [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52552]]
+08:25:32.958 [SeleniumProxyHandler$SslRelay5-1] DEBUG n.l.b.p.jetty.http.HttpConnection - EOFException()
+08:25:32.958 [Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52552]]] INFO  n.l.b.p.jetty.util.ThreadedServer - Stopping Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52552]]
+08:25:33.068 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Stopped SocketListener on 0.0.0.0:52552
+08:25:33.068 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager is shutting down
+08:25:33.068 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager shut down
+08:25:33.068 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping net.lightbody.bmp.proxy.jetty.jetty.BmpServer@1cd78387
+08:25:33.068 [Test worker] DEBUG n.l.b.p.jetty.util.ThreadedServer - closing ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52550]
+08:25:33.068 [Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52550]] INFO  n.l.b.p.jetty.util.ThreadedServer - Stopping Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52550]
+08:25:33.177 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Stopped SocketListener on 0.0.0.0:52550
+08:25:33.177 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping HttpContext[/,/]
+08:25:33.177 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Stopped net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.193 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped HttpContext[/,/]
+08:25:33.193 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped net.lightbody.bmp.proxy.jetty.jetty.BmpServer@1cd78387
+08:25:33.193 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@3fded0dd{HTTP/1.1, (http/1.1)}{0.0.0.0:0}
+08:25:33.193 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@1423be23{SSL, (ssl, http/1.1)}{0.0.0.0:0}
+08:25:33.193 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:33.193 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@6c46a0eb{HTTP/1.1, (http/1.1)}{0.0.0.0:52555}
+08:25:33.208 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@58764728{SSL, (ssl, http/1.1)}{0.0.0.0:52568}
+08:25:33.208 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @4187ms
+08:25:33.208 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:33.208 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@1f5c5a9b{HTTP/1.1, (http/1.1)}{0.0.0.0:52581}
+08:25:33.208 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @4190ms
+08:25:33.208 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: SocketListener6@0.0.0.0:0
+08:25:33.208 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.jetty.http.ResourceCache@4d952b88
+08:25:33.208 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: HttpContext[/,/]
+08:25:33.208 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Added HttpContext[/,/] for host *
+08:25:33.224 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.224 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting net.lightbody.bmp.proxy.jetty.jetty.BmpServer@1363b1bc
+08:25:33.224 [Test worker] INFO  n.l.bmp.proxy.jetty.http.HttpServer - Version Jetty/5.1.x
+08:25:33.224 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - LISTENERS: [SocketListener6@0.0.0.0:0]
+08:25:33.224 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - HANDLER: {null={/=[HttpContext[/,/]]}}
+08:25:33.224 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting HttpContext[/,/]
+08:25:33.224 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Init classloader from null, jdk.internal.loader.ClassLoaders$AppClassLoader@2aae9190 for HttpContext[/,/]
+08:25:33.224 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Started net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.224 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started HttpContext[/,/]
+08:25:33.224 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Started SocketListener on 0.0.0.0:52594
+08:25:33.224 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started net.lightbody.bmp.proxy.jetty.jetty.BmpServer@1363b1bc
+08:25:33.224 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http Server started on port: 52555
+08:25:33.224 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed httpS Server started on port: 52568
+08:25:33.224 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http/stub Server started on port: 52581
+08:25:33.224 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Proxy Server started on port: 52594
+08:25:33.224 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - STUB URL used: http://127.0.0.1:52581/stub
+08:25:33.224 [SocketListener6-1] DEBUG n.l.b.p.jetty.http.HttpConnection - new HttpConnection: Socket[addr=/127.0.0.1,port=52595,localport=52594]
+08:25:33.224 [SocketListener6-1] DEBUG n.l.b.p.jetty.http.HttpConnection - REQUEST from SocketListener6@0.0.0.0:52594:
+CONNECT 127.0.0.1:52568 HTTP/1.1
+Host: 127.0.0.1:52568
+User-Agent: Apache-HttpClient/4.5.12 (Java/11.0.2)
+
+
+08:25:33.224 [SocketListener6-1] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Try HttpContext[/,/],0
+08:25:33.224 [SocketListener6-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handler net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.224 [SocketListener6-1] DEBUG n.l.b.p.s.SeleniumProxyHandler - CONNECT: 127.0.0.1:52568
+08:25:33.224 [SocketListener6-1] DEBUG n.l.bmp.proxy.util.ResourceExtractor - Extracting /sslSupport to C:\Users\apa\AppData\Local\Temp\seleniumSslSupport7890051747158427409127.0.0.1
+08:25:33.396 [SocketListener6-1] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: SeleniumProxyHandler$SslRelay7@0.0.0.0:0
+08:25:33.427 [SocketListener6-1] INFO  n.l.b.p.jetty.http.SocketListener - Started SocketListener on 0.0.0.0:52596
+08:25:33.427 [SocketListener6-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handled by net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.427 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.b.p.jetty.http.HttpConnection - new HttpConnection: Socket[addr=/127.0.0.1,port=52597,localport=52596]
+08:25:33.427 [SocketListener6-1] DEBUG n.l.b.p.jetty.http.HttpConnection - RESPONSE:
+HTTP/1.1 200 OK
+Date: Mon, 30 Nov 2020 07:25:33 GMT
+Server: Jetty/5.1.x (Windows 10/10.0 amd64 java/11.0.2
+Connection: close
+Content-Length: 0
+
+
+08:25:33.427 [SocketListener6-1] DEBUG n.l.b.p.jetty.http.HttpConnection - Tunnel: net.lightbody.bmp.proxy.jetty.http.HttpTunnel@4612f2a7
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.b.p.jetty.http.HttpConnection - REQUEST from SeleniumProxyHandler$SslRelay7@0.0.0.0:52596:
+POST https://127.0.0.1:52568/getStub HTTP/1.1
+Transfer-Encoding: chunked
+Content-Type: text/plain; charset=UTF-8
+Host: 127.0.0.1:52568
+Connection: keep-alive
+User-Agent: Apache-HttpClient/4.5.12 (Java/11.0.2)
+Accept-Encoding: gzip,deflate
+
+
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Try HttpContext[/,/],0
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handler net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] INFO  c.e.w.m.p.h.DefaultRequestInterceptor - Request Interceptor Called - Redirect to STUB: http://127.0.0.1:52581/stub
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection request: [route: {}->http://127.0.0.1:52581][total available: 0; route allocated: 0 of 6; total allocated: 0 of 30]
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection leased: [id: 4][route: {}->http://127.0.0.1:52581][total available: 0; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:33.474 [qtp239824536-193] INFO  c.e.w.m.proxy.helper.TestUtils - STUB found in request
+08:25:33.474 [qtp239824536-193] INFO  c.e.w.m.proxy.helper.TestUtils - Done reading # of bytes: 4
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection [id: 4][route: {}->http://127.0.0.1:52581] can be kept alive indefinitely
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection released: [id: 4][route: {}->http://127.0.0.1:52581][total available: 1; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] INFO  c.e.w.m.p.h.DefaultResponseInterceptor - Response Interceptor Called, status: 200
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handled by net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.474 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.b.p.jetty.http.HttpConnection - RESPONSE:
+HTTP/1.1 200 OK
+Date: Mon, 30 Nov 2020 07:25:33 GMT
+Server: Jetty/5.1.x (Windows 10/10.0 amd64 java/11.0.2
+Date: Mon, 30 Nov 2020 07:25:33 GMT
+Content-Length: 12
+Server: Jetty(9.4.31.v20200723)
+
+
+08:25:33.490 [SeleniumProxyHandler$SslRelay7-1] DEBUG n.l.b.p.jetty.http.HttpConnection - EOFException()
+08:25:33.490 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - remove component: SeleniumProxyHandler$SslRelay7@0.0.0.0:52596
+08:25:33.490 [Test worker] DEBUG n.l.b.p.jetty.util.ThreadedServer - closing [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52596]]
+08:25:33.490 [Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52596]]] INFO  n.l.b.p.jetty.util.ThreadedServer - Stopping Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52596]]
+08:25:33.599 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Stopped SocketListener on 0.0.0.0:52596
+08:25:33.599 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager is shutting down
+08:25:33.599 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager shut down
+08:25:33.599 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping net.lightbody.bmp.proxy.jetty.jetty.BmpServer@1363b1bc
+08:25:33.599 [Test worker] DEBUG n.l.b.p.jetty.util.ThreadedServer - closing ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52594]
+08:25:33.599 [Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52594]] INFO  n.l.b.p.jetty.util.ThreadedServer - Stopping Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52594]
+08:25:33.708 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Stopped SocketListener on 0.0.0.0:52594
+08:25:33.708 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping HttpContext[/,/]
+08:25:33.708 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Stopped net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.724 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped HttpContext[/,/]
+08:25:33.724 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped net.lightbody.bmp.proxy.jetty.jetty.BmpServer@1363b1bc
+08:25:33.724 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@6c46a0eb{HTTP/1.1, (http/1.1)}{0.0.0.0:0}
+08:25:33.724 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@58764728{SSL, (ssl, http/1.1)}{0.0.0.0:0}
+08:25:33.724 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:33.724 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@536b2c5{HTTP/1.1, (http/1.1)}{0.0.0.0:52599}
+08:25:33.740 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@7b4ba977{SSL, (ssl, http/1.1)}{0.0.0.0:52612}
+08:25:33.740 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @4719ms
+08:25:33.740 [Test worker] INFO  org.eclipse.jetty.server.Server - jetty-9.4.31.v20200723; built: 2020-07-23T17:57:36.812Z; git: 450ba27947e13e66baa8cd1ce7e85a4461cacc1d; jvm 11.0.2+9
+08:25:33.740 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@2b9c24d8{HTTP/1.1, (http/1.1)}{0.0.0.0:52625}
+08:25:33.740 [Test worker] INFO  org.eclipse.jetty.server.Server - Started @4723ms
+08:25:33.740 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: SocketListener8@0.0.0.0:0
+08:25:33.740 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.jetty.http.ResourceCache@50cfd95d
+08:25:33.740 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: HttpContext[/,/]
+08:25:33.740 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Added HttpContext[/,/] for host *
+08:25:33.755 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - add component: net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.755 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting net.lightbody.bmp.proxy.jetty.jetty.BmpServer@24dee54c
+08:25:33.755 [Test worker] INFO  n.l.bmp.proxy.jetty.http.HttpServer - Version Jetty/5.1.x
+08:25:33.755 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - LISTENERS: [SocketListener8@0.0.0.0:0]
+08:25:33.755 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - HANDLER: {null={/=[HttpContext[/,/]]}}
+08:25:33.755 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Starting HttpContext[/,/]
+08:25:33.755 [Test worker] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Init classloader from null, jdk.internal.loader.ClassLoaders$AppClassLoader@2aae9190 for HttpContext[/,/]
+08:25:33.755 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Started net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.755 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started HttpContext[/,/]
+08:25:33.755 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Started SocketListener on 0.0.0.0:52638
+08:25:33.755 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Started net.lightbody.bmp.proxy.jetty.jetty.BmpServer@24dee54c
+08:25:33.755 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http Server started on port: 52599
+08:25:33.755 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed httpS Server started on port: 52612
+08:25:33.755 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Backed http/stub Server started on port: 52625
+08:25:33.755 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - *** Proxy Server started on port: 52638
+08:25:33.755 [Test worker] INFO  c.e.w.m.p.helper.AbstractProxyTool - STUB URL used: http://127.0.0.1:52625/stub
+08:25:33.755 [SocketListener8-1] DEBUG n.l.b.p.jetty.http.HttpConnection - new HttpConnection: Socket[addr=/127.0.0.1,port=52639,localport=52638]
+08:25:33.755 [SocketListener8-1] DEBUG n.l.b.p.jetty.http.HttpConnection - REQUEST from SocketListener8@0.0.0.0:52638:
+GET http://127.0.0.1:52599/getServer HTTP/1.1
+Host: 127.0.0.1:52599
+Proxy-Connection: keep-alive
+User-Agent: Apache-HttpClient/4.5.12 (Java/11.0.2)
+Accept-Encoding: gzip,deflate
+
+
+08:25:33.755 [SocketListener8-1] DEBUG n.l.bmp.proxy.jetty.http.HttpServer - Try HttpContext[/,/],0
+08:25:33.755 [SocketListener8-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handler net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.755 [SocketListener8-1] INFO  c.e.w.m.p.h.DefaultRequestInterceptor - Request Interceptor Called - Request untouched.
+08:25:33.755 [SocketListener8-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection request: [route: {}->http://127.0.0.1:52599][total available: 0; route allocated: 0 of 6; total allocated: 0 of 30]
+08:25:33.755 [SocketListener8-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection leased: [id: 5][route: {}->http://127.0.0.1:52599][total available: 0; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:33.755 [qtp184351894-222] INFO  c.e.w.m.proxy.helper.TestUtils - Done reading # of bytes: 0
+08:25:33.755 [SocketListener8-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection [id: 5][route: {}->http://127.0.0.1:52599] can be kept alive indefinitely
+08:25:33.755 [SocketListener8-1] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection released: [id: 5][route: {}->http://127.0.0.1:52599][total available: 1; route allocated: 1 of 6; total allocated: 1 of 30]
+08:25:33.755 [SocketListener8-1] INFO  c.e.w.m.p.h.DefaultResponseInterceptor - Response Interceptor Called, status: 200
+08:25:33.755 [SocketListener8-1] DEBUG n.l.bmp.proxy.jetty.http.HttpContext - Handled by net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.755 [SocketListener8-1] DEBUG n.l.b.p.jetty.http.HttpConnection - RESPONSE:
+HTTP/1.1 200 OK
+Date: Mon, 30 Nov 2020 07:25:33 GMT
+Server: Jetty/5.1.x (Windows 10/10.0 amd64 java/11.0.2
+Date: Mon, 30 Nov 2020 07:25:33 GMT
+Content-Length: 14
+Server: Jetty(9.4.31.v20200723)
+
+
+08:25:33.755 [SocketListener8-1] DEBUG n.l.b.p.jetty.http.HttpConnection - java.net.SocketException: Connection reset
+08:25:33.755 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager is shutting down
+08:25:33.755 [Test worker] DEBUG n.l.b.p.http.BrowserMobHttpClient2$1 - Connection manager shut down
+08:25:33.755 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping net.lightbody.bmp.proxy.jetty.jetty.BmpServer@24dee54c
+08:25:33.755 [Test worker] DEBUG n.l.b.p.jetty.util.ThreadedServer - closing ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52638]
+08:25:33.755 [Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52638]] INFO  n.l.b.p.jetty.util.ThreadedServer - Stopping Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,localport=52638]
+08:25:33.865 [Test worker] INFO  n.l.b.p.jetty.http.SocketListener - Stopped SocketListener on 0.0.0.0:52638
+08:25:33.865 [Test worker] DEBUG n.l.bmp.proxy.jetty.util.Container - Stopping HttpContext[/,/]
+08:25:33.865 [Test worker] DEBUG n.l.b.p.j.h.h.AbstractHttpHandler - Stopped net.lightbody.bmp.proxy.BrowserMobProxyHandler in HttpContext[/,/]
+08:25:33.880 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped HttpContext[/,/]
+08:25:33.880 [Test worker] INFO  n.l.bmp.proxy.jetty.util.Container - Stopped net.lightbody.bmp.proxy.jetty.jetty.BmpServer@24dee54c
+08:25:33.880 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@536b2c5{HTTP/1.1, (http/1.1)}{0.0.0.0:0}
+08:25:33.880 [Test worker] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@7b4ba977{SSL, (ssl, http/1.1)}{0.0.0.0:0}

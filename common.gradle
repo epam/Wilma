@@ -57,7 +57,7 @@ checkstyle.toolVersion = '5.6'
 checkstyle.ignoreFailures = true
 
 jacoco {
-    toolVersion = "0.8.2"
+    toolVersion = "0.8.6"
 }
 jacocoTestReport {
     reports {
