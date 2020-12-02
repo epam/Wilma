@@ -31,7 +31,7 @@ dependencies {
 
     //local mitmProxy build
     compile('com.epam.mitm:mitmJavaProxy:0.10-beta-wilma-2.0.DEV') {
-//        exclude(group: 'org.eclipse.jetty', module: 'jetty-io')
+        exclude(group: 'org.eclipse.jetty', module: 'jetty-io')
     }
 
     testCompile group: 'junit', name: 'junit', version:'4.12'
