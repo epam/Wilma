@@ -16,13 +16,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
+description = 'wilma-proxy integration'
 
 repositories {
     maven { url "${myLocalRepository}" }
     maven { url "https://oss.sonatype.org/service/local/staging/deploy/maven2/" }
 }
 
-description = 'wilma-proxy integration'
 dependencies {
     compile project(':wilma-application:wilma-domain')
     compile project(':wilma-application:wilma-common')
@@ -30,7 +30,7 @@ dependencies {
     compile project(':wilma-application:wilma-properties')
 
     //local mitmProxy build
-    compile('com.epam.mitm:mitmJavaProxy:0.10-beta-wilma-2.0.DEV') {
+    compile('com.epam.mitm:mitmJavaProxy:0.11-beta-wilma-2.0.DEV') {
         exclude(group: 'org.eclipse.jetty', module: 'jetty-io')
     }
 
