@@ -36,7 +36,7 @@ public class PackagedClassUploadingTest extends WilmaTestCase {
     private static final String STUB_CONFIG = "resources/classloader/new_stubconfig_packaged_class.json";
 
     private static final String CONDITION_CHECKER_NAME = "MyAlwaysTrueChecker.class";
-    private static final String PACKAGED_CONDITION_CHECKER_PATH = "resources/classloader/MyAlwaysTrueChecker.class";
+    private static final String PACKAGED_CONDITION_CHECKER_PATH = "resources/preCompiled/MyAlwaysTrueChecker.class";
 
     @Test
     public void testExternalPackagedClassUploading() throws Exception {

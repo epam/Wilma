@@ -1,4 +1,4 @@
-package com.epam.wilma.domain.classLoader;
+package com.epam.wilma.stubconfig.initializer.condition.helper;
 /*==========================================================================
 Copyright since 2020, EPAM Systems
 
@@ -20,27 +20,38 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * CLass used to load external classes in a dynamic way.
  */
 public class WilmaClassLoader extends ClassLoader {
     private final Logger logger = LoggerFactory.getLogger(WilmaClassLoader.class);
+    private final String path;
+
+    public WilmaClassLoader(final String path) {
+        this.path = path;
+    }
 
     @Override
     public Class findClass(String name) throws ClassNotFoundException {
+        String resourceName = path + "/" + name.replace('.', '/') + ".class";
         logger.info("Loading class: {}", name);
-        byte[] b = loadClassFromFile(name);
+        byte[] b = loadClassFromFile(resourceName);
         return defineClass(name, b, 0, b.length);
     }
 
     private byte[] loadClassFromFile(String fileName) throws ClassNotFoundException {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(
-                fileName.replace('.', File.separatorChar) + ".class");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+        if (inputStream == null) {
+            //retry to load it as file
+            try {
+                File file = new File(fileName);
+                inputStream = new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                throw new ClassNotFoundException("Cannot load class as file.", e);
+            }
+        }
         byte[] buffer;
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         int nextValue = 0;
@@ -49,7 +60,7 @@ public class WilmaClassLoader extends ClassLoader {
                 byteStream.write(nextValue);
             }
         } catch (IOException e) {
-            throw new ClassNotFoundException("Cannot load class.", e);
+            throw new ClassNotFoundException("Cannot load class as resource.", e);
         }
         buffer = byteStream.toByteArray();
         return buffer;

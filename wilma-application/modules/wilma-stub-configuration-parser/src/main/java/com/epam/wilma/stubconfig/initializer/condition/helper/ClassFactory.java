@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 /**
  * Factory for creating new instances of {@link Class}.
  *
- * @author Tunde_Kovacs
+ * @author Tunde_Kovacs, Tamas_Kohegyi
  */
 @Component
 public class ClassFactory {
@@ -36,10 +36,15 @@ public class ClassFactory {
      * @return the new class
      * @throws ClassNotFoundException if the class cannot be located
      */
-    public <T> Class<T> getClassToLoad(final String className) throws ClassNotFoundException {
-        Class<T> classToLoad;
+    public <T> Class<T> getClassToLoad(final String path, final String className) throws ClassNotFoundException {
+        Class<T> classToLoad = null;
         String qualifiedClassName = className.replace("/", ".").split(".class")[0];
-        classToLoad = getClass(qualifiedClassName);
+        try {
+            classToLoad = getClass(qualifiedClassName);
+        } catch (ClassNotFoundException e) {
+            WilmaClassLoader wilmaClassLoader = new WilmaClassLoader(path);
+            classToLoad = wilmaClassLoader.findClass(qualifiedClassName);
+            }
         return classToLoad;
     }
 

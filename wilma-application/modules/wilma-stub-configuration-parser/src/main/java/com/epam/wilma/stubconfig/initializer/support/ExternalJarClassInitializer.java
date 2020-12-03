@@ -31,7 +31,6 @@ import org.springframework.stereotype.Component;
 import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.condition.helper.ClassPathExtender;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
 import com.epam.wilma.stubconfig.initializer.support.helper.PackageBasedClassFinder;
@@ -49,8 +48,6 @@ public class ExternalJarClassInitializer {
 
     private final Logger logger = LoggerFactory.getLogger(ExternalJarClassInitializer.class);
 
-    @Autowired
-    private ClassPathExtender classPathExtender;
     @Autowired
     private PackageBasedClassFinder packageBasedClassFinder;
     @Autowired
@@ -105,7 +102,8 @@ public class ExternalJarClassInitializer {
     private void addJarFilesInFolderPathToClassPath(final String jarFolderPath) {
         Collection<File> files = fileUtils.listFiles(fileFactory.createFile(jarFolderPath), "jar");
         for (File fileElement : files) {
-            classPathExtender.addFile(fileElement.getPath());
+            //classPathExtender.addFile(fileElement.getPath());
+            throw new NoClassDefFoundError("Need to update JAR classpath extension method.");
         }
     }
 

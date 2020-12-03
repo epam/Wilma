@@ -19,32 +19,28 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.stubconfig.dom.parser.node.helper.ClassNameMapper;
+import com.epam.wilma.stubconfig.initializer.condition.helper.ClassFactory;
+import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
+import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
+import com.epam.wilma.stubconfig.initializer.support.helper.ClassValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.stubconfig.dom.parser.node.helper.ClassNameMapper;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.condition.helper.ClassFactory;
-import com.epam.wilma.stubconfig.initializer.condition.helper.ClassPathExtender;
-import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
-import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
-import com.epam.wilma.stubconfig.initializer.support.helper.ClassValidator;
-
 /**
  * Class for initializing external classes and adding them to class path.
- * @author Tamas_Bihari, Tamas Kohegyi
  *
+ * @author Tamas_Bihari, Tamas Kohegyi
  */
 @Component
-public class ExternalClassInitializer {
+public class ExternalClassInitializer extends ClassLoader {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExternalClassInitializer.class);
+    private final Logger logger = LoggerFactory.getLogger(ExternalClassInitializer.class);
 
-    @Autowired
-    private ClassPathExtender classPathExtender;
     @Autowired
     private ClassFactory classFactory;
     @Autowired
@@ -58,10 +54,11 @@ public class ExternalClassInitializer {
 
     /**
      * Generic function, which imports external class from the file system and adds it to the class path.
-     * @param <T> is the type of the return object
+     *
+     * @param <T>               is the type of the return object
      * @param externalClassName is fully qualified name
-     * @param classPath is the resource path
-     * @param interfaceToCast class of the desirable interface
+     * @param classPath         is the resource path
+     * @param interfaceToCast   class of the desirable interface
      * @return with the new instance of the class
      * @throws DescriptorValidationFailedException if the class does not exist or not valid.
      */
@@ -71,7 +68,7 @@ public class ExternalClassInitializer {
         try {
             result = findBean(interfaceToCast, simpleName);
         } catch (BeansException ex) {
-            LOGGER.debug(String.format("Finding class with name '%s' of type '%s' as a bean failed", simpleName, interfaceToCast), ex);
+            logger.debug("Finding class with name '{}' of type '{}' as a bean failed", simpleName, interfaceToCast, ex);
             String fullClassName = classNameMapper.get(externalClassName);
             result = initializeBean(fullClassName, classPath, interfaceToCast, simpleName);
         }
@@ -79,7 +76,7 @@ public class ExternalClassInitializer {
     }
 
     private <T> T initializeBean(final String externalClassName, final String classPath, final Class<T> interfaceToCast, final String className) {
-        LOGGER.info("Initializing class {} of type {}, using classpath {}.", externalClassName + "/" + className, interfaceToCast, classPath);
+        logger.info("Initializing class {} of type {}, using classpath {}.", externalClassName + "/" + className, interfaceToCast, classPath);
         T result = instantiateExternalClass(externalClassName, classPath, interfaceToCast);
         beanRegistryService.register(className, result);
         return result;
@@ -87,13 +84,12 @@ public class ExternalClassInitializer {
 
     private <T> T instantiateExternalClass(final String externalClassName, final String classPath, final Class<T> interfaceToCast) {
         T result;
-        classPathExtender.addFile(classPath);
         try {
-            Class<T> classToLoad = null;
-            classToLoad = classFactory.getClassToLoad(externalClassName);
+            Class<T> classToLoad;
+            classToLoad = classFactory.getClassToLoad(classPath, externalClassName);
             result = classInstantiator.createClassInstanceOf(classToLoad);
             externalClassValidator.validateInterface(result, interfaceToCast, classPath);
-        } catch (SecurityException  | IllegalArgumentException | ReflectiveOperationException e) {
+        } catch (SecurityException | IllegalArgumentException | ReflectiveOperationException e) {
             throw new DescriptorValidationFailedException("Validation of stub descriptor failed - External class '" + classPath + "/"
                     + externalClassName + "' not found.", e);
         } catch (NoClassDefFoundError e) {
@@ -107,7 +103,7 @@ public class ExternalClassInitializer {
     }
 
     private <T> T findBean(final Class<T> interfaceToCast, final String className) {
-        LOGGER.debug("Searching for class with name {} of type {}", className, interfaceToCast);
+        logger.debug("Searching for class with name {} of type {}", className, interfaceToCast);
         return beanRegistryService.getBean(className, interfaceToCast);
     }
 

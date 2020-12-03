@@ -23,6 +23,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':wilma-application:wilma-stub-configuration-domain')
     compile "com.epam.gepard:gepard-core:4.0.35"
     compile 'commons-httpclient:commons-httpclient:3.1'
     compile 'org.custommonkey.xmlunit:com.springsource.org.custommonkey.xmlunit:1.2.0'
@@ -34,11 +35,18 @@ dependencies {
     compile 'com.github.everit-org.json-schema:org.everit.json.schema:1.9.1'
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs 'src'
+            srcDirs 'resourceCompile/src'
+        }
+    }
+}
 mainClassName = "com.epam.gepard.AllTestRunner"
 
 def appArgs = ["$buildDir/resources/main/wilma-test.properties,$buildDir/resources/main/gepard.properties"]
-//applicationDefaultJvmArgs = ["-Xss256k", "-Xmx512M", "-Xms512M", "-Djavax.net.ssl.trustStore=wilma.jks", "-DTEID=DEV"]
-applicationDefaultJvmArgs = ["-Xss256k", "-Xmx512M", "-Xms512M", "-Djavax.net.ssl.trustStore=trustStoreFunctionalTest.jks", "-Djavax.net.ssl.trustStorePassword=vvilma", "-DTEID=DEV"]
+applicationDefaultJvmArgs = ["-Xss256k", "-Xmx512M", "-Xms512M", "-Djavax.net.ssl.trustStore=trustStoreForClientsUsingWilma.jks", "-Djavax.net.ssl.trustStorePassword=vvilma", "-DTEID=DEV"]
 if ( !hasProperty('buildTag') ) {
     project.ext.buildTag="UNSET"
 }
@@ -48,7 +56,14 @@ if ( hasProperty('wilmahost') ) {
     applicationDefaultJvmArgs += ["-Dwilma.host=localhost"]
 }
 
+task prepareResources (dependsOn: build, type: Copy) {
+    from "build/classes/java/main/com/epam/wilma/functionalTest"
+    into "resources/preCompiled"
+    include "*.class"
+}
+
 run {
+    dependsOn prepareResources
     doFirst {
         logger.lifecycle('\n ====================================================================')
         logger.lifecycle('\n Running Wilma-Functional Tests with Gepard.')

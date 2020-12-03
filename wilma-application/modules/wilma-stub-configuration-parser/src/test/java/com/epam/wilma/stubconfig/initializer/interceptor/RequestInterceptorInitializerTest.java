@@ -129,6 +129,7 @@ public class RequestInterceptorInitializerTest {
         assertEquals(actual.getClass(), requestInterceptor.getClass());
     }
 
+
     @Test
     public void testGetRequestInterceptorWhenNoClassExistsShouldReturnNull() {
         //GIVEN

@@ -40,8 +40,8 @@ public class InterceptorTest extends WilmaTestCase {
     private static final String STUB_CONFIG_DEFAULT_INTERCEPTOR_SETUP_OFF_ON = "resources/interceptor/usage/stubConfigOffOnInterceptor.json";
     private static final String TEST_SERVER_RESPONSE = "resources/interceptor/usage/resetSequenceResponse.txt";
     private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/usage/";
-    private static final String INTERCEPTOR_REQ_CLASS = "DummyReqInterceptor.class";
-    private static final String INTERCEPTOR_RESP_CLASS = "DummyRespInterceptor.class";
+    private static final String INTERCEPTOR_REQ_CLASS = "resources/preCompiled/DummyReqInterceptor.class";
+    private static final String INTERCEPTOR_RESP_CLASS = "resources/preCompiled/DummyRespInterceptor.class";
 
     private String tcName = getDataDrivenTestParameter("PAR0");
     private String tcInterceptorOnOff = getDataDrivenTestParameter("PAR1");

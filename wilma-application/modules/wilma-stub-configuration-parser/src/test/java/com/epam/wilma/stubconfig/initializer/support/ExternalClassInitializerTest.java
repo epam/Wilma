@@ -28,6 +28,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.testng.Assert.assertEquals;
 
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -36,9 +37,7 @@ import org.testng.annotations.Test;
 
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.ClassNameMapper;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.condition.helper.ClassFactory;
-import com.epam.wilma.stubconfig.initializer.condition.helper.ClassPathExtender;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassValidator;
@@ -52,8 +51,6 @@ public class ExternalClassInitializerTest {
     private static final String CLASS = "PACKAGE.EXTERNAL_CLASS_NAME";
     private static final String SIMPLE_CLASS_NAME = "EXTERNAL_CLASS_NAME";
     private static final String PATH = "PATH_OF_THE_CLASS";
-    @Mock
-    private ClassPathExtender classPathExtender;
     @Mock
     private ClassFactory classFactory;
     @Mock
@@ -79,12 +76,11 @@ public class ExternalClassInitializerTest {
     public void testLoadExternalClassShouldCallClassPathExtenderAddFileFunction() throws ClassNotFoundException {
         //GIVEN
         given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
-        given(classFactory.getClassToLoad(CLASS)).willReturn(Object.class);
+        given(classFactory.getClassToLoad(PATH, CLASS)).willReturn(Object.class);
         ignoreInterfaceTypeValidation();
         //WHEN
         underTest.loadExternalClass(SIMPLE_CLASS_NAME, PATH, TemplateGenerator.class);
         //THEN
-        verify(classPathExtender).addFile(PATH);
         verify(classNameMapper).get(SIMPLE_CLASS_NAME);
     }
 
@@ -92,7 +88,7 @@ public class ExternalClassInitializerTest {
     public void testLoadExternalClassShouldBeRegisteredToApplicationContext() throws ClassNotFoundException {
         //GIVEN
         given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
-        given(classFactory.getClassToLoad(CLASS)).willReturn(Object.class);
+        given(classFactory.getClassToLoad(PATH, CLASS)).willReturn(Object.class);
         ignoreInterfaceTypeValidation();
         //WHEN
         underTest.loadExternalClass(SIMPLE_CLASS_NAME, PATH, TemplateGenerator.class);
@@ -116,7 +112,7 @@ public class ExternalClassInitializerTest {
     public void testLoadExternalClassShouldThrowExceptionWhenClassFactoryThrowException() throws ClassNotFoundException {
         //GIVEN
         given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
-        given(classFactory.getClassToLoad(CLASS)).willThrow(new ClassNotFoundException());
+        given(classFactory.getClassToLoad(PATH, CLASS)).willThrow(new ClassNotFoundException());
         //WHEN
         underTest.loadExternalClass(SIMPLE_CLASS_NAME, PATH, TemplateGenerator.class);
         //THEN exception is thrown
@@ -127,7 +123,7 @@ public class ExternalClassInitializerTest {
     public void testLoadExternalClassShouldThrowExceptionWhenClassFactoryThrowClassFormatException() throws ClassNotFoundException {
         //GIVEN
         given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
-        given(classFactory.getClassToLoad(CLASS)).willThrow(new ClassFormatError());
+        given(classFactory.getClassToLoad(PATH, CLASS)).willThrow(new ClassFormatError());
         //WHEN
         underTest.loadExternalClass(SIMPLE_CLASS_NAME, PATH, TemplateGenerator.class);
         //THEN exception is thrown

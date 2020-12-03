@@ -3,7 +3,7 @@
     "interceptors": [
       {
         "name": "Alter-Message-Interceptor",
-        "class": "MessageAlterInterceptor"
+        "class": "com.epam.wilma.functionalTest.MessageAlterInterceptor"
       }
     ]
   }

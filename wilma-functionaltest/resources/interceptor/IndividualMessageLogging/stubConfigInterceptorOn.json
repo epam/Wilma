@@ -3,7 +3,7 @@
     "interceptors": [
       {
         "name": "Message-Logging-Influencer-Interceptor",
-        "class": "IndividualMessageLoggingInterceptor"
+        "class": "com.epam.wilma.functionalTest.IndividualMessageLoggingInterceptor"
       }
     ]
   }

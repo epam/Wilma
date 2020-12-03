@@ -3,7 +3,7 @@
     "interceptors": [
       {
         "name": "Dummy-Req-Interceptor",
-        "class": "DummyReqInterceptor"
+        "class": "com.epam.wilma.functionalTest.DummyReqInterceptor"
       }
     ]
   }

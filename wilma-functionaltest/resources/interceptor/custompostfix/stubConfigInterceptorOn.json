@@ -3,7 +3,7 @@
     "interceptors": [
       {
         "name": "Custom-Postfix-Interceptor",
-        "class": "CustomMessagePostfixInterceptor"
+        "class": "com.epam.wilma.functionalTest.CustomMessagePostfixInterceptor"
       }
     ]
   }

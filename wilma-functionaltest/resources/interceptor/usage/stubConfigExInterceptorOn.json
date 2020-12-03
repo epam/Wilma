@@ -3,7 +3,7 @@
     "interceptors": [
       {
         "name": "Custom-Postfix-Interceptor",
-        "class": "ThrowingNPEInterceptor"
+        "class": "com.epam.wilma.functionalTest.ThrowingNPEInterceptor"
       }
     ]
   }

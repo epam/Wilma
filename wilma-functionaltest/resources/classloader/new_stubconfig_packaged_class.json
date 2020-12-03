@@ -7,7 +7,7 @@
         "comment": "random comment",
         "conditionDescriptor": {
           "condition": {
-            "class": "MyAlwaysTrueChecker"
+            "class": "com.epam.wilma.functionalTest.MyAlwaysTrueChecker"
           }
         },
         "responseDescriptor": {

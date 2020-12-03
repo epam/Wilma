@@ -3,7 +3,7 @@
     "interceptors": [
       {
         "name": "Dummy-Resp-Interceptor",
-        "class": "DummyRespInterceptor"
+        "class": "com.epam.wilma.functionalTest.DummyRespInterceptor"
       }
     ]
   }

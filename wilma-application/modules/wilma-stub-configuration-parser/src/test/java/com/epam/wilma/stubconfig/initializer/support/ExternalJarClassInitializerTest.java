@@ -45,7 +45,6 @@ import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.condition.helper.ClassPathExtender;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
 import com.epam.wilma.stubconfig.initializer.support.helper.PackageBasedClassFinder;
@@ -62,8 +61,6 @@ public class ExternalJarClassInitializerTest {
     private static final Class<SequenceHandler> INTERFACE_TO_CAST = SequenceHandler.class;
     private static final String BEAN_NAME = PACKAGE_NAME + INTERFACE_TO_CAST.getSimpleName();
 
-    @Mock
-    private ClassPathExtender classPathExtender;
     @Mock
     private PackageBasedClassFinder packageBasedClassFinder;
     @Mock
@@ -103,23 +100,6 @@ public class ExternalJarClassInitializerTest {
         verify(classInstantiator, never()).createClassInstanceOf(INTERFACE_TO_CAST);
         verify(logger).info(Mockito.anyString(), Mockito.anyObject(), Mockito.anyObject(), Mockito.anyObject());
         assertNotNull(result);
-    }
-
-    @Test
-    public void testLoadExternalClassShouldAddJarFilesInFolderPathToClassPathWhenBeanWasNotFound() {
-        //GIVEN
-        given(beanRegistryService.getBean(BEAN_NAME, INTERFACE_TO_CAST)).willThrow(new NoSuchBeanDefinitionException("error"));
-        Collection<File> jarFiles = new ArrayList<>();
-        File one = new File("one");
-        File two = new File("two");
-        jarFiles.add(one);
-        jarFiles.add(two);
-        given(fileUtils.listFiles(folder, "jar")).willReturn(jarFiles);
-        //WHEN
-        underTest.loadExternalClass(PACKAGE_NAME, JAR_FOLDER_PATH, INTERFACE_TO_CAST);
-        //THEN
-        verify(classPathExtender).addFile(one.getPath());
-        verify(classPathExtender).addFile(two.getPath());
     }
 
     @Test

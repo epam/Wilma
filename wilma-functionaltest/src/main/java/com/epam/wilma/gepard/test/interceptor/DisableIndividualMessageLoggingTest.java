@@ -40,7 +40,7 @@ public class DisableIndividualMessageLoggingTest extends WilmaTestCase {
     private static final String STUB_CONFIG = "resources/interceptor/IndividualMessageLogging/stubConfigInterceptorOn.json";
     private static final String TEST_SERVER_RESPONSE = "resources/interceptor/usage/resetSequenceResponse.txt";
     private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/IndividualMessageLogging/";
-    private static final String INTERCEPTOR_CLASS = "IndividualMessageLoggingInterceptor.class";
+    private static final String INTERCEPTOR_CLASS = "resources/preCompiled/IndividualMessageLoggingInterceptor.class";
     private static final String MESSAGE_NOT_YET_AVAILABLE = "Requested file not found.";
     private static final String REQUEST_LOGGED_TEXT = "resources/interceptor/IndividualMessageLogging/requestLogged.txt";
     private static final String REQUEST_NOTLOGGED_TEXT = "resources/interceptor/IndividualMessageLogging/requestNotLogged.txt";
