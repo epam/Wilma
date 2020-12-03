@@ -25,9 +25,9 @@ import com.epam.wilma.extras.replicator.gzip.GzipDecompressor;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +43,7 @@ import java.io.StringWriter;
 class SecondaryRequestHandler {
 
     private final Logger logger = LoggerFactory.getLogger(SecondaryRequestHandler.class);
-    private GzipDecompressor gzipDecompressor = new GzipDecompressor();
+    private final GzipDecompressor gzipDecompressor = new GzipDecompressor();
 
     /**
      * Send and receives the secondary message.
@@ -63,8 +63,9 @@ class SecondaryRequestHandler {
             String headerValue = wilmaHttpRequest.getHeader(headerKey);
             method.addHeader(headerKey, headerValue);
         }
-        HttpClient httpClient = new DefaultHttpClient();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpResponse response = httpClient.execute(method);
+        httpClient.close();
         return transferResponse(response, method, messageId, serverIpAddress);
     }
 

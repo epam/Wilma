@@ -42,19 +42,31 @@ public class WilmaClassLoader extends ClassLoader {
     }
 
     private byte[] loadClassFromFile(String fileName) throws ClassNotFoundException {
+        byte[] buffer;
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
-        if (inputStream == null) {
-            //retry to load it as file
+        if (inputStream != null) {
+            buffer = transferToByteArray(inputStream);
             try {
-                File file = new File(fileName);
-                inputStream = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                throw new ClassNotFoundException("Cannot load class as file.", e);
+                inputStream.close();
+            } catch (IOException e) {
+                throw new ClassNotFoundException("Cannot load class as resource.", e);
             }
+            return buffer;
         }
+        //was null, so retry to load it as file
+        File file = new File(fileName);
+        try (InputStream fileInputStream = new FileInputStream(file)) {
+            buffer = transferToByteArray(fileInputStream);
+        } catch (IOException e) {
+            throw new ClassNotFoundException("Cannot load class as file.", e);
+        }
+        return buffer;
+    }
+
+    private byte[] transferToByteArray(InputStream inputStream) throws ClassNotFoundException {
         byte[] buffer;
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-        int nextValue = 0;
+        int nextValue;
         try {
             while ( (nextValue = inputStream.read()) != -1 ) {
                 byteStream.write(nextValue);

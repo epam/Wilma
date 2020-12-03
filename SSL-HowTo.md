@@ -6,7 +6,7 @@ Our standard setup is the following: There is a Client that sends a request to t
 When we use SSL, then the Server uses encryption to send the response back. But Client wil accept the encrypted response only if the Server is entrusted.
 How to do it?
 - Server has its own keyStore with private-public key pair, let say keyStore.jks
-- Client must trust in the response of the Server so Client shall use trustStore,jks with cer file imported from the Server.
+- Client must trust in the response of the Server so Client shall use trustStore.jks with cer file imported from the Server.
 
 In case we use our proxy in the middle then:
 - Client must trust in Proxy -> the trustStore of Client must contain cer of the Proxy keyStore

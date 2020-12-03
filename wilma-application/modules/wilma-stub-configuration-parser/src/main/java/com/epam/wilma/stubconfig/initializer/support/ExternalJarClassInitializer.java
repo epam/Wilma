@@ -86,7 +86,7 @@ public class ExternalJarClassInitializer {
     private <T> T initializeFromJars(final String packageName, final String jarFolderPath, final Class<T> interfaceToCast) {
         T result;
         try {
-            addJarFilesInFolderPathToClassPath(jarFolderPath);
+            // TODO addJarFilesInFolderPathToClassPath(jarFolderPath);
             Class<? extends T> classToLoad = packageBasedClassFinder.findFirstOf(interfaceToCast, packageName);
             result = classInstantiator.createClassInstanceOf(classToLoad);
             logger.info(JAR_INITIALIZATION_TEMPLATE, classToLoad.getName(), interfaceToCast.getName(), jarFolderPath);
@@ -99,6 +99,7 @@ public class ExternalJarClassInitializer {
         return result;
     }
 
+    /*
     private void addJarFilesInFolderPathToClassPath(final String jarFolderPath) {
         Collection<File> files = fileUtils.listFiles(fileFactory.createFile(jarFolderPath), "jar");
         for (File fileElement : files) {
@@ -106,6 +107,7 @@ public class ExternalJarClassInitializer {
             throw new NoClassDefFoundError("Need to update JAR classpath extension method.");
         }
     }
+     */
 
     private <T> String createBeanName(final String name, final Class<T> interfaceToCast) {
         return name + interfaceToCast.getSimpleName();

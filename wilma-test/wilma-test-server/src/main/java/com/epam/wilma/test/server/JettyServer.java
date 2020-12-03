@@ -64,8 +64,7 @@ public class JettyServer {
             // the http configuration we configured above so it can get things like
             // the output buffer size, etc. We also set the port (8080) and
             // configure an idle timeout.
-            ServerConnector http = new ServerConnector(server,
-                    new HttpConnectionFactory(http_config));
+            ServerConnector http = new ServerConnector(server, new HttpConnectionFactory(http_config));
             http.setPort(httpPort);
             http.setIdleTimeout(30000);
 
