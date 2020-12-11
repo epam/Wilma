@@ -19,32 +19,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.exception.SystemException;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
+import com.epam.wilma.sequence.SequenceManager;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.jms.core.JmsTemplate;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.exception.SystemException;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
-import com.epam.wilma.sequence.SequenceManager;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 /**
  * Provides unit tests for the {@link ResponseQueueListener} class.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class ResponseQueueListenerTest {
 
@@ -70,7 +67,7 @@ public class ResponseQueueListenerTest {
     @InjectMocks
     private ResponseQueueListener underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(messageCreatorFactory.create(response, true)).willReturn(jmsResponseMessageCreator);
@@ -115,7 +112,7 @@ public class ResponseQueueListenerTest {
         verify(jmsTemplate).send(loggerQueue, jmsResponseMessageCreator);
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testOnMessageShouldThrowNewRuntimeExceptionWhenCannotGetWilmaResponseFromMessage() throws JMSException {
         //GIVEN
         underTest.setMessageLoggingEnabled(true);
@@ -126,7 +123,7 @@ public class ResponseQueueListenerTest {
         //THEN exception should be thrown
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testOnMessageWhenMessageIsNotObjectMessageShouldThrowIllegalArgumentException() {
         //GIVEN in setUp
         underTest.setMessageLoggingEnabled(true);

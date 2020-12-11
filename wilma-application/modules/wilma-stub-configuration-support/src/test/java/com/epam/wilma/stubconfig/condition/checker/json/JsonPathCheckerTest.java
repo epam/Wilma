@@ -18,15 +18,14 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for {@link JsonPathChecker}.
@@ -43,7 +42,7 @@ public class JsonPathCheckerTest {
 
     private JsonPathChecker underTest;
 
-    @BeforeClass
+    @Before
     public void setup() {
         underTest = new JsonPathChecker();
     }

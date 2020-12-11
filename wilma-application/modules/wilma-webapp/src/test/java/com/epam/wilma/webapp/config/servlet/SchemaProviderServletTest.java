@@ -20,14 +20,14 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.webapp.config.servlet.helper.BufferedReaderFactory;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +63,7 @@ public class SchemaProviderServletTest {
     @InjectMocks
     private SchemaProviderServlet underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "stubConfigSchemaLocation", SCHEMA);

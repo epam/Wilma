@@ -18,17 +18,18 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.AssertJUnit.assertEquals;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit test for {@link VersionTitleProvider}.
+ *
  * @author Adam_Csaba_Kiraly
  */
 public class VersionTitleProviderTest {
@@ -43,8 +44,8 @@ public class VersionTitleProviderTest {
     @Mock
     private Package packageOfUnderTest;
 
-    @BeforeMethod
-    public void setUp() throws Exception {
+    @Before
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 

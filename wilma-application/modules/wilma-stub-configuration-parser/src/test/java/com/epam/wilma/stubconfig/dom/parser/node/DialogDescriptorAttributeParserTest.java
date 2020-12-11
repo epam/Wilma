@@ -18,25 +18,24 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.w3c.dom.Element;
-
 import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptorUsage;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.w3c.dom.Element;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link DialogDescriptorAttributeParser}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class DialogDescriptorAttributeParserTest {
 
@@ -48,7 +47,7 @@ public class DialogDescriptorAttributeParserTest {
     @InjectMocks
     private DialogDescriptorAttributeParser underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -61,7 +60,6 @@ public class DialogDescriptorAttributeParserTest {
         DialogDescriptorAttributes actual = underTest.getAttributes(dialogDescriptor);
         //THEN
         assertEquals(actual.getName(), "name");
-
     }
 
     @Test
@@ -72,7 +70,6 @@ public class DialogDescriptorAttributeParserTest {
         DialogDescriptorAttributes actual = underTest.getAttributes(dialogDescriptor);
         //THEN
         assertEquals(actual.getUsage(), DialogDescriptorUsage.ALWAYS);
-
     }
 
     @Test
@@ -126,7 +123,7 @@ public class DialogDescriptorAttributeParserTest {
         assertEquals(actual.getTimeout(), 61000L);
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testParseWhenUsageIsHitcountAndValidityValueNotSetShouldThrowException() {
         //GIVEN
         given(dialogDescriptor.getAttribute("name")).willReturn("name");
@@ -137,7 +134,7 @@ public class DialogDescriptorAttributeParserTest {
 
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testParseWhenUsageIsTimeoutAndValidityValueNotSetShouldThrowException() {
         //GIVEN
         given(dialogDescriptor.getAttribute("name")).willReturn("name");

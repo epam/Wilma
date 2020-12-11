@@ -18,23 +18,22 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.testng.Assert.assertEquals;
-
-import org.mockito.Mock;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
 
 import javax.servlet.http.HttpServletResponse;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Provides unit tests for the class {@link StringRegexpReplaceResponseFormatter}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class StringRegexpReplaceResponseFormatterTest {
 
@@ -47,7 +46,7 @@ public class StringRegexpReplaceResponseFormatterTest {
     private HttpServletResponse response;
     private StringRegexpReplaceResponseFormatter underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         parameterList = new ParameterList();
         underTest = new StringRegexpReplaceResponseFormatter();
@@ -62,7 +61,9 @@ public class StringRegexpReplaceResponseFormatterTest {
         //WHEN
         byte[] actual = underTest.formatResponse(request, response, templateResource, parameterList);
         //THEN
-        assertEquals(actual, "HELLO3 this is a test template HELLO3".getBytes());
+        String actualString = new String(actual);
+        String expected = "HELLO3 this is a test template HELLO3";
+        assertEquals(expected, actualString);
     }
 
     @Test
@@ -74,7 +75,9 @@ public class StringRegexpReplaceResponseFormatterTest {
         //WHEN
         byte[] actual = underTest.formatResponse(request, response, templateResource, parameterList);
         //THEN
-        assertEquals(actual, "HELLO3 this not is not a test template HELLO3".getBytes());
+        String actualString = new String(actual);
+        String expected = "HELLO3 this not is not a test template HELLO3";
+        assertEquals(expected, actualString);
     }
 
     @Test
@@ -87,7 +90,7 @@ public class StringRegexpReplaceResponseFormatterTest {
         assertEquals(actual, templateResource);
     }
 
-    @Test(expectedExceptions = ResponseFormattingFailedException.class)
+    @Test(expected = ResponseFormattingFailedException.class)
     public void testFormatTemplateWhenRegexpSyntaxIncorrectShouldThrowException() throws Exception {
         //GIVEN
         templateResource = "123 this is a test template 123".getBytes();

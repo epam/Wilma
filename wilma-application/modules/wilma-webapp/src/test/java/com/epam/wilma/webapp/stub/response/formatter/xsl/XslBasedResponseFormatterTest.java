@@ -18,19 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.io.File;
-import java.io.IOException;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
@@ -38,13 +25,24 @@ import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for {@link XslBasedResponseFormatter}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class XslBasedResponseFormatterTest {
     private static final String XSL_PARAM_KEY = "xslFile";
@@ -70,14 +68,14 @@ public class XslBasedResponseFormatterTest {
     private ParameterList params;
     private HttpServletResponse response;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         templateResource = new byte[1];
         params = new ParameterList();
     }
 
-    @Test(expectedExceptions = ResponseFormattingFailedException.class)
+    @Test(expected = ResponseFormattingFailedException.class)
     public void testFormatTemplateShouldThrowExceptionWhenXslFileParamDoesNotExist() throws Exception {
         //GIVEN in setUp
         //WHEN
@@ -85,7 +83,7 @@ public class XslBasedResponseFormatterTest {
         //THEN exception is thrown
     }
 
-    @Test(expectedExceptions = ResponseFormattingFailedException.class)
+    @Test(expected = ResponseFormattingFailedException.class)
     public void testFormatTemplateShouldThrowExceptionWhenXslFileResourceDoesNotExist() throws Exception {
         //GIVEN
         params.addParameter(new Parameter(XSL_PARAM_KEY, XSL_PARAM_KEY));

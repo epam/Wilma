@@ -18,27 +18,26 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
+import com.epam.wilma.common.helper.FileFactory;
+import com.epam.wilma.common.helper.FileUtils;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.common.helper.FileFactory;
-import com.epam.wilma.common.helper.FileUtils;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Test class for {@link FilePathReader}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class FilePathReaderTest {
     private static final String SHORT_PATH = "MOCK_SHORT_PATH_WITH_FILE_NAME";
@@ -55,7 +54,7 @@ public class FilePathReaderTest {
     @InjectMocks
     private FilePathReader underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

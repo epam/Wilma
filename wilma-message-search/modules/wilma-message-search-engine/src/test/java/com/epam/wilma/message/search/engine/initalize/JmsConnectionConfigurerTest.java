@@ -18,25 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.net.URI;
-
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.TransportConnector;
 import org.apache.activemq.pool.PooledConnectionFactory;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+
+import java.net.URI;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link JmsConnectionConfigurer}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class JmsConnectionConfigurerTest {
 
@@ -54,7 +54,7 @@ public class JmsConnectionConfigurerTest {
     @InjectMocks
     private JmsConnectionConfigurer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

@@ -22,11 +22,11 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.logger.writer.WilmaHttpRequestWriter;
 import com.epam.wilma.logger.writer.WilmaHttpResponseWriter;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -58,7 +58,7 @@ public class FileWriterQueueListenerTest {
     @InjectMocks
     private FileWriterQueueListener underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = Mockito.spy(new FileWriterQueueListener());
         initMocks(this);
@@ -88,7 +88,7 @@ public class FileWriterQueueListenerTest {
         verify(responseWriter).write(response, true);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testOnMessageShouldThrowIllegalArgumentExceptionWhenMessageNotInstanceOfObjectMessage() {
         //GIVEN in setUp
         //WHEN
@@ -96,7 +96,7 @@ public class FileWriterQueueListenerTest {
         //THEN exception is thrown
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
+    @Test(expected = RuntimeException.class)
     public void testOnMessageShouldThrowRuntimeExceptionWhenObjectMessageNotInstanceOfWilmaHttpEntity() throws JMSException {
         //GIVEN
         given(objectMessage.getObject()).willThrow(new JMSException("Can't cast to WilmaHttpEntity!"));

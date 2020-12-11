@@ -18,28 +18,28 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateType;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Unit test for {@link ResponseDescriptorFactory}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class ResponseDescriptorFactoryTest {
 
     private ResponseDescriptorFactory underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         underTest = new ResponseDescriptorFactory();
     }

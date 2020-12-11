@@ -18,25 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.domain.http.WilmaHttpResponse;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the {@link JmsResponseMessageCreator} class.
+ *
  * @author Tunde_Kovacs
  */
 public class JmsResponseMessageCreatorTest {
@@ -51,13 +51,13 @@ public class JmsResponseMessageCreatorTest {
 
     private JmsResponseMessageCreator underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         underTest = new JmsResponseMessageCreator(response, true);
     }
 
-    @Test(expectedExceptions = JMSException.class)
+    @Test(expected = JMSException.class)
     public void testCreateMessageShouldThrowJmsExceptionWhenCanNotCreateObjectMessageFromSession() throws JMSException {
         // GIVEN
         given(session.createObjectMessage()).willThrow(new JMSException(NO_WILMA_LOGGER_ID));
@@ -66,7 +66,7 @@ public class JmsResponseMessageCreatorTest {
         // THEN exception is thrown
     }
 
-    @Test(expectedExceptions = JMSException.class)
+    @Test(expected = JMSException.class)
     public void testCreateMessageShouldThrowJmsExceptionWhenSetObjectThrowsJMSException() throws JMSException {
         // GIVEN
         given(session.createObjectMessage()).willReturn(objectMessage);
@@ -76,7 +76,7 @@ public class JmsResponseMessageCreatorTest {
         // THEN exception is thrown
     }
 
-    @Test(expectedExceptions = JMSException.class)
+    @Test(expected = JMSException.class)
     public void testCreateMessageShouldThrowJmsExceptionWhenSetBooleanPropertyThrowsJMSException() throws JMSException {
         // GIVEN
         given(session.createObjectMessage()).willReturn(objectMessage);

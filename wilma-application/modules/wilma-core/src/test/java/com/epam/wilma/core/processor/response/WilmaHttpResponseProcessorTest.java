@@ -18,29 +18,26 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import com.epam.wilma.core.processor.entity.ProcessorBase;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.epam.wilma.core.processor.entity.ProcessorBase;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 /**
  * Provides unit tests for the class <tt>WilmaHttpResponseHandler</tt>.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class WilmaHttpResponseProcessorTest {
 
@@ -53,7 +50,7 @@ public class WilmaHttpResponseProcessorTest {
 
     private List<ProcessorBase> processors;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = new WilmaHttpResponseProcessor();
         MockitoAnnotations.initMocks(this);

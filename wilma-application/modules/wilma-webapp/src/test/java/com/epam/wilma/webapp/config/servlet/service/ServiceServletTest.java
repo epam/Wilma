@@ -19,11 +19,11 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.webapp.service.external.ServiceMap;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +36,8 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link ServiceServlet}.
- * @author Tamas KOhegyi
  *
+ * @author Tamas KOhegyi
  */
 public class ServiceServletTest {
 
@@ -53,7 +53,7 @@ public class ServiceServletTest {
     @Mock
     private ServiceMap serviceMap;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }

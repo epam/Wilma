@@ -18,22 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.AssertJUnit.assertEquals;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionDescriptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
@@ -41,11 +25,26 @@ import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
 import com.epam.wilma.stubconfig.dom.parser.node.SequenceDescriptorAttributesParser;
 import com.epam.wilma.stubconfig.dom.parser.sequence.helper.DialogDescriptorMapper;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit test for {@link SequenceDescriptorFactory}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class SequenceDescriptorFactoryTest {
 
@@ -67,7 +66,7 @@ public class SequenceDescriptorFactoryTest {
     private Element sequenceElement;
     private List<DialogDescriptor> dialogDescriptors;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

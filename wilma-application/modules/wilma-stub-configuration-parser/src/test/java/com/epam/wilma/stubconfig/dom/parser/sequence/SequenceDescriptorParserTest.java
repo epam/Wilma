@@ -18,29 +18,28 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
-import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit test for {@link SequenceDescriptorParser}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class SequenceDescriptorParserTest {
 
@@ -65,7 +64,7 @@ public class SequenceDescriptorParserTest {
     @Mock
     private Element sequenceElement;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

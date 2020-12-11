@@ -21,7 +21,8 @@ plugins {
 }
 
 ext {
-    nettyVersion = '4.1.50.Final'
+    nettyVersion = '4.1.51.Final'
+    jUnitVersion = '4.13.1'
 }
 
 apply from: 'common.gradle'

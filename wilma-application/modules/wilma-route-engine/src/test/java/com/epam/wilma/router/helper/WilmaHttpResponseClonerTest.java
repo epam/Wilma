@@ -18,20 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+
+import com.epam.wilma.domain.http.WilmaHttpResponse;
+import org.junit.Before;
+import org.junit.Test;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.domain.http.WilmaHttpResponse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Provides unit tests for the class {@link WilmaHttpResponseCloner}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class WilmaHttpResponseClonerTest {
 
@@ -44,7 +44,7 @@ public class WilmaHttpResponseClonerTest {
 
     private WilmaHttpResponseCloner underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = new WilmaHttpResponseCloner();
         response = new WilmaHttpResponse(false);

@@ -18,26 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.testng.Assert.assertEquals;
-
+import com.epam.wilma.webapp.configuration.domain.MaintainerProperties;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.webapp.configuration.domain.MaintainerProperties;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test class for {@link MaintainerPropertiesJsonBuilder}.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class MaintainerPropertiesJsonBuilderTest {
 
     @InjectMocks
     private MaintainerPropertiesJsonBuilder underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -51,7 +50,6 @@ public class MaintainerPropertiesJsonBuilderTest {
         String actual = underTest.buildMaintainerPropertiesJson(maintainerProperties);
         //THEN
         assertEquals(actual, expected);
-
     }
 
 }

@@ -18,30 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import com.epam.wilma.core.configuration.domain.WilmaAdminHostsDTO;
+import com.epam.wilma.properties.PropertyHolder;
+import com.epam.wilma.webapp.config.servlet.helper.BufferedReaderFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.core.configuration.domain.WilmaAdminHostsDTO;
-import com.epam.wilma.properties.PropertyHolder;
-import com.epam.wilma.webapp.config.servlet.helper.BufferedReaderFactory;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link WilmaAdminHostsFileParser}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class WilmaAdminHostsFileParserTest {
     private static final String WILMA_ADMIN_HOSTS_FILE = "wilma.admin.hosts.file";
@@ -58,7 +57,7 @@ public class WilmaAdminHostsFileParserTest {
     @Mock
     private BufferedReader bufferedReader;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }
@@ -107,7 +106,7 @@ public class WilmaAdminHostsFileParserTest {
         verify(wilmaAdminHostsDTO).setSecurityEnabled(true);
     }
 
-    @Test(expectedExceptions = CannotParseExternalResourceException.class)
+    @Test(expected = CannotParseExternalResourceException.class)
     public void testWhenGivenFileDoesNotExistShouldThrowCannotParseExternalResourceException() throws IOException {
         //GIVEN
         String filePath = "file.txt";

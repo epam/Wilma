@@ -19,13 +19,13 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.stubconfig.dom.parser.node.helper.XPathProvider;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import com.epam.wilma.stubconfig.dom.parser.node.helper.XPathProvider;
 
 /**
  * Unit test for {@link XmlXpathResolver}.
@@ -39,7 +39,7 @@ public class XmlXpathResolverTest {
     @InjectMocks
     private XmlXpathResolver underTest;
 
-    @BeforeMethod
+    @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
@@ -53,7 +53,7 @@ public class XmlXpathResolverTest {
         Assert.assertEquals(value, "BOB");
     }
 
-    @Test(expectedExceptions = XmlXpathResolver.InvalidXPathExperssionException.class)
+    @Test(expected = XmlXpathResolver.InvalidXPathExperssionException.class)
     public void testGetValueWithInvalid() {
         //GIVEN in request
         //WHEN

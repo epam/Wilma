@@ -18,28 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-import net.sf.saxon.s9api.SaxonApiException;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedException;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.xml.helper.XQueryExpressionEvaluator;
-import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedException;
+import net.sf.saxon.s9api.SaxonApiException;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyString;
 
 /**
  * Tests for {@link XmlMessageTypeChecker} class.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class XmlMessageTypeCheckerTest {
 
@@ -58,7 +57,7 @@ public class XmlMessageTypeCheckerTest {
     @InjectMocks
     private XmlMessageTypeChecker underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         parameterList = new ParameterList();
@@ -84,7 +83,7 @@ public class XmlMessageTypeCheckerTest {
         assertFalse(actual);
     }
 
-    @Test(expectedExceptions = ConditionEvaluationFailedException.class)
+    @Test(expected = ConditionEvaluationFailedException.class)
     public void testCheckConditionShouldThrowExceptionWhenNoParameterIsDefinedInConfig() {
         //GIVEN
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_XML);
@@ -93,7 +92,7 @@ public class XmlMessageTypeCheckerTest {
         //TNEN exception is thrown
     }
 
-    @Test(expectedExceptions = ConditionEvaluationFailedException.class)
+    @Test(expected = ConditionEvaluationFailedException.class)
     public void testCheckConditionShouldThrowExceptionWhenTooMuchParametersAreDefinedInConfig() {
         //GIVEN
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_FASTINFOSET);
@@ -104,7 +103,7 @@ public class XmlMessageTypeCheckerTest {
         //TNEN exception is thrown
     }
 
-    @Test(expectedExceptions = ConditionEvaluationFailedException.class)
+    @Test(expected = ConditionEvaluationFailedException.class)
     public void testCheckConditionShouldThrowExceptionWhenXQueryEvaulationFailed() throws SaxonApiException {
         //GIVEN
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_XML);

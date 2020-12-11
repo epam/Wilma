@@ -18,18 +18,17 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-
 import com.epam.wilma.core.processor.WilmaEntityProcessorInterface;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpEntity;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpEntity;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link MessageExtractor}.
@@ -49,7 +48,7 @@ public class MessageExtractorTest {
     @InjectMocks
     private MessageExtractor underTest;
 
-    @BeforeMethod
+    @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }

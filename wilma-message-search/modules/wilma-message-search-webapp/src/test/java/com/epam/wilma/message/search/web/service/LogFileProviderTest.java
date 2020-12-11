@@ -18,24 +18,24 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.AssertJUnit.assertEquals;
+import com.epam.wilma.message.search.web.support.FileUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.message.search.web.support.FileUtils;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit test for {@link LogFileProvider}.
+ *
  * @author Adam_Csaba_Kiraly
  */
 public class LogFileProviderTest {
@@ -51,7 +51,7 @@ public class LogFileProviderTest {
     @InjectMocks
     private LogFileProvider underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }

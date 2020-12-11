@@ -22,12 +22,12 @@ import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
 import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.io.InputStream;
 import java.util.LinkedHashMap;
@@ -59,7 +59,7 @@ public class NewStubDescriptorCommandTest {
 
     private NewStubDescriptorCommand underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         normalStubDescriptors = new LinkedHashMap<>();

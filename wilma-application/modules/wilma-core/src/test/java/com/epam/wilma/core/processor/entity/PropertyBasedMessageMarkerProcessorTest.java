@@ -21,18 +21,18 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.messagemarker.PropertyBasedMessageMarker;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link PropertyBasedMessageMarkerProcessor}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class PropertyBasedMessageMarkerProcessorTest {
 
@@ -45,7 +45,7 @@ public class PropertyBasedMessageMarkerProcessorTest {
     @InjectMocks
     private PropertyBasedMessageMarkerProcessor underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

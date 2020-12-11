@@ -18,23 +18,23 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.io.File;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+
+import java.io.File;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for MessageFileFilter.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class MessageFileFilterTest {
 
@@ -44,7 +44,7 @@ public class MessageFileFilterTest {
     @Mock
     private File file;
 
-    @BeforeMethod
+    @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }

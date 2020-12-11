@@ -18,25 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.condition.SimpleCondition;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for {@link ConditionDescriptorFactory}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class ConditionDescriptorFactoryTest {
 
     private ConditionDescriptorFactory underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         underTest = new ConditionDescriptorFactory();
     }

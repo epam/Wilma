@@ -18,17 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertTrue;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.common.helper.BlockLocalhostUsage;
 import com.epam.wilma.common.helper.OperationMode;
 import com.epam.wilma.common.helper.SequenceHandlingState;
@@ -38,11 +27,21 @@ import com.epam.wilma.core.processor.entity.ProcessorBase;
 import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
 import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
 import com.epam.wilma.core.toggle.interceptor.InterceptorModeToggle;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.context.event.ContextRefreshedEvent;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link com.epam.wilma.core.toggle.interceptor.InterceptorModeToggle}.
- * @author Tamas_Kohegyi
  *
+ * @author Tamas_Kohegyi
  */
 public class InterceptorModeToggleTest {
 
@@ -62,7 +61,7 @@ public class InterceptorModeToggleTest {
     @InjectMocks
     private InterceptorModeToggle underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

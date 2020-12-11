@@ -19,25 +19,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.AssertJUnit.assertNotNull;
-
-import java.util.HashSet;
-import java.util.Set;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link PackageBasedClassFinder}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class PackageBasedClassFinderTest {
 
@@ -55,7 +55,7 @@ public class PackageBasedClassFinderTest {
     @Mock
     private Logger logger;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
@@ -73,7 +73,7 @@ public class PackageBasedClassFinderTest {
         assertNotNull(result);
     }
 
-    @Test(expectedExceptions = ClassNotFoundException.class)
+    @Test(expected = ClassNotFoundException.class)
     public void testFindFirstOfShouldThrowClassNotFoundExceptionWhenNoClassIsFound() throws ClassNotFoundException {
         //GIVEN
         Set<Class<? extends Object>> value = new HashSet<>();

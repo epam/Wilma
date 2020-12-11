@@ -27,19 +27,15 @@ import com.epam.wilma.proxy.helper.WilmaRequestFactory;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
 import org.apache.http.Header;
 import org.apache.http.RequestLine;
-import org.mockito.Answers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.*;
 
 import java.io.InputStream;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
 
 /**
  * Provides unit tests for the <tt>HttpRequestTransformer</tt> class.
@@ -71,7 +67,7 @@ public class HttpRequestTransformerTest {
     @InjectMocks
     private HttpRequestTransformer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         headers = new Header[1];

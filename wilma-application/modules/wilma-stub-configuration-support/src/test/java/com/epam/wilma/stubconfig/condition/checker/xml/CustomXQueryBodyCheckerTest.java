@@ -19,30 +19,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedException;
+import com.epam.wilma.domain.stubconfig.parameter.Parameter;
+import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import com.epam.wilma.stubconfig.condition.checker.xml.helper.XQueryExpressionEvaluator;
 import net.sf.saxon.s9api.SaxonApiException;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.parameter.Parameter;
-import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.stubconfig.condition.checker.xml.helper.XQueryExpressionEvaluator;
-import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedException;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link CustomXQueryBodyChecker}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class CustomXQueryBodyCheckerTest {
 
@@ -65,7 +64,7 @@ public class CustomXQueryBodyCheckerTest {
     @InjectMocks
     private CustomXQueryBodyChecker underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         parameterList = new ParameterList();
@@ -146,7 +145,7 @@ public class CustomXQueryBodyCheckerTest {
         assertEquals(actual, false);
     }
 
-    @Test(expectedExceptions = ConditionEvaluationFailedException.class)
+    @Test(expected = ConditionEvaluationFailedException.class)
     public void testCheckConditionWhenParameterSizeIsZeroShouldThrowException() {
         //GIVEN in setUp
         //WHEN
@@ -154,7 +153,7 @@ public class CustomXQueryBodyCheckerTest {
         //THEN exception should be thrown
     }
 
-    @Test(expectedExceptions = ConditionEvaluationFailedException.class)
+    @Test(expected = ConditionEvaluationFailedException.class)
     public void testCheckConditionWhenParameterSizeIsTwoShouldThrowException() {
         //GIVEN
         parameterList.addParameter(new Parameter("xquery", QUERY));
@@ -164,7 +163,7 @@ public class CustomXQueryBodyCheckerTest {
         //THEN exception should be thrown
     }
 
-    @Test(expectedExceptions = ConditionEvaluationFailedException.class)
+    @Test(expected = ConditionEvaluationFailedException.class)
     public void testCheckConditionWhenSyntaxExceptionShouldThrowException() throws SaxonApiException {
         //GIVEN
         parameterList.addParameter(new Parameter("xquery", QUERY));

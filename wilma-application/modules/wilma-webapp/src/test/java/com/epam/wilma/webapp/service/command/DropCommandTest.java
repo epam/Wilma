@@ -18,25 +18,23 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.epam.wilma.domain.stubconfig.StubDescriptor;
+import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.stubconfig.StubDescriptor;
-import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
+import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Provides unit tests for the class {@link DropCommand}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class DropCommandTest {
     private static final String GROUPNAME_FIRST = "First";
@@ -53,7 +51,7 @@ public class DropCommandTest {
 
     private DropCommand underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         normalStubDescriptors = new LinkedHashMap<>();

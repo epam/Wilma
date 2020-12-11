@@ -18,25 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.mockito.Answers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
@@ -54,11 +35,29 @@ import com.epam.wilma.stubconfig.dom.parser.node.DialogDescriptorAttributeParser
 import com.epam.wilma.stubconfig.dom.parser.node.InterceptorDescriptorParser;
 import com.epam.wilma.stubconfig.dom.parser.node.MyNodeList;
 import com.epam.wilma.stubconfig.dom.parser.sequence.SequenceDescriptorParser;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Answers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link StubDescriptorParser}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class StubDescriptorParserTest {
 
@@ -92,7 +91,7 @@ public class StubDescriptorParserTest {
     private DialogDescriptorAttributes dialogDescriptorAttributes;
     private StubDescriptorAttributes stubDescriptorAttributes;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         List<Node> list = new ArrayList<>();

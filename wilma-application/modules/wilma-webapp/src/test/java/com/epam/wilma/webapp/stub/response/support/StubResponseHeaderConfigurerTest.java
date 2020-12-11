@@ -23,12 +23,12 @@ import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,8 +39,8 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Tests for {@link StubResponseHeaderConfigurer}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class StubResponseHeaderConfigurerTest {
     private static final String WILMA_LOGGER_ID = "wilma-logger-id";
@@ -54,7 +54,7 @@ public class StubResponseHeaderConfigurerTest {
 
     private StubResponseHeaderConfigurer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         underTest = new StubResponseHeaderConfigurer();

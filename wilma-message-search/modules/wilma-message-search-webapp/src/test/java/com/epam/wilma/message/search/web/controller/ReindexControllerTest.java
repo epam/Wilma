@@ -18,29 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServletResponse;
-
+import com.epam.wilma.message.search.lucene.index.scheduler.IndexTaskScheduler;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.lucene.index.scheduler.IndexTaskScheduler;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link ReindexController}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class ReindexControllerTest {
     @Mock
@@ -55,7 +53,7 @@ public class ReindexControllerTest {
     @InjectMocks
     private ReindexController underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
         given(response.getWriter()).willReturn(writer);

@@ -23,20 +23,20 @@ import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
 
 /**
  * Provides unit tests for the class {@link ResponseFormatterInitializer}.
@@ -63,7 +63,7 @@ public class ResponseFormatterInitializerTest {
     @InjectMocks
     private ResponseFormatterInitializer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = Mockito.spy(new ResponseFormatterInitializer());
         MockitoAnnotations.initMocks(this);
@@ -108,7 +108,7 @@ public class ResponseFormatterInitializerTest {
         assertEquals(actual.getClass(), responseFormatter.getClass());
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testGetResponseFormatterWhenItDoesNotExistShouldThrowException() {
         //GIVEN
         given(stubResourcePathProvider.getResponseFormattersPathAsString()).willReturn(PATH);

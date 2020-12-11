@@ -18,10 +18,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
+import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
+import com.epam.wilma.compression.gzip.helper.GzipInputStreamFactory;
+import com.epam.wilma.compression.gzip.helper.GzipOutputStreamFactory;
+import com.epam.wilma.domain.exception.SystemException;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,22 +35,15 @@ import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
-import com.epam.wilma.compression.gzip.helper.GzipInputStreamFactory;
-import com.epam.wilma.compression.gzip.helper.GzipOutputStreamFactory;
-import com.epam.wilma.domain.exception.SystemException;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the {@link GzipCompressionService} class.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class GzipCompressionServiceTest {
 
@@ -66,7 +65,7 @@ public class GzipCompressionServiceTest {
     @InjectMocks
     private GzipCompressionService underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
         given(gzipOutpuStreamFactory.createOutputStream(baos)).willReturn(gzipOutputStream);
@@ -103,7 +102,7 @@ public class GzipCompressionServiceTest {
         verify(gzipOutputStream).close();
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testCompressShouldThrowSystemExceptionWhenIOExceptionIsCatched() throws IOException {
         //GIVEN
         given(source.read((byte[]) Mockito.any())).willThrow(new IOException());
@@ -112,7 +111,7 @@ public class GzipCompressionServiceTest {
         //THEN exception should be thrown
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testDecompressShouldThrowExceptionWhenStreamCopyThrowsIOException() throws IOException {
         //GIVEN
         given(gzipInputStreamFactory.createInputStream(source)).willReturn(gzipInputStream);

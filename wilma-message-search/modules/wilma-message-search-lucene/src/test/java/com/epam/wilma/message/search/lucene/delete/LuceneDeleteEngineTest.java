@@ -18,28 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-
+import com.epam.wilma.message.search.domain.exception.SystemException;
+import com.epam.wilma.message.search.lucene.helper.TermFactory;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.domain.exception.SystemException;
-import com.epam.wilma.message.search.lucene.helper.TermFactory;
+import java.io.IOException;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link LuceneDeleteEngine}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class LuceneDeleteEngineTest {
 
@@ -55,7 +54,7 @@ public class LuceneDeleteEngineTest {
     @InjectMocks
     private LuceneDeleteEngine underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         term = new Term(FIELD_NAME);
@@ -72,7 +71,7 @@ public class LuceneDeleteEngineTest {
         verify(indexWriter).deleteDocuments(term);
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testDeleteDocFromIndexWhenCannotDeleteShouldThrowException() throws IOException {
         //GIVEN
         given(termFactory.createTerm(FIELD_NAME, TEXT)).willReturn(term);

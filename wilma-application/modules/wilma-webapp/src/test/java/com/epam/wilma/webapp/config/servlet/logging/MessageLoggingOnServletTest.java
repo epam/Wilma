@@ -18,29 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.epam.wilma.core.toggle.message.MessageLoggingToggle;
+import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.core.toggle.message.MessageLoggingToggle;
-import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import static org.mockito.Mockito.verify;
 
 /**
  * Test class for {@link MessageLoggingOnServlet}.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class MessageLoggingOnServletTest {
 
@@ -59,7 +57,7 @@ public class MessageLoggingOnServletTest {
     @Mock
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "messageLoggingToggle", messageLoggingToggle);

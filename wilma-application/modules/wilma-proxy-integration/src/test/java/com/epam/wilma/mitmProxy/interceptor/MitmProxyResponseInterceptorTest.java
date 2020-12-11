@@ -18,30 +18,28 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
+import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.mitmProxy.transformer.HttpResponseTransformer;
 import com.epam.wilma.mitmProxy.transformer.MitmProxyResponseUpdater;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test class for LoggingResponseInterceptor.
- * @author Marton_Sereg, Tamas_Kohegyi
  *
+ * @author Marton_Sereg, Tamas_Kohegyi
  */
 public class MitmProxyResponseInterceptorTest {
 
@@ -60,7 +58,7 @@ public class MitmProxyResponseInterceptorTest {
     @Mock
     private Logger logger;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);

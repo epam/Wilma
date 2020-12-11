@@ -18,21 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-
+import com.epam.wilma.properties.PropertyHolder;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.properties.PropertyHolder;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Test class for {@link MessageFileCounter}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class MessageFileCounterTest {
 
@@ -42,7 +41,7 @@ public class MessageFileCounterTest {
     @InjectMocks
     private MessageFileCounter underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(propertyHolder.get("log.folder")).willReturn("src/test/resources/test");

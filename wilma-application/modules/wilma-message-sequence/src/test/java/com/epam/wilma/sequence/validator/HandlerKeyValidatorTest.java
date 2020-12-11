@@ -18,20 +18,19 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.testng.annotations.Test;
-
 import com.epam.wilma.sequence.handler.exception.SequenceHandlerKeyValidationException;
+import org.junit.Test;
 
 /**
  * Provides unit tests for the class {@link HandlerKeyValidator}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class HandlerKeyValidatorTest {
     private static final String HANDLER_NAME = "Teszt";
     private HandlerKeyValidator underTest = new HandlerKeyValidator();
 
-    @Test(expectedExceptions = SequenceHandlerKeyValidationException.class)
+    @Test(expected = SequenceHandlerKeyValidationException.class)
     public void testCheckRequestShouldThrowValidationExceptionWhenHandlerKeyContainsForbiddenCharacterVerticalbar() {
         //GIVEN
         String generatedKey = "test|Key2";
@@ -40,7 +39,7 @@ public class HandlerKeyValidatorTest {
         //THEN except an EXCEPTION
     }
 
-    @Test(expectedExceptions = SequenceHandlerKeyValidationException.class)
+    @Test(expected = SequenceHandlerKeyValidationException.class)
     public void testCheckRequestShouldThrowValidationExceptionWhenHandlerKeyContainsForbiddenCharacterSemicolon() {
         //GIVEN
         String generatedKey = "testKey;2";
@@ -49,7 +48,7 @@ public class HandlerKeyValidatorTest {
         //THEN except an EXCEPTION
     }
 
-    @Test(expectedExceptions = SequenceHandlerKeyValidationException.class)
+    @Test(expected = SequenceHandlerKeyValidationException.class)
     public void testCheckRequestShouldThrowValidationExceptionWhenHandlerKeyIsNull() {
         //GIVEN
         //WHEN

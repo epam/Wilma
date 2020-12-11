@@ -18,23 +18,22 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
+import com.epam.wilma.properties.PropertyHolder;
+import com.epam.wilma.sequence.maintainer.configuration.domain.SequenceProperties;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.properties.PropertyHolder;
-import com.epam.wilma.sequence.maintainer.configuration.domain.SequenceProperties;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for the class {@link SequenceMaintainerConfigurationAccess}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class SequenceMaintainerConfigurationAccessTest {
     private static final String EXPRESSION = "STRING_EXPRESSION";
@@ -47,7 +46,7 @@ public class SequenceMaintainerConfigurationAccessTest {
     @InjectMocks
     private SequenceMaintainerConfigurationAccess underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(propertyHolder.get("sequence.cleanup.cron")).willReturn(EXPRESSION);

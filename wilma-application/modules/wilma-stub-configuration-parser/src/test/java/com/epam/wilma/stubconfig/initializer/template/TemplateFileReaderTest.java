@@ -18,30 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Tests for {@link TemplateFileReader} class.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class TemplateFileReaderTest {
     private static final String RESOURCE_NAME = "resource-name";
@@ -62,7 +61,7 @@ public class TemplateFileReaderTest {
     @InjectMocks
     private TemplateFileReader underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -76,7 +75,9 @@ public class TemplateFileReaderTest {
         //WHEN
         byte[] actual = underTest.readTemplate(RESOURCE_NAME);
         //THEN
-        assertEquals(actual, RESOURCE_NAME.getBytes());
+        String a = new String(actual);
+        String expected = new String(RESOURCE_NAME.getBytes());
+        assertEquals(a, expected);
     }
 
     @Test
@@ -90,10 +91,12 @@ public class TemplateFileReaderTest {
         byte[] actual = underTest.readTemplate(RESOURCE_NAME);
         //THEN
         Mockito.verify(stubResourceHolder).addTemplate(RESOURCE_NAME, actual);
-        assertEquals(actual, RESOURCE_NAME.getBytes());
+        String a = new String(actual);
+        String expected = new String(RESOURCE_NAME.getBytes());
+        assertEquals(a, expected);
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testReadTemplateShouldThrowExceptionWhenTheSpecifiedTemplateDoesntExist() throws IOException {
         //GIVEN
         given(stubResourceHolder.getTemplates()).willReturn(templatesMap);

@@ -30,11 +30,11 @@ import java.nio.file.Path;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.FileListJsonProperties;
@@ -70,7 +70,7 @@ public class MessageFileHandlerTest {
     @InjectMocks
     private MessageFileHandler underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
         given(response.getWriter()).willReturn(printWriter);

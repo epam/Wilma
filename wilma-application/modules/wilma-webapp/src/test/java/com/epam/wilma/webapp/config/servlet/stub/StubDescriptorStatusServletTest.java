@@ -26,6 +26,8 @@ import com.epam.wilma.domain.stubconfig.interceptor.InterceptorDescriptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
 import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.webapp.config.servlet.stub.helper.ExpirationTimeProvider;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
@@ -33,8 +35,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -87,7 +87,7 @@ public class StubDescriptorStatusServletTest {
 
     private StubDescriptorAttributes stubDescriptorAttributes = new StubDescriptorAttributes(TEST_GROUPNAME);
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "routingService", routingService);

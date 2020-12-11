@@ -19,17 +19,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.testng.AssertJUnit.assertNotNull;
-
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-
+import com.epam.wilma.common.helper.FileFactory;
+import com.epam.wilma.common.helper.FileUtils;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
+import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
+import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
+import com.epam.wilma.stubconfig.initializer.support.helper.PackageBasedClassFinder;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -37,22 +36,20 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.FileFactory;
-import com.epam.wilma.common.helper.FileUtils;
-import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
-import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
-import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
-import com.epam.wilma.stubconfig.initializer.support.helper.PackageBasedClassFinder;
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit test for {@link ExternalJarClassInitializer}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class ExternalJarClassInitializerTest {
 
@@ -82,7 +79,7 @@ public class ExternalJarClassInitializerTest {
     @Mock
     private DummySequenceHandler object;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
@@ -104,7 +101,7 @@ public class ExternalJarClassInitializerTest {
 
     @Test
     public void testLoadExternalClassShouldInstantiateClassWhenBeanWasNotFound() throws InstantiationException, IllegalAccessException,
-        InvocationTargetException {
+            InvocationTargetException {
         //GIVEN
         given(beanRegistryService.getBean(BEAN_NAME, INTERFACE_TO_CAST)).willThrow(new NoSuchBeanDefinitionException("error"));
         Collection<File> jarFiles = new ArrayList<>();
@@ -118,7 +115,7 @@ public class ExternalJarClassInitializerTest {
         assertNotNull(result);
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testLoadExternalClassShouldThrowDescriptorValidationFailedExceptionWhenNeitherBeanNorClassWasFound() throws ClassNotFoundException {
         //GIVEN
         given(beanRegistryService.getBean(BEAN_NAME, INTERFACE_TO_CAST)).willThrow(new NoSuchBeanDefinitionException("error"));
@@ -130,9 +127,9 @@ public class ExternalJarClassInitializerTest {
         //THEN exception is thrown
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testLoadExternalClassShouldThrowDescriptorValidationFailedExceptionWhenBeanWasNotFoundButClassIsAbstract()
-        throws InstantiationException, IllegalAccessException, InvocationTargetException {
+            throws InstantiationException, IllegalAccessException, InvocationTargetException {
         //GIVEN
         given(beanRegistryService.getBean(BEAN_NAME, INTERFACE_TO_CAST)).willThrow(new NoSuchBeanDefinitionException("error"));
         Collection<File> jarFiles = new ArrayList<>();

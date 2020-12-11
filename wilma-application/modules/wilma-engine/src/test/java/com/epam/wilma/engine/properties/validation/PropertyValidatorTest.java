@@ -18,24 +18,23 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Properties;
-
+import com.epam.wilma.properties.InvalidPropertyException;
+import com.epam.wilma.properties.PropertyHolder;
+import com.epam.wilma.properties.validation.SafeguardLimitValidator;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.properties.InvalidPropertyException;
-import com.epam.wilma.properties.PropertyHolder;
-import com.epam.wilma.properties.validation.SafeguardLimitValidator;
+import java.util.Properties;
 
 /**
  * Unit tests for the class {@link PropertyValidator}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class PropertyValidatorTest {
 
@@ -47,7 +46,7 @@ public class PropertyValidatorTest {
     @InjectMocks
     private PropertyValidator underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         properties = new Properties();
@@ -81,7 +80,7 @@ public class PropertyValidatorTest {
         Mockito.verify(safeguardLimitValidator).validate();
     }
 
-    @Test(expectedExceptions = InvalidPropertyException.class)
+    @Test(expected = InvalidPropertyException.class)
     public void testValidatePropertiesWhenInvalidPropertyShouldThrowException() {
         //GIVEN
         String validationExpression = "#this >1";
@@ -93,7 +92,7 @@ public class PropertyValidatorTest {
         //THEN it should throw exception
     }
 
-    @Test(expectedExceptions = InvalidPropertyException.class)
+    @Test(expected = InvalidPropertyException.class)
     public void testValidatePropertiesWhenNumberFormatExceptionShouldThrowException() {
         //GIVEN
         String validationExpression = "#this >1";
@@ -105,7 +104,7 @@ public class PropertyValidatorTest {
         //THEN it should throw exception
     }
 
-    @Test(expectedExceptions = InvalidPropertyException.class)
+    @Test(expected = InvalidPropertyException.class)
     public void testValidatePropertiesWhenOgnlExceptionShouldThrowException() {
         //GIVEN
         String validationExpression = "#this >1 bla";

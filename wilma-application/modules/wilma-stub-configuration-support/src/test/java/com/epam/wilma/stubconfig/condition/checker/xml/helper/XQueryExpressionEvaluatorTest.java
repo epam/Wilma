@@ -18,38 +18,35 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.ByteArrayOutputStream;
-
-import javax.xml.transform.sax.SAXSource;
-
+import com.epam.wilma.common.sax.helper.InputSourceFactory;
+import com.epam.wilma.common.sax.helper.SAXSourceFactory;
+import com.epam.wilma.common.saxon.helper.ProcessorFactory;
+import com.epam.wilma.common.saxon.helper.SerializerFactory;
+import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.s9api.XQueryCompiler;
 import net.sf.saxon.s9api.XQueryEvaluator;
 import net.sf.saxon.s9api.XQueryExecutable;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import org.xml.sax.InputSource;
 
-import com.epam.wilma.common.sax.helper.InputSourceFactory;
-import com.epam.wilma.common.sax.helper.SAXSourceFactory;
-import com.epam.wilma.common.saxon.helper.ProcessorFactory;
-import com.epam.wilma.common.saxon.helper.SerializerFactory;
-import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
+import javax.xml.transform.sax.SAXSource;
+import java.io.ByteArrayOutputStream;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link XQueryExpressionEvaluator}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class XQueryExpressionEvaluatorTest {
 
@@ -85,7 +82,7 @@ public class XQueryExpressionEvaluatorTest {
     @InjectMocks
     private XQueryExpressionEvaluator underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws SaxonApiException {
         MockitoAnnotations.initMocks(this);
         given(processorFactory.createProcessor()).willReturn(processor);

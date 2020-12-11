@@ -18,33 +18,32 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
+import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
+import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler2;
+import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
-import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
-import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
-import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
-import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler2;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit test for {@link SequenceHandlerInitializer}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class SequenceHandlerInitializerTest {
 
@@ -64,7 +63,7 @@ public class SequenceHandlerInitializerTest {
     @InjectMocks
     private SequenceHandlerInitializer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = Mockito.spy(new SequenceHandlerInitializer());
         MockitoAnnotations.initMocks(this);
@@ -131,7 +130,7 @@ public class SequenceHandlerInitializerTest {
         assertEquals(actual.getClass(), sequenceHandler.getClass());
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testGetSequenceHandlerWhenItDoesNotExistShouldThrowException() {
         //GIVEN
         given(stubResourcePathProvider.getSequenceHandlerPathAsString()).willReturn(PATH);

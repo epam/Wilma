@@ -18,20 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 /**
  * Provides unit tests for the class {@link FileChecker}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class FileCheckerTest {
 
@@ -40,7 +40,7 @@ public class FileCheckerTest {
     @InjectMocks
     private FileChecker underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
     }
@@ -100,7 +100,7 @@ public class FileCheckerTest {
         Assert.assertEquals(result, expected);
     }
 
-    @Test(expectedExceptions = NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testCheckFilesExistsWithPairsWhenSearchResultIsNull() {
         //GIVEN
         //WHEN

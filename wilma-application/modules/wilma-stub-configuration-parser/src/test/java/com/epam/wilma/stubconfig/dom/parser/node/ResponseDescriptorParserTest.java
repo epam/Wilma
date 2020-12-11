@@ -18,46 +18,46 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
-import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatterDescriptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatterDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateType;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.sequence.helper.SequenceDescriptorKeyUtil;
 import com.epam.wilma.stubconfig.dom.parser.NodeParser;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.template.TemplateFileReader;
 import com.epam.wilma.stubconfig.initializer.template.TemplateGeneratorInitializer;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link ResponseDescriptorParser}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class ResponseDescriptorParserTest {
+    private final static String RESOURCE_STRING = "resource";
 
     @Mock
     private Element responseDescriptorNode;
@@ -81,16 +81,14 @@ public class ResponseDescriptorParserTest {
     private TemplateGenerator templateGenerator;
     @Mock
     private ResponseFormatter templateFormatter;
-    private Set<ResponseFormatterDescriptor> templateFormatterSet;
     private final ResponseFormatterDescriptor templateFormatterDescriptor = new ResponseFormatterDescriptor(templateFormatter, new ParameterList());
-
     @InjectMocks
     private ResponseDescriptorParser underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        templateFormatterSet = new LinkedHashSet<>();
+        Set<ResponseFormatterDescriptor> templateFormatterSet = new LinkedHashSet<>();
         templateFormatterSet.add(templateFormatterDescriptor);
         given(templateDescriptorParser.parseNode(responseDescriptorNode, document)).willReturn(templateFormatterSet);
         given(responseDescriptorNode.getAttribute("delay")).willReturn("1");
@@ -102,7 +100,7 @@ public class ResponseDescriptorParserTest {
         given(rootElement.getAttribute("groupname")).willReturn("TestGroupname");
         given(xPathEvaluator.getElementByXPath(Mockito.anyString(), Mockito.eq(document))).willReturn(templateElement);
         given(templateElement.getAttribute("type")).willReturn("text");
-        given(templateElement.getAttribute("resource")).willReturn("resource");
+        given(templateElement.getAttribute("resource")).willReturn(RESOURCE_STRING);
         given(sequenceDescriptorKeyUtil.createDescriptorKey("TestGroupname", "a-b-c")).willReturn("TestGroupname_a-b-c");
     }
 
@@ -194,7 +192,7 @@ public class ResponseDescriptorParserTest {
         assertEquals(actual.getAttributes().getTemplate().getType(), TemplateType.EXTERNAL);
     }
 
-    @Test(expectedExceptions = DescriptorCannotBeParsedException.class)
+    @Test(expected = DescriptorCannotBeParsedException.class)
     public void testParseNodeShouldShouldThrowSystemExceptionWhenTemplateGenerationFail() {
         //GIVEN
         given(templateElement.getAttribute("type")).willReturn("external");
@@ -208,13 +206,15 @@ public class ResponseDescriptorParserTest {
 
     @Test
     public void testParseNodeShouldReturnResponseDescriptorTemplateResource() {
-        String resourceString = "resource";
+        String resourceString = RESOURCE_STRING;
         //GIVEN
         given(templateFileReader.readTemplate(resourceString)).willReturn(resourceString.getBytes());
         //WHEN
         ResponseDescriptor actual = underTest.parseNode(responseDescriptorNode, document);
         //THEN
-        assertEquals(actual.getAttributes().getTemplate().getResource(), resourceString.getBytes());
+        String a = new String(actual.getAttributes().getTemplate().getResource());
+        String b = new String(resourceString.getBytes());
+        assertEquals(a, b);
     }
 
     @Test

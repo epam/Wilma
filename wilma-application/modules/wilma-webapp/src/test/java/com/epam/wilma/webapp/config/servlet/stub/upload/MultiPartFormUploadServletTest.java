@@ -18,37 +18,35 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.epam.wilma.webapp.config.servlet.stub.upload.helper.ServletFileUploadFactory;
+import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
+import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.webapp.config.servlet.stub.upload.helper.ServletFileUploadFactory;
-import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
-import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for {@link MultiPartFormUploadServlet}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class MultiPartFormUploadServletTest {
 
@@ -69,7 +67,7 @@ public class MultiPartFormUploadServletTest {
 
     private MultiPartFormUploadServlet underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
         given(response.getWriter()).willReturn(printWriter);
@@ -104,7 +102,7 @@ public class MultiPartFormUploadServletTest {
 
     @Test
     public void testDoGetShouldSendErrorResponseWhenRequestParsingFailedByTheServletFileUpload() throws ServletException, IOException,
-        FileUploadException {
+            FileUploadException {
         //GIVEN
         given(request.getMethod()).willReturn("POST");
         given(servletFileUpload.parseRequest(request)).willThrow(new FileUploadException());

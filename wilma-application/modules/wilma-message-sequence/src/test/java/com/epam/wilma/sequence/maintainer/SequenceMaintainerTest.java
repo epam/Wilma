@@ -18,27 +18,26 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
+import com.epam.wilma.common.helper.CronTriggerFactory;
+import com.epam.wilma.domain.exception.SchedulingCannotBeStartedException;
+import com.epam.wilma.sequence.maintainer.configuration.SequenceMaintainerConfigurationAccess;
+import com.epam.wilma.sequence.maintainer.configuration.domain.SequenceProperties;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.CronTriggerFactory;
-import com.epam.wilma.domain.exception.SchedulingCannotBeStartedException;
-import com.epam.wilma.sequence.maintainer.configuration.SequenceMaintainerConfigurationAccess;
-import com.epam.wilma.sequence.maintainer.configuration.domain.SequenceProperties;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link SequenceMaintainer}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class SequenceMaintainerTest {
     private static final String CRON_EXPRESSION = "0/5 * * * * * ";
@@ -58,7 +57,7 @@ public class SequenceMaintainerTest {
     @InjectMocks
     private SequenceMaintainer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(configurationAccess.getProperties()).willReturn(properties);
@@ -76,7 +75,7 @@ public class SequenceMaintainerTest {
         verify(taskScheduler).schedule(maintainerTask, cronTrigger);
     }
 
-    @Test(expectedExceptions = SchedulingCannotBeStartedException.class)
+    @Test(expected = SchedulingCannotBeStartedException.class)
     public void testStartSchedulingShouldThrowException() {
         // GIVEN
         given(cronTriggerFactory.createCronTrigger(CRON_EXPRESSION)).willReturn(cronTrigger);

@@ -18,22 +18,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.testng.Assert.assertEquals;
-
-import java.util.Properties;
-
+import com.epam.wilma.message.search.properties.PropertyHolder;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.properties.PropertyHolder;
+import java.util.Properties;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit tests for the class {@link PropertyReader}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class PropertyReaderTest {
 
@@ -43,7 +42,7 @@ public class PropertyReaderTest {
     @InjectMocks
     private PropertyReader underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         properties = new Properties();

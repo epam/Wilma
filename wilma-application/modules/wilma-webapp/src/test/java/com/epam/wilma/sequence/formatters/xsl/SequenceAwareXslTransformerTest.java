@@ -18,38 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.transform.sax.SAXSource;
-import javax.xml.transform.stream.StreamSource;
-
-import net.sf.saxon.s9api.Processor;
-import net.sf.saxon.s9api.QName;
-import net.sf.saxon.s9api.SaxonApiException;
-import net.sf.saxon.s9api.XdmNode;
-import net.sf.saxon.s9api.XsltExecutable;
-import net.sf.saxon.s9api.XsltTransformer;
-
-import org.mockito.Answers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-
 import com.epam.wilma.common.sax.helper.InputSourceFactory;
 import com.epam.wilma.common.sax.helper.SAXSourceFactory;
 import com.epam.wilma.common.saxon.helper.ProcessorFactory;
@@ -58,9 +26,39 @@ import com.epam.wilma.webapp.stub.response.formatter.xsl.XslCompiler;
 import com.epam.wilma.webapp.stub.response.formatter.xsl.XslOutputProvider;
 import com.epam.wilma.webapp.stub.response.formatter.xsl.helper.QNameFactory;
 import com.epam.wilma.webapp.stub.servlet.helper.ByteArrayInputStreamFactory;
+import net.sf.saxon.s9api.Processor;
+import net.sf.saxon.s9api.QName;
+import net.sf.saxon.s9api.SaxonApiException;
+import net.sf.saxon.s9api.XdmNode;
+import net.sf.saxon.s9api.XsltExecutable;
+import net.sf.saxon.s9api.XsltTransformer;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Answers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 /**
- * Unit test for {@link SessionAwareXslTransformer}.
+ * Unit test for {@link SequenceAwareXslTransformer}.
+ *
  * @author Balazs_Berkes
  */
 public class SequenceAwareXslTransformerTest {
@@ -117,7 +115,7 @@ public class SequenceAwareXslTransformerTest {
     @InjectMocks
     private SequenceAwareXslTransformer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws SAXException {
         underTest = Mockito.spy(new SequenceAwareXslTransformer());
         MockitoAnnotations.initMocks(this);

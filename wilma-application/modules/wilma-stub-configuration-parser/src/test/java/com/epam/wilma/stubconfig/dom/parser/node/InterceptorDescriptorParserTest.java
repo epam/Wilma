@@ -18,35 +18,34 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.domain.stubconfig.interceptor.InterceptorDescriptor;
 import com.epam.wilma.domain.stubconfig.interceptor.MockRequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.MockResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.interceptor.RequestInterceptorInitializer;
 import com.epam.wilma.stubconfig.initializer.interceptor.ResponseInterceptorInitializer;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for the class {@link InterceptorDescriptorParser}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class InterceptorDescriptorParserTest {
 
@@ -69,7 +68,7 @@ public class InterceptorDescriptorParserTest {
     @InjectMocks
     private InterceptorDescriptorParser underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -149,7 +148,7 @@ public class InterceptorDescriptorParserTest {
         assertEquals(actual.getParams().getAllParameters().isEmpty(), true);
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testParseNodeWhenNoInterceptorClassShouldThrowException() {
         //GIVEN
         given(requestInterceptorInitializer.getExternalClassObject(CLASS)).willReturn(null);
@@ -159,7 +158,7 @@ public class InterceptorDescriptorParserTest {
         //THEN it should throw exception
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testParseNodeWhenInterceptorClassHasExtraClassInNameShouldThrowException() {
         //GIVEN
         NodeList paramNodeList = createParamNodeList();

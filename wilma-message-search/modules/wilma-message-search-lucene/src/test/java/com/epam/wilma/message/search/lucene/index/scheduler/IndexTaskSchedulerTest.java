@@ -18,28 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.util.Date;
-
+import com.epam.wilma.message.search.lucene.configuration.LuceneConfigurationAccess;
+import com.epam.wilma.message.search.lucene.configuration.PropertyDto;
+import com.epam.wilma.message.search.lucene.index.scheduler.helper.CronTriggerFactory;
+import com.epam.wilma.message.search.lucene.index.scheduler.helper.DateFactory;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.lucene.configuration.LuceneConfigurationAccess;
-import com.epam.wilma.message.search.lucene.configuration.PropertyDto;
-import com.epam.wilma.message.search.lucene.index.scheduler.helper.CronTriggerFactory;
-import com.epam.wilma.message.search.lucene.index.scheduler.helper.DateFactory;
+import java.util.Date;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link IndexTaskScheduler}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class IndexTaskSchedulerTest {
 
@@ -64,7 +63,7 @@ public class IndexTaskSchedulerTest {
     @Mock
     private CronTrigger cronTrigger;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }

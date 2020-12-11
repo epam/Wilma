@@ -19,30 +19,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
+import com.epam.wilma.common.helper.FileFactory;
+import com.epam.wilma.common.helper.JavaClassFactory;
+import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
+import org.apache.bcel.classfile.ClassFormatException;
+import org.apache.bcel.classfile.JavaClass;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.bcel.classfile.ClassFormatException;
-import org.apache.bcel.classfile.JavaClass;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.common.helper.FileFactory;
-import com.epam.wilma.common.helper.JavaClassFactory;
-import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link ClassFilePathAssembler}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class ClassFilePathAssemblerTest {
     private static final String PARENT_DIRECTORY = "config/something";
@@ -64,7 +63,7 @@ public class ClassFilePathAssemblerTest {
     @InjectMocks
     private ClassFilePathAssembler underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -90,7 +89,7 @@ public class ClassFilePathAssemblerTest {
         verify(javaClass).getPackageName();
     }
 
-    @Test(expectedExceptions = CannotUploadExternalResourceException.class)
+    @Test(expected = CannotUploadExternalResourceException.class)
     public void testCreateFilePathShouldRethrowIOExceptionAsCannotUploadExternalResourceException() throws IOException {
         //GIVEN
         given(fileFactory.createFile(FILE_NAME)).willReturn(file);
@@ -102,7 +101,7 @@ public class ClassFilePathAssemblerTest {
         //THEN error is thrown
     }
 
-    @Test(expectedExceptions = CannotUploadExternalResourceException.class)
+    @Test(expected = CannotUploadExternalResourceException.class)
     public void testCreateFilePathShouldRethrowClassFormatExceptionAsCannotUploadExternalResourceException() throws IOException {
         //GIVEN
         given(fileFactory.createFile(FILE_NAME)).willReturn(file);

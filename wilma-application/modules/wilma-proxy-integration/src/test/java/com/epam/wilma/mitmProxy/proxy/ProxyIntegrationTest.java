@@ -25,6 +25,9 @@ import com.epam.wilma.proxy.configuration.ProxyConfigurationAccess;
 import com.epam.wilma.proxy.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.proxy.exception.ProxyCannotBeStartedException;
 import net.lightbody.bmp.proxy.jetty.http.SocketListener;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
@@ -32,9 +35,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.nio.file.Path;
 
@@ -69,7 +69,7 @@ public class ProxyIntegrationTest {
     @Mock
     private Logger logger;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = Mockito.spy(new MitmProxy());
         MockitoAnnotations.initMocks(this);
@@ -90,10 +90,10 @@ public class ProxyIntegrationTest {
         Mockito.verify(server).start(requestTimeout);
         Mockito.verify(server).addRequestInterceptor(loggingRequestInterceptor);
         Mockito.verify(server).addResponseInterceptor(loggingResponseInterceptor);
-        Assert.assertTrue(ProxyServer.getResponseVolatile(), "Response volatility status was not set properly.");
+        Assert.assertTrue("Response volatility status was not set properly.", ProxyServer.getResponseVolatile());
     }
 
-    @Test(expectedExceptions = ProxyCannotBeStartedException.class)
+    @Test(expected = ProxyCannotBeStartedException.class)
     public void testStartShouldThrowExceptionWhenTheProxyCannotBeStarted() throws Exception {
         // GIVEN
         int requestTimeout = 30000;

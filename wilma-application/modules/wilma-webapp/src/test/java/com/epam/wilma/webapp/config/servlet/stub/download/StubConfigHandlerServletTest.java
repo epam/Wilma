@@ -23,11 +23,11 @@ import com.epam.wilma.domain.stubconfig.exception.JsonTransformationException;
 import com.epam.wilma.stubconfig.json.parser.helper.JsonBasedObjectTransformer;
 import com.epam.wilma.webapp.config.servlet.stub.download.helper.ByteArrayConverter;
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +66,7 @@ public class StubConfigHandlerServletTest {
     @InjectMocks
     private StubConfigHandlerServlet underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         initMocks(this);
         Whitebox.setInternalState(underTest, "jsonBasedObjectTransformer", jsonBasedObjectTransformer);

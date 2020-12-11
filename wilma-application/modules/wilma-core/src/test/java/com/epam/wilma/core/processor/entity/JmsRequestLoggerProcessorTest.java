@@ -18,22 +18,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.verify;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.logger.request.jms.JmsRequestLogger;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link JmsRequestLoggerProcessor}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class JmsRequestLoggerProcessorTest {
 
@@ -45,7 +44,7 @@ public class JmsRequestLoggerProcessorTest {
     @InjectMocks
     private JmsRequestLoggerProcessor underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

@@ -19,23 +19,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
-import com.epam.wilma.proxy.configuration.ProxyConfigurationAccess;
+import com.epam.wilma.properties.PropertyHolder;
+import com.epam.wilma.proxy.configuration.domain.ProxyPropertyDTO;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.proxy.configuration.domain.ProxyPropertyDTO;
-import com.epam.wilma.properties.PropertyHolder;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link ProxyConfigurationAccess}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class ProxyConfigurationAccessTest {
 
@@ -49,7 +47,7 @@ public class ProxyConfigurationAccessTest {
     @InjectMocks
     private ProxyConfigurationAccess underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(propertyHolder.getInt("proxy.request.timeout")).willReturn(REQUEST_TIMEOUT);
@@ -97,6 +95,7 @@ public class ProxyConfigurationAccessTest {
         ProxyPropertyDTO actual = underTest.getProperties();
         assertEquals(actual.getAllowResponseUpdate(), Boolean.valueOf(false));
     }
+
     @Test
 
     public void testLoadPropertiesShouldSetResponseUpdateVolatileAsTrue() {

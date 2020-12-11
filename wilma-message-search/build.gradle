@@ -19,11 +19,6 @@
 
 description= 'wilma-message-search'
 
-
-allprojects  {
-    apply plugin: 'jacoco'
-}
-
 task docs(type: Javadoc) {
     destinationDir = file("$buildDir/docs/all")
     options.memberLevel = JavadocMemberLevel.PRIVATE
@@ -37,15 +32,6 @@ task docs(type: Javadoc) {
 
 task checkstyle(type: Checkstyle) {
     dependsOn subprojects.checkstyleMain
-}
-
-configurations {
-    jacoco {
-    }
-}
-
-dependencies {
-    jacoco 'org.jacoco:org.jacoco.core:0.8.0'
 }
 
 task deleteRelease(type: Delete) {
@@ -91,9 +77,7 @@ subprojects {
 	    compile group: 'org.springframework', name: 'spring-webmvc', version:'4.1.6.RELEASE'
 	    compile group: 'org.aspectj', name: 'aspectjrt', version:'1.6.9'
 	    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
-	    testCompile(group: 'org.testng', name: 'testng', version:'6.8.5') {
-            exclude(module: 'junit')
-        }
+        testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
     }
 
     def checkstyleCommonReportDir = new File(rootProject.rootDir.absolutePath , '/wilma-message-search/build/reports/checkstyle')
@@ -116,8 +100,7 @@ subprojects {
             }
         }
     }
-    
-    test.useTestNG()
+    test.useJUnit()
 }
 
 

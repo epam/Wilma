@@ -18,14 +18,14 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-
+import com.epam.wilma.message.search.domain.IndexStatus;
+import com.epam.wilma.message.search.lucene.LuceneEngine;
+import com.epam.wilma.message.search.lucene.configuration.LuceneConfigurationAccess;
+import com.epam.wilma.message.search.lucene.configuration.PropertyDto;
+import com.epam.wilma.message.search.properties.helper.MessageFoldersUtil;
 import org.apache.lucene.index.IndexWriter;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -33,17 +33,17 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.domain.IndexStatus;
-import com.epam.wilma.message.search.lucene.LuceneEngine;
-import com.epam.wilma.message.search.lucene.configuration.LuceneConfigurationAccess;
-import com.epam.wilma.message.search.lucene.configuration.PropertyDto;
-import com.epam.wilma.message.search.properties.helper.MessageFoldersUtil;
+import java.io.IOException;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link ReindexerTask}.
+ *
  * @author Adam_Csaba_Kiraly
  */
 public class ReindexerTaskTest {
@@ -68,7 +68,7 @@ public class ReindexerTaskTest {
     @Mock
     private PropertyDto properties;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         given(configurationAccess.getProperties()).willReturn(properties);

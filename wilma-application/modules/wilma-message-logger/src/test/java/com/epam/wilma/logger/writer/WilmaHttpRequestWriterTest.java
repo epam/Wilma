@@ -23,6 +23,8 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeRemoved;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -30,8 +32,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,17 +39,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 /**
  * Provides unit tests for the {@link WilmaHttpRequestWriter} class.
+ *
  * @author Tunde_Kovacs
  */
 public class WilmaHttpRequestWriterTest {
@@ -87,7 +84,7 @@ public class WilmaHttpRequestWriterTest {
     @InjectMocks
     private WilmaHttpRequestWriter underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = spy(new WilmaHttpRequestWriter());
         MockitoAnnotations.initMocks(this);

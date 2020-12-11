@@ -18,28 +18,26 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.ByteArrayOutputStream;
-
+import com.epam.wilma.common.saxon.helper.SerializerFactory;
+import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
 import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.s9api.XsltTransformer;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.common.saxon.helper.SerializerFactory;
-import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
+import java.io.ByteArrayOutputStream;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link XslOutputProvider}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class XslOutputProviderTest {
 
@@ -57,7 +55,7 @@ public class XslOutputProviderTest {
     @InjectMocks
     private XslOutputProvider underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

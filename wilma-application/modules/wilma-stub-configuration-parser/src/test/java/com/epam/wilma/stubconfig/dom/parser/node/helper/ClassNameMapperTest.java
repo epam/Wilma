@@ -19,10 +19,18 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import com.epam.wilma.common.helper.FileUtils;
+import com.epam.wilma.common.helper.JavaClassFactory;
+import org.apache.bcel.classfile.ClassFormatException;
+import org.apache.bcel.classfile.JavaClass;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,24 +39,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.bcel.classfile.ClassFormatException;
-import org.apache.bcel.classfile.JavaClass;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.common.helper.FileUtils;
-import com.epam.wilma.common.helper.JavaClassFactory;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link ClassNameMapper}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class ClassNameMapperTest {
     private static final String FOLDER_NAME = "a folder";
@@ -66,7 +63,7 @@ public class ClassNameMapperTest {
     @InjectMocks
     private ClassNameMapper underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

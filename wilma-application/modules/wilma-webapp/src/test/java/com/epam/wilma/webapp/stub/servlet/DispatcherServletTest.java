@@ -18,25 +18,24 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.epam.wilma.webapp.stub.response.StubResponseWriter;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.webapp.stub.response.StubResponseWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the <tt>DispatcherServlet</tt> class.
+ *
  * @author Tamas_Bihari
  */
 public class DispatcherServletTest {
@@ -50,7 +49,7 @@ public class DispatcherServletTest {
     @InjectMocks
     private DispatcherServlet underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "stubResponseWriter", stubResponseWriter);

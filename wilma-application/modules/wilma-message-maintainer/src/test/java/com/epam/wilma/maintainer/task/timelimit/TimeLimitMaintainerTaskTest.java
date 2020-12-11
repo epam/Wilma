@@ -18,9 +18,22 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import com.epam.wilma.common.helper.CurrentDateProvider;
+import com.epam.wilma.common.helper.LogFilePathProvider;
+import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
+import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
+import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
+import com.epam.wilma.maintainer.domain.DeletedFileProvider;
+import net.sf.saxon.expr.Component;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -29,27 +42,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.slf4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.common.helper.CurrentDateProvider;
-import com.epam.wilma.common.helper.LogFilePathProvider;
-import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
-import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
-import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
-import com.epam.wilma.maintainer.domain.DeletedFileProvider;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test class for {@link TimeLimitMaintainerTask}.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class TimeLimitMaintainerTaskTest {
 
@@ -70,22 +70,21 @@ public class TimeLimitMaintainerTaskTest {
     private CurrentDateProvider currentDateProvider;
     @Mock
     private MaintainerConfigurationAccess configurationAccess;
-    @Mock
     private MaintainerProperties properties;
     @Mock
     private JmsIndexDeletionProcessor indexDeletionProcessor;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
+        properties = new MaintainerProperties("", "timeLimit", 1, "10S");
         given(configurationAccess.getProperties()).willReturn(properties);
     }
 
     @Test
     public final void testRun() {
         // GIVEN
-        Whitebox.setInternalState(underTest, "timeLimitInSeconds", 10);
         Whitebox.setInternalState(underTest, "simpleDateFormat", new SimpleDateFormat("yyyyMMddHHmmss"));
         DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
         Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
@@ -108,6 +107,7 @@ public class TimeLimitMaintainerTaskTest {
         given(logFolder.listFiles(fileFilter)).willReturn(messageFiles);
 
         Calendar cal = Calendar.getInstance();
+        //note: sixth month is jul - starting from 0
         cal.set(2013, 6, 1, 15, 15, 21);
         Date date = cal.getTime();
         given(currentDateProvider.getCurrentDate()).willReturn(date);
@@ -123,8 +123,9 @@ public class TimeLimitMaintainerTaskTest {
     @Test
     public final void testRunShouldSendMessageToIndexDeletion() {
         // GIVEN
-        Whitebox.setInternalState(underTest, "timeLimitInSeconds", 10);
         Whitebox.setInternalState(underTest, "simpleDateFormat", new SimpleDateFormat("yyyyMMddHHmmss"));
+        DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
+        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
 
         File file1 = Mockito.mock(File.class);
         given(file1.getAbsolutePath()).willReturn("20130701151510.0000resp.txt");
@@ -150,7 +151,8 @@ public class TimeLimitMaintainerTaskTest {
     @Test
     public void testLogParameters() {
         // GIVEN
-        given(properties.getTimeLimit()).willReturn("36H");
+        properties = new MaintainerProperties("", "timeLimit", 1, "36H");
+        given(configurationAccess.getProperties()).willReturn(properties);
         // WHEN
         underTest.logParameters();
         // THEN

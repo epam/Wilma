@@ -18,15 +18,11 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.router.configuration.RouteEngineConfigurationAccess;
+import com.epam.wilma.router.configuration.domain.PropertyDTO;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -34,15 +30,17 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.router.configuration.RouteEngineConfigurationAccess;
-import com.epam.wilma.router.configuration.domain.PropertyDTO;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 /**
  * Provides unit tests for the <tt>Rerouter</tt> class.
+ *
  * @author Tunde_Kovacs
  */
 public class RouterTest {
@@ -66,7 +64,7 @@ public class RouterTest {
     @InjectMocks
     private Router underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = Mockito.spy(new Router());
         MockitoAnnotations.initMocks(this);

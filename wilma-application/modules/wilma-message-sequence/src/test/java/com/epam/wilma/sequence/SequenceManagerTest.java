@@ -18,49 +18,45 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.slf4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
-import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
 import com.epam.wilma.domain.sequence.WilmaSequence;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
 import com.epam.wilma.router.helper.WilmaHttpResponseCloner;
 import com.epam.wilma.sequence.cleaner.SequenceCleaner;
 import com.epam.wilma.sequence.handler.exception.SequenceHandlerKeyValidationException;
 import com.epam.wilma.sequence.helper.SequenceHeaderUtil;
 import com.epam.wilma.sequence.helper.SequenceIdUtil;
 import com.epam.wilma.sequence.service.SequenceService;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.slf4j.Logger;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 /**
  * Provides unit tests for the class {@link SequenceManager}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class SequenceManagerTest {
 
+    private final boolean isVolatile = false;
     private WilmaHttpRequest request;
     private WilmaHttpResponse response;
-    private final boolean isVolatile = false;
-
     @Mock
     private SequenceService sequenceService;
     @Mock
@@ -83,7 +79,7 @@ public class SequenceManagerTest {
     @InjectMocks
     private SequenceManager underTest;
 
-    @BeforeMethod
+    @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         given(responseCloner.cloneResponse(Mockito.any(WilmaHttpResponse.class))).willReturn(clonedResponse);

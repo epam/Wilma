@@ -23,11 +23,11 @@ import static org.mockito.Mockito.verify;
 
 import java.util.concurrent.ExecutorService;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import com.epam.wilma.message.search.web.WebAppServer;
 
@@ -45,7 +45,7 @@ public class WebAppStopperTest {
 
     private WebAppStopper underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         underTest = new WebAppStopper(webAppServer, executorService);

@@ -18,28 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
-import static org.testng.AssertJUnit.assertNotNull;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.mockito.Answers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.common.helper.StackTraceToStringConverter;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
@@ -51,11 +29,26 @@ import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.router.evaluation.helper.DialogDescriptorService;
 import com.epam.wilma.router.helper.ResponseDescriptorDtoFactory;
 import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.*;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link StubDescriptorEvaluator}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class StubDescriptorEvaluatorTest {
 
@@ -100,7 +93,7 @@ public class StubDescriptorEvaluatorTest {
     @InjectMocks
     private StubDescriptorEvaluator underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         dialogDescriptors = new ArrayList<>();

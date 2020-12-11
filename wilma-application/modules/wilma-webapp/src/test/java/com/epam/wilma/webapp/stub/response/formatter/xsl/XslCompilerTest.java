@@ -18,32 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.InputStream;
-
-import javax.xml.transform.stream.StreamSource;
-
+import com.epam.wilma.common.saxon.helper.SaxonCompilerErrorListener;
+import com.epam.wilma.common.stream.helper.StreamSourceFactory;
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.common.saxon.helper.SaxonCompilerErrorListener;
-import com.epam.wilma.common.stream.helper.StreamSourceFactory;
+import javax.xml.transform.stream.StreamSource;
+import java.io.InputStream;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link XslCompiler}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class XslCompilerTest {
 
@@ -65,7 +62,7 @@ public class XslCompilerTest {
     @InjectMocks
     private XslCompiler underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

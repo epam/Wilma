@@ -18,35 +18,34 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-
-import java.io.File;
-import java.io.FileFilter;
-import java.nio.file.Path;
-
+import com.epam.wilma.common.helper.LogFilePathProvider;
+import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
+import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
+import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
+import com.epam.wilma.maintainer.domain.DeletedFileProvider;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.LogFilePathProvider;
-import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
-import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
-import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
-import com.epam.wilma.maintainer.domain.DeletedFileProvider;
+import java.io.File;
+import java.io.FileFilter;
+import java.nio.file.Path;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test class for {@link FileLimitMaintainerTask}.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class FileLimitMaintainerTaskTest {
 
@@ -69,7 +68,7 @@ public class FileLimitMaintainerTaskTest {
     @Mock
     private JmsIndexDeletionProcessor indexDeletionProcessor;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(configurationAccess.getProperties()).willReturn(properties);
@@ -144,6 +143,9 @@ public class FileLimitMaintainerTaskTest {
         // GIVEN
         Whitebox.setInternalState(underTest, "fileLimit", null);
         given(properties.getFileLimit()).willReturn(0);
+        DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
+        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
+
         File file1 = mock(File.class);
         File[] messageFiles = new File[1];
         messageFiles[0] = file1;

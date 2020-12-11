@@ -18,33 +18,32 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
+import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
+import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.stubconfig.condition.checker.general.header.HeaderParameterChecker;
+import com.epam.wilma.stubconfig.condition.checker.json.JsonSchemaChecker;
+import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
-import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
-import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
-import com.epam.wilma.stubconfig.condition.checker.general.header.HeaderParameterChecker;
-import com.epam.wilma.stubconfig.condition.checker.json.JsonSchemaChecker;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link ConditionCheckerInitializer}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class ConditionCheckerInitializerTest {
 
@@ -64,7 +63,7 @@ public class ConditionCheckerInitializerTest {
     @InjectMocks
     private ConditionCheckerInitializer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = Mockito.spy(new ConditionCheckerInitializer());
         MockitoAnnotations.initMocks(this);
@@ -131,7 +130,7 @@ public class ConditionCheckerInitializerTest {
         assertEquals(actual.getClass(), conditionChecker.getClass());
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testGetConditionCheckerWhenItDoesNotExistShouldThrowException() {
         //GIVEN
         given(stubResourcePathProvider.getConditionCheckerPathAsString()).willReturn(PATH);

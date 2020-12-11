@@ -18,32 +18,31 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
+import com.epam.wilma.message.search.engine.properties.helper.PropertiesFactory;
+import com.epam.wilma.message.search.engine.properties.helper.PropertiesNotAvailableException;
+import com.epam.wilma.message.search.lucene.index.helper.FileInputStreamFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.message.search.engine.properties.helper.PropertiesFactory;
-import com.epam.wilma.message.search.engine.properties.helper.PropertiesNotAvailableException;
-import com.epam.wilma.message.search.lucene.index.helper.FileInputStreamFactory;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the clasd {@link PropertyLoader}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class PropertyLoaderTest {
 
@@ -64,7 +63,7 @@ public class PropertyLoaderTest {
     @InjectMocks
     private PropertyLoader underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         underTest = Mockito.spy(new PropertyLoader());
         MockitoAnnotations.initMocks(this);
@@ -73,7 +72,7 @@ public class PropertyLoaderTest {
         Whitebox.setInternalState(underTest, "configFile", configFile);
     }
 
-    @Test(expectedExceptions = PropertiesNotAvailableException.class)
+    @Test(expected = PropertiesNotAvailableException.class)
     public void testLoadPropertiesWhenProgramArgumentEmptyShouldThrowException() {
         //GIVEN
         Whitebox.setInternalState(underTest, "configFile", "");
@@ -82,7 +81,7 @@ public class PropertyLoaderTest {
         //THEN excpetion should be thrown
     }
 
-    @Test(expectedExceptions = PropertiesNotAvailableException.class)
+    @Test(expected = PropertiesNotAvailableException.class)
     public void testLoadPropertiesWhenProgramArgumentInvalidShouldThrowException() {
         //GIVEN
         Whitebox.setInternalState(underTest, "configFile", "wilma.conf.prop");
@@ -109,7 +108,7 @@ public class PropertyLoaderTest {
         verify(propertyReader).setProperties(properties);
     }
 
-    @Test(expectedExceptions = PropertiesNotAvailableException.class)
+    @Test(expected = PropertiesNotAvailableException.class)
     public void testLoadPropertiesWhenFileNotFoundShouldThrowException() throws Exception {
         //GIVEN
         given(inputStreamFactory.createFileInputStream(configFile)).willThrow(new FileNotFoundException());
@@ -119,7 +118,7 @@ public class PropertyLoaderTest {
 
     }
 
-    @Test(expectedExceptions = PropertiesNotAvailableException.class)
+    @Test(expected = PropertiesNotAvailableException.class)
     public void testLoadPropertiesWhenIOExcpetionShouldThrowException() throws Exception {
         //GIVEN
         willThrow(new IOException()).given(properties).load(inputStream);
@@ -137,7 +136,7 @@ public class PropertyLoaderTest {
         assertEquals(actual.getProperty("webapp.port"), "8080");
     }
 
-    @Test(expectedExceptions = PropertiesNotAvailableException.class)
+    @Test(expected = PropertiesNotAvailableException.class)
     public void testLoadPropertiesShouldThrowExceptionWhenPropertiesNotFound() {
         //GIVEN in setUp
         //WHEN

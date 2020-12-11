@@ -18,42 +18,41 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.validation.Schema;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.w3c.dom.Document;
-
 import com.epam.wilma.domain.stubconfig.StubConfigSchema;
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
+import com.epam.wilma.domain.stubconfig.exception.DocumentBuilderException;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.dom.builder.XmlDocumentBuilder;
 import com.epam.wilma.stubconfig.dom.parser.StubDescriptorParser;
 import com.epam.wilma.stubconfig.dom.parser.StubResourceHolderUpdater;
 import com.epam.wilma.stubconfig.dom.validator.StubDescriptorValidator;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
-import com.epam.wilma.domain.stubconfig.exception.DocumentBuilderException;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.w3c.dom.Document;
+
+import javax.xml.validation.Schema;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link DomBasedStubDescriptorFactory}.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class DomBasedStubDescriptorFactoryTest {
 
+    private final List<StubDescriptorValidator> descriptorValidators = new ArrayList<>();
     @InjectMocks
     private DomBasedStubDescriptorFactory underTest;
     @Mock
@@ -78,15 +77,12 @@ public class DomBasedStubDescriptorFactoryTest {
     private StubConfigurationAccess configurationAccess;
     @Mock
     private StubConfigSchema stubConfigSchema;
-
-    private final List<StubDescriptorValidator> descriptorValidators = new ArrayList<>();
-
     @Mock
     private Schema schema;
 
     private StubDescriptorAttributes attributes;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         descriptorValidators.add(stubDescriptorValidator1);
@@ -110,7 +106,7 @@ public class DomBasedStubDescriptorFactoryTest {
         assertEquals(actual, stubDescriptor);
     }
 
-    @Test(expectedExceptions = DescriptorCannotBeParsedException.class)
+    @Test(expected = DescriptorCannotBeParsedException.class)
     public final void testBuildStubDescriptorShouldThrowExceptionWhenDocumentBuildingFails() throws Exception {
         //GIVEN
         given(xmlDocumentBuilder.buildDocument(inputStream, schema)).willThrow(documentBuilderException);

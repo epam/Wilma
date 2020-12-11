@@ -18,27 +18,26 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-
-import java.io.ByteArrayInputStream;
-
+import com.epam.wilma.compression.base64.Base64Decoder;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpEntity;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.compression.base64.Base64Decoder;
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpEntity;
+import java.io.ByteArrayInputStream;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link Base64DecoderProcessor}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class Base64DecoderProcessorTest {
 
@@ -56,7 +55,7 @@ public class Base64DecoderProcessorTest {
     @InjectMocks
     private Base64DecoderProcessor underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(entity.getBody()).willReturn(BODY);

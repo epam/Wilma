@@ -18,20 +18,17 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
+import com.epam.wilma.message.search.domain.exception.SystemException;
+import com.epam.wilma.message.search.lucene.helper.TermFactory;
+import com.epam.wilma.message.search.lucene.index.helper.BufferedReaderFactory;
+import com.epam.wilma.message.search.lucene.index.helper.DocumentFactory;
+import com.epam.wilma.message.search.lucene.index.helper.FileInputStreamFactory;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -39,19 +36,21 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.domain.exception.SystemException;
-import com.epam.wilma.message.search.lucene.helper.TermFactory;
-import com.epam.wilma.message.search.lucene.index.helper.BufferedReaderFactory;
-import com.epam.wilma.message.search.lucene.index.helper.DocumentFactory;
-import com.epam.wilma.message.search.lucene.index.helper.FileInputStreamFactory;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link FileIndexer}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class FileIndexerTest {
 
@@ -81,7 +80,7 @@ public class FileIndexerTest {
     @InjectMocks
     private FileIndexer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "fieldName", FIELD_NAME);
@@ -117,7 +116,7 @@ public class FileIndexerTest {
         verify(writer).updateDocument(term, document);
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testIndexFileShouldThrowExceptionWhenFileNotFound() throws IOException {
         //GIVEN
         given(fileInputStreamFactory.createFileInputStream(file)).willThrow(new FileNotFoundException());

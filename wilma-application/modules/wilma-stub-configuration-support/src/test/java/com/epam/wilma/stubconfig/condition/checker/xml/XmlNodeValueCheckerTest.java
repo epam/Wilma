@@ -18,26 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-import net.sf.saxon.s9api.SaxonApiException;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedException;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.xml.helper.XQueryExpressionEvaluator;
-import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedException;
+import net.sf.saxon.s9api.SaxonApiException;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link XmlNodeValueChecker}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 
 public class XmlNodeValueCheckerTest {
@@ -59,7 +58,7 @@ public class XmlNodeValueCheckerTest {
     @InjectMocks
     private XmlNodeValueChecker underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         parameterList = new ParameterList();
@@ -131,7 +130,7 @@ public class XmlNodeValueCheckerTest {
         assertEquals(actual, false);
     }
 
-    @Test(expectedExceptions = ConditionEvaluationFailedException.class)
+    @Test(expected = ConditionEvaluationFailedException.class)
     public void testCheckConditionWhenParameterMapIsEmptyShouldThrowException() {
         //GIVEN in setUp
         //WHEN
@@ -139,7 +138,7 @@ public class XmlNodeValueCheckerTest {
         //THEN exception should be thrown
     }
 
-    @Test(expectedExceptions = ConditionEvaluationFailedException.class)
+    @Test(expected = ConditionEvaluationFailedException.class)
     public void testCheckConditionWhenParameterHasMultipleEntriesShouldThrowException() {
         //GIVEN
         parameterList.addParameter(new Parameter(ELEMENT, "178"));
@@ -149,7 +148,7 @@ public class XmlNodeValueCheckerTest {
         //THEN exception should be thrown
     }
 
-    @Test(expectedExceptions = ConditionEvaluationFailedException.class)
+    @Test(expected = ConditionEvaluationFailedException.class)
     public void testCheckConditionWhenErrorDuringXqueryExecutionShouldThrowException() throws SaxonApiException {
         //GIVEN in setUp
         parameterList.addParameter(new Parameter(ELEMENT, ELEMENT_VALUE));

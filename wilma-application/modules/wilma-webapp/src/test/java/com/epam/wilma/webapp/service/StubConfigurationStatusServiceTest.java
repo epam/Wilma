@@ -18,26 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.epam.wilma.router.RoutingService;
+import com.epam.wilma.webapp.service.command.ChangeStatusCommand;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.router.RoutingService;
-import com.epam.wilma.webapp.service.command.ChangeStatusCommand;
+import javax.servlet.http.HttpServletRequest;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link StubConfigurationStatusService}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class StubConfigurationStatusServiceTest {
 
@@ -51,7 +50,7 @@ public class StubConfigurationStatusServiceTest {
     @InjectMocks
     private StubConfigurationStatusService underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

@@ -18,31 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
-
-import java.io.InputStream;
-
-import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
+import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.mitmProxy.transformer.HttpRequestTransformer;
 import com.epam.wilma.mitmProxy.transformer.MitmProxyRequestUpdater;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpRequest;
+import java.io.InputStream;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test class for LoggingRequestInterceptor.
+ *
  * @author Marton_Sereg
  * @author Tamas_Bihari
  * @author Tunde_Kovacs
@@ -69,7 +67,7 @@ public class MitmProxyRequestInterceptorTest {
     @InjectMocks
     private MitmProxyRequestInterceptor underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);

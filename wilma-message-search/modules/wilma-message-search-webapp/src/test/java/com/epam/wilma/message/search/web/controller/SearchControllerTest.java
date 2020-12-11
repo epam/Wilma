@@ -19,39 +19,37 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.epam.wilma.message.search.domain.IndexStatus;
+import com.epam.wilma.message.search.domain.exception.QueryCannotBeParsedException;
+import com.epam.wilma.message.search.lucene.LuceneEngine;
+import com.epam.wilma.message.search.web.support.FileChecker;
+import com.epam.wilma.message.search.web.support.FileZipper;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.domain.IndexStatus;
-import com.epam.wilma.message.search.domain.exception.QueryCannotBeParsedException;
-import com.epam.wilma.message.search.lucene.LuceneEngine;
-import com.epam.wilma.message.search.web.support.FileChecker;
-import com.epam.wilma.message.search.web.support.FileZipper;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link SearchController}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class SearchControllerTest {
 
@@ -78,7 +76,7 @@ public class SearchControllerTest {
     @InjectMocks
     private SearchController underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
         lucineResult = new ArrayList<>();

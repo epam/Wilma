@@ -18,26 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.doReturn;
-
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
+import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.parameter.Parameter;
+import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
-import com.epam.wilma.domain.stubconfig.parameter.Parameter;
-import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedException;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.doReturn;
 
 /**
  * Provides unit tests for the class {@link CustomXQueryCheckerValidator}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class CustomXQueryCheckerValidatorTest {
 
@@ -50,7 +49,7 @@ public class CustomXQueryCheckerValidatorTest {
 
     private CustomXQueryCheckerValidator underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         underTest = Mockito.spy(new CustomXQueryCheckerValidator());
@@ -67,7 +66,7 @@ public class CustomXQueryCheckerValidatorTest {
         //THEN it should not throw exception
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testValidateWhenXQueryIsSyntacticallyIncorrectShouldThrowException() {
         //GIVEN
         parameterList.addParameter(new Parameter("check", "invalid xquery"));

@@ -18,30 +18,28 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.validation.Schema;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.stubconfig.StubConfigSchema;
 import com.epam.wilma.engine.configuration.EngineConfigurationAccess;
 import com.epam.wilma.engine.configuration.domain.PropertyDTO;
 import com.epam.wilma.stubconfig.cache.cleaner.helper.StubConfigPathProvider;
 import com.epam.wilma.stubconfig.dom.parser.xsd.StubConfigSchemaParser;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import javax.xml.validation.Schema;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link FileBasedStubConfigReader}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class FileBasedStubConfigReaderTest {
 
@@ -68,7 +66,7 @@ public class FileBasedStubConfigReaderTest {
     @InjectMocks
     private FileBasedStubConfigReader underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         filePaths = new ArrayList<>();

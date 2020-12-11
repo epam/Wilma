@@ -22,12 +22,12 @@ import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.sequence.RequestResponsePair;
 import com.epam.wilma.domain.sequence.WilmaSequence;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.sql.Timestamp;
 
@@ -35,8 +35,8 @@ import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link SequenceFactory}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class SequenceFactoryTest {
 
@@ -48,7 +48,7 @@ public class SequenceFactoryTest {
     @InjectMocks
     private SequenceFactory underTest;
 
-    @BeforeMethod
+    @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         given(dateProvider.getCurrentTimeInMillis()).willReturn(1000L);

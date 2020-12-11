@@ -18,23 +18,22 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.common.helper.OperationMode;
 import com.epam.wilma.properties.PropertyHolder;
 import com.epam.wilma.router.configuration.domain.PropertyDTO;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for the class {@link RouteEngineConfigurationAccess}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class RouteEngineConfigurationAccessTest {
 
@@ -46,7 +45,7 @@ public class RouteEngineConfigurationAccessTest {
     @InjectMocks
     private RouteEngineConfigurationAccess underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(propertyHolder.getInt("internal.wilma.port")).willReturn(port);

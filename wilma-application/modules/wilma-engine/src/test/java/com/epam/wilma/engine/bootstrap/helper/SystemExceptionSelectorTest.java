@@ -18,25 +18,24 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.exception.SystemException;
+import com.epam.wilma.properties.InvalidPropertyException;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.BeanCreationException;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.exception.SystemException;
-import com.epam.wilma.properties.InvalidPropertyException;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Class for testing {@link SystemExceptionSelector}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class SystemExceptionSelectorTest {
     private SystemExceptionSelector underTest;
@@ -49,7 +48,7 @@ public class SystemExceptionSelectorTest {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private BeanCreationException beanCreationException;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         underTest = new SystemExceptionSelector();

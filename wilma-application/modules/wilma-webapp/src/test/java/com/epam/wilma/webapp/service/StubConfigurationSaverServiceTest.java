@@ -23,11 +23,11 @@ import com.epam.wilma.domain.stubconfig.exception.JsonTransformationException;
 import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.stubconfig.cache.cleaner.CacheCleaner;
 import com.epam.wilma.stubconfig.cache.saver.StubConfigurationSaver;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +53,7 @@ public class StubConfigurationSaverServiceTest {
 
     private Map<String, StubDescriptor> descriptors = new HashMap<>();
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(routingService.getStubDescriptors()).willReturn(descriptors);

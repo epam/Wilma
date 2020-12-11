@@ -18,24 +18,24 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
+import org.apache.commons.fileupload.FileItem;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.fileupload.FileItem;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for {@link MultiPartFileParser} class.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class MultiPartFileParserTest {
 
@@ -49,7 +49,7 @@ public class MultiPartFileParserTest {
     private MultiPartFileParser underTest;
     private List<FileItem> uploadedFiles;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         underTest = new MultiPartFileParser(multiPartFileProcessor);
@@ -94,7 +94,7 @@ public class MultiPartFileParserTest {
         assertEquals(actual, "processing result message");
     }
 
-    @Test(expectedExceptions = IOException.class)
+    @Test(expected = IOException.class)
     public void testParseMultiPartFilesShouldThrowExceptionWhenFileCanNotBeParsed() throws IOException {
         //GIVEN
         given(fileItem.isFormField()).willReturn(false);

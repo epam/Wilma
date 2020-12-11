@@ -18,15 +18,13 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.testng.Assert.assertEquals;
-
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import org.junit.Before;
+import org.junit.Test;
 
 import javax.servlet.http.HttpServletResponse;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit test for {@code JsonResponseFormatter}.
@@ -41,18 +39,18 @@ public class JsonResponseFormatterTest {
 
     private HttpServletResponse response;
 
-    @BeforeMethod
+    @Before
     public void setup() {
         underTest = new JsonResponseFormatter();
     }
 
-    @DataProvider(name = "messages")
-    public Object[][] validDataProvider() {
-        return new Object[][]{{refundRequest(), refundTemplate(), refundExpectedResponse()}, {gotRequest(), gotTemplate(), gotExpectedResponse()}};
-    }
+//        return new Object[][]{{refundRequest(), refundTemplate(), refundExpectedResponse()}, {gotRequest(), gotTemplate(), gotExpectedResponse()}};
+    @Test
+    public void testFormatTemplate() throws Exception {
+        String request = refundRequest();
+        String template = refundTemplate();
+        String expected = refundExpectedResponse();
 
-    @Test(dataProvider = "messages")
-    public void testFormatTemplate(String request, String template, String expected) throws Exception {
         givenWilmaRequestWithBody(request);
 
         byte[] formattedResponse = underTest.formatResponse(wilmaRequest, response, template.getBytes(), null);

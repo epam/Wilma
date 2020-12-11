@@ -18,35 +18,34 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-
-import javax.servlet.http.HttpServlet;
-
+import com.epam.wilma.domain.exception.SystemException;
+import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
+import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
+import com.epam.wilma.webapp.configuration.domain.ServerProperties;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.exception.SystemException;
-import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
-import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
-import com.epam.wilma.webapp.configuration.domain.ServerProperties;
+import javax.servlet.http.HttpServlet;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the {@link JettyServer} class.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class JettyServerTest {
 
@@ -75,7 +74,7 @@ public class JettyServerTest {
     @Mock
     private ServerProperties serverProperties;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = spy(new JettyServer());
         MockitoAnnotations.initMocks(this);
@@ -110,7 +109,7 @@ public class JettyServerTest {
         verify(jettyServer).setHandler((Handler) Mockito.anyObject());
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testStartWhenStartJettyServerThrowsExceptionShouldThrowSystemException() {
         //GIVEN
         String exceptionMessage = "exception";

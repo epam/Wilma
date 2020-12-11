@@ -18,21 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-
+import com.epam.wilma.common.helper.CurrentDateProvider;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.common.helper.CurrentDateProvider;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Tests for {@link ExpirationTimeProvider}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class ExpirationTimeProviderTest {
     @Mock
@@ -41,7 +40,7 @@ public class ExpirationTimeProviderTest {
     @InjectMocks
     private ExpirationTimeProvider underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(currentDateProvider.getCurrentTimeInMillis()).willReturn(10000000L);

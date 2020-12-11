@@ -18,31 +18,30 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
+import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.domain.stubconfig.interceptor.MockRequestInterceptor;
+import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
+import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
-import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
-import com.epam.wilma.domain.stubconfig.interceptor.MockRequestInterceptor;
-import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for the class {@link RequestInterceptorInitializer}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class RequestInterceptorInitializerTest {
 
@@ -62,7 +61,7 @@ public class RequestInterceptorInitializerTest {
     @InjectMocks
     private RequestInterceptorInitializer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         requestInterceptors = new ArrayList<>();
@@ -140,7 +139,7 @@ public class RequestInterceptorInitializerTest {
         assertEquals(actual, null);
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testRequestInterceptorWhenItDoesNotExistShouldThrowException() {
         //GIVEN
         given(stubResourcePathProvider.getInterceptorPathAsString()).willReturn(PATH);

@@ -18,23 +18,22 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertFalse;
-
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.junit.Assert.assertFalse;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Test class for {@link AndUrlPatternChecker}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class AndUrlPatternCheckerTest {
 
@@ -44,7 +43,7 @@ public class AndUrlPatternCheckerTest {
     private ParameterList paramList;
     private AndUrlPatternChecker underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         underTest = new AndUrlPatternChecker();

@@ -26,18 +26,18 @@ import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
 import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
 import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
 import com.epam.wilma.webapp.service.external.ServiceMap;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.io.InputStream;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
 
 /**
  * Tests for {@link MultiPartFileProcessor}.
@@ -69,7 +69,7 @@ public class MultiPartFileProcessorTest {
     @InjectMocks
     private MultiPartFileProcessor underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -84,7 +84,7 @@ public class MultiPartFileProcessorTest {
         assertEquals(actual, "New stub configuration was uploaded to Wilma.");
     }
 
-    @Test(expectedExceptions = CannotUploadExternalResourceException.class)
+    @Test(expected = CannotUploadExternalResourceException.class)
     public void testProcessUploadedFileShouldThrowExceptionWhenUploadedStubConfigContentTypeIsWrong() {
         //GIVEN in setUp
         //WHEN
@@ -103,7 +103,7 @@ public class MultiPartFileProcessorTest {
         assertEquals(actual, "External condition checker class '" + FILE_PATH + "' was uploaded to Wilma.");
     }
 
-    @Test(expectedExceptions = CannotUploadExternalResourceException.class)
+    @Test(expected = CannotUploadExternalResourceException.class)
     public void testProcessUploadedFileShouldThrowExceptionWhenUploadedFileContentTypeNotJavaOrOctetStream() {
         //GIVEN in setUp
         //WHEN
@@ -122,7 +122,7 @@ public class MultiPartFileProcessorTest {
         assertEquals(actual, "External response formatter class '" + FILE_PATH + "' was uploaded to Wilma.");
     }
 
-    @Test(expectedExceptions = CannotUploadExternalResourceException.class)
+    @Test(expected = CannotUploadExternalResourceException.class)
     public void testProcessUploadedFileShouldThrowExceptionWhenUploadedResponseFormatterContentTypeNotJavaOrOctetStream() {
         //GIVEN in setUp
         //WHEN
@@ -141,7 +141,7 @@ public class MultiPartFileProcessorTest {
         assertEquals(actual, "External template '" + FILE_PATH + "' was uploaded to Wilma.");
     }
 
-    @Test(expectedExceptions = CannotUploadExternalResourceException.class)
+    @Test(expected = CannotUploadExternalResourceException.class)
     public void testProcessUploadedFileShouldReturnWhenUploadedingFileFromUnknownInputField() {
         //GIVEN in setUp
         //WHEN

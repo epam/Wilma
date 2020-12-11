@@ -26,14 +26,14 @@ import com.epam.wilma.safeguard.configuration.domain.QueueSizeProvider;
 import com.epam.wilma.safeguard.configuration.domain.SafeguardLimits;
 import com.epam.wilma.safeguard.monitor.helper.JmxConnectionBuilder;
 import com.epam.wilma.safeguard.monitor.helper.JmxObjectNameProvider;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.MBeanServerConnection;
@@ -77,7 +77,7 @@ public class JmsQueueMonitorTaskTest {
     @Mock
     private QueueSizeProvider queueSizeProvider;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
@@ -193,7 +193,7 @@ public class JmsQueueMonitorTaskTest {
         verify(logger).info("Due to Normal load, FI decompression is restored.");
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public final void testRunShouldThrowExceptionWhenQueueSizeCannotBeRetrieved() throws Exception {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
@@ -207,7 +207,7 @@ public class JmsQueueMonitorTaskTest {
         // THEN exception is thrown
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public final void testRunShouldThrowExceptionWhenMemoryUsageCannotBeRetrieved() throws Exception {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);

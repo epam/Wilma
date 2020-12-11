@@ -25,12 +25,12 @@ import com.epam.wilma.proxy.helper.WilmaResponseFactory;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
@@ -38,8 +38,8 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the <tt>HttpResponseTransformer</tt> class.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class HttpResponseTransformerTest {
 
@@ -63,7 +63,7 @@ public class HttpResponseTransformerTest {
     @InjectMocks
     private HttpResponseTransformer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(responseFactory.createNewWilmaHttpResponse(false)).willReturn(response);

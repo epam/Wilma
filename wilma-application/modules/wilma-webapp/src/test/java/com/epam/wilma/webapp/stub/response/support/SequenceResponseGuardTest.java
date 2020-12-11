@@ -25,11 +25,11 @@ import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 import com.epam.wilma.webapp.configuration.domain.SequenceResponseGuardProperties;
 import com.epam.wilma.webapp.stub.response.exception.ResponseTimeoutException;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -37,6 +37,7 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link SequenceResponseGuard}.
+ *
  * @author Adam_Csaba_Kiraly
  */
 public class SequenceResponseGuardTest {
@@ -56,7 +57,7 @@ public class SequenceResponseGuardTest {
     @InjectMocks
     private SequenceResponseGuard underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         SequenceResponseGuardProperties properties = new SequenceResponseGuardProperties(3, 1);
         MockitoAnnotations.initMocks(this);
@@ -65,7 +66,7 @@ public class SequenceResponseGuardTest {
         given(propertyDto.getSequenceResponseGuardProperties()).willReturn(properties);
     }
 
-    @Test(expectedExceptions = ResponseTimeoutException.class)
+    @Test(expected = ResponseTimeoutException.class)
     public void testWhenResponsesCannotArriveInTimeThenExceptionIsThrown() throws InterruptedException {
         //GIVEN
         given(actualSequence.checkIfAllResponsesArrived(LOGGER_ID)).willReturn(false);

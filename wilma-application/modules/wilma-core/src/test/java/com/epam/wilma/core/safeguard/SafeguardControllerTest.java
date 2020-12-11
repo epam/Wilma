@@ -18,21 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.verify;
-
+import com.epam.wilma.core.processor.response.jms.ResponseQueueListener;
 import com.epam.wilma.logger.request.jms.JmsRequestLogger;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.core.processor.response.jms.ResponseQueueListener;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link SafeguardController}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class SafeguardControllerTest {
 
@@ -44,7 +43,7 @@ public class SafeguardControllerTest {
     @InjectMocks
     private SafeguardController underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

@@ -19,27 +19,26 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.verify;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.common.configuration.ConfigurationAccessBase;
 import com.epam.wilma.engine.configuration.parser.WilmaAdminHostsFileParser;
 import com.epam.wilma.engine.properties.PropertyLoader;
 import com.epam.wilma.engine.properties.validation.PropertyValidator;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link ConfigurationInitializer}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class ConfigurationInitializerTest {
 
@@ -57,7 +56,7 @@ public class ConfigurationInitializerTest {
     @InjectMocks
     private ConfigurationInitializer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "configurationAccesses", new ArrayList<ConfigurationAccessBase>());

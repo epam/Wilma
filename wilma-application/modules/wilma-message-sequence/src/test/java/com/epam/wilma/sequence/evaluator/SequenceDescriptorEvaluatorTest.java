@@ -18,19 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.condition.Condition;
@@ -40,11 +27,23 @@ import com.epam.wilma.router.evaluation.ConditionEvaluator;
 import com.epam.wilma.router.evaluation.helper.DialogDescriptorService;
 import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
 import com.epam.wilma.sequence.helper.SequenceDescriptorKeyUtil;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link SequenceDescriptorEvaluator}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class SequenceDescriptorEvaluatorTest {
 
@@ -74,7 +73,7 @@ public class SequenceDescriptorEvaluatorTest {
     @InjectMocks
     private SequenceDescriptorEvaluator underTest;
 
-    @BeforeMethod
+    @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         given(requestCloner.cloneRequest(request)).willReturn(clonedRequest);

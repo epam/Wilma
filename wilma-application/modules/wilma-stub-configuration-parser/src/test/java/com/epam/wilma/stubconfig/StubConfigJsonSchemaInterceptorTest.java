@@ -18,13 +18,13 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for ensuring the proper content of the Stub Config Json Schema.
@@ -33,7 +33,7 @@ import static org.testng.Assert.assertTrue;
  */
 public class StubConfigJsonSchemaInterceptorTest extends StubConfigJsonSchemaTestBase {
 
-    @BeforeClass
+    @Before
     public void setup() {
         setTestFilePath("schema/interceptors/");
         loadStubConfigJsonSchemaTest();

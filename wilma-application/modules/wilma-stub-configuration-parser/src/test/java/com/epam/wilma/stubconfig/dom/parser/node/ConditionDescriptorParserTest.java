@@ -18,25 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import com.epam.wilma.domain.stubconfig.dialog.condition.CompositeCondition;
 import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionType;
@@ -48,11 +29,28 @@ import com.epam.wilma.stubconfig.dom.parser.node.helper.CustomXQueryCheckerValid
 import com.epam.wilma.stubconfig.dom.parser.node.helper.SimpleConditionParser;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
 import com.epam.wilma.stubconfig.initializer.condition.ConditionCheckerInitializer;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Tests for {@link ConditionDescriptorParser}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class ConditionDescriptorParserTest {
     private static final String TAGNAME_CONDITION_SET = "condition-set";
@@ -95,7 +93,7 @@ public class ConditionDescriptorParserTest {
     @InjectMocks
     private ConditionDescriptorParser underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         simpleConditionParser = new SimpleConditionParser();
@@ -175,7 +173,7 @@ public class ConditionDescriptorParserTest {
         ConditionDescriptor actual = underTest.parseNode(node, document);
         //THEN
         SimpleCondition actCondition = (SimpleCondition) actual.getCondition();
-        Assert.assertEquals(actCondition.getConditionChecker(), conditionChecker);
+        assertEquals(actCondition.getConditionChecker(), conditionChecker);
     }
 
     @Test
@@ -196,7 +194,7 @@ public class ConditionDescriptorParserTest {
         ConditionDescriptor actual = underTest.parseNode(node, document);
         //THEN
         SimpleCondition actCondition = (SimpleCondition) actual.getCondition();
-        Assert.assertEquals(actCondition.getParameters().getAllParameters().get(0).getValue(), CLASS_NAME);
+        assertEquals(actCondition.getParameters().getAllParameters().get(0).getValue(), CLASS_NAME);
     }
 
     @Test
@@ -216,7 +214,7 @@ public class ConditionDescriptorParserTest {
         ConditionDescriptor actual = underTest.parseNode(node, document);
         //THEN
         SimpleCondition actCondition = (SimpleCondition) actual.getCondition();
-        Assert.assertEquals(actCondition.getParameters().getAllParameters().size(), 0);
+        assertEquals(actCondition.getParameters().getAllParameters().size(), 0);
     }
 
     @Test
@@ -232,7 +230,7 @@ public class ConditionDescriptorParserTest {
         ConditionDescriptor actual = underTest.parseNode(node, document);
         //THEN
         CompositeCondition actCondition = (CompositeCondition) actual.getCondition();
-        Assert.assertEquals(actCondition.getConditionType(), ConditionType.AND);
+        assertEquals(actCondition.getConditionType(), ConditionType.AND);
     }
 
     @Test
@@ -248,7 +246,7 @@ public class ConditionDescriptorParserTest {
         ConditionDescriptor actual = underTest.parseNode(node, document);
         //THEN
         CompositeCondition actCondition = (CompositeCondition) actual.getCondition();
-        Assert.assertEquals(actCondition.getConditionType(), ConditionType.OR);
+        assertEquals(actCondition.getConditionType(), ConditionType.OR);
     }
 
     @Test
@@ -264,7 +262,7 @@ public class ConditionDescriptorParserTest {
         ConditionDescriptor actual = underTest.parseNode(node, document);
         //THEN
         CompositeCondition actCondition = (CompositeCondition) actual.getCondition();
-        Assert.assertEquals(actCondition.getConditionType(), ConditionType.NOT);
+        assertEquals(actCondition.getConditionType(), ConditionType.NOT);
     }
 
     @Test

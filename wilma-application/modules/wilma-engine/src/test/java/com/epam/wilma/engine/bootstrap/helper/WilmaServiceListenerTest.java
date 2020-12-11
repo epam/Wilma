@@ -19,28 +19,24 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import org.mockito.Answers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.common.helper.VersionTitleProvider;
 import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.engine.configuration.EngineConfigurationAccess;
 import com.epam.wilma.engine.configuration.domain.PropertyDTO;
 import com.google.common.util.concurrent.Service.State;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.*;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.slf4j.Logger;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link WilmaServiceListenerTest}.
+ *
  * @author Adam_Csaba_Kiraly
  */
 public class WilmaServiceListenerTest {
@@ -64,7 +60,7 @@ public class WilmaServiceListenerTest {
     @Mock
     private PropertyDTO properties;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);

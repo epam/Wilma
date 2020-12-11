@@ -18,11 +18,17 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import com.epam.wilma.common.helper.FileFactory;
+import com.epam.wilma.webapp.config.servlet.helper.InputStreamUtil;
+import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
+import com.epam.wilma.webapp.stub.servlet.helper.ByteArrayInputStreamFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Answers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -31,23 +37,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.mockito.Answers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.common.helper.FileFactory;
-import com.epam.wilma.webapp.config.servlet.helper.InputStreamUtil;
-import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
-import com.epam.wilma.webapp.stub.servlet.helper.ByteArrayInputStreamFactory;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link FileWriter}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class FileWriterTest {
 
@@ -80,7 +79,7 @@ public class FileWriterTest {
     @InjectMocks
     private FileWriter underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
         given(fileFactory.createFile(FILE_NAME)).willReturn(file);
@@ -144,7 +143,7 @@ public class FileWriterTest {
         verify(fileFactory.createFile(Mockito.anyString()), never()).mkdirs();
     }
 
-    @Test(expectedExceptions = CannotUploadExternalResourceException.class)
+    @Test(expected = CannotUploadExternalResourceException.class)
     public void testWriteWhenCannotWriteShouldThrowException() throws IOException {
         //GIVEN
         given(file.getParent()).willReturn(DIRECTORIES);
@@ -200,7 +199,7 @@ public class FileWriterTest {
         verify(file).exists();
     }
 
-    @Test(expectedExceptions = CannotUploadExternalResourceException.class)
+    @Test(expected = CannotUploadExternalResourceException.class)
     public void testWriteWhenFileIsAnInvalidJarFile() throws IOException {
         //GIVEN
         String fileName = "myjar.jar";
@@ -213,7 +212,7 @@ public class FileWriterTest {
         //THEN error is thrown
     }
 
-    @Test(expectedExceptions = CannotUploadExternalResourceException.class)
+    @Test(expected = CannotUploadExternalResourceException.class)
     public void testWriteWhenFileIsAClassFileShouldThrowCannotUploadExternalResourceExceptionWhenTransformingFails() throws IOException {
         //GIVEN
         String fileName = "MyClass.class";

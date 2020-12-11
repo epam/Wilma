@@ -19,26 +19,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import com.epam.wilma.domain.stubconfig.exception.RegularExpressionEvaluationException;
+import com.epam.wilma.stubconfig.condition.checker.general.operator.helper.RegExpPatternFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.stubconfig.condition.checker.general.operator.helper.RegExpPatternFactory;
-import com.epam.wilma.domain.stubconfig.exception.RegularExpressionEvaluationException;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Tests for {@link RegExpConditionCheckerOperator}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class RegExpConditionCheckerOperatorTest {
 
@@ -50,7 +49,7 @@ public class RegExpConditionCheckerOperatorTest {
     @InjectMocks
     private RegExpConditionCheckerOperator underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -64,7 +63,7 @@ public class RegExpConditionCheckerOperatorTest {
         assertFalse(actual);
     }
 
-    @Test(expectedExceptions = RegularExpressionEvaluationException.class)
+    @Test(expected = RegularExpressionEvaluationException.class)
     public void testCheckTargetShouldThrowExceptionWhenRegExpCompilationFailed() {
         //GIVEN
         given(patternFactory.createPattern(EX_REG_EXP)).willThrow(new PatternSyntaxException("", "", 0));

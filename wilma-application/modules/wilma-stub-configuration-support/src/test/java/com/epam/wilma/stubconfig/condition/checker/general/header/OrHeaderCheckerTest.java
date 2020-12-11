@@ -18,30 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.stubconfig.parameter.Parameter;
+import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
+import com.epam.wilma.stubconfig.condition.checker.general.operator.ConditionCheckerOperator;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.stubconfig.parameter.Parameter;
-import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.stubconfig.condition.checker.general.operator.ConditionCheckerOperator;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyString;
 
 /**
  * Tests for {@link OrHeaderChecker}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class OrHeaderCheckerTest {
 
@@ -55,7 +54,7 @@ public class OrHeaderCheckerTest {
     private List<Parameter> params;
     private OrHeaderChecker underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         underTest = new OrHeaderChecker(operator);

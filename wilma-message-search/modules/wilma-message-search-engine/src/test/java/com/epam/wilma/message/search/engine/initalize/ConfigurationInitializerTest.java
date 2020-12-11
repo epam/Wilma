@@ -19,29 +19,28 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.epam.wilma.message.search.configuration.ConfigurationAccessBase;
+import com.epam.wilma.message.search.engine.bootstrap.StartUpMessageGenerator;
+import com.epam.wilma.message.search.engine.properties.PropertyLoader;
+import com.epam.wilma.message.search.lucene.index.scheduler.IndexTaskScheduler;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.springframework.context.ApplicationContext;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.configuration.ConfigurationAccessBase;
-import com.epam.wilma.message.search.engine.bootstrap.StartUpMessageGenerator;
-import com.epam.wilma.message.search.engine.properties.PropertyLoader;
-import com.epam.wilma.message.search.lucene.index.scheduler.IndexTaskScheduler;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link ConfigurationInitializer}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class ConfigurationInitializerTest {
 
@@ -62,7 +61,7 @@ public class ConfigurationInitializerTest {
     @Mock
     private IndexTaskScheduler indexTaskScheduler;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(applicationContext.getBean("indexTaskScheduler", IndexTaskScheduler.class)).willReturn(indexTaskScheduler);

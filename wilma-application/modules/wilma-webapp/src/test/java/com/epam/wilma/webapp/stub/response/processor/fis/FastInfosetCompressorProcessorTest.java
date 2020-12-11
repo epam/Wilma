@@ -18,30 +18,28 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.compression.fis.FastInfosetCompressionService;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.compression.fis.FastInfosetCompressionService;
 
 /**
  * Tests for {@link FastInfosetCompressorProcessor}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class FastInfosetCompressorProcessorTest {
     private static final String ACCEPT_VALUE_XML = "application/xml";
@@ -61,7 +59,7 @@ public class FastInfosetCompressorProcessorTest {
     @InjectMocks
     private FastInfosetCompressorProcessor underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -123,7 +121,8 @@ public class FastInfosetCompressorProcessorTest {
         byte[] actual = underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
         verify(resp).setContentType(ACCEPT_VALUE_FASTINFOSET);
-        assertEquals(actual, RESPONSE_BODY.getBytes());
+        String actualString = new String(actual);
+        assertEquals(actualString, RESPONSE_BODY);
     }
 
     @Test
@@ -137,7 +136,8 @@ public class FastInfosetCompressorProcessorTest {
         byte[] actual = underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
         verify(resp).setContentType(ACCEPT_VALUE_FASTINFOSET);
-        assertEquals(actual, RESPONSE_BODY.getBytes());
+        String actualString = new String(actual);
+        assertEquals(actualString, RESPONSE_BODY);
     }
 
 }

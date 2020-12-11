@@ -19,12 +19,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.jms.core.JmsTemplate;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.jms.JMSException;
 import javax.jms.Queue;
@@ -54,7 +54,7 @@ public class JmsRequestLoggerTest {
     @Mock
     private JmsRequestMessageCreator jmsMessageCreator;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

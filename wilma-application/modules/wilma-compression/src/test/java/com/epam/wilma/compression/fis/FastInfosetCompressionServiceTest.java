@@ -17,15 +17,23 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
-
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
+import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
+import com.epam.wilma.common.stream.helper.StreamResultFactory;
+import com.epam.wilma.compression.fis.helper.FastInfosetSourceFactory;
+import com.epam.wilma.compression.fis.helper.FastInfosetTransformerFactory;
+import com.epam.wilma.compression.fis.helper.SAXDocumentSerializerFactory;
+import com.epam.wilma.compression.fis.helper.SAXParserFactoryCreator;
+import com.epam.wilma.domain.exception.SystemException;
+import com.sun.xml.fastinfoset.sax.SAXDocumentSerializer;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.jvnet.fastinfoset.FastInfosetSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -35,30 +43,19 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 
-import org.jvnet.fastinfoset.FastInfosetSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
-
-import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
-import com.epam.wilma.common.stream.helper.StreamResultFactory;
-import com.epam.wilma.compression.fis.helper.FastInfosetSourceFactory;
-import com.epam.wilma.compression.fis.helper.FastInfosetTransformerFactory;
-import com.epam.wilma.compression.fis.helper.SAXDocumentSerializerFactory;
-import com.epam.wilma.compression.fis.helper.SAXParserFactoryCreator;
-import com.epam.wilma.domain.exception.SystemException;
-import com.sun.xml.fastinfoset.sax.SAXDocumentSerializer;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the {@link FastInfosetCompressionService} class.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class FastInfosetCompressionServiceTest {
 
@@ -92,7 +89,7 @@ public class FastInfosetCompressionServiceTest {
     @InjectMocks
     private FastInfosetCompressionService underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = Mockito.spy(new FastInfosetCompressionService());
         MockitoAnnotations.initMocks(this);
@@ -131,7 +128,7 @@ public class FastInfosetCompressionServiceTest {
         Assert.assertEquals(actual, baos);
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testCompressShouldThrowSystemExceptionWhenParserConfigExceptionIsCatched() throws ParserConfigurationException, SAXException {
         //GIVEN
         given(saxParserFactory.newSAXParser()).willThrow(new ParserConfigurationException());
@@ -140,7 +137,7 @@ public class FastInfosetCompressionServiceTest {
         //THEN exception should be thrown
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testCompressShouldThrowSystemExceptionWhenSAXExceptionIsCatched() throws ParserConfigurationException, SAXException {
         //GIVEN
         given(saxParserFactory.newSAXParser()).willThrow(new SAXException());
@@ -149,7 +146,7 @@ public class FastInfosetCompressionServiceTest {
         //THEN exception should be thrown
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testCompressShouldThrowSystemExceptionWhenIOExceptionIsCatched() throws ParserConfigurationException, SAXException, IOException {
         //GIVEN
         given(saxParserFactory.newSAXParser()).willReturn(saxParser);
@@ -201,7 +198,7 @@ public class FastInfosetCompressionServiceTest {
         verify(inputStream).close();
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testDecompressWhenTransformerConfigurationExceptionIsThrownShouldThrowException() throws TransformerConfigurationException {
         //GIVEN
         StreamResult result = new StreamResult(new StringWriter());
@@ -212,7 +209,7 @@ public class FastInfosetCompressionServiceTest {
         //THEN it should throw exception
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testDecompressWhenTransformerFactoryConfigurationErrorIsThrownShouldLogError() throws TransformerConfigurationException {
         //GIVEN
         StreamResult result = new StreamResult(new StringWriter());
@@ -223,7 +220,7 @@ public class FastInfosetCompressionServiceTest {
         //THEN it should throw exception
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testDecompressWhenInputStreamCloseThrowsIOExceptionShouldLogError() throws TransformerConfigurationException, IOException {
         //GIVEN
         StreamResult result = new StreamResult(new StringWriter());

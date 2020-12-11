@@ -19,22 +19,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.proxy.Proxy;
 import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.engine.bootstrap.helper.ApplicationContextCloser;
 import com.epam.wilma.maintainer.LogFileMaintainer;
+import com.epam.wilma.proxy.Proxy;
 import com.epam.wilma.safeguard.monitor.JmsQueueMonitor;
 import com.epam.wilma.sequence.maintainer.SequenceMaintainer;
 import com.epam.wilma.webapp.jetty.JettyServer;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link WilmaEngine}.
@@ -59,7 +58,7 @@ public class WilmaEngineTest {
     @InjectMocks
     private WilmaEngine underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = new WilmaEngine();
         MockitoAnnotations.initMocks(this);

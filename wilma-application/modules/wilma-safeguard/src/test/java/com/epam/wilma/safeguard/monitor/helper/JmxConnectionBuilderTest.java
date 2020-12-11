@@ -18,32 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
+import com.epam.wilma.safeguard.domain.exception.JmxConnectionException;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import javax.management.MBeanServerConnection;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXServiceURL;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.safeguard.domain.exception.JmxConnectionException;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 /**
  * Provides unit tests for the class <tt>JmxConnectionBuilder</tt>.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class JmxConnectionBuilderTest {
 
@@ -61,7 +56,7 @@ public class JmxConnectionBuilderTest {
     @InjectMocks
     private JmxConnectionBuilder underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = spy(new JmxConnectionBuilder());
         MockitoAnnotations.initMocks(this);
@@ -90,7 +85,7 @@ public class JmxConnectionBuilderTest {
         assertEquals(actual, serverConnection);
     }
 
-    @Test(expectedExceptions = JmxConnectionException.class)
+    @Test(expected = JmxConnectionException.class)
     public void testBuildMBeanServerConnectionShouldThrowExceptionWhenMalformedUrl() throws IOException {
         //GIVEN
         given(urlFactory.createJmxServiceUrl(url)).willThrow(new MalformedURLException());
@@ -99,7 +94,7 @@ public class JmxConnectionBuilderTest {
         //THEN it should throw exception
     }
 
-    @Test(expectedExceptions = JmxConnectionException.class)
+    @Test(expected = JmxConnectionException.class)
     public void testBuildMBeanServerConnectionShouldThrowExceptionWhenCannotGetConnector() throws IOException {
         //GIVEN
         given(urlFactory.createJmxServiceUrl(url)).willReturn(jmxServiceUrl);

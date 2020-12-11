@@ -19,24 +19,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-
-import org.mockito.Answers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.env.MutablePropertySources;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.exception.SchedulingCannotBeStartedException;
 import com.epam.wilma.engine.bootstrap.helper.ApplicationContextFactory;
 import com.epam.wilma.engine.bootstrap.helper.SystemExceptionSelector;
@@ -44,6 +26,17 @@ import com.epam.wilma.engine.bootstrap.helper.WilmaServiceListener;
 import com.epam.wilma.engine.properties.helper.PropertiesNotAvailableException;
 import com.epam.wilma.properties.InvalidPropertyException;
 import com.google.common.util.concurrent.Service;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.*;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.MutablePropertySources;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 /**
  * Provides unit tests for <tt>WilmaBootstrap</tt> class.
@@ -76,7 +69,7 @@ public class WilmaBootstrapTest {
     @InjectMocks
     private WilmaBootstrap underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         applicationContextFactory = ApplicationContextFactory.getInstance();

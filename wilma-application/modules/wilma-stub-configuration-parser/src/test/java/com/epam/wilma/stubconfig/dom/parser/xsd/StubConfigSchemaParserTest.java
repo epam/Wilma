@@ -18,30 +18,28 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.AssertJUnit.assertNotNull;
-
-import java.net.URL;
-
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-
+import com.epam.wilma.common.helper.ResourceLoader;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.stubconfig.dom.validator.xsd.helper.SchemaFactoryBuilder;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
-import com.epam.wilma.common.helper.ResourceLoader;
-import com.epam.wilma.stubconfig.dom.validator.xsd.helper.SchemaFactoryBuilder;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import java.net.URL;
+
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit test for {@link StubConfigSchemaParser}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class StubConfigSchemaParserTest {
 
@@ -63,7 +61,7 @@ public class StubConfigSchemaParserTest {
 
     private URL url;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "stubConfigSchemaLocation", STUB_CONFIG_SCHEMA_LOCATION);
@@ -81,7 +79,7 @@ public class StubConfigSchemaParserTest {
         assertNotNull(result);
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testParseSchemaShouldThrowDescriptorValidationFailedExceptionWhenSchemaCanNotBeParsed() throws SAXException {
         //GIVEN
         given(schemaFactoryBuilder.buildSchemaFactory()).willReturn(schemaFactory);

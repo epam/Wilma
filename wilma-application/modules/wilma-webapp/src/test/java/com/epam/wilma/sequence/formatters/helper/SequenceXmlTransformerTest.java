@@ -18,36 +18,35 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
-import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.domain.sequence.RequestResponsePair;
+import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.sequence.formatters.helper.converter.Converter;
 import com.epam.wilma.sequence.formatters.helper.converter.JsonConverter;
 import com.epam.wilma.sequence.formatters.helper.converter.NeutralConverter;
 import com.epam.wilma.sequence.formatters.helper.message.Message;
 import com.epam.wilma.sequence.formatters.helper.message.MessageFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link SequenceXmlTransformer}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class SequenceXmlTransformerTest {
 
@@ -76,7 +75,7 @@ public class SequenceXmlTransformerTest {
     @Mock
     private Message messageResponse;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }

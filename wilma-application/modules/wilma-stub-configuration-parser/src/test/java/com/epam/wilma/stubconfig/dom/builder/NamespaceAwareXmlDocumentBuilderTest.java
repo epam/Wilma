@@ -18,32 +18,30 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.InputStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import com.epam.wilma.domain.stubconfig.exception.DocumentBuilderException;
+import com.epam.wilma.stubconfig.dom.builder.helper.DocumentBuilderFactoryWrapper;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.epam.wilma.stubconfig.dom.builder.helper.DocumentBuilderFactoryWrapper;
-import com.epam.wilma.domain.stubconfig.exception.DocumentBuilderException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.InputStream;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link NamespaceAwareXmlDocumentBuilder}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class NamespaceAwareXmlDocumentBuilderTest {
 
@@ -65,7 +63,7 @@ public class NamespaceAwareXmlDocumentBuilderTest {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private Document document;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -84,7 +82,7 @@ public class NamespaceAwareXmlDocumentBuilderTest {
         assertEquals(actual, document);
     }
 
-    @Test(expectedExceptions = DocumentBuilderException.class)
+    @Test(expected = DocumentBuilderException.class)
     public final void testBuildDocumentShouldThrowExceptionWhenDocumentBuilderCannotBeCreated() throws Exception {
         //GIVEN
         given(documentBuilderFactoryBuilder.buildDocumentBuilderFactory()).willReturn(documentBuilderFactory);
@@ -94,7 +92,7 @@ public class NamespaceAwareXmlDocumentBuilderTest {
         //THEN exception thrown
     }
 
-    @Test(expectedExceptions = DocumentBuilderException.class)
+    @Test(expected = DocumentBuilderException.class)
     public final void testBuildDocumentShouldThrowExceptionWhenParsingFails() throws Exception {
         //GIVEN
         given(documentBuilderFactoryBuilder.buildDocumentBuilderFactory()).willReturn(documentBuilderFactory);

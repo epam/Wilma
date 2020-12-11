@@ -22,14 +22,14 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
 import org.apache.tools.ant.util.VectorSet;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -40,8 +40,8 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Tests for {@link HttpServletRequestTransformer} class.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class HttpServletRequestTransformerTest {
     private static final String REQUEST_BODY = "REQUEST_BODY";
@@ -62,7 +62,7 @@ public class HttpServletRequestTransformerTest {
     private HttpServletRequestTransformer underTest;
 
     @SuppressWarnings("unchecked")
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         headers = new VectorSet();

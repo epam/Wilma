@@ -39,15 +39,15 @@ import com.epam.wilma.webapp.stub.response.support.HttpServletRequestTransformer
 import com.epam.wilma.webapp.stub.response.support.SequenceResponseGuard;
 import com.epam.wilma.webapp.stub.response.support.StubResponseHeaderConfigurer;
 import com.epam.wilma.webapp.stub.servlet.helper.WaitProvider;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,8 +58,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
@@ -114,7 +114,7 @@ public class StubResponseGeneratorTest {
 
     private Set<ResponseFormatterDescriptor> responseFormatterDescriptors;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         responseFormatterDescriptors = new HashSet<>();
@@ -237,7 +237,7 @@ public class StubResponseGeneratorTest {
         verify(headerConfigurer).setErrorResponseContentTypeAndStatus(response);
     }
 
-    @Test(expectedExceptions = InterruptedException.class)
+    @Test(expected = InterruptedException.class)
     public void testGenerateResponseShouldLogErrorWhenWaitProviderFail() throws Exception {
         //GIVEN
         mockTemplateResource();

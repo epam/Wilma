@@ -18,24 +18,23 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Provides unit tests for the class {@link TemplateGeneratorInitializer}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class TemplateGeneratorInitializerTest {
     private static final String CLASS = "CLASS_NAME";
@@ -50,7 +49,7 @@ public class TemplateGeneratorInitializerTest {
     @InjectMocks
     private TemplateGeneratorInitializer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         initMocks(this);
     }
@@ -66,7 +65,7 @@ public class TemplateGeneratorInitializerTest {
         Assert.assertEquals(actual, templateGenerator);
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testGetTemplateGeneratorShouldThrowExceptionWhenExternalClassCanNotLoad() {
         //GIVEN
         given(stubResourcePathProvider.getTemplatesPathAsString()).willReturn(CLASS);

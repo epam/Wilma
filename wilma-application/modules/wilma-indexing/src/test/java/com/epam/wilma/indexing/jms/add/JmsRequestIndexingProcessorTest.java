@@ -18,26 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.indexing.domain.IndexMessage;
 import com.epam.wilma.indexing.domain.IndexingType;
 import com.epam.wilma.indexing.jms.JmsMessageIndexer;
 import com.epam.wilma.indexing.jms.helper.FileNameProvider;
 import com.epam.wilma.indexing.jms.helper.IndexMessageFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link JmsRequestIndexingProcessor}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class JmsRequestIndexingProcessorTest {
 
@@ -56,7 +55,7 @@ public class JmsRequestIndexingProcessorTest {
     @InjectMocks
     private JmsRequestIndexingProcessor underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

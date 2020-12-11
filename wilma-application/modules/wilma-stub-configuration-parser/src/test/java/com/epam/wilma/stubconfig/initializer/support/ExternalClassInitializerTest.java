@@ -18,34 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
-import static org.testng.Assert.assertEquals;
-
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.dom.parser.node.helper.ClassNameMapper;
 import com.epam.wilma.stubconfig.initializer.condition.helper.ClassFactory;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassValidator;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Provides unit tests for the class {@link ExternalClassInitializer}.
- * @author Tamas_Bihari, Tamas Kohegyi
  *
+ * @author Tamas_Bihari, Tamas Kohegyi
  */
 public class ExternalClassInitializerTest {
     private static final String CLASS = "PACKAGE.EXTERNAL_CLASS_NAME";
@@ -65,7 +60,7 @@ public class ExternalClassInitializerTest {
     @InjectMocks
     private ExternalClassInitializer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = spy(new ExternalClassInitializer());
         initMocks(this);
@@ -108,7 +103,7 @@ public class ExternalClassInitializerTest {
         assertEquals(actual, generator);
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testLoadExternalClassShouldThrowExceptionWhenClassFactoryThrowException() throws ClassNotFoundException {
         //GIVEN
         given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
@@ -119,7 +114,7 @@ public class ExternalClassInitializerTest {
         verify(classNameMapper).get(SIMPLE_CLASS_NAME);
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testLoadExternalClassShouldThrowExceptionWhenClassFactoryThrowClassFormatException() throws ClassNotFoundException {
         //GIVEN
         given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));

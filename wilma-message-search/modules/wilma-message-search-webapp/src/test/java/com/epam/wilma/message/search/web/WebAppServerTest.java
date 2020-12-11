@@ -18,26 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.message.search.web.domain.exception.ServerException;
+import org.eclipse.jetty.server.Server;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import org.eclipse.jetty.server.Server;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.message.search.web.domain.exception.ServerException;
-
 /**
  * Unit tests for the class {@link WebAppServer}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class WebAppServerTest {
 
@@ -48,7 +47,7 @@ public class WebAppServerTest {
 
     private WebAppServer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = Mockito.spy(new WebAppServer());
         MockitoAnnotations.initMocks(this);
@@ -64,7 +63,7 @@ public class WebAppServerTest {
         verify(underTest).startJettyServer();
     }
 
-    @Test(expectedExceptions = ServerException.class)
+    @Test(expected = ServerException.class)
     public void testStartShouldLogErrorWhenCannotStart() throws Exception {
         //GIVEN
         doThrow(new Exception()).when(underTest).startJettyServer();
@@ -73,7 +72,7 @@ public class WebAppServerTest {
         //THEN it should throw exception
     }
 
-    @Test(expectedExceptions = ServerException.class)
+    @Test(expected = ServerException.class)
     public void testStopShouldThrowExceptionWhenWebAppCanNotBeStopped() throws Exception {
         //GIVEN
         Whitebox.setInternalState(underTest, "server", server);

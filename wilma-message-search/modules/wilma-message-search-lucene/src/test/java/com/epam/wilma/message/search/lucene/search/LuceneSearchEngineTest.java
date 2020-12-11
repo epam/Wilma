@@ -18,16 +18,11 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.util.List;
-
+import com.epam.wilma.message.search.domain.exception.QueryCannotBeParsedException;
+import com.epam.wilma.message.search.domain.exception.SystemException;
+import com.epam.wilma.message.search.lucene.search.helper.CurrentTimeProvider;
+import com.epam.wilma.message.search.lucene.search.helper.IndexReaderFactory;
+import com.epam.wilma.message.search.lucene.search.helper.IndexSearcherFactory;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexReader;
@@ -37,26 +32,30 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.domain.exception.QueryCannotBeParsedException;
-import com.epam.wilma.message.search.domain.exception.SystemException;
-import com.epam.wilma.message.search.lucene.search.helper.CurrentTimeProvider;
-import com.epam.wilma.message.search.lucene.search.helper.IndexReaderFactory;
-import com.epam.wilma.message.search.lucene.search.helper.IndexSearcherFactory;
+import java.io.IOException;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link LuceneSearchEngine}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class LuceneSearchEngineTest {
 
@@ -87,7 +86,7 @@ public class LuceneSearchEngineTest {
     @InjectMocks
     private LuceneSearchEngine underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = spy(new LuceneSearchEngine());
         MockitoAnnotations.initMocks(this);
@@ -124,7 +123,7 @@ public class LuceneSearchEngineTest {
         Assert.assertEquals(actual.get(0), TEXT);
     }
 
-    @Test(expectedExceptions = QueryCannotBeParsedException.class)
+    @Test(expected = QueryCannotBeParsedException.class)
     public void testSearchForTextWhenCannotParseQueryShouldThrowError() throws IOException, ParseException {
         //GIVEN
         given(readerFactory.create(true)).willReturn(indexReader);
@@ -135,7 +134,7 @@ public class LuceneSearchEngineTest {
         //THEN it should throw exception
     }
 
-    @Test(expectedExceptions = SystemException.class)
+    @Test(expected = SystemException.class)
     public void testSearchForTextWhenCannotCreateIndexReadertShouldThrowException() throws IOException {
         //GIVEN
         given(readerFactory.create(true)).willThrow(new IOException());

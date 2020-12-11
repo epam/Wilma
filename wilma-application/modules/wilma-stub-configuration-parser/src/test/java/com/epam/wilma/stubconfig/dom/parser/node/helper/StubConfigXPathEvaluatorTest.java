@@ -18,29 +18,28 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
-import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedException;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link StubConfigXPathEvaluator}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class StubConfigXPathEvaluatorTest {
 
@@ -62,7 +61,7 @@ public class StubConfigXPathEvaluatorTest {
     @InjectMocks
     private StubConfigXPathEvaluator underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(xPathProvider.getXPath()).willReturn(xPath);
@@ -94,7 +93,7 @@ public class StubConfigXPathEvaluatorTest {
         Assert.assertEquals(actual, null);
     }
 
-    @Test(expectedExceptions = DescriptorCannotBeParsedException.class)
+    @Test(expected = DescriptorCannotBeParsedException.class)
     public void testGetElementByXPathWhenExpressionIsInvalidShouldThrowException() throws XPathExpressionException {
         //GIVEN
         String expression = "";

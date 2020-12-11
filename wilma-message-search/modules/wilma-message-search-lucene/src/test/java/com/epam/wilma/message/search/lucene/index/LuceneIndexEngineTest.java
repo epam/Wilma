@@ -18,26 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.io.File;
-
+import com.epam.wilma.message.search.lucene.index.helper.FileFactory;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.message.search.lucene.index.helper.FileFactory;
+import java.io.File;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link LuceneIndexEngine}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class LuceneIndexEngineTest {
 
@@ -58,7 +57,7 @@ public class LuceneIndexEngineTest {
     @InjectMocks
     private LuceneIndexEngine underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         docDir = new File(FOLDER_PATH);

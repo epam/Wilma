@@ -18,27 +18,26 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import com.epam.wilma.domain.sequence.WilmaSequence;
+import com.epam.wilma.sequence.SequenceManager;
+import com.epam.wilma.sequence.helper.SequenceIdUtil;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.domain.sequence.WilmaSequence;
-import com.epam.wilma.sequence.SequenceManager;
-import com.epam.wilma.sequence.helper.SequenceIdUtil;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for the class {@link SequenceMatcher}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class SequenceMatcherTest {
     private String[] keys = {"Seq1", "Seq2"};
@@ -54,7 +53,7 @@ public class SequenceMatcherTest {
 
     private Map<String, WilmaSequence> sequences;
 
-    @BeforeMethod
+    @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         sequences = new HashMap<>();

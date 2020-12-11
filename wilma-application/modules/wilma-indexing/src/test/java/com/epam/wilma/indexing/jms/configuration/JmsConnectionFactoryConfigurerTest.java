@@ -21,20 +21,20 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.indexing.IndexingConfigurationAccess;
 import com.epam.wilma.indexing.domain.PropertyDTO;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link JmsConnectionFactoryConfigurer}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class JmsConnectionFactoryConfigurerTest {
 
@@ -50,7 +50,7 @@ public class JmsConnectionFactoryConfigurerTest {
     @InjectMocks
     private JmsConnectionFactoryConfigurer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }

@@ -18,31 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.stubconfig.dom.validator.xsd.helper.DOMSourceFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
+import java.io.IOException;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import com.epam.wilma.stubconfig.dom.validator.xsd.helper.DOMSourceFactory;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link XsdStubDescriptorValidator}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class XsdStubDescriptorValidatorTest {
 
@@ -64,7 +62,7 @@ public class XsdStubDescriptorValidatorTest {
     @Mock
     private Validator validator;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -80,7 +78,7 @@ public class XsdStubDescriptorValidatorTest {
         verify(validator).validate(domSource);
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public final void testValidateShouldThrowExceptionWhenValidationFailed() throws SAXException, IOException {
         //GIVEN
         given(schema.newValidator()).willReturn(validator);

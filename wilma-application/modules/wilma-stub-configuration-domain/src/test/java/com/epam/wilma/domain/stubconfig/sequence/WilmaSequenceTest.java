@@ -19,37 +19,37 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
+import com.epam.wilma.domain.sequence.RequestResponsePair;
+import com.epam.wilma.domain.sequence.WilmaSequence;
+import com.epam.wilma.domain.sequence.WilmaSequencePairs;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.epam.wilma.domain.sequence.RequestResponsePair;
-import com.epam.wilma.domain.sequence.WilmaSequence;
-import com.epam.wilma.domain.sequence.WilmaSequencePairs;
-import org.mockito.Mockito;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit test for {@link WilmaSequence}.
+ *
  * @author Adam_Csaba_Kiraly
  */
 public class WilmaSequenceTest {
 
     private static final String STUBBED_REQUEST_LOGGER_ID = "id";
-    private WilmaSequence underTest;
     private final WilmaSequencePairs messageStore = Mockito.mock(WilmaSequencePairs.class);
     private final boolean isVolatile = false;
+    private WilmaSequence underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         String sequenceKey = "key";
         Timestamp timestamp = new Timestamp(10);

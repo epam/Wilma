@@ -18,38 +18,33 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
+import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatterDescriptor;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
+import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
+import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
+import com.epam.wilma.stubconfig.initializer.template.ResponseFormatterInitializer;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.*;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
-import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatterDescriptor;
-import com.epam.wilma.stubconfig.initializer.template.ResponseFormatterInitializer;
-import org.mockito.Answers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
-import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
-import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
-import com.epam.wilma.stubconfig.dom.parser.node.helper.StubConfigXPathEvaluator;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link TemplateDescriptorParser}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class TemplateDescriptorParserTest {
 
@@ -80,7 +75,7 @@ public class TemplateDescriptorParserTest {
     @InjectMocks
     private TemplateDescriptorParser underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         List<Node> paramlist = new ArrayList<>();
@@ -179,7 +174,7 @@ public class TemplateDescriptorParserTest {
         assertTrue(actual.isEmpty());
     }
 
-    @Test(expectedExceptions = DescriptorValidationFailedException.class)
+    @Test(expected = DescriptorValidationFailedException.class)
     public void testParseNodeShouldThrowExceptionWhenSubTreeIsTooDeep() {
         //GIVEN
         Whitebox.setInternalState(underTest, "maxDepthOfXmlTree", 1);

@@ -18,21 +18,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Mockito.verify;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class <tt>ContextCloseHandler</tt>.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class ApplicationContextCloserTest {
 
@@ -45,7 +45,7 @@ public class ApplicationContextCloserTest {
     @InjectMocks
     private ApplicationContextCloser underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         underTest.setApplicationContext(appContext);

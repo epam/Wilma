@@ -26,12 +26,12 @@ import com.epam.wilma.domain.stubconfig.exception.JsonTransformationException;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.json.parser.helper.JsonBasedObjectTransformer;
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import javax.xml.transform.TransformerException;
 import java.util.HashMap;
@@ -73,7 +73,7 @@ public class StubConfigurationSaverTest {
     @InjectMocks
     private StubConfigurationSaver underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(stubResourcePathProvider.getCachePath()).willReturn(TEST_PATH);
@@ -94,7 +94,7 @@ public class StubConfigurationSaverTest {
         verify(documentTransformer).transformToFile(jsonObject, TEST_PATH + "/" + 1 + STUB_CONFIG_JSON_POSTFIX, true);
     }
 
-    @Test(expectedExceptions = JsonTransformationException.class)
+    @Test(expected = JsonTransformationException.class)
     public void testSaveAllStubConfigurationsWhenOccurAnDocumentTransformationException() throws JsonTransformationException,
             TransformerException {
         //GIVEN

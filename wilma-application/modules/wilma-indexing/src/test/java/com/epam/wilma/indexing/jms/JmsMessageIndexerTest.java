@@ -18,10 +18,12 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
+import com.epam.wilma.indexing.domain.IndexMessage;
+import com.epam.wilma.indexing.jms.helper.JmsIndexMessageCreator;
+import com.epam.wilma.indexing.jms.helper.MessageCreatorFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -29,17 +31,14 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 import org.springframework.jms.core.JmsTemplate;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.indexing.domain.IndexMessage;
-import com.epam.wilma.indexing.jms.helper.JmsIndexMessageCreator;
-import com.epam.wilma.indexing.jms.helper.MessageCreatorFactory;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the class {@link JmsMessageIndexer}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class JmsMessageIndexerTest {
 
@@ -59,7 +58,7 @@ public class JmsMessageIndexerTest {
     @InjectMocks
     private JmsMessageIndexer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         given(connectionFactory.getBrokerURL()).willReturn("");

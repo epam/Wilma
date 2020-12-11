@@ -19,33 +19,31 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.epam.wilma.maintainer.domain.DeletedFileProvider;
+import com.epam.wilma.maintainer.task.helper.MessageFileCounter;
+import com.epam.wilma.safeguard.configuration.domain.QueueSizeProvider;
+import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.maintainer.domain.DeletedFileProvider;
-import com.epam.wilma.maintainer.task.helper.MessageFileCounter;
-import com.epam.wilma.safeguard.configuration.domain.QueueSizeProvider;
-import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test class for {@link LoadInformationServlet}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class LoadInformationServletTest {
     @InjectMocks
@@ -66,7 +64,7 @@ public class LoadInformationServletTest {
     @Mock
     private MessageFileCounter messageCounter;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);

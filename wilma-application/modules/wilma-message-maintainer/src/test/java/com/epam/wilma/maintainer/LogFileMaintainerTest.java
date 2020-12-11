@@ -18,22 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.support.CronTrigger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.common.helper.CronTriggerFactory;
 import com.epam.wilma.domain.exception.SchedulingCannotBeStartedException;
 import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
@@ -42,11 +26,26 @@ import com.epam.wilma.maintainer.domain.MaintainerMethod;
 import com.epam.wilma.maintainer.task.MaintainerTask;
 import com.epam.wilma.maintainer.task.filelimit.FileLimitMaintainerTask;
 import com.epam.wilma.maintainer.task.timelimit.TimeLimitMaintainerTask;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test class for LogFileMaintainer.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class LogFileMaintainerTest {
 
@@ -68,7 +67,7 @@ public class LogFileMaintainerTest {
     @Mock
     private MaintainerProperties properties;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Map<MaintainerMethod, MaintainerTask> maintainerTasks = new HashMap<>();
@@ -103,7 +102,7 @@ public class LogFileMaintainerTest {
         verify(taskScheduler).schedule(fileLimitMaintainerTask, cronTrigger);
     }
 
-    @Test(expectedExceptions = SchedulingCannotBeStartedException.class)
+    @Test(expected = SchedulingCannotBeStartedException.class)
     public void testStartSchedulingShouldThrowExceptionWhenWrongValueIsSetInProperties() {
         // GIVEN
         given(properties.getMaintainerMethod()).willReturn("asd");

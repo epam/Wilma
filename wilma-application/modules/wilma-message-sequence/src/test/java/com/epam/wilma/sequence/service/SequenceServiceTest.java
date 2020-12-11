@@ -21,8 +21,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.sequence.RequestResponsePair;
-import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
 import com.epam.wilma.domain.sequence.WilmaSequence;
+import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
 import com.epam.wilma.sequence.evaluator.SequenceDescriptorEvaluator;
@@ -32,12 +32,12 @@ import com.epam.wilma.sequence.helper.SequenceDescriptorKeyUtil;
 import com.epam.wilma.sequence.helper.SequenceHeaderUtil;
 import com.epam.wilma.sequence.helper.SequenceIdUtil;
 import com.epam.wilma.sequence.validator.HandlerKeyValidator;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.sql.Timestamp;
 import java.util.Map;
@@ -49,8 +49,8 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link SequenceService}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class SequenceServiceTest {
     private static final String SEQUENCE_DESCRIPTOR_GROUPNAME = "TestTeam";
@@ -88,7 +88,7 @@ public class SequenceServiceTest {
     @InjectMocks
     private SequenceService underTest;
 
-    @BeforeMethod
+    @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         given(dateProvider.getCurrentTimeInMillis()).willReturn(1000L);

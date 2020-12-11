@@ -18,14 +18,14 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Provides unit tests for <tt>ApplicationContextFactory</tt>.
@@ -35,7 +35,7 @@ public class ApplicationContextFactoryTest {
     private static final String SPRING_APP_CONTEXT_PATH = "test-application-context.xml";
     private ApplicationContextFactory underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         underTest = ApplicationContextFactory.getInstance();
     }

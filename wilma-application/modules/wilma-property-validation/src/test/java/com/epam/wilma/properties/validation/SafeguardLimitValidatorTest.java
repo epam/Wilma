@@ -18,21 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-
+import com.epam.wilma.properties.InvalidPropertyException;
+import com.epam.wilma.properties.PropertyHolder;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.properties.InvalidPropertyException;
-import com.epam.wilma.properties.PropertyHolder;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link SafeguardLimitValidator}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class SafeguardLimitValidatorTest {
 
@@ -42,12 +41,12 @@ public class SafeguardLimitValidatorTest {
     @InjectMocks
     private SafeguardLimitValidator underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test(expectedExceptions = InvalidPropertyException.class)
+    @Test(expected = InvalidPropertyException.class)
     public void testValidateShouldThrowExceptionWhenFiOffLimitLessThanFiOnLimit() {
         //GIVEN
         given(getFiOffLimit()).willReturn(2L);
@@ -59,7 +58,7 @@ public class SafeguardLimitValidatorTest {
         //THEN exception was thrown
     }
 
-    @Test(expectedExceptions = InvalidPropertyException.class)
+    @Test(expected = InvalidPropertyException.class)
     public void testValidateShouldThrowExceptionWhenMwOnLimitLessThanFiOnLimit() {
         //GIVEN
         given(getFiOffLimit()).willReturn(4L);
@@ -71,7 +70,7 @@ public class SafeguardLimitValidatorTest {
         //THEN exception was thrown
     }
 
-    @Test(expectedExceptions = InvalidPropertyException.class)
+    @Test(expected = InvalidPropertyException.class)
     public void testValidateShouldThrowExceptionWhenMwOffLimitLessThanMwOnLimit() {
         //GIVEN
         given(getFiOffLimit()).willReturn(4L);
@@ -83,7 +82,7 @@ public class SafeguardLimitValidatorTest {
         //THEN exception was thrown
     }
 
-    @Test(expectedExceptions = InvalidPropertyException.class)
+    @Test(expected = InvalidPropertyException.class)
     public void testValidateShouldThrowExceptionWhenMwOffLimitLessThanFiOffLimit() {
         //GIVEN
         given(getFiOffLimit()).willReturn(4L);
@@ -95,7 +94,7 @@ public class SafeguardLimitValidatorTest {
         //THEN exception was thrown
     }
 
-    @Test(expectedExceptions = InvalidPropertyException.class)
+    @Test(expected = InvalidPropertyException.class)
     public void testValidateShouldThrowExceptionWhenLimitsAreNull() {
         //GIVEN
         given(getFiOffLimit()).willReturn(null);

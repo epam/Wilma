@@ -18,10 +18,10 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -36,13 +36,13 @@ import net.sf.saxon.s9api.XdmNode;
 import net.sf.saxon.s9api.XsltExecutable;
 import net.sf.saxon.s9api.XsltTransformer;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -106,7 +106,7 @@ public class XslTransformerTest {
     @InjectMocks
     private XslTransformer underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws SAXException {
         underTest = Mockito.spy(new XslTransformer());
         MockitoAnnotations.initMocks(this);

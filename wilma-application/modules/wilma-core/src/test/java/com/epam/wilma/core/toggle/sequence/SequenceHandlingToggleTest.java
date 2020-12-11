@@ -18,17 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.wilma.common.helper.BlockLocalhostUsage;
 import com.epam.wilma.common.helper.OperationMode;
 import com.epam.wilma.common.helper.SequenceHandlingState;
@@ -36,11 +25,21 @@ import com.epam.wilma.core.configuration.CoreConfigurationAccess;
 import com.epam.wilma.core.configuration.domain.PropertyDto;
 import com.epam.wilma.core.processor.entity.SequenceRequestHandlingProcessor;
 import com.epam.wilma.sequence.SequenceManager;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link SequenceHandlingToggle}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class SequenceHandlingToggleTest {
 
@@ -56,7 +55,7 @@ public class SequenceHandlingToggleTest {
     @InjectMocks
     private SequenceHandlingToggle underTest;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         builder = new PropertyDto.Builder();
