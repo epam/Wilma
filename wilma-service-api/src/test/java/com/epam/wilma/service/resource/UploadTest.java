@@ -19,27 +19,25 @@ package com.epam.wilma.service.resource;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
-
-import java.io.File;
-
 import com.epam.wilma.service.configuration.stub.WilmaStub;
+import com.epam.wilma.service.domain.WilmaServiceConfig;
+import com.epam.wilma.service.http.WilmaHttpClient;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import com.epam.wilma.service.domain.WilmaServiceConfig;
-import com.epam.wilma.service.http.WilmaHttpClient;
+import java.io.File;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link Upload}.
  *
  * @author Tamas_Pinter
- *
  */
 public class UploadTest {
 
@@ -63,7 +61,7 @@ public class UploadTest {
 
     private Upload fileUpload;
 
-    @BeforeMethod
+    @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -71,7 +69,7 @@ public class UploadTest {
         fileUpload = new Upload(config, client);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "config must not be null!")
+    @Test(expected = IllegalArgumentException.class) //, expectedExceptionsMessageRegExp = "config must not be null!")
     public void shouldThrowExceptionWhenConfigIsMissing() {
         new Upload(null);
     }

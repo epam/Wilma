@@ -25,26 +25,25 @@ import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import static com.epam.wilma.service.domain.StubConfigOrder.DOWN;
 import static com.epam.wilma.service.domain.StubConfigOrder.UP;
 import static com.epam.wilma.service.domain.StubConfigStatus.DISABLED;
 import static com.epam.wilma.service.domain.StubConfigStatus.ENABLED;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.anyString;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Unit test for {@link StubConfiguration}.
@@ -70,7 +69,7 @@ public class StubConfigurationTest {
 
     private StubConfiguration stubConfiguration;
 
-    @BeforeMethod
+    @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -78,7 +77,7 @@ public class StubConfigurationTest {
         stubConfiguration = new StubConfiguration(config, client);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenConfigIsMissing() {
         new StubConfiguration(null);
     }
@@ -99,16 +98,16 @@ public class StubConfigurationTest {
 
         JSONObject result = stubConfiguration.getStubConfigInformation();
 
-        assertTrue(new JSONObject(JSON_STRING).similar(result), "The two JSON objects should be similar.");
+        assertTrue("The two JSON objects should be similar.", new JSONObject(JSON_STRING).similar(result));
         verify(client, never()).sendSetterRequest(anyString());
     }
 
-    @DataProvider(name = "stubStatusConfiguration")
-    public static Object[][] stubStatusConfiguration() {
-        return new Object[][] {{ENABLED, "true"}, {DISABLED, "false"}};
+    @Test
+    public void shouldCallProperUrlForStubConfigurationChangeStatusRequest() {
+        shouldCallProperUrlForStubConfigurationChangeStatusRequest(ENABLED, "true");
+        shouldCallProperUrlForStubConfigurationChangeStatusRequest(DISABLED, "false");
     }
 
-    @Test(dataProvider = "stubStatusConfiguration")
     public void shouldCallProperUrlForStubConfigurationChangeStatusRequest(StubConfigStatus status, String nextStatusValue) {
         ArgumentCaptor<String> url = ArgumentCaptor.forClass(String.class);
 
@@ -123,12 +122,12 @@ public class StubConfigurationTest {
         verify(client, never()).sendGetterRequest(anyString());
     }
 
-    @DataProvider(name = "stubOrderConfiguration")
-    public static Object[][] stubOrderConfiguration() {
-        return new Object[][] {{DOWN, "-1"}, {UP, "1"}};
+    @Test
+    public void shouldCallProperUrlForStubConfigurationChangeOrderRequest() {
+        shouldCallProperUrlForStubConfigurationChangeOrderRequest(DOWN, "-1");
+        shouldCallProperUrlForStubConfigurationChangeOrderRequest(UP, "1");
     }
 
-    @Test(dataProvider = "stubOrderConfiguration")
     public void shouldCallProperUrlForStubConfigurationChangeOrderRequest(StubConfigOrder order, String direction) {
         ArgumentCaptor<String> url = ArgumentCaptor.forClass(String.class);
 
@@ -198,12 +197,13 @@ public class StubConfigurationTest {
         assertFalse(stubConfiguration.dropAllStubConfig());
     }
 
-    @DataProvider(name = "testdata")
-    public Object[][] testdata() {
-        return new Object[][] {{invalidEmptyJson()}, {jsonWithoutConfigsArray()}, {jsonWithoutGroupName()}};
+    @Test
+    public void shouldReturnFalseForDropAllStubConfigIfTheGivenJSONIsIncorrect() {
+        shouldReturnFalseForDropAllStubConfigIfTheGivenJSONIsIncorrect(invalidEmptyJson());
+        shouldReturnFalseForDropAllStubConfigIfTheGivenJSONIsIncorrect(jsonWithoutConfigsArray());
+        shouldReturnFalseForDropAllStubConfigIfTheGivenJSONIsIncorrect(jsonWithoutGroupName());
     }
 
-    @Test(dataProvider = "testdata")
     public void shouldReturnFalseForDropAllStubConfigIfTheGivenJSONIsIncorrect(String jsonString) {
         when(client.sendGetterRequest(STUB_STATUS_URL)).thenReturn(Optional.<String>of(jsonString));
 

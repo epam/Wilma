@@ -23,23 +23,22 @@ import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Unit test for {@link SequenceConfiguration}.
  *
  * @author Tamas_Pinter
- *
  */
 public class SequenceConfigurationTest {
 
@@ -55,7 +54,7 @@ public class SequenceConfigurationTest {
 
     private SequenceConfiguration sequenceConfiguration;
 
-    @BeforeMethod
+    @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -63,7 +62,7 @@ public class SequenceConfigurationTest {
         sequenceConfiguration = new SequenceConfiguration(config, client);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenConfigIsMissing() {
         new SequenceConfiguration(null);
     }
@@ -84,7 +83,7 @@ public class SequenceConfigurationTest {
 
         JSONObject result = sequenceConfiguration.getSequencesLiveInformation();
 
-        assertTrue(new JSONObject(JSON_STRING).similar(result), "The two JSON objects should be similar.");
+        assertTrue("The two JSON objects should be similar.", new JSONObject(JSON_STRING).similar(result));
         verify(client, never()).sendSetterRequest(anyString());
     }
 

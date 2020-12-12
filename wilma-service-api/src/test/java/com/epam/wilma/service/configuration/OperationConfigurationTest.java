@@ -23,27 +23,26 @@ import com.epam.wilma.service.domain.OperationMode;
 import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import static com.epam.wilma.service.domain.OperationMode.PROXY;
 import static com.epam.wilma.service.domain.OperationMode.STUB;
 import static com.epam.wilma.service.domain.OperationMode.WILMA;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Unit test for {@link OperationConfiguration}.
  *
  * @author Tamas_Pinter
- *
  */
 public class OperationConfigurationTest {
 
@@ -62,7 +61,7 @@ public class OperationConfigurationTest {
 
     private OperationConfiguration operationConfiguration;
 
-    @BeforeMethod
+    @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -70,7 +69,7 @@ public class OperationConfigurationTest {
         operationConfiguration = new OperationConfiguration(config, client);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenConfigIsMissing() {
         new OperationConfiguration(null);
     }
@@ -91,7 +90,7 @@ public class OperationConfigurationTest {
 
         OperationMode result = operationConfiguration.getOperationMode();
 
-        assertTrue(result == OperationMode.WILMA, "The operation mode should be WILMA.");
+        assertTrue("The operation mode should be WILMA.", result == OperationMode.WILMA);
         verify(client, never()).sendSetterRequest(anyString());
     }
 
@@ -101,7 +100,7 @@ public class OperationConfigurationTest {
 
         OperationMode result = operationConfiguration.getOperationMode();
 
-        assertTrue(result == OperationMode.STUB, "The operation mode should be STUB.");
+        assertTrue("The operation mode should be STUB.", result == OperationMode.STUB);
         verify(client, never()).sendSetterRequest(anyString());
     }
 
@@ -111,7 +110,7 @@ public class OperationConfigurationTest {
 
         OperationMode result = operationConfiguration.getOperationMode();
 
-        assertTrue(result == OperationMode.PROXY, "The operation mode should be PROXY.");
+        assertTrue("The operation mode should be PROXY.", result == OperationMode.PROXY);
         verify(client, never()).sendSetterRequest(anyString());
     }
 

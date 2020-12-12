@@ -36,7 +36,9 @@ import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 /**
  * Provides unit tests for the {@link ResponseQueueListener} class.
@@ -153,7 +155,7 @@ public class ResponseQueueListenerTest {
         //WHEN
         underTest.onMessage(objectMessage);
         //THEN
-        verifyZeroInteractions(jmsTemplate);
+        verifyNoInteractions(jmsTemplate);
     }
 
     @Test
@@ -165,7 +167,7 @@ public class ResponseQueueListenerTest {
         //WHEN
         underTest.onMessage(objectMessage);
         //THEN
-        verifyZeroInteractions(jmsTemplate);
+        verifyNoInteractions(jmsTemplate);
     }
 
 }

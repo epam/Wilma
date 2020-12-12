@@ -31,13 +31,12 @@ import com.epam.wilma.service.domain.OperationMode;
 import com.epam.wilma.service.domain.StubConfigOrder;
 import com.epam.wilma.service.domain.StubConfigStatus;
 import com.epam.wilma.service.resource.Upload;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.Properties;
@@ -62,7 +61,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  * Unit test for {@link WilmaService}.
  *
  * @author Tamas_Pinter
- *
  */
 public class WilmaServiceTest {
 
@@ -71,6 +69,7 @@ public class WilmaServiceTest {
     private static final String GROUP_NAME = "testGroup";
     private static final String FILE_NAME = "testFile";
     private static final File MOCK_FILE = mock(File.class);
+
 
     @Mock
     private WilmaApplication wilmaApplication;
@@ -99,17 +98,17 @@ public class WilmaServiceTest {
     @InjectMocks
     private WilmaService wilmaService;
 
-    @BeforeMethod
+    @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenConfigIsMissing() {
         new WilmaService(null);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenConfigIsInvalid() {
         Properties properties = new Properties();
         properties.put(WILMA_HOST_KEY, HOST);
@@ -145,12 +144,12 @@ public class WilmaServiceTest {
                 localhostBlockingConfiguration, stubConfiguration, fileUpload);
     }
 
-    @DataProvider(name = "messageLoggingControls")
-    public static Object[][] messageLoggingControls() {
-        return new Object[][] {{ON}, {OFF}};
+    @Test
+    public void testSetMessageLoggingStatus() {
+        testSetMessageLoggingStatus(ON);
+        testSetMessageLoggingStatus(OFF);
     }
 
-    @Test(dataProvider = "messageLoggingControls")
     public void testSetMessageLoggingStatus(MessageLoggingControlStatus control) {
         wilmaService.setMessageLoggingStatus(control);
 
@@ -168,12 +167,13 @@ public class WilmaServiceTest {
                 localhostBlockingConfiguration, stubConfiguration, fileUpload);
     }
 
-    @DataProvider(name = "operationModes")
-    public static Object[][] operationModes() {
-        return new Object[][] {{WILMA}, {STUB}, {PROXY}};
+    @Test
+    public void testSetOperationMode() {
+        testSetOperationMode(WILMA);
+        testSetOperationMode(STUB);
+        testSetOperationMode(PROXY);
     }
 
-    @Test(dataProvider = "operationModes")
     public void testSetOperationMode(OperationMode mode) {
         wilmaService.setOperationMode(mode);
 
@@ -191,13 +191,13 @@ public class WilmaServiceTest {
                 localhostBlockingConfiguration, stubConfiguration, fileUpload);
     }
 
-    @DataProvider(name = "localhostControls")
-    public static Object[][] localhostControls() {
-        return new Object[][] {{LocalhostControlStatus.ON}, {LocalhostControlStatus.OFF}};
+    @Test
+    public void testSetLocalhostOperationMode() {
+        testSetLocalhostOperationMode(LocalhostControlStatus.ON);
+        testSetLocalhostOperationMode(LocalhostControlStatus.OFF);
     }
 
-    @Test(dataProvider = "localhostControls")
-    public void testSetOperationMode(LocalhostControlStatus control) {
+    public void testSetLocalhostOperationMode(LocalhostControlStatus control) {
         wilmaService.setLocalhostBlockingStatus(control);
 
         verify(localhostBlockingConfiguration).setLocalhostBlockingStatus(control);
@@ -214,12 +214,12 @@ public class WilmaServiceTest {
                 localhostBlockingConfiguration, stubConfiguration, fileUpload);
     }
 
-    @DataProvider(name = "stubConfigStatus")
-    public static Object[][] stubConfigStatus() {
-        return new Object[][] {{ENABLED}, {DISABLED}};
+    @Test
+    public void testChangeStubConfigStatus() {
+        testChangeStubConfigStatus(ENABLED);
+        testChangeStubConfigStatus(DISABLED);
     }
 
-    @Test(dataProvider = "stubConfigStatus")
     public void testChangeStubConfigStatus(StubConfigStatus status) {
         wilmaService.changeStubConfigStatus(GROUP_NAME, status);
 
@@ -228,13 +228,13 @@ public class WilmaServiceTest {
                 localhostBlockingConfiguration, stubConfiguration, fileUpload);
     }
 
-    @DataProvider(name = "stubConfigOrders")
-    public static Object[][] stubConfigOrders() {
-        return new Object[][] {{UP}, {DOWN}};
+    @Test
+    public void testChangeStubConfigOrders() {
+        testChangeStubConfigOrders(UP);
+        testChangeStubConfigOrders(DOWN);
     }
 
-    @Test(dataProvider = "stubConfigOrders")
-    public void testChangeStubConfigStatus(StubConfigOrder order) {
+    public void testChangeStubConfigOrders(StubConfigOrder order) {
         wilmaService.changeStubConfigOrder(GROUP_NAME, order);
 
         verify(stubConfiguration).setStubConfigOrder(GROUP_NAME, order);

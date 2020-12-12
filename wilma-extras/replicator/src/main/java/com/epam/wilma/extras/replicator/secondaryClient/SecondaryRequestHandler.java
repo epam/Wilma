@@ -63,9 +63,14 @@ class SecondaryRequestHandler {
             String headerValue = wilmaHttpRequest.getHeader(headerKey);
             method.addHeader(headerKey, headerValue);
         }
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpResponse response = httpClient.execute(method);
-        httpClient.close();
+        CloseableHttpClient httpClient = null;
+        HttpResponse response;
+        try {
+            httpClient = HttpClients.createDefault();
+            response = httpClient.execute(method);
+        } finally {
+            httpClient.close();
+        }
         return transferResponse(response, method, messageId, serverIpAddress);
     }
 

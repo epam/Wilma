@@ -19,33 +19,31 @@ package com.epam.wilma.service.http;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-
+import com.google.common.base.Optional;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 
-import com.google.common.base.Optional;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link WilmaHttpClient}.
  *
  * @author Tamas_Pinter
- *
  */
 public class WilmaHttpClientTest {
 
@@ -55,7 +53,7 @@ public class WilmaHttpClientTest {
 
     private WilmaHttpClient wilmaHttpClient;
 
-    @BeforeMethod
+    @Before
     public void init() {
         wilmaHttpClient = new WilmaHttpClient();
 
@@ -150,7 +148,7 @@ public class WilmaHttpClientTest {
     }
 
     @Test
-    public void shouldReturnTrueForFileUploadMethod() throws Exception {
+    public void shouldReturnTrueForFileUploadMethod() {
         HttpClient httpClient = new MockHttpClient(200, RESPONSE);
         wilmaHttpClient.setHttpClient(httpClient);
 
@@ -164,7 +162,6 @@ public class WilmaHttpClientTest {
      * body.
      *
      * @author Tamas_Pinter
-     *
      */
     public class MockHttpClient extends HttpClient {
         private int expectedResponseStatus;

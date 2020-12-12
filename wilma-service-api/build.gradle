@@ -45,8 +45,9 @@ dependencies {
     compile group: "com.github.everit-org.json-schema", name: "org.everit.json.schema", version: "1.9.1"
     compile 'org.json:json:20180813'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
-    testCompile group: 'org.mockito', name: 'mockito-all', version:"${mockitoAllVersion}"
-    testCompile group: 'org.testng', name: 'testng', version:'6.8.5'
+//    testCompile group: 'org.mockito', name: 'mockito-all', version:"${mockitoAllVersion}"
+    testCompile group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
+    testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
 }
 
 test.useTestNG()

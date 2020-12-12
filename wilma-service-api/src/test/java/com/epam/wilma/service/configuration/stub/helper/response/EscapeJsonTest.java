@@ -18,8 +18,8 @@ package com.epam.wilma.service.configuration.stub.helper.response;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test class for EscapeJson class.

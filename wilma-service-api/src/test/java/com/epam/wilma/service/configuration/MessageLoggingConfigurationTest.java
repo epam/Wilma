@@ -23,27 +23,25 @@ import com.epam.wilma.service.domain.MessageLoggingControlStatus;
 import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
-import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import static com.epam.wilma.service.domain.MessageLoggingControlStatus.OFF;
 import static com.epam.wilma.service.domain.MessageLoggingControlStatus.ON;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Unit test for {@link MessageLoggingConfiguration}.
  *
  * @author Tamas_Pinter
- *
  */
 public class MessageLoggingConfigurationTest {
 
@@ -59,7 +57,7 @@ public class MessageLoggingConfigurationTest {
 
     private MessageLoggingConfiguration messageLoggingConfiguration;
 
-    @BeforeMethod
+    @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -67,7 +65,7 @@ public class MessageLoggingConfigurationTest {
         messageLoggingConfiguration = new MessageLoggingConfiguration(config, client);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenConfigIsMissing() {
         new MessageLoggingConfiguration(null);
     }
@@ -88,7 +86,7 @@ public class MessageLoggingConfigurationTest {
 
         MessageLoggingControlStatus result = messageLoggingConfiguration.getMessageLoggingStatus();
 
-        Assert.assertTrue(result == MessageLoggingControlStatus.ON);
+        assertTrue(result == MessageLoggingControlStatus.ON);
         verify(client, never()).sendSetterRequest(anyString());
     }
 

@@ -23,21 +23,20 @@ import com.epam.wilma.service.domain.ResponseMessageVolatilityStatus;
 import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
-import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import static com.epam.wilma.service.domain.ResponseMessageVolatilityStatus.OFF;
 import static com.epam.wilma.service.domain.ResponseMessageVolatilityStatus.ON;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.anyString;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Unit test for {@link ResponseMessageVolatilityConfiguration}.
@@ -58,7 +57,7 @@ public class ResponseMessageVolatilityConfigurationTest {
 
     private ResponseMessageVolatilityConfiguration responseMessageVolatilityConfiguration;
 
-    @BeforeMethod
+    @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -66,7 +65,7 @@ public class ResponseMessageVolatilityConfigurationTest {
         responseMessageVolatilityConfiguration = new ResponseMessageVolatilityConfiguration(config, client);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenConfigIsMissing() {
         new ResponseMessageVolatilityConfiguration(null);
     }
@@ -87,7 +86,7 @@ public class ResponseMessageVolatilityConfigurationTest {
 
         ResponseMessageVolatilityStatus result = responseMessageVolatilityConfiguration.getResponseMessageVolatilityStatus();
 
-        Assert.assertTrue(result == ResponseMessageVolatilityStatus.ON);
+        assertTrue(result == ResponseMessageVolatilityStatus.ON);
         verify(client, never()).sendSetterRequest(anyString());
     }
 

@@ -25,10 +25,10 @@ import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.anyString;
@@ -40,7 +40,6 @@ import static org.mockito.Mockito.when;
  * Unit test for {@link WilmaApplication}.
  *
  * @author Tamas_Pinter, Tamas_Kohegyi
- *
  */
 public class WilmaApplicationTest {
 
@@ -58,7 +57,7 @@ public class WilmaApplicationTest {
 
     private WilmaApplication wilmaApplication;
 
-    @BeforeMethod
+    @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -66,7 +65,7 @@ public class WilmaApplicationTest {
         wilmaApplication = new WilmaApplication(config, client);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenConfigIsMissing() {
         new WilmaApplication(null);
     }

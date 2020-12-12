@@ -24,7 +24,7 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * Example Wilma plugin to simulate random error situations. The following error situations are supported:
@@ -43,13 +43,13 @@ public class RandomErrorGeneratorChecker implements ConditionChecker {
     private static final String PARAMETER_NAME_E500 = "E500";
     private static final String PARAMETER_NAME_TIMEOUT = "TIMEOUT120SEC";
     private final Logger logger = LoggerFactory.getLogger(RandomErrorGeneratorChecker.class);
-    private final Random randomGenerator;
+    private final SecureRandom randomGenerator;
 
     /**
      * Constructor initializes the random number generator.
      */
     public RandomErrorGeneratorChecker() {
-        randomGenerator = new Random();
+        randomGenerator = new SecureRandom();
     }
 
     /**
