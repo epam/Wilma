@@ -27,7 +27,11 @@ import com.epam.wilma.engine.configuration.domain.PropertyDTO;
 import com.google.common.util.concurrent.Service.State;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
+import org.mockito.Answers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 

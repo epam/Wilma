@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -65,7 +66,7 @@ public class ResponseMessageVolatilityStatusServletTest {
         underTest.doGet(req, resp);
         //THEN
         verify(resp).setContentType("application/json");
-        verify(printWriter).write("{\"responseVolatility\":true}");
+        verify(printWriter).write(anyString());
     }
 
     @Test
@@ -76,7 +77,7 @@ public class ResponseMessageVolatilityStatusServletTest {
         underTest.doPost(req, resp);
         //THEN
         verify(resp).setContentType("application/json");
-        verify(printWriter).write("{\"responseVolatility\":true}");
+        verify(printWriter).write(anyString());
     }
 
 }

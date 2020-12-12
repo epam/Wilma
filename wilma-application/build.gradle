@@ -103,7 +103,8 @@ subprojects {
         compile group: 'commons-io', name: 'commons-io', version:'2.4'
         compile group: 'janino', name: 'janino', version:'2.5.10'
         compile group: 'net.sf.saxon', name: 'Saxon-HE', version:'9.9.0-2'
-        testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
+        testCompile group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
+        testCompile group: 'org.mockito', name: 'mockito-all', version:"${mockitoAllVersion}"
         testImplementation "junit:junit:${jUnitVersion}"
         configurations.all{
         	  exclude(module: 'commons-logging')

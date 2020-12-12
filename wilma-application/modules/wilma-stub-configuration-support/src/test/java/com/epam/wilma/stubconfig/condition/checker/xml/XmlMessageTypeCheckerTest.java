@@ -32,8 +32,8 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
 
 /**
  * Tests for {@link XmlMessageTypeChecker} class.
@@ -109,6 +109,7 @@ public class XmlMessageTypeCheckerTest {
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_XML);
         parameterList.addParameter(new Parameter(TEXT_PLAIN, HEADER_VAL_XML));
         given(xQueryEvaluator.evaluateXQuery(anyString(), anyString())).willThrow(new SaxonApiException(""));
+        given(request.getBody()).willReturn(TEXT_PLAIN);
         //WHEN
         underTest.checkCondition(request, parameterList);
         //TNEN exception is thrown
@@ -120,6 +121,7 @@ public class XmlMessageTypeCheckerTest {
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_XML);
         parameterList.addParameter(new Parameter(TEXT_PLAIN, HEADER_VAL_XML));
         given(xQueryEvaluator.evaluateXQuery(anyString(), anyString())).willReturn("false");
+        given(request.getBody()).willReturn(TEXT_PLAIN);
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //TNEN
@@ -132,6 +134,7 @@ public class XmlMessageTypeCheckerTest {
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_XML);
         parameterList.addParameter(new Parameter(TEXT_PLAIN, HEADER_VAL_XML));
         given(xQueryEvaluator.evaluateXQuery(anyString(), anyString())).willReturn("true");
+        given(request.getBody()).willReturn(TEXT_PLAIN);
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //TNEN

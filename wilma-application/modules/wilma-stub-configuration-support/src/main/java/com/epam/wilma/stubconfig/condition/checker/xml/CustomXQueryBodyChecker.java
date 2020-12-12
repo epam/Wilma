@@ -79,8 +79,8 @@ public class CustomXQueryBodyChecker implements ConditionChecker {
             fromXQueryResult = removeXmlDecTagFromXQueryResult(queryResult);
             result = BooleanUtils.toBooleanObject(fromXQueryResult);
         } catch (NullPointerException e) {
-            logger.debug("Expected result of the XQuery evaluation was true or false, but it returned with the following:" + fromXQueryResult
-                    + ".\n Thus the condition evaluated to true!", e);
+            logger.debug("Expected result of the XQuery evaluation was true or false, but it returned with the following: {}.\n Thus the condition evaluated to true!",
+                    fromXQueryResult, e);
             result = true;
         }
         return result;

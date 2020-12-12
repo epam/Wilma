@@ -31,10 +31,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
+import java.lang.reflect.InvocationTargetException;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -62,7 +67,7 @@ public class ExternalClassInitializerTest {
 
     @Before
     public void setUp() {
-        underTest = spy(new ExternalClassInitializer());
+        underTest = new ExternalClassInitializer();
         initMocks(this);
         given(classNameMapper.get(SIMPLE_CLASS_NAME)).willReturn(CLASS);
     }
@@ -80,10 +85,11 @@ public class ExternalClassInitializerTest {
     }
 
     @Test
-    public void testLoadExternalClassShouldBeRegisteredToApplicationContext() throws ClassNotFoundException {
+    public void testLoadExternalClassShouldBeRegisteredToApplicationContext() throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
         //GIVEN
         given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
         given(classFactory.getClassToLoad(PATH, CLASS)).willReturn(Object.class);
+        given(classInstantiator.createClassInstanceOf(any())).willReturn(new Object());
         ignoreInterfaceTypeValidation();
         //WHEN
         underTest.loadExternalClass(SIMPLE_CLASS_NAME, PATH, TemplateGenerator.class);

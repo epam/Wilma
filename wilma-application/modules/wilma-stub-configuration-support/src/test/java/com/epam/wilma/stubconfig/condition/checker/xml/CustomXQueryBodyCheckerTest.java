@@ -67,6 +67,7 @@ public class CustomXQueryBodyCheckerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "logger", logger);
         parameterList = new ParameterList();
     }
 
@@ -120,7 +121,7 @@ public class CustomXQueryBodyCheckerTest {
         //WHEN
         underTest.checkCondition(request, parameterList);
         //THEN
-        verify(logger).debug(Mockito.anyString(), Mockito.any(SaxonApiException.class));
+        verify(logger).debug(Mockito.anyString(), Mockito.anyString(), Mockito.any(NullPointerException.class));
     }
 
     @Test

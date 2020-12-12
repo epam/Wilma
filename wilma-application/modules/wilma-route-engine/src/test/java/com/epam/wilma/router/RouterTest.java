@@ -36,7 +36,9 @@ import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the <tt>Rerouter</tt> class.

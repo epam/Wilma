@@ -34,6 +34,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -42,6 +45,9 @@ import static org.mockito.Mockito.verify;
  * @author Adam_Csaba_Kiraly
  */
 public class BlockLocalhostUsageOffServletTest {
+
+    private String messageAssemblerResult = "messageAssemblerResult";
+
     @Mock
     private Logger logger;
     @Mock
@@ -67,6 +73,7 @@ public class BlockLocalhostUsageOffServletTest {
     public void doGetShouldLogMessageAtInfoLevel() throws ServletException, IOException {
         //GIVEN request and response
         Whitebox.setInternalState(underTest, "logger", logger);
+        given(urlAccessLogMessageAssembler.assembleMessage(any(), anyString())).willReturn(messageAssemblerResult);
         //WHEN
         underTest.doGet(req, resp);
         //THEN
@@ -86,6 +93,7 @@ public class BlockLocalhostUsageOffServletTest {
     public void doPostShouldCallDoGet() throws ServletException, IOException {
         //GIVEN request and response
         Whitebox.setInternalState(underTest, "logger", logger);
+        given(urlAccessLogMessageAssembler.assembleMessage(any(), anyString())).willReturn(messageAssemblerResult);
         //WHEN
         underTest.doPost(req, resp);
         //THEN

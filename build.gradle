@@ -23,6 +23,8 @@ plugins {
 ext {
     nettyVersion = '4.1.51.Final'
     jUnitVersion = '4.13.1'
+    mockitoAllVersion = '1.10.19'
+    mockitoCoreVersion = '3.3.3'
 }
 
 apply from: 'common.gradle'

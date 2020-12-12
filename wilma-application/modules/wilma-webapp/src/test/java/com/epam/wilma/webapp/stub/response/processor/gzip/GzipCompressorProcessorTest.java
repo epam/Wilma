@@ -19,8 +19,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -61,6 +61,8 @@ public class GzipCompressorProcessorTest {
     private ByteArrayInputStreamFactory inputStreamFactory;
     @Mock
     private ByteArrayOutputStream outputStream;
+    @Mock
+    private ByteArrayInputStream inputStream;
 
     @InjectMocks
     private GzipCompressorProcessor underTest;
@@ -97,6 +99,7 @@ public class GzipCompressorProcessorTest {
         given(req.getHeader(HEADER_KEY_ACCEPT_ENCODING)).willReturn(HEADER_VALUE_GZIP);
         given(gzipCompressor.compress(any(ByteArrayInputStream.class))).willReturn(outputStream);
         given(outputStream.toByteArray()).willReturn(responseBody);
+        given(inputStreamFactory.createByteArrayInputStream(any())).willReturn(inputStream);
         //WHEN
         byte[] actual = underTest.process(req, resp, responseBody);
         //THEN

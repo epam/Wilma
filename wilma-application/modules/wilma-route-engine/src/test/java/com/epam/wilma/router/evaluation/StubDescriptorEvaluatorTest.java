@@ -31,7 +31,11 @@ import com.epam.wilma.router.helper.ResponseDescriptorDtoFactory;
 import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
+import org.mockito.Answers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 
@@ -40,7 +44,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;

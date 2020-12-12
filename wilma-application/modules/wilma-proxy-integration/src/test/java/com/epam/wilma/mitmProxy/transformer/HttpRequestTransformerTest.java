@@ -27,6 +27,7 @@ import com.epam.wilma.proxy.helper.WilmaRequestFactory;
 import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
 import org.apache.http.Header;
 import org.apache.http.RequestLine;
+import org.apache.http.message.BasicHeader;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
@@ -46,7 +47,7 @@ public class HttpRequestTransformerTest {
 
     private static final String PREFIX = "prefix";
 
-    private Header[] headers;
+    private final Header[] headers = { new BasicHeader("Connection", "keep-alive") };
     @Mock
     private WilmaHttpRequest wilmaHttpRequest;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -58,8 +59,6 @@ public class HttpRequestTransformerTest {
     @Mock
     private RequestLine requestLine;
     @Mock
-    private Header header;
-    @Mock
     private MessageConfigurationAccess configurationAccess;
     @Mock
     private WilmaRequestFactory requestFactory;
@@ -70,7 +69,6 @@ public class HttpRequestTransformerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        headers = new Header[1];
     }
 
     @Test
@@ -84,6 +82,7 @@ public class HttpRequestTransformerTest {
         verify(wilmaHttpRequest).addHeader(Mockito.anyString(), Mockito.anyString());
         assertEquals(actual.getRequestLine(), wilmaHttpRequest.getRequestLine());
         assertEquals(actual.getHeader("header"), wilmaHttpRequest.getHeader("header"));
+        assertEquals(actual.getHeader("Connection"), wilmaHttpRequest.getHeader("Connection"));
     }
 
     @Test
@@ -126,7 +125,6 @@ public class HttpRequestTransformerTest {
     }
 
     private void setMocksForHeader() {
-        headers[0] = header;
         given(requestFactory.createNewWilmaHttpRequest()).willReturn(wilmaHttpRequest);
         given(browserMobHttpRequest.getMethod().getRequestLine()).willReturn(requestLine);
         given(browserMobHttpRequest.getMethod().getAllHeaders()).willReturn(headers);
