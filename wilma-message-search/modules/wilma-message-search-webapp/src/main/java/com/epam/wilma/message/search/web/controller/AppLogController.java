@@ -18,10 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.epam.wilma.message.search.web.service.LogFileProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,12 +32,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.epam.wilma.message.search.web.service.LogFileProvider;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Controller for accessing the application log files.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Controller
 public class AppLogController {
@@ -53,6 +52,7 @@ public class AppLogController {
 
     /**
      * Serves the applog page.
+     *
      * @return the name of the applog jsp file
      */
     @RequestMapping(value = "/applog", method = RequestMethod.GET)
@@ -62,10 +62,11 @@ public class AppLogController {
 
     /**
      * Gets the list of log files.
+     *
      * @return with the list of log files as a JSON response
      */
     @ResponseBody
-    @RequestMapping(value = "/logs", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/logs", method = RequestMethod.GET)
     public Map<String, Collection<String>> getLogFiles() {
         Map<String, Collection<String>> jsonResponse = new HashMap<>();
         jsonResponse.put(JSON_NAME, logFileProvider.getLogFileNames());
@@ -74,15 +75,16 @@ public class AppLogController {
 
     /**
      * Gets the content of the log file.
-     * @param fileName the name of the log file
-     * @param source true if the content should be written directly, false for attachment
+     *
+     * @param fileName  the name of the log file
+     * @param source    true if the content should be written directly, false for attachment
      * @param userAgent the User-Agent of the request header
      * @return the content of the log file
      */
-    @RequestMapping(value = "/logs/{fileName:.+}", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/logs/{fileName:.+}", method = RequestMethod.GET)
     public ResponseEntity<String> getLogFileContent(@PathVariable("fileName") final String fileName,
-            @RequestParam(value = "source", defaultValue = "false") final boolean source,
-            @RequestHeader(value = "User-Agent", defaultValue = "") final String userAgent) {
+                                                    @RequestParam(value = "source", defaultValue = "false") final boolean source,
+                                                    @RequestHeader(value = "User-Agent", defaultValue = "") final String userAgent) {
         String body = logFileProvider.getLogContent(fileName);
         body = convertLineBreaksIfOnWindows(body, userAgent);
         HttpHeaders headers = new HttpHeaders();

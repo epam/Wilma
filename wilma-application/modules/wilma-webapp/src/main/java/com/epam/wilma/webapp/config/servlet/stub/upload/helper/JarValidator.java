@@ -18,27 +18,29 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
-import org.springframework.stereotype.Component;
-
-import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
-
 /**
  * Used for checking the validity of jars.
+ *
  * @author Adam_Csaba_Kiraly
  * @author Tamas_Kohegyi
- *
  */
 @Component
 public class JarValidator {
 
+    private final static long MAX_SIZE = 1000000;
+
     /**
      * Checks if the given jar has jar entries, throws a {@link CannotUploadExternalResourceException} if it doesn't.
      * Note: a copy of the original inputStream should be passed in to the method.
+     *
      * @param inputStream a copy of the jar's {@link InputStream}
      */
     public void validateInputStream(final InputStream inputStream) {
@@ -49,9 +51,14 @@ public class JarValidator {
             if (jarEntry == null) {
                 throw new IOException("Empty or invalid jar.");
             }
+            if (jarEntry.getName().contains("..")) {
+                throw new IOException("Jar is dangerous - contains '..' in path.");
+            }
+            if (jarEntry.getSize() > MAX_SIZE) {
+                throw new IOException("Jar is dangerous - too large.");
+            }
         } catch (IOException e) {
-            throw new CannotUploadExternalResourceException(
-                    "Could not upload external jar, as it has invalid format or jar is empty.", e);
+            throw new CannotUploadExternalResourceException("Could not upload external jar, as it has invalid format or jar is empty.", e);
         }
     }
 }

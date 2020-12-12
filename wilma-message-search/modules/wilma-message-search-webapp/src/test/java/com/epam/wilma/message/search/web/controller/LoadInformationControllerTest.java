@@ -62,7 +62,7 @@ public class LoadInformationControllerTest {
     @Test
     public void testGetLoadInformation() throws Exception {
         //GIVEN
-        Long expected = new Long(91);
+        Long expected = 91L;
         given(mBeanServerConnection.getAttribute(jmsQueue, "QueueSize")).willReturn(expected);
         //WHEN
         Map<String, Long> result = underTest.getLoadInformation();
@@ -76,7 +76,7 @@ public class LoadInformationControllerTest {
         Whitebox.setInternalState(underTest, "jmsQueue", null);
         given(jmxConnectionBuilder.buildMBeanServerConnection(LoadInformationController.JMS_SERVICE_URL)).willReturn(mBeanServerConnection);
         given(jmxObjectNameProvider.getObjectName(LoadInformationController.JMS_QUEUE_OBJECT_NAME)).willReturn(jmsQueue);
-        given(mBeanServerConnection.getAttribute(jmsQueue, "QueueSize")).willReturn(new Long(91));
+        given(mBeanServerConnection.getAttribute(jmsQueue, "QueueSize")).willReturn(91L);
         // WHEN
         Map<String, Long> result = underTest.getLoadInformation();
         // THEN
@@ -90,7 +90,7 @@ public class LoadInformationControllerTest {
         Whitebox.setInternalState(underTest, "jmsQueueConnection", null);
         given(jmxConnectionBuilder.buildMBeanServerConnection(LoadInformationController.JMS_SERVICE_URL)).willReturn(mBeanServerConnection);
         given(jmxObjectNameProvider.getObjectName(LoadInformationController.JMS_QUEUE_OBJECT_NAME)).willReturn(jmsQueue);
-        given(mBeanServerConnection.getAttribute(jmsQueue, "QueueSize")).willReturn(new Long(91));
+        given(mBeanServerConnection.getAttribute(jmsQueue, "QueueSize")).willReturn(91L);
         // WHEN
         Map<String, Long> result = underTest.getLoadInformation();
         // THEN

@@ -69,7 +69,9 @@ class SecondaryRequestHandler {
             httpClient = HttpClients.createDefault();
             response = httpClient.execute(method);
         } finally {
-            httpClient.close();
+            if (httpClient != null) {
+                httpClient.close();
+            }
         }
         return transferResponse(response, method, messageId, serverIpAddress);
     }

@@ -19,27 +19,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Random;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.SecureRandom;
+
 /**
  * Handler that is able to handle requests coming to /perfexample with one of the given XMLs in the request body.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class PerformanceTestHandler extends AbstractHandler {
     private static final String PATH_TO_HANDLE = "/perfexample";
 
-    private final Random random = new Random();
+    private final SecureRandom random = new SecureRandom();
 
     private final byte[] xmlLargeAsBytes;
     private final byte[] xmlMaxAsBytes;
@@ -49,6 +47,7 @@ public class PerformanceTestHandler extends AbstractHandler {
 
     /**
      * Constructor reads xml from file.
+     *
      * @throws IOException when converting to byte array fails.
      */
     public PerformanceTestHandler() throws IOException {
@@ -68,7 +67,7 @@ public class PerformanceTestHandler extends AbstractHandler {
 
     @Override
     public void handle(final String path, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response)
-        throws IOException, ServletException {
+            throws IOException {
         if (PATH_TO_HANDLE.equals(path)) {
             double rnd = random.nextDouble();
             byte[] responseBodyAsBytes;

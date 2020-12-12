@@ -59,8 +59,9 @@ dependencies {
     compile group: 'org.eclipse.jetty', name: 'jetty-servlets', version:'9.4.31.v20200723'
     compile group: 'commons-io', name: 'commons-io', version:'2.4'
     compile group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'1.2.13'
-    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
-    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
+//    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
+    testImplementation "junit:junit:${jUnitVersion}"
     testCompile group: 'cglib', name: 'cglib', version:'3.0'
 }
 

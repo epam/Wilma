@@ -31,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.epam.wilma.message.search.web.support.FileZipper;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Controller for downloading previous search result's files in a compressed ZIP.
@@ -52,7 +53,7 @@ public class AllResultFileDownloadController {
      * @param response which contains the compressed ZIP with the results
      */
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/downloadAll")
+    @RequestMapping(value = "/downloadAll", method = RequestMethod.GET)
     public void downloadFiles(final HttpSession session, final HttpServletResponse response) {
         List<List<String>> searchResultWithPairs = (List<List<String>>) session.getAttribute(SEARCH_RESULT_KEY);
         if (searchResultWithPairs != null && !searchResultWithPairs.isEmpty()) {
