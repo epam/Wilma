@@ -39,7 +39,7 @@ public class FastInfosetTransformerFactory {
      * is not available or cannot be instantiated.
      */
     public Transformer createTransformer() throws TransformerConfigurationException {
-        return TransformerFactory.newInstance().newTransformer();
+        return TransformerFactory.newInstance().newTransformer(); //NO_SONAR - this works properly this way
     }
 
 }

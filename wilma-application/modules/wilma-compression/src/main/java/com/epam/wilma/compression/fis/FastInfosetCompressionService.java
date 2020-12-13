@@ -19,20 +19,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.stream.StreamResult;
-
-import org.jvnet.fastinfoset.FastInfosetSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
 import com.epam.wilma.common.stream.helper.StreamResultFactory;
 import com.epam.wilma.compression.CompressionService;
@@ -42,11 +28,24 @@ import com.epam.wilma.compression.fis.helper.SAXDocumentSerializerFactory;
 import com.epam.wilma.compression.fis.helper.SAXParserFactoryCreator;
 import com.epam.wilma.domain.exception.SystemException;
 import com.sun.xml.fastinfoset.sax.SAXDocumentSerializer;
+import org.jvnet.fastinfoset.FastInfosetSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.stream.StreamResult;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 /**
  * Compresses and decompresses an inputStream into/from fastinfoset.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class FastInfosetCompressionService implements CompressionService {
@@ -74,6 +73,8 @@ public class FastInfosetCompressionService implements CompressionService {
             SAXParserFactory saxParserFactory = saxParserCreator.createSAXParserFactory();
             saxParserFactory.setNamespaceAware(true);
             SAXParser saxParser = saxParserFactory.newSAXParser();
+            saxParser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            saxParser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
             saxParser.parse(source, saxDocumentSerializer);
             return fis;
         } catch (Exception e) {

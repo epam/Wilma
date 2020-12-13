@@ -21,7 +21,7 @@ description = 'wilma common'
 dependencies {
     compile project(':wilma-application:wilma-domain')
     compile project(':wilma-application:wilma-properties')
-    compile group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'1.2.13'
+    compile group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'2.0.0'
     compile group: 'javax.jms', name: 'jms', version:'1.1'
     compile(group: 'org.apache.activemq', name: 'activemq-client', version:'5.11.1') {
         exclude(module: 'geronimo-jms_1.1_spec')

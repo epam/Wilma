@@ -18,26 +18,27 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import org.springframework.stereotype.Component;
+
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 
-import org.springframework.stereotype.Component;
-
 /**
  * Factory for creating new instances of {@link Transformer}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class XmlTransformerFactory {
 
     /**
      * Creates a new instance of {@link Transformer}.
+     *
      * @return the new instance
      * @throws TransformerConfigurationException when it is not possible to create a Transformer instance
      */
     public Transformer createTransformer() throws TransformerConfigurationException {
-        return TransformerFactory.newInstance().newTransformer();
+        return TransformerFactory.newInstance().newTransformer(); //NO_SONAR - this works properly this way
     }
 }
