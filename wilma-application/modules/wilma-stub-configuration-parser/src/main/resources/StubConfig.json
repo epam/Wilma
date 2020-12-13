@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "Representation of Wilma stub configuration possibilities",
+  "description": "Representation of Wilma stub configuration possibilities, a.k.a. JSON Schema for Wilma.",
   "type": "object",
   "properties": {
     "wilmaStubConfiguration": {
