@@ -43,6 +43,44 @@ sourceSets {
         }
     }
 }
+
+task conditionCheckerJar(type: Jar, dependsOn: classes) {
+    archiveBaseName = "conditionchecker"
+    archiveVersion = "";
+    destinationDirectory = file("$buildDir/../resources/preCompiled")
+    includeEmptyDirs = false
+    from sourceSets.main.output.classesDirs
+    include ("**/sandbox/**/AlwaysTrueCheckerJared.class", "**/sandbox/**/SuperLogic.class")
+}
+
+task interceptorJar(type: Jar, dependsOn: classes) {
+    archiveBaseName = "interceptor"
+    archiveVersion = "";
+    destinationDirectory = file("$buildDir/../resources/preCompiled")
+    includeEmptyDirs = false
+    from sourceSets.main.output.classesDirs
+    include ("**/sandbox/**/*InterceptorJared.class", "**/sandbox/**/SuperLogic.class")
+}
+
+task responseFormatterJar(type: Jar, dependsOn: classes) {
+    archiveBaseName = "responseformatter"
+    archiveVersion = "";
+    destinationDirectory = file("$buildDir/../resources/preCompiled")
+    includeEmptyDirs = false
+    from sourceSets.main.output.classesDirs
+    include ("**/sandbox/**/TestResponseFormatterJared.class", "**/sandbox/**/SuperLogic.class")
+}
+
+task allClassesJar(type: Jar, dependsOn: classes) {
+    archiveBaseName = "allclasses"
+    archiveVersion = "";
+    destinationDirectory = file("$buildDir/../resources/preCompiled")
+    includeEmptyDirs = false
+    from sourceSets.main.output.classesDirs
+    include ("**/sandbox/**/*.class")
+}
+
+
 mainClassName = "com.epam.gepard.AllTestRunner"
 
 def appArgs = ["$buildDir/resources/main/wilma-test.properties,$buildDir/resources/main/gepard.properties"]
@@ -56,7 +94,7 @@ if ( hasProperty('wilmahost') ) {
     applicationDefaultJvmArgs += ["-Dwilma.host=localhost"]
 }
 
-task prepareResources (dependsOn: build, type: Copy) {
+task prepareResources (dependsOn: [build, conditionCheckerJar, interceptorJar, allClassesJar, responseFormatterJar], type: Copy) {
     from "build/classes/java/main/com/epam/wilma/functionalTest"
     into "resources/preCompiled"
     include "*.class"
