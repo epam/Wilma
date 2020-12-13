@@ -26,7 +26,7 @@ import com.epam.wilma.common.configuration.ConfigurationAccessBase;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.properties.PropertyHolder;
 import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
-import com.epam.wilma.stubconfig.dom.parser.node.helper.ClassNameMapper;
+import com.epam.wilma.stubconfig.initializer.support.helper.ClassNameMapper;
 
 /**
  * Sets the module appropriate configurations.

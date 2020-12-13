@@ -22,7 +22,7 @@ import com.epam.wilma.domain.stubconfig.dialog.condition.Condition;
 import com.epam.wilma.domain.stubconfig.dialog.condition.SimpleCondition;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.stubconfig.dom.parser.node.helper.CustomXQueryCheckerValidator;
+import com.epam.wilma.stubconfig.json.parser.helper.CustomXQueryCheckerValidator;
 import com.epam.wilma.stubconfig.initializer.condition.ConditionCheckerInitializer;
 import com.epam.wilma.stubconfig.json.parser.helper.ParameterListParser;
 import org.json.JSONObject;

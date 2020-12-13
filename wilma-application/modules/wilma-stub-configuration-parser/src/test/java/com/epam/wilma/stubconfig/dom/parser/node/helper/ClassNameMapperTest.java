@@ -21,6 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.common.helper.JavaClassFactory;
+import com.epam.wilma.stubconfig.initializer.support.helper.ClassNameMapper;
 import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.JavaClass;
 import org.junit.Before;

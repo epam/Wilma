@@ -21,7 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.properties.PropertyHolder;
 import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
-import com.epam.wilma.stubconfig.dom.parser.node.helper.ClassNameMapper;
+import com.epam.wilma.stubconfig.initializer.support.helper.ClassNameMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

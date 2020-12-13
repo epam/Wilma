@@ -27,8 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
 
-import com.epam.wilma.stubconfig.dom.parser.node.helper.XPathProvider;
-
 /**
  * Creates and evaluates an XPATH query.
  *
@@ -45,7 +43,7 @@ public class XmlXpathResolver {
      * @param typeQuery query to run
      * @param xml xml content which the query will run on
      * @return the evaluated result
-     * @throws InvalidXPathExperssionException if the XPATH cannot be evaluated
+     * @throws InvalidXPathExpressionException if the XPATH cannot be evaluated
      */
     public String getValue(final String typeQuery, final String xml) {
         XPath xPath = xPathProvider.getXPath();
@@ -57,13 +55,13 @@ public class XmlXpathResolver {
         try {
             return xPath.evaluate(typeQuery, source);
         } catch (XPathExpressionException e) {
-            throw new InvalidXPathExperssionException();
+            throw new InvalidXPathExpressionException();
         }
     }
 
     /**
      * Exception is thrown when XPATH cannot be evaluated.
      */
-    public static final class InvalidXPathExperssionException extends RuntimeException {
+    public static final class InvalidXPathExpressionException extends RuntimeException {
     }
 }

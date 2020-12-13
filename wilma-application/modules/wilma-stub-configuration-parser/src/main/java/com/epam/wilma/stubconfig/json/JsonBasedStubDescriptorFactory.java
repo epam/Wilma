@@ -24,7 +24,7 @@ import com.epam.wilma.domain.stubconfig.exception.DescriptorCannotBeParsedExcept
 import com.epam.wilma.domain.stubconfig.exception.StubConfigJsonSchemaException;
 import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
-import com.epam.wilma.stubconfig.dom.parser.StubResourceHolderUpdater;
+import com.epam.wilma.stubconfig.handler.StubResourceHolderUpdater;
 import com.epam.wilma.stubconfig.json.parser.StubDescriptorJsonParser;
 import com.epam.wilma.stubconfig.json.schema.StubConfigJsonSchemaParser;
 import org.everit.json.schema.Schema;

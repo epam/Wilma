@@ -19,7 +19,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.stubconfig.dom.parser.node.helper.XPathProvider;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,7 +52,7 @@ public class XmlXpathResolverTest {
         Assert.assertEquals(value, "BOB");
     }
 
-    @Test(expected = XmlXpathResolver.InvalidXPathExperssionException.class)
+    @Test(expected = XmlXpathResolver.InvalidXPathExpressionException.class)
     public void testGetValueWithInvalid() {
         //GIVEN in request
         //WHEN

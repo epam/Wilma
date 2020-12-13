@@ -22,7 +22,6 @@ import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionDescriptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorAttributes;
-import com.epam.wilma.stubconfig.dom.parser.sequence.helper.DialogDescriptorMapper;
 import com.epam.wilma.stubconfig.json.parser.ConditionDescriptorJsonParser;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

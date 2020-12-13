@@ -26,6 +26,7 @@ import com.epam.wilma.domain.stubconfig.helper.InternalResourceHolder;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
+import com.epam.wilma.stubconfig.handler.StubResourceHolderUpdater;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;

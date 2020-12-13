@@ -20,7 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.dom.parser.node.helper.ClassNameMapper;
+import com.epam.wilma.stubconfig.initializer.support.helper.ClassNameMapper;
 import com.epam.wilma.stubconfig.initializer.condition.helper.ClassFactory;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
