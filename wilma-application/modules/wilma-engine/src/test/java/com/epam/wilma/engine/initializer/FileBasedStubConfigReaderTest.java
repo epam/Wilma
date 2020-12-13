@@ -18,18 +18,15 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.stubconfig.StubConfigSchema;
 import com.epam.wilma.engine.configuration.EngineConfigurationAccess;
 import com.epam.wilma.engine.configuration.domain.PropertyDTO;
 import com.epam.wilma.stubconfig.cache.cleaner.helper.StubConfigPathProvider;
-import com.epam.wilma.stubconfig.dom.parser.xsd.StubConfigSchemaParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javax.xml.validation.Schema;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,15 +50,9 @@ public class FileBasedStubConfigReaderTest {
     @Mock
     private PropertyDTO properties;
     @Mock
-    private StubConfigSchemaParser stubConfigSchemaParser;
-    @Mock
-    private StubConfigSchema stubConfigSchema;
-    @Mock
     private StubConfigPathProvider cachePathProvider;
 
     private List<String> filePaths;
-    @Mock
-    private Schema schema;
 
     @InjectMocks
     private FileBasedStubConfigReader underTest;
@@ -100,16 +91,6 @@ public class FileBasedStubConfigReaderTest {
         underTest.readStubConfiguration();
         //THEN
         verify(stubDescriptorReader).loadSpecificStubDescriptors(paths);
-    }
-
-    @Test
-    public final void testReadStubConfigurationShouldParseXSDSchema() {
-        //GIVEN
-        given(stubConfigSchemaParser.parseSchema()).willReturn(schema);
-        //WHEN
-        underTest.readStubConfiguration();
-        //THEN
-        verify(stubConfigSchema).setSchema(schema);
     }
 
 }

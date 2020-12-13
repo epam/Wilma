@@ -18,11 +18,9 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.stubconfig.StubConfigSchema;
 import com.epam.wilma.engine.configuration.EngineConfigurationAccess;
 import com.epam.wilma.engine.configuration.domain.PropertyDTO;
 import com.epam.wilma.stubconfig.cache.cleaner.helper.StubConfigPathProvider;
-import com.epam.wilma.stubconfig.dom.parser.xsd.StubConfigSchemaParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +29,7 @@ import java.util.List;
 /**
  * Reads a stub descriptor from a file.
  *
- * @author Marton_Sereg
+ * @author Marton_Sereg, Tamas_Kohegyi
  */
 @Component
 public class FileBasedStubConfigReader {
@@ -45,17 +43,13 @@ public class FileBasedStubConfigReader {
     private EngineConfigurationAccess configurationAccess;
     @Autowired
     private StubConfigPathProvider cachePathProvider;
-    @Autowired
-    private StubConfigSchemaParser stubConfigSchemaParser;
-    @Autowired
-    private StubConfigSchema stubConfigSchema;
 
     /**
      * Reads a new stub descriptor from a file and applies the new configuration in the core module.
      */
     public void readStubConfiguration() {
         getJsonDescriptorPath();
-        stubConfigSchema.setSchema(stubConfigSchemaParser.parseSchema());
+//        stubConfigSchema.setSchema(stubConfigSchemaParser.parseSchema());
         List<String> stubConfigPaths = cachePathProvider.getConfigPathsFromCache(jsonDescriptorsCachePath);
         if (!stubConfigPaths.isEmpty()) {
             stubDescriptorReader.loadSpecificStubDescriptors(stubConfigPaths);

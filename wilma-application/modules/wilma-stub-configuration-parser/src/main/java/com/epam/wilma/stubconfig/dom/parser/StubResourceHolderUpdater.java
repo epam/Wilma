@@ -18,25 +18,23 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-
 import com.epam.wilma.domain.stubconfig.StubResourceHolder;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
 import com.epam.wilma.domain.stubconfig.helper.InternalResourceHolder;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Updates the {@link StubResourceHolder} from the {@link TemporaryStubResourceHolder}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class StubResourceHolderUpdater {
@@ -87,17 +85,9 @@ public class StubResourceHolderUpdater {
     }
 
     /**
-     * Add the XML document to {@link StubResourceHolder}.
-     * @param groupName is the group name attribute of stub configuration
-     * @param document is the XML document
-     */
-    public void addDocumentToResourceHolder(final String groupName, final Document document) {
-        //stubResourceHolder.setActualStubConfigDocument(groupName, document);
-    }
-
-    /**
      * Add the JSON Object to {@link StubResourceHolder}.
-     * @param groupName is the group name attribute of stub configuration
+     *
+     * @param groupName  is the group name attribute of stub configuration
      * @param jsonObject is the json object
      */
     public void addDocumentToResourceHolder(final String groupName, final JSONObject jsonObject) {
