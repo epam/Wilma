@@ -22,11 +22,10 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.webapp.config.servlet.helper.BufferedReaderFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.mockito.internal.util.reflection.FieldSetter;
 import org.slf4j.Logger;
 
 import javax.servlet.ServletException;
@@ -46,7 +45,7 @@ import static org.mockito.Mockito.verify;
  */
 public class SchemaProviderServletTest {
 
-    private static final String SCHEMA = "StubConfig.xsd";
+    private static final String SCHEMA = "StubConfig.json";
     @Mock
     private BufferedReaderFactory bufferedReaderFactory;
     @Mock
@@ -60,15 +59,12 @@ public class SchemaProviderServletTest {
     @Mock
     private BufferedReader reader;
 
-    @InjectMocks
     private SchemaProviderServlet underTest;
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() throws IOException, NoSuchFieldException {
         MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "stubConfigSchemaLocation", SCHEMA);
-        Whitebox.setInternalState(underTest, "logger", logger);
-        Whitebox.setInternalState(underTest, "bufferedReaderFactory", bufferedReaderFactory);
+        underTest = new SchemaProviderServlet(SCHEMA, bufferedReaderFactory);
         given(response.getWriter()).willReturn(writer);
     }
 
@@ -85,7 +81,7 @@ public class SchemaProviderServletTest {
     }
 
     @Test
-    public void testDoGetShouldSetContentTypeToXml() throws ServletException, IOException {
+    public void testDoGetShouldSetContentTypeToJson() throws ServletException, IOException {
         //GIVEN
         String nullString = null;
         given(bufferedReaderFactory.createBufferedReader(SCHEMA)).willReturn(reader);
@@ -93,7 +89,7 @@ public class SchemaProviderServletTest {
         //WHEN
         underTest.doGet(request, response);
         //THEN
-        verify(response).setContentType("application/xml");
+        verify(response).setContentType("application/json");
     }
 
     @Test
@@ -109,11 +105,12 @@ public class SchemaProviderServletTest {
     }
 
     @Test
-    public void testDoGetWhenIOExceptionShouldLogError() throws ServletException, IOException {
+    public void testDoGetWhenIOExceptionShouldLogError() throws ServletException, IOException, NoSuchFieldException {
         //GIVEN
         given(bufferedReaderFactory.createBufferedReader(SCHEMA)).willReturn(reader);
         IOException exception = new IOException();
         given(reader.readLine()).willThrow(exception);
+        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("logger"), logger);
         //WHEN
         underTest.doGet(request, response);
         //THEN

@@ -46,25 +46,26 @@ public class SchemaProviderServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(SchemaProviderServlet.class);
 
-    @Qualifier("stubConfigSchemaLocation")
-    private final String stubConfigSchemaLocation;
+    @Qualifier("stubConfigJsonSchemaLocation")
+    private final String stubConfigJsonSchemaLocation;
+
     private final BufferedReaderFactory bufferedReaderFactory;
 
     /**
      * Constructor using spring framework to initialize the class.
-     * @param stubConfigSchemaLocation provides the stub configuration schema location
+     * @param stubConfigJsonSchemaLocation provides the stub configuration schema location
      * @param bufferedReaderFactory is able to read the schema
      */
     @Autowired
-    public SchemaProviderServlet(String stubConfigSchemaLocation, BufferedReaderFactory bufferedReaderFactory) {
-        this.stubConfigSchemaLocation = stubConfigSchemaLocation;
+    public SchemaProviderServlet(String stubConfigJsonSchemaLocation, BufferedReaderFactory bufferedReaderFactory) {
+        this.stubConfigJsonSchemaLocation = stubConfigJsonSchemaLocation;
         this.bufferedReaderFactory = bufferedReaderFactory;
     }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter out = resp.getWriter();
-        resp.setContentType("application/xml");
+        resp.setContentType("application/json");
         writeSchemaFile(out);
         out.flush();
         out.close();
@@ -76,13 +77,13 @@ public class SchemaProviderServlet extends HttpServlet {
     }
 
     private void writeSchemaFile(final PrintWriter out) {
-        try (BufferedReader bufferedReader = bufferedReaderFactory.createBufferedReader(stubConfigSchemaLocation)) {
+        try (BufferedReader bufferedReader = bufferedReaderFactory.createBufferedReader(stubConfigJsonSchemaLocation)) {
             String currentLine;
             while ((currentLine = bufferedReader.readLine()) != null) {
                 out.write(currentLine);
             }
         } catch (IOException e) {
-            logger.error(stubConfigSchemaLocation + " could not be read!", e);
+            logger.error(stubConfigJsonSchemaLocation + " could not be read!", e);
         }
     }
 }
