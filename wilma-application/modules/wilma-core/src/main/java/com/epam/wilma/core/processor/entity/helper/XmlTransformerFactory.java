@@ -39,6 +39,6 @@ public class XmlTransformerFactory {
      * @throws TransformerConfigurationException when it is not possible to create a Transformer instance
      */
     public Transformer createTransformer() throws TransformerConfigurationException {
-        return TransformerFactory.newInstance().newTransformer(); //NO_SONAR - this works properly this way
+        return TransformerFactory.newInstance().newTransformer(); //NOSONAR - this works properly this way
     }
 }

@@ -37,6 +37,7 @@ import java.util.Set;
 class ReverseProxyService extends ReverseProxyFileHandler implements ExternalWilmaService {
 
     private static final String HANDLED_SERVICE = "/reverse-proxy";
+    private static final int FOLDER_MAX_LENGTH = 120;
 
     /**
      * ExternalWilmaService method implementation - provides the list of requests, this service will handle.
@@ -78,7 +79,7 @@ class ReverseProxyService extends ReverseProxyFileHandler implements ExternalWil
         //handle complex calls (with query string as folder)
         if (myCall && httpServletRequest.getQueryString() != null && httpServletRequest.getQueryString().length() > 0) {
             String folder = httpServletRequest.getParameter("folder");
-            if (folder != null && folder.length() > 0) {
+            if (folder != null && folder.length() > 0 && !folder.contains("..") && folder.length() < FOLDER_MAX_LENGTH) { //make folder safe
                 //save (post) and load (get) map
                 response = handleComplexCall(myMethod, folder, httpServletResponse);
             }

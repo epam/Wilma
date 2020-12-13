@@ -41,6 +41,7 @@ import java.util.Set;
  */
 public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore implements RequestInterceptor, ResponseInterceptor, ExternalWilmaService {
     private static final String HANDLED_SERVICE = "/circuits";
+    private static final int FOLDER_MAX_LENGTH = 120;
 
     @Override
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
@@ -89,7 +90,7 @@ public class ShortCircuitInterceptor extends ShortCircuitInterceptorCore impleme
                 if (httpServletRequest.getQueryString().length() > 0) {
                     //handle calls with query string as folder
                     String folder = httpServletRequest.getParameter("folder");
-                    if (folder != null && folder.length() > 0) {
+                    if (folder != null && folder.length() > 0 && !folder.contains("..") && folder.length() < FOLDER_MAX_LENGTH) { //make folder safe
                         //save (post) and load (get) map
                         response = handleComplexCall(myMethod, folder, httpServletResponse);
                     }
