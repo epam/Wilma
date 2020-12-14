@@ -21,6 +21,7 @@ wilma-functionaltest/gradle
 wilma-functionaltest/gradlew*
 wilma-functionaltest/resources/src/**/*.class
 wilma-functionaltest/resources/preCompiled/*.class
+wilma-functionaltest/resources/preCompiled/*.jar
 wilma-functionaltest/classes
 browsermob-proxy/gradlew
 browsermob-proxy/gradlew.bat

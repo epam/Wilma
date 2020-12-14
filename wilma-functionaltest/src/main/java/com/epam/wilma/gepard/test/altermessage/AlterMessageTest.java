@@ -42,7 +42,7 @@ public class AlterMessageTest extends WilmaTestCase {
     private static final String TEST_SERVER_REQUEST = "NEED_ANSWER BLAH BLAH";
     private static final String TEST_SERVER_ALTERED_REQUEST = "NEED_ANSWER BAAH BAAH"; //L -> A
     private static final String TEST_SERVER_RESPONSE = "NEED_ANSWER AAAH AAAH";  //B -> A
-    private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/AlterProxyMessage/";
+    private static final String INTERCEPTOR_RESOURCE_BASE = "resources/preCompiled/";
     private static final String INTERCEPTOR_CLASS = "MessageAlterInterceptor.class";
 
     private RequestParameters createRequest(final String response) throws Exception {

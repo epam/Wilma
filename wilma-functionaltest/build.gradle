@@ -71,6 +71,15 @@ task responseFormatterJar(type: Jar, dependsOn: classes) {
     include ("**/sandbox/**/TestResponseFormatterJared.class", "**/sandbox/**/SuperLogic.class")
 }
 
+task messageSequenceJar(type: Jar, dependsOn: classes) {
+    archiveBaseName = "message-sequence"
+    archiveVersion = "";
+    destinationDirectory = file("$buildDir/../resources/preCompiled")
+    includeEmptyDirs = false
+    from sourceSets.main.output.classesDirs
+    include ("**/message/sequence/test/**/*.class", "**/wilma/sequenceandbox/**/*.class")
+}
+
 task allClassesJar(type: Jar, dependsOn: classes) {
     archiveBaseName = "allclasses"
     archiveVersion = "";
@@ -94,7 +103,7 @@ if ( hasProperty('wilmahost') ) {
     applicationDefaultJvmArgs += ["-Dwilma.host=localhost"]
 }
 
-task prepareResources (dependsOn: [build, conditionCheckerJar, interceptorJar, allClassesJar, responseFormatterJar], type: Copy) {
+task prepareResources (dependsOn: [build, conditionCheckerJar, interceptorJar, allClassesJar, responseFormatterJar, messageSequenceJar], type: Copy) {
     from "build/classes/java/main/com/epam/wilma/functionalTest"
     into "resources/preCompiled"
     include "*.class"
