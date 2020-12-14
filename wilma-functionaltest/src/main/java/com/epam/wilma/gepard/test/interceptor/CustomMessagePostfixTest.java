@@ -37,8 +37,8 @@ import static org.junit.Assert.assertTrue;
 public class CustomMessagePostfixTest extends WilmaTestCase {
     private static final String STUB_CONFIG = "resources/interceptor/custompostfix/stubConfigInterceptorOn.json";
     private static final String TEST_SERVER_RESPONSE = "resources/interceptor/usage/resetSequenceResponse.txt";
-    private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/custompostfix/";
-    private static final String INTERCEPTOR_CLASS = "resources/preCompiled/CustomMessagePostfixInterceptor.class";
+    private static final String INTERCEPTOR_RESOURCE_BASE = "resources/preCompiled/";
+    private static final String INTERCEPTOR_CLASS = "CustomMessagePostfixInterceptor.class";
 
     private RequestParameters createRequest(final String response) throws Exception {
         setOriginalRequestMessageEmpty();

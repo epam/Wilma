@@ -1,3 +1,4 @@
+package com.epam.wilma.functionalTest;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 

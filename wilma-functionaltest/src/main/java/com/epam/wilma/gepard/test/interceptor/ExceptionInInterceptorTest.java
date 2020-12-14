@@ -37,8 +37,8 @@ import static org.junit.Assert.assertTrue;
 public class ExceptionInInterceptorTest extends WilmaTestCase {
     private static final String STUB_CONFIG = "resources/interceptor/usage/stubConfigExInterceptorOn.json";
     private static final String TEST_SERVER_RESPONSE = "resources/interceptor/usage/resetSequenceResponse.txt";
-    private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/usage/";
-    private static final String INTERCEPTOR_CLASS = "resources/preCompiled/ThrowingNPEInterceptor.class";
+    private static final String INTERCEPTOR_RESOURCE_BASE = "resources/preCompiled/";
+    private static final String INTERCEPTOR_CLASS = "ThrowingNPEInterceptor.class";
     private static final String MESSAGE_NOT_YET_AVAILABLE = "Requested file not found.";
 
     private RequestParameters createRequest(final String response) throws Exception {
