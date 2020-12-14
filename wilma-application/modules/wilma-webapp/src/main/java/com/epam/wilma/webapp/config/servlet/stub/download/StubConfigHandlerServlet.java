@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.epam.wilma.stubconfig.json.parser.helper.JsonBasedObjectTransformer;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,12 +45,15 @@ import com.epam.wilma.webapp.config.servlet.stub.download.helper.ByteArrayConver
 @Component
 public class StubConfigHandlerServlet extends HttpServlet {
 
+    private static final int GROUP_NAME_MAX_LENGTH = 128;
     private static final String ENCODING = "UTF-8";
     private static final String JSON = "application/json";
     private static final String HTML = "text/html";
     private static final String TEXT = "text/plain";
     private static final String CONTENT_DISPOSITION = "Content-Disposition";
     private static final String ERROR_MSG = "Something went wrong! The actually used configuration can not be transformed to a JSON.";
+
+    private final Logger logger = LoggerFactory.getLogger(StubConfigHandlerServlet.class);
 
     private final JsonBasedObjectTransformer jsonBasedObjectTransformer;
 
@@ -70,8 +75,8 @@ public class StubConfigHandlerServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        String sourceParameter = req.getParameter("groupname");
-        if (sourceParameter != null) {
+        String sourceParameter = req.getParameter("groupname"); //NOSONAR, it is properly checked
+        if (sourceParameter != null && sourceParameter.length() <= GROUP_NAME_MAX_LENGTH) {
             byte[] xml = getActualUsedJson(sourceParameter);
             if (xml != null) {
                 setHeader(req, resp, sourceParameter);
@@ -79,6 +84,8 @@ public class StubConfigHandlerServlet extends HttpServlet {
             } else {
                 writeErrorToResponse(resp);
             }
+        } else {
+            logger.warn("Invalid 'groupname' specified.");
         }
     }
 

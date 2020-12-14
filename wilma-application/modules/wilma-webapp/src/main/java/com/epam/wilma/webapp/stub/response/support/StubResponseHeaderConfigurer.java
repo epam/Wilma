@@ -35,6 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class StubResponseHeaderConfigurer {
 
+    private static final int WILMA_SEQUENCE_MAX_LENGTH = 128;
+
     /**
      * Gets the WilmaSequence(if exists) from the request headers
      * and write the necessary information into the response header.
@@ -43,9 +45,9 @@ public class StubResponseHeaderConfigurer {
      * @param dialogDescriptorName is the name of the actually used DialogDescriptor
      */
     public void addWilmaInfoToResponseHeader(final HttpServletRequest req, final HttpServletResponse resp, final String dialogDescriptorName) {
-        String wilmaSequence = req.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID);
+        String wilmaSequence = req.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID); //NOSONAR - this is a trusted test code
 
-        if (wilmaSequence != null) {
+        if (wilmaSequence != null && wilmaSequence.length() < WILMA_SEQUENCE_MAX_LENGTH) {
             resp.addHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID, wilmaSequence + "," + dialogDescriptorName);
         } else {
             resp.addHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID, dialogDescriptorName);

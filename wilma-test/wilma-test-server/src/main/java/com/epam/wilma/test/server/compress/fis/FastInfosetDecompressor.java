@@ -48,7 +48,7 @@ public class FastInfosetDecompressor implements Decompressor {
         // Create the transformer
         Transformer tx;
         try {
-            tx = TransformerFactory.newInstance().newTransformer();
+            tx = TransformerFactory.newInstance().newTransformer(); //NOSONAR this is an intended use, no risk here
             tx.transform(new FastInfosetSource(source), new StreamResult(xmlOutputStream));
             // Transform to convert the FI document to an XML document
             return xmlOutputStream.toString();

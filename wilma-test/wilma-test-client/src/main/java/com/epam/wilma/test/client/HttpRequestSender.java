@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.zip.GZIPOutputStream;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -129,6 +130,8 @@ public class HttpRequestSender {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             saxParserFactory.setNamespaceAware(true);
             SAXParser saxParser = saxParserFactory.newSAXParser();
+            saxParser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            saxParser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
             saxParser.parse(source, saxDocumentSerializer);
             return new ByteArrayInputStream(((ByteArrayOutputStream) fis).toByteArray());
         } catch (ParserConfigurationException e) {

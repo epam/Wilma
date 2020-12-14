@@ -111,6 +111,6 @@ public class XslTransformer {
     }
 
     XMLReader createXMLReader() throws SAXException {
-        return XMLReaderFactory.createXMLReader();
+        return XMLReaderFactory.createXMLReader(); //NOSONAR - this is trusted, we are a test app
     }
 }
