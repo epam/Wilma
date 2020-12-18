@@ -20,10 +20,10 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.support.helper.ClassNameMapper;
-import com.epam.wilma.stubconfig.initializer.condition.helper.ClassFactory;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
+import com.epam.wilma.stubconfig.initializer.support.helper.ClassFactory;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
+import com.epam.wilma.stubconfig.initializer.support.helper.ClassNameMapper;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassValidator;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,10 +34,10 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -137,7 +137,6 @@ public class ExternalClassInitializerTest {
     }
 
     private static final class DummyGenerator implements TemplateGenerator {
-
         @Override
         public byte[] generateTemplate() {
             return null;

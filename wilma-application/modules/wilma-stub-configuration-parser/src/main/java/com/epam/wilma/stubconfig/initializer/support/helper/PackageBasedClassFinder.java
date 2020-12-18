@@ -19,18 +19,25 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.domain.exception.SystemException;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Iterator;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * Used for finding classes of a certain type and package.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Component
 public class PackageBasedClassFinder {
@@ -39,40 +46,74 @@ public class PackageBasedClassFinder {
     private static final String CLASS_NOT_FOUND_TEMPLATE = "Could not find '%s' in package: '%s'";
     private final Logger logger = LoggerFactory.getLogger(PackageBasedClassFinder.class);
 
-    @Autowired
-    private PackageBasedClassFinderCore packageBasedClassFinderCore;
-
-    /**
-     * Finds the first subclass of the given type and package.
-     * Logs a message if multiple were found.
-     * @param interfaceOrClass the given type
-     * @param packageName the given package
-     * @param <T> the type of the {@link Class}
-     * @return the first subtype of the given type that was found
-     * @throws ClassNotFoundException  if it doesn't find any classes
-     */
-    public <T> Class<? extends T> findFirstOf(final Class<T> interfaceOrClass, final String packageName) throws ClassNotFoundException {
-        Class<? extends T> result = null;
-        Set<Class<? extends T>> classesThatImplementTheInterface = packageBasedClassFinderCore.find(packageName, interfaceOrClass);
-        Iterator<Class<? extends T>> iterator = classesThatImplementTheInterface.iterator();
-        if (iterator.hasNext()) {
-            result = getResult(iterator);
-        } else {
-            throw new ClassNotFoundException(String.format(CLASS_NOT_FOUND_TEMPLATE, interfaceOrClass.getName(), packageName));
-        }
-        warnOfMultipleClasses(classesThatImplementTheInterface, packageName, interfaceOrClass);
-        return result;
-
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> Class<? extends T> getResult(final Iterator<Class<? extends T>> iterator) {
-        return iterator.next();
-    }
-
     private <T> void warnOfMultipleClasses(final Set<Class<? extends T>> setOfClasses, final String packageName, final Class<T> interfaceOrClass) {
         if (setOfClasses.size() > 1) {
             logger.info(String.format(MULTIPLE_CLASSES_FOUND_TEMPLATE, setOfClasses, packageName, interfaceOrClass));
         }
     }
+
+    private List<File> collectJarFiles(String jarFolderPath) {
+        File folder = new File(jarFolderPath);
+        File[] listOfFiles = folder.listFiles();
+        List<File> jarFileList = new ArrayList<>();
+        for (int i = 0; i < listOfFiles.length; i++) {
+            File actualFile = listOfFiles[i];
+            if (actualFile.isFile() && actualFile.getName().toLowerCase().endsWith(".jar")) {
+                jarFileList.add(actualFile);
+            }
+        }
+        return jarFileList;
+    }
+
+    /**
+     * Finds the first subclass of the given type and package.
+     * Logs a message if multiple were found.
+     *
+     * @param jarFolderPath   the resource path of the jar files
+     * @param interfaceToCast the given type
+     * @param packageName     the given package
+     * @param <T>             the type of the {@link Class}
+     * @return the first subtype of the given type that was found
+     * @throws ClassNotFoundException if it doesn't find any classes
+     */
+    public <T> Class findClassInJar(String jarFolderPath, Class<T> interfaceToCast, String packageName) throws MalformedURLException {
+        List<File> potentialJars = collectJarFiles(jarFolderPath);
+        for (File file : potentialJars) {
+            List<Class> classes = getClassesFromJarFile(file);
+            for (Class clazz : classes) {
+                if (clazz.getPackage().getName().startsWith(packageName)
+                        && interfaceToCast.isAssignableFrom(clazz)) {
+                    return clazz;
+                }
+            }
+        }
+        throw new DescriptorValidationFailedException("Cannot find any suitable class.");
+    }
+
+    private List<Class> getClassesFromJarFile(File path) {
+        List<Class> classes = new ArrayList<>();
+        try {
+            if (path.canRead()) {
+                JarFile jar = new JarFile(path);
+                Enumeration<JarEntry> en = jar.entries();
+                while (en.hasMoreElements()) {
+                    JarEntry entry = en.nextElement();
+                    if (entry.getName().endsWith("class")) {
+                        String className = fromFileToClassName(entry.getName());
+                        Class claz = Class.forName(className);
+                        classes.add(claz);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new SystemException("Failed to read classes from jar file: " + path, e);
+        }
+
+        return classes;
+    }
+
+    private String fromFileToClassName(final String fileName) {
+        return fileName.substring(0, fileName.length() - 6).replaceAll("/|\\\\", "\\.");
+    }
+
 }

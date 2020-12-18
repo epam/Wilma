@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.initializer.condition.helper;
+package com.epam.wilma.stubconfig.initializer.support.helper;
 /*==========================================================================
 Copyright since 2020, EPAM Systems
 

@@ -64,6 +64,7 @@ jar {
     manifest.attributes( 'provider': 'gradle')
     manifest.attributes( 'Main-Class': mainClassName)
     manifest.attributes( 'Implementation-Title': "$componentDescription - V$version")
+    manifest.attributes( 'Launcher-Agent-Class': "com.epam.wilma.stubconfig.initializer.support.helper.Agent")
     archiveName = "$componentName-$version"+'.jar'
 
     finalizedBy shadowJar

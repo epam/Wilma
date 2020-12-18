@@ -18,10 +18,11 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 description = 'Wilma Stub Configuration Parser'
+
 dependencies {
     compile project(':wilma-application:wilma-domain')
     compile project(':wilma-application:wilma-common')
     compile project(':wilma-application:wilma-core')
     compile project(':wilma-application:wilma-stub-configuration-support')
-    compile group: 'org.reflections', name: 'reflections', version:'0.9.9'
+    compile group: 'org.reflections', name: 'reflections', version:'0.9.11'
 }

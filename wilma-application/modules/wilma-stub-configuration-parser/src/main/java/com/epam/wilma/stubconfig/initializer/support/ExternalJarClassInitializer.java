@@ -19,26 +19,26 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.File;
-import java.util.Collection;
-
+import com.epam.wilma.common.helper.FileFactory;
+import com.epam.wilma.common.helper.FileUtils;
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import com.epam.wilma.stubconfig.initializer.support.helper.Agent;
+import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
+import com.epam.wilma.stubconfig.initializer.support.helper.PackageBasedClassFinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.common.helper.FileFactory;
-import com.epam.wilma.common.helper.FileUtils;
-import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
-import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
-import com.epam.wilma.stubconfig.initializer.support.helper.PackageBasedClassFinder;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.Collection;
 
 /**
  * Initializes classes from jars.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Component
 public class ExternalJarClassInitializer {
@@ -53,17 +53,18 @@ public class ExternalJarClassInitializer {
     @Autowired
     private FileUtils fileUtils;
     @Autowired
-    private ClassInstantiator classInstantiator;
-    @Autowired
     private FileFactory fileFactory;
     @Autowired
     private BeanRegistryService beanRegistryService;
+    @Autowired
+    private ExternalClassInitializer externalClassInitializer;
 
     /**
      * Imports external class from the file system and adds it to the class path.
-     * @param <T> is the type of the return object
-     * @param packageName is the package name of the class to be loaded
-     * @param jarFolderPath is the path where jars are placed when uploaded
+     *
+     * @param <T>             is the type of the return object
+     * @param packageName     is the package name of the class to be loaded
+     * @param jarFolderPath   is the path where jars are placed when uploaded
      * @param interfaceToCast class of the desirable interface
      * @return with the new instance of the class
      * @throws DescriptorValidationFailedException if the class does not exist or not valid.
@@ -77,37 +78,31 @@ public class ExternalJarClassInitializer {
         } catch (BeansException e) {
             logger.debug(String.format("Finding bean with name '%s' of type '%s' failed", beanName, interfaceToCast), e);
             result = initializeFromJars(packageName, jarFolderPath, interfaceToCast);
+            logger.info(JAR_INITIALIZATION_TEMPLATE, result.getClass().getCanonicalName(), interfaceToCast.getCanonicalName(), jarFolderPath);
             beanRegistryService.register(beanName, result);
         }
-
         return result;
     }
 
     private <T> T initializeFromJars(final String packageName, final String jarFolderPath, final Class<T> interfaceToCast) {
-        T result;
+        T result = null;
         try {
-            // TODO addJarFilesInFolderPathToClassPath(jarFolderPath);
-            Class<? extends T> classToLoad = packageBasedClassFinder.findFirstOf(interfaceToCast, packageName);
-            result = classInstantiator.createClassInstanceOf(classToLoad);
-            logger.info(JAR_INITIALIZATION_TEMPLATE, classToLoad.getName(), interfaceToCast.getName(), jarFolderPath);
-        } catch (SecurityException | IllegalArgumentException | ReflectiveOperationException | NoClassDefFoundError e) {
-            throw new DescriptorValidationFailedException(
-                    "Validation of stub descriptor failed - Referenced class not found: '" + packageName + "'.", e);
-        } catch (ClassFormatError e) {
-            throw new DescriptorValidationFailedException("Validation of stub descriptor failed - Invalid format: '" + packageName + "'.", e);
+            addJarFilesInFolderPathToClassPath(jarFolderPath);
+            Class clazz = packageBasedClassFinder.findClassInJar(jarFolderPath, interfaceToCast, packageName);
+            result = externalClassInitializer.loadExternalClass(clazz.getCanonicalName(), jarFolderPath, interfaceToCast);
+        } catch (DescriptorValidationFailedException | MalformedURLException dvfe) {
+            logger.info("Couldn't initialize external class: '{}'", dvfe.getMessage());
+            throw new DescriptorValidationFailedException("Cannot load class that implements interface " + interfaceToCast.getSimpleName() + " with package name " + packageName);
         }
         return result;
     }
 
-    /*
     private void addJarFilesInFolderPathToClassPath(final String jarFolderPath) {
         Collection<File> files = fileUtils.listFiles(fileFactory.createFile(jarFolderPath), "jar");
         for (File fileElement : files) {
-            //classPathExtender.addFile(fileElement.getPath());
-            throw new NoClassDefFoundError("Need to update JAR classpath extension method.");
+            Agent.addClassPath(fileElement);
         }
     }
-     */
 
     private <T> String createBeanName(final String name, final Class<T> interfaceToCast) {
         return name + interfaceToCast.getSimpleName();

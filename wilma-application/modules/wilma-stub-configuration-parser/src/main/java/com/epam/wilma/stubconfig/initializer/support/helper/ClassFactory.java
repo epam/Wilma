@@ -1,4 +1,4 @@
-package com.epam.wilma.stubconfig.initializer.condition.helper;
+package com.epam.wilma.stubconfig.initializer.support.helper;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 
@@ -32,7 +32,7 @@ public class ClassFactory {
      * Constructs new instances of {@link Class}.
      *
      * @param className the name of the class that should be created
-     * @param <T> is the type of the class
+     * @param <T>       is the type of the class
      * @return the new class
      * @throws ClassNotFoundException if the class cannot be located
      */
@@ -44,7 +44,7 @@ public class ClassFactory {
         } catch (ClassNotFoundException e) {
             WilmaClassLoader wilmaClassLoader = new WilmaClassLoader(path);
             classToLoad = wilmaClassLoader.findClass(qualifiedClassName);
-            }
+        }
         return classToLoad;
     }
 

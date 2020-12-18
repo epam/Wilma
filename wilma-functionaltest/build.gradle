@@ -80,6 +80,33 @@ task messageSequenceJar(type: Jar, dependsOn: classes) {
     include ("**/message/sequence/test/**/*.class", "**/wilma/sequenceandbox/**/*.class")
 }
 
+task sequenceHandlerInJar(type: Jar, dependsOn: classes) {
+    archiveBaseName = "sequenceHandlerInJar"
+    archiveVersion = "";
+    destinationDirectory = file("$buildDir/../resources/preCompiled")
+    includeEmptyDirs = false
+    from sourceSets.main.output.classesDirs
+    include ("**/wilma/sequenceandbox/**/*.class")
+}
+
+task twoClassesJar(type: Jar, dependsOn: classes) {
+    archiveBaseName = "twoclasses"
+    archiveVersion = "";
+    destinationDirectory = file("$buildDir/../resources/preCompiled")
+    includeEmptyDirs = false
+    from sourceSets.main.output.classesDirs
+    include ("**/sandbox/two/**/*.class")
+}
+
+task templateGeneratorJar(type: Jar, dependsOn: classes) {
+    archiveBaseName = "templategenerator"
+    archiveVersion = "";
+    destinationDirectory = file("$buildDir/../resources/preCompiled")
+    includeEmptyDirs = false
+    from sourceSets.main.output.classesDirs
+    include ("**/sandbox/common/**/*.class", "**/sandbox/templategenerator/**/*.class")
+}
+
 task allClassesJar(type: Jar, dependsOn: classes) {
     archiveBaseName = "allclasses"
     archiveVersion = "";
@@ -88,7 +115,6 @@ task allClassesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.output.classesDirs
     include ("**/sandbox/**/*.class")
 }
-
 
 mainClassName = "com.epam.gepard.AllTestRunner"
 
@@ -103,7 +129,8 @@ if ( hasProperty('wilmahost') ) {
     applicationDefaultJvmArgs += ["-Dwilma.host=localhost"]
 }
 
-task prepareResources (dependsOn: [build, conditionCheckerJar, interceptorJar, allClassesJar, responseFormatterJar, messageSequenceJar], type: Copy) {
+task prepareResources (dependsOn:
+        [build, conditionCheckerJar, interceptorJar, sequenceHandlerInJar, twoClassesJar, allClassesJar, responseFormatterJar, messageSequenceJar], type: Copy) {
     from "build/classes/java/main/com/epam/wilma/functionalTest"
     into "resources/preCompiled"
     include "*.class"
