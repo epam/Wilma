@@ -130,7 +130,7 @@ if ( hasProperty('wilmahost') ) {
 }
 
 task prepareResources (dependsOn:
-        [build, conditionCheckerJar, interceptorJar, sequenceHandlerInJar, twoClassesJar, allClassesJar, responseFormatterJar, messageSequenceJar], type: Copy) {
+        [build, conditionCheckerJar, interceptorJar, sequenceHandlerInJar, twoClassesJar, allClassesJar, responseFormatterJar, messageSequenceJar, templateGeneratorJar], type: Copy) {
     from "build/classes/java/main/com/epam/wilma/functionalTest"
     into "resources/preCompiled"
     include "*.class"
