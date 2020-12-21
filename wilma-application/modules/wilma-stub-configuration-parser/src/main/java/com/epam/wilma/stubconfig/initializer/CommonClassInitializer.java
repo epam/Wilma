@@ -22,6 +22,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.util.Iterator;
 import java.util.List;
 
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -81,7 +82,14 @@ public abstract class CommonClassInitializer<T> implements ApplicationContextAwa
         if (result == null) {
             result = getClassFromPreviouslyImportedClasses(className);
         }
-        if (result == null) {
+        try {
+            if (result == null) {
+                result = getClassFromExternalResources(className);
+            }
+        } catch (DescriptorValidationFailedException e) {
+            logger.debug("Unsuccessful trial of loading class from jar - try it second time.");
+        }
+        if (result == null) { //second try
             result = getClassFromExternalResources(className);
         }
         return result;
