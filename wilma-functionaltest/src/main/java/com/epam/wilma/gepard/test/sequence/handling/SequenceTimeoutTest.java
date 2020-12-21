@@ -42,7 +42,7 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
 
     @Test
     public void testSequenceHandling() throws Exception {
-        uploadJarToWilma("message-sequence.jar", "resources/sequence/message-sequence.jar");
+        uploadJarToWilma("message-sequence.jar", "resources/preCompiled/message-sequence.jar");
         uploadStubConfigToWilma("resources/sequence/timeoutStubConfig.json");
 
         RequestParameters firstRequestParameter = createRequestParametersWithBody("one");

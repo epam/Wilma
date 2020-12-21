@@ -1,3 +1,3 @@
 #NAME#REQUEST_BODY#JAR_FILE#STUBCONFIG_FILE#FINAL_RESPONSE_FILE
-all of the requests evaluate as true, sequence should contain them%a b c d%resources/sequence/message-sequence.jar%resources/sequence/stubConfig.json%resources/sequence/expectedResponse.txt
-all of the requests evaluate as false, sequence should be null%a b c d%resources/sequence/message-sequence.jar%resources/sequence/stubConfigWithFalseCC.json%resources/sequence/expectedResponseWithFalseCC.txt
+all of the requests evaluate as true, sequence should contain them%a b c d%resources/preCompiled/message-sequence.jar%resources/sequence/stubConfig.json%resources/sequence/expectedResponse.txt
+all of the requests evaluate as false, sequence should be null%a b c d%resources/preCompiled/message-sequence.jar%resources/sequence/stubConfigWithFalseCC.json%resources/sequence/expectedResponseWithFalseCC.txt

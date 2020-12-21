@@ -36,7 +36,7 @@ public class SequenceDialogDescriptorTest extends SequenceHandlingTestBase {
 
     private static final String EXPECTED_RESPONSE_FILE_LOCATION = "resources/sequence/dialogDescriptorReferenceExpectedResponse.txt";
     private static final String STUB_CONFIG_LOCATION = "resources/sequence/sequenceDialogDescriptorStubConfig.json";
-    private static final String JAR_FILE_LOCATION = "resources/sequence/message-sequence.jar";
+    private static final String JAR_FILE_LOCATION = "resources/preCompiled/message-sequence.jar";
 
     @Test
     public void testSequenceHandling() throws Exception {
