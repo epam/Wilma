@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+
 import java.io.File;
 import java.lang.instrument.Instrumentation;
 import java.net.URLClassLoader;
@@ -46,7 +48,7 @@ public class Agent {
                 inst.appendToSystemClassLoaderSearch(new JarFile(file));
             }
         } catch (Throwable e) {
-            e.printStackTrace();
+            throw new DescriptorValidationFailedException("Cannot add jar '" + file.getName() + "' to classpath.");
         }
     }
 

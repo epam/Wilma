@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -92,23 +93,21 @@ public class PackageBasedClassFinder {
 
     private List<Class> getClassesFromJarFile(File path) {
         List<Class> classes = new ArrayList<>();
-        try {
-            if (path.canRead()) {
-                JarFile jar = new JarFile(path);
-                Enumeration<JarEntry> en = jar.entries();
-                while (en.hasMoreElements()) {
-                    JarEntry entry = en.nextElement();
-                    if (entry.getName().endsWith("class")) {
-                        String className = fromFileToClassName(entry.getName());
-                        Class claz = Class.forName(className);
-                        classes.add(claz);
+        if (path.canRead()) {
+            try (JarFile jar = new JarFile(path)) {
+                    Enumeration<JarEntry> en = jar.entries();
+                    while (en.hasMoreElements()) {
+                        JarEntry entry = en.nextElement();
+                        if (!entry.getName().contains("..") && entry.getName().endsWith("class")) {
+                            String className = fromFileToClassName(entry.getName());
+                            Class clazz = Class.forName(className);
+                            classes.add(clazz);
+                        }
                     }
-                }
+            } catch (IOException | ClassNotFoundException e) {
+                throw new SystemException("Failed to read classes from jar file: " + path, e);
             }
-        } catch (Exception e) {
-            throw new SystemException("Failed to read classes from jar file: " + path, e);
         }
-
         return classes;
     }
 

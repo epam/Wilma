@@ -82,7 +82,11 @@ public class ExternalStubConfigUploadServlet extends HttpServlet {
                 routingService.performModification(new NewStubDescriptorCommand(inputStream, stubDescriptorJsonFactory, sequenceDescriptorHolder));
                 serviceMap.detectServices();
                 LOGGER.info(urlAccessLogMessageAssembler.assembleMessage(request, "New stub configuration was uploaded to Wilma."));
-            } catch (ClassNotFoundException | NoClassDefFoundError | SystemException e) {
+            } catch (NoClassDefFoundError e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                writer.write("Stub config uploading failed, no class definition found for class '" + e.getMessage() +"'");
+                LOGGER.warn(urlAccessLogMessageAssembler.assembleMessage(request, "Stub config uploading failed, no class definition found for class '" + e.getMessage() + "'"), e);
+            } catch (ClassNotFoundException | SystemException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 writer.write("Stub config uploading failed: " + e.getMessage());
                 LOGGER.warn(urlAccessLogMessageAssembler.assembleMessage(request, "Stub config uploading failed: " + e.getMessage()), e);

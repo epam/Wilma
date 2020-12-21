@@ -85,13 +85,13 @@ public class ExternalJarClassInitializer {
     }
 
     private <T> T initializeFromJars(final String packageName, final String jarFolderPath, final Class<T> interfaceToCast) {
-        T result = null;
+        T result;
         try {
             addJarFilesInFolderPathToClassPath(jarFolderPath);
             Class clazz = packageBasedClassFinder.findClassInJar(jarFolderPath, interfaceToCast, packageName);
             result = externalClassInitializer.loadExternalClass(clazz.getCanonicalName(), jarFolderPath, interfaceToCast);
         } catch (DescriptorValidationFailedException | MalformedURLException dvfe) {
-            logger.info("Couldn't initialize external class: '{}'", dvfe.getMessage());
+            logger.info("Couldn't initialize external class: {}", dvfe.getMessage());
             throw new DescriptorValidationFailedException("Cannot load class that implements interface '"
                     + interfaceToCast.getSimpleName() + "' with package or class name '" + packageName + "'");
         }

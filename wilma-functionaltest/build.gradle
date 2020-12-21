@@ -77,7 +77,7 @@ task messageSequenceJar(type: Jar, dependsOn: classes) {
     destinationDirectory = file("$buildDir/../resources/preCompiled")
     includeEmptyDirs = false
     from sourceSets.main.output.classesDirs
-    include ("**/message/sequence/test/**/*.class", "**/wilma/sequenceandbox/**/*.class")
+    include ("**/message/sequence/test/**/*.class", "**/wilma/sequencesandbox/**/*.class")
 }
 
 task sequenceHandlerInJar(type: Jar, dependsOn: classes) {
@@ -86,7 +86,7 @@ task sequenceHandlerInJar(type: Jar, dependsOn: classes) {
     destinationDirectory = file("$buildDir/../resources/preCompiled")
     includeEmptyDirs = false
     from sourceSets.main.output.classesDirs
-    include ("**/wilma/sequenceandbox/**/*.class")
+    include ("**/wilma/sequencesandbox/**/*.class")
 }
 
 task twoClassesJar(type: Jar, dependsOn: classes) {
@@ -152,4 +152,3 @@ run {
 task runFunctionalTest {
     dependsOn ':wilma-functionaltest:run'
 }
-
