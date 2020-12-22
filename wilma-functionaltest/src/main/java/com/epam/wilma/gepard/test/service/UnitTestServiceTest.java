@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 @TestClass(id = "Wilma Service API", name = "Unit test with Wilma")
 public class UnitTestServiceTest extends WilmaTestCase {
 
-    private static final String INTERCEPTOR_RESOURCE_BASE = "resources/interceptor/custompostfix/";
+    private static final String INTERCEPTOR_RESOURCE_BASE = "resources/preCompiled/";
     private static final String INTERCEPTOR_CLASS = "CustomMessagePostfixInterceptor.class";
     private static final String TEST_SERVER_RESPONSE = "resources/interceptor/usage/resetSequenceResponse.txt";
 
@@ -133,6 +133,7 @@ public class UnitTestServiceTest extends WilmaTestCase {
         String respRequestUrl = getWilmaInternalUrl() + "config/public/messages/" + id + "resp_BPOST.txt?source=true";
         ResponseHolder wilmaReq = getSlowMessageFromWilma(reqRequestUrl);
         ResponseHolder wilmaResp = getSlowMessageFromWilma(respRequestUrl);
+        wilmaReq = getSlowMessageFromWilma(reqRequestUrl); //we will never know why this second request is necessary
         //now we can analyse
         assertNotNull("Problem during waiting for the request.", wilmaReq);
         assertNotNull("Problem during waiting for the response.", wilmaResp);

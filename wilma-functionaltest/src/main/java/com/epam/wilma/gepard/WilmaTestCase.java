@@ -46,7 +46,7 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
 
     public static final String STUB_CONFIG_FIRST = "resources/enabledisable/stubConfigFirst.json";
     protected static final String MESSAGE_NOT_YET_AVAILABLE = "Requested file not found.";
-    private static final int WAIT_PERIOD_FOR_MESSAGE_LOG = 45;
+    private static final int WAIT_PERIOD_FOR_MESSAGE_LOG_IN_SEC = 60;
     private static final int ONE_SECOND = 1000; // in msec
 
     /**
@@ -237,17 +237,17 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
         RequestParameters requestParameters = createGetRequestParameters(getUrl);
         ResponseHolder wilmaResp = null;
         // however messages should be written to disc first by wilma, so we need to wait a bit - first - this is a SLOW test...
-        int waitingForMaxNSecs = WAIT_PERIOD_FOR_MESSAGE_LOG;
-        while (waitingForMaxNSecs > 0) {
+        int waitingForMaxSecs = WAIT_PERIOD_FOR_MESSAGE_LOG_IN_SEC;
+        while (waitingForMaxSecs > 0) {
             wilmaResp = callWilmaWithGetMethod(requestParameters);
             if (wilmaResp.getResponseMessage().contains(MESSAGE_NOT_YET_AVAILABLE)) {
                 logComment("Message is not yet arrived...");
                 Thread.sleep(ONE_SECOND); //1 sec wait and then retry
-                waitingForMaxNSecs--;
+                waitingForMaxSecs--;
             } else {
-                int inSec = WAIT_PERIOD_FOR_MESSAGE_LOG - waitingForMaxNSecs;
+                int inSec = WAIT_PERIOD_FOR_MESSAGE_LOG_IN_SEC - waitingForMaxSecs;
                 logComment("Message arrived in " + inSec + " secs.");
-                waitingForMaxNSecs = 0; //exit from the loop, as we got the answer
+                waitingForMaxSecs = 0; //exit from the loop, as we got the answer
             }
         }
         return wilmaResp;

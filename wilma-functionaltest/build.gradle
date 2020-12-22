@@ -25,7 +25,7 @@ repositories {
 dependencies {
     compile project(':wilma-application:wilma-stub-configuration-domain')
     compile "com.epam.gepard:gepard-core:4.0.35"
-    compile 'commons-httpclient:commons-httpclient:3.1'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     compile 'org.custommonkey.xmlunit:com.springsource.org.custommonkey.xmlunit:1.2.0'
     compile 'commons-io:commons-io:2.4'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
