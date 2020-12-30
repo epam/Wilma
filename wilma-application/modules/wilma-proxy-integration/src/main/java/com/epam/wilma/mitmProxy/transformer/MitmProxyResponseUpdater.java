@@ -21,9 +21,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
 import org.apache.http.Header;
 import org.apache.http.entity.ByteArrayEntity;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -47,7 +47,7 @@ public class MitmProxyResponseUpdater {
      * @param browserMobHttpResponse what will be updated
      * @param wilmaResponse          contains refresher data
      */
-    public void updateResponse(final BrowserMobHttpResponse browserMobHttpResponse, final WilmaHttpResponse wilmaResponse) {
+    public void updateResponse(final MitmJavaProxyHttpResponse browserMobHttpResponse, final WilmaHttpResponse wilmaResponse) {
 
         //Note: update (proxy) response is an experimental feature only
         if (!wilmaResponse.isVolatile()) {

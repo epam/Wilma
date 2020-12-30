@@ -22,7 +22,6 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeRemoved;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -33,6 +32,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -54,7 +54,7 @@ public class MitmProxyRequestUpdaterTest {
     @Mock
     private WilmaHttpRequest wilmaHttpRequest;
     @Mock
-    private BrowserMobHttpRequest browserMobHttpRequest;
+    private MitmJavaProxyHttpRequest browserMobHttpRequest;
     @Mock
     private HttpRequestBase requestBase;
     @Mock

@@ -24,13 +24,17 @@ import com.epam.wilma.proxy.configuration.MessageConfigurationAccess;
 import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.proxy.helper.InputStreamConverter;
 import com.epam.wilma.proxy.helper.WilmaRequestFactory;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
 import org.apache.http.Header;
 import org.apache.http.RequestLine;
 import org.apache.http.message.BasicHeader;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
+import org.mockito.Answers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
 
 import java.io.InputStream;
 
@@ -47,11 +51,11 @@ public class HttpRequestTransformerTest {
 
     private static final String PREFIX = "prefix";
 
-    private final Header[] headers = { new BasicHeader("Connection", "keep-alive") };
+    private final Header[] headers = {new BasicHeader("Connection", "keep-alive")};
     @Mock
     private WilmaHttpRequest wilmaHttpRequest;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private BrowserMobHttpRequest browserMobHttpRequest;
+    private MitmJavaProxyHttpRequest browserMobHttpRequest;
     @Mock
     private InputStream clonedInputStream;
     @Mock

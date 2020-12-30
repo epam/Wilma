@@ -24,9 +24,9 @@ import com.epam.wilma.proxy.configuration.MessageConfigurationAccess;
 import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.proxy.helper.InputStreamConverter;
 import com.epam.wilma.proxy.helper.WilmaRequestFactory;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -54,7 +54,7 @@ public class HttpRequestTransformer {
      * @return Wilma's own representation of the HTTP request
      * @throws ApplicationException when request body cannot be read
      */
-    public WilmaHttpRequest transformRequest(final BrowserMobHttpRequest browserMobHttpRequest) throws ApplicationException {
+    public WilmaHttpRequest transformRequest(final MitmJavaProxyHttpRequest browserMobHttpRequest) throws ApplicationException {
         WilmaHttpRequest result = requestFactory.createNewWilmaHttpRequest();
         HttpRequestBase requestBase = browserMobHttpRequest.getMethod();
         result.setRequestLine(requestBase.getRequestLine().toString());

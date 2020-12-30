@@ -22,7 +22,6 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.proxy.configuration.MessageConfigurationAccess;
 import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.proxy.helper.WilmaResponseFactory;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.junit.Before;
@@ -31,6 +30,7 @@ import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
@@ -54,7 +54,7 @@ public class HttpResponseTransformerTest {
     @Mock
     private WilmaHttpResponse response;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private BrowserMobHttpResponse browserMobHttpResponse;
+    private MitmJavaProxyHttpResponse browserMobHttpResponse;
     @Mock
     private MessageConfigurationAccess configurationAccess;
     @Mock

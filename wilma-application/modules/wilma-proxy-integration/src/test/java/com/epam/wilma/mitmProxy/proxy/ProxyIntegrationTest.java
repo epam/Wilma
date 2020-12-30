@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.mitm.proxy.ProxyServer;
 import com.epam.wilma.mitmProxy.interceptor.MitmProxyRequestInterceptor;
 import com.epam.wilma.mitmProxy.interceptor.MitmProxyResponseInterceptor;
 import com.epam.wilma.proxy.configuration.ProxyConfigurationAccess;
@@ -34,6 +33,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
+import org.rockhill.mitm.proxy.ProxyServer;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;

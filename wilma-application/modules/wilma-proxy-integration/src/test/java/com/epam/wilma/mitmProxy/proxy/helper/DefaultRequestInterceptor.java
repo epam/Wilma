@@ -1,7 +1,7 @@
 package com.epam.wilma.mitmProxy.proxy.helper;
 
-import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
-import net.lightbody.bmp.proxy.http.RequestInterceptor;
+import org.rockhill.mitm.proxy.RequestInterceptor;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Class that is able to intercept and process every request going through the proxy, by implementing the RequestInterceptor interface.
  * It logs every request that is intercepted.
+ *
  * @Tamas_Kohegyi
  */
 public class DefaultRequestInterceptor implements RequestInterceptor {
@@ -32,8 +33,8 @@ public class DefaultRequestInterceptor implements RequestInterceptor {
         }
     }
 
-
-    public void process(final BrowserMobHttpRequest request) {
+    @Override
+    public void process(final MitmJavaProxyHttpRequest request) {
         requestCount.incrementAndGet();
         String uriPath = request.getMethod().getURI().getPath();
         if (stubRequestPattern != null && stubUri != null && uriPath.contains(stubRequestPattern)) {

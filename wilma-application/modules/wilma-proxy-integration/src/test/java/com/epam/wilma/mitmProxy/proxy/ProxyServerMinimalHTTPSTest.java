@@ -1,12 +1,12 @@
 package com.epam.wilma.mitmProxy.proxy;
 
-import com.epam.mitm.proxy.ProxyServer;
 import com.epam.wilma.mitmProxy.proxy.helper.AbstractProxyTool;
 import com.epam.wilma.mitmProxy.proxy.helper.DefaultRequestInterceptor;
 import com.epam.wilma.mitmProxy.proxy.helper.DefaultResponseInterceptor;
 import com.epam.wilma.mitmProxy.proxy.helper.ResponseInfo;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.rockhill.mitm.proxy.ProxyServer;
 
 import static org.junit.Assert.assertEquals;
 

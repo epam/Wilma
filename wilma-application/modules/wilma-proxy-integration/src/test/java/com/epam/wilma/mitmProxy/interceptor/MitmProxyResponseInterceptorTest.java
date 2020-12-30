@@ -23,7 +23,6 @@ import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.mitmProxy.transformer.HttpResponseTransformer;
 import com.epam.wilma.mitmProxy.transformer.MitmProxyResponseUpdater;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.BDDMockito;
@@ -31,6 +30,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
 import org.slf4j.Logger;
 
 import static org.mockito.BDDMockito.given;
@@ -46,7 +46,7 @@ public class MitmProxyResponseInterceptorTest {
     @InjectMocks
     private MitmProxyResponseInterceptor underTest;
     @Mock
-    private BrowserMobHttpResponse response;
+    private MitmJavaProxyHttpResponse response;
     @Mock
     private WilmaHttpResponse wilmaResponse;
     @Mock

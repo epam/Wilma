@@ -1,6 +1,5 @@
 package com.epam.wilma.mitmProxy.proxy.helper;
 
-import com.epam.mitm.proxy.ProxyServer;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -11,6 +10,7 @@ import org.apache.http.util.EntityUtils;
 import org.eclipse.jetty.server.Server;
 import org.junit.After;
 import org.junit.Before;
+import org.rockhill.mitm.proxy.ProxyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

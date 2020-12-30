@@ -18,13 +18,13 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.mitm.proxy.ProxyServer;
 import com.epam.wilma.mitmProxy.interceptor.MitmProxyRequestInterceptor;
 import com.epam.wilma.mitmProxy.interceptor.MitmProxyResponseInterceptor;
 import com.epam.wilma.proxy.Proxy;
 import com.epam.wilma.proxy.configuration.ProxyConfigurationAccess;
 import com.epam.wilma.proxy.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.proxy.exception.ProxyCannotBeStartedException;
+import org.rockhill.mitm.proxy.ProxyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Class that creates and starts a new MitmProxy proxy server.
- * @author Marton_Sereg, Tunde_Kovacs, Tamas_Bihari, Tamas Kohegyi
  *
+ * @author Marton_Sereg, Tunde_Kovacs, Tamas_Bihari, Tamas Kohegyi
  */
 @Component
 public class MitmProxy implements Proxy {

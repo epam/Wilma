@@ -24,7 +24,6 @@ import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
 import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
 import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
 import com.epam.wilma.maintainer.domain.DeletedFileProvider;
-import net.sf.saxon.expr.Component;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

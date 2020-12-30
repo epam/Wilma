@@ -19,25 +19,24 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 
-import com.epam.wilma.mitmProxy.transformer.MitmProxyRequestUpdater;
+import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.mitmProxy.transformer.HttpRequestTransformer;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
-import net.lightbody.bmp.proxy.http.RequestInterceptor;
+import com.epam.wilma.mitmProxy.transformer.MitmProxyRequestUpdater;
+import org.rockhill.mitm.proxy.RequestInterceptor;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpRequest;
-
 /**
  * Class that is able to intercept and process every request going through the proxy, by implementing the RequestInterceptor interface.
  * It logs every request that is intercepted.
+ *
  * @author Marton_Sereg
  * @author Tamas_Bihari
- *
  */
 @Component
 public class MitmProxyRequestInterceptor implements RequestInterceptor {
@@ -52,7 +51,7 @@ public class MitmProxyRequestInterceptor implements RequestInterceptor {
     private WilmaHttpRequestProcessor wilmaHttpRequestProcessor;
 
     @Override
-    public void process(final BrowserMobHttpRequest request) {
+    public void process(final MitmJavaProxyHttpRequest request) {
         try {
             WilmaHttpRequest wilmaHttpRequest = httpRequestTransformer.transformRequest(request);
             wilmaHttpRequestProcessor.processRequest(wilmaHttpRequest);
@@ -61,5 +60,4 @@ public class MitmProxyRequestInterceptor implements RequestInterceptor {
             logger.error(e.getMessage(), e);
         }
     }
-
 }

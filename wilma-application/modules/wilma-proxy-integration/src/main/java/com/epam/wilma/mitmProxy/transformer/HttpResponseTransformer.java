@@ -22,8 +22,8 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.proxy.configuration.MessageConfigurationAccess;
 import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.proxy.helper.WilmaResponseFactory;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
 import org.apache.http.Header;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,7 +46,7 @@ public class HttpResponseTransformer {
      * @param response the MitmProxy specific HTTP response to transform
      * @return Wilma's own representation of the HTTP response
      */
-    public WilmaHttpResponse transformResponse(final BrowserMobHttpResponse response) {
+    public WilmaHttpResponse transformResponse(final MitmJavaProxyHttpResponse response) {
         boolean isResponseVolatile = response.isResponseVolatile();
         WilmaHttpResponse result = responseFactory.createNewWilmaHttpResponse(isResponseVolatile);
         if (response.getRawResponse() != null) {

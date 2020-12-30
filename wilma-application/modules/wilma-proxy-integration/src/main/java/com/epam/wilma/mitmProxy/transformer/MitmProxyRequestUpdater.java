@@ -21,10 +21,10 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.entity.ByteArrayEntity;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -43,7 +43,7 @@ public class MitmProxyRequestUpdater {
      * @param browserMobHttpRequest what will be updated
      * @param wilmaRequest          contains refresher data
      */
-    public void updateRequest(final BrowserMobHttpRequest browserMobHttpRequest, final WilmaHttpRequest wilmaRequest) {
+    public void updateRequest(final MitmJavaProxyHttpRequest browserMobHttpRequest, final WilmaHttpRequest wilmaRequest) {
         // Update the headers of the original request with extra headers added/removed by Req interceptors
         // Note, that when we redirect the request to the stub, we always add the message id to the extra headers part
 

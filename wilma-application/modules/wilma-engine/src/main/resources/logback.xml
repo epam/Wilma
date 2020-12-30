@@ -10,9 +10,9 @@
 
 
   <appender name="FILE-APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>log/app/wilmalog.txt</file>
+    <file>log/wilmalog.txt</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>log/app/wilmalog%d{yyyyMMdd}.txt</fileNamePattern>
+      <fileNamePattern>log/wilmalog%d{yyyyMMdd}.txt</fileNamePattern>
       <maxHistory>5</maxHistory>
     </rollingPolicy>
     <encoder>
@@ -59,7 +59,8 @@
   </logger>
 
   <logger name="com.epam.wilma.webapp.stub.response.formatter.xsl" level="WARN"/>
-  <logger name="net.lightbody.bmp.proxy" level="INFO"/>
+  <logger name="com.epam.gepard" level="INFO"/>
+  <logger name="org.rockhill.mitm" level="INFO"/>
   <logger name="net.lightbody.bmp.proxy.selenium" level="INFO"/>
 
   <root level="INFO">

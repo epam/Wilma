@@ -18,19 +18,17 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.mitmProxy.transformer.MitmProxyResponseUpdater;
+import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
+import com.epam.wilma.domain.exception.ApplicationException;
+import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.mitmProxy.transformer.HttpResponseTransformer;
-import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
-import net.lightbody.bmp.proxy.http.ResponseInterceptor;
-
+import com.epam.wilma.mitmProxy.transformer.MitmProxyResponseUpdater;
+import org.rockhill.mitm.proxy.ResponseInterceptor;
+import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
-import com.epam.wilma.domain.exception.ApplicationException;
-import com.epam.wilma.domain.http.WilmaHttpResponse;
 
 /**
  * Intercepts and processes every response going through the proxy,
@@ -49,7 +47,7 @@ public class MitmProxyResponseInterceptor implements ResponseInterceptor {
     private WilmaHttpResponseProcessor responseProcessor;
 
     @Override
-    public void process(final BrowserMobHttpResponse response) {
+    public void process(final MitmJavaProxyHttpResponse response) {
         try {
             WilmaHttpResponse wilmaResponse = responseTransformer.transformResponse(response);
             responseProcessor.processResponse(wilmaResponse);

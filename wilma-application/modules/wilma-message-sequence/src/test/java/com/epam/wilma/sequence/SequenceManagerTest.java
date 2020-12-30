@@ -45,7 +45,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Provides unit tests for the class {@link SequenceManager}.

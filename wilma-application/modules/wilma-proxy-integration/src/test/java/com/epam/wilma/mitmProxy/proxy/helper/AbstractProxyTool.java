@@ -1,6 +1,5 @@
 package com.epam.wilma.mitmProxy.proxy.helper;
 
-import com.epam.mitm.proxy.ProxyServer;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -13,6 +12,7 @@ import org.apache.http.util.EntityUtils;
 import org.eclipse.jetty.server.Server;
 import org.junit.After;
 import org.junit.Before;
+import org.rockhill.mitm.proxy.ProxyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -141,13 +141,15 @@ public abstract class AbstractProxyTool {
             final HttpResponse response = httpClient.execute(host, request);
             final HttpEntity resEntity = response.getEntity();
             return new ResponseInfo(response.getStatusLine().getStatusCode(), EntityUtils.toString(resEntity));
+        } catch (Exception e) {
+            LOGGER.error(e.getLocalizedMessage(), e);
+            throw e;
         } finally {
             httpClient.close();
         }
     }
 
-    protected ResponseInfo httpGetWithApacheClient(HttpHost host, String resourceUrl, boolean isProxied, boolean callHeadFirst)
-            throws Exception {
+    protected ResponseInfo httpGetWithApacheClient(HttpHost host, String resourceUrl, boolean isProxied, boolean callHeadFirst) throws Exception {
         final CloseableHttpClient httpClient = TestUtils.buildHttpClient(isProxied, proxyServer.getPort());
         try {
 
@@ -170,6 +172,9 @@ public abstract class AbstractProxyTool {
                         Integer.valueOf(response.getFirstHeader("Content-Length").getValue()));
             }
             return new ResponseInfo(response.getStatusLine().getStatusCode(), EntityUtils.toString(resEntity));
+        } catch (Exception e) {
+            LOGGER.error(e.getLocalizedMessage(), e);
+            throw e;
         } finally {
             httpClient.close();
         }
