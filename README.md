@@ -11,15 +11,19 @@ It is written in Java, and the solution consists of two standalone applications:
 
 WARNING!
 ========
-**Wilma is under mayor update (preparing V2.0) which means if you get the source and compile yourself, not all the functions might work!
-If you don't want to deal with broken features, always use the Released versions!**
+**Wilma is under mayor update (preparing release V2.0)** Now it is ready to be released just the documentation needs to be updated in order to prepare a proper release.
+Main changes to be expected:
+- using json stub configuration instead of xml based configuration
+- proxy part is upgraded to be able to use HTTPS with TLS.
 
 **You must also should know that V1.6 release works reliable with HTTP only, since the supported HTTPS protocols (SSLv3, TLS1) become obsolete since the last release.**
 
 # Quick intro for end users
 ## Wilma application
 #### Requirements
-* JRE 8 (pls use earlier Wilma [releases](https://github.com/epam/Wilma/releases) than V1.6.x when you need to use Java 7 version)
+* JRE 13 for V2.0.x releases
+* JRE 8 for V1.6.x releases
+* JRE 7 in case version earlier than V1.6.x in use
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma application downloaded and extracted into a folder.
 
 
@@ -68,9 +72,10 @@ There are several ways you can help us:
 * **Write some code.** We would love to see pull requests to this tool. Feel free to contribute (send pull request) on GitHub.
 
 #### Advised working environment
-* Java JDK 8
-* IntelliJ / Eclipse
-* Gradle, Checkstyle, Git Integration for the IDE
+* OpenJDK 13 for V2.0.x
+* OpenJDK 8 for V1.6.x
+* IntelliJ
+* Gradle and Git Integration for the IDE
 
 #### Building with Gradle
 The project can be built by following the instructions described [here](https://github.com/epam/Wilma/wiki/DEV,-Build-from-Scratch).
