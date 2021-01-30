@@ -61,7 +61,7 @@ public class HttpResponseTransformer {
 
         result.setRequestLine(response.getMethod().getRequestLine().toString());
         result.setProxyRequestLine(response.getProxyRequestURI().toString());
-        String body = response.getBody();
+        String body = response.getBodyString();
         int status = response.getStatus();
         result.setBody(body);
         result.setContentType(response.getContentType());
@@ -69,7 +69,7 @@ public class HttpResponseTransformer {
 
         //set Wilma Message Id
         String instancePrefix = prepareInstancePrefix();
-        result.setWilmaMessageId(instancePrefix + response.getEntry().getWilmaEntryId());
+        result.setWilmaMessageId(instancePrefix + response.getEntry().getMessageId());
 
         //set remote addr
         String ipAddress = response.getEntry().getServerIPAddress();

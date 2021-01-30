@@ -23,7 +23,6 @@ import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeRemoved;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,12 +32,11 @@ import org.mockito.MockitoAnnotations;
 import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -66,7 +64,7 @@ public class MitmProxyResponseUpdaterTest {
     }
 
     @Test
-    public void testUpdateResponseShouldUpdateHeadersAddPart() throws URISyntaxException {
+    public void testUpdateResponseShouldUpdateHeadersAddPart() {
         //GIVEN
         given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
         String mockID = "WILMA-LOG-MOCK-ID";
@@ -83,7 +81,7 @@ public class MitmProxyResponseUpdaterTest {
     }
 
     @Test
-    public void testUpdateResponseShouldUpdateHeadersRemovePart() throws URISyntaxException {
+    public void testUpdateResponseShouldUpdateHeadersRemovePart() {
         //GIVEN
         given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
         given(httpResponse.getFirstHeader("A")).willReturn(header);
@@ -103,16 +101,14 @@ public class MitmProxyResponseUpdaterTest {
     }
 
     @Test
-    public void testUpdateResponseShouldUpdateBodyPart() throws URISyntaxException, IOException {
+    public void testUpdateResponseShouldUpdateBodyPart() throws IOException {
         //GIVEN
-        given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
         given(wilmaHttpResponse.getNewBody()).willReturn("NEW BODY".getBytes());
         given(wilmaHttpResponse.isVolatile()).willReturn(true);
         //WHEN
         underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
         //THEN
-        verify(browserMobHttpResponse).setAnswer((byte[]) anyObject());
-        verify(httpResponse).setEntity((HttpEntity) anyObject());
+        verify(browserMobHttpResponse).setBody(any());
     }
 
 }

@@ -23,13 +23,11 @@ import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeRemoved;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
@@ -39,6 +37,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -133,7 +132,7 @@ public class MitmProxyRequestUpdaterTest {
         //WHEN
         underTest.updateRequest(browserMobHttpRequest, wilmaHttpRequest);
         //THEN
-        verify(enclosingRequest).setEntity((HttpEntity) Matchers.anyObject());
+        verify(enclosingRequest).setEntity(any());
     }
 
 }

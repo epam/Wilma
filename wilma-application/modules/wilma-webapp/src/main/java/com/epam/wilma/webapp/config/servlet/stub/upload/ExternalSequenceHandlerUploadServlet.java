@@ -18,22 +18,20 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.InputStream;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
+import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
-import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
+import javax.servlet.http.HttpServletRequest;
+import java.io.InputStream;
 
 /**
  * Servlet used for uploading SequenceHandler classes.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Component
 public class ExternalSequenceHandlerUploadServlet extends CommonExternalUploadServlet {
@@ -47,8 +45,9 @@ public class ExternalSequenceHandlerUploadServlet extends CommonExternalUploadSe
 
     /**
      * Constructor using spring framework to initialize the class.
+     *
      * @param stubResourcePathProvider provides the path to Wilma resources
-     * @param fileWriter saves the uploaded resource to Wilma
+     * @param fileWriter               saves the uploaded resource to Wilma
      */
     @Autowired
     public ExternalSequenceHandlerUploadServlet(StubResourcePathProvider stubResourcePathProvider, FileWriter fileWriter) {

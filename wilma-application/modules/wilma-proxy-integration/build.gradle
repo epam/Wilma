@@ -27,13 +27,11 @@ dependencies {
     compile project(':wilma-application:wilma-domain')
     compile project(':wilma-application:wilma-common')
     compile project(':wilma-application:wilma-core')
-    compile project(':wilma-application:wilma-properties')
-
-    compile('org.rockhill.mitm:mitmJavaProxy:2.0.17.57') {
+    compile('org.rockhill.mitm:mitmJavaProxy:2.0.18.85') {
         exclude(group: 'ch.qos.logback', module: 'logback-classic')
         exclude(group: 'org.eclipse.jetty', module: 'jetty-io')
-        exclude(group: 'org.lsf4j', module: 'jcl-over-lsf4j')
-        exclude(group: 'org.lsf4j', module: 'jul-to-lsf4j')
+        exclude(group: 'org.slf4j', module: 'jcl-over-slf4j')
+        exclude(group: 'org.slf4j', module: 'jul-to-slf4j')
     }
 
     testCompile group: 'junit', name: 'junit', version:'4.12'

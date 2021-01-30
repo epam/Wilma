@@ -98,7 +98,7 @@ public class HttpResponseTransformerTest {
     public void testTransformShouldSetResponseWilmaMessageId() {
         setMocksForMessageContent();
         setMocksForMessageConfiguration();
-        given(browserMobHttpResponse.getEntry().getWilmaEntryId()).willReturn(PREFIX);
+        given(browserMobHttpResponse.getEntry().getMessageId()).willReturn(PREFIX);
         //WHEN
         underTest.transformResponse(browserMobHttpResponse);
         //THEN
@@ -162,15 +162,14 @@ public class HttpResponseTransformerTest {
 
 
     private void setMocksForMessageConfiguration() {
-        String instancePrefix = PREFIX;
-        MessagePropertyDTO propertiesDTO = new MessagePropertyDTO(instancePrefix);
+        MessagePropertyDTO propertiesDTO = new MessagePropertyDTO(PREFIX);
         given(configurationAccess.getProperties()).willReturn(propertiesDTO);
     }
 
     private void setMocksForMessageContent() {
         given(browserMobHttpResponse.getRawResponse().getAllHeaders()).willReturn(responseHeaders);
         given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
-        given(browserMobHttpResponse.getBody()).willReturn(RESPONSE_BODY);
+        given(browserMobHttpResponse.getBodyString()).willReturn(RESPONSE_BODY);
         given(browserMobHttpResponse.getStatus()).willReturn(200);
     }
 

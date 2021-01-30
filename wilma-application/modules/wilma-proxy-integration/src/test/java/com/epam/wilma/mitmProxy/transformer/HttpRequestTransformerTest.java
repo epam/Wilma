@@ -94,9 +94,9 @@ public class HttpRequestTransformerTest {
         //GIVEN
         setMocksForHeader();
         setMocksForMessageConfiguration();
-        given(browserMobHttpRequest.getWilmaMessageId()).willReturn(PREFIX);
+        given(browserMobHttpRequest.getMessageId()).willReturn(PREFIX);
         //WHEN
-        WilmaHttpRequest actual = underTest.transformRequest(browserMobHttpRequest);
+        underTest.transformRequest(browserMobHttpRequest);
         //THEN
         verify(wilmaHttpRequest).setWilmaMessageId(PREFIX + "_" + PREFIX);
     }
@@ -142,8 +142,7 @@ public class HttpRequestTransformerTest {
     }
 
     private void setMocksForMessageConfiguration() {
-        String instancePrefix = PREFIX;
-        MessagePropertyDTO propertiesDTO = new MessagePropertyDTO(instancePrefix);
+        MessagePropertyDTO propertiesDTO = new MessagePropertyDTO(PREFIX);
         given(configurationAccess.getProperties()).willReturn(propertiesDTO);
     }
 }

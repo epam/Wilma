@@ -76,7 +76,7 @@ public class HttpRequestTransformer {
         }
 
         //set Wilma Message Id
-        result.setWilmaMessageId(instancePrefix + browserMobHttpRequest.getWilmaMessageId());
+        result.setWilmaMessageId(instancePrefix + browserMobHttpRequest.getMessageId());
 
         //set remote addr
         String ipAddress = browserMobHttpRequest.getProxyRequest().getRemoteAddr();
