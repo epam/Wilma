@@ -47,6 +47,25 @@ public class TestClientBootstrap {
     }
 
     /**
+     * Bootstraps the client application by loading the properties file, and calling the business logic - HTTPS / POST method.
+     *
+     * @param tc                is the caller test case
+     * @param requestParameters is the parameter set of the request
+     * @throws Exception if something goes wrong
+     * @return with the Response info
+     */
+    public ResponseHolder bootstrapS(final WilmaTestCase tc, final RequestParameters requestParameters) throws Exception {
+        ResponseHolder response;
+        try {
+            HttpSPostRequestSender httpRequestSender = new HttpSPostRequestSender();
+            response = httpRequestSender.callWilmaTestServer(tc, requestParameters);
+        } catch (NumberFormatException e) {
+            throw new Exception("wilma.port property cannot be read. " + e.getMessage());
+        }
+        return response;
+    }
+
+    /**
      * Bootstraps the client application by loading the properties file, and calling the business logic - POST method.
      *
      * @param tc                is the caller test case

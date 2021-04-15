@@ -88,7 +88,7 @@ public abstract class WilmaTestLogDecorator implements GepardTestClass {
      * @param filename is the source of the request message
      * @throws Exception in any case of error
      */
-    protected void setOriginalRequestMessageFromFile(final String filename) throws Exception {
+    protected String setOriginalRequestMessageFromFile(final String filename) throws Exception {
         if ((!filename.endsWith(".xml")) && (!filename.endsWith(".fis") && (!filename.endsWith(".json")))) {
             throw new Exception("Original request message should be an xml, json or fastinfoset file!");
         }
@@ -96,6 +96,7 @@ public abstract class WilmaTestLogDecorator implements GepardTestClass {
         URI uri = file.toURI();
         byte[] bytes = java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(uri));
         originalRequestMessage = decodeUTF8(bytes);
+        return originalRequestMessage;
     }
 
     /**

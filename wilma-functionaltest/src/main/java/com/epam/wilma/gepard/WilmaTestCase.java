@@ -61,6 +61,17 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
     }
 
     /**
+     * Sends a HTTPS POST request to Wilma.
+     *
+     * @param requestParameters is the request
+     * @return with the response
+     * @throws Exception in case of error
+     */
+    protected ResponseHolder callSecureWilmaWithPostMethod(final RequestParameters requestParameters) throws Exception {
+        return new TestClientBootstrap().bootstrapS(this, requestParameters);
+    }
+
+    /**
      * Run Wilma Tests those tests multiple stub configurations. For this purpose special request parameters are used.
      *
      * @param requestParameters for multi-stub config behavior
@@ -90,6 +101,17 @@ public abstract class WilmaTestCase extends WilmaConfigurationHelperDecorator {
      */
     protected void callWilmaWithPostMethodAndAssertResponse(final RequestParameters requestParameters) throws Exception {
         ResponseHolder actual = callWilmaWithPostMethod(requestParameters);
+        assertExpectedResultMessage(actual.getResponseMessage());
+    }
+
+    /**
+     * Sends a HTTPS POST request to Wilma, and checks if the response message withs to the expected one.
+     *
+     * @param requestParameters is the request
+     * @throws Exception in case of problem
+     */
+    protected void callSecureWilmaWithPostMethodAndAssertResponse(final RequestParameters requestParameters) throws Exception {
+        ResponseHolder actual = callSecureWilmaWithPostMethod(requestParameters);
         assertExpectedResultMessage(actual.getResponseMessage());
     }
 

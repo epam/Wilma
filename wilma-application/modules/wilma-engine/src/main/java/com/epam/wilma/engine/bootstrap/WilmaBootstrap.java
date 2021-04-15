@@ -58,14 +58,25 @@ public class WilmaBootstrap {
     public void bootstrap() {
         ClassPathXmlApplicationContext applicationContext = null;
         try {
+            //SSL issue workaround
+            //System.setProperty("jdk.tls.namedGroups", "secp256r1, secp384r1, ffdhe2048, ffdhe3072");
+
             applicationContext = getApplicationContext();
             WilmaEngine wilmaEngine = applicationContext.getBean(WilmaEngine.class);
             WilmaServiceListener wilmaServiceListener = applicationContext.getBean(WilmaServiceListener.class);
             wilmaEngine.addListener(wilmaServiceListener, MoreExecutors.directExecutor());
+            checkJavaVersion();
             wilmaEngine.start();
         } catch (Exception e) {
             logErrorByTypeOfException(e);
             closeApplicationContext(applicationContext);
+        }
+    }
+
+    private void checkJavaVersion() {
+        String version = System.getProperty("java.version");
+        if (version.startsWith("1.")) {
+            logger.warn("Wilma does NOT work properly with JAVA version older than Java 9. JVM/JRE upgrade is strongly recommended.");
         }
     }
 

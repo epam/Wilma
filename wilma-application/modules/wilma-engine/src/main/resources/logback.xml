@@ -60,7 +60,7 @@
 
   <logger name="com.epam.wilma.webapp.stub.response.formatter.xsl" level="WARN"/>
   <logger name="com.epam.gepard" level="INFO"/>
-  <logger name="org.rockhill.mitm" level="INFO"/>
+  <logger name="website.magyar.mitm" level="INFO"/>
   <logger name="net.lightbody.bmp.proxy.selenium" level="INFO"/>
 
   <root level="INFO">
