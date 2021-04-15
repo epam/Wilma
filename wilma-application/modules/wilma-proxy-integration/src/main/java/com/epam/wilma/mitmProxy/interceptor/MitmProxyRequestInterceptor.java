@@ -24,12 +24,12 @@ import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.mitmProxy.transformer.HttpRequestTransformer;
 import com.epam.wilma.mitmProxy.transformer.MitmProxyRequestUpdater;
-import org.rockhill.mitm.proxy.RequestInterceptor;
-import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import website.magyar.mitm.proxy.RequestInterceptor;
+import website.magyar.mitm.proxy.http.MitmJavaProxyHttpRequest;
 
 /**
  * Class that is able to intercept and process every request going through the proxy, by implementing the RequestInterceptor interface.

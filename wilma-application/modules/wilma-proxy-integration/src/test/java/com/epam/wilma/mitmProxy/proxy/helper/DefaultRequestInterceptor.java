@@ -1,7 +1,7 @@
 package com.epam.wilma.mitmProxy.proxy.helper;
 
-import org.rockhill.mitm.proxy.RequestInterceptor;
-import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
+import website.magyar.mitm.proxy.RequestInterceptor;
+import website.magyar.mitm.proxy.http.MitmJavaProxyHttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -24,7 +24,7 @@ import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.entity.ByteArrayEntity;
-import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
+import website.magyar.mitm.proxy.http.MitmJavaProxyHttpRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
+import website.magyar.mitm.proxy.http.MitmJavaProxyHttpResponse;
 
 import java.io.IOException;
 import java.util.HashMap;

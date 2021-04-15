@@ -7,7 +7,7 @@ import com.epam.wilma.mitmProxy.proxy.helper.ResponseInfo;
 import org.apache.http.HttpHost;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.rockhill.mitm.proxy.ProxyServer;
+import website.magyar.mitm.proxy.ProxyServer;
 
 import javax.net.ssl.SSLContext;
 

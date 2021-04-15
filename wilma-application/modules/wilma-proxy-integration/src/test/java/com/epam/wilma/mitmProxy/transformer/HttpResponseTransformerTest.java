@@ -30,7 +30,7 @@ import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
+import website.magyar.mitm.proxy.http.MitmJavaProxyHttpResponse;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;

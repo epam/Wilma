@@ -30,7 +30,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
+import website.magyar.mitm.proxy.http.MitmJavaProxyHttpResponse;
 import org.slf4j.Logger;
 
 import static org.mockito.BDDMockito.given;

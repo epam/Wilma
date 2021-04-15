@@ -22,7 +22,7 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import org.apache.http.Header;
-import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
+import website.magyar.mitm.proxy.http.MitmJavaProxyHttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

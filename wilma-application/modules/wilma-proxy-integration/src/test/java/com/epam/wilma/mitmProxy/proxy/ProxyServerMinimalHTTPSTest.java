@@ -6,7 +6,7 @@ import com.epam.wilma.mitmProxy.proxy.helper.DefaultResponseInterceptor;
 import com.epam.wilma.mitmProxy.proxy.helper.ResponseInfo;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.rockhill.mitm.proxy.ProxyServer;
+import website.magyar.mitm.proxy.ProxyServer;
 
 import static org.junit.Assert.assertEquals;
 

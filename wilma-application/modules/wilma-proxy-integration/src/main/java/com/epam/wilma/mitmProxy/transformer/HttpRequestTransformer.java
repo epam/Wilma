@@ -26,7 +26,7 @@ import com.epam.wilma.proxy.helper.InputStreamConverter;
 import com.epam.wilma.proxy.helper.WilmaRequestFactory;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
+import website.magyar.mitm.proxy.http.MitmJavaProxyHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

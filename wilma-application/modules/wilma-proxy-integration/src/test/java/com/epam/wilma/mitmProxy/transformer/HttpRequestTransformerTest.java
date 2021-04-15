@@ -34,7 +34,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpRequest;
+import website.magyar.mitm.proxy.http.MitmJavaProxyHttpRequest;
 
 import java.io.InputStream;
 

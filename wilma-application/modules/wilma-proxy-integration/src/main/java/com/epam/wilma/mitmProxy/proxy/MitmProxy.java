@@ -24,7 +24,7 @@ import com.epam.wilma.proxy.Proxy;
 import com.epam.wilma.proxy.configuration.ProxyConfigurationAccess;
 import com.epam.wilma.proxy.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.proxy.exception.ProxyCannotBeStartedException;
-import org.rockhill.mitm.proxy.ProxyServer;
+import website.magyar.mitm.proxy.ProxyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

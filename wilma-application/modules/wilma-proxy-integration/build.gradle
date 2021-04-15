@@ -27,7 +27,7 @@ dependencies {
     compile project(':wilma-application:wilma-domain')
     compile project(':wilma-application:wilma-common')
     compile project(':wilma-application:wilma-core')
-    compile('org.rockhill.mitm:mitmJavaProxy:2.0.18.85') {
+    compile('website.magyar:mitmJavaProxy:2.0.19.92') {
         exclude(group: 'ch.qos.logback', module: 'logback-classic')
         exclude(group: 'org.eclipse.jetty', module: 'jetty-io')
         exclude(group: 'org.slf4j', module: 'jcl-over-slf4j')

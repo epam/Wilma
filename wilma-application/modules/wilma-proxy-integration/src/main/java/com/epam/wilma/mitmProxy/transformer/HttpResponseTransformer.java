@@ -23,7 +23,7 @@ import com.epam.wilma.proxy.configuration.MessageConfigurationAccess;
 import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.proxy.helper.WilmaResponseFactory;
 import org.apache.http.Header;
-import org.rockhill.mitm.proxy.http.MitmJavaProxyHttpResponse;
+import website.magyar.mitm.proxy.http.MitmJavaProxyHttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
