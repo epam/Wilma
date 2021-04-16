@@ -20,7 +20,11 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * CLass used to load external classes in a dynamic way.

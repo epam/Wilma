@@ -42,6 +42,7 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
 
     @Test
     public void testSequenceHandling() throws Exception {
+        clearSequences();
         uploadJarToWilma("message-sequence.jar", "resources/preCompiled/message-sequence.jar");
         uploadStubConfigToWilma("resources/sequence/timeoutStubConfig.json");
 
@@ -49,6 +50,7 @@ public class SequenceTimeoutTest extends SequenceHandlingTestBase {
         setExpectedResponseMessage("welcome");
         callWilmaWithPostMethodAndAssertResponse(firstRequestParameter);
 
+        Thread.sleep(1000); // longer than 0.5 sec timeout in the json configuration
         RequestParameters cleanSequencesRequestParameter = createRequestParameters();
         callWilmaWithGetMethod(cleanSequencesRequestParameter);
 

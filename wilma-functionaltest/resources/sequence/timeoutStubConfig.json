@@ -4,7 +4,7 @@
       {
         "name": "default-timeoutSequenceDescriptor",
         "class": "com.epam.message.sequence.test.SingleSequenceHandler",
-        "timeout": 1,
+        "timeout": 500,
         "conditionDescriptor": {
           "condition": {
             "class": "AlwaysTrueChecker"
