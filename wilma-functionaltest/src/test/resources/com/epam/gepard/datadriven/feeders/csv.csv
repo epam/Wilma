@@ -1,0 +1,17 @@
+####################,,
+# HEADER,,
+####################,,
+LABEL,DESCRIPTION,INFO1
+,,
+####################,,
+# Test Data,,
+####################,,
+LABEL0,Label 0 only,0
+LABEL1,Label 1 only,1
+LABEL2,Label 2 only,2
+LABEL3,Label 3 only,3
+LABEL4,Label 4 only,4
+LABEL0,Label 0 only,0
+LABEL1;LABEL2,Label 1 or 2,12
+LABEL1;LABEL3,Label 1 or 3,13
+LABEL1;LABEL4,Label 1 or 4,14

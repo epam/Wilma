@@ -1,0 +1,48 @@
+<!--Start of Header-->
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Gepard Test Results: %TestCase%</title>
+<style type="text/css"><!--
+body {font-family:arial,helvetica,sans-serif; font-size:12}
+td {font-family:arial,helvetica,sans-serif; font-size:12}
+a:link {color:#3333CC; text-decoration:none}
+a:visited {color:#3333AA; text-decoration:none}
+a:active {color:#9999CC; text-decoration:underline}
+a:hover {color:#CC3333; text-decoration:underline}
+--></style>
+<script language=""><!--
+function showhide(divName){
+	var divObj = null;
+	if (document.all) divObj = document.all(divName).style;
+	if (document.getElementById) divObj = document.getElementById(divName).style;
+	if (divObj!=null) divObj.display = (divObj.display=="none"?"block":"none");
+}
+//--></script>
+</head>
+
+<body>
+
+<p align="center">
+<big><b>Gepard Test Results</b></big>
+<br>
+TS ID - TS Name: %ID% - %Name%
+<br>
+Test Method: %TestCase%
+<br>
+Test Script Name / Data Row: %ScriptNameRow%
+</p>
+
+<br>
+<br>
+<b>Steps taken during producing %TestCase% test:</b>
+<br>
+<table width="90%" align="center" cellspacing=2 cellpadding=1 border=0>
+<!--End of Header-->
+
+<!--Start of Footer-->
+</table>
+</body>
+
+</html>
+<!--End of Footer-->

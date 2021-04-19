@@ -24,7 +24,17 @@ repositories {
 
 dependencies {
     compile project(':wilma-application:wilma-stub-configuration-domain')
-    compile "com.epam.gepard:gepard-core:4.0.35"
+    //compile "com.epam.gepard:gepard-core:4.0.35"
+    compile "junit:junit:4.12"
+    compile 'gsbase:gsbase:2.0'
+    compile 'jakarta-regexp:jakarta-regexp:1.4'
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    compile 'org.slf4j:slf4j-log4j12:1.7.7'
+    compile 'com.sun.mail:javax.mail:1.5.2'
+    compile 'org.apache.commons:commons-lang3:3.1'
+    compile 'net.sf.opencsv:opencsv:2.3'
+    compile 'org.springframework:spring-core:4.1.3.RELEASE'
+    compile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     compile 'org.custommonkey.xmlunit:com.springsource.org.custommonkey.xmlunit:1.2.0'
     compile 'commons-io:commons-io:2.4'

@@ -1,0 +1,2 @@
+URL.QA1=http://blahqa1.com
+URL.QA2=http://blahqa2.com

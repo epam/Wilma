@@ -1,0 +1,79 @@
+<!--Start of Header-->
+<html>
+<head>
+<title>Gepard Test Results: Test Case Set %ID% - %Name%</title>
+<style type="text/css"><!--
+body {font-family:arial,helvetica,sans-serif; font-size:12}
+td {font-family:arial,helvetica,sans-serif; font-size:12}
+a:link {color:#3333CC; text-decoration:none}
+a:visited {color:#3333AA; text-decoration:none}
+a:active {color:#9999CC; text-decoration:underline}
+a:hover {color:#CC3333; text-decoration:underline}
+--></style>
+</head>
+
+<body>
+
+<p align="center">
+<big><b>Gepard Test Results</b></big>
+<br>
+TS ID - Name: %ID% - %Name%
+</p>
+<!--End of Header-->
+
+<!--Start of beforeTestCaseSetError-->
+<p><b>Error in @BeforeClass method:</b><br>
+<small><pre>%ErrorMsg%</pre></small></p>
+<!--End of beforeTestCaseSetError-->
+
+<!--Start of TableHead-->
+<br>
+<b>Test methods ran within this test script:</b>
+<br>
+<br>
+
+<table align="center">
+<tr bgcolor="#333366">
+<td align="center"><b><font color="#FFFFFF">Test Method Name</font></b></td>
+<td align="center"><b><font color="#FFFFFF">Result</font></b></td>
+</tr>
+<!--End of TableHead-->
+
+<!--Start of TestRow-->
+<tr bgcolor="#F0F0F0">
+<td>&nbsp;&nbsp;<a href="%TCURL%" TITLE="%TCMethod%">%TestCase%</a>&nbsp;&nbsp;</td>
+<td>&nbsp;&nbsp;<font color="%TestResultColor%"><label title="%ErrorMsg%">%TestResult%</label></font>&nbsp;&nbsp;</td>
+<td bgcolor="#FFFFFF"><font color="#999999"><small>&nbsp;%DummyText%</small></font></td>
+<td bgcolor="#FFFFFF">&nbsp;</td>
+</tr>
+<!--End of TestRow-->
+
+<!--Start of BeforeAfterClassMessage-->
+<tr bgcolor="#F0F0F0">
+<td colspan="2" align="left">&nbsp;&nbsp;%BeforeAfterClassMessage%&nbsp;&nbsp;</td>
+</tr>
+<!--End of NoTestCases-->
+
+<!--Start of NoTestCases-->
+<tr bgcolor="#F0F0F0">
+<td colspan="3" align="center">&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There is no test case executed from this Test Class.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>&nbsp;</td>
+</tr>
+<!--End of NoTestCases-->
+
+<!--Start of afterTestCaseSetError-->
+<p><b>Error in @AfterClass method:</b><br>
+<small><pre>%ErrorMsg%</pre></small></p>
+<!--End of afterTestCaseSetError-->
+
+<!--Start of TableEnd-->
+</table>
+<!--End of TableEnd-->
+
+
+<!--Start of Footer-->
+</body>
+
+</html>
+<!--End of Footer-->

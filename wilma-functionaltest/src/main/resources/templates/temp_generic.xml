@@ -1,0 +1,125 @@
+<!--Start of Header-->
+<html><!-- Header -->
+	<head>
+		<title>Gepard Test Results %Date%</title>
+	</head>
+	<body>
+			<big>
+				<b>Gepard Overall Test Results</b>
+			</big>
+		<br/>
+		<table align="center">
+			<tr><td align="center" colspan="7">
+				<table align="center" border="1">
+<!--End of Header-->
+
+<!--Start of TestRow--><!-- TestRow -->
+			<tr bgcolor="#333366">
+				<td align="center"><font color="#FFFFFF"><b>TS ID</b></font></td>
+				<td align="center"><font color="#FFFFFF"><b>TS Name</b></font></td>
+				<td align="center"><font color="#FFFFFF"><b>Implemented</b></font></td>
+				<td align="center"><font color="#FFFFFF"><b>Real/Dummy</b></font></td>
+				<td align="center"><font color="#FFFFFF"><b>Passed</b></font></td>
+				<td align="center"><font color="#FFFFFF"><b>Failed</b></font></td>
+				<td align="center"><font color="#FFFFFF"><b>N/A</b></font></td>
+			</tr> 
+			<tr bgcolor="#F0F0F0">
+				<td><font color="%Color%">%Number%</font></td>
+				<td align="center"><font color="%Color%">%Name%</font></td>
+				<td align="center"><font color="%Color%">%Implemented%</font></td>
+				<td align="center"><font color="%Color%">%RealPerDummy%</font></td>
+				<td align="center"><font color="%Color%">%Passed%</font></td>
+				<td align="center"><font color="%Color%">%Failed%</font></td>
+				<td align="center"><font color="%Color%">%NotApplicable%</font></td>
+			</tr>
+<!--End of TestRow-->
+
+<!--Start of Footer--><!-- Footer -->
+			</table></td></tr>
+			<tr bgcolor="#E0E0F0">
+				<td>
+					<b>Overall results:</b>
+				</td>
+				<td colspan="6" align="center">
+					Tests runned: <b>%Runned%</b>,<small>(%TCdummy% dummy)</small>,
+					Passed: <b><font color="#339933">%Passed%</font></b>,
+					Failed: <b><font color="#993333">%Failed%</font></b>,
+					N/A: <b><font color="#993333">%TCnotapplicable%</font></b>,
+					<br/>
+					Tests Case Sets runned: <b>%TCSrunned%</b>,<small>(%TCSdummy% contains dummy tests)</small>,
+					Passed: <b><font color="#339933">%TCSpassed%</font></b>,
+					Failed: <b><font color="#993333">%TCSfailed%</font></b>,
+					N/A: <b><font color="#993333">%TCSnotapplicable%</font></b>
+				</td>
+			</tr>
+		</table>
+		<br/>
+Build version is <b>%Version%</b>.<br/>
+Test evaluation took %Time%.<br/>
+Test was finished at <b>%DateTime%</b>.<br/>
+	</body>
+</html>
+<!--End of Footer-->
+
+
+<!--Start of TSHeader--><!-- TSHeader -->
+<!--End of TSHeader-->
+
+<!--Start of TSFooter--><!-- TSFooter -->
+<!--End of TSFooter-->
+
+<!--Start of TSTableHead--><!-- TSTableHead -->
+		<tr><td colspan="7" align="left">
+			<table align="left">
+				<tr bgcolor="#4444BC">
+					<td align="center"><b><font color="#FFFFFF">Test Case Name</font></b></td>
+					<td align="center"><b><font color="#FFFFFF">Result</font></b></td>
+					<td colspan="2" align="center"></td>
+				</tr>
+<!--End of TSTableHead-->
+
+<!--Start of TSTableEnd--><!-- TSTableEnd -->
+			</table>
+			</td>
+		</tr>
+<!--End of TSTableEnd-->
+
+<!--Start of TSTestRow--><!-- TSTestRow -->
+			<tr bgcolor="#F0F0F0">
+				<td>%TestCase%</td>
+				<td><font color="%TestResultColor%"><label title="%ErrorMsg%">%TestResult%</label></font></td>
+				<td bgcolor="#FFFFFF"><font color="#999999"><small>%DummyText%</small></font></td>
+				<td bgcolor="#FFFFFF"></td>
+			</tr>
+<!--End of TSTestRow-->
+
+<!--Start of TSNoTestCases--><!-- TSNoTestCases -->
+			<tr bgcolor="#F0F0F0">
+				<td colspan="4" align="left">There is no test case in this test case set</td>
+			</tr>
+<!--End of TSNoTestCases-->
+
+<!--Start of TSbeforeTestCaseSetError--><!-- TSbeforeTestCaseSetError -->
+<!--End of TSbeforeTestCaseSetError-->
+
+<!--Start of TSafterTestCaseSetError--><!-- TSafterTestCaseSetError -->
+<!--End of TSafterTestCaseSetError-->
+
+<!--Start of TCHeader--><!-- TCHeader -->
+<p align="center">
+Test Case Set: %ID% - %Name%
+<br/>
+Test Case: %TestCase%
+</p>
+		<br/>
+		<br/>
+		<b>Steps taken during producing %TestCase% test case:</b>
+		<br/>
+		<table width="90%" align="center" cellspacing="2" cellpadding="1" border="0">
+<!--End of TCHeader-->
+
+<!--Start of TCFooter--><!-- TCFooter -->
+		</table>
+<!-- generictestcase end -->
+<!--End of TCFooter-->
+
