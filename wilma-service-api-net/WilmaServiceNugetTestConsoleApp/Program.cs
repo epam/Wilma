@@ -84,7 +84,7 @@ namespace WilmaServiceNugetTestConsoleApp
         {
             using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(text)))
             {
-                var res = await func("", ms);
+                var res = await func(text, ms);
                 return res;
             }
         }
