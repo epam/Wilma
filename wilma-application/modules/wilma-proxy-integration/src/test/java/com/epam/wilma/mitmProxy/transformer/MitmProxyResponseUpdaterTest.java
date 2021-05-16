@@ -103,12 +103,25 @@ public class MitmProxyResponseUpdaterTest {
     @Test
     public void testUpdateResponseShouldUpdateBodyPart() throws IOException {
         //GIVEN
+        given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
         given(wilmaHttpResponse.getNewBody()).willReturn("NEW BODY".getBytes());
         given(wilmaHttpResponse.isVolatile()).willReturn(true);
         //WHEN
         underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
         //THEN
         verify(browserMobHttpResponse).setBody(any());
+    }
+
+    @Test
+    public void testUpdateResponseShouldUpdateStatusCodePart() {
+        //GIVEN
+        given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
+        given(wilmaHttpResponse.getStatusCode()).willReturn(0);
+        given(wilmaHttpResponse.isVolatile()).willReturn(true);
+        //WHEN
+        underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
+        //THEN
+        verify(browserMobHttpResponse.getRawResponse()).setStatusCode(0);
     }
 
 }

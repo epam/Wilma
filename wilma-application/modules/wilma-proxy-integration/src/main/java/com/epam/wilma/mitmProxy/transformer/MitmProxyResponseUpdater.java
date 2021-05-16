@@ -83,6 +83,7 @@ public class MitmProxyResponseUpdater {
         try {
             byte[] newBody = wilmaResponse.getNewBody();
             browserMobHttpResponse.setBody(newBody);
+            browserMobHttpResponse.getRawResponse().setStatusCode(wilmaResponse.getStatusCode());
         } catch (IOException e) {
             //ups, were unable to set new response correctly ...
             logger.warn("Message ont-the-fly update was failed for message: " + wilmaResponse.getWilmaMessageId(), e);
