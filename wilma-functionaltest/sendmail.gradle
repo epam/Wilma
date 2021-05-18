@@ -18,7 +18,6 @@
 ===========================================================================*/
 
 repositories {
-    jcenter()
 }
 
 configurations { antClasspath }

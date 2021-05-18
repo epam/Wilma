@@ -18,15 +18,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.custommonkey.xmlunit.Diff;
-import org.custommonkey.xmlunit.XMLTestCase;
+import org.xmlunit.matchers.CompareMatcher;
+
+import static org.junit.Assert.assertThat;
 
 /**
  * Compares two xmls.
  *
- * @author Tunde_Kovacs
+ * @author Tamas Kohegyi
  */
-public class XMLAssert extends XMLTestCase {
+public class XMLAssert {
 
     /**
      * Checks if the the actual xml equals to the expected xml content.
@@ -35,9 +36,8 @@ public class XMLAssert extends XMLTestCase {
      * @param expected xml content
      * @throws Exception in case of any problem
      */
-    public void testIdentical(final String actual, final String expected) throws Exception {
-        Diff myDiff = new Diff(expected, actual);
-        assertTrue("The xmls are not identical " + myDiff, myDiff.identical());
+    public void testIdentical(final String actual, final String expected) {
+        assertThat(actual, CompareMatcher.isIdenticalTo(expected));
     }
 
 }

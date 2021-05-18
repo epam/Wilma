@@ -33,10 +33,22 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'jacoco'
 
-version = "$wilmaVersion"+'.'+"$buildNumber"
+def versionPropsFile = file("$rootDir/version.properties")
+
+if (versionPropsFile.canRead()) {
+    def Properties versionProps = new Properties()
+    versionProps.load(new FileInputStream(versionPropsFile))
+    def code = versionProps['VERSION_CODE'].toInteger() + 1
+    project.ext.buildNumber = code
+}
+else {
+    throw new GradleException("Could not read version.properties!")
+}
+
+version = "$wilmaVersion"+'.'+"${project.ext.buildNumber}"
 
 repositories {
-    jcenter()
+    maven { url "https://repository.jboss.org/nexus/content/groups/public" }
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "${myLocalRepository}" }
     maven { url "https://repository.mulesoft.org/nexus/content/repositories/public/" }
