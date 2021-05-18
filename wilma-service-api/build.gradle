@@ -20,17 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ext.componentDescription = "Wilma-Service-API"
 
 apply plugin: 'maven-publish'
-//apply plugin: 'application'
 apply plugin: 'jacoco'
-
-//mainClassName = 'com.epam.wilma.service.client.WilmaService'
-
-//jar {
-//    manifest.attributes( 'provider': 'gradle')
-//    manifest.attributes( 'Main-Class': mainClassName)
-//    manifest.attributes( 'Implementation-Title': "$componentDescription - V$version")
-//    archiveName = "$componentName-$version"+'.jar'
-//}
 
 repositories {
     maven { url 'https://jitpack.io' }
@@ -86,10 +76,20 @@ task createPom {
 }
 createPom.dependsOn(copyJarToDistributions)
 
-uploadArchives {
+task uploadLocal(type: Upload) {
+    configuration = configurations.archives
+    uploadDescriptor = true
     repositories {
         mavenDeployer {
             repository(url: "${myLocalRepository}")
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+             repository(url: "${myLocalRepository}")
         }
     }
 }
