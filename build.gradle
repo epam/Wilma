@@ -55,3 +55,13 @@ subprojects {
         task allDeps(type: DependencyReportTask) {}
     }
 }
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "epam/Wilma"
+        property "sonar.organization", "epam"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.java.checkstyle.reportPaths", "build/reports/checkstyle/main.xml"
+        property "sonar.exclusions", "**/wilma-functionaltest/**/*"
+    }
+}

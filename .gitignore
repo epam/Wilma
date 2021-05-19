@@ -4,6 +4,7 @@
 .project
 .classpath
 .checkstyle
+gradle.properties
 **/log/
 wilma-application/modules/wilma-engine/messages
 wilma-message-search/modules/wilma-message-search-engine/indexes/
