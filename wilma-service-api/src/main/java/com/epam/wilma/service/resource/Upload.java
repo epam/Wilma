@@ -78,7 +78,7 @@ public class Upload {
      *
      * @param fileName name of the given file
      * @param file the condition checker file
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean uploadConditionChecker(String fileName, File file) {
         LOG.debug("Call condition checker upload API.");
@@ -93,7 +93,7 @@ public class Upload {
      *
      * @param fileName name of the given file
      * @param file the template file
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean uploadTemplate(String fileName, File file) {
         LOG.debug("Call template upload API.");
@@ -108,7 +108,7 @@ public class Upload {
      *
      * @param fileName name of the given file
      * @param file the template formatter file
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean uploadTemplateFormatter(String fileName, File file) {
         LOG.debug("Call template formatter upload API.");
@@ -123,7 +123,7 @@ public class Upload {
      *
      * @param fileName name of the given file
      * @param file the stub configuration file
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean uploadStubConfiguration(String fileName, File file) {
         LOG.debug("Call stub configuration upload API.");
@@ -137,7 +137,7 @@ public class Upload {
      * Uploads the given stub configuration in a form of WilmaStub object.
      *
      * @param resource is the WilmaStub object that holds the stub configuration
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean uploadStubConfiguration(WilmaStub resource) {
         LOG.debug("Call stub configuration upload API.");

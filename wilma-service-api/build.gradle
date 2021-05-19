@@ -19,7 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 ext.componentDescription = "Wilma-Service-API"
 
-apply plugin: 'maven-publish'
+apply plugin: 'maven'
+apply plugin: 'signing'
+apply plugin: 'java-library'
 apply plugin: 'jacoco'
 
 repositories {
@@ -56,18 +58,6 @@ task copyJarToDistributions (type: Copy) {
     into("$buildDir/distributions")
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact sourceZip
-            pom.withXml {
-                asNode().appendNode('description', 'Wilma - Service API Library')
-            }
-        }
-    }
-}
-
 task createPom {
     doLast {
         pom {
@@ -86,17 +76,72 @@ task uploadLocal(type: Upload) {
     }
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-             repository(url: "${myLocalRepository}")
-        }
-    }
-}
-
 task docs(type: Javadoc) {
     destinationDir = file("$buildDir/docs/all")
     options.memberLevel = JavadocMemberLevel.PRIVATE
     source += files(sourceSets.main.java)
     classpath += files(sourceSets.main.compileClasspath)
+}
+
+java {
+//    withJavadocJar()
+    withSourcesJar()
+}
+
+task javadocJar(type: Jar) {
+    archiveClassifier = 'javadoc'
+    from javadoc
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Wilma-Service-API'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'Java Service API to work with Wilma tool via its public interfaces. This API can be built into other apps those need to communicate with Wilma.'
+                url 'https://github.com/epam/Wilma/wiki'
+
+                scm {
+                    connection 'https://github.com/epam/Wilma.git'
+                    developerConnection 'https://github.com/epam/Wilma'
+                    url 'https://github.com/epam/Wilma/tree/master/'
+                }
+
+                licenses {
+                    license {
+                        name 'GPL-v3.0'
+                        url 'http://www.gnu.org/licenses/gpl-3.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'tkohegyi'
+                        name 'Tamas Kohegyi'
+                        email 'tamas_kohegyi@epam.com'
+                    }
+                }
+            }
+        }
+    }
 }

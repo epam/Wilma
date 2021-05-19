@@ -83,7 +83,7 @@ public class MessageMarkingConfiguration extends AbstractConfiguration {
      * Sets the message marking status.
      *
      * @param control the new message marking status
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean setMessageMarkingStatus(MessageMarkingStatus control) {
         LOG.debug("Call message marking setter API with value: " + control);

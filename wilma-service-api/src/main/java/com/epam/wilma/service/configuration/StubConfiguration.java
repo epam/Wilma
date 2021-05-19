@@ -82,7 +82,7 @@ public class StubConfiguration extends AbstractConfiguration {
      *
      * @param groupName the name of the stub group
      * @param status    the new status
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean setStubConfigStatus(String groupName, StubConfigStatus status) {
         LOG.debug("Call stub status setter API with value: {}, for group: {}", status, groupName);
@@ -96,7 +96,7 @@ public class StubConfiguration extends AbstractConfiguration {
      *
      * @param groupName the name of the stub group
      * @param order     the new order
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean setStubConfigOrder(String groupName, StubConfigOrder order) {
         LOG.debug("Call stub order setter API with value: {}, for group: {}", order, groupName);
@@ -109,7 +109,7 @@ public class StubConfiguration extends AbstractConfiguration {
      * Drops the given stub group configuration.
      *
      * @param groupName the name of the stub group
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean dropStubConfig(String groupName) {
         LOG.debug("Call drop stub configuration API for group: {}", groupName);
@@ -118,11 +118,11 @@ public class StubConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * Drops the all stub configuration.<br>
+     * Drops the all stub configuration.&lt;br&gt;
      * Whichever drop try was unsuccessful then return {@code false} but try to
      * drop the others. The supposed stub configuration information JSON format
-     * is the following:<br>
-     * <pre>
+     * is the following:&lt;br&gt;
+     * &lt;pre&gt;
      * {
      *   "configs": [
      *     {
@@ -133,10 +133,10 @@ public class StubConfiguration extends AbstractConfiguration {
      *     }
      *   ]
      * }
-     * </pre>
+     * &lt;/pre&gt;
      *
-     * @return <tt>true</tt> if all the stub configuration is dropped
-     * successfully (or was empty and nothing to be dropped), otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if all the stub configuration is dropped
+     * successfully (or was empty and nothing to be dropped), otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean dropAllStubConfig() {
         LOG.debug("Call drop all stub configuration.");
@@ -168,7 +168,7 @@ public class StubConfiguration extends AbstractConfiguration {
     /**
      * Save the actual stub configuration.
      *
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean persistActualStubConfig() {
         LOG.debug("Call save stub configuration API.");

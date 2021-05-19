@@ -82,7 +82,7 @@ public class ResponseMessageVolatilityConfiguration extends AbstractConfiguratio
      * Sets the response volatility status.
      *
      * @param control the new response volatility status
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean setResponseMessageVolatilityStatus(ResponseMessageVolatilityStatus control) {
         LOG.debug("Call response message volatility setter API with value: " + control);

@@ -88,7 +88,7 @@ public class OperationConfiguration extends AbstractConfiguration {
      * Sets the operation mode.
      *
      * @param mode the new operation mode
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean setOperationMode(OperationMode mode) {
         LOG.debug("Call operation mode setter API with value: " + mode);

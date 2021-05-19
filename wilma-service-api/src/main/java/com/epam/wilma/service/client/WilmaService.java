@@ -68,20 +68,8 @@ public final class WilmaService {
      *   The given properties object has to contain the Wilma server
      *   configuration:
      * </p>
-     *   <table summary="">
-     *     <tr>
-     *       <th>Key</th>
-     *       <th>Class Type</th>
-     *     </tr>
-     *     <tr>
-     *       <td align="center">wilma.host</td>
-     *       <td align="center"><pre>String</pre></td>
-     *     </tr>
-     *     <tr>
-     *       <td align="center">wilma.port</td>
-     *       <td align="center"><pre>String|Integer</pre></td>
-     *     </tr>
-     *   </table>
+     *   wilma.host - String
+     *   wilma.port - String|Integer
      * <p>
      *   For properties key you can use {@code WilmaMock.WILMA_HOST_KEY} and
      *   {@code WilmaMock.WILMA_INTERNAL_PORT_KEY} constants.
@@ -126,7 +114,7 @@ public final class WilmaService {
     /**
      * Shutdown the Wilma application.
      *
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean shutdownApplication() {
         LOG.debug("Shutdown the application.");
@@ -149,7 +137,7 @@ public final class WilmaService {
      * Turns on/off the message logging status.
      *
      * @param control on/off
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean setMessageLoggingStatus(MessageLoggingControlStatus control) {
         LOG.debug("Set message logging status to: " + control);
@@ -172,7 +160,7 @@ public final class WilmaService {
      * Switch the operation mode.
      *
      * @param mode wilma/stub/proxy
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean setOperationMode(OperationMode mode) {
         LOG.debug("Set operation mode to: " + mode);
@@ -195,7 +183,7 @@ public final class WilmaService {
      * Turns on/off the localhost blocking.
      *
      * @param control on/off
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean setLocalhostBlockingStatus(LocalhostControlStatus control) {
         LOG.debug("Set localhost blocking status to: " + control);
@@ -219,7 +207,7 @@ public final class WilmaService {
      *
      * @param groupName name of the stub configuration group
      * @param status the new status
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean changeStubConfigStatus(String groupName, StubConfigStatus status) {
         LOG.debug("Set stub configuration status to: {} for: {}", status, groupName);
@@ -232,7 +220,7 @@ public final class WilmaService {
      *
      * @param groupName name of the stub configuration group
      * @param order the new order
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean changeStubConfigOrder(String groupName, StubConfigOrder order) {
         LOG.debug("Set stub configuration order to: {} for: {}", order, groupName);
@@ -244,7 +232,7 @@ public final class WilmaService {
      * Drops the given stub configuration.
      *
      * @param groupName name of the stub configuration group
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean dropStubConfig(String groupName) {
         LOG.debug("Drop stub configuration: {}", groupName);
@@ -255,7 +243,7 @@ public final class WilmaService {
     /**
      * Persists the actual stub configuration.
      *
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean persistActualStubConfig() {
         LOG.debug("Persist actual stub configuration.");
@@ -268,7 +256,7 @@ public final class WilmaService {
      *
      * @param fileName the name of the file
      * @param file to upload
-     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean uploadConditionChecker(String fileName, File file) {
         LOG.debug("Upload condition checker configuration.");
@@ -281,7 +269,7 @@ public final class WilmaService {
      *
      * @param fileName the name of the file
      * @param file to upload
-     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean uploadTemplate(String fileName, File file) {
         LOG.debug("Upload template.");
@@ -294,7 +282,7 @@ public final class WilmaService {
      *
      * @param fileName the name of the file
      * @param file to upload
-     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean uploadTemplateFormatter(String fileName, File file) {
         LOG.debug("Upload template formatter.");
@@ -307,7 +295,7 @@ public final class WilmaService {
      *
      * @param fileName the name of the file
      * @param file to upload
-     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean uploadStubConfiguration(String fileName, File file) {
         LOG.debug("Upload stub configuration.");
@@ -319,7 +307,7 @@ public final class WilmaService {
      * Uploads stub configuration.
      *
      * @param resource the WilmaStub resource itself that is considered as stub configuration
-     * @return <tt>true</tt> if the upload request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean uploadStubConfiguration(WilmaStub resource) {
         LOG.debug("Upload stub configuration.");
@@ -328,7 +316,7 @@ public final class WilmaService {
     }
 
     /**
-     * Calls WIlma special service with get method.
+     * Calls Wilma special service with get method.
      *
      * @param queryString the query string part of the url
      * @return with an optional JSONObject

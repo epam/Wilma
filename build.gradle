@@ -25,6 +25,7 @@ ext {
     jUnitVersion = '4.13.1'
     mockitoAllVersion = '1.10.19'
     mockitoCoreVersion = '3.3.3'
+    componentName='wilma'
 }
 
 def versionPropsFile = file('version.properties')

@@ -112,7 +112,7 @@ public class WilmaApplication {
     /**
      * Shutdown the Wilma application.
      *
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     public boolean shutdownApplication() {
         LOG.debug("Call application shutdown API.");

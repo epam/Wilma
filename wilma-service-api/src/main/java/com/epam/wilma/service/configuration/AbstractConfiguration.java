@@ -105,11 +105,10 @@ public abstract class AbstractConfiguration {
 
     /**
      * Calls Wilma server via Wilma HTTP client with URL build from the given
-     * postfix and Wilma configuration. Returns <tt>true</tt> if the request was
-     * successful, otherwise returns <tt>false</tt>.
+     * postfix and Wilma configuration.
      *
      * @param postfix the URL postfix
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     protected boolean setterRequest(String postfix) {
         String url = buildUrl(postfix, null);
@@ -120,12 +119,11 @@ public abstract class AbstractConfiguration {
 
     /**
      * Calls Wilma server via Wilma HTTP client with URL build from the given
-     * postfix, parameters and Wilma configuration. Returns <tt>true</tt> if the
-     * request was successful, otherwise returns <tt>false</tt>.
+     * postfix, parameters and Wilma configuration.
      *
      * @param postfix the URL postfix
      * @param params the URL parameters
-     * @return <tt>true</tt> if the request is successful, otherwise return <tt>false</tt>
+     * @return &lt;tt&gt;true&lt;/tt&gt; if the request is successful, otherwise return &lt;tt&gt;false&lt;/tt&gt;
      */
     protected boolean setterRequest(String postfix, Map<String, String> params) {
         String url = buildUrl(postfix, params);
