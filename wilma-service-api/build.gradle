@@ -101,6 +101,15 @@ signing {
     sign configurations.archives
 }
 
+project.tasks["signArchives"].onlyIf { project.hasProperty('signing.password') }
+project.tasks["uploadArchives"].onlyIf { project.hasProperty('signing.password') }
+if (!project.hasProperty('ossrhUsername')) {
+    project.ext.ossrhUsername = 'foo'
+}
+if (!project.hasProperty('ossrhPassword')) {
+    project.ext.ossrhPassword = 'bar'
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {

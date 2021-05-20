@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 plugins {
-    id "org.sonarqube" version "3.1.1"
+    id "org.sonarqube" version "3.2.0"
 }
 
 ext {
@@ -65,3 +65,4 @@ sonarqube {
         property "sonar.exclusions", "**/wilma-functionaltest/**/*"
     }
 }
+project.tasks["sonarqube"].onlyIf { project.hasProperty('systemProp.sonar.login') }
