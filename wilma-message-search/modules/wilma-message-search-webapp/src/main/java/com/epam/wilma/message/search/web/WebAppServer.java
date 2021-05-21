@@ -19,23 +19,24 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.net.URL;
-import java.util.concurrent.Executors;
-
-import javax.servlet.Servlet;
-
+import com.epam.wilma.message.search.web.domain.exception.ServerException;
+import org.apache.tomcat.InstanceManager;
+import org.apache.tomcat.SimpleInstanceManager;
+import org.eclipse.jetty.annotations.ServletContainerInitializersStarter;
+import org.eclipse.jetty.apache.jsp.JettyJasperInitializer;
+import org.eclipse.jetty.plus.annotation.ContainerInitializer;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import com.epam.wilma.message.search.web.domain.exception.ServerException;
-import com.epam.wilma.message.search.web.service.WebAppStopper;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Responsible for configuring, starting and
  * stopping the jetty server.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari, Tamas Kohegyi
  */
 
 public class WebAppServer {
@@ -46,8 +47,17 @@ public class WebAppServer {
     private static final String WEBAPP_ROOT = "webapp";
     private Server server;
 
+    private static List<ContainerInitializer> jspInitializers() {
+        JettyJasperInitializer sci = new JettyJasperInitializer();
+        ContainerInitializer initializer = new ContainerInitializer(sci, null);
+        List<ContainerInitializer> initializers = new ArrayList<>();
+        initializers.add(initializer);
+        return initializers;
+    }
+
     /**
      * Creates and configures the webapp server.
+     *
      * @param port the port the server listens on
      */
     public void createServer(final Integer port) {
@@ -86,9 +96,18 @@ public class WebAppServer {
         context.setResourceBase(baseUrl + "");
         context.setContextPath("/");
         context.setParentLoaderPriority(true);
-        WebAppStopper webAppStopper = new WebAppStopper(this, Executors.newSingleThreadExecutor());
-        Servlet shutdownServlet = new ShutdownServlet(webAppStopper);
-        context.addServlet(new ServletHolder(shutdownServlet), SHUTDOWN_URL);
+
+        context.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
+                ".*/.*jsp-api-[^/]*\\.jar$|.*/.*jsp-[^/]*\\.jar$|.*/.*taglibs[^/]*\\.jar$");
+
+        context.setAttribute("org.eclipse.jetty.containerInitializers", jspInitializers());
+        context.setAttribute(InstanceManager.class.getName(), new SimpleInstanceManager());
+        context.addBean(new ServletContainerInitializersStarter(context), true);
+
+//        ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
+//        errorHandler.addErrorPage(HttpStatus.NOT_FOUND.value(), "/wilma-messages/e404");
+//        errorHandler.addErrorPage(HttpStatus.INTERNAL_SERVER_ERROR.value(), "/wilma-messages/e500");
+//        context.setErrorHandler(errorHandler);
         return context;
     }
 
