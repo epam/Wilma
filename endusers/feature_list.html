@@ -40,12 +40,12 @@
                 </p>
 
                 <h2>Stub - Configuration</h2>
-                <p>The Stub part of Wilma is configured via Xml file(s). Details about how the Stub Configuration should be used can be found <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here...</a>.</p>
+                <p>The Stub part of Wilma is configured via JSON file(s). Details about how the Stub Configuration should be used can be found <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here...</a>.</p>
                 <p>Wilma can handle multiple stub configurations. With this feature grouping of stub functions (by team, by stubbed application, by individual services, etc.) can be used.
-                    See details about this possibility <a href="https://github.com/epam/Wilma/wiki/Multi-Stub-Configuration">here...</a>.</p>
-                <p>The schema of the stub configuration xml that is used by Wilma can be accessed at the following address:</p>
+                    See details about this possibility <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration,-Multi-Stub-Configuration">here...</a>.</p>
+                <p>The schema of the stub configuration JSON that is used by Wilma can be accessed at the following address:</p>
                 <p>
-                    <a href="http://epam.github.io/Wilma/xsd/StubConfig.xsd">http://epam.github.io/Wilma/xsd/StubConfig.xsd</a>
+                    <a href="http://epam.github.io/Wilma/schema/StubConfig-SchemaV2.0.json">http://epam.github.io/Wilma/schema/StubConfig-SchemaV2.0.json</a>
                 </p>
 
                 <h2>Stub - Condition Checkers</h2>
@@ -55,23 +55,23 @@
                 <p></p>
                     Among the numerous built-in <b>Condition Checkers</b>, you may write and use your own solutions too.
                 </p>
-                <p>See details on <b>Condition Checkers</b> <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here</a>, at "<i>Element: <b>condition</b></i>" section.</p>
+                <p>See details on <b>Condition Checkers</b> <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here</a>, at "<i>Object: <b>condition</b></i>" section.</p>
                 <p>See details on the <b>built-in Condition Checker classes</b> <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration,-Condition-Checkers">here.</a></p>
 
                 <h2>Stub - Templates</h2>
                 <p>When a stub response should be generated, it is easy to use a previously saved response template, and send it back.
                     Such templates can be plain text, xml, json, or anything else you need.</p>
-                <p>To get more information on how templates are handled by Wilma, search for information <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here</a>, at "<i>Element: <b>template</b></i>" section.</p>
+                <p>To get more information on how templates are handled by Wilma, search for information <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here</a>, at "<i>Object: <b>template</b></i>" section.</p>
 
 
-                <h2>Stub - Template Formatter Classes</h2>
+                <h2>Stub - Response Formatter Classes</h2>
                 <p>In many cases the predefined response templates cannot be used as they are, but the response should be formed
-                    - fields should be changed, time stamps should be updated, and so on. To address this Wilma offers built-in template formatters,
-                    however it is possible for you to write and use your own template formatter classes.
+                    - fields should be changed, time stamps should be updated, and so on. To address this Wilma offers built-in response formatters,
+                    however it is possible for you to write and use your own response formatter classes.
                 <p></p>
-                It is also possible to call several template formatters before the stub response is finally sent back as answer.</p>
-                <p>See details on template formatters <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here</a>, at "<i>Element: <b>response-descriptor</b></i>" section.</p>
-                <p>See details on the <b>built-in Template Formatter classes</b> <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration,-Template-Formatters">here.</a></p>
+                It is also possible to call several response formatters before the stub response is finally sent back as answer.</p>
+                <p>See details on response formatters <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here</a>, at "<i>Object: <b>responseDescriptor</b></i>" section.</p>
+                <p>See details on the <b>built-in Response Formatter classes</b> <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration,-Response-Formatters">here.</a></p>
 
                 <h2>Using Interceptor classes</h2>
                 <p>Interceptors are classes those intercept either request or response (or both) messages, and do whatever they would like to do with the intercepted messages.
@@ -82,7 +82,7 @@
                 Wilma offers Sequence handling feature to address this problem, with this feature it is possible to collect and group request-response pairs into Sequences, and use such sequence to generate the stub response - as necessary.
                 meanwhile there are some built-in sequence handles, you may write your own class, therefore collect request-response pairs as you need.
                 <p></p>
-                <p>See details on this feature <a href="https://github.com/epam/Wilma/wiki/Sequence-Handling">here...</a> </p>
+                <p>See details on this feature <a href="https://github.com/epam/Wilma/wiki/Wilma-Extras:-Sequence-Handling">here...</a> </p>
 
                 <h2>Configuring Wilma at run time - via UI</h2>
                 <p>Wilma has a home page, where basic configurations can be made at run time.
@@ -110,7 +110,7 @@
                     <li><b>Switch between modes</b>: can be switched between WILMA, PROXY and STUB modes. See more <a href="https://github.com/epam/Wilma/wiki/Wilma-Operation-Modes">here...</a>.</li>
                     <li><b>Interceptor usage</b>: enabling/disabling message interceptors. See more <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration,-Interceptors">here...</a>.</li>
                     <li><b>Localhost blocking</b>: enabling/disabling Localhost blocking feature, see more <a href="https://github.com/epam/Wilma/wiki/Localhost-Blocking">here...</a>.</li>
-                    <li><b>Sequence handling</b>: enabling/disabling the build-in Message Sequence handling. See more <a href="https://github.com/epam/Wilma/wiki/Sequence-Handling">here...</a>.</li>
+                    <li><b>Sequence handling</b>: enabling/disabling the build-in Message Sequence handling. See more <a href="https://github.com/epam/Wilma/wiki/Wilma-Extras:-Sequence-Handling">here...</a>.</li>
                 </ul>
 
                 <p>Note: <b>Switch changes has immediate affect on Wilma operation!</b></p>
@@ -149,8 +149,8 @@
                     </li>
                     <li><b>templates</b><br/>A response template can be uploaded to the following url, with a file name parameter: <pre>http://wilma-url:internal-port/config/admin/stub/templates</pre>
                     </li>
-                    <li><b>template formatters</b><br/>
-                        A template formatter can be uploaded to the following url, with a file name parameter: <pre>http://wilma-url:internal-port/config/admin/stub/templateformatter</pre>
+                    <li><b>response formatters</b><br/>
+                        A response formatter can be uploaded to the following url, with a file name parameter: <pre>http://wilma-url:internal-port/config/admin/stub/responseformatter</pre>
                     </li>
                     <li><b>stub configuration</b><br/>A new stub configuration can be uploaded to the following url, with a file name parameter: <pre>http://wilma-url:internal-port/config/admin/stub/stubconfig</pre>
                     </li>
@@ -178,13 +178,7 @@ curl -X POST --data-binary @ExternalConditionChecker.class http://wilma-url:int
                 <p>The Wilma application log files can be accessed at the page /logs via UI. Their source can be also viewed
                     online by clicking on the '[Source]' link next to the file name.</p>
 
-                <p>The level of application logging can be configured from the logback.xml. By default it is set to INFO
-                    level. For DEBUG level information the following configuration should be changed from INFO to DEBUG:</p>
-                <pre>&lt;root level="INFO"&gt;
-   &lt;appender-ref ref="${logger:-EMPTY}"/&gt;
-   &lt;appender-ref ref="FILE-APP"/&gt;
-&lt;/root&gt;
-                </pre>
+                <p>For expert users, the level of application logging can be configured by changing the logback.xml, that is embedded in the jar file.
 
                 <h2>Blocking messages arrived from Localhost</h2>
                 <p>In certain cases, when a remotely deployed Wilma application is in use, and the original target of the request is "localhost"
@@ -213,16 +207,16 @@ curl -X POST --data-binary @ExternalConditionChecker.class http://wilma-url:int
                 <h2>Load Information</h2>
                 <p>Both of the applications (Wilma and Wilma Message Search) provide data about their actual load and other information.
                     These data are available on both UIs.</p>
-                <p>Get more information on the load data provided by the applications <a href="https://github.com/epam/Wilma/wiki/Load-Information">here...</a> </p>
+                <p>Get more information on the load data provided by the applications <a href="https://github.com/epam/Wilma/wiki/Wilma,-Load-Information">here...</a> </p>
 
                 <h2>Java and .NET Service Libraries for Wilma</h2>
                 <p>Wilma has service libraries in order to ease the communication/configuration of Wilma from your own code.</p>
-                <p><b>Java Service Library for Wilma</b> is available via <b>JCenter</b>. See more info <a href="https://github.com/epam/Wilma/wiki/Wilma-Service-API-library-for-Java">here...</a> </p>
+                <p><b>Java Service Library for Wilma</b> is available via <b>MavenCentral</b>. See more info <a href="https://github.com/epam/Wilma/wiki/Wilma-Service-API-library-for-Java">here...</a> </p>
                 <p><b>.NET Service Library for Wilma</b> is available via <b>NuGet</b>. See more info <a href="https://github.com/epam/Wilma/wiki/Wilma-Service-API-library-for-.NET">here...</a> </p>
 
                 <h2>Wilma Service Endpoint Extension possibility</h2>
-                <p>Since Wilma version 1.5, by implementing ExternalWilmaService interface, it is <b>possible to communicate with your external plugins directly by using HTTP/REST calls</b>.
-                    See details <a href="https://github.com/epam/Wilma/wiki/Service-Endpoint-Extensions-in-Plugins">here</a>.</p>
+                <p>By implementing the ExternalWilmaService interface, it is <b>possible to communicate with your external plugins directly by using HTTP/REST calls</b>.
+                    See details <a href="https://github.com/epam/Wilma/wiki/Wilma-Extras:-Service-Endpoint-Extensions-in-Plugins">here</a>.</p>
 
                 <h2>Shutting down Wilma and Wilma Message Search applications</h2>
                 <p>You can shutdown Wilma application by sending a GET/POST request to the '/config/admin/shutdown' URL.</p>
@@ -257,7 +251,7 @@ curl -X POST --data-binary @ExternalConditionChecker.class http://wilma-url:int
     <div class="clearer"></div>
 </div>
 <div class="footer">
-    &copy;2018, EPAM Systems.
+    &copy;2021, EPAM Systems.
 </div>
 
 

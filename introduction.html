@@ -51,7 +51,7 @@
                     
                     <b>How it works?</b><br/>
                     <p>As it is a combined proxy and service stub. The component that sends the request to another component, should use Wilma as a simple HTTP/HTTPS proxy. By evaluating the captured request Wilma decides whether need to act as proxy - then simply forward the request to the original target - or need to act as stub - in this case generates a response. <br/>
-                        Configuring its behavior happens via xml config, that can be uploaded (therefore changed) via UI or via service on the fly. Wilma can be used as proxy and stub for several components/services in parallel, and can be used in test environment that contains microservices.</p>
+                        Configuring its behavior happens via JSON config, that can be uploaded (therefore changed) via UI or via service on the fly. Wilma can be used as proxy and stub for several components/services in parallel, and can be used in test environment that contains microservices.</p>
                     <b>So how does it help me?</b><br/>
                     <p>Several ways:<br/>
                     <ul style="list-style-type: square;">
@@ -70,7 +70,7 @@
                     </ul><p/>
                     <b><i>Wilma application</i></b> acts as a proxy between two components/services those are communicating over HTTP/HTTPS.<br/>
                     Note: Many components/services can use the same Wilma instance. In optimal case, all components in a test environment use the same Wilma instance.
-                    It logs all the messages, and makes it possible to stub responses based on configuration defined in XML file(s).
+                    It logs all the messages, and makes it possible to stub responses based on configuration defined in JSON file(s).
                     It can be used/configured immediately. But accepts further add-ons:</p>
                     <ul style="list-style-type: square;">
                         <li>you may create your own class (even jar) to be used during request message evaluation if proxy or stub response should be used (by implementing the necessary condition-checker interface)</li>
@@ -122,7 +122,7 @@
     <div class="clearer"></div>
 </div>
 <div class="footer">
-    &copy;2018, EPAM Systems.
+    &copy;2021, EPAM Systems.
 </div>
 
 

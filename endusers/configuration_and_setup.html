@@ -226,25 +226,26 @@ java [-Dlogger=DEV]
                     <li>The VM arguments <code>-Dcom.sun.management.jmxremote.XXX </code>are used when you would like to attach to Wilma via Java JMX Console, for monitorig purposes.
                     </li>
                 </ul>
-                <p>Wilma application logs are normally stored in the <strong>/log/app</strong> folder.</p>
+                <p>Wilma application logs are normally stored in the <strong>/log</strong> folder.</p>
 
                 <p>The command above requires that the properties file is in the same folder as the JAR. If you place
                     the configuration file to a different location, you should run the JAR by specifying the full path
                     of the configuration file.
                 <p>If the tool starts successfully, you should see something similar on the console:</p>
                 <code><pre>
-11:35:41 - Timelimit method is used to maintain log files with parameters: timelimit: 1H
-11:35:41 - Wilma-v1.3.111
-Copyright 2013-2015 EPAM Systems - GNU GPL-V3.0 License
+13:50:28 - RMI: using port:1099
+13:50:29 - Timelimit method is used to maintain log files with parameters: timelimit: 1H
+13:50:29 - Wilma - Service Stub and Transparent Proxy - V2.0.458
+Copyright since 2013, EPAM Systems - GNU GPL-V3.0 License
 Used proxy port: 9092
 Wilma UI is available via URL: http://localhost:1234/index/
-Application logs are stored in 'D:\wilma\log\app' folder.
-Request-response pairs are stored in 'D:\wilma\messages' folder.
+Application logs are stored in 'c:\wilma\log' folder.
+Request-response pairs are stored in 'c:\wilma\messages' folder.
                     </pre></code>
                 <h2>Loading Stub Configs</h2>
                 <p>Details about how the Stub is configured, can be found <a href="https://github.com/epam/Wilma/wiki/Stub-Configuration">here...</a>.</p>
                 <p>At start up Wilma checks the cache folder (see parameter:
-                    <strong>stub.descriptors.cache.path</strong>) how many file looks like *_stubConfig.xml where *
+                    <strong>stub.descriptors.cache.path</strong>) how many file looks like *_stubConfig.json where *
                     means &gt;0 integer value. If there is at least one file with this name pattern, Wilma will load
                     these files in order. If there is not any such file, then Wilma try to load the stub configuration
                     in the following steps.</p>
@@ -255,7 +256,7 @@ Request-response pairs are stored in 'D:\wilma\messages' folder.
                     </li>
                     <li>If <strong>stub.descriptors.pattern</strong> contains a *, Wilma looks for those files in
                         the <strong>stub.descriptors.path</strong> folder which matched with the given pattern. <br/>This
-                        pattern must be like *something.xml, *.xml ...!<br/>Note: "some*thing.xml" is a WRONG pattern,
+                        pattern must be like *something.json, *.json ...!<br/>Note: "some*thing.json" is a WRONG pattern,
                         Wilma is not able to work with such pattern!
                     </li>
                 </ol>
@@ -355,7 +356,7 @@ applicationDefaultJvmArgs = ["-Dhttp.proxyHost=127.0.0.1", "-Dhttp.proxyPort=909
     <div class="clearer"></div>
 </div>
 <div class="footer">
-    &copy;2018, EPAM Systems.
+    &copy;2021, EPAM Systems.
 </div>
 
 
