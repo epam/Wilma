@@ -17,6 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +73,7 @@ public class WilmaClassLoader extends ClassLoader {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         int nextValue;
         try {
-            while ( (nextValue = inputStream.read()) != -1 ) {
+            while ((nextValue = inputStream.read()) != -1) {
                 byteStream.write(nextValue);
             }
         } catch (IOException e) {

@@ -51,6 +51,6 @@ public class LogFilePathProvider {
      * @return Path of the application log folder
      */
     public Path getAppLogFilePath() {
-        return FileSystems.getDefault().getPath("log", "app");
+        return FileSystems.getDefault().getPath("log");
     }
 }
