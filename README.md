@@ -9,23 +9,15 @@ It is written in Java, and the solution consists of two standalone applications:
 * **Wilma** application is the highly configurable **Service Virtualization** tool
 * **Wilma Message Search** application (optional component) provides high performance searching capability of the request-response pairs that were logged by Wilma application.
 
-WARNING!
-========
-**Wilma is under mayor update (preparing release V2.0)** Now it is ready to be released just the documentation needs to be updated in order to prepare a proper release.
-Main changes to be expected:
-- using json stub configuration instead of xml based configuration
-- proxy part is upgraded to be able to use HTTPS with TLS.
-
-**You must also should know that V1.6 release works reliable with HTTP only, since the supported HTTPS protocols (SSLv3, TLS1) become obsolete since the last release.**
-
 # Quick intro for end users
 ## Wilma application
 #### Requirements
-* JRE 13 for V2.0.x releases
-* JRE 8 for V1.6.x releases
+* JRE 13 for V2.0.x releases of Wilma
+* JRE 8 for V1.6.x releases of Wilma
 * JRE 7 in case version earlier than V1.6.x in use
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma application downloaded and extracted into a folder.
-
+### Note on V1.6 and V2.0 versions
+Please be noted that there were non-backward compatible changes when Wilma is upgraded from V1.6 to V2.0. Configurations used in V1.6 (that was xml based) cannot be used for configuring V2.0 (which is json based). You must also should know that V1.6 release works reliable with HTTP only, because the supported HTTPS protocols (SSLv3, TLS1) become obsolete in the meantime. On the other hand, V2.0 can be used for TLS1.1, TLS 1.2 and even for TLS1.3  - however extra configurations may be necessary and unexpected events may occur (like the used jdk does not support some of these protocols fully). HTTP part shall work without issue.
 
 #### Configuring Components/Services to use Wilma
 The most simple way to do this is by configuring the Component/Service to use Wilma **as HTTP(S) proxy**. 
@@ -49,7 +41,7 @@ See [this page](http://epam.github.io/Wilma/endusers/index.html) for more detail
 ## Contact, questions and answers
 In order to get the latest news, follow this project on GitHub.
 The latest documentation can be found at [http://epam.github.io/Wilma/](http://epam.github.io/Wilma/).
-Feel free to seek for assistance/advise, or discuss usage scenarios by submitting new [Issue](https://github.com/epam/Wilma/issues) on GitHub or by joining to [wilma-users](https://groups.google.com/forum/#!forum/wilma-users) mailing list.
+Feel free to seek for assistance/advise, or discuss usage scenarios by submitting new [Issue](https://github.com/epam/Wilma/issues) on GitHub.
 
 ## Wilma Message Search application
 * Running Wilma Message Search application is optional, Wilma itself does not require it.
@@ -58,7 +50,7 @@ Feel free to seek for assistance/advise, or discuss usage scenarios by submittin
 * **Docker image** of combined Wilma and Wilma Message Search application is available on DockerHub, see details [here](https://github.com/epam/Wilma/wiki/Docker-image-of-Wilma)
 
 #### Requirements
-* JDK 8 (pls use earlier Wilma [releases](https://github.com/epam/Wilma/releases) than V1.6.x when you need to use Java 7 version)
+* JDK 11 (pls use earlier Wilma [releases](https://github.com/epam/Wilma/releases) than V2.0.x when you need to use Java 8 version)
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma Message Search application downloaded and extracted into a folder.
 
 #### Running
@@ -68,20 +60,18 @@ Feel free to seek for assistance/advise, or discuss usage scenarios by submittin
 
 There are several ways you can help us:
 * **Raise an [issue](https://github.com/epam/Wilma/issues).** Have you found something that does not work as expected? Let us know about it.
-* **Suggest a feature by submitting an [issue](https://github.com/epam/Wilma/issues) or by sending an [e-mail](https://groups.google.com/forum/#!forum/wilma-users) to us.** It's even better if you come up with a new feature and write us about it.
+* **Suggest a feature by submitting an [issue](https://github.com/epam/Wilma/issues). It's even better if you come up with a new feature and write us about it.
 * **Write some code.** We would love to see pull requests to this tool. Feel free to contribute (send pull request) on GitHub.
 
 #### Advised working environment
 * OpenJDK 13 for V2.0.x
-* OpenJDK 8 for V1.6.x
-* IntelliJ
+* IntelliJ IDEA Community Edition
 * Gradle and Git Integration for the IDE
 
 #### Building with Gradle
 The project can be built by following the instructions described [here](https://github.com/epam/Wilma/wiki/DEV,-Build-from-Scratch).
 This way of build is recommended for contributors only, End-Users, please use the pre-built downloadable releases from [here](https://github.com/epam/Wilma/releases), or use the docker image.
 
-[![Build Status](https://travis-ci.org/epam/Wilma.svg?branch=master)](https://travis-ci.org/epam/Wilma)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=epam%2FWilma&metric=alert_status)](https://sonarcloud.io/dashboard?id=epam%2FWilma)
 
 ## Detailed information
