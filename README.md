@@ -1,8 +1,8 @@
 Wilma
 ===========
-Wilma is a **Service Virtualization** tool, that combines the capabilities of a **Service Stub** and a **HTTP/HTTPS Transparent Proxy**. 
-Its main purpose is to support development and testing applications/services/components those functionality relies/depends on another application/services/components that can be owned by you or can be owned by 3rd party as well. 
-The selected architecture approach makes it capable to use it in unit, integration, functional, end-to-end, performance test environments and environments those contains microservices. 
+Wilma is a **Service Virtualization** tool, that combines the capabilities of a **Service Stub** and a **HTTP/HTTPS Transparent Proxy**.
+Its main purpose is to support development and testing applications/services/components those functionality relies/depends on another application/services/components that can be owned by you or can be owned by 3rd party as well.
+The selected architecture approach makes it capable to use it in unit, integration, functional, end-to-end, performance test environments and environments those contains microservices.
 It can be used for manual tests too. It is expandable easily via plugins and configurable on-the-fly.
 It is written in Java, and the solution consists of two standalone applications:
 
@@ -20,7 +20,7 @@ It is written in Java, and the solution consists of two standalone applications:
 Please be noted that there were non-backward compatible changes when Wilma is upgraded from V1.6 to V2.0. Configurations used in V1.6 (that was xml based) cannot be used for configuring V2.0 (which is json based). You must also should know that V1.6 release works reliable with HTTP only, because the supported HTTPS protocols (SSLv3, TLS1) become obsolete in the meantime. On the other hand, V2.0 can be used for TLS1.1, TLS 1.2 and even for TLS1.3  - however extra configurations may be necessary and unexpected events may occur (like the used jdk does not support some of these protocols fully). HTTP part shall work without issue.
 
 #### Configuring Components/Services to use Wilma
-The most simple way to do this is by configuring the Component/Service to use Wilma **as HTTP(S) proxy**. 
+The most simple way to do this is by configuring the Component/Service to use Wilma **as HTTP(S) proxy**.
 In case of Java components/services, this can be done by adding a few VM arguments to the run configuration:
 
 ```
