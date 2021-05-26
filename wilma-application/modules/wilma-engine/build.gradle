@@ -72,10 +72,6 @@ jar {
     finalizedBy shadowJar
 }
 
-repositories {
-    maven { url "${myLocalRepository}" }
-}
-
 dependencies {
     compile project(':wilma-application:wilma-proxy-integration')
     compile project(':wilma-application:wilma-webapp')

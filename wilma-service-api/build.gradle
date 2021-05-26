@@ -19,10 +19,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 ext.componentDescription = "Wilma-Service-API"
 
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'java-library'
 apply plugin: 'jacoco'
+
+def isSnapshot = project.version.contains('SNAPSHOT')
 
 repositories {
     maven { url 'https://jitpack.io' }
@@ -52,30 +54,6 @@ jacocoTestReport {
 }
 test.finalizedBy jacocoTestReport
 
-task copyJarToDistributions (type: Copy) {
-    dependsOn(sourceZip)
-    from("$buildDir/libs/")
-    into("$buildDir/distributions")
-}
-
-task createPom {
-    doLast {
-        pom {
-        }.writeTo("$buildDir/distributions/$componentName-${version}.pom")
-    }
-}
-createPom.dependsOn(copyJarToDistributions)
-
-task uploadLocal(type: Upload) {
-    configuration = configurations.archives
-    uploadDescriptor = true
-    repositories {
-        mavenDeployer {
-            repository(url: "${myLocalRepository}")
-        }
-    }
-}
-
 task docs(type: Javadoc) {
     destinationDir = file("$buildDir/docs/all")
     options.memberLevel = JavadocMemberLevel.PRIVATE
@@ -83,74 +61,61 @@ task docs(type: Javadoc) {
     classpath += files(sourceSets.main.compileClasspath)
 }
 
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
 java {
-//    withJavadocJar()
+    withJavadocJar()
     withSourcesJar()
 }
 
-task javadocJar(type: Jar) {
-    archiveClassifier = 'javadoc'
-    from javadoc
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
-}
-
-signing {
-    sign configurations.archives
-}
-
-project.tasks["signArchives"].onlyIf { project.hasProperty('signing.password') }
-project.tasks["uploadArchives"].onlyIf { project.hasProperty('signing.password') }
-if (!project.hasProperty('ossrhUsername')) {
-    project.ext.ossrhUsername = 'foo'
-}
-if (!project.hasProperty('ossrhPassword')) {
-    project.ext.ossrhPassword = 'bar'
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name 'Wilma-Service-API'
-                packaging 'jar'
-                // optionally artifactId can be defined here
-                description 'Java Service API to work with Wilma tool via its public interfaces. This API can be built into other apps those need to communicate with Wilma.'
-                url 'https://github.com/epam/Wilma/wiki'
-
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = archivesBaseName
+            from components.java
+            pom {
+                name = 'Wilma-Service-API'
+                description = 'Java Service API to work with Wilma tool via its public interfaces. This API can be built into other apps those need to communicate with Wilma.'
+                url = 'https://github.com/epam/Wilma/wiki'
                 scm {
-                    connection 'https://github.com/epam/Wilma.git'
-                    developerConnection 'https://github.com/epam/Wilma'
-                    url 'https://github.com/epam/Wilma/tree/master/'
+                    connection = 'https://github.com/epam/Wilma.git'
+                    developerConnection = 'https://github.com/epam/Wilma'
+                    url = 'https://github.com/epam/Wilma/tree/master/'
                 }
-
                 licenses {
                     license {
-                        name 'GPL-v3.0'
-                        url 'http://www.gnu.org/licenses/gpl-3.0.txt'
+                        name = 'GPL-v3.0'
+                        url = 'http://www.gnu.org/licenses/gpl-3.0.txt'
                     }
                 }
-
                 developers {
                     developer {
-                        id 'tkohegyi'
-                        name 'Tamas Kohegyi'
-                        email 'tamas_kohegyi@epam.com'
+                        id = 'tkohegyi'
+                        name = 'Tamas Kohegyi'
+                        email = 'tamas_kohegyi@epam.com'
                     }
                 }
             }
         }
     }
+    repositories {
+        maven {
+            def stagingRepoUrl = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            def snapshotRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+            url isSnapshot ? snapshotRepoUrl : stagingRepoUrl
+            credentials {
+                username = rootProject.findProperty('ossrhUsername') ?: ''
+                password = rootProject.findProperty('ossrhPassword') ?: ''
+            }
+        }
+    }
+}
+
+signing {
+    required { isSnapshot }
+    sign publishing.publications.mavenJava
 }

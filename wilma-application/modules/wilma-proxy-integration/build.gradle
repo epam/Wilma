@@ -19,7 +19,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 description = 'wilma-proxy integration'
 
 repositories {
-    maven { url "${myLocalRepository}" }
     maven { url "https://oss.sonatype.org/service/local/staging/deploy/maven2/" }
 }
 

@@ -18,39 +18,24 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 // Common local repository info
-ext.myLocalRepository='file://C:/tmp/myRepo/'
 ext.wilmaVersion=2.0
-
-if ( hasProperty('localRepository') ) {
-    myLocalRepository = "${project.ext.localRepository}"
-}
 
 group = 'com.epam.wilma'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'checkstyle'
 apply plugin: 'java'
-apply plugin: 'maven'
 apply plugin: 'jacoco'
 
-def versionPropsFile = file("$rootDir/version.properties")
-
-if (versionPropsFile.canRead()) {
-    def Properties versionProps = new Properties()
-    versionProps.load(new FileInputStream(versionPropsFile))
-    def code = versionProps['VERSION_CODE'].toInteger() + 1
-    project.ext.buildNumber = code
+ext.myBuildNumber='SNAPSHOT'
+if ( hasProperty('buildNumber') ) {
+    myBuildNumber = "${rootProject.ext.buildNumber}"
 }
-else {
-    throw new GradleException("Could not read version.properties!")
-}
-
-version = "$wilmaVersion"+'.'+"${project.ext.buildNumber}"
+version = "$wilmaVersion" + '.' + "${rootProject.ext.myBuildNumber}"
 
 repositories {
     maven { url "https://repository.jboss.org/nexus/content/groups/public" }
     maven { url "https://repo.maven.apache.org/maven2" }
-    maven { url "${myLocalRepository}" }
     maven { url "https://repository.mulesoft.org/nexus/content/repositories/public/" }
 }
 
