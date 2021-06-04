@@ -39,15 +39,12 @@ shadowJar {
 		'META-INF/*.DSA',
 		'META-INF/*.RSA'
 		]
-
-    archiveName = "$componentName-$version"+'.jar'
 }
 
 jar {
     manifest.attributes( 'provider': 'gradle')
     manifest.attributes( 'Main-Class': mainClassName)
-    manifest.attributes( 'Implementation-Title': "$componentDescription - V$version")
-    archiveName = "$componentName-$version"+'.jar'
+    manifest.attributes( 'Implementation-Title': "$componentDescription - V$archiveVersion")
 
     finalizedBy shadowJar
 }

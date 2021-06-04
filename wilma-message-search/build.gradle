@@ -44,7 +44,7 @@ def releaseCopySpec = project.copySpec {
      include 'readme.txt'
    }
    from(rootProject.rootDir.absolutePath + '/wilma-message-search/modules/wilma-message-search-engine/build/libs/') {
-     include "wilma-message-search-$version" + '.jar'
+     include "wilma-message-search-engine-$version" + '-all.jar'
    }
    from(rootProject.rootDir.absolutePath + '/') {
      include 'COPYRIGHT.txt'
@@ -79,26 +79,6 @@ subprojects {
         testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
     }
 
-    def checkstyleCommonReportDir = new File(rootProject.rootDir.absolutePath , '/wilma-message-search/build/reports/checkstyle')
-    def checkstyleSubProjectReportFile = new File(project.buildDir.absolutePath , '/reports/checkstyle/main.xml')
-    checkstyle.configFile = file("$rootProject.rootDir/config/checkstyle/checkstyle.xml")
-    checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/config/checkstyle"]
-    checkstyle.toolVersion = '5.6'
-    checkstyle.ignoreFailures = true
-    checkstyleMain.classpath += configurations.compile
-    checkstyleTest.classpath += configurations.compile
-    checkstyleMain {
-        doLast {
-            ant.xslt(in: reports.xml.destination,
-            style: new File("$rootProject.rootDir/config/checkstyle/checkstyle-noframes-sorted.xsl"),
-            out: new File(checkstyleCommonReportDir, project.name + '-main.html'))
-            copy {  //collect xml-s
-                from checkstyleSubProjectReportFile
-                into checkstyleCommonReportDir
-                rename { String filename -> project.name + '-main.xml' }
-            }
-        }
-    }
     test.useJUnit()
 }
 

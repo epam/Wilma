@@ -20,7 +20,7 @@ apply plugin: 'application'
 
 repositories {
     maven { url 'https://jitpack.io' }
-    maven { url 'http://maven.bestsolution.at/efxclipse-releases/' }
+    maven { url 'https://maven.bestsolution.at/efxclipse-releases/' }
 }
 
 dependencies {

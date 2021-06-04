@@ -57,7 +57,7 @@ dependencies {
 jar {
     manifest.attributes( 'provider': 'gradle')
     manifest.attributes( 'Main-Class': 'com.epam.wilma.message.search.engine.MessageSearchApplication')
-    manifest.attributes( 'Implementation-Title': "$componentDescription - V$version")
+    manifest.attributes( 'Implementation-Title': "$componentDescription - V$archiveVersion")
 }
 
 shadowJar {
@@ -77,8 +77,6 @@ shadowJar {
             'XPP3_1.1.4c_MIN_VERSION',
             'activemq.xsd.*',
             'about.html']
-
-        archiveName = "wilma-message-search-$wilmaVersion.$buildNumber"+'.jar'
 }
 
 jar.finalizedBy shadowJar

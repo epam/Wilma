@@ -40,18 +40,13 @@ repositories {
 }
 
 // Source and target info
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
-task sourceZip(type: Zip) {
-    from 'src'
-    baseName = "$componentName"
-    classifier 'sources'
-    extension 'jar'
-}
-
-checkstyle.toolVersion = '5.6'
+checkstyle.toolVersion = '8.0'
 checkstyle.ignoreFailures = true
+checkstyle.configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+checkstyle.configProperties = ['samedir' : "${rootDir}/config/checkstyle"]
 
 jacoco {
     toolVersion = "0.8.6"

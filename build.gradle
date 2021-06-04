@@ -35,9 +35,6 @@ apply from: 'common.gradle'
 subprojects {
     apply from: "$rootDir/common.gradle"
 
-    checkstyle.configFile = file("$rootProject.rootDir/config/checkstyle/checkstyle.xml")
-    checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/config/checkstyle"]
-
     compileJava {options.encoding = "UTF-8"}
 
     subprojects {
