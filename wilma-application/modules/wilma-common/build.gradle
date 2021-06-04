@@ -19,16 +19,16 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'wilma common'
 dependencies {
-    compile project(':wilma-application:wilma-domain')
-    compile project(':wilma-application:wilma-properties')
-    compile group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'2.0.0'
-    compile group: 'javax.jms', name: 'jms', version:'1.1'
-    compile(group: 'org.apache.activemq', name: 'activemq-client', version:'5.11.1') {
+    implementation project(':wilma-application:wilma-domain')
+    implementation project(':wilma-application:wilma-properties')
+    implementation group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'2.0.0'
+    implementation group: 'javax.jms', name: 'jms', version:'1.1'
+    implementation(group: 'org.apache.activemq', name: 'activemq-client', version:'5.11.1') {
         exclude(module: 'geronimo-jms_1.1_spec')
     }
-    compile(group: 'org.apache.activemq', name: 'activemq-broker', version:'5.11.1')
-    compile(group: 'org.apache.activemq', name: 'activemq-pool', version:'5.11.1')
-    compile group: 'org.apache.derby', name: 'derby', version:'10.11.1.1'
-    compile group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
-    compile group: 'org.apache.bcel', name: 'bcel', version:'5.2'
+    implementation(group: 'org.apache.activemq', name: 'activemq-broker', version:'5.11.1')
+    implementation(group: 'org.apache.activemq', name: 'activemq-pool', version:'5.11.1')
+    implementation group: 'org.apache.derby', name: 'derby', version:'10.11.1.1'
+    implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
+    implementation group: 'org.apache.bcel', name: 'bcel', version:'5.2'
 }

@@ -42,9 +42,16 @@ run{
 }
 
 dependencies {
-    compile project(':wilma-message-search:wilma-message-search-lucene')
-    compile project(':wilma-message-search:wilma-message-search-webapp')
-    compile project(':wilma-message-search:wilma-message-search-properties')
+    implementation project(':wilma-message-search:wilma-message-search-domain')
+    implementation project(':wilma-message-search:wilma-message-search-lucene')
+    implementation project(':wilma-message-search:wilma-message-search-webapp')
+    implementation project(':wilma-message-search:wilma-message-search-properties')
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
+    implementation(group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.0') {
+        exclude(module: 'slf4j-api')
+    }
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation group: 'org.apache.activemq', name: 'activemq-spring', version:'5.11.1'
 }
 
 jar {

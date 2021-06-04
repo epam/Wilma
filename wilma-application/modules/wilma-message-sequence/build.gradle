@@ -19,6 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'Wilma Message Sequence'
 dependencies {
-  compile project(':wilma-application:wilma-domain')
-  compile project(':wilma-application:wilma-route-engine')
+  implementation project(':wilma-application:wilma-common')
+  implementation project(':wilma-application:wilma-properties')
+  implementation project(':wilma-application:wilma-domain')
+  implementation project(':wilma-application:wilma-route-engine')
+  implementation project(':wilma-application:wilma-stub-configuration-domain')
 }

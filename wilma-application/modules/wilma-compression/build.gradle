@@ -19,7 +19,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'wilma compression'
 dependencies {
-  compile project(':wilma-application:wilma-common')
-  compile project(':wilma-application:wilma-domain')
-  compile 'commons-codec:commons-codec:1.10'
+  implementation project(':wilma-application:wilma-common')
+  implementation project(':wilma-application:wilma-domain')
+  implementation group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'2.0.0'
+  implementation 'commons-codec:commons-codec:1.10'
 }

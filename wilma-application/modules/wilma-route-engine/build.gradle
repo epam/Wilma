@@ -19,7 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'Wilma Route Engine'
 dependencies {
-  compile project(':wilma-application:wilma-common')
-  compile project(':wilma-application:wilma-stub-configuration-domain')
-  testCompile "$javaxServletApi"
+  implementation project(':wilma-application:wilma-common')
+  implementation project(':wilma-application:wilma-stub-configuration-domain')
+  implementation project(':wilma-application:wilma-properties')
+  implementation project(':wilma-application:wilma-domain')
+  testImplementation "$javaxServletApi"
 }

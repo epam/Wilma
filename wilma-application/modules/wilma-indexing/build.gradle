@@ -19,5 +19,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'wilma indexing'
 dependencies {
-  compile project(':wilma-application:wilma-common')
+  implementation project(':wilma-application:wilma-properties')
+  implementation project(':wilma-application:wilma-domain')
+  implementation project(':wilma-application:wilma-common')
+  implementation(group: 'org.apache.activemq', name: 'activemq-client', version:'5.11.1') {
+    exclude(module: 'geronimo-jms_1.1_spec')
+  }
+  implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
+  implementation group: 'javax.jms', name: 'jms', version:'1.1'
 }

@@ -53,17 +53,17 @@ jar {
 }
 
 dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
-    compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.12'
-    compile group: 'org.eclipse.jetty', name: 'jetty-server', version:'9.4.31.v20200723'
-    compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version:'9.4.31.v20200723'
-    compile group: 'org.eclipse.jetty', name: 'jetty-webapp', version:'9.4.31.v20200723'
-    compile group: 'org.eclipse.jetty', name: 'jetty-servlets', version:'9.4.31.v20200723'
-    compile group: 'commons-io', name: 'commons-io', version:'2.4'
-    compile group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'2.0.0'
-    testCompile group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
+    implementation group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.12'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version:'9.4.31.v20200723'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version:'9.4.31.v20200723'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-webapp', version:'9.4.31.v20200723'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-servlets', version:'9.4.31.v20200723'
+    implementation group: 'commons-io', name: 'commons-io', version:'2.4'
+    implementation group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'2.0.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
     testImplementation "junit:junit:${jUnitVersion}"
-    testCompile group: 'cglib', name: 'cglib', version:'3.0'
+    testImplementation group: 'cglib', name: 'cglib', version:'3.0'
 }
 
 test.useJUnit()

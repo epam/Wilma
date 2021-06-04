@@ -19,5 +19,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'Wilma Message Logger'
 dependencies {
-  compile project(':wilma-application:wilma-common')
+  implementation project(':wilma-application:wilma-common')
+  implementation project(':wilma-application:wilma-domain')
+  implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
+  implementation group: 'javax.jms', name: 'jms', version:'1.1'
 }

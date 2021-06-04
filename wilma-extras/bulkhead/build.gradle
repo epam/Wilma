@@ -1,5 +1,8 @@
 dependencies {
-    compile project(':wilma-application:wilma-domain')
-    compile project(':wilma-application:wilma-webapp')
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation project(':wilma-application:wilma-domain')
+    implementation project(':wilma-application:wilma-webapp')
+    implementation project(':wilma-application:wilma-stub-configuration-domain')
+    implementation 'com.google.guava:guava:18.0'
+    implementation "$javaxServletApi"
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }

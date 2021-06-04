@@ -31,14 +31,14 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
-    compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.12'
-    compile group: 'commons-httpclient', name: 'commons-httpclient', version:'3.1'
-    compile group: 'commons-io', name: 'commons-io', version:'2.4'
-    compile group: 'commons-validator', name: 'commons-validator', version:'1.4.1'
-    compile group: "com.github.everit-org.json-schema", name: "org.everit.json.schema", version: "1.9.1"
-    compile 'org.json:json:20180813'
-    testCompile group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
+    implementation group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.12'
+    implementation group: 'commons-httpclient', name: 'commons-httpclient', version:'3.1'
+    implementation group: 'commons-io', name: 'commons-io', version:'2.4'
+    implementation group: 'commons-validator', name: 'commons-validator', version:'1.4.1'
+    implementation group: "com.github.everit-org.json-schema", name: "org.everit.json.schema", version: "1.9.1"
+    implementation 'org.json:json:20180813'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
     testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
 }
 

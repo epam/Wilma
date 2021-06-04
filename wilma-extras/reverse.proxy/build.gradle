@@ -1,5 +1,13 @@
 dependencies {
-    compile project(':wilma-application:wilma-domain')
-    compile project(':wilma-application:wilma-webapp')
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation project(':wilma-application:wilma-common')
+    implementation project(':wilma-application:wilma-domain')
+    implementation project(':wilma-application:wilma-webapp')
+    implementation project(':wilma-application:wilma-stub-configuration-domain')
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'com.google.guava:guava:18.0'
+    implementation 'org.json:json:20180813'
+    implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
+    implementation "$javaxServletApi"
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }

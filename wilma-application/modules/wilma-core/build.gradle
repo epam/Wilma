@@ -19,14 +19,19 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description='wilma core'
 dependencies {
-    compile project(':wilma-application:wilma-domain')
-    compile project(':wilma-application:wilma-compression')
-    compile project(':wilma-application:wilma-route-engine')
-    compile project(':wilma-application:wilma-message-logger')
-    compile project(':wilma-application:wilma-message-marker')
-    compile project(':wilma-application:wilma-stub-configuration-domain')
-    compile project(':wilma-application:wilma-indexing')
-    compile project(':wilma-application:wilma-message-maintainer')
-    compile project(':wilma-application:wilma-message-sequence')
-    compile group: 'com.google.code.gson', name: 'gson', version:'2.2.4'
+    implementation project(':wilma-application:wilma-common')
+    implementation project(':wilma-application:wilma-properties')
+    implementation project(':wilma-application:wilma-domain')
+    implementation project(':wilma-application:wilma-compression')
+    implementation project(':wilma-application:wilma-route-engine')
+    implementation project(':wilma-application:wilma-message-logger')
+    implementation project(':wilma-application:wilma-message-marker')
+    implementation project(':wilma-application:wilma-stub-configuration-domain')
+    implementation project(':wilma-application:wilma-indexing')
+    implementation project(':wilma-application:wilma-message-maintainer')
+    implementation project(':wilma-application:wilma-message-sequence')
+    implementation group: 'com.google.code.gson', name: 'gson', version:'2.2.4'
+    implementation 'com.google.guava:guava:18.0'
+    implementation group: 'javax.jms', name: 'jms', version:'1.1'
+    implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
 }

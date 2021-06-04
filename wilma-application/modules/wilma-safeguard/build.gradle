@@ -19,7 +19,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'Wilma Safeguard'
 dependencies {
-  compile project(':wilma-application:wilma-common')
-  compile project(':wilma-application:wilma-core')
-  compile project(':wilma-application:wilma-properties')
+  implementation project(':wilma-application:wilma-common')
+  implementation project(':wilma-application:wilma-core')
+  implementation project(':wilma-application:wilma-properties')
+  implementation project(':wilma-application:wilma-domain')
 }

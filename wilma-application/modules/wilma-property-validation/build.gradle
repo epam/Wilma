@@ -19,8 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'Wilma Property Validation'
 dependencies {
-  compile project(':wilma-application:wilma-domain')
-  compile project(':wilma-application:wilma-common')
-  compile project(':wilma-application:wilma-safeguard')
-  compile project(':wilma-application:wilma-core')
+  implementation project(':wilma-application:wilma-domain')
+  implementation project(':wilma-application:wilma-common')
+  implementation project(':wilma-application:wilma-safeguard')
+  implementation project(':wilma-application:wilma-core')
+  implementation project(':wilma-application:wilma-properties')
 }

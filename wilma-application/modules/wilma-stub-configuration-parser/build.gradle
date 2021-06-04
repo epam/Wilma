@@ -20,9 +20,16 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 description = 'Wilma Stub Configuration Parser'
 
 dependencies {
-    compile project(':wilma-application:wilma-domain')
-    compile project(':wilma-application:wilma-common')
-    compile project(':wilma-application:wilma-core')
-    compile project(':wilma-application:wilma-stub-configuration-support')
-    compile group: 'org.reflections', name: 'reflections', version:'0.9.11'
+    implementation project(':wilma-application:wilma-domain')
+    implementation project(':wilma-application:wilma-common')
+    implementation project(':wilma-application:wilma-core')
+    implementation project(':wilma-application:wilma-properties')
+    implementation project(':wilma-application:wilma-stub-configuration-domain')
+    implementation project(':wilma-application:wilma-stub-configuration-support')
+    implementation project(':wilma-application:wilma-message-sequence')
+    implementation group: 'org.reflections', name: 'reflections', version:'0.9.11'
+    implementation 'org.json:json:20180813'
+    implementation group: 'org.apache.bcel', name: 'bcel', version:'5.2'
+    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.12.1'
+    implementation "$javaxServletApi"
 }

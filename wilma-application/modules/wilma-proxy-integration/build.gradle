@@ -23,20 +23,21 @@ repositories {
 }
 
 dependencies {
-    compile project(':wilma-application:wilma-domain')
-    compile project(':wilma-application:wilma-common')
-    compile project(':wilma-application:wilma-core')
-    compile('website.magyar:mitm-java-proxy:2.0.20.99') {
+    implementation project(':wilma-application:wilma-domain')
+    implementation project(':wilma-application:wilma-common')
+    implementation project(':wilma-application:wilma-core')
+    implementation project(':wilma-application:wilma-properties')
+    implementation('website.magyar:mitm-java-proxy:2.0.20.99') {
         exclude(group: 'ch.qos.logback', module: 'logback-classic')
         exclude(group: 'org.eclipse.jetty', module: 'jetty-io')
         exclude(group: 'org.slf4j', module: 'jcl-over-slf4j')
         exclude(group: 'org.slf4j', module: 'jul-to-slf4j')
     }
 
-    testCompile group: 'junit', name: 'junit', version:'4.12'
-    testCompile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
-    testCompile (group: 'io.netty', name: 'netty-all', version: '4.1.51.Final')
-    testCompile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.31.v20200723'
+    testImplementation group: 'junit', name: 'junit', version:'4.12'
+    testImplementation group: 'com.google.guava', name: 'guava', version: '29.0-jre'
+    testImplementation (group: 'io.netty', name: 'netty-all', version: '4.1.51.Final')
+    testImplementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.31.v20200723'
 }
 
 test.useJUnit()

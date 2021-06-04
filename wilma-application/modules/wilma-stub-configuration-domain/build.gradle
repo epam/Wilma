@@ -19,9 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'Wilma Stub Configuration Domain'
 dependencies {
-  compile project(':wilma-application:wilma-domain')
-  compile project(':wilma-application:wilma-common')
-  compile 'com.google.guava:guava:18.0'
-  compile 'org.json:json:20180813'
-  compile "$javaxServletApi"
+  implementation project(':wilma-application:wilma-domain')
+  implementation project(':wilma-application:wilma-common')
+  implementation 'com.google.guava:guava:18.0'
+  implementation 'org.json:json:20180813'
+  implementation "$javaxServletApi"
 }

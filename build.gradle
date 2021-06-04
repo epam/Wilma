@@ -25,7 +25,9 @@ ext {
     jUnitVersion = '4.13.1'
     mockitoAllVersion = '1.10.19'
     mockitoCoreVersion = '3.3.3'
+    orgSfl4jVersion = '1.7.12'
     componentName='wilma'
+    javaxServletApi='javax.servlet:javax.servlet-api:3.1.0'
 }
 
 apply from: 'common.gradle'

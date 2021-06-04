@@ -19,9 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'wilma application'
 
-ext.javaxServletApi='javax.servlet:javax.servlet-api:3.1.0'
-
-ext.componentFullName=
+//ext.componentFullName=
 
 task docs(type: Javadoc) {
     destinationDir = file("$buildDir/docs/all")
@@ -39,32 +37,33 @@ task checkstyle(type: Checkstyle) {
 }
 
 task deleteRelease(type: Delete) {
+    dependsOn ":wilma-application:wilma-engine:shadowJar"
     delete rootProject.rootDir.absolutePath + '/wilma-application/release'
 }
 
 def myCopySpec = project.copySpec {
-   from(rootProject.rootDir.absolutePath + '/wilma-application/modules/wilma-engine/') {
-       include 'wilma.conf.properties'
-       include 'readme.txt'
-       include 'stubConfig.json'
-   }
-   from(rootProject.rootDir.absolutePath + '/wilma-application/modules/wilma-engine/build/libs/') {
-     include "wilma-$wilmaVersion.$buildNumber" + '.jar'
-   }
-   from(rootProject.rootDir.absolutePath + '/wilma-application/resources/'){
-     include 'certificate/wilma.cer'
-     include 'certificate/wilma.jks'
-   }
-   from(rootProject.rootDir.absolutePath + '/') {
-     include 'COPYRIGHT.txt'
-     include 'COPYRIGHTS/'
-   }
-   
+    from(rootProject.rootDir.absolutePath + '/wilma-application/modules/wilma-engine/') {
+        include 'wilma.conf.properties'
+        include 'readme.txt'
+        include 'stubConfig.json'
+    }
+    from(rootProject.rootDir.absolutePath + '/wilma-application/modules/wilma-engine/build/libs/') {
+        include "wilma-engine-$version" + '-all.jar'
+    }
+    from(rootProject.rootDir.absolutePath + '/wilma-application/resources/'){
+        include 'certificate/wilma.cer'
+        include 'certificate/wilma.jks'
+    }
+    from(rootProject.rootDir.absolutePath + '/') {
+        include 'COPYRIGHT.txt'
+        include 'COPYRIGHTS/'
+    }
 }
 
 task copyToReleaseRoot (type: Copy) {
 	dependsOn deleteRelease
 	into(rootProject.rootDir.absolutePath + '/wilma-application/release')
+    rename "wilma-engine-$version" + '-all.jar', "wilma-" + "$version" + ".jar"
 	with myCopySpec
 }
 
@@ -83,7 +82,6 @@ task createDir {
 
 task release(type: Zip) {
 	dependsOn createDir
-	archiveName = "wilma-application-$wilmaVersion.$buildNumber"+'.zip'
     from rootProject.rootDir.absolutePath + '/wilma-application/release'
 }
 
@@ -96,15 +94,15 @@ subprojects {
     
     
     dependencies {
-        compile(group: 'org.springframework', name: 'spring-context', version:'4.1.6.RELEASE')
-        compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
-        compile(group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.12')
-        compile(group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.12')
-        compile group: 'commons-io', name: 'commons-io', version:'2.4'
-        compile group: 'janino', name: 'janino', version:'2.5.10'
-        compile group: 'net.sf.saxon', name: 'Saxon-HE', version:'9.9.0-2'
-        testCompile group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
-        testCompile group: 'org.mockito', name: 'mockito-all', version:"${mockitoAllVersion}"
+        implementation(group: 'org.springframework', name: 'spring-context', version:'4.1.6.RELEASE')
+        implementation group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
+        implementation(group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.12')
+        implementation(group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.12')
+        implementation group: 'commons-io', name: 'commons-io', version:'2.4'
+        implementation group: 'janino', name: 'janino', version:'2.5.10'
+        implementation group: 'net.sf.saxon', name: 'Saxon-HE', version:'9.9.0-2'
+        testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
+        testImplementation group: 'org.mockito', name: 'mockito-all', version:"${mockitoAllVersion}"
         testImplementation "junit:junit:${jUnitVersion}"
         configurations.all{
         	  exclude(module: 'commons-logging')

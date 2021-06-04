@@ -44,7 +44,7 @@ def releaseCopySpec = project.copySpec {
      include 'readme.txt'
    }
    from(rootProject.rootDir.absolutePath + '/wilma-message-search/modules/wilma-message-search-engine/build/libs/') {
-     include "wilma-message-search-$wilmaVersion.$buildNumber" + '.jar'
+     include "wilma-message-search-$version" + '.jar'
    }
    from(rootProject.rootDir.absolutePath + '/') {
      include 'COPYRIGHT.txt'
@@ -60,7 +60,6 @@ task copyToRelease(type: Copy) {
 
 task release(type: Zip) {
     dependsOn copyToRelease
-    archiveName = "wilma-message-search-$wilmaVersion.$buildNumber"+'.zip'
     from rootProject.rootDir.absolutePath + '/wilma-message-search/release'
 }
 
@@ -71,12 +70,12 @@ subprojects {
     }
   
     dependencies {
-        compile(group: 'org.springframework', name: 'spring-context', version:'4.1.6.RELEASE') {
+        implementation(group: 'org.springframework', name: 'spring-context', version:'4.1.6.RELEASE') {
             exclude(module: 'commons-logging')
         }
-	    compile group: 'org.springframework', name: 'spring-webmvc', version:'4.1.6.RELEASE'
-	    compile group: 'org.aspectj', name: 'aspectjrt', version:'1.6.9'
-        testCompile group: 'org.mockito', name: 'mockito-all', version:"${mockitoAllVersion}"
+        implementation group: 'org.springframework', name: 'spring-webmvc', version:'4.1.6.RELEASE'
+        implementation group: 'org.aspectj', name: 'aspectjrt', version:'1.6.9'
+        testImplementation group: 'org.mockito', name: 'mockito-all', version:"${mockitoAllVersion}"
         testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
     }
 

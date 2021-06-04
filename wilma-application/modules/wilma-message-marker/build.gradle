@@ -19,5 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 description = 'Wilma Message Marker'
 dependencies {
-  compile project(':wilma-application:wilma-common')
+  implementation project(':wilma-application:wilma-common')
+  implementation project(':wilma-application:wilma-properties')
+  implementation project(':wilma-application:wilma-domain')
 }
