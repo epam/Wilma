@@ -12,7 +12,7 @@ It is written in Java, and the solution consists of two standalone applications:
 # Quick intro for end users
 ## Wilma application
 #### Requirements
-* JRE 13 for V2.0.x releases of Wilma
+* \>=JRE 11 for V2.0.x releases of Wilma
 * JRE 8 for V1.6.x releases of Wilma
 * JRE 7 in case version earlier than V1.6.x in use
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma application downloaded and extracted into a folder.
@@ -71,6 +71,8 @@ There are several ways you can help us:
 #### Building with Gradle
 The project can be built by following the instructions described [here](https://github.com/epam/Wilma/wiki/DEV,-Build-from-Scratch).
 This way of build is recommended for contributors only, End-Users, please use the pre-built downloadable releases from [here](https://github.com/epam/Wilma/releases), or use the docker image.
+
+[![CI](https://github.com/epam/Wilma/actions/workflows/main.yml/badge.svg)](https://github.com/epam/Wilma/actions/workflows/main.yml)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=epam%2FWilma&metric=alert_status)](https://sonarcloud.io/dashboard?id=epam%2FWilma)
 
