@@ -52,3 +52,10 @@ sonarqube {
     }
 }
 project.tasks["sonarqube"].onlyIf { project.hasProperty('systemProp.sonar.login') }
+
+if (hasProperty('buildScan')) {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+    }
+}

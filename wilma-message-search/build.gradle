@@ -55,6 +55,7 @@ def releaseCopySpec = project.copySpec {
 task copyToRelease(type: Copy) {
     dependsOn deleteRelease
     into rootProject.rootDir.absolutePath + '/wilma-message-search/release'
+    rename "wilma-message-search-engine-$version" + '-all.jar', "wilma-message-search-" + "$version" + ".jar"
     with releaseCopySpec
 }
 
