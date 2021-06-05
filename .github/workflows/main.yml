@@ -34,4 +34,4 @@ jobs:
         run: |
           chmod +x gradlew
           java -version
-          ./gradlew build release
+          ./gradlew build release -PbuildNumber=SNAPSHOT
