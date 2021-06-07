@@ -44,7 +44,7 @@ shadowJar {
 jar {
     manifest.attributes( 'provider': 'gradle')
     manifest.attributes( 'Main-Class': mainClassName)
-    manifest.attributes( 'Implementation-Title': "$componentDescription - V$archiveVersion")
+    manifest.attributes( 'Implementation-Title': "$componentDescription - V" + archiveVersion.get())
 
     finalizedBy shadowJar
 }

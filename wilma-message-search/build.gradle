@@ -36,6 +36,7 @@ task checkstyle(type: Checkstyle) {
 
 task deleteRelease(type: Delete) {
     delete rootProject.rootDir.absolutePath + '/wilma-message-search/release'
+    dependsOn(":wilma-message-search:wilma-message-search-engine:shadowJar")
 }
 
 def releaseCopySpec = project.copySpec {

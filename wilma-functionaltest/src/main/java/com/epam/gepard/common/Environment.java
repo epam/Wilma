@@ -72,10 +72,6 @@ public final class Environment {
     public static final String GEPARD_REMOTE_PORT = "gepard.remote.port";
     public static final String GEPARD_REMOTE_FULL_CONTROL = "gepard.remote.fullcontrol";
 
-    public static final String JIRA_SITE_URL = "jira.site.url";
-    public static final String JIRA_SITE_USERNAME = "jira.site.username";
-    public static final String JIRA_SITE_PASSWORD = "jira.site.password";
-
     public static final String SYSTEM_UNDER_TEST_VERSION = "system-under-test.version";
     public static final String TEST_ENVIRONMENT_ID = "TEID";
 
