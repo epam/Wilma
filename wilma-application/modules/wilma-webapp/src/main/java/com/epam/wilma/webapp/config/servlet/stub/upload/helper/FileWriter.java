@@ -112,9 +112,9 @@ public class FileWriter {
         if (!newClass.exists()) {
             newClass.createNewFile();
         }
-        FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(newClass);
-        IOUtils.copy(inputStreamToWrite, fos);
-        fos.close();
+        try (FileOutputStream fos = fileOutputStreamFactory.createFileOutputStream(newClass)) {
+            IOUtils.copy(inputStreamToWrite, fos);
+        }
     }
 
     private class InputStreamCopier {

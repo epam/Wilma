@@ -74,8 +74,7 @@ public class GzipCompressionService implements CompressionService {
     @Override
     public ByteArrayOutputStream decompress(final InputStream inputStream) {
         OutputStream writer = outputStreamFactory.createByteArrayOutputStream();
-        try {
-            GZIPInputStream gzipStream = gzipInputStreamFactory.createInputStream(inputStream);
+        try (GZIPInputStream gzipStream = gzipInputStreamFactory.createInputStream(inputStream)) {
             IOUtils.copy(gzipStream, writer);
         } catch (IOException e) {
             throw new SystemException("Could not ungzip message body!", e);

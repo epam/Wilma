@@ -117,6 +117,9 @@ public class StubResponseGenerator {
             }
             //delay response if necessary
             delayResponse(responseDescriptor.getAttributes().getDelay());
+        } catch (InterruptedException e) {
+            result = null;
+            Thread.currentThread().interrupt();
         } catch (Exception e) {
             stubResponseHeaderConfigurer.setErrorResponseContentTypeAndStatus(resp);
             result = getErrorMessageWithStackTrace(e);
