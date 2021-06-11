@@ -92,9 +92,9 @@ subprojects {
     
     dependencies {
         implementation(group: 'org.springframework', name: 'spring-context', version:'4.1.6.RELEASE')
-        implementation group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
-        implementation(group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.12')
-        implementation(group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.12')
+        implementation group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
+        implementation(group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.30')
+        implementation(group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.30')
         implementation group: 'commons-io', name: 'commons-io', version:'2.4'
         implementation group: 'janino', name: 'janino', version:'2.5.10'
         implementation group: 'net.sf.saxon', name: 'Saxon-HE', version:'9.9.0-2'

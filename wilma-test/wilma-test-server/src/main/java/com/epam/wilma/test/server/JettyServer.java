@@ -118,6 +118,8 @@ public class JettyServer {
             }
             startServer(server);
             server.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         } catch (Exception e) {
             throw new SystemException("server cannot be started", e);
         }

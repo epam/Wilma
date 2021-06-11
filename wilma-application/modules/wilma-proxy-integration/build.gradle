@@ -27,17 +27,18 @@ dependencies {
     implementation project(':wilma-application:wilma-common')
     implementation project(':wilma-application:wilma-core')
     implementation project(':wilma-application:wilma-properties')
-    implementation('website.magyar:mitm-java-proxy:2.0.20.99') {
+    implementation group: 'org.apache.httpcomponents', name: 'httpmime', version:'4.5.13' //this includes httpclient too
+    implementation('website.magyar:mitm-java-proxy:2.0.21.100') {
         exclude(group: 'ch.qos.logback', module: 'logback-classic')
         exclude(group: 'org.eclipse.jetty', module: 'jetty-io')
         exclude(group: 'org.slf4j', module: 'jcl-over-slf4j')
         exclude(group: 'org.slf4j', module: 'jul-to-slf4j')
     }
 
-    testImplementation group: 'junit', name: 'junit', version:'4.12'
-    testImplementation group: 'com.google.guava', name: 'guava', version: '29.0-jre'
-    testImplementation (group: 'io.netty', name: 'netty-all', version: '4.1.51.Final')
-    testImplementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.31.v20200723'
+    testImplementation "junit:junit:${jUnitVersion}"
+    testImplementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
+    testImplementation (group: 'io.netty', name: 'netty-all', version: '4.1.65.Final')
+    testImplementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.42.v20210604'
 }
 
 test.useJUnit()

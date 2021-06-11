@@ -170,6 +170,8 @@ public class ExampleHandler extends AbstractHandler {
         if (PATH_TO_TIMEOUT.equals(path)) {
             try {
                 Thread.sleep(WAIT_IN_MILLIS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             } catch (Exception e) {
                 throw new ServletException("Thread's wait failed....", e);
             }
