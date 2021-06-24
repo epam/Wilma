@@ -22,10 +22,7 @@ In real life much higher numbers are used here.
 
 Build
 -----
-```
-#run extras: Bulkhead example
-./gradlew -b wilma-extras/bulkhead/build.gradle clean build
-```
+This plugin buildt together with Wilma.
 After a successful run you will find the wilma plug-in in folder: wilma-extras/bulkhead/build/libs as a jar file.
 
 Important Settings
