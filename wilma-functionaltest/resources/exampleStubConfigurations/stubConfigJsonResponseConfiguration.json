@@ -1,0 +1,23 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      { "name": "gc-check-balance", "usage": "always", "comment": "Check GiftCard Balance",
+        "conditionDescriptor": {
+            "condition": { "class": "JsonPathChecker", "parameters": [
+                { "name": "jsonPath", "value": "$.gift_card_attributes.gift_card_number" },
+                { "name": "expected", "value": "11111111000000002" }
+              ]
+            }
+        },
+        "responseDescriptor": {
+          "code": 200, "delay": 0, "mimeType": "application/json", "templateName": "gc-check-balance_zero",
+          "responseFormatterSet": [ { "responseFormatter": { "class": "JsonTemplateFormatter" } } ]
+        }
+      }
+    ],
+    "templates": [
+      { "name": "gc-check-balance_zero", "type": "jsonFile", "resource": "gc_success_zero.json" }
+    ]
+  }
+}
+

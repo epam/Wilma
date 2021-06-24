@@ -27,11 +27,10 @@ apply plugin: 'checkstyle'
 apply plugin: 'java'
 apply plugin: 'jacoco'
 
-ext.myBuildNumber='SNAPSHOT'
-if ( hasProperty('buildNumber') ) {
-    myBuildNumber = "${rootProject.ext.buildNumber}"
+if ( !hasProperty('buildNumber') ) {
+    rootProject.ext.buildNumber = 'SNAPSHOT'
 }
-version = "$wilmaVersion" + '.' + "${rootProject.ext.myBuildNumber}"
+version = "$wilmaVersion" + '.' + "${rootProject.ext.buildNumber}"
 
 repositories {
     maven { url "https://repository.jboss.org/nexus/content/groups/public" }
