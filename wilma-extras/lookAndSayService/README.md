@@ -27,10 +27,9 @@ First of all the `LookAndSayServiceInterceptor` class uses the external service 
 Important Settings
 ---------------------------------------
 + First of all, don't forget to move/upload the plugin jar into the `config/jar` folder of Wilma.
-If you don't have the jar itself, compile it by using this command in the root folder of Wilma source: `gradlew build -b wilma-extras/lookandsay.service/build.gradle build`
-and it will be built into the `wilma-extras/lookandsay.service/build` folder.
-+ Don't forget to load the External Service (the jar) into Wilma. The easiest way is to use the sample xml configuration file, that you may find in `src/main/resources` folder.
-Please note that in this configuration xml file the DialogDescriptors are disabled, still the interceptor part lives.
+If you don't have the jar itself, compile Wilma, 
+and the plugin jar it will be built into the `wilma-extras/lookAndSayService/build/lib` folder.
++ Don't forget to load the External Service (the jar) into Wilma. The easiest way is to use the sample json configuration file, that you may find in `src/main/resources` folder.
 + Don't forget to **enable** the interceptors in Wilma! Without that, the Look-And-Say plugin won't work at all.
 
 How to call the Look-And-Say service endpoint of Wilma?
@@ -39,7 +38,7 @@ Note: In order to list the available services, use this call:
 ```
 GET or POST http://localhost:1234/config/public/services/
 ```
-See more information on using external service calls from Wilma plugins [here](https://github.com/epam/Wilma/wiki/Service-extensions-in-Plugins).
+See more information on using external service calls from Wilma plugins [here](https://github.com/epam/Wilma/wiki/Wilma-Extras:-Service-Endpoint-Extensions-in-Plugins).
 In case you configured well, you should get this kind of answer for the call above:
 ```
 {
@@ -79,8 +78,8 @@ Where "number" is the starting point, "iterations" are the number of iterations 
 "serviceResult" is the result of the calculation, and finally "length" is the length of the service result.
 
 **Beware** that giving long "number" and/or giving big value for "iterations", the calculation may take long time.
-To avoid very long response times, there is an internal limitation built in, and the service first guess the time of calculation,
-and if it seems that will be too long, then you may get this answer:
+To avoid very long response times, there is a built-in limitation, and the service first guesses 
+the duration of the calculation, and if it seems will be too long, then you may get this answer:
 ```
 {
   "serviceCalculationProblem": "Specified initial string and requested number of iterations would take unacceptable long time."
