@@ -5,8 +5,8 @@ Purpose of this example
 ---------------------------------------
 The purpose of this example to implement a very simple Circuit Breaker. 
 
-In sort, Circuit Breaker is a proxy, that detects if the communication is bad between the services, 
-and in that case the Circuit Breaker is short-cutting the requests for a predefined duration of time.
+In sort, Circuit Breaker is a proxy, that detects bad communication between services, 
+and in such a case the Circuit Breaker is short-cutting the requests for a predefined duration of time.
 
 Search for "Circuit Breaker" on the web (search for Circuit Breaker next to Microservices) for much more detailed information.
 
@@ -23,12 +23,12 @@ Each Circuit breaker has properties:
 | identifier | This identifies the Circuit Breaker, use unique value. | "CB_1" |
 | path | This is used as URL to identify the communication channel. | "http://service.to.call/" |
 | timeoutInSec | When the Circuit Breaker is turned ON and become active (i.e. answers instead of the called service), after a certain timeout it will be turned OFF. This is the timeout that is used for this purpose.| "120" |
-| successCodes | The listed response codes are considered as normal response codes. When Circuit Breaker detects a result code that is not in this list, that is considered as a communication error| "200,201,303" |
+| successCodes | The listed response codes are considered as normal response codes. When Circuit Breaker detects a result code that is not in this list, that is considered as a communication error.| "200,201,303" |
 | maxErrorCount | This is the number of errors must be detected on the communication channel before the Circuit Breaker is turned ON. | "4" |
 
 The actual information of a specific Circuit Breaker is stored in class: `CircuitBreakerInformation`.
 
-To make the Circuit Breaker work, first of all we need to detect if the communication is wrong or not - this is implemented
+To make the Circuit Breaker work, first of all we need to detect the bad communication - this is implemented
  as interceptor of the response (see class `CircuitBreakerInterceptor`). 
 This response interceptor
  * In case the request of the response fits to the specific Circuit Breaker (see identifier property), and that is inactive,
@@ -47,8 +47,15 @@ By checking the existence of that new header during the evaluation of the condit
 we can decide if the request must be forwarded to the original target (= the Circuit Breaker is OFF, and the header is missing) 
 or not (= the Circuit Breaker is ON, and the header is available). In this later case, a stub answer is generated.  
 
-Please have a look at the example stub configuration file within `src/main/java/resources` folder, its name is `circuitBreakerStubConfigurationExample.xml`.
-In that file you will find 2 Circuit Breakers, "CB_1" and "CB_2", for two services ( http://127.0.0.1/test1/ and http://127.0.0.1/test2/ ).
+Please have a look at the example stub configuration file within `src/main/java/resources` folder, its name is `circuitBreakerStubConfigurationExample.json`.
+In that file you will find 2 Circuit Breakers, "CB_1" and "CB_2", for two services ( `http://172.0.0.1/test1/` and `http://172.0.0.1/test2/`, simulated by Wilma itself).
+If you call any of the services with `/ok` path, that will reply with OK response. 
+When you call any of them with `/bad` path then and error response arrives,
+and the CircuitBreaker plugin starts to count the error-nous answers. 
+Only 4 consecutive bad answer is allowed for for `test1` and no error-nous answer is allowed for `test2` 
+before the CircuitBreaker starts to step in and generates response messages instead of the `test1` or `test2` services.
+
+Please note that at least one bad error response this plugin requires that may fire CircuitBreaker for the next call - this plugin is not prepared to replace the very first error message immediately (however with a little enhancement, that is possible too). 
 
 Important Settings
 ---------------------------------------
@@ -68,7 +75,7 @@ The internal service of the Circuit Breaker plug-in is available here  (see clas
 ```
 GET http://localhost:1234/config/public/services/CircuitBreakerInterceptor/circuit-breaker
 ```
-Of course this link will olny work in case Wilma is running and the Circuit-Breaker plug-in is properly configured in it.
+Of course this link will only work in case Wilma is running and the Circuit-Breaker plug-in is properly configured in it.
 In the response all activated circuit breaker will be listed, together its configuration and the actual status of the Circuit Breaker itself.
 
 Please note that the response will be empty in case no any message is arrived to Wilma, 
