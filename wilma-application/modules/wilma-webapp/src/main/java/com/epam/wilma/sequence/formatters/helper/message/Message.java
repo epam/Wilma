@@ -21,7 +21,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 /**
- * Serves as the interface for the requests and responses for the sequence based template formatters.
+ * Serves as the interface for the requests and responses for the sequence based response formatters.
  * @author Adam_Csaba_Kiraly
  *
  */
@@ -29,10 +29,10 @@ public interface Message {
 
     /**
      * Resolves the name of the request/response, which serves as the identifier among the sequence.
-     * @param parameters the parameters of the template formatter
+     * @param parameters the parameters of the response formatter
      * @return the name of the request/response
      */
-    String resolveName(final ParameterList parameters);
+    String resolveName(ParameterList parameters);
 
     /**
      * Converts the request/response to the desired format.

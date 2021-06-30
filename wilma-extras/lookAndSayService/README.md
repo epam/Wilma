@@ -28,7 +28,7 @@ Important Settings
 ---------------------------------------
 + First of all, don't forget to move/upload the plugin jar into the `config/jar` folder of Wilma.
 If you don't have the jar itself, compile Wilma, 
-and the plugin jar it will be built into the `wilma-extras/lookAndSayService/build/lib` folder.
+and the plugin jar will be built into the `wilma-extras/lookAndSayService/build/lib` folder.
 + Don't forget to load the External Service (the jar) into Wilma. The easiest way is to use the sample json configuration file, that you may find in `src/main/resources` folder.
 + Don't forget to **enable** the interceptors in Wilma! Without that, the Look-And-Say plugin won't work at all.
 

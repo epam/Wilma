@@ -36,7 +36,7 @@ public interface ExternalWilmaService {
      * @param resp             is the response servlet
      * @return with the body of the response, or null, if no response is provided.
      */
-    String handleRequest(final HttpServletRequest req, final String requestedService, HttpServletResponse resp);
+    String handleRequest(HttpServletRequest req, String requestedService, HttpServletResponse resp);
 
     /**
      * Get the list of REST services (Strings) when Wilma will call the handleRequest method.

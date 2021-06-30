@@ -35,7 +35,7 @@ import java.util.jar.JarInputStream;
 @Component
 public class JarValidator {
 
-    private final static long MAX_SIZE = 1000000;
+    private static final long MAX_SIZE = 1000000;
 
     /**
      * Checks if the given jar has jar entries, throws a {@link CannotUploadExternalResourceException} if it doesn't.

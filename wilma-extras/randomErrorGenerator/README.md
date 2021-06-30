@@ -13,7 +13,7 @@ So what kind of Chaos Monkey this example will show? This will simulate the foll
 Implementation
 ---------------------------------------
 A single condition checker class is implemented, that takes care about all three error situations.
-It expects one name/value parameter pair in the sub configuration file from the following possibilities: `E404`, `E500` and `TIMEOUT120SEC`.
+It expects one name/value parameter pair in the stub configuration file from the following possibilities: `E404`, `E500` and `TIMEOUT120SEC`.
 Three dialog descriptors used within the stub configuration file to handle the 3 different error situation.
 A simple `text/plain` type of responses will be generated for all cases, and in case of `TIMEOUT120SEC`, the response would be sent back only after a 120 sec delay.
 
@@ -26,16 +26,13 @@ We used a fourth dialog descriptor that generates "normal" response always, and 
 
 Build
 -----
-```
-#run extras: Random Error Generator example
-./gradlew -b wilma-extras/random.error.generator/build.gradle clean build
-```
-After a successful run you will find the wilma plug-in in folder: wilma-extras/random.error.generator/build/libs as a jar file.
+If you don't have the jar itself, compile Wilma,
+and the plugin jar will be built into the `wilma-extras/randomErrorGenerator/build/lib` folder.
 
 How to Use it?
 -----------------------------------------
-- Ensure that the compiled randomErrorGenerator jar is available for your Wilma instance
-- Configure Wilma to use it (see example configuration above)
+- Ensure that the compiled randomErrorGenerator jar is available for your Wilma instance - don't forget to move/upload the plugin jar into the `config/jar` folder of Wilma.
+- Configure Wilma to use it (see example configuration `randomErrorGeneratorStubConfigExample.json` in source files).
 - Pls don't forget to increase the `proxy.request.timeout` parameter of Wilma in its config file **before you start the Wilma instance itself**, 
   to a higher number than 120 secs, otherwise you will receive proxy request timeout because of the large delay in response.
   The suggested value is `proxy.request.timeout=125000`, that means 125 secs timeout for Wilma itself.

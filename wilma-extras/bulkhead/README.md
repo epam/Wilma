@@ -22,7 +22,7 @@ In real life much higher numbers are used here.
 
 Build
 -----
-This plugin buildt together with Wilma.
+This plugin built together with Wilma.
 After a successful run you will find the wilma plug-in in folder: wilma-extras/bulkhead/build/libs as a jar file.
 
 Important Settings

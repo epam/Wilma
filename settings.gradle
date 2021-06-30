@@ -49,7 +49,7 @@ for (subproject in (project(':wilma-application')).children){
 include 'wilma-extras:bulkhead'
 include 'wilma-extras:circuitBreaker'
 include 'wilma-extras:lookAndSayService'
-include 'wilma-extras:random.error.generator'
+include 'wilma-extras:randomErrorGenerator'
 include 'wilma-extras:replicator'
 include 'wilma-extras:reverse.proxy'
 include 'wilma-extras:short.circuit'

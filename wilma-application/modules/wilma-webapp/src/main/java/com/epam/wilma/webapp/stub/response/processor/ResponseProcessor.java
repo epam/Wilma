@@ -35,5 +35,5 @@ public interface ResponseProcessor {
      * @param responseBody is a byte array which will be processed
      * @return with the processed response body as byte array
      */
-    byte[] process(final HttpServletRequest req, final HttpServletResponse resp, final byte[] responseBody);
+    byte[] process(HttpServletRequest req, HttpServletResponse resp, byte[] responseBody);
 }
