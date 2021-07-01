@@ -13,5 +13,5 @@ dependencies {
     implementation(group: 'org.apache.activemq', name: 'activemq-client', version:'5.11.1') {
         exclude(module: 'geronimo-jms_1.1_spec')
     }
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
 }

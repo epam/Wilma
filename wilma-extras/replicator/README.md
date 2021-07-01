@@ -31,30 +31,28 @@ Using these files, you may evaluate the request/response pairs and act as necess
 
 Build
 -----
-```
-#run extras: Replicator example
-./gradlew -b wilma-extras/replicator/build.gradle clean build
-```
-After a successful run you will find the wilma plug-in in folder: wilma-extras/replicator/build/libs as a jar file.
+If you don't have the jar itself, compile Wilma,
+and the plugin jar will be built into the `wilma-extras/replicator/build/lib` folder.
 
 Test Setup
 ----------
 Prepare the following test environment:
 
-- We need a client: use a web browser for that and set its proxy to use wilma (default wilma proxy port is: 9092, and the host is where wilma is running)
+- We need a client: use a web browser for that and set its proxy to use Wilma (default Wilma proxy port is: 9092, and the host is where Wilma is running)
 - We need a web server that will act as primary target - let's use any public web server
 - We need another web server that will act as secondary target - this will receive the replicated requests. In our example, use Wilma's built-in wilma-test-server. 
-You may find information on how to build wilma-test-server on web page: [Optional Build Step: Building Wilma Test Client and Test Server for Wilma](https://github.com/epam/Wilma/wiki/DEV,-Build-from-Scratch#optional-build-step-building-wilma-test-client-and-test-server-for-wilma) 
+You may find information on how to build wilma-test-server on web page: [What else have been built: Wilma test server and test client](https://github.com/epam/Wilma/wiki/DEV,-Build-from-Scratch#what-else-have-been-built) 
 and an example on how to start it on web page: [Start Wilma Environment](https://github.com/epam/Wilma/blob/master/config/environment/start-wilma-environment.sh) 
 
 Then start the environment:
 
 - First have the replicator plugin compiled (see how to build above) and a prepared Wilma config file at your hand (you may find a proper config file in folder: wilma-extras/replicator/src/main/resources) 
 - Start Wilma first, then the wilma-test-server
-- Check with the browser that you can reach web sites, especially this site: https://github.com/epam/Wilma/tree/replicator/wilma-extras/replicator (continue only if it works properly)
+- Check with the browser that you can reach public web sites, especially this site: https://github.com/epam/Wilma/tree/master/wilma-extras/replicator (continue only if it works properly)
 - Upload the replicator-plug-in
 - Upload the config file (continue only if both of them loaded properly)
-- In your browser, try to load https://github.com/epam/Wilma/tree/replicator/wilma-extras/replicator - the page should be loaded normally
+- Don't forget to add Wilma certificate file (can be found in "certificate" folder of Wilma) as trusted certificate to browser! Otherwise the https call in the next step won1t work.
+- In your browser, try to load https://github.com/epam/Wilma/tree/master/wilma-extras/replicator - the page should be loaded normally
 - If you check the content of the config file, you will recognize the interceptor part:
 ```
     "interceptors": [
@@ -72,7 +70,7 @@ Then start the environment:
 ```
 - This means that the ReplicatorInterceptor will be called when a message arrives to the proxy. The interceptor has a parameter, its name specifies the URL of the target. 
 If a request arrives that matches to the URL, the ReplicatorInterceptor will replicate the request and send the request to the secondary server that is given as value of the parameter, 
-and right now it is: http://localhost:9090/replicator - in normal case the wilma-test-server will receive the replicated request and will send back a fix message.
+and right now it is: http://localhost:9090/replicator - in normal case the wilma-test-server will receive the replicated request and will send back a fix/static message.
 - Search for the replicated request/response message pairs among the saved message files in messages folder of Wilma, and you will find them. The filenames will start with "REPLICA_" prefix.
 
 Have fun!

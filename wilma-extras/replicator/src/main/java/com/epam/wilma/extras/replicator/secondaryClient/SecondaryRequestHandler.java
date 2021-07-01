@@ -88,9 +88,12 @@ class SecondaryRequestHandler {
 
             InputStream inputStream = response.getEntity().getContent();
 
-            String encoding = response.getFirstHeader("Content-Encoding").getValue();
-            if ((encoding != null) && (encoding.toLowerCase().contains("gzip"))) {
-                inputStream = gzipDecompressor.decompress(inputStream);
+            Header contentEncodingHeader = response.getFirstHeader("Content-Encoding");
+            if (contentEncodingHeader != null) {
+                String encoding = contentEncodingHeader.getValue();
+                if ((encoding != null) && (encoding.toLowerCase().contains("gzip"))) {
+                    inputStream = gzipDecompressor.decompress(inputStream);
+                }
             }
             StringWriter writer = new StringWriter();
             IOUtils.copy(inputStream, writer, "UTF-8");
