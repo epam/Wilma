@@ -76,8 +76,7 @@ public class JettyServer {
             // keystore to be used.
             String keyStoreFile = "certificate/wilmaTestServer.jks";
             File keystoreFile = new File(keyStoreFile);
-            if (!keystoreFile.exists())
-            {
+            if (!keystoreFile.exists()) {
                 throw new FileNotFoundException(keyStoreFile);
             }
             SslContextFactory sslContextFactory = new SslContextFactory.Server.Server();
@@ -114,7 +113,9 @@ public class JettyServer {
             if (isPerfTest) {
                 server.setHandler(new PerformanceTestHandler());
             } else {
-                server.setHandler(new CompositeHandler(new ExampleHandler(new InputStreamConverter()), new SequenceTestHandler(new InputStreamConverter()), new PerformanceTestHandler()));
+                server.setHandler(new CompositeHandler(
+                        new ExampleHandler(new InputStreamConverter()), new SequenceTestHandler(new InputStreamConverter()), new PerformanceTestHandler())
+                );
             }
             startServer(server);
             server.join();

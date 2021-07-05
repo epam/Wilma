@@ -1,0 +1,11 @@
+{
+  "wilmaStubConfiguration": {
+    "groupName": "ReverseProxy",
+    "interceptors": [
+      {
+        "name": "Reverse Proxy Interceptor",
+        "class": "com.epam.wilma.extras.reverseProxy.ReverseProxyInterceptor"
+      }
+    ]
+  }
+}

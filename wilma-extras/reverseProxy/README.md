@@ -11,6 +11,7 @@ The `FowardProxyInformation` class contains information about a specific reverse
 - an id
 - the original target
 - the real target
+
 When Wilma detects (see `ReverseProxyInterceptor` class) that in the original URL the "original target" can be found, 
 then replaces it with the "real target". It works even if the source protocol is https meanwhile the target is http - or vica-versa.
 The `ReverseProxyService` class acts as External Service, and gives the opportunity to add a new and remove an existing 
@@ -32,19 +33,19 @@ See more information on using external service calls from Wilma plugins [here](h
 Also, in the examples below, it is assumed that the default configuration is in use and Wilma is used on `localhost`,
 therefore the Wilma `<standardExternalServiceUrl>` is: `http://localhost:1234/config/public/services/`.
 
-Get the full list of the actual reverse-proxy rule map
+Get the full list of the actual Reverse Proxy rule map
 ---
 ```
-GET http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy
+GET http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverseProxy
 ```
 
-Clean-up the reverse-proxy rule map
+Clean-up the Reverse Proxy rule map
 ------------------
-You may clean-up (delete) the reverse-proxy map by calling the ReverseProxy URL with DELETE method
+You may clean-up (delete) the Reverse Proxy map by calling the ReverseProxy URL with DELETE method
 
 So just call this:
 ```
-DELETE http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy
+DELETE http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverseProxy
 ```
 and the reverse-proxy map will be empty - that means no rule will be applied by the reverse-proxy.
 
@@ -54,35 +55,35 @@ Delete one specific entry from the cache
 --------------------------
 To delete a specific cache entry, call this:
 ```
-DELETE http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy/{idOfReverseProxyMapEntry}
+DELETE http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverseProxy/{idOfReverseProxyMapEntry}
 ```
 
-Save the actual reverse-proxy map into a folder
+Save the actual Reverse Proxy map into a folder
 -----------------------------------
-You may save the actual internal reverse-proxy map onto the disk.
+You may save the actual internal Reverse Proxy map onto the disk.
 Just specify a folder name in the following request:
 
 ```
-POST http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy?folder={toFolder}
+POST http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverseProxy?folder={toFolder}
 ```
-And the ReverseProxy will create the specified folder in the folder used to store the message logs, and will save the reverse-proxy map into it,
+And the Reverse Proxy will create the specified folder in the folder used to store the message logs, and will save the Reverse Proxy map into it,
 one file for every map entry.
 
 The response to save request is the following (example)
 ```
 {
-  "resultsSuccess": "ReverseProxy rule map saved as: messages/{toFolder}/sc0_*.json files"
+  "resultsSuccess": "Reverse Proxy rule map saved as: messages/{toFolder}/sc0_*.json files"
 }
 ```
 As you see, the map is saved to "messages/{toFolder}" folder in files, by using the "sc0_*.json" pattern.
 
 If you repeat the save request, the plugin will save the map again, by using different names.
 
-Load a reverse-proxy map  from a folder
+Load a Reverse Proxy map from a folder
 --------------------------
-To load a previously saved reverse-proxy map, just specify a folder that contains the saved files in the following form:
+To load a previously saved Reverse Proxy map, just specify a folder that contains the saved files in the following form:
 ```
-GET http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy?folder={fromFolder}
+GET http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverseProxy?folder={fromFolder}
 ```
 NOTE: This load does not clean up the exiting cache, rather adds new entries to the cache.
 In case a cache entry already exists, it will be overwritten. If you need nothing else just the loaded files in the cache, clean-up the cache first.

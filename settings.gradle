@@ -51,7 +51,7 @@ include 'wilma-extras:circuitBreaker'
 include 'wilma-extras:lookAndSayService'
 include 'wilma-extras:randomErrorGenerator'
 include 'wilma-extras:replicator'
-include 'wilma-extras:reverse.proxy'
+include 'wilma-extras:reverseProxy'
 include 'wilma-extras:short.circuit'
 
 for (subproject in (project(':wilma-extras')).children){

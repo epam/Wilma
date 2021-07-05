@@ -1,7 +1,7 @@
 {
 	"info": {
+		"_postman_id": "9a0fd812-5aba-b84c-8276-65b8a4795de6",
 		"name": "Wilma Extras",
-		"_postman_id": "a6c68f46-2b8a-2963-db35-e18270deb771",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -13,10 +13,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/LookAndSayServiceInterceptor/look-and-say-service?number=1&iterations=1",
 							"protocol": "http",
@@ -34,13 +30,11 @@
 							"query": [
 								{
 									"key": "number",
-									"value": "1",
-									"equals": true
+									"value": "1"
 								},
 								{
 									"key": "iterations",
-									"value": "1",
-									"equals": true
+									"value": "1"
 								}
 							]
 						}
@@ -57,10 +51,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits",
 							"protocol": "http",
@@ -84,10 +74,6 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits",
 							"protocol": "http",
@@ -111,10 +97,6 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?id={{idInShortCircuitCache}}",
 							"protocol": "http",
@@ -132,8 +114,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "{{idInShortCircuitCache}}",
-									"equals": true
+									"value": "{{idInShortCircuitCache}}"
 								}
 							]
 						}
@@ -145,10 +126,6 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={{toFolder}}",
 							"protocol": "http",
@@ -166,8 +143,7 @@
 							"query": [
 								{
 									"key": "folder",
-									"value": "{{toFolder}}",
-									"equals": true
+									"value": "{{toFolder}}"
 								}
 							]
 						}
@@ -179,10 +155,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/ShortCircuitInterceptor/circuits?folder={{fromFolder}}",
 							"protocol": "http",
@@ -200,8 +172,7 @@
 							"query": [
 								{
 									"key": "folder",
-									"value": "{{fromFolder}}",
-									"equals": true
+									"value": "{{fromFolder}}"
 								}
 							]
 						}
@@ -218,10 +189,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:1234/config/public/services/BulkHeadChecker/bulkhead",
 							"protocol": "http",
@@ -253,12 +220,8 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy",
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverseProxy",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -269,35 +232,7 @@
 								"public",
 								"services",
 								"ReverseProxyInterceptor",
-								"reverse-proxy"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete specific Map entry",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy/{{guid}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "1234",
-							"path": [
-								"config",
-								"public",
-								"services",
-								"ReverseProxyInterceptor",
-								"reverse-proxy",
-								"{{guid}}"
+								"reverseProxy"
 							]
 						}
 					},
@@ -308,12 +243,8 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy",
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverseProxy",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -324,7 +255,7 @@
 								"public",
 								"services",
 								"ReverseProxyInterceptor",
-								"reverse-proxy"
+								"reverseProxy"
 							]
 						}
 					},
@@ -342,10 +273,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"originalTarget\": \"http://something.real.epam.com/\",\n\t\"realTarget\": \"http://127.0.0.1:1234/\"\n}"
+							"raw": "{\n\t\"originalTarget\": \"http://service1.epam.com/\",\n\t\"realTarget\": \"http://localhost:1234/\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy/{{$guid}}",
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverseProxy/{{$guid}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -356,7 +287,7 @@
 								"public",
 								"services",
 								"ReverseProxyInterceptor",
-								"reverse-proxy",
+								"reverseProxy",
 								"{{$guid}}"
 							]
 						}
@@ -364,21 +295,12 @@
 					"response": []
 				},
 				{
-					"name": "Save Reverse Proxy Map into Folder",
+					"name": "Save Reverse Proxy Map to Folder",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"header": [],
 						"url": {
-							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy?folder={{toFolder}}",
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverseProxy?folder=blah",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -389,13 +311,12 @@
 								"public",
 								"services",
 								"ReverseProxyInterceptor",
-								"reverse-proxy"
+								"reverseProxy"
 							],
 							"query": [
 								{
 									"key": "folder",
-									"value": "{{toFolder}}",
-									"equals": true
+									"value": "blah"
 								}
 							]
 						}
@@ -403,21 +324,12 @@
 					"response": []
 				},
 				{
-					"name": "Load Reverse Proxy Map from Folder",
+					"name": "Load Reverse Proxy Map to Folder Copy",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"originalTarget\": \"https://www.tejkljlkj456t.com/\",\n\t\"realTarget\": \"http://127.0.0.1:1234/\"\n}"
-						},
+						"header": [],
 						"url": {
-							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverse-proxy?folder={{fromFolder}}",
+							"raw": "http://localhost:1234/config/public/services/ReverseProxyInterceptor/reverseProxy?folder=blah",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -428,13 +340,12 @@
 								"public",
 								"services",
 								"ReverseProxyInterceptor",
-								"reverse-proxy"
+								"reverseProxy"
 							],
 							"query": [
 								{
 									"key": "folder",
-									"value": "{{fromFolder}}",
-									"equals": true
+									"value": "blah"
 								}
 							]
 						}
@@ -451,10 +362,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://localhost:1234/config/public/services/CircuitBreakerInterceptor/circuit-breaker",
 							"protocol": "http",
@@ -480,10 +387,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "http://localhost:1234/config/public/services/",
 					"protocol": "http",
