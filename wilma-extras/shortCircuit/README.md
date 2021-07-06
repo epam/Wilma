@@ -40,14 +40,14 @@ the structure of the value is implemented in `ShortCircuitResponseInformation`.
 
 Of course, when a request arrives, somehow we should decide if it should be forwarded to the original target,
 or we have the proper response already in the cache, and therefore a stub answer should be generated.
-This task is done by the `ShortCircuitChecker` class, that implements Wilma's `ConditionChecker` interface. What its `checkCondition` method do?
+This task is done by the `ShortCircuitChecker` class, that implements Wilma's `ConditionChecker` interface. What its `checkCondition` method does?
 It determines if the request and its response are cached already or not, and
-+ If the request is cached and the response is available already, then returns true (need to be stubbed).
-+ Any other case, returns with false (just let the request go through) but ensures that at least the request is cached,
++ if the request is cached and the response is available already, then returns true (need to be stubbed).
++ any other case, returns with false (just let the request go through) but ensures that at least the request is cached,
 giving the possibility to the `ResponseInterceptor` to preserve the answer as soon as it arrives.
 
 The last implementation part is the `ShortCircuitResponseGenerator` that generates an empty response first (see `TemplateGenerator` interface implementation)
-and the fills the response properly from the cache (see `TemplateFormatter` interface implementation).
+and then fills the response properly from the cache (see `ResponseFormatter` interface implementation).
 
 The final part is the stub configuration file that connects all the things together. It can be found in `src/main/java/resources` folder.
 Its condition-descriptor part contains 2 conditions connected with AND logic:

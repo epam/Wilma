@@ -52,7 +52,7 @@ include 'wilma-extras:lookAndSayService'
 include 'wilma-extras:randomErrorGenerator'
 include 'wilma-extras:replicator'
 include 'wilma-extras:reverseProxy'
-include 'wilma-extras:short.circuit'
+include 'wilma-extras:shortCircuit'
 
 for (subproject in (project(':wilma-extras')).children){
 	subproject.projectDir = file("$rootDir/wilma-extras/$subproject.name")
