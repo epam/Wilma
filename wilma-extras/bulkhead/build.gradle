@@ -2,7 +2,7 @@ dependencies {
     implementation project(':wilma-application:wilma-domain')
     implementation project(':wilma-application:wilma-webapp')
     implementation project(':wilma-application:wilma-stub-configuration-domain')
-    implementation 'com.google.guava:guava:18.0'
+    implementation "$googleGuavaApi"
     implementation "$javaxServletApi"
     testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
 }

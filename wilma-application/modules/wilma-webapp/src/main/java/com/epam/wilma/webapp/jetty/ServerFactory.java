@@ -20,15 +20,17 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.server.ServerConnector;
 import org.springframework.stereotype.Component;
 
 import com.epam.wilma.webapp.configuration.domain.ServerProperties;
 
 /**
  * Factory for creating instances of {@link Server}.
- * @author Tunde_Kovacs
+ * @author Tunde_Kovacs, Tamas Kohegyi
  *
  */
 @Component
@@ -42,19 +44,7 @@ public class ServerFactory {
      * @param serverProperties the properties required to configure the server
      * @return the instance
      */
-    public Server createServer(final ServerProperties serverProperties) {
-        Server server = new Server();
-        Connector connector = new SelectChannelConnector();
-        connector.setPort(serverProperties.getProxyPort());
-        connector.setRequestBufferSize(serverProperties.getRequestBufferSize());
-        connector.setResponseBufferSize(serverProperties.getResponseBufferSize());
-        server.setConnectors(new Connector[]{connector});
-        server.setGracefulShutdown(SHUTDOWN_TIMEOUT);
-        server.setStopAtShutdown(true);
-        return server;
-    }
 
-    /* TODO: NEXT GENERATION OF THE WILMA SERVER, with jetty 9.4.31.v20200723
     public Server createServer(final ServerProperties serverProperties) {
         Server server = new Server();
         HttpConfiguration httpConfiguration = getHttpConnector(serverProperties);

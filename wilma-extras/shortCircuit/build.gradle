@@ -3,9 +3,9 @@ dependencies {
     implementation project(':wilma-application:wilma-domain')
     implementation project(':wilma-application:wilma-webapp')
     implementation project(':wilma-application:wilma-stub-configuration-domain')
-    implementation 'commons-codec:commons-codec:1.10'
+    implementation 'commons-codec:commons-codec:1.11'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
-    implementation 'com.google.guava:guava:18.0'
+    implementation "$googleGuavaApi"
     implementation 'org.json:json:20180813'
     implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
     implementation "$javaxServletApi"

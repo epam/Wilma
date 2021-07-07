@@ -114,7 +114,6 @@
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalJarUploadServlet" p:pathSpec="/admin/stub/jar" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalTemplateUploadServlet" p:pathSpec="/admin/stub/template" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalStubConfigUploadServlet" p:pathSpec="/admin/stub/stubconfig" />
-        <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="externalSequenceHandlerUploadServlet" p:pathSpec="/admin/stub/sequencehandler" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigurationOrderServlet" p:pathSpec="/admin/stub/changeorder" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigurationDropperServlet" p:pathSpec="/admin/stub/drop" />
         <bean class="org.eclipse.jetty.servlet.ServletMapping" p:servletName="stubConfigurationStatusServlet" p:pathSpec="/admin/stub/changestatus" />

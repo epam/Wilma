@@ -21,7 +21,7 @@ description = 'Wilma Stub Configuration Domain'
 dependencies {
   implementation project(':wilma-application:wilma-domain')
   implementation project(':wilma-application:wilma-common')
-  implementation 'com.google.guava:guava:18.0'
+  implementation "$googleGuavaApi"
   implementation 'org.json:json:20180813'
   implementation "$javaxServletApi"
 }

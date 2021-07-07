@@ -22,5 +22,5 @@ dependencies {
   implementation project(':wilma-application:wilma-common')
   implementation project(':wilma-application:wilma-domain')
   implementation group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'2.0.0'
-  implementation 'commons-codec:commons-codec:1.10'
+  implementation 'commons-codec:commons-codec:1.11'
 }

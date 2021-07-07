@@ -23,5 +23,5 @@ dependencies {
   implementation project(':wilma-application:wilma-properties')
   implementation project(':wilma-application:wilma-indexing')
   implementation project(':wilma-application:wilma-domain')
-  implementation 'javax.annotation:javax.annotation-api:1.3.2'
+  implementation "$javaxAnnotationApi"
 }
