@@ -6,7 +6,7 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.11'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
     implementation "$googleGuavaApi"
-    implementation 'org.json:json:20180813'
+    implementation "$orgJsonApi"
     implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
     implementation "$javaxServletApi"
     testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"

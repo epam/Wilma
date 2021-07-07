@@ -47,7 +47,7 @@ dependencies {
     implementation project(':wilma-message-search:wilma-message-search-webapp')
     implementation project(':wilma-message-search:wilma-message-search-properties')
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: "${logbackVersion}"
-    implementation(group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.0') {
+    implementation (group: 'org.slf4j', name: 'jcl-over-slf4j', version: "${orgSfl4jVersion}") {
         exclude(module: 'slf4j-api')
     }
     implementation "$javaxAnnotationApi"

@@ -50,7 +50,7 @@ jar {
 }
 
 dependencies {
-    implementation group: 'org.slf4j', name: 'slf4j-api', version:'1.7.30'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
     implementation group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
     implementation group: 'commons-httpclient', name: 'commons-httpclient', version:'3.1'
     implementation group: 'commons-io', name: 'commons-io', version:'2.4'

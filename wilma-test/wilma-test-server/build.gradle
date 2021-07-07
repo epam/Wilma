@@ -50,7 +50,7 @@ jar {
 }
 
 dependencies {
-    implementation group: 'org.slf4j', name: 'slf4j-api', version:'1.7.30'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: "${logbackVersion}"
     implementation group: 'org.eclipse.jetty', name: 'jetty-server', version:'9.4.42.v20210604'
     implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version:'9.4.42.v20210604'

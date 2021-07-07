@@ -28,7 +28,7 @@ dependencies {
     implementation project(':wilma-application:wilma-stub-configuration-support')
     implementation project(':wilma-application:wilma-message-sequence')
     implementation group: 'org.reflections', name: 'reflections', version:'0.9.11'
-    implementation 'org.json:json:20180813'
+    implementation "$orgJsonApi"
     implementation group: 'org.apache.bcel', name: 'bcel', version:'5.2'
     implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.12.1'
     implementation "$javaxServletApi"

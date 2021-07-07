@@ -34,7 +34,7 @@ dependencies {
     implementation 'net.sf.opencsv:opencsv:2.3'
     implementation 'org.springframework:spring-core:4.1.6.RELEASE'
     implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
-    implementation group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
+    implementation group: 'org.mockito', name: 'mockito-all', version:'1.10.19'
     implementation group: 'at.bestsolution.efxclipse.eclipse', name: 'org.apache.commons.httpclient', version: '3.1.0'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     implementation 'commons-io:commons-io:2.4'

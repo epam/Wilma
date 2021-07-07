@@ -22,6 +22,6 @@ dependencies {
   implementation project(':wilma-application:wilma-domain')
   implementation project(':wilma-application:wilma-common')
   implementation "$googleGuavaApi"
-  implementation 'org.json:json:20180813'
+  implementation "$orgJsonApi"
   implementation "$javaxServletApi"
 }
