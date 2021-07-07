@@ -19,6 +19,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.webapp.configuration.domain.ServerProperties;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
@@ -26,12 +27,10 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.springframework.stereotype.Component;
 
-import com.epam.wilma.webapp.configuration.domain.ServerProperties;
-
 /**
  * Factory for creating instances of {@link Server}.
- * @author Tunde_Kovacs, Tamas Kohegyi
  *
+ * @author Tunde_Kovacs, Tamas Kohegyi
  */
 @Component
 public class ServerFactory {
@@ -41,6 +40,7 @@ public class ServerFactory {
     /**
      * Creates a new instance of {@link Server} with the given port,
      * request response buffer size and response buffer size.
+     *
      * @param serverProperties the properties required to configure the server
      * @return the instance
      */
@@ -60,60 +60,12 @@ public class ServerFactory {
     }
 
     private HttpConfiguration getHttpConnector(final ServerProperties serverProperties) {
-        HttpConfiguration http_config = new HttpConfiguration();
-        http_config.setSecureScheme("https");
-        http_config.setSecurePort(serverProperties.getProxyPort());
-        http_config.setOutputBufferSize(serverProperties.getResponseBufferSize());
+        HttpConfiguration httpConfig = new HttpConfiguration();
+        httpConfig.setSecureScheme("https");
+        httpConfig.setSecurePort(serverProperties.getProxyPort());
+        httpConfig.setOutputBufferSize(serverProperties.getResponseBufferSize());
         //NOTE: serverProperties.getRequestBufferSize() is not used anymore
-        return http_config;
+        return httpConfig;
     }
-
-    /*
-    private Connector getHttpSConnector(final ServerProperties serverProperties) {
-
-        // SSL Context Factory for HTTPS and SPDY
-        // SSL requires a certificate so we configure a factory for ssl contents
-        // with information pointing to what keystore the ssl connection needs
-        // to know about. Much more configuration is available the ssl context,
-        // including things like choosing the particular certificate out of a
-        // keystore to be used.
-        String keyStoreFile = "certificate/wilmaKeystore.jks";
-        File keystoreFile = new File(keyStoreFile);
-        if (!keystoreFile.exists())
-        {
-            throw new FileNotFoundException(keyStoreFile);
-        }
-        SslContextFactory sslContextFactory = new SslContextFactory();
-        sslContextFactory.setKeyStorePath(keyStoreFile);
-        sslContextFactory.setKeyStorePassword("secret123");
-        sslContextFactory.setKeyManagerPassword("secret123");
-
-        // HTTPS Configuration
-        // A new HttpConfiguration object is needed for the next connector and
-        // you can pass the old one as an argument to effectively clone the
-        // contents. On this HttpConfiguration object we add a
-        // SecureRequestCustomizer which is how a new connector is able to
-        // resolve the https connection before handing control over to the Jetty
-        // Server.
-        HttpConfiguration https_config = new HttpConfiguration(http_config);
-        https_config.addCustomizer(new SecureRequestCustomizer());
-
-        // HTTPS connector
-        // We create a second ServerConnector, passing in the http configuration
-        // we just made along with the previously created ssl context factory.
-        // Next we set the port and a longer idle timeout.
-        ServerConnector https = new ServerConnector(server,
-                new SslConnectionFactory(sslContextFactory, "http/1.1"),
-                new HttpConnectionFactory(https_config));
-        https.setPort(8443);
-        https.setIdleTimeout(500000);
-
-        // Here you see the server having multiple connectors registered with
-        // it, now requests can flow into the server from both http and https
-        // urls to their respective ports and be processed accordingly by jetty.
-        // A simple handler is also registered with the server so the example
-        // has something to pass requests off to.
-
-    } */
-
+    
 }
