@@ -67,5 +67,5 @@ public class ServerFactory {
         //NOTE: serverProperties.getRequestBufferSize() is not used anymore
         return httpConfig;
     }
-    
+
 }

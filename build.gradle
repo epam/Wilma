@@ -56,7 +56,6 @@ sonarqube {
         property "sonar.exclusions", "**/wilma-functionaltest/**/*"
     }
 }
-//project.tasks["sonarqube"].onlyIf { project.hasProperty('systemProp.sonar.login') }
 
 if (hasProperty('buildScan')) {
     buildScan {

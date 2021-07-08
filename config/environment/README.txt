@@ -12,14 +12,9 @@ This README is about an example test environment, right now used for continuous 
 
      chmod 755 ./gradlew
 
-     #create "Wilma Stub Service and Proxy Application" and "Wilma Message Search Application"
-     ./gradlew -PlocalRepository=file:///opt/wilma/repo/ clean docs build sonarqube release -PbuildNumber=$BUILD_NUMBER
-
-     #create test client
-     ./gradlew -b wilma-test/wilma-test-client/build.gradle clean build -PbuildNumber=${BUILD_NUMBER} -x checkstyleMain -x checkstyleTest
-
-     #create test server
-     ./gradlew -b wilma-test/wilma-test-server/build.gradle clean build -PbuildNumber=${BUILD_NUMBER} -x checkstyleMain -x checkstyleTest
+     #create "Wilma Stub Service and Proxy Application", "Wilma Message Search Application" and related applications/plugins
+     #note: sonarqube target can be called as well with proper additional settings
+     ./gradlew -PlocalRepository=file:///opt/wilma/repo/ clean docs build release -PbuildNumber=$BUILD_NUMBER
 
 - wilma-deploy job exists that is triggered by every successful wilma-continuous job
  wilma-deploy job executes this shell:
@@ -46,8 +41,5 @@ After this, the test environment is ready for integration/functional test.
 
      chmod 755 ./gradlew
 
-     #create a DEV version of the wilma-service-api first
-     ./gradlew -b wilma-service-api/build.gradle clean build createPom uploadArchives -PlocalRepository=file:///opt/wilma/repo/
-
      #run functional test
-     ./gradlew -b wilma-functionaltest/build.gradle clean run -PlocalRepository=file:///opt/wilma/repo/ -Pwilmahost=localhost -PbuildTag=$BUILD_NUMBER
+     ./gradlew runFunctionalTest -PlocalRepository=file:///opt/wilma/repo/ -Pwilmahost=localhost -PbuildTag=$BUILD_NUMBER

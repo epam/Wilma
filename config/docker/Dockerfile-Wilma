@@ -14,10 +14,10 @@ RUN \
   apt-get install -y openjdk-11-jre && \
   apt-get upgrade -y && \
   rm -rf /var/lib/apt/lists/* && \
-  wget https://github.com/epam/Wilma/releases/download/V2.0.459/wilma-application-2.0.459.zip && \
-  unzip wilma-application-2.0.459.zip && \
-  mv wilma-2.0.459.jar wilma.jar && \
-  rm -f wilma-application-2.0.459.zip
+  wget https://github.com/epam/Wilma/releases/download/V2.1.460/wilma-application-2.1.460.zip && \
+  unzip wilma-application-2.1.460.zip && \
+  mv wilma-2.1.460.jar wilma.jar && \
+  rm -f wilma-application-2.1.460.zip
 
 COPY start_wilma.sh /data/
 RUN \
