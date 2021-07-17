@@ -27,8 +27,8 @@ dependencies {
     implementation project(':wilma-application:wilma-common')
     implementation project(':wilma-application:wilma-core')
     implementation project(':wilma-application:wilma-properties')
-    implementation group: 'org.apache.httpcomponents', name: 'httpmime', version:'4.5.13' //this includes httpclient too
-    implementation('website.magyar:mitm-java-proxy:2.0.21.100') {
+//    implementation('website.magyar:mitm-java-proxy:2.0.22.SNAPSHOT') {
+    implementation('website.magyar:mitm-java-proxy:2.0.22.104') {
         exclude(group: 'ch.qos.logback', module: 'logback-classic')
         exclude(group: 'org.eclipse.jetty', module: 'jetty-io')
         exclude(group: 'org.slf4j', module: 'jcl-over-slf4j')
@@ -39,6 +39,10 @@ dependencies {
     testImplementation "$googleGuavaApi"
     testImplementation (group: 'io.netty', name: 'netty-all', version: '4.1.65.Final')
     testImplementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.42.v20210604'
+    testImplementation group: 'org.brotli', name: 'dec', version: '0.1.2'
+    testImplementation group: 'com.nixxcode.jvmbrotli', name: 'jvmbrotli', version: '0.2.0'
+    testImplementation group: 'com.nixxcode.jvmbrotli', name: 'jvmbrotli-win32-x86-amd64', version: '0.2.0'
+    testImplementation group: 'com.nixxcode.jvmbrotli', name: 'jvmbrotli-linux-x86-amd64', version: '0.2.0'
 }
 
 test.useJUnit()

@@ -13,7 +13,11 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests just a single basic proxy running as a man in the middle.
  */
-public class ProxyServerTest extends AbstractProxyTool {
+public abstract class ProxyServerTestWithEncodingBase extends AbstractProxyTool {
+
+    protected ContentEncoding contentEncoding;
+
+    protected abstract void setUpContentEncoding();
 
     @Override
     protected void setUp() {
@@ -26,20 +30,22 @@ public class ProxyServerTest extends AbstractProxyTool {
         proxyServer.setCaptureBinaryContent(false);
         proxyServer.setCaptureContent(false);
         ProxyServer.setResponseVolatile(true);
+        setUpContentEncoding();
     }
 
     @Test
     public void testSimpleGetRequest() throws Exception {
-        ResponseInfo proxiedResponse = httpGetWithApacheClient(webHost, NO_NEED_STUB_RESPONSE, true, false, ContentEncoding.ANY);
+        ResponseInfo proxiedResponse = httpGetWithApacheClient(webHost, NO_NEED_STUB_RESPONSE, true, false, contentEncoding);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertEquals(SERVER_BACKEND, proxiedResponse.getBody());
         assertEquals(1, responseCount.get());
         assertEquals(1, requestCount.get());
     }
 
+    //@Ignore
     @Test
     public void testSimpleGetRequestOverHTTPS() throws Exception {
-        ResponseInfo proxiedResponse = httpGetWithApacheClient(httpsWebHost, NO_NEED_STUB_RESPONSE, true, false, ContentEncoding.ANY);
+        ResponseInfo proxiedResponse = httpGetWithApacheClient(httpsWebHost, NO_NEED_STUB_RESPONSE, true, false, contentEncoding);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertEquals(SERVER_BACKEND, proxiedResponse.getBody());
         assertEquals(1, responseCount.get());
@@ -48,16 +54,17 @@ public class ProxyServerTest extends AbstractProxyTool {
 
     @Test
     public void testSimplePostRequest() throws Exception {
-        ResponseInfo proxiedResponse = httpPostWithApacheClient(webHost, NO_NEED_STUB_RESPONSE, true, ContentEncoding.ANY);
+        ResponseInfo proxiedResponse = httpPostWithApacheClient(webHost, NO_NEED_STUB_RESPONSE, true, contentEncoding);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertEquals(SERVER_BACKEND, proxiedResponse.getBody());
         assertEquals(1, responseCount.get());
         assertEquals(1, requestCount.get());
     }
 
+    //@Ignore
     @Test
     public void testSimplePostRequestOverHTTPS() throws Exception {
-        ResponseInfo proxiedResponse = httpPostWithApacheClient(httpsWebHost, NO_NEED_STUB_RESPONSE, true, ContentEncoding.ANY);
+        ResponseInfo proxiedResponse = httpPostWithApacheClient(httpsWebHost, NO_NEED_STUB_RESPONSE, true, contentEncoding);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertEquals(SERVER_BACKEND, proxiedResponse.getBody());
         assertEquals(1, responseCount.get());
@@ -66,7 +73,7 @@ public class ProxyServerTest extends AbstractProxyTool {
 
     @Test
     public void testSimpleGetRequestToStub() throws Exception {
-        ResponseInfo proxiedResponse = httpGetWithApacheClient(webHost, NEED_STUB_RESPONSE, true, false, ContentEncoding.ANY);
+        ResponseInfo proxiedResponse = httpGetWithApacheClient(webHost, NEED_STUB_RESPONSE, true, false, contentEncoding);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertEquals(STUB_BACKEND, proxiedResponse.getBody());
         assertEquals(1, responseCount.get());
@@ -75,7 +82,7 @@ public class ProxyServerTest extends AbstractProxyTool {
 
     @Test
     public void testSimpleGetRequestOverHTTPSToStub() throws Exception {
-        ResponseInfo proxiedResponse = httpGetWithApacheClient(httpsWebHost, NEED_STUB_RESPONSE, true, false, ContentEncoding.ANY);
+        ResponseInfo proxiedResponse = httpGetWithApacheClient(httpsWebHost, NEED_STUB_RESPONSE, true, false, contentEncoding);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertEquals(STUB_BACKEND, proxiedResponse.getBody());
         assertEquals(1, responseCount.get());
@@ -84,7 +91,7 @@ public class ProxyServerTest extends AbstractProxyTool {
 
     @Test
     public void testSimplePostRequestToStub() throws Exception {
-        ResponseInfo proxiedResponse = httpPostWithApacheClient(webHost, NEED_STUB_RESPONSE, true, ContentEncoding.ANY);
+        ResponseInfo proxiedResponse = httpPostWithApacheClient(webHost, NEED_STUB_RESPONSE, true, contentEncoding);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertEquals(STUB_BACKEND, proxiedResponse.getBody());
         assertEquals(1, responseCount.get());
@@ -93,7 +100,7 @@ public class ProxyServerTest extends AbstractProxyTool {
 
     @Test
     public void testSimplePostRequestOverHTTPSToStub() throws Exception {
-        ResponseInfo proxiedResponse = httpPostWithApacheClient(httpsWebHost, NEED_STUB_RESPONSE, true, ContentEncoding.ANY);
+        ResponseInfo proxiedResponse = httpPostWithApacheClient(httpsWebHost, NEED_STUB_RESPONSE, true, contentEncoding);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertEquals(STUB_BACKEND, proxiedResponse.getBody());
         assertEquals(1, responseCount.get());

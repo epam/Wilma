@@ -1,10 +1,10 @@
 package com.epam.wilma.mitmProxy.proxy;
 
 import com.epam.wilma.mitmProxy.proxy.helper.AbstractProxyTool;
+import com.epam.wilma.mitmProxy.proxy.helper.ContentEncoding;
 import com.epam.wilma.mitmProxy.proxy.helper.DefaultRequestInterceptor;
 import com.epam.wilma.mitmProxy.proxy.helper.DefaultResponseInterceptor;
 import com.epam.wilma.mitmProxy.proxy.helper.ResponseInfo;
-import org.junit.Ignore;
 import org.junit.Test;
 import website.magyar.mitm.proxy.ProxyServer;
 
@@ -28,10 +28,9 @@ public class ProxyServerMinimalHTTPSTest extends AbstractProxyTool {
         ProxyServer.setResponseVolatile(true);
     }
 
-    @Ignore
     @Test
     public void testSimpleGetRequestOverHTTPS() throws Exception {
-        ResponseInfo proxiedResponse = httpGetWithApacheClient(httpsWebHost, NO_NEED_STUB_RESPONSE, true, false);
+        ResponseInfo proxiedResponse = httpGetWithApacheClient(httpsWebHost, NO_NEED_STUB_RESPONSE, true, false, ContentEncoding.ANY);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertEquals(SERVER_BACKEND, proxiedResponse.getBody());
         assertEquals(1, responseCount.get());

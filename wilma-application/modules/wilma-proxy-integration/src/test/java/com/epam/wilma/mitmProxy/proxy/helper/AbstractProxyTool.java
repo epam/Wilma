@@ -1,8 +1,12 @@
 package com.epam.wilma.mitmProxy.proxy.helper;
 
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.entity.DeflateDecompressingEntity;
+import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
@@ -16,6 +20,7 @@ import website.magyar.mitm.proxy.ProxyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.Charset;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.Assert.assertEquals;
@@ -30,6 +35,7 @@ public abstract class AbstractProxyTool {
      * The server used by the tests.
      */
     public static final int PROXY_TIMEOUT = 60000; //1 minute
+    private static final int GRACE_PERIOD = 50; //0.05 sec
     protected final static Logger LOGGER = LoggerFactory.getLogger(AbstractProxyTool.class);
     protected static final String NO_NEED_STUB_RESPONSE = "/getServer";
     protected static final String NEED_STUB_RESPONSE = "/getStub";
@@ -65,6 +71,8 @@ public abstract class AbstractProxyTool {
         LOGGER.info("*** Proxy Server started on port: {}", proxyPort);
         //and finally
         setUp();
+        Thread.sleep(GRACE_PERIOD);
+        LOGGER.info("*** Setup DONE - starting TEST");
     }
 
     protected abstract void setUp() throws Exception;
@@ -78,6 +86,8 @@ public abstract class AbstractProxyTool {
         proxyServer = new ProxyServer(0);
         proxyServer.start(PROXY_TIMEOUT);
         proxyPort = proxyServer.getPort();
+        ProxyServer.setShouldKeepSslConnectionAlive(false);
+        Thread.sleep(GRACE_PERIOD);
     }
 
     private void startServers() {
@@ -123,35 +133,51 @@ public abstract class AbstractProxyTool {
                 }
             }
         }
-
     }
 
     protected void tearDown() throws Exception {
     }
 
-
-    protected ResponseInfo httpPostWithApacheClient(HttpHost host, String resourceUrl, boolean isProxied) throws Exception {
-        final CloseableHttpClient httpClient = TestUtils.buildHttpClient(isProxied, proxyServer.getPort());
-        try {
+    protected ResponseInfo httpPostWithApacheClient(HttpHost host, String resourceUrl, boolean isProxied, ContentEncoding allowedContentEncoding) throws Exception {
+        try (CloseableHttpClient httpClient = TestUtils.buildHttpClient(isProxied, proxyServer.getPort(), allowedContentEncoding)) {
             final HttpPost request = new HttpPost(resourceUrl);
             final StringEntity entity = new StringEntity("adsf", "UTF-8");
             entity.setChunked(true);
             request.setEntity(entity);
 
             final HttpResponse response = httpClient.execute(host, request);
-            final HttpEntity resEntity = response.getEntity();
-            return new ResponseInfo(response.getStatusLine().getStatusCode(), EntityUtils.toString(resEntity));
+            HttpEntity resEntity = response.getEntity();
+            Header contentEncodingHeader = resEntity.getContentEncoding();
+
+            if (contentEncodingHeader != null) {
+                HeaderElement[] encodings = contentEncodingHeader.getElements();
+                for (HeaderElement encoding : encodings) {
+                    if (encoding.getName().equalsIgnoreCase("gzip")) {
+                        resEntity = new GzipDecompressingEntity(resEntity);
+                        break;
+                    }
+                    if (encoding.getName().equalsIgnoreCase("deflate")) {
+                        resEntity = new DeflateDecompressingEntity(resEntity);
+                        break;
+                    }
+                    if (encoding.getName().equalsIgnoreCase("br")) {
+                        resEntity = new BrotliDecompressingEntity(resEntity);
+                        break;
+                    }
+                }
+            }
+
+            String output = EntityUtils.toString(resEntity, Charset.forName("UTF-8").name());
+
+            return new ResponseInfo(response.getStatusLine().getStatusCode(), output, contentEncodingHeader);
         } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage(), e);
             throw e;
-        } finally {
-            httpClient.close();
         }
     }
 
-    protected ResponseInfo httpGetWithApacheClient(HttpHost host, String resourceUrl, boolean isProxied, boolean callHeadFirst) throws Exception {
-        final CloseableHttpClient httpClient = TestUtils.buildHttpClient(isProxied, proxyServer.getPort());
-        try {
+    protected ResponseInfo httpGetWithApacheClient(HttpHost host, String resourceUrl, boolean isProxied, boolean callHeadFirst, ContentEncoding allowedContentEncoding) throws Exception {
+        try (CloseableHttpClient httpClient = TestUtils.buildHttpClient(isProxied, proxyServer.getPort(), allowedContentEncoding)) {
 
             Integer contentLength = null;
             if (callHeadFirst) {
@@ -171,12 +197,33 @@ public abstract class AbstractProxyTool {
                         contentLength,
                         Integer.valueOf(response.getFirstHeader("Content-Length").getValue()));
             }
-            return new ResponseInfo(response.getStatusLine().getStatusCode(), EntityUtils.toString(resEntity));
+
+            Header contentEncodingHeader = resEntity.getContentEncoding();
+
+            if (contentEncodingHeader != null) {
+                HeaderElement[] encodings = contentEncodingHeader.getElements();
+                for (HeaderElement encoding : encodings) {
+                    if (encoding.getName().equalsIgnoreCase("gzip")) {
+                        resEntity = new GzipDecompressingEntity(resEntity);
+                        break;
+                    }
+                    if (encoding.getName().equalsIgnoreCase("deflate")) {
+                        resEntity = new DeflateDecompressingEntity(resEntity);
+                        break;
+                    }
+                    if (encoding.getName().equalsIgnoreCase("br")) {
+                        resEntity = new BrotliDecompressingEntity(resEntity);
+                        break;
+                    }
+                }
+            }
+
+            String output = EntityUtils.toString(resEntity, Charset.forName("UTF-8").name());
+
+            return new ResponseInfo(response.getStatusLine().getStatusCode(), output, contentEncodingHeader);
         } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage(), e);
             throw e;
-        } finally {
-            httpClient.close();
         }
     }
 

@@ -1,13 +1,17 @@
 package com.epam.wilma.mitmProxy.proxy.helper;
 
-public class ResponseInfo {
-    private int statusCode;
-    private String body;
+import org.apache.http.Header;
 
-    public ResponseInfo(int statusCode, String body) {
+public class ResponseInfo {
+    private final int statusCode;
+    private final String body;
+    private final Header contentEncodingHeader;
+
+    public ResponseInfo(int statusCode, String body, Header contentEncodingHeader) {
         super();
         this.statusCode = statusCode;
         this.body = body;
+        this.contentEncodingHeader = contentEncodingHeader;
     }
 
     public int getStatusCode() {
@@ -48,6 +52,13 @@ public class ResponseInfo {
     public String toString() {
         return "ResponseInfo [statusCode=" + statusCode + ", body=" + body
                 + "]";
+    }
+
+    public String getContentEncoding() {
+        if (contentEncodingHeader != null) {
+            return contentEncodingHeader.getValue();
+        }
+        return null;
     }
 
 }

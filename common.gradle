@@ -33,6 +33,7 @@ if ( !hasProperty('buildNumber') ) {
 version = "$wilmaVersion" + '.' + "${rootProject.ext.buildNumber}"
 
 repositories {
+    mavenLocal()
     maven { url "https://repository.jboss.org/nexus/content/groups/public" }
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://repository.mulesoft.org/nexus/content/repositories/public/" }

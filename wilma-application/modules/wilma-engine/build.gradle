@@ -37,7 +37,7 @@ def configFileDefaultPath = "$project.projectDir/wilma.conf.properties";
 if (!hasProperty("configFilePath")) {
     project.ext.configFilePath = configFileDefaultPath
 }
-run{
+run {
     args = ["$configFilePath"];
 }
 

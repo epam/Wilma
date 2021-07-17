@@ -1,8 +1,5 @@
 package com.epam.wilma.mitmProxy.proxy.helper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -10,8 +7,10 @@ import javax.net.ssl.SSLEngine;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.Security;
@@ -23,8 +22,6 @@ import java.security.cert.X509Certificate;
  * file doesn't yet exist.
  */
 public class SelfSignedSslEngineSource {
-    private final Logger logger = LoggerFactory.getLogger(SelfSignedSslEngineSource.class);
-
     private static final String PROTOCOL = "TLSv1.2";
 
     private final String alias;
@@ -46,7 +43,8 @@ public class SelfSignedSslEngineSource {
     }
 
     public SelfSignedSslEngineSource(String keyStorePath, boolean trustAllServers, boolean sendCerts) {
-        this(keyStorePath, trustAllServers, sendCerts, "mitmproxy", "vvilma");
+//        this(keyStorePath, trustAllServers, sendCerts, "mitmproxy", "vvilma");
+        this(keyStorePath, trustAllServers, sendCerts, "signingCert", "password");
     }
 
     public SelfSignedSslEngineSource(String keyStorePath) {
@@ -58,7 +56,8 @@ public class SelfSignedSslEngineSource {
     }
 
     public SelfSignedSslEngineSource(boolean trustAllServers, boolean sendCerts) {
-        this("sslSupport/mitmProxy_keystore.jks", trustAllServers, sendCerts);
+//        this("/sslSupport/mitmProxy_keystore.jks", trustAllServers, sendCerts);
+        this("/sslSupport/cybervillainsCA.jks", trustAllServers, sendCerts);
     }
 
     public SelfSignedSslEngineSource() {
@@ -136,12 +135,23 @@ public class SelfSignedSslEngineSource {
     }
 
     private KeyStore loadKeyStore() throws IOException, GeneralSecurityException {
-
-        InputStream fis = SelfSignedSslEngineSource.class.getResourceAsStream(keyStoreFile);
-        final KeyStore keyStore = KeyStore.getInstance("jks");
-        keyStore.load(fis, password.toCharArray());
-
+        final KeyStore keyStore = KeyStore.getInstance("JKS");
+        URL resourceUrl = getClass().getResource(keyStoreFile);
+        if (resourceUrl != null) {
+            loadKeyStore(keyStore, resourceUrl);
+        } else {
+            File keyStoreLocalFile = new File(keyStoreFile);
+            if (!keyStoreLocalFile.isFile()) {
+                throw new RuntimeException("tried to generate JKS / CER - not good.");
+            }
+            loadKeyStore(keyStore, keyStoreLocalFile.toURI().toURL());
+        }
         return keyStore;
     }
 
+    private void loadKeyStore(KeyStore keyStore, URL url) throws IOException, GeneralSecurityException {
+        try (InputStream is = url.openStream()) {
+            keyStore.load(is, password.toCharArray());
+        }
+    }
 }
