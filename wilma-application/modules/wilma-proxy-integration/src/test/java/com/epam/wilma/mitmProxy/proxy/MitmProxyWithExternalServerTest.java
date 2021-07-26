@@ -1,4 +1,22 @@
 package com.epam.wilma.mitmProxy.proxy;
+/*==========================================================================
+Copyright since 2013, EPAM Systems
+
+This file is part of Wilma.
+
+Wilma is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Wilma is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
+===========================================================================*/
 
 import com.epam.wilma.mitmProxy.proxy.helper.AbstractProxyTool;
 import com.epam.wilma.mitmProxy.proxy.helper.ContentEncoding;
@@ -49,6 +67,24 @@ public class MitmProxyWithExternalServerTest extends AbstractProxyTool {
     }
 
     @Test
+    public void testSimpleLocalGetRequestOverHTTPSThroughProxyEnforceBrotli() throws Exception {
+        String CALL = "/ok";
+        HttpHost externalHost = new HttpHost("127.0.0.1", 8443, "https");
+        try {
+            httpGetWithApacheClient(externalHost, CALL, false, false, ContentEncoding.BROTLI);
+        } catch (Exception e) {
+            externalHost = null;
+        }
+        org.junit.Assume.assumeTrue(externalHost != null);
+        //do test if available
+        ResponseInfo proxiedResponse = httpGetWithApacheClient(externalHost, CALL, true, false, ContentEncoding.BROTLI);
+        assertEquals(200, proxiedResponse.getStatusCode());
+        assertTrue(proxiedResponse.getBody().contains("Wilma Test Server"));
+        assertEquals(1, responseCount.get());
+        assertEquals(1, requestCount.get());
+    }
+
+    @Test
     public void testSimpleLocalGetRequestOverHTTPSWithoutProxy() throws Exception {
         String CALL = "/ok";
         HttpHost externalHost = new HttpHost("127.0.0.1", 8443, "https");
@@ -79,6 +115,24 @@ public class MitmProxyWithExternalServerTest extends AbstractProxyTool {
         org.junit.Assume.assumeTrue(externalHost != null);
         //do test if available
         ResponseInfo proxiedResponse = httpGetWithApacheClient(externalHost, CALL, true, false, ContentEncoding.ANY);
+        assertEquals(200, proxiedResponse.getStatusCode());
+        assertTrue(responseCount.get() > 0);
+        assertTrue(requestCount.get() > 0);
+    }
+
+    @Test
+    public void testSimpleRemoteGetRequestOverHTTPSThroughProxyEnforceBrotli() throws Exception {
+        //check if external test server is available
+        String CALL = "/search?q=mitmJavaProxy";
+        HttpHost externalHost = new HttpHost("www.google.com", 443, "https");
+        try {
+            httpGetWithApacheClient(externalHost, CALL, false, false, ContentEncoding.BROTLI);
+        } catch (Exception e) {
+            externalHost = null;
+        }
+        org.junit.Assume.assumeTrue(externalHost != null);
+        //do test if available
+        ResponseInfo proxiedResponse = httpGetWithApacheClient(externalHost, CALL, true, false, ContentEncoding.BROTLI);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertTrue(responseCount.get() > 0);
         assertTrue(requestCount.get() > 0);

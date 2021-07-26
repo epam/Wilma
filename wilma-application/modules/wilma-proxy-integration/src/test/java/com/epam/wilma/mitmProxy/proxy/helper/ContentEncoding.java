@@ -1,5 +1,10 @@
 package com.epam.wilma.mitmProxy.proxy.helper;
 
+/**
+ * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ * @author Tamas_Kohegyi
+ */
+
 public enum ContentEncoding {
 
     //See further info on Content Encoding here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding

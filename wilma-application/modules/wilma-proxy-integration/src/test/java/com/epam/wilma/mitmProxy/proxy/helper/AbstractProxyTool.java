@@ -26,6 +26,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ * @author Tamas_Kohegyi
+ *
  * Base for tests that test the proxy. This base class encapsulates all of the
  * testing infrastructure.
  */

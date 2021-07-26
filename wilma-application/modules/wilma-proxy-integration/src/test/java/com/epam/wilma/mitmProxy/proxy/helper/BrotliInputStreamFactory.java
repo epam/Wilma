@@ -8,6 +8,11 @@ import org.brotli.dec.BrotliInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ * @author Tamas_Kohegyi
+ */
+
 @Contract(threading = ThreadingBehavior.IMMUTABLE)
 public class BrotliInputStreamFactory implements InputStreamFactory {
 

@@ -13,7 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Class that is able to intercept and process every request going through the proxy, by implementing the RequestInterceptor interface.
  * It logs every request that is intercepted.
  *
- * @Tamas_Kohegyi
+ * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ * @author Tamas_Kohegyi
  */
 public class DefaultRequestInterceptor implements RequestInterceptor {
 

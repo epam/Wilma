@@ -38,6 +38,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ * @author Tamas_Kohegyi
+ */
+
 public class TestUtils {
     private final static Logger LOGGER = LoggerFactory.getLogger(TestUtils.class);
 
