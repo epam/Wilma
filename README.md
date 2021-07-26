@@ -60,7 +60,7 @@ Feel free to seek for assistance/advise, or discuss usage scenarios by submittin
 
 There are several ways you can help us:
 * **Raise an [issue](https://github.com/epam/Wilma/issues).** Have you found something that does not work as expected? Let us know about it.
-* **Suggest a feature by submitting an [issue](https://github.com/epam/Wilma/issues). It's even better if you come up with a new feature and write us about it.
+* **Suggest a feature by submitting an [issue](https://github.com/epam/Wilma/issues).** It's even better if you come up with a new feature and write us about it.
 * **Write some code.** We would love to see pull requests to this tool. Feel free to contribute (send pull request) on GitHub.
 
 #### Advised working environment
