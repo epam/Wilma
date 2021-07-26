@@ -1,5 +1,0 @@
-#NAME,CONTENT_TYPE,ACCEPT_HEADER,CONTENT_ENCODING,ACCEPT_ENCODING RESOURCE_URL,RESOURCE,STUBCONFIG_URL,STUBCONFIG_XML
-xml_toWebApp%xml%xml%no%no
-fastinfoset_toWebApp%fastinfoset%fastinfoset%no%no
-gzip_toWebApp%xml%xml%gzip%gzip
-fastinfoset_gzip_toWebApp%fastinfoset%fastinfoset%gzip%gzip

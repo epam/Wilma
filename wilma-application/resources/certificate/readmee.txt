@@ -1,1 +1,0 @@
-pwd for wilma.jks to run an app with wilma as secure proxy: vvilma

@@ -1,5 +1,0 @@
-#NAME,CONTENT_TYPE,ACCEPT_HEADER,CONTENT_ENCODING,ACCEPT_ENCODING
-xml_toServer%xml%xml%no%no
-fastinfoset_toServer%fastinfoset%fastinfoset%no%no
-gzip_toServer%xml%xml%gzip%gzip
-fastinfoset_gzip_toServer%fastinfoset%fastinfoset%gzip%gzip

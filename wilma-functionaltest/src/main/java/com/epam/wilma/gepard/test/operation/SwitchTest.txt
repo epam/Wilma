@@ -1,9 +1,0 @@
-#NAME,CONTENT_TYPE,ACCEPT_HEADER,CONTENT_ENCODING,ACCEPT_ENCODING,SWITCH,BYPASS,STUB_CONFIG,RESPONSE,RESPONSE_CODE
-stub_mode_bypass_DD+%xml%application/xml%no%no%stub%WilmaBypass=true%resources/switch/stubConfigDDplus.json%resources/uc3_1TestResponse.txt%200
-wilma_mode_bypass_DD+%xml%application/xml%no%no%wilma%WilmaBypass=true%resources/switch/stubConfigDDplus.json%resources/uc3_1TestResponse.txt%200
-proxy_mode_DD+%xml%application/xml%no%no%proxy%WilmaBypass=false%resources/switch/stubConfigDDplus.json%resources/uc3_1TestResponse.txt%200
-stub_mode_DD-_xml%xml%application/xml%no%no%stub%WilmaBypass=false%resources/switch/stubConfigDDminus.json%resources/switch/errorResponse.txt%404
-stub_mode_DD-_text%xml%text/plain%no%no%stub%WilmaBypass=false%resources/switch/stubConfigDDminus.json%resources/switch/textErrorResponse.txt%404
-stub_mode_DD-_html%xml%text/html%no%no%stub%WilmaBypass=false%resources/switch/stubConfigDDminus.json%resources/switch/htmlErrorResponse.txt%404
-stub_mode_DD+%xml%application/xml%no%no%stub%WilmaBypass=false%resources/switch/stubConfigDDplus.json%resources/switch/wilmaResponse.txt%200
-wilma_mode_DD-%xml%application/xml%no%no%wilma%WilmaBypass=false%resources/switch/stubConfigDDminus.json%resources/uc3_1TestResponse.txt%200

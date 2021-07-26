@@ -1,5 +1,0 @@
-dependencies {
-    compile project(':wilma-application:wilma-domain')
-    compile project(':wilma-application:wilma-webapp')
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}

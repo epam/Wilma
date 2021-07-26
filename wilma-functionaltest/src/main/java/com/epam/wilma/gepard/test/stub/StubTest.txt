@@ -1,3 +1,0 @@
-#NAME,CONTENT_TYPE,ACCEPT_HEADER,CONTENT_ENCODING,ACCEPT_ENCODING,STUB_CONFIG,REQUEST,RESPONSE_CODE,RESPONSE,XSL
-valid_request%xml%xml%no%no%resources/stub/TC1/stubConfig.json%resources/example3.xml%resources/stub/TC1/example4.xml%200%resources/stub/TC1/exampleBase.xsl
-error_pattern%fastinfoset%fastinfoset%gzip%gzip%resources/stub/TC8/stubConfig.json%resources/example3.xml%resources/stub/TC8/response.txt%404%resources/stub/TC1/exampleBase.xsl

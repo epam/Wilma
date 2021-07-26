@@ -1,1 +1,0 @@
-Stub config uploading failed: Validation of stub descriptor failed: Condition-descriptor subtree is too deep or contains circles, error occurs at: conditionSetInvoker name='AlwaysTrue'

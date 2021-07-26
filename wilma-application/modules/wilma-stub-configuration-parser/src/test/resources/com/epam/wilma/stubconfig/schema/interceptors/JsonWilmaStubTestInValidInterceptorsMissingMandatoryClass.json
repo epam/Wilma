@@ -1,9 +1,0 @@
-{
-  "wilmaStubConfiguration": {
-    "interceptors": [
-      {
-        "name": "test"
-      }
-    ]
-  }
-}

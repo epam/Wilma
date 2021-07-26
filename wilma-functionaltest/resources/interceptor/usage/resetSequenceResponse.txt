@@ -1,3 +1,0 @@
-Wilma Test Server - Sequence test
-OK, Reset done.
-Wilma

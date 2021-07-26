@@ -12,12 +12,12 @@ It is written in Java, and the solution consists of two standalone applications:
 # Quick intro for end users
 ## Wilma application
 #### Requirements
-* JRE 13 for V2.0.x releases of Wilma
+* \>=JRE 11 for V2.0.x releases of Wilma
 * JRE 8 for V1.6.x releases of Wilma
 * JRE 7 in case version earlier than V1.6.x in use
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma application downloaded and extracted into a folder.
 ### Note on V1.6 and V2.0 versions
-Please be noted that there were non-backward compatible changes when Wilma is upgraded from V1.6 to V2.0. Configurations used in V1.6 (that was xml based) cannot be used for configuring V2.0 (which is json based). You must also should know that V1.6 release works reliable with HTTP only, because the supported HTTPS protocols (SSLv3, TLS1) become obsolete in the meantime. On the other hand, V2.0 can be used for TLS1.1, TLS 1.2 and even for TLS1.3  - however extra configurations may be necessary and unexpected events may occur (like the used jdk does not support some of these protocols fully). HTTP part shall work without issue.
+Please be noted that there were non-backward compatible changes when Wilma is upgraded from V1.6 to V2.0. Configurations used in V1.6 (that was xml based) cannot be used for configuring V2.0 (which is json based). You should also know that V1.6 release works reliable with HTTP only, because the supported HTTPS protocols (SSLv3, TLS1) become obsolete in the meantime. On the other hand, V2.0 can be used for TLS1.1, TLS 1.2 and even for TLS1.3  - however extra configurations may be necessary and unexpected events may occur (like the used jdk does not support some of these protocols fully). HTTP part shall work without issue.
 
 #### Configuring Components/Services to use Wilma
 The most simple way to do this is by configuring the Component/Service to use Wilma **as HTTP(S) proxy**.
@@ -66,13 +66,15 @@ There are several ways you can help us:
 #### Advised working environment
 * OpenJDK 13 for V2.0.x
 * IntelliJ IDEA Community Edition
-* Gradle and Git Integration for the IDE
+* Gradle (included in source) and Git
 
 #### Building with Gradle
 The project can be built by following the instructions described [here](https://github.com/epam/Wilma/wiki/DEV,-Build-from-Scratch).
 This way of build is recommended for contributors only, End-Users, please use the pre-built downloadable releases from [here](https://github.com/epam/Wilma/releases), or use the docker image.
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=epam%2FWilma&metric=alert_status)](https://sonarcloud.io/dashboard?id=epam%2FWilma)
+[![CI](https://github.com/epam/Wilma/actions/workflows/main.yml/badge.svg)](https://github.com/epam/Wilma/actions/workflows/main.yml)
+
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=epam%2FWilma)
 
 ## Detailed information
 * Check the [Wiki](https://github.com/epam/Wilma/wiki) and [Issues](https://github.com/epam/Wilma/issues) link on GitHub

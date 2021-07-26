@@ -1,1 +1,0 @@
-Stub config uploading failed: Cannot load class that implements interface 'TemplateGenerator' with package or class name 'InvalidExternalTemplateGenerator'

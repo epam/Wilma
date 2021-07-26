@@ -1,2 +1,0 @@
-localhost blocking on && proxy mode and localhost request%http://127.0.0.1:1234/config/public/version%on%proxy%404
-localhost blocking on && proxy mode and non-localhost request%http://127.0.1.1:1234/config/public/version%on%proxy%200

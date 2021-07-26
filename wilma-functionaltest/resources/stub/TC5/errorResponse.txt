@@ -1,2 +1,0 @@
-java.lang.NullPointerException
-	at ConditionCheckerWithError.checkCondition(ConditionCheckerWithError.java:17)

@@ -1,3 +1,0 @@
-wilma-sequence key: 'b'
- pair1 - request body: 'b1', response body: 'welcome'
- pair2 - request body: 'b2', response body: 'null'

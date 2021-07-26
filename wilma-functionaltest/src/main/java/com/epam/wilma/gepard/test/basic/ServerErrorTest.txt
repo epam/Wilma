@@ -1,7 +1,0 @@
-#NAME,REQUESTED_ERROR_CODE,REQUEST_URL;
-ServerError E500%500%sendinternalservererror
-ServerError E501%501%sendnotimplemented
-ServerError E502%502%sendbadgateway
-ServerError E503%503%sendserviceunavailable
-ServerError E504%504%sendtimeout
-ClientError E404%404%sendtimeoutasdf

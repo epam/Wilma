@@ -1,4 +1,0 @@
-{
-    "my_favorite_string" : "$MagicResponse.soap:Envelope.soap:Body.MagicResponse.Information.Boolean",
-    "links" : "$OriginalResponse.soap:Envelope.soap:Body.OriginalResponse.Information.Boolean"
-}

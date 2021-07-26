@@ -1,2 +1,0 @@
-LABEL%DESCRIPTION%B
-LABEL0%Label 0 only%B

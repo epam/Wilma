@@ -1,1 +1,0 @@
-Stub config uploading failed: Descriptor can not be validated, because template generation failed at: ExternalTemplateGeneratorWithException: null

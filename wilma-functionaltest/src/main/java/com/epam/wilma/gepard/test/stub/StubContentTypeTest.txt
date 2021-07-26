@@ -1,5 +1,0 @@
-#NAME,CONTENT_TYPE,ACCEPT_HEADER,CONTENT_ENCODING,ACCEPT_ENCODING,STUB_CONFIG,REQUEST,RESPONSE,RESPONSE_CONTENT_TYPE
-TC4_1_stub_with_text_content%xml%xml%no%no%resources/stub/TC4/stubConfigWithText.json%resources/example3.xml%resources/stub/TC1/example4.xml%text/plain
-TC4_2_stub_with_html_content%xml%xml%no%no%resources/stub/TC4/stubConfigWithHtml.json%resources/example3.xml%resources/stub/TC1/example4.xml%text/html
-TC4_3_stub_with_xml_content%xml%xml%no%no%resources/stub/TC4/stubConfigWithXml.json%resources/example3.xml%resources/stub/TC1/example4.xml%application/xml
-TC4_4_stub_with_fastinfoset_content%xml%fastinfoset%no%no%resources/stub/TC4/stubConfigWithFastinfoset.json%resources/example3.xml%resources/stub/TC1/example4.xml%application/fastinfoset

@@ -1,2 +1,0 @@
-wilma-sequence key: 'single'
- pair1 - request body: 'two', response body: 'null'
