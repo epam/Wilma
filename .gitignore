@@ -9,6 +9,7 @@ config
 COPYRIGHTS
 docs
 gradle
+build
 wilma-*
 build.gradle
 common.gradle
