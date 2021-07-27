@@ -3,7 +3,7 @@
 WILMA_BUILD=wilma.jar
 #WILMA_CONFIGURATION is an external environment variable, usually: wilma.conf.properties
 #WILMA_MX_SIZE is an external environment variable, for example: -Xmx8G
-#WILMA_KEPYSTORE is an external environment variable, for example: -Djavax.net.ssl.keyStore=certificate/your.jks
+#WILMA_KEYSTORE is an external environment variable, for example: -Djavax.net.ssl.keyStore=certificate/your.jks
 #WILMA_KEYSTORE_PASSWORD is an external environment variable, example: -Djavax.net.ssl.keyStorePassword=password_for_your_jks
 #WILMA_JMX_PORT - Wilma JMX port, if empty, no JMX used, otherwise the JMX port is fully opened
 
