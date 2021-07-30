@@ -38,7 +38,7 @@ public class StubConfigPathProvider {
     private FileUtils fileUtils;
 
     /**
-     * This method is dedicated for selecting files from the given cache folder with *_stubConfig.xml pattern.
+     * This method is dedicated for selecting files from the given cache folder with *_stubConfig.json pattern.
      *
      * @param cachePath is the relative path of the cache folder
      * @return List&lt;String&gt; which contains paths of result files of the selecting.
@@ -47,7 +47,7 @@ public class StubConfigPathProvider {
         List<String> resultPaths = new ArrayList<>();
         File folder = new File(cachePath);
         folder = folder.getAbsoluteFile();
-        for (File file : fileUtils.listFilesWithFilter(folder, "^[1-9]([0-9]*)_stubConfig.xml$")) {
+        for (File file : fileUtils.listFilesWithFilter(folder, "^[1-9]([0-9]*)_stubConfig.json$")) {
             resultPaths.add(file.getPath());
         }
         return resultPaths;

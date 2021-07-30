@@ -56,11 +56,11 @@ public class StubConfigPathProviderTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         files = new ArrayList<>();
-        files.add(new File("first.xml"));
-        files.add(new File("second.xml"));
+        files.add(new File("first.json"));
+        files.add(new File("second.json"));
         expectedFilePaths = new ArrayList<>();
-        expectedFilePaths.add("first.xml");
-        expectedFilePaths.add("second.xml");
+        expectedFilePaths.add("first.json");
+        expectedFilePaths.add("second.json");
         given(fileUtils.listFilesWithFilter(Mockito.any(File.class), Mockito.anyString())).willReturn(files);
     }
 
