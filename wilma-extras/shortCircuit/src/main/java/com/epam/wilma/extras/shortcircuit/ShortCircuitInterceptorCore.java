@@ -180,7 +180,7 @@ class ShortCircuitInterceptorCore {
                     //CHECKSTYLE OFF - we must use "new String" here
                     String decodedEntryKey = new String(Base64.decodeBase64(shortCircuitHashCode)); //make it human readable
                     //CHECKSTYLE ON
-                    logger.info("ShortCircuit: Message captured for hashcode: " + decodedEntryKey);
+                    logger.info("ShortCircuit: Message captured for hashcode: {}", decodedEntryKey);
 
                 } else {
                     //we cannot store it, so it is better to remove it from the shortCircuit map
@@ -194,7 +194,7 @@ class ShortCircuitInterceptorCore {
                     //CHECKSTYLE OFF - we must use "new String" here
                     String decodedEntryKey = new String(Base64.decodeBase64(shortCircuitHashCode)); //make it human readable
                     //CHECKSTYLE ON
-                    logger.info("ShortCircuit: Timeout has happened for hashcode: " + decodedEntryKey);
+                    logger.info("ShortCircuit: Timeout has happened for hashcode: {}", decodedEntryKey);
                 }
             }
         }

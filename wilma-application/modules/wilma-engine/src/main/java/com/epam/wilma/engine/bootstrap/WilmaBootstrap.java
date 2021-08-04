@@ -58,9 +58,6 @@ public class WilmaBootstrap {
     public void bootstrap() {
         ClassPathXmlApplicationContext applicationContext = null;
         try {
-            //SSL issue workaround
-            //System.setProperty("jdk.tls.namedGroups", "secp256r1, secp384r1, ffdhe2048, ffdhe3072");
-
             applicationContext = getApplicationContext();
             WilmaEngine wilmaEngine = applicationContext.getBean(WilmaEngine.class);
             WilmaServiceListener wilmaServiceListener = applicationContext.getBean(WilmaServiceListener.class);
@@ -100,6 +97,6 @@ public class WilmaBootstrap {
     }
 
     private void logError(final String message, final Exception e) {
-        logger.error("Wilma cannot be started. " + message, e);
+        logger.error("Wilma cannot be started. {}", message, e);
     }
 }

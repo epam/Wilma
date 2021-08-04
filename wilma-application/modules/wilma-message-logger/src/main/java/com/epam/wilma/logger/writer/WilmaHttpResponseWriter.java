@@ -38,7 +38,7 @@ public class WilmaHttpResponseWriter extends WilmaHttpEntityWriter<WilmaHttpResp
     private static final int OUTPUT_BUFFER_SIZE = 262144;
     private static final String INITIAL_FILENAME = "00000000000000.0000resp.txt";
 
-    private final Logger logger = LoggerFactory.getLogger(WilmaHttpRequestWriter.class);
+    private final Logger logger = LoggerFactory.getLogger(WilmaHttpResponseWriter.class);
 
     @Autowired
     private BufferedWriterFactory bufferedWriterFactory;

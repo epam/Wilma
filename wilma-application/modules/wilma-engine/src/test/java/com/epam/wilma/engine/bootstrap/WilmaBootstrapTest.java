@@ -49,7 +49,7 @@ import static org.mockito.Mockito.verify;
  */
 public class WilmaBootstrapTest {
 
-    private static final String WILMA_CANNOT_BE_STARTED_ERROR_MSG = "Wilma cannot be started. ";
+    private static final String WILMA_CANNOT_BE_STARTED_ERROR_MSG = "Wilma cannot be started. {}";
     private ApplicationContextFactory applicationContextFactory;
 
     @Mock
@@ -108,7 +108,7 @@ public class WilmaBootstrapTest {
         underTest.bootstrap();
         //THEN
         verify(systemExceptionSelector).getSystemException(beanCreationException);
-        verify(logger).error(WILMA_CANNOT_BE_STARTED_ERROR_MSG + beanCreationException.getMostSpecificCause().getMessage(),
+        verify(logger).error(WILMA_CANNOT_BE_STARTED_ERROR_MSG, beanCreationException.getMostSpecificCause().getMessage(),
                 schedulingCannotBeStartedException);
     }
 
@@ -124,7 +124,7 @@ public class WilmaBootstrapTest {
         underTest.bootstrap();
         //THEN
         verify(systemExceptionSelector).getSystemException(beanCreationException);
-        verify(logger).error(WILMA_CANNOT_BE_STARTED_ERROR_MSG + beanCreationException.getMostSpecificCause().getMessage(), invalidPropertyException);
+        verify(logger).error(WILMA_CANNOT_BE_STARTED_ERROR_MSG, beanCreationException.getMostSpecificCause().getMessage(), invalidPropertyException);
     }
 
     @Test
@@ -139,7 +139,7 @@ public class WilmaBootstrapTest {
         underTest.bootstrap();
         //THEN
         verify(systemExceptionSelector).getSystemException(beanCreationException);
-        verify(logger).error(WILMA_CANNOT_BE_STARTED_ERROR_MSG + beanCreationException.getMostSpecificCause().getMessage(),
+        verify(logger).error(WILMA_CANNOT_BE_STARTED_ERROR_MSG, beanCreationException.getMostSpecificCause().getMessage(),
                 schedulingCannotBeStartedException);
     }
 
@@ -155,6 +155,6 @@ public class WilmaBootstrapTest {
         underTest.bootstrap();
         //THEN
         verify(systemExceptionSelector).getSystemException(beanCreationException);
-        verify(logger).error(WILMA_CANNOT_BE_STARTED_ERROR_MSG, beanCreationException);
+        verify(logger).error(WILMA_CANNOT_BE_STARTED_ERROR_MSG, "", beanCreationException);
     }
 }

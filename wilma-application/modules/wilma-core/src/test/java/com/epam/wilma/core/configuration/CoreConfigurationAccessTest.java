@@ -63,7 +63,7 @@ public class CoreConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDto actual = underTest.getProperties();
-        assertEquals(actual.getMessageLogging(), messageLogging);
+        assertEquals(messageLogging, actual.getMessageLogging());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class CoreConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDto actual = underTest.getProperties();
-        assertEquals(actual.getOperationMode(), OperationMode.WILMA);
+        assertEquals(OperationMode.WILMA, actual.getOperationMode());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class CoreConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDto actual = underTest.getProperties();
-        assertEquals(actual.getBlockLocalhostUsage(), BlockLocalhostUsage.ON);
+        assertEquals(BlockLocalhostUsage.ON, actual.getBlockLocalhostUsage());
     }
 
     @Test
@@ -93,6 +93,6 @@ public class CoreConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDto actual = underTest.getProperties();
-        assertEquals(actual.getSequenceHandlingUsage(), SequenceHandlingState.ON);
+        assertEquals(SequenceHandlingState.ON, actual.getSequenceHandlingUsage());
     }
 }

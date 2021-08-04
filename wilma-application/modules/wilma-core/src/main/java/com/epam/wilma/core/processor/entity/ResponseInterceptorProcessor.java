@@ -71,10 +71,9 @@ public class ResponseInterceptorProcessor extends ProcessorBase {
     }
 
     private void logError(final ResponseInterceptor interceptor, final WilmaHttpEntity entity, final ParameterList parameters, final Exception e) {
-        logger.error("Error during call to response interceptor: " + interceptor.getClass().getSimpleName()
-                + " with parameters: " + parameters.getAllParameters().toString()
-                + " at message: " + entity.getWilmaMessageLoggerId()
-                + "! Reason:" + e.getMessage(), e);
+        logger.error("Error during call to response interceptor: {} with parameters: {} at message: {}! Reason:{}",
+                interceptor.getClass().getSimpleName(), parameters.getAllParameters().toString(),
+                entity.getWilmaMessageLoggerId(), e.getMessage(), e);
     }
 
 }

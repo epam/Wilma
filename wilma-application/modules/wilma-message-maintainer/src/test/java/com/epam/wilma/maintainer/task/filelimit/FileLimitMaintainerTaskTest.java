@@ -182,7 +182,7 @@ public class FileLimitMaintainerTaskTest {
         // WHEN
         underTest.logParameters();
         // THEN
-        verify(logger).info("Filelimit method is used to maintain log files with parameters: filelimit: 4");
+        verify(logger).info("Filelimit method is used to maintain log files with parameters: filelimit: {}", 4);
     }
 
     @Test

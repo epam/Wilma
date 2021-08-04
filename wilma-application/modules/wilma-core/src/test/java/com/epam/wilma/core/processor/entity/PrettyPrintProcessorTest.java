@@ -163,7 +163,7 @@ public class PrettyPrintProcessorTest {
         //WHEN
         underTest.process(request);
         //THEN
-        verify(logger).error(Mockito.anyString());
+        verify(logger).error(Mockito.anyString(), Mockito.any(), Mockito.anyString());
     }
 
     @Test
@@ -198,7 +198,7 @@ public class PrettyPrintProcessorTest {
         //WHEN
         underTest.process(request);
         //THEN
-        verify(logger).error(Mockito.anyString());
+        verify(logger).error(Mockito.anyString(), Mockito.any(), Mockito.anyString());
     }
 
     @Test

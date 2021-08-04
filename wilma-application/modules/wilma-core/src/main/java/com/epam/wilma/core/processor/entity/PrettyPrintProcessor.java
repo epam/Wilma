@@ -107,7 +107,7 @@ public class PrettyPrintProcessor extends ProcessorBase {
     }
 
     private void logError(final WilmaHttpEntity entity, final Exception e) {
-        logger.error("Error during pretty printing of message with Wilma Logger ID: "
-                + entity.getWilmaMessageLoggerId() + "! Reason:" + e.getMessage());
+        logger.error("Error during pretty printing of message with Wilma Logger ID: {}! Reason:{}",
+                entity.getWilmaMessageLoggerId(), e.getMessage());
     }
 }

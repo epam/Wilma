@@ -36,7 +36,7 @@ public class SaxonCompilerErrorListener implements ErrorListener {
 
     @Override
     public void warning(final TransformerException exception) throws TransformerException {
-        logger.warn("Warning at XSLT transformation: " + exception.getMessageAndLocation());
+        logger.warn("Warning at XSLT transformation: {}", exception.getMessageAndLocation());
     }
 
     @Override

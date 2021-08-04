@@ -70,7 +70,7 @@ public class FileLimitMaintainerTask implements MaintainerTask {
     @Override
     public void logParameters() {
         getFileLimit();
-        logger.info("Filelimit method is used to maintain log files with parameters: filelimit: " + fileLimit);
+        logger.info("Filelimit method is used to maintain log files with parameters: filelimit: {}", fileLimit);
     }
 
     private void getFileLimit() {
@@ -109,7 +109,7 @@ public class FileLimitMaintainerTask implements MaintainerTask {
             int noFilesToDelete = messageFiles.length - fileLimit;
             deleteAndSendToDeletionFromIndex(messageFiles, noFilesToDelete);
             deletedFileProvider.setDeletedFilesCount(noFilesToDelete);
-            logger.info(noFilesToDelete + " files were deleted.");
+            logger.info("{} files were deleted.", noFilesToDelete);
         } else {
             deletedFileProvider.setDeletedFilesCount(0);
         }

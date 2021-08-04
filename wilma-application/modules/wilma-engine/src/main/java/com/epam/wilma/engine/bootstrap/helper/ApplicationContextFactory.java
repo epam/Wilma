@@ -30,7 +30,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ApplicationContextFactory {
 
-    private final Map<String, ClassPathXmlApplicationContext> applicationContexts = new HashMap<String, ClassPathXmlApplicationContext>();
+    private final Map<String, ClassPathXmlApplicationContext> applicationContexts = new HashMap<>();
 
     ApplicationContextFactory() {
     }

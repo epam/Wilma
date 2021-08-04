@@ -60,8 +60,8 @@ public class IndexingConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getBrokerHost(), host);
-        assertEquals(actual.getBrokerPort(), port);
+        assertEquals(host, actual.getBrokerHost());
+        assertEquals(port, actual.getBrokerPort());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class IndexingConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getBrokerHost(), "localhost");
+        assertEquals("localhost", actual.getBrokerHost());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class IndexingConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getBrokerHost(), "localhost");
+        assertEquals("localhost", actual.getBrokerHost());
     }
 
 }

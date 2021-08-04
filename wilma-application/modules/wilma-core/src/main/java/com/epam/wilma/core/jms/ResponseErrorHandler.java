@@ -32,7 +32,7 @@ import org.springframework.util.ErrorHandler;
 public class ResponseErrorHandler implements ErrorHandler {
 
     private static final String ERROR_MESSAGE = "Error occurred in response queue: ";
-    private final Logger logger = LoggerFactory.getLogger(LoggerErrorHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(ResponseErrorHandler.class);
 
     @Override
     public void handleError(final Throwable t) {

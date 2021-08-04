@@ -24,7 +24,6 @@ import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedExcep
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import com.epam.wilma.stubconfig.json.parser.helper.CustomXQueryCheckerValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

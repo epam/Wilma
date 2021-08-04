@@ -155,7 +155,7 @@ public class TimeLimitMaintainerTaskTest {
         // WHEN
         underTest.logParameters();
         // THEN
-        verify(logger).info("Timelimit method is used to maintain log files with parameters: timelimit: 36H");
+        verify(logger).info("Timelimit method is used to maintain log files with parameters: timelimit: {}", "36H");
     }
 
     @Test

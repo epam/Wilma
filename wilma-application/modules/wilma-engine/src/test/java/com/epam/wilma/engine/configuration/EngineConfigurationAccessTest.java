@@ -62,7 +62,7 @@ public class EngineConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getProxyPort(), port);
+        assertEquals(port, actual.getProxyPort());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class EngineConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getStubConfigFolderPath(), STUB_CONFIG_SOURCE_FOLDER_PATH);
+        assertEquals(STUB_CONFIG_SOURCE_FOLDER_PATH, actual.getStubConfigFolderPath());
     }
 
     @Test
@@ -82,6 +82,6 @@ public class EngineConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getStubConfigPattern(), STUB_CONFIG_PATTERN);
+        assertEquals(STUB_CONFIG_PATTERN, actual.getStubConfigPattern());
     }
 }

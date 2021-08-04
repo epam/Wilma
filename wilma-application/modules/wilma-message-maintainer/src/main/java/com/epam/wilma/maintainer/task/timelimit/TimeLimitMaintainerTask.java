@@ -97,7 +97,7 @@ public class TimeLimitMaintainerTask implements MaintainerTask {
     @Override
     public void logParameters() {
         getTimeLimit();
-        logger.info("Timelimit method is used to maintain log files with parameters: timelimit: " + timeLimit);
+        logger.info("Timelimit method is used to maintain log files with parameters: timelimit: {}", timeLimit);
     }
 
     private int deleteFilesAboveFileLimit(final File messagesFolder) {
@@ -115,7 +115,7 @@ public class TimeLimitMaintainerTask implements MaintainerTask {
             try {
                 noDeletedFiles += deleteFileIfTooOld(file);
             } catch (ParseException e) {
-                logger.warn("File cannot be read because its name (" + file.getName() + ") doesn't match the message filename pattern.", e);
+                logger.warn("File cannot be read because its name ({}) doesn't match the message filename pattern.", file.getName(), e);
             }
         }
         return noDeletedFiles;
@@ -171,7 +171,7 @@ public class TimeLimitMaintainerTask implements MaintainerTask {
 
     private void logMaintenanceResult(final int noDeletedFiles) {
         if (noDeletedFiles > 0) {
-            logger.info("Message file maintenance ended, " + noDeletedFiles + " files were deleted.");
+            logger.info("Message file maintenance ended, {} files were deleted.", noDeletedFiles);
         }
     }
 

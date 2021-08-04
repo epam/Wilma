@@ -25,7 +25,6 @@ import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedExce
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
-import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
 import com.epam.wilma.stubconfig.initializer.support.helper.PackageBasedClassFinder;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -37,7 +36,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.FieldSetter;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;

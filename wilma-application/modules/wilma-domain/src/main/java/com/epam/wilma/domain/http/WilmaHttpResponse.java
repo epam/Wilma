@@ -106,6 +106,7 @@ public class WilmaHttpResponse extends WilmaHttpEntity {
      * @param newBodyArray is the prepared (gzipped, etc, as necessary) content of the new response
      * @param newBody is the new message content - the human readable part
      */
+    @Override
     public void setNewBody(byte[] newBodyArray, String newBody) {
         if (isVolatile()) {
             super.setNewBody(newBodyArray, newBody);

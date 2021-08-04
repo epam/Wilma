@@ -27,7 +27,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.FieldSetter;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 
 import java.net.MalformedURLException;
