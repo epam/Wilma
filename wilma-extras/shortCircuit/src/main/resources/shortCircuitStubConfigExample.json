@@ -11,14 +11,11 @@
             {
               "condition": {
                 "class": "OrUrlPatternChecker",
+                "negate": true,
                 "parameters": [
                   {
                     "name": "dummy",
-                    "value": "http://"
-                  },
-                  {
-                    "name": "dummy",
-                    "value": "https://"
+                    "value": "mozilla"
                   }
                 ]
               }

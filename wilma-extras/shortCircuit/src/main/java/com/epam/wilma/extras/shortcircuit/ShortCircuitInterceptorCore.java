@@ -182,6 +182,9 @@ class ShortCircuitInterceptorCore {
                     //CHECKSTYLE ON
                     logger.info("ShortCircuit: Message captured for hashcode: " + decodedEntryKey);
 
+                } else {
+                    //we cannot store it, so it is better to remove it from the shortCircuit map
+                    shortCircuitMap.remove(shortCircuitHashCode);
                 }
             } else { //we have response
                 //take care about timeout

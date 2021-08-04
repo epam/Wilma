@@ -54,8 +54,10 @@ public class ConditionEvaluator {
         } else if (condition instanceof SimpleCondition) {
             SimpleCondition simpleCondition = (SimpleCondition) condition;
             ConditionChecker conditionChecker = simpleCondition.getConditionChecker();
-            boolean negate = simpleCondition.isNegate();
-            fulfilled = !negate && conditionChecker.checkCondition(request, simpleCondition.getParameters());
+            fulfilled = conditionChecker.checkCondition(request, simpleCondition.getParameters());
+            if (simpleCondition.isNegate()) {
+                fulfilled = !fulfilled;
+            }
         }
         return fulfilled;
     }

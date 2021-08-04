@@ -39,18 +39,22 @@ import static org.mockito.BDDMockito.given;
 /**
  * Provides unit tests for the class {@link ConditionEvaluator}.
  *
- * @author Tunde_Kovacs
+ * @author Tunde_Kovacs, Tamas_Kohegyi
  */
 public class ConditionEvaluatorTest {
 
     @Mock
     private Condition condition;
     @Mock
-    private ConditionChecker conditionChecker;
+    private ConditionChecker conditionCheckerA;
+    @Mock
+    private ConditionChecker conditionCheckerB;
     @Mock
     private WilmaHttpRequest request;
     @Mock
-    private SimpleCondition simpleCondition;
+    private SimpleCondition simpleConditionA;
+    @Mock
+    private SimpleCondition simpleConditionB;
     @Mock
     private CompositeCondition compositeConditionMock;
 
@@ -64,18 +68,21 @@ public class ConditionEvaluatorTest {
         MockitoAnnotations.initMocks(this);
         underTest = new ConditionEvaluator();
         parameterMap = new ParameterList();
-        given(simpleCondition.getConditionChecker()).willReturn(conditionChecker);
-        given(simpleCondition.getParameters()).willReturn(parameterMap);
+        given(simpleConditionA.getConditionChecker()).willReturn(conditionCheckerA);
+        given(simpleConditionA.getParameters()).willReturn(parameterMap);
+        given(simpleConditionB.getConditionChecker()).willReturn(conditionCheckerB);
+        given(simpleConditionB.getParameters()).willReturn(parameterMap);
     }
 
     @Test
-    public void testEvaluateWhenConditionIsAndShouldReturnTrue() {
+    public void testEvaluateWhenConditionIsAndShouldReturnTrueTT() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
-        conditionList.add(simpleCondition);
-        conditionList.add(simpleCondition);
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionB);
         compositeCondition = new CompositeCondition(ConditionType.AND, conditionList);
-        given(conditionChecker.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(true);
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
@@ -83,13 +90,14 @@ public class ConditionEvaluatorTest {
     }
 
     @Test
-    public void testEvaluateWhenConditionIsAndShouldReturnFalse() {
+    public void testEvaluateWhenConditionIsAndShouldReturnFalseFF() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
-        conditionList.add(simpleCondition);
-        conditionList.add(simpleCondition);
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionB);
         compositeCondition = new CompositeCondition(ConditionType.AND, conditionList);
-        given(conditionChecker.checkCondition(request, parameterMap)).willReturn(false);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(false);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(false);
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
@@ -97,13 +105,44 @@ public class ConditionEvaluatorTest {
     }
 
     @Test
-    public void testEvaluateWhenConditionIsOrShouldReturnTrue() {
+    public void testEvaluateWhenConditionIsAndShouldReturnFalseTF() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
-        conditionList.add(simpleCondition);
-        conditionList.add(simpleCondition);
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionB);
+        compositeCondition = new CompositeCondition(ConditionType.AND, conditionList);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(false);
+        //WHEN
+        boolean actual = underTest.evaluate(compositeCondition, request);
+        //THEN
+        assertEquals(actual, false);
+    }
+
+    @Test
+    public void testEvaluateWhenConditionIsAndShouldReturnFalseFT() {
+        //GIVEN
+        List<Condition> conditionList = new ArrayList<>();
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionB);
+        compositeCondition = new CompositeCondition(ConditionType.AND, conditionList);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(false);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(true);
+        //WHEN
+        boolean actual = underTest.evaluate(compositeCondition, request);
+        //THEN
+        assertEquals(actual, false);
+    }
+
+    @Test
+    public void testEvaluateWhenConditionIsOrShouldReturnTrueTT() {
+        //GIVEN
+        List<Condition> conditionList = new ArrayList<>();
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionB);
         compositeCondition = new CompositeCondition(ConditionType.OR, conditionList);
-        given(conditionChecker.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(true);
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
@@ -111,13 +150,44 @@ public class ConditionEvaluatorTest {
     }
 
     @Test
-    public void testEvaluateWhenConditionIsOrShouldReturnFalse() {
+    public void testEvaluateWhenConditionIsOrShouldReturnTrueTF() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
-        conditionList.add(simpleCondition);
-        conditionList.add(simpleCondition);
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionB);
         compositeCondition = new CompositeCondition(ConditionType.OR, conditionList);
-        given(conditionChecker.checkCondition(request, parameterMap)).willReturn(false);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(false);
+        //WHEN
+        boolean actual = underTest.evaluate(compositeCondition, request);
+        //THEN
+        assertEquals(actual, true);
+    }
+
+    @Test
+    public void testEvaluateWhenConditionIsOrShouldReturnTrueFT() {
+        //GIVEN
+        List<Condition> conditionList = new ArrayList<>();
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionB);
+        compositeCondition = new CompositeCondition(ConditionType.OR, conditionList);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(false);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(true);
+        //WHEN
+        boolean actual = underTest.evaluate(compositeCondition, request);
+        //THEN
+        assertEquals(actual, true);
+    }
+
+    @Test
+    public void testEvaluateWhenConditionIsOrShouldReturnFalseFF() {
+        //GIVEN
+        List<Condition> conditionList = new ArrayList<>();
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionB);
+        compositeCondition = new CompositeCondition(ConditionType.OR, conditionList);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(false);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(false);
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
@@ -128,10 +198,9 @@ public class ConditionEvaluatorTest {
     public void testEvaluateWhenConditionIsNotShouldReturnFalse() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
-        conditionList.add(simpleCondition);
-        conditionList.add(simpleCondition);
+        conditionList.add(simpleConditionA);
         compositeCondition = new CompositeCondition(ConditionType.NOT, conditionList);
-        given(conditionChecker.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
@@ -139,46 +208,52 @@ public class ConditionEvaluatorTest {
     }
 
     @Test
+    public void testEvaluateWhenConditionIsNotShouldReturnTrue() {
+        //GIVEN
+        List<Condition> conditionList = new ArrayList<>();
+        conditionList.add(simpleConditionA);
+        compositeCondition = new CompositeCondition(ConditionType.NOT, conditionList);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(false);
+        //WHEN
+        boolean actual = underTest.evaluate(compositeCondition, request);
+        //THEN
+        assertEquals(actual, true);
+    }
+
+    @Test
     public void testEvaluateWhenSimpleConditionIsNegatedShouldReturnTrue() {
         //GIVEN
-        List<Condition> conditionList = new ArrayList<>();
-        conditionList.add(simpleCondition);
-        conditionList.add(simpleCondition);
-        compositeCondition = new CompositeCondition(ConditionType.NOT, conditionList);
-        given(simpleCondition.isNegate()).willReturn(true);
-        given(conditionChecker.checkCondition(request, parameterMap)).willReturn(true);
+        given(simpleConditionA.isNegate()).willReturn(true);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
         //WHEN
-        boolean actual = underTest.evaluate(compositeCondition, request);
+        boolean actual = underTest.evaluate(simpleConditionA, request);
+        //THEN
+        assertEquals(actual, false);
+    }
+
+    @Test
+    public void testEvaluateWhenSimpleConditionIsNegatedShouldReturnFalse() {
+        //GIVEN
+        given(simpleConditionA.isNegate()).willReturn(true);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(false);
+        //WHEN
+        boolean actual = underTest.evaluate(simpleConditionA, request);
         //THEN
         assertEquals(actual, true);
     }
 
     @Test
-    public void testEvaluateWhenSimpleConditionReturnsFalseAndIsNotShouldReturnTrue() {
+    public void testEvaluateWhenConditionIsNestedOrShouldReturnTrueTT_T() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
-        conditionList.add(simpleCondition);
-        conditionList.add(simpleCondition);
-        compositeCondition = new CompositeCondition(ConditionType.NOT, conditionList);
-        given(conditionChecker.checkCondition(request, parameterMap)).willReturn(false);
-        //WHEN
-        boolean actual = underTest.evaluate(compositeCondition, request);
-        //THEN
-        assertEquals(actual, true);
-    }
-
-    @Test
-    public void testEvaluateWhenConditionIsNestedOrShouldReturnTrue() {
-        //GIVEN
-        List<Condition> conditionList = new ArrayList<>();
-        conditionList.add(simpleCondition);
-        conditionList.add(simpleCondition);
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionA);
         CompositeCondition nestedCondition = new CompositeCondition(ConditionType.OR, new ArrayList<>(conditionList));
         conditionList.clear();
-        conditionList.add(simpleCondition);
+        conditionList.add(simpleConditionA);
         conditionList.add(nestedCondition);
         compositeCondition = new CompositeCondition(ConditionType.OR, conditionList);
-        given(conditionChecker.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
@@ -186,21 +261,98 @@ public class ConditionEvaluatorTest {
     }
 
     @Test
-    public void testEvaluateWhenConditionIsNestedAndShouldReturnTrue() {
+    public void testEvaluateWhenConditionIsNestedOrShouldReturnFalseFF_F() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
-        conditionList.add(simpleCondition);
-        conditionList.add(simpleCondition);
-        CompositeCondition nestedCondition = new CompositeCondition(ConditionType.AND, new ArrayList<>(conditionList));
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionA);
+        CompositeCondition nestedCondition = new CompositeCondition(ConditionType.OR, new ArrayList<>(conditionList));
         conditionList.clear();
-        conditionList.add(simpleCondition);
+        conditionList.add(simpleConditionB);
         conditionList.add(nestedCondition);
-        compositeCondition = new CompositeCondition(ConditionType.AND, conditionList);
-        given(conditionChecker.checkCondition(request, parameterMap)).willReturn(true);
+        compositeCondition = new CompositeCondition(ConditionType.OR, conditionList);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(false);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(false);
+        //WHEN
+        boolean actual = underTest.evaluate(compositeCondition, request);
+        //THEN
+        assertEquals(actual, false);
+    }
+
+    @Test
+    public void testEvaluateWhenConditionIsNestedOrShouldReturnTrueTF_F() {
+        //GIVEN
+        List<Condition> conditionList = new ArrayList<>();
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionB);
+        CompositeCondition nestedCondition = new CompositeCondition(ConditionType.OR, new ArrayList<>(conditionList));
+        conditionList.clear();
+        conditionList.add(simpleConditionB);
+        conditionList.add(nestedCondition);
+        compositeCondition = new CompositeCondition(ConditionType.OR, conditionList);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(false);
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
         assertEquals(actual, true);
+    }
+
+    @Test
+    public void testEvaluateWhenConditionIsNestedAndShouldReturnTrueTT_T() {
+        //GIVEN
+        List<Condition> conditionList = new ArrayList<>();
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionA);
+        CompositeCondition nestedCondition = new CompositeCondition(ConditionType.AND, new ArrayList<>(conditionList));
+        conditionList.clear();
+        conditionList.add(simpleConditionB);
+        conditionList.add(nestedCondition);
+        compositeCondition = new CompositeCondition(ConditionType.AND, conditionList);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(true);
+        //WHEN
+        boolean actual = underTest.evaluate(compositeCondition, request);
+        //THEN
+        assertEquals(actual, true);
+    }
+
+    @Test
+    public void testEvaluateWhenConditionIsNestedAndShouldReturnFalseTF_T() {
+        //GIVEN
+        List<Condition> conditionList = new ArrayList<>();
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionB);
+        CompositeCondition nestedCondition = new CompositeCondition(ConditionType.AND, new ArrayList<>(conditionList));
+        conditionList.clear();
+        conditionList.add(simpleConditionA);
+        conditionList.add(nestedCondition);
+        compositeCondition = new CompositeCondition(ConditionType.AND, conditionList);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(false);
+        //WHEN
+        boolean actual = underTest.evaluate(compositeCondition, request);
+        //THEN
+        assertEquals(actual, false);
+    }
+
+    @Test
+    public void testEvaluateWhenConditionIsNestedAndShouldReturnFalseTT_F() {
+        //GIVEN
+        List<Condition> conditionList = new ArrayList<>();
+        conditionList.add(simpleConditionA);
+        conditionList.add(simpleConditionA);
+        CompositeCondition nestedCondition = new CompositeCondition(ConditionType.AND, new ArrayList<>(conditionList));
+        conditionList.clear();
+        conditionList.add(simpleConditionB);
+        conditionList.add(nestedCondition);
+        compositeCondition = new CompositeCondition(ConditionType.AND, conditionList);
+        given(conditionCheckerA.checkCondition(request, parameterMap)).willReturn(true);
+        given(conditionCheckerB.checkCondition(request, parameterMap)).willReturn(false);
+        //WHEN
+        boolean actual = underTest.evaluate(compositeCondition, request);
+        //THEN
+        assertEquals(actual, false);
     }
 
     @Test
