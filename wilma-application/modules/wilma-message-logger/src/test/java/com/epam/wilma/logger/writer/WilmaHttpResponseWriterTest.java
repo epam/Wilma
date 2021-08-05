@@ -28,7 +28,6 @@ import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
@@ -79,6 +78,7 @@ public class WilmaHttpResponseWriterTest {
     public void setUp() {
         underTest = spy(new WilmaHttpResponseWriter());
         MockitoAnnotations.initMocks(this);
+        Whitebox.setInternalState(underTest, "logger", logger);
         //original header setup
         Map<String, String> headers = new HashMap<>();
         headers.put(HEADERS, HEADERS);
@@ -149,18 +149,6 @@ public class WilmaHttpResponseWriterTest {
         underTest.write(response, true);
         //THEN
         verify(logger).error(COULD_NOT_WRITE_MESSAGE_ERROR, e);
-    }
-
-    @Test
-    public void testWriteWhenWriterIsNullShouldDoNothing() throws IOException {
-        //GIVEN
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_ID, true);
-        given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(null);
-        given(response.getWilmaMessageLoggerId()).willReturn(MESSAGE_ID);
-        //WHEN
-        underTest.write(response, true);
-        //THEN
-        verify(bufferedWriter, never()).append(Mockito.anyString());
     }
 
     @Test

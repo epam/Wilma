@@ -40,26 +40,13 @@ public class ApplicationContextFactory {
     }
 
     /**
-     * Creates a new ClassPathXmlApplicationContext.
-     * @param path of the appContext.xml
+     * Creates a new {@link ClassPathXmlApplicationContext}.
+     * @param path of the application context xml
      * @return the created ClassPathXmlApplicationContext
      */
     public ClassPathXmlApplicationContext getClassPathXmlApplicationContext(final String path) {
-        ClassPathXmlApplicationContext applicationContext = applicationContexts.get(path);
-        if (applicationContext == null) {
-            applicationContext = new ClassPathXmlApplicationContext(path);
-            applicationContexts.put(path, applicationContext);
-        }
-        return applicationContext;
-    }
-
-    /**
-     * Creates a new instance of {@link ClassPathXmlApplicationContext}.
-     * @param springAppContextPath the path of the application context xml
-     * @return the new instance
-     */
-    public ClassPathXmlApplicationContext getApplicationContext(final String springAppContextPath) {
-        return getClassPathXmlApplicationContext(springAppContextPath);
+        applicationContexts.computeIfAbsent(path, k -> new ClassPathXmlApplicationContext(path));
+        return applicationContexts.get(path);
     }
 
     private static class ApplicationContextFactoryHolder {

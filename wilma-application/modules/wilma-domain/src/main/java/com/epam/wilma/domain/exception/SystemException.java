@@ -20,7 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * General exception that wraps all exceptions not related to the business logic.
- * @author Marton_Sereg
+ * @author Marton_Sereg, Tamas_Kohegyi
  *
  */
 public class SystemException extends RuntimeException {
@@ -40,6 +40,14 @@ public class SystemException extends RuntimeException {
      */
     public SystemException(final String message, final Throwable throwable) {
         super(message, throwable);
+    }
+
+    /**
+     * Constructor that takes a parent exception as input.
+     * @param throwable is the parent or wrapped exception.
+     */
+    public SystemException(final Throwable throwable) {
+        super(throwable);
     }
 
 }

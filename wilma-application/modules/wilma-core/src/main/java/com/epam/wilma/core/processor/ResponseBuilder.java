@@ -30,6 +30,6 @@ public interface ResponseBuilder {
      * Building and sending JMS message from a {@link WilmaHttpEntity}.
      * @param entity is a {@link WilmaHttpEntity} instance
      */
-    void buildResponse(final WilmaHttpEntity entity);
+    void buildResponse(WilmaHttpEntity entity);
 
 }

@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
@@ -55,7 +56,7 @@ public class FileWriterQueueListener implements MessageListener {
                 WilmaHttpEntity wilmaHttpEntity = getWilmaHttpEntityFromMessage(message);
                 writeFile(message, wilmaHttpEntity);
             } catch (JMSException e) {
-                throw new RuntimeException(e);
+                throw new SystemException(e);
             }
         } else {
             throw new IllegalArgumentException("Message must be of type ObjectMessage");

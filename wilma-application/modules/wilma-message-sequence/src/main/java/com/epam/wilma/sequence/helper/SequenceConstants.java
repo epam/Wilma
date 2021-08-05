@@ -28,9 +28,9 @@ public enum SequenceConstants {
     SEQUENCE_ID_SEPARATOR("|"),
     DESCRIPTOR_KEY_PART_SEPARATOR("_");
 
-    private String constant;
+    private final String constant;
 
-    private SequenceConstants(final String value) {
+    SequenceConstants(final String value) {
         constant = value;
     }
 

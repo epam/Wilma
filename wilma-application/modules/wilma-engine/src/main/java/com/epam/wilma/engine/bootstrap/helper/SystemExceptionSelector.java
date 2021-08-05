@@ -37,17 +37,15 @@ public class SystemExceptionSelector {
      */
     public SystemException getSystemException(final Exception e) {
         SystemException result = null;
-        if (e instanceof BeanCreationException) {
-            if (((NestedRuntimeException) e).getMostSpecificCause() != null) {
-                Throwable ex = e;
-                boolean found = false;
-                while (ex.getCause() != null && !found) {
-                    if (ex.getCause() instanceof SystemException) {
-                        found = true;
-                        result = (SystemException) ex.getCause();
-                    }
-                    ex = ex.getCause();
+        if ((e instanceof BeanCreationException) && (((NestedRuntimeException) e).getMostSpecificCause() != null)) {
+            Throwable ex = e;
+            boolean found = false;
+            while (ex.getCause() != null && !found) {
+                if (ex.getCause() instanceof SystemException) {
+                    found = true;
+                    result = (SystemException) ex.getCause();
                 }
+                ex = ex.getCause();
             }
         }
         return result;

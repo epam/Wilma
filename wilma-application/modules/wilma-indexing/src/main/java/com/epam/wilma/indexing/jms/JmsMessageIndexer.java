@@ -67,7 +67,7 @@ public class JmsMessageIndexer {
 
     private void turnOffConnectionErrorLog(final Exception e) {
         if (logConnectionError) {
-            logger.info("Wilma could not connect to Indexer JMS Queue @" + connectionFactory.getBrokerURL(), e);
+            logger.info("Wilma could not connect to Indexer JMS Queue @{}", connectionFactory.getBrokerURL(), e);
             //turn off logging connection errors to avoid duplicate errors in Wilma log
             logConnectionError = false;
         }
@@ -75,7 +75,7 @@ public class JmsMessageIndexer {
 
     private void turnOnConnectionErrorLog() {
         if (!logConnectionError) {
-            logger.info("Wilma successfully connected to Indexer JMS Queue @" + connectionFactory.getBrokerURL());
+            logger.info("Wilma successfully connected to Indexer JMS Queue @{}", connectionFactory.getBrokerURL());
             logConnectionError = true;
         }
     }

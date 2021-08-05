@@ -38,7 +38,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FileUtils {
 
-    private static final String EXCEPTION_MESSAGE = "Exception occurred with parameter: ";
+    private static final String EXCEPTION_MESSAGE = "Exception occurred with parameter: {}";
     private final Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
     /**
@@ -114,7 +114,7 @@ public class FileUtils {
     }
 
     private Collection<File> logAndReturnEmptyList(final File folder, final IllegalArgumentException e) {
-        logger.debug(EXCEPTION_MESSAGE + folder, e);
+        logger.debug(EXCEPTION_MESSAGE, folder, e);
         return Collections.emptyList();
     }
 }

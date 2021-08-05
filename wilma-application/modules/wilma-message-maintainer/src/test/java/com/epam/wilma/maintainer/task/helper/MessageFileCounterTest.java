@@ -53,7 +53,7 @@ public class MessageFileCounterTest {
         //WHEN
         int result = underTest.getCountOfMessages();
         //THEN
-        Assert.assertEquals(result, 2);
+        Assert.assertEquals(2, result);
     }
 
     @Test
@@ -63,6 +63,6 @@ public class MessageFileCounterTest {
         //WHEN
         int result = underTest.getCountOfMessages();
         //THEN
-        Assert.assertEquals(result, 0);
+        Assert.assertEquals(0, result);
     }
 }

@@ -28,9 +28,9 @@ public enum MaintainerMethod {
     FILELIMIT("filelimit"),
     INVALID("");
 
-    private String propertyName;
+    private final String propertyName;
 
-    private MaintainerMethod(final String propertyName) {
+    MaintainerMethod(final String propertyName) {
         this.propertyName = propertyName;
     }
 

@@ -28,9 +28,9 @@ public enum IndexingType {
     ADD("add"),
     DELETE("delete");
 
-    private String name;
+    private final String name;
 
-    private IndexingType(final String name) {
+    IndexingType(final String name) {
         this.name = name;
     }
 

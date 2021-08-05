@@ -82,6 +82,6 @@ public class JmsMessageIndexerTest {
         //WHEN
         underTest.sendMessageToIndexer(message);
         //THEN
-        verify(logger).info(Mockito.anyString(), Mockito.any(Exception.class));
+        verify(logger).info(Mockito.anyString(), Mockito.anyString(), Mockito.any(Exception.class));
     }
 }

@@ -18,7 +18,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 // Common local repository info
-ext.wilmaVersion=2.2
+ext.wilmaVersion=2.3
 
 group = 'com.epam.wilma'
 apply plugin: 'idea'

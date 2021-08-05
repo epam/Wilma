@@ -95,7 +95,7 @@ public class SequenceManagerTest {
         underTest.addSequenceDescriptor(descriptorKey, sequenceDescriptor);
         //THEN
         Map<String, SequenceDescriptor> result = (Map<String, SequenceDescriptor>) Whitebox.getInternalState(underTest, "descriptors");
-        Assert.assertEquals(result.get(descriptorKey), sequenceDescriptor);
+        Assert.assertEquals(sequenceDescriptor, result.get(descriptorKey));
     }
 
     @Test
@@ -193,7 +193,7 @@ public class SequenceManagerTest {
         underTest.removeSequenceDescriptors("TestTeam");
         //THEN
         Map<String, SequenceDescriptor> actualDescriptors = (Map<String, SequenceDescriptor>) Whitebox.getInternalState(underTest, "descriptors");
-        Assert.assertEquals(actualDescriptors.size(), 0);
+        Assert.assertEquals(0, actualDescriptors.size());
     }
 
     @Test
@@ -206,7 +206,7 @@ public class SequenceManagerTest {
         underTest.removeSequenceDescriptors("something");
         //THEN
         Map<String, SequenceDescriptor> actualDescriptors = (Map<String, SequenceDescriptor>) Whitebox.getInternalState(underTest, "descriptors");
-        Assert.assertEquals(actualDescriptors.size(), 1);
+        Assert.assertEquals(1, actualDescriptors.size());
     }
 
     @Test
@@ -232,7 +232,7 @@ public class SequenceManagerTest {
         //WHEN
         Map<String, WilmaSequence> actual = underTest.getSequences("TestTeam");
         //THEN
-        Assert.assertEquals(actual, Collections.EMPTY_MAP);
+        Assert.assertEquals(Collections.EMPTY_MAP, actual);
     }
 
     @Test
@@ -247,6 +247,6 @@ public class SequenceManagerTest {
         //WHEN
         Map<String, WilmaSequence> actual = underTest.getSequences("TestTeam-fistDescriptor-TestHandler");
         //THEN
-        Assert.assertEquals(actual, sequences);
+        Assert.assertEquals(sequences, actual);
     }
 }

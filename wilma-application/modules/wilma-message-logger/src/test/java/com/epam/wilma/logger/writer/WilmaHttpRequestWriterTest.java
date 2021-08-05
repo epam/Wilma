@@ -28,7 +28,6 @@ import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
@@ -166,18 +165,6 @@ public class WilmaHttpRequestWriterTest {
         underTest.write(request, true);
         //THEN
         verify(logger).error(COULD_NOT_WRITE_MESSAGE_ERROR, e);
-    }
-
-    @Test
-    public void testWriteWhenWriterIsNullShouldDoNothing() throws IOException {
-        //GIVEN
-        doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_LOGGER_ID, true);
-        given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(null);
-        given(request.getWilmaMessageLoggerId()).willReturn(MESSAGE_LOGGER_ID);
-        //WHEN
-        underTest.write(request, true);
-        //THEN
-        verify(bufferedWriter, times(0)).append(Mockito.anyString());
     }
 
     @Test

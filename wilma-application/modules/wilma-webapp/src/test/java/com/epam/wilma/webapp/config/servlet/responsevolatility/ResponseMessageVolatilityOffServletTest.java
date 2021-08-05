@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.mitmProxy.proxy.MitmProxy;
+import com.epam.wilma.mitmproxy.proxy.MitmProxy;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import org.junit.Assert;
 import org.junit.Before;

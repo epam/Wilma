@@ -55,7 +55,7 @@ public class WilmaServiceListener extends Service.Listener {
 
     @Override
     public void running() {
-        logger.info(generateStartMessage());
+        logger.info(getStartMessage());
     }
 
     @Override
@@ -68,7 +68,7 @@ public class WilmaServiceListener extends Service.Listener {
         logger.error(FAILED_MESSAGE, failure);
     }
 
-    private String generateStartMessage() {
+    private String getStartMessage() {
         int proxyPort = getProxyPort();
         int wilmaPort = getWilmaPort();
         String appLogPath = logFilePath.getAppLogFilePath().toAbsolutePath().toString();

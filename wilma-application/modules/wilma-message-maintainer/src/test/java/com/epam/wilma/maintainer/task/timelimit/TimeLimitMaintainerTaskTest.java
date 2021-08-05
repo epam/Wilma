@@ -191,6 +191,6 @@ public class TimeLimitMaintainerTaskTest {
         underTest.run();
         // THEN
         int actual = ((DeletedFileProvider) Whitebox.getInternalState(underTest, "deletedFileProvider")).getDeletedFilesCount();
-        Assert.assertEquals(actual, 2);
+        Assert.assertEquals(2, actual);
     }
 }

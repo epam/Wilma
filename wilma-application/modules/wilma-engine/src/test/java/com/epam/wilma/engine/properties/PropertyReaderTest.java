@@ -37,7 +37,6 @@ import static org.junit.Assert.assertEquals;
 public class PropertyReaderTest {
 
     private Properties properties;
-    private PropertyHolder propertyHolder;
 
     @InjectMocks
     private PropertyReader underTest;
@@ -46,7 +45,7 @@ public class PropertyReaderTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         properties = new Properties();
-        propertyHolder = new PropertyHolder();
+        PropertyHolder propertyHolder = new PropertyHolder();
         Whitebox.setInternalState(underTest, "propertyHolder", propertyHolder);
     }
 
@@ -59,8 +58,8 @@ public class PropertyReaderTest {
         underTest.setProperties(properties);
         //THEN
         PropertyHolder actual = (PropertyHolder) Whitebox.getInternalState(underTest, "propertyHolder");
-        assertEquals(actual.get("switch"), "stub");
-        assertEquals(actual.getInt("proxy.port"), Integer.valueOf(1234));
+        assertEquals("stub", actual.get("switch"));
+        assertEquals(Integer.valueOf(1234), actual.getInt("proxy.port"));
     }
 
 }

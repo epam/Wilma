@@ -51,18 +51,16 @@ public class WilmaHttpRequestWriter extends WilmaHttpEntityWriter<WilmaHttpReque
             String messageLoggerId = request.getWilmaMessageLoggerId();
             String messageId = request.getWilmaMessageId();
             outputFile = getOutputFileName(messageLoggerId, bodyDecompressed);
-            BufferedWriter writer = bufferedWriterFactory.createBufferedWriter(outputFile, OUTPUT_BUFFER_SIZE);
-            if (writer != null) {
-                String requestLine = request.getRemoteAddr() + " " + request.getRequestLine();
-                writeRequestLine(requestLine, writer);
-                writeWilmaLoggerId(writer, messageId);
-                String headers = prepareHeadersInfo(request);
-                writeHeaders(writer, headers);
-                String body = request.getBody();
-                writeBody(writer, body);
-                writer.close();
-                successful = true;
-            }
+            BufferedWriter writer = bufferedWriterFactory.createBufferedWriter(outputFile, OUTPUT_BUFFER_SIZE); //writer is always not null
+            String requestLine = request.getRemoteAddr() + " " + request.getRequestLine();
+            writeRequestLine(requestLine, writer);
+            writeWilmaLoggerId(writer, messageId);
+            String headers = prepareHeadersInfo(request);
+            writeHeaders(writer, headers);
+            String body = request.getBody();
+            writeBody(writer, body);
+            writer.close();
+            successful = true;
         } catch (IOException e) {
             logger.error("Could not write message to file:" + outputFile + "!", e);
         }

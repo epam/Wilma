@@ -49,7 +49,6 @@ import com.epam.wilma.engine.properties.validation.PropertyValidator;
 public class PropertyLoaderTest {
 
     private final String configFile = "wilma.conf.properties";
-    private final String validationFile = "wilma.conf.validation.properties";
     @Mock
     private Properties properties;
     @Mock
@@ -75,6 +74,7 @@ public class PropertyLoaderTest {
         given(inputStreamFactory.createFileInputStream(configFile)).willReturn(inputStream);
         given(propertiesFactory.createProperties()).willReturn(properties);
         Whitebox.setInternalState(underTest, "configFile", configFile);
+        String validationFile = "wilma.conf.validation.properties";
         Whitebox.setInternalState(underTest, "validationFile", validationFile);
     }
 

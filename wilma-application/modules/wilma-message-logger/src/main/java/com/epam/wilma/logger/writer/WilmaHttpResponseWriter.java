@@ -52,17 +52,15 @@ public class WilmaHttpResponseWriter extends WilmaHttpEntityWriter<WilmaHttpResp
             String messageId = response.getWilmaMessageId();
             outputFile = getOutputFileName(messageLoggerId, bodyDecompressed);
             BufferedWriter writer = bufferedWriterFactory.createBufferedWriter(outputFile, OUTPUT_BUFFER_SIZE);
-            if (writer != null) {
-                writeWilmaLoggerId(writer, messageId);
-                String headers = prepareHeadersInfo(response);
-                writeHeaders(writer, headers);
-                int statusCode = response.getStatusCode();
-                writeStatusCode(statusCode, writer);
-                String body = response.getBody();
-                writeBody(writer, body);
-                writer.close();
-                successful = true;
-            }
+            writeWilmaLoggerId(writer, messageId);
+            String headers = prepareHeadersInfo(response);
+            writeHeaders(writer, headers);
+            int statusCode = response.getStatusCode();
+            writeStatusCode(statusCode, writer);
+            String body = response.getBody();
+            writeBody(writer, body);
+            writer.close();
+            successful = true;
         } catch (IOException e) {
             logger.error("Could not write message to file:" + outputFile + "!", e);
         }
@@ -70,7 +68,7 @@ public class WilmaHttpResponseWriter extends WilmaHttpEntityWriter<WilmaHttpResp
     }
 
     private void writeStatusCode(final int statusCode, final BufferedWriter writer) throws IOException {
-        writer.append("Status code:" + String.valueOf(statusCode));
+        writer.append("Status code:" + statusCode);
         writer.newLine();
     }
 }

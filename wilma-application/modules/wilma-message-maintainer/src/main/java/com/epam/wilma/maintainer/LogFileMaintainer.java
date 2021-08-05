@@ -44,7 +44,6 @@ import com.epam.wilma.maintainer.task.MaintainerTask;
 public class LogFileMaintainer {
 
     private String cronExpression;
-    private String maintainerMethod;
 
     @Autowired
     private TaskScheduler taskScheduler;
@@ -75,7 +74,7 @@ public class LogFileMaintainer {
 
     private MaintainerMethod getMaintainerMethod() {
         MaintainerProperties properties = configurationAccess.getProperties();
-        maintainerMethod = properties.getMaintainerMethod();
+        String maintainerMethod = properties.getMaintainerMethod();
         return MaintainerMethod.getMethod(maintainerMethod);
     }
 

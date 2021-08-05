@@ -72,6 +72,7 @@ public class WilmaBootstrap {
 
     private void checkJavaVersion() {
         String version = System.getProperty("java.version");
+        logger.info("Using Java version: {}", version);
         if (version.startsWith("1.")) {
             logger.warn("Wilma does NOT work properly with JAVA version older than Java 9. JVM/JRE upgrade is strongly recommended.");
         }

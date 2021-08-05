@@ -50,9 +50,8 @@ public class RequestInterceptorProcessor extends ProcessorBase {
     @Override
     public void process(final WilmaHttpEntity entity) throws ApplicationException {
         Map<String, StubDescriptor> stubDescriptors = routingService.getStubDescriptors();
-        for (String groupName : stubDescriptors.keySet()) {
-            StubDescriptor stubDescriptor = stubDescriptors.get(groupName);
-            List<InterceptorDescriptor> interceptorDescriptors = stubDescriptor.getInterceptorDescriptors();
+        for (Map.Entry<String, StubDescriptor> entry : stubDescriptors.entrySet()) {
+            List<InterceptorDescriptor> interceptorDescriptors = entry.getValue().getInterceptorDescriptors();
             for (InterceptorDescriptor interceptorDescriptor : interceptorDescriptors) {
                 RequestInterceptor interceptor = interceptorDescriptor.getRequestInterceptor();
                 callInterceptor(interceptor, entity, interceptorDescriptor);
@@ -72,7 +71,7 @@ public class RequestInterceptorProcessor extends ProcessorBase {
 
     private void logError(final RequestInterceptor interceptor, final WilmaHttpEntity entity, final ParameterList parameters, final Exception e) {
         logger.error("Error during call to request interceptor: {} with parameters: {} at message: {}! Reason:{}",
-                interceptor.getClass().getSimpleName(), parameters.getAllParameters().toString(),
+                interceptor.getClass().getSimpleName(), parameters.getAllParameters(),
                 entity.getWilmaMessageLoggerId(), e.getMessage(), e);
     }
 

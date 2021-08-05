@@ -214,7 +214,7 @@ public class FileLimitMaintainerTaskTest {
         underTest.run();
         // THEN
         int actual = ((DeletedFileProvider) Whitebox.getInternalState(underTest, "deletedFileProvider")).getDeletedFilesCount();
-        Assert.assertEquals(actual, 2);
+        Assert.assertEquals(2, actual);
     }
 
     @Test
@@ -246,6 +246,6 @@ public class FileLimitMaintainerTaskTest {
         underTest.run();
         // THEN
         int actual = ((DeletedFileProvider) Whitebox.getInternalState(underTest, "deletedFileProvider")).getDeletedFilesCount();
-        Assert.assertEquals(actual, 0);
+        Assert.assertEquals(0, actual);
     }
 }

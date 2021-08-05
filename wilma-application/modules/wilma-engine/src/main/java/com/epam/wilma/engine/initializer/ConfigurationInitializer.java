@@ -23,6 +23,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import com.epam.wilma.engine.properties.helper.PropertiesNotAvailableException;
+import com.epam.wilma.properties.InvalidPropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -54,10 +56,11 @@ public class ConfigurationInitializer {
     /**
      * This method reads in property files, does the validation of Wilma property file,
      * reads in stub configurations and admin host file.
-     * @throws Exception {@link PropertyLoader}, {@link PropertyValidator} can throw different Exceptions
+     * @throws PropertiesNotAvailableException  from {@link PropertyLoader} calls,
+     * @throws InvalidPropertyException from {@link PropertyValidator} calls
      */
     @PostConstruct
-    void afterPropertiesSet() throws Exception {
+    void afterPropertiesSet() throws PropertiesNotAvailableException, InvalidPropertyException {
         propertyLoader.loadProperties();
         propertyLoader.loadValidationProperties();
         validator.validateProperties();

@@ -62,8 +62,8 @@ public class MaintainerConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         MaintainerProperties actual = underTest.getProperties();
-        assertEquals(actual.getCronExpression(), EXPRESSION);
-        assertEquals(actual.getMaintainerMethod(), MAINTAINER_METHOD);
+        assertEquals(EXPRESSION, actual.getCronExpression());
+        assertEquals(MAINTAINER_METHOD, actual.getMaintainerMethod());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class MaintainerConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         MaintainerProperties actual = underTest.getProperties();
-        assertEquals(actual.getFileLimit(), FILE_LIMIT);
+        assertEquals(FILE_LIMIT, actual.getFileLimit());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class MaintainerConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         MaintainerProperties actual = underTest.getProperties();
-        assertEquals(actual.getTimeLimit(), EXPRESSION);
+        assertEquals(EXPRESSION, actual.getTimeLimit());
     }
 
 }
