@@ -46,7 +46,19 @@ public class MitmProxyRequestUpdater {
     public void updateRequest(final MitmJavaProxyHttpRequest browserMobHttpRequest, final WilmaHttpRequest wilmaRequest) {
         // Update the headers of the original request with extra headers added/removed by Req interceptors
         // Note, that when we redirect the request to the stub, we always add the message id to the extra headers part
+        updateHeaderPart(browserMobHttpRequest, wilmaRequest);
 
+        //update the body
+        updateBodyPart(browserMobHttpRequest, wilmaRequest);
+
+        //set and finalize the response volatility approach
+        browserMobHttpRequest.setResponseVolatile(wilmaRequest.isResponseVolatile());
+
+        //set switch between original uri (proxy mode selected) or wilma internal uri (stub mode selected)
+        browserMobHttpRequest.getMethod().setURI(wilmaRequest.getUri());
+    }
+
+    private void updateHeaderPart(final MitmJavaProxyHttpRequest browserMobHttpRequest, final WilmaHttpRequest wilmaRequest) {
         Map<String, HttpHeaderChange> headerChangeMap = wilmaRequest.getHeaderChanges();
         if (headerChangeMap != null && !headerChangeMap.isEmpty()) { //we have header change requests
             for (Map.Entry<String, HttpHeaderChange> headerChangeEntry : headerChangeMap.entrySet()) {
@@ -70,18 +82,14 @@ public class MitmProxyRequestUpdater {
                 }
             }
         }
-
-        //update the body
-        byte[] newBody = wilmaRequest.getNewBody();
-        if (newBody != null) {
-            if (browserMobHttpRequest.getMethod() instanceof HttpEntityEnclosingRequestBase) {
-                HttpEntityEnclosingRequestBase enclosingRequest = (HttpEntityEnclosingRequestBase) browserMobHttpRequest.getMethod();
-                enclosingRequest.setEntity(new ByteArrayEntity(wilmaRequest.getNewBody()));
-            }
-        }
-        //set response volatility approach
-        browserMobHttpRequest.setResponseVolatile(wilmaRequest.isResponseVolatile());
-        //switch between original uri (proxy mode selected) or wilma internal uri (stub mode selected)
-        browserMobHttpRequest.getMethod().setURI(wilmaRequest.getUri());
     }
+
+    private void updateBodyPart(final MitmJavaProxyHttpRequest browserMobHttpRequest, final WilmaHttpRequest wilmaRequest) {
+        byte[] newBody = wilmaRequest.getNewBody();
+        if ((newBody != null) && (browserMobHttpRequest.getMethod() instanceof HttpEntityEnclosingRequestBase)) {
+            HttpEntityEnclosingRequestBase enclosingRequest = (HttpEntityEnclosingRequestBase) browserMobHttpRequest.getMethod();
+            enclosingRequest.setEntity(new ByteArrayEntity(wilmaRequest.getNewBody()));
+        }
+    }
+
 }

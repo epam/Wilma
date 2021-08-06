@@ -73,7 +73,7 @@ public class JmsQueueMonitorTest {
         // WHENn
         underTest.startScheduling();
         // THEN
-        verify(logger).info("No safeguard is active based on the property value of 'safeguard.guardperiod' = 0.");
+        verify(logger).info("No safeguard is active based on the property value of 'safeguard.guardperiod' = {}.", "0");
     }
 
     @Test

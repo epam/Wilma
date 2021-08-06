@@ -61,7 +61,7 @@ public class SequenceMaintainerConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         SequenceProperties actual = underTest.getProperties();
-        assertEquals(actual.getCronExpression(), EXPRESSION);
+        assertEquals(EXPRESSION, actual.getCronExpression());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class SequenceMaintainerConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         SequenceProperties actual = underTest.getProperties();
-        assertEquals(actual.getCronExpression(), EXPRESSION);
+        assertEquals(EXPRESSION, actual.getCronExpression());
     }
 
 }

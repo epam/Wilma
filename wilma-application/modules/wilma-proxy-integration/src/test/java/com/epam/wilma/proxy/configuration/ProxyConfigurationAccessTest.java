@@ -62,7 +62,7 @@ public class ProxyConfigurationAccessTest {
         underTest.loadProperties();
         //THENs
         ProxyPropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getProxyPort(), Integer.valueOf(PROXY_PORT));
+        assertEquals(Integer.valueOf(PROXY_PORT), actual.getProxyPort());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class ProxyConfigurationAccessTest {
         underTest.loadProperties();
         //THENs
         ProxyPropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getRequestTimeout(), Integer.valueOf(REQUEST_TIMEOUT));
+        assertEquals(Integer.valueOf(REQUEST_TIMEOUT), actual.getRequestTimeout());
     }
 
     @Test
@@ -82,7 +82,7 @@ public class ProxyConfigurationAccessTest {
         underTest.loadProperties();
         //THENs
         ProxyPropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getAllowResponseUpdate(), Boolean.valueOf(false));
+        assertEquals(Boolean.FALSE, actual.getAllowResponseUpdate());
     }
 
     @Test
@@ -93,7 +93,7 @@ public class ProxyConfigurationAccessTest {
         underTest.loadProperties();
         //THENs
         ProxyPropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getAllowResponseUpdate(), Boolean.valueOf(false));
+        assertEquals(Boolean.FALSE, actual.getAllowResponseUpdate());
     }
 
     @Test
@@ -105,6 +105,6 @@ public class ProxyConfigurationAccessTest {
         underTest.loadProperties();
         //THENs
         ProxyPropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getAllowResponseUpdate(), Boolean.valueOf(true));
+        assertEquals(Boolean.TRUE, actual.getAllowResponseUpdate());
     }
 }

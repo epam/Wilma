@@ -57,7 +57,7 @@ public class PropertyHolder {
      * @return the value matching the key
      */
     public Integer getInt(final String key) {
-        return Integer.valueOf(properties.get(key));
+        return Integer.valueOf(get(key));
     }
 
     /**
@@ -66,6 +66,6 @@ public class PropertyHolder {
      * @return the value matching the key
      */
     public Long getLong(final String key) {
-        return Long.valueOf(properties.get(key));
+        return Long.valueOf(get(key));
     }
 }

@@ -56,7 +56,6 @@ public class StubModeEvaluatorTest {
 
     private byte[] resource;
     private Map<String, StubDescriptor> stubDescriptors;
-    private StubDescriptorAttributes attributes;
     private ResponseDescriptorAttributes responseDescriptorAttributes;
 
     @Mock
@@ -84,9 +83,10 @@ public class StubModeEvaluatorTest {
         MockitoAnnotations.initMocks(this);
         stubDescriptors = new LinkedHashMap<>();
         stubDescriptors.put(DEFAULT_GROUPNAME, stubDescriptor);
-        attributes = new StubDescriptorAttributes(DEFAULT_GROUPNAME, true);
+        StubDescriptorAttributes attributes = new StubDescriptorAttributes(DEFAULT_GROUPNAME, true);
         given(stubDescriptor.getAttributes()).willReturn(attributes);
         responseDescriptorAttributes = new ResponseDescriptorAttributes.Builder().delay(0).mimeType("mimeType").template(template).build();
+        resource = null;
     }
 
     @Test

@@ -51,7 +51,6 @@ public class ConditionDescriptorFactoryTest {
         assertTrue(actualSimpleCondition.getConditionChecker() instanceof StubModeConditionChecker);
         assertFalse(actualSimpleCondition.isNegate());
         assertTrue(actualSimpleCondition.getParameters().isEmpty());
-
     }
 
 }

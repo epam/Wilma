@@ -58,7 +58,7 @@ public class MessageConfigurationAccessTest {
         underTest.loadProperties();
         //THENs
         MessagePropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getInstancePrefix(), PREFIX);
+        assertEquals(PREFIX, actual.getInstancePrefix());
     }
 
 }

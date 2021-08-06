@@ -26,7 +26,6 @@ import org.junit.Test;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Provides unit tests for the class {@link WilmaHttpResponseCloner}.
@@ -57,7 +56,7 @@ public class WilmaHttpResponseClonerTest {
         //WHEN
         WilmaHttpResponse actual = underTest.cloneResponse(response);
         //THEN
-        assertEquals(actual.getBody(), response.getBody());
+        assertEquals(response.getBody(), actual.getBody());
     }
 
     @Test
@@ -67,7 +66,7 @@ public class WilmaHttpResponseClonerTest {
         //WHEN
         WilmaHttpResponse actual = underTest.cloneResponse(response);
         //THEN
-        assertEquals(actual.getStatusCode(), response.getStatusCode());
+        assertEquals(response.getStatusCode(), actual.getStatusCode());
     }
 
     @Test
@@ -77,7 +76,7 @@ public class WilmaHttpResponseClonerTest {
         //WHEN
         WilmaHttpResponse actual = underTest.cloneResponse(response);
         //THEN
-        assertEquals(actual.getContentType(), response.getContentType());
+        assertEquals(response.getContentType(), actual.getContentType());
     }
 
     @Test
@@ -88,8 +87,8 @@ public class WilmaHttpResponseClonerTest {
         //WHEN
         WilmaHttpResponse actual = underTest.cloneResponse(response);
         //THEN
-        assertEquals(actual.getHeader(CONTENT_TYPE_HEADER), XML_CONTENT);
-        assertEquals(actual.getHeader(CONTENT_ENCODING_HEADER), GZIP_CONTENT);
+        assertEquals(XML_CONTENT, actual.getHeader(CONTENT_TYPE_HEADER));
+        assertEquals(GZIP_CONTENT, actual.getHeader(CONTENT_ENCODING_HEADER));
     }
 
     @Test
@@ -100,8 +99,8 @@ public class WilmaHttpResponseClonerTest {
         //WHEN
         WilmaHttpResponse actual = underTest.cloneResponse(response);
         //THEN
-        assertEquals(actual.getHeaderUpdateValue(CONTENT_TYPE_HEADER), XML_CONTENT);
-        assertEquals(actual.getHeaderUpdateValue(CONTENT_ENCODING_HEADER), GZIP_CONTENT);
+        assertEquals(XML_CONTENT, actual.getHeaderUpdateValue(CONTENT_TYPE_HEADER));
+        assertEquals(GZIP_CONTENT, actual.getHeaderUpdateValue(CONTENT_ENCODING_HEADER));
     }
 
     @Test
@@ -112,7 +111,7 @@ public class WilmaHttpResponseClonerTest {
         //WHEN
         WilmaHttpResponse actual = underTest.cloneResponse(response);
         //THEN
-        assertTrue(actual.getHeaderChanges().entrySet().size() == 2);
+        assertEquals(2, actual.getHeaderChanges().entrySet().size());
     }
 
     @Test
@@ -123,7 +122,7 @@ public class WilmaHttpResponseClonerTest {
         //WHEN
         WilmaHttpResponse actual = underTest.cloneResponse(response);
         //THEN
-        assertEquals(actual.getRequestHeader(CONTENT_TYPE_HEADER), XML_CONTENT);
-        assertEquals(actual.getRequestHeader(CONTENT_ENCODING_HEADER), GZIP_CONTENT);
+        assertEquals(XML_CONTENT, actual.getRequestHeader(CONTENT_TYPE_HEADER));
+        assertEquals(GZIP_CONTENT, actual.getRequestHeader(CONTENT_ENCODING_HEADER));
     }
 }

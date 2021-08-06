@@ -40,7 +40,6 @@ public class InputStreamConverterTest {
 
     private static final String TEST = "test";
 
-    private InputStream inputStream;
     @Mock
     private InputStream inputStreamMock;
 
@@ -55,23 +54,22 @@ public class InputStreamConverterTest {
     @Test
     public void testGetStringFromStreamShouldReturnCorrectString() throws ApplicationException {
         //GIVEN
-        String s = TEST;
-        byte[] buffer = s.getBytes();
-        inputStream = new ByteArrayInputStream(buffer);
+        byte[] buffer = TEST.getBytes();
+        InputStream inputStream = new ByteArrayInputStream(buffer);
         //WHEN
         String actual = underTest.getStringFromStream(inputStream);
         //THEN
-        Assert.assertEquals(actual, TEST);
+        Assert.assertEquals(TEST, actual);
     }
 
     @Test
     public void testGetStringFromStreamShouldReturnEmptyStringWhenInputStreamIsNull() throws ApplicationException {
         //GIVEN
-        inputStream = null;
+        //inputStream is null
         //WHEN
-        String actual = underTest.getStringFromStream(inputStream);
+        String actual = underTest.getStringFromStream(null);
         //THEN
-        Assert.assertEquals(actual, "");
+        Assert.assertEquals("", actual);
     }
 
     @Test(expected = ApplicationException.class)

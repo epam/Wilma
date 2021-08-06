@@ -43,7 +43,7 @@ repositories {
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-checkstyle.toolVersion = '8.0'
+checkstyle.toolVersion = '8.0' // see https://checkstyle-addons.thomasjensen.com/checkstyle-compatibility-matrix.html
 checkstyle.ignoreFailures = true
 checkstyle.configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
 checkstyle.configProperties = ['samedir' : "${rootDir}/config/checkstyle"]

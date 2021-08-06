@@ -42,20 +42,26 @@ public class MitmProxyResponseUpdater {
 
     /**
      * Updates MitmProxy specific HTTP response. Adds extra headers to the response only.
+     * Note and WARNING: update (proxy) response is an experimental feature only
      *
      * @param browserMobHttpResponse what will be updated
      * @param wilmaResponse          contains refresher data
      */
     public void updateResponse(final MitmJavaProxyHttpResponse browserMobHttpResponse, final WilmaHttpResponse wilmaResponse) {
-
-        //Note: update (proxy) response is an experimental feature only
+        //check if we have right to alter the response
         if (!wilmaResponse.isVolatile()) {
             return;
         }
-
         // From now on, the response is volatile
 
         // update the headers of the original response with extra headers added/removed by Resp interceptors
+        updateHeaderPart(browserMobHttpResponse, wilmaResponse);
+
+        //update the body too
+        updateBodyPart(browserMobHttpResponse, wilmaResponse);
+    }
+
+    private void updateHeaderPart(final MitmJavaProxyHttpResponse browserMobHttpResponse, final WilmaHttpResponse wilmaResponse) {
         Map<String, HttpHeaderChange> headerChangeMap = wilmaResponse.getHeaderChanges();
         if (headerChangeMap != null && !headerChangeMap.isEmpty()) { //we have header change requests
             for (Map.Entry<String, HttpHeaderChange> headerChangeEntry : headerChangeMap.entrySet()) {
@@ -79,14 +85,16 @@ public class MitmProxyResponseUpdater {
                 }
             }
         }
+    }
 
+    private void updateBodyPart(final MitmJavaProxyHttpResponse browserMobHttpResponse, final WilmaHttpResponse wilmaResponse) {
         try {
             byte[] newBody = wilmaResponse.getNewBody();
             browserMobHttpResponse.setBody(newBody);
             browserMobHttpResponse.getRawResponse().setStatusCode(wilmaResponse.getStatusCode());
         } catch (IOException e) {
             //ups, were unable to set new response correctly ...
-            logger.warn("Message ont-the-fly update was failed for message: " + wilmaResponse.getWilmaMessageId(), e);
+            logger.warn("Message ont-the-fly update was failed for message: {}", wilmaResponse.getWilmaMessageId(), e);
         }
     }
 }

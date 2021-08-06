@@ -84,9 +84,9 @@ public class HttpRequestTransformerTest {
         WilmaHttpRequest actual = underTest.transformRequest(browserMobHttpRequest);
         //THEN
         verify(wilmaHttpRequest).addHeader(Mockito.anyString(), Mockito.anyString());
-        assertEquals(actual.getRequestLine(), wilmaHttpRequest.getRequestLine());
-        assertEquals(actual.getHeader("header"), wilmaHttpRequest.getHeader("header"));
-        assertEquals(actual.getHeader("Connection"), wilmaHttpRequest.getHeader("Connection"));
+        assertEquals(wilmaHttpRequest.getRequestLine(), actual.getRequestLine());
+        assertEquals(wilmaHttpRequest.getHeader("header"), actual.getHeader("header"));
+        assertEquals(wilmaHttpRequest.getHeader("Connection"), actual.getHeader("Connection"));
     }
 
     @Test
@@ -111,7 +111,7 @@ public class HttpRequestTransformerTest {
         WilmaHttpRequest actual = underTest.transformRequest(browserMobHttpRequest);
         //THEN
         verify(wilmaHttpRequest).setBody(body);
-        assertEquals(actual.getBody(), wilmaHttpRequest.getBody());
+        assertEquals(wilmaHttpRequest.getBody(), actual.getBody());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class HttpRequestTransformerTest {
         WilmaHttpRequest actual = underTest.transformRequest(browserMobHttpRequest);
         //THEN
         verify(wilmaHttpRequest).setInputStream(clonedInputStream);
-        assertEquals(actual.getInputStream(), clonedInputStream);
+        assertEquals(clonedInputStream, actual.getInputStream());
     }
 
     private void setMocksForHeader() {

@@ -20,7 +20,6 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.properties.PropertyHolder;
 import com.epam.wilma.safeguard.configuration.domain.PropertyDTO;
-import com.epam.wilma.safeguard.configuration.domain.SafeguardLimits;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -46,9 +45,6 @@ public class SafeguardConfigurationAccessTest {
     private SafeguardConfigurationAccess underTest;
 
     @Mock
-    private SafeguardLimits safeguardLimits;
-
-    @Mock
     private PropertyHolder propertyHolder;
 
     @Before
@@ -69,11 +65,11 @@ public class SafeguardConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getSafeguardLimits().getFiOffLimit(), Long.valueOf(LIMIT));
-        assertEquals(actual.getSafeguardLimits().getFiOnLimit(), Long.valueOf(LIMIT));
-        assertEquals(actual.getSafeguardLimits().getMwOffLimit(), Long.valueOf(LIMIT));
-        assertEquals(actual.getSafeguardLimits().getMwOnLimit(), Long.valueOf(LIMIT));
-        assertEquals(actual.getSafeguardLimits().getJmxPort(), PORT);
+        assertEquals(Long.valueOf(LIMIT), actual.getSafeguardLimits().getFiOffLimit());
+        assertEquals(Long.valueOf(LIMIT), actual.getSafeguardLimits().getFiOnLimit());
+        assertEquals(Long.valueOf(LIMIT), actual.getSafeguardLimits().getMwOffLimit());
+        assertEquals(Long.valueOf(LIMIT), actual.getSafeguardLimits().getMwOnLimit());
+        assertEquals(PORT, actual.getSafeguardLimits().getJmxPort());
     }
 
     @Test
@@ -83,7 +79,7 @@ public class SafeguardConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getCronExpression(), CRON_EXPRESSION);
+        assertEquals(CRON_EXPRESSION, actual.getCronExpression());
     }
 
 }

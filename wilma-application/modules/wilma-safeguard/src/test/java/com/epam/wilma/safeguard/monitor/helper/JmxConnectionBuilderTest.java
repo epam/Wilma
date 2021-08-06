@@ -82,7 +82,7 @@ public class JmxConnectionBuilderTest {
         //WHEN
         MBeanServerConnection actual = underTest.buildMBeanServerConnection(url);
         //THEN
-        assertEquals(actual, serverConnection);
+        assertEquals(serverConnection, actual);
     }
 
     @Test(expected = JmxConnectionException.class)

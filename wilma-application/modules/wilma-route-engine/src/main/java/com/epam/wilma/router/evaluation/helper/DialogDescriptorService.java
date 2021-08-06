@@ -48,10 +48,10 @@ public class DialogDescriptorService {
     public void decreaseHitcountWhenUsageIsHitcount(final DialogDescriptor dialogDescriptor) {
         if (dialogDescriptor.getAttributes().getUsage() == DialogDescriptorUsage.HITCOUNT) {
             long validityValue = dialogDescriptor.getAttributes().decreaseHitcount();
-            LOGGER.debug("Hitcount was decreased to " + validityValue + " in dialog descriptor '" + dialogDescriptor.getAttributes().getName() + "'!");
+            LOGGER.debug("Hitcount was decreased to {} in dialog descriptor '{}'!", validityValue, dialogDescriptor.getAttributes().getName());
             if (validityValue == 0) {
                 dialogDescriptor.getAttributes().setUsage(DialogDescriptorUsage.DISABLED);
-                LOGGER.debug("Dialog descriptor '" + dialogDescriptor.getAttributes().getName() + "' was disabled!");
+                LOGGER.debug("Dialog descriptor '{}' was disabled!", dialogDescriptor.getAttributes().getName());
             }
         }
     }
@@ -60,20 +60,17 @@ public class DialogDescriptorService {
      * Decides if a dialog descriptor is enabled i.e. should be used
      * for condition evaluation or not. If its usage was {@link DialogDescriptorUsage}.TIMEOUT and
      * it expired, it will change the usage to {@link DialogDescriptorUsage}.DISABLED.
-     * @param dialogDescriptor dialogDescriptor the {@link DialogDescriptor} that's usage
-     * is checked
+     * @param dialogDescriptor dialogDescriptor the {@link DialogDescriptor} that's usage is checked
      * @return true if it is enabled, false otherwise
      */
     public boolean isEnabled(final DialogDescriptor dialogDescriptor) {
-        boolean result = false;
+        boolean result = false; // default, when usage == DialogDescriptorUsage.DISABLED
         DialogDescriptorUsage usage = dialogDescriptor.getAttributes().getUsage();
-        if (usage == DialogDescriptorUsage.DISABLED) {
-            result = false;
-        } else {
+        if (usage != DialogDescriptorUsage.DISABLED) {
             boolean notTimedOut = isNotTimedOut(dialogDescriptor, usage);
             if (!notTimedOut) {
                 dialogDescriptor.getAttributes().setUsage(DialogDescriptorUsage.DISABLED);
-                LOGGER.debug("Dialog descriptor '" + dialogDescriptor.getAttributes().getName() + "' was disabled!");
+                LOGGER.debug("Dialog descriptor '{}' was disabled!", dialogDescriptor.getAttributes().getName());
             }
             result = notTimedOut;
         }

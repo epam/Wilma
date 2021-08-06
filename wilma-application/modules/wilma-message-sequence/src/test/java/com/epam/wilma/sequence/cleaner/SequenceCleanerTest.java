@@ -77,7 +77,7 @@ public class SequenceCleanerTest {
         //WHEN
         underTest.cleanTheExpiredSequences(descriptors);
         //THEN
-        Assert.assertEquals(sequences.size(), 1);
+        Assert.assertEquals(1, sequences.size());
     }
 
 }

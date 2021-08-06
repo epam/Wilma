@@ -37,7 +37,7 @@ public class SequenceHeaderUtilTest {
         //WHEN
         String result = underTest.createSequenceHeader(null, testKey);
         //THEN
-        Assert.assertEquals(result, testKey);
+        Assert.assertEquals(testKey, result);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class SequenceHeaderUtilTest {
         //WHEN
         String result = underTest.createSequenceHeader(testKeyFirst, testKeySecond);
         //THEN
-        Assert.assertEquals(result, expected);
+        Assert.assertEquals(expected, result);
     }
 
     @Test
@@ -59,8 +59,8 @@ public class SequenceHeaderUtilTest {
         //WHEN
         String[] result = underTest.resolveSequenceHeader(testKey);
         //THEN
-        Assert.assertEquals(result.length, 1);
-        Assert.assertEquals(result[0], testKey);
+        Assert.assertEquals(1, result.length);
+        Assert.assertEquals(testKey, result[0]);
     }
 
     @Test
@@ -72,8 +72,8 @@ public class SequenceHeaderUtilTest {
         //WHEN
         String[] result = underTest.resolveSequenceHeader(input);
         //THEN
-        Assert.assertEquals(result.length, 2);
-        Assert.assertEquals(result[0], testKeyFirst);
-        Assert.assertEquals(result[1], testKeySecond);
+        Assert.assertEquals(2, result.length);
+        Assert.assertEquals(testKeyFirst, result[0]);
+        Assert.assertEquals(testKeySecond, result[1]);
     }
 }

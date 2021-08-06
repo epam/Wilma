@@ -41,12 +41,12 @@ import com.epam.wilma.router.configuration.domain.PropertyDTO;
 @Component
 public class LocalhostRequestRouter implements ApplicationListener<ContextRefreshedEvent> {
 
+    private static final String host = "http://127.0.0.1:%s/local/";
+    private final Logger logger = LoggerFactory.getLogger(LocalhostRequestRouter.class);
+    private int internalPort;
+
     @Autowired
     private RouteEngineConfigurationAccess routeEngineConfigurationAccess;
-
-    private final Logger logger = LoggerFactory.getLogger(LocalhostRequestRouter.class);
-    private final String host = "http://127.0.0.1:%s/local/";
-    private int internalPort;
 
     /**
      * Changes the requests destination URI to the servlet that will answer back that the request was blocked.

@@ -82,7 +82,7 @@ public class JmsQueueMonitorTaskTest {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
         given(configurationAccess.getProperties()).willReturn(propertyDTO);
-        given(propertyDTO.getSafeguardLimits()).willReturn(new SafeguardLimits(new Long(100), new Long(60), new Long(200), new Long(80), "1099"));
+        given(propertyDTO.getSafeguardLimits()).willReturn(new SafeguardLimits(100L, 60L, 200L, 80L, "1099"));
     }
 
     @Test
@@ -90,10 +90,10 @@ public class JmsQueueMonitorTaskTest {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN
@@ -108,10 +108,10 @@ public class JmsQueueMonitorTaskTest {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(191));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(191L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN
@@ -126,10 +126,10 @@ public class JmsQueueMonitorTaskTest {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(11));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(11L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN
@@ -144,10 +144,10 @@ public class JmsQueueMonitorTaskTest {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", false);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", false);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(111));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(111L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN
@@ -162,10 +162,10 @@ public class JmsQueueMonitorTaskTest {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", false);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", false);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(58));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(58L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN
@@ -180,10 +180,10 @@ public class JmsQueueMonitorTaskTest {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", false);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", false);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(2));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(3));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(2L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(3L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN
@@ -199,9 +199,9 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willThrow(new AttributeNotFoundException());
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN exception is thrown
@@ -212,9 +212,9 @@ public class JmsQueueMonitorTaskTest {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(2));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(2L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
         given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willThrow(new AttributeNotFoundException());
         // WHEN
         underTest.run();
@@ -278,15 +278,15 @@ public class JmsQueueMonitorTaskTest {
         // GIVEN
         Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN
-        verify(queueSizeProvider).setResponseQueueSize(new Long(12));
-        verify(queueSizeProvider).setLoggerQueueSize(new Long(91));
+        verify(queueSizeProvider).setResponseQueueSize(12L);
+        verify(queueSizeProvider).setLoggerQueueSize(91L);
     }
 
     @Test
@@ -296,10 +296,10 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
         Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(12));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(91));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN
@@ -316,10 +316,10 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
         Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(1));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(1L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN
@@ -333,10 +333,10 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
         Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(1));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(JmsQueueMonitorTask.MAX_AMQ_MEMORY_USAGE + 1));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(1L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(JmsQueueMonitorTask.MAX_AMQ_MEMORY_USAGE + 1);
         // WHEN
         underTest.run();
         // THEN
@@ -352,9 +352,9 @@ public class JmsQueueMonitorTaskTest {
         Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
         Long queueSizeIsTooBig = JmsQueueMonitorTask.MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT * propertyDTO.getSafeguardLimits().getMwOffLimit() + 1;
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(queueSizeIsTooBig);
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
         // WHEN
         underTest.run();
         // THEN
@@ -368,10 +368,10 @@ public class JmsQueueMonitorTaskTest {
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.LOGGER_QUEUE_OBJECT_NAME)).willReturn(loggerQueue);
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.DLQ_QUEUE_OBJECT_NAME)).willReturn(dlqQueue);
         given(jmxObjectNameProvider.getObjectName(JmsQueueMonitorTask.AMQ_OBJECT_NAME)).willReturn(amqObject);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(new Long(2));
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(new Long(3));
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(new Long(0));
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(new Integer(0));
+        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(2L);
+        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(3L);
+        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
     }
 
     private void verifyConnectionBuilder() {

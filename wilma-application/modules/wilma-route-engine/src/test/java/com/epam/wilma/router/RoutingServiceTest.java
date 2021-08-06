@@ -42,7 +42,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -97,7 +99,7 @@ public class RoutingServiceTest {
         //WHEN
         boolean actual = underTest.redirectRequestToStub(request);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -108,7 +110,7 @@ public class RoutingServiceTest {
         //WHEN
         boolean actual = underTest.redirectRequestToStub(request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -133,7 +135,7 @@ public class RoutingServiceTest {
         //WHEN
         ResponseDescriptorDTO actual = underTest.getResponseDescriptorDTOAndRemove(key);
         //THEN
-        assertEquals(actual.getRequestBody(), MSG_ID);
+        assertEquals(MSG_ID, actual.getRequestBody());
     }
 
     @Test
@@ -162,7 +164,7 @@ public class RoutingServiceTest {
         Map<String, ResponseDescriptorDTO> newDescriptorMap = (Map<String, ResponseDescriptorDTO>) Whitebox.getInternalState(underTest,
                 "responseDescriptorMap");
 
-        assertEquals(newDescriptorMap.get("someOtherKey").getRequestBody(), MSG_ID);
+        assertEquals(MSG_ID, newDescriptorMap.get("someOtherKey").getRequestBody());
     }
 
     @Test
@@ -176,7 +178,7 @@ public class RoutingServiceTest {
         //WHEN
         ResponseDescriptorDTO actual = underTest.getResponseDescriptorDTOAndRemove(key);
         //THEN
-        assertEquals(actual, expected);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -189,7 +191,7 @@ public class RoutingServiceTest {
         underTest.setOperationMode(operationMode);
         //THEN
         OperationMode result = (OperationMode) Whitebox.getInternalState(underTest, "operationMode");
-        Assert.assertEquals(result, operationMode);
+        Assert.assertEquals(operationMode, result);
     }
 
     @Test
@@ -202,7 +204,7 @@ public class RoutingServiceTest {
         underTest.setOperationMode(operationMode);
         //THEN
         OperationMode result = (OperationMode) Whitebox.getInternalState(underTest, "operationMode");
-        Assert.assertEquals(result, operationMode);
+        Assert.assertEquals(operationMode, result);
     }
 
     @Test
@@ -215,7 +217,7 @@ public class RoutingServiceTest {
         underTest.setOperationMode(operationMode);
         //THEN
         OperationMode result = (OperationMode) Whitebox.getInternalState(underTest, "operationMode");
-        Assert.assertEquals(result, operationMode);
+        Assert.assertEquals(operationMode, result);
     }
 
     @SuppressWarnings("unchecked")
@@ -232,7 +234,7 @@ public class RoutingServiceTest {
         Map<String, StubDescriptor> actual = (Map<String, StubDescriptor>) Whitebox.getInternalState(underTest, "stubDescriptors");
         assertEquals(actual, stubDescriptors);
         OperationMode result = (OperationMode) Whitebox.getInternalState(underTest, "operationMode");
-        Assert.assertEquals(result, operationMode);
+        Assert.assertEquals(operationMode, result);
     }
 
     @SuppressWarnings("unchecked")
@@ -249,7 +251,7 @@ public class RoutingServiceTest {
         Map<String, StubDescriptor> actual = (Map<String, StubDescriptor>) Whitebox.getInternalState(underTest, "stubDescriptors");
         assertEquals(actual, stubDescriptors);
         OperationMode result = (OperationMode) Whitebox.getInternalState(underTest, "operationMode");
-        Assert.assertEquals(result, operationMode);
+        Assert.assertEquals(operationMode, result);
     }
 
 }

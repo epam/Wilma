@@ -29,6 +29,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -61,7 +63,7 @@ public class DialogDescriptorServiceTest {
         //WHEN
         underTest.decreaseHitcountWhenUsageIsHitcount(dialogDescriptor);
         //THEN
-        assertEquals(dialogDescriptor.getAttributes().getHitcount(), 1);
+        assertEquals(1, dialogDescriptor.getAttributes().getHitcount());
     }
 
     @Test
@@ -73,7 +75,7 @@ public class DialogDescriptorServiceTest {
         //WHEN
         underTest.decreaseHitcountWhenUsageIsHitcount(dialogDescriptor);
         //THEN
-        assertEquals(dialogDescriptor.getAttributes().getUsage(), DialogDescriptorUsage.DISABLED);
+        assertEquals(DialogDescriptorUsage.DISABLED, dialogDescriptor.getAttributes().getUsage());
     }
 
     @Test
@@ -84,7 +86,7 @@ public class DialogDescriptorServiceTest {
         //WHEN
         underTest.decreaseHitcountWhenUsageIsHitcount(dialogDescriptor);
         //THEN
-        assertEquals(dialogDescriptor.getAttributes().getUsage(), DialogDescriptorUsage.ALWAYS);
+        assertEquals(DialogDescriptorUsage.ALWAYS, dialogDescriptor.getAttributes().getUsage());
     }
 
     @Test
@@ -95,7 +97,7 @@ public class DialogDescriptorServiceTest {
         //WHEN
         boolean actual = underTest.isEnabled(dialogDescriptor);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -106,7 +108,7 @@ public class DialogDescriptorServiceTest {
         //WHEN
         boolean actual = underTest.isEnabled(dialogDescriptor);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -119,7 +121,7 @@ public class DialogDescriptorServiceTest {
         //WHEN
         boolean actual = underTest.isEnabled(dialogDescriptor);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -132,7 +134,7 @@ public class DialogDescriptorServiceTest {
         //WHEN
         boolean actual = underTest.isEnabled(dialogDescriptor);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -145,7 +147,7 @@ public class DialogDescriptorServiceTest {
         //WHEN
         boolean actual = underTest.isEnabled(dialogDescriptor);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -158,6 +160,6 @@ public class DialogDescriptorServiceTest {
         //WHEN
         underTest.isEnabled(dialogDescriptor);
         //THEN
-        assertEquals(dialogDescriptor.getAttributes().getUsage(), DialogDescriptorUsage.DISABLED);
+        assertEquals(DialogDescriptorUsage.DISABLED, dialogDescriptor.getAttributes().getUsage());
     }
 }

@@ -57,7 +57,6 @@ public class LocalhostRequestRouterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-
     }
 
     @Test

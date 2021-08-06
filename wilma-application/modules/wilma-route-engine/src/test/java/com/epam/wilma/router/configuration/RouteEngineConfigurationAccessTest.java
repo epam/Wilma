@@ -59,7 +59,7 @@ public class RouteEngineConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getProxyPort(), port);
+        assertEquals(port, actual.getProxyPort());
     }
 
     @Test
@@ -69,7 +69,7 @@ public class RouteEngineConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getOperationMode(), OperationMode.WILMA);
+        assertEquals(OperationMode.WILMA, actual.getOperationMode());
     }
 
 }

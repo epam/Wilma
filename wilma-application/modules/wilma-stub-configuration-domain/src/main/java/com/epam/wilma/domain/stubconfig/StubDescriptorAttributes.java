@@ -26,7 +26,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 public class StubDescriptorAttributes {
     private final String groupName;
     private boolean active = true;
-    private boolean valid; // = false;
+    private boolean valid = false;
 
     /**
      * Constructs a new instance of stub descriptor attributes.

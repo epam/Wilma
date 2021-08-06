@@ -50,9 +50,6 @@ public class PropertyLoader {
     private String configFile;
     @Value("#{configValidationFile}")
     private String validationFile;
-    private Properties properties;
-    private Properties validationProperties;
-    private FileInputStream inputStream;
     @Autowired
     private FileInputStreamFactory inputStreamFactory;
     @Autowired
@@ -67,7 +64,7 @@ public class PropertyLoader {
      * the property file.
      */
     public void loadProperties() {
-        properties = propertiesFactory.createProperties();
+        Properties properties = propertiesFactory.createProperties();
         try {
             checkPropertyFileArgument(configFile);
             loadExternalProperties(configFile, properties);
@@ -84,7 +81,7 @@ public class PropertyLoader {
     public void loadValidationProperties() {
         try {
             checkPropertyFileArgument(validationFile);
-            validationProperties = createValidationProperties();
+            Properties validationProperties = createValidationProperties();
             propertyValidator.setProperties(validationProperties);
         } catch (IOException e) {
             throw new PropertiesNotAvailableException("Configuration file " + validationFile + " cannot be loaded", e);
@@ -105,7 +102,7 @@ public class PropertyLoader {
     }
 
     private void loadExternalProperties(final String location, final Properties properties) throws IOException {
-        inputStream = inputStreamFactory.createFileInputStream(location);
+        FileInputStream inputStream = inputStreamFactory.createFileInputStream(location);
         properties.load(inputStream);
     }
 

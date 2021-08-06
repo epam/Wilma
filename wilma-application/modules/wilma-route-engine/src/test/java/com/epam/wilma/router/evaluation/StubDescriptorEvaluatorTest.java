@@ -125,7 +125,7 @@ public class StubDescriptorEvaluatorTest {
         //WHEN
         ResponseDescriptorDTO actual = underTest.findResponseDescriptor(stubDescriptors, request);
         //THEN
-        assertEquals(actual, responseDescriptorDTO);
+        assertEquals(responseDescriptorDTO, actual);
     }
 
     @Test
@@ -163,7 +163,7 @@ public class StubDescriptorEvaluatorTest {
         //WHEN
         ResponseDescriptorDTO actual = underTest.findResponseDescriptor(stubDescriptors, request);
         //THEN
-        assertEquals(actual, responseDescriptorDTOWithError);
+        assertEquals(responseDescriptorDTOWithError, actual);
     }
 
     @Test

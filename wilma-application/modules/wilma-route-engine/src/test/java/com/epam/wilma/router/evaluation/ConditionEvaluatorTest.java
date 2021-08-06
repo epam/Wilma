@@ -33,7 +33,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -86,7 +87,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -101,7 +102,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -116,7 +117,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -131,7 +132,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -146,7 +147,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -161,7 +162,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -176,7 +177,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -191,7 +192,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -204,7 +205,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -217,7 +218,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -228,7 +229,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(simpleConditionA, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -239,11 +240,11 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(simpleConditionA, request);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
-    public void testEvaluateWhenConditionIsNestedOrShouldReturnTrueTT_T() {
+    public void testEvaluateWhenConditionIsNestedOrShouldReturnTrueTTorT() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
         conditionList.add(simpleConditionA);
@@ -257,11 +258,11 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
-    public void testEvaluateWhenConditionIsNestedOrShouldReturnFalseFF_F() {
+    public void testEvaluateWhenConditionIsNestedOrShouldReturnFalseFForF() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
         conditionList.add(simpleConditionA);
@@ -276,11 +277,11 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
-    public void testEvaluateWhenConditionIsNestedOrShouldReturnTrueTF_F() {
+    public void testEvaluateWhenConditionIsNestedOrShouldReturnTrueTForF() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
         conditionList.add(simpleConditionA);
@@ -295,11 +296,11 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
-    public void testEvaluateWhenConditionIsNestedAndShouldReturnTrueTT_T() {
+    public void testEvaluateWhenConditionIsNestedAndShouldReturnTrueTTandT() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
         conditionList.add(simpleConditionA);
@@ -314,11 +315,11 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
-    public void testEvaluateWhenConditionIsNestedAndShouldReturnFalseTF_T() {
+    public void testEvaluateWhenConditionIsNestedAndShouldReturnFalseTFandT() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
         conditionList.add(simpleConditionA);
@@ -333,11 +334,11 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
-    public void testEvaluateWhenConditionIsNestedAndShouldReturnFalseTT_F() {
+    public void testEvaluateWhenConditionIsNestedAndShouldReturnFalseTTandF() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
         conditionList.add(simpleConditionA);
@@ -352,7 +353,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeCondition, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -361,7 +362,7 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(condition, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -370,6 +371,6 @@ public class ConditionEvaluatorTest {
         //WHEN
         boolean actual = underTest.evaluate(compositeConditionMock, request);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 }

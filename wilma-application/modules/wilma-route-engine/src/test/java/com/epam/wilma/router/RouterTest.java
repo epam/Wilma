@@ -131,6 +131,6 @@ public class RouterTest {
         underTest.onApplicationEvent(event);
         //THEN
         Integer actual = (Integer) Whitebox.getInternalState(underTest, "internalPort");
-        assertEquals(actual, internalPort);
+        assertEquals(internalPort, actual);
     }
 }

@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The purpose is to generate Wilma Message ID that is used to mark the messages.
- * Same ID is used for a request and response pairs. Usually it is a timestamp + a 4 digit number.
+ * Same ID is used for a request and response pairs. Usually it is a timestamp + "." + a 4 digit number.
  * More than 4 digit is possible, but in theory only, as that would mean we have over 10K message pairs in a sec.
  *
  * @author Tamas_Kohegyi
@@ -32,10 +32,15 @@ public class TimeStampBasedIdGenerator {
     private static final int NO_DIGITS = 4;
     private final AtomicInteger currentNumber = new AtomicInteger();
     private String previousSimpleDate;
-    private CurrentDateProvider currentDateProvider = new CurrentDateProvider();
+    private final CurrentDateProvider currentDateProvider = new CurrentDateProvider();
 
-    private SimpleDateFormat fileSimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+    private final SimpleDateFormat fileSimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
+    /**
+     * The main method that generates the id for the request-response pair.
+     *
+     * @return with the ID string
+     */
     public synchronized String nextIdentifier() {
         String currentSimpleDate = getCurrentDateFormattedForFiles();
         checkPreviousDate(currentSimpleDate);
@@ -47,7 +52,7 @@ public class TimeStampBasedIdGenerator {
     }
 
     private void checkPreviousDate(final String currentSimpleDate) {
-        if (previousSimpleDate == null || !currentSimpleDate.equals(previousSimpleDate)) {
+        if (!currentSimpleDate.equals(previousSimpleDate)) {
             previousSimpleDate = currentSimpleDate;
             currentNumber.set(0);
         }
@@ -60,10 +65,11 @@ public class TimeStampBasedIdGenerator {
     }
 
     private String createZeros(final String convertedNumber) {
-        String ret = "";
+        StringBuilder bld = new StringBuilder();
         for (int i = 0; i < NO_DIGITS - convertedNumber.length(); i++) {
-            ret += "0";
+            bld.append("0");
         }
+        String ret = bld.toString();
         return ret;
     }
 

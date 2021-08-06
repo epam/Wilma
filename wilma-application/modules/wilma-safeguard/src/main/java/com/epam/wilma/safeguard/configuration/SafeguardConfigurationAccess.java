@@ -55,7 +55,7 @@ public class SafeguardConfigurationAccess implements ConfigurationAccessBase {
         if ((rmiPort == null) || (tryParseInt(rmiPort) == 0)) {
             rmiPort = DEFAULT_JMX_PORT;
         }
-        logger.info("RMI: using port:" + rmiPort);
+        logger.info("RMI: using port:{}", rmiPort);
         SafeguardLimits safeguardLimits = new SafeguardLimits(fiOffLimit, fiOnLimit, mwOffLimit, mwOnLimit, rmiPort);
         String cronExpression = propertyHolder.get("safeguard.guardperiod");
         propertyDTO = new PropertyDTO(safeguardLimits, cronExpression);

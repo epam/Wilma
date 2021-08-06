@@ -61,7 +61,7 @@ public class JmsQueueMonitor {
             CronTrigger cronTrigger = createCronTrigger(cronExpression);
             taskScheduler.schedule(jmsQueueMonitorTask, cronTrigger);
         } else {
-            logger.info("No safeguard is active based on the property value of 'safeguard.guardperiod' = " + cronExpression + ".");
+            logger.info("No safeguard is active based on the property value of 'safeguard.guardperiod' = {}.", cronExpression);
         }
     }
 

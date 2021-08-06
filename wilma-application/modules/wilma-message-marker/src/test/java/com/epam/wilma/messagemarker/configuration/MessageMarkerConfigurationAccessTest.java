@@ -26,7 +26,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -58,7 +59,7 @@ public class MessageMarkerConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         MessageMarkerRequest actual = underTest.getProperties();
-        assertEquals(actual.getNeedMessageMarker(), true);
+        assertTrue(actual.getNeedMessageMarker());
     }
 
     @Test
@@ -69,7 +70,7 @@ public class MessageMarkerConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         MessageMarkerRequest actual = underTest.getProperties();
-        assertEquals(actual.getNeedMessageMarker(), false);
+        assertFalse(actual.getNeedMessageMarker());
     }
 
 }

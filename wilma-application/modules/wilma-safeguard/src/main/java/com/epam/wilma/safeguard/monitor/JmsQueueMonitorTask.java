@@ -55,8 +55,8 @@ public class JmsQueueMonitorTask implements Runnable {
     static final String DLQ_QUEUE_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=ActiveMQ.DLQ";
     static final String AMQ_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost";
     static final String QUEUE_SIZE_TEXT = "QueueSize";
-    static final Integer MAX_AMQ_MEMORY_USAGE = Integer.valueOf(95); //over this memory usage (in percent) we have to reset the AMQ
-    static final Long MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT = Long.valueOf(4); // in case total message queue size is > Msg queue off limit * this value, we have to reset the AMQ
+    static final Integer MAX_AMQ_MEMORY_USAGE = 95; //over this memory usage (in percent) we have to reset the AMQ
+    static final Long MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT = 4L; // in case total message queue size is > Msg queue off limit * this value, we have to reset the AMQ
 
     private final Logger logger = LoggerFactory.getLogger(JmsQueueMonitorTask.class);
 
@@ -106,13 +106,13 @@ public class JmsQueueMonitorTask implements Runnable {
 
     private void resetDlqAsNecessary() {
         boolean sizeIsValid = false;
-        Long dlqSize = Long.valueOf(0);
+        Long dlqSize = 0L;
         try {
             dlqSize = (Long) mBeanServerConnection.getAttribute(dlqQueue, QUEUE_SIZE_TEXT);
             sizeIsValid = true;
             if (dlqSize > 0) {
                 mBeanServerConnection.invoke(dlqQueue, "purge", null, null);
-                logger.info("Message found in ActiveMQ.DLQ. Queue size is: " + dlqSize + ", queue purged successfully.");
+                logger.info("Message found in ActiveMQ.DLQ. Queue size is: {}, queue purged successfully.", dlqSize);
             }
         } catch (Exception e) {
             if (!(e instanceof InstanceNotFoundException)) {
@@ -140,7 +140,7 @@ public class JmsQueueMonitorTask implements Runnable {
         if (totalQueueSize > totalQueueSizeLimit) {
             try {
                 mBeanServerConnection.invoke(amqObject, "restart", null, null);
-                logger.info("ActiveMQ Total Queue Size is too high (" + totalQueueSize + ">" + totalQueueSizeLimit + "), AMQ restart initiated.");
+                logger.info("ActiveMQ Total Queue Size is too high ({}>{}), AMQ restart initiated.", totalQueueSize, totalQueueSizeLimit);
             } catch (Exception e) {
                 throw new SystemException("ActiveMQ Total Queue Size is too high (\" + totalQueueSize + \">\" + totalQueueSizeLimit + \"), AMQ RESTART FAILED.", e);
             }
@@ -150,7 +150,7 @@ public class JmsQueueMonitorTask implements Runnable {
             valueIsValid = true;
             if (memoryPercentUsage > MAX_AMQ_MEMORY_USAGE) {
                 mBeanServerConnection.invoke(amqObject, "restart", null, null);
-                logger.info("ActiveMQ Memory usage is too high:" + memoryPercentUsage + "%, AMQ restart initiated.");
+                logger.info("ActiveMQ Memory usage is too high:{}%, AMQ restart initiated.", memoryPercentUsage);
             }
         } catch (Exception e) {
             if (!(e instanceof InstanceNotFoundException)) {

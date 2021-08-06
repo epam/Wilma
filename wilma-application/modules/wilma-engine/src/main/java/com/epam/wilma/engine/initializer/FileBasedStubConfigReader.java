@@ -49,14 +49,11 @@ public class FileBasedStubConfigReader {
      */
     public void readStubConfiguration() {
         getJsonDescriptorPath();
-//        stubConfigSchema.setSchema(stubConfigSchemaParser.parseSchema());
         List<String> stubConfigPaths = cachePathProvider.getConfigPathsFromCache(jsonDescriptorsCachePath);
-        if (!stubConfigPaths.isEmpty()) {
-            stubDescriptorReader.loadSpecificStubDescriptors(stubConfigPaths);
-        } else {
+        if (stubConfigPaths.isEmpty()) {
             stubConfigPaths = cachePathProvider.getConfigPathsFromSpecificFolder(jsonDescriptorsSourceFolderPath, jsonDescriptorsPattern);
-            stubDescriptorReader.loadSpecificStubDescriptors(stubConfigPaths);
         }
+        stubDescriptorReader.loadSpecificStubDescriptors(stubConfigPaths);
     }
 
     private void getJsonDescriptorPath() {
