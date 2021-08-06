@@ -95,15 +95,15 @@ public class PackageBasedClassFinder {
         List<Class> classes = new ArrayList<>();
         if (path.canRead()) {
             try (JarFile jar = new JarFile(path)) {
-                    Enumeration<JarEntry> en = jar.entries();
-                    while (en.hasMoreElements()) {
-                        JarEntry entry = en.nextElement();
-                        if (!entry.getName().contains("..") && entry.getName().endsWith("class")) {
-                            String className = fromFileToClassName(entry.getName());
-                            Class clazz = Class.forName(className);
-                            classes.add(clazz);
-                        }
+                Enumeration<JarEntry> en = jar.entries();
+                while (en.hasMoreElements()) {
+                    JarEntry entry = en.nextElement();
+                    if (!entry.getName().contains("..") && entry.getName().endsWith("class")) {
+                        String className = fromFileToClassName(entry.getName());
+                        Class clazz = Class.forName(className);
+                        classes.add(clazz);
                     }
+                }
             } catch (IOException | ClassNotFoundException e) {
                 throw new SystemException("Failed to read classes from jar file: " + path, e);
             }

@@ -43,10 +43,20 @@ repositories {
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-checkstyle.toolVersion = '8.0' // see https://checkstyle-addons.thomasjensen.com/checkstyle-compatibility-matrix.html
+// checkstyle settings
+// general checkstyle availability:  https://checkstyle.sourceforge.io/releasenotes.html
+// compatibility with sonar https://docs.sonarqube.org/latest/instance-administration/plugin-version-matrix/
+checkstyle.toolVersion = '8.40'
 checkstyle.ignoreFailures = true
 checkstyle.configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
 checkstyle.configProperties = ['samedir' : "${rootDir}/config/checkstyle"]
+tasks.withType(Checkstyle) {
+    reports {
+        xml.required = false
+        html.required = true
+        html.stylesheet resources.text.fromFile("${rootDir}/config/checkstyle/checkstyle-noframes-sorted.xsl")
+    }
+}
 
 jacoco {
     toolVersion = "0.8.6"
