@@ -40,7 +40,7 @@ public class SequenceIdUtilTest {
     @Mock
     private SequenceDescriptorKeyUtil sequenceDescriptorKeyUtil;
 
-    private SequenceIdUtil underTest = new SequenceIdUtil();
+    private final SequenceIdUtil underTest = new SequenceIdUtil();
 
     @Before
     public void setup() {
@@ -54,7 +54,7 @@ public class SequenceIdUtilTest {
         //WHEN
         String result = underTest.getDescriptorKey(sequenceId);
         //THEN
-        Assert.assertEquals(result, "TestGroup_testDescriptor_1");
+        Assert.assertEquals("TestGroup_testDescriptor_1", result);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class SequenceIdUtilTest {
         //WHEN
         String result = underTest.getHandlerKey(sequenceId);
         //THEN
-        Assert.assertEquals(result, "abc");
+        Assert.assertEquals("abc", result);
     }
 
     @Test
@@ -78,6 +78,6 @@ public class SequenceIdUtilTest {
         //WHEN
         String result = underTest.createSequenceId(handlerKey, sequenceDescriptor);
         //THEN
-        Assert.assertEquals(result, "groupname_name|Key");
+        Assert.assertEquals("groupname_name|Key", result);
     }
 }

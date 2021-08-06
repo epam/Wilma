@@ -102,8 +102,9 @@ public class PropertyLoader {
     }
 
     private void loadExternalProperties(final String location, final Properties properties) throws IOException {
-        FileInputStream inputStream = inputStreamFactory.createFileInputStream(location);
-        properties.load(inputStream);
+        try (FileInputStream inputStream = inputStreamFactory.createFileInputStream(location)) {
+            properties.load(inputStream);
+        }
     }
 
 }

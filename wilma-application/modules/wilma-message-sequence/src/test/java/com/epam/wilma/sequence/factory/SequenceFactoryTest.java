@@ -58,14 +58,14 @@ public class SequenceFactoryTest {
     public void testCreateNewSequence() {
         //GIVEN
         String testKey = "TestKey";
-        String logggerId = "testId";
-        given(request.getWilmaMessageId()).willReturn(logggerId);
+        String loggerId = "testId";
+        given(request.getWilmaMessageId()).willReturn(loggerId);
         //WHEN
         WilmaSequence result = underTest.createNewSequence(testKey, request, 1000L);
         //THEN
-        Assert.assertEquals(result.getSequenceKey(), testKey);
+        Assert.assertEquals(testKey, result.getSequenceKey());
         Assert.assertFalse(result.isExpired(new Timestamp(1000L)));
-        RequestResponsePair firstPair = result.getPairs().get(logggerId);
-        Assert.assertEquals(firstPair.getRequest(), request);
+        RequestResponsePair firstPair = result.getPairs().get(loggerId);
+        Assert.assertEquals(request, firstPair.getRequest());
     }
 }

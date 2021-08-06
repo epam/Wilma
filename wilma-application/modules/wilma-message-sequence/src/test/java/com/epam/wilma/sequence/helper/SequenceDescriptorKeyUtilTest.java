@@ -38,7 +38,7 @@ public class SequenceDescriptorKeyUtilTest {
         //WHEN
         String result = underTest.createDescriptorKey(testGroupName, testDescriptorName);
         //THEN
-        Assert.assertEquals(result, testGroupName + SequenceConstants.DESCRIPTOR_KEY_PART_SEPARATOR.getConstant() + testDescriptorName);
+        Assert.assertEquals(testGroupName + SequenceConstants.DESCRIPTOR_KEY_PART_SEPARATOR.getConstant() + testDescriptorName, result);
     }
 
 }
