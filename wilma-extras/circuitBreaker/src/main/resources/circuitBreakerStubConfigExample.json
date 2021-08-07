@@ -8,7 +8,7 @@
         "comment": "Circuit Breaker",
         "conditionDescriptor": {
           "condition": {
-            "class": "com.epam.wilma.extras.circuitBreaker.CircuitBreakerChecker",
+            "class": "com.epam.wilma.extras.circuitbreaker.CircuitBreakerChecker",
             "parameters": [
               {
                 "name": "identifier",
@@ -30,7 +30,7 @@
         "comment": "Circuit Breaker",
         "conditionDescriptor": {
           "condition": {
-            "class": "com.epam.wilma.extras.circuitBreaker.CircuitBreakerChecker",
+            "class": "com.epam.wilma.extras.circuitbreaker.CircuitBreakerChecker",
             "parameters": [
               {
                 "name": "identifier",
@@ -170,7 +170,7 @@
     "interceptors": [
       {
         "name": "Circuit Breaker Response Investigator - for test1 URL",
-        "class": "com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor",
+        "class": "com.epam.wilma.extras.circuitbreaker.CircuitBreakerInterceptor",
         "parameters": [
           {
             "name": "identifier",
@@ -196,7 +196,7 @@
       },
       {
         "name": "Circuit Breaker Response Investigator - for test2 URL",
-        "class": "com.epam.wilma.extras.circuitBreaker.CircuitBreakerInterceptor",
+        "class": "com.epam.wilma.extras.circuitbreaker.CircuitBreakerInterceptor",
         "parameters": [
           {
             "name": "identifier",
