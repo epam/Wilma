@@ -69,7 +69,7 @@ public class StubConfigurationDropperServiceTest {
         ArgumentCaptor<DropCommand> argument = ArgumentCaptor.forClass(DropCommand.class);
         verify(sequenceManager).removeSequenceDescriptors(GROUPNAME_FIRST);
         verify(routingService, times(1)).performModification(argument.capture());
-        Assert.assertEquals(argument.getValue().getGroupName(), GROUPNAME_FIRST);
-        Assert.assertEquals(argument.getValue().getRequest(), request);
+        Assert.assertEquals(GROUPNAME_FIRST, argument.getValue().getGroupName());
+        Assert.assertEquals(request, argument.getValue().getRequest());
     }
 }

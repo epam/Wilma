@@ -46,7 +46,7 @@ public class JsonConverterTest {
         //WHEN
         String xml = underTest.convert("content", "rootElementName");
         //THEN
-        assertEquals(xml, "");
+        assertEquals("", xml);
     }
 
     @Test

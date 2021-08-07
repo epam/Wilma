@@ -20,6 +20,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
@@ -39,7 +40,7 @@ public class InputStreamUtil {
      * @throws IOException if an I/O error occured during the conversion
      */
     public String toString(final InputStream inputStream) throws IOException {
-        return IOUtils.toString(inputStream, "utf-8");
+        return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
     }
 
     /**

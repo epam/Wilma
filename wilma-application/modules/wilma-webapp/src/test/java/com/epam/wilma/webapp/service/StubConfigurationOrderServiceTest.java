@@ -63,8 +63,8 @@ public class StubConfigurationOrderServiceTest {
         //THEN
         ArgumentCaptor<ChangeOrderCommand> argument = ArgumentCaptor.forClass(ChangeOrderCommand.class);
         verify(routingService, times(1)).performModification(argument.capture());
-        Assert.assertEquals(argument.getValue().getDirection(), 1);
-        Assert.assertEquals(argument.getValue().getGroupName(), GROUPNAME_FIRST);
-        Assert.assertEquals(argument.getValue().getRequest(), request);
+        Assert.assertEquals(1, argument.getValue().getDirection());
+        Assert.assertEquals(GROUPNAME_FIRST, argument.getValue().getGroupName());
+        Assert.assertEquals(request, argument.getValue().getRequest());
     }
 }

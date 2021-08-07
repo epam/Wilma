@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,6 @@ import java.io.ByteArrayOutputStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -82,7 +82,7 @@ public class FastInfosetCompressorProcessorTest {
         //WHEN
         underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
-        verify(fastInfosetCompressor, times(0)).compress(any(ByteArrayInputStream.class));
+        verify(fastInfosetCompressor, times(0)).compress(Mockito.any(ByteArrayInputStream.class));
         verify(resp, times(0)).setHeader(ACCEPT_HEADER_KEY, ACCEPT_VALUE_FASTINFOSET);
     }
 
@@ -94,7 +94,7 @@ public class FastInfosetCompressorProcessorTest {
         //WHEN
         underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
-        verify(fastInfosetCompressor, times(0)).compress(any(ByteArrayInputStream.class));
+        verify(fastInfosetCompressor, times(0)).compress(Mockito.any(ByteArrayInputStream.class));
         verify(resp, times(0)).setHeader(ACCEPT_HEADER_KEY, ACCEPT_VALUE_FASTINFOSET);
     }
 
@@ -106,7 +106,7 @@ public class FastInfosetCompressorProcessorTest {
         //WHEN
         underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
-        verify(fastInfosetCompressor, times(0)).compress(any(ByteArrayInputStream.class));
+        verify(fastInfosetCompressor, times(0)).compress(Mockito.any(ByteArrayInputStream.class));
         verify(resp, times(0)).setHeader(ACCEPT_HEADER_KEY, ACCEPT_VALUE_FASTINFOSET);
     }
 
@@ -115,14 +115,14 @@ public class FastInfosetCompressorProcessorTest {
         //GIVEN
         given(resp.getContentType()).willReturn(ACCEPT_VALUE_XML);
         given(req.getHeader(ACCEPT_HEADER_KEY)).willReturn(ACCEPT_VALUE_FASTINFOSET);
-        given(fastInfosetCompressor.compress(any(ByteArrayInputStream.class))).willReturn(outputStream);
+        given(fastInfosetCompressor.compress(Mockito.any(ByteArrayInputStream.class))).willReturn(outputStream);
         given(outputStream.toByteArray()).willReturn(RESPONSE_BODY.getBytes());
         //WHEN
         byte[] actual = underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
         verify(resp).setContentType(ACCEPT_VALUE_FASTINFOSET);
         String actualString = new String(actual);
-        assertEquals(actualString, RESPONSE_BODY);
+        assertEquals(RESPONSE_BODY, actualString);
     }
 
     @Test
@@ -130,14 +130,14 @@ public class FastInfosetCompressorProcessorTest {
         //GIVEN
         given(resp.getContentType()).willReturn(ACCEPT_VALUE_FASTINFOSET);
         given(req.getHeader(ACCEPT_HEADER_KEY)).willReturn(ACCEPT_VALUE_FASTINFOSET);
-        given(fastInfosetCompressor.compress(any(ByteArrayInputStream.class))).willReturn(outputStream);
+        given(fastInfosetCompressor.compress(Mockito.any(ByteArrayInputStream.class))).willReturn(outputStream);
         given(outputStream.toByteArray()).willReturn(RESPONSE_BODY.getBytes());
         //WHEN
         byte[] actual = underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
         verify(resp).setContentType(ACCEPT_VALUE_FASTINFOSET);
         String actualString = new String(actual);
-        assertEquals(actualString, RESPONSE_BODY);
+        assertEquals(RESPONSE_BODY, actualString);
     }
 
 }

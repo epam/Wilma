@@ -68,21 +68,24 @@ public class MitmProxyResponseUpdater {
                 String headerKey = headerChangeEntry.getKey();
                 HttpHeaderChange headerChange = headerChangeEntry.getValue();
                 Header header = browserMobHttpResponse.getRawResponse().getFirstHeader(headerKey);
+                handleSingleHeaderChange(browserMobHttpResponse, headerKey, headerChange, header);
+            }
+        }
+    }
 
-                if (headerChange instanceof HttpHeaderToBeUpdated) {
-                    // it is HttpHeaderToBeChanged, so added, or updated
-                    if (header != null) {
-                        ((HttpHeaderToBeUpdated) headerChange).setOriginalValue(header.getValue());
-                    }
-                    browserMobHttpResponse.getRawResponse().addHeader(headerKey, ((HttpHeaderToBeUpdated) headerChange).getNewValue());
-                    headerChange.setApplied();
-                } else {
-                    // it is HttpHeaderToBeRemoved
-                    if (header != null) {
-                        browserMobHttpResponse.getRawResponse().removeHeader(header);
-                        headerChange.setApplied();
-                    }
-                }
+    private void handleSingleHeaderChange(final MitmJavaProxyHttpResponse browserMobHttpResponse, String headerKey, HttpHeaderChange headerChange, Header originalHeader) {
+        if (headerChange instanceof HttpHeaderToBeUpdated) {
+            // it is HttpHeaderToBeChanged, so added, or updated
+            if (originalHeader != null) {
+                ((HttpHeaderToBeUpdated) headerChange).setOriginalValue(originalHeader.getValue());
+            }
+            browserMobHttpResponse.getRawResponse().addHeader(headerKey, ((HttpHeaderToBeUpdated) headerChange).getNewValue());
+            headerChange.setApplied();
+        } else {
+            // it is HttpHeaderToBeRemoved
+            if (originalHeader != null) {
+                browserMobHttpResponse.getRawResponse().removeHeader(originalHeader);
+                headerChange.setApplied();
             }
         }
     }

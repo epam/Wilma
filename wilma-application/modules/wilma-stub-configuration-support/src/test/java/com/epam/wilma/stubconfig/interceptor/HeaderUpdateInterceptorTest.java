@@ -25,6 +25,7 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
  * Tests for {@link HeaderUpdateInterceptor}.
@@ -64,8 +64,8 @@ public class HeaderUpdateInterceptorTest {
         underTest.onRequestReceive(request, null);
         underTest.onResponseReceive(response, null);
         //THEN
-        verifyZeroInteractions(request);
-        verifyZeroInteractions(response);
+        Mockito.verifyNoInteractions(request);
+        Mockito.verifyNoInteractions(response);
     }
 
     @Test
@@ -76,8 +76,8 @@ public class HeaderUpdateInterceptorTest {
         underTest.onRequestReceive(request, parameterMap);
         underTest.onResponseReceive(response, parameterMap);
         //THEN
-        verifyZeroInteractions(request);
-        verifyZeroInteractions(response);
+        Mockito.verifyNoInteractions(request);
+        Mockito.verifyNoInteractions(response);
     }
 
     @Test

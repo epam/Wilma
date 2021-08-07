@@ -45,7 +45,7 @@ public class StringReplaceResponseFormatter implements ResponseFormatter {
     public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
                                  final byte[] templateResource, final ParameterList params) throws Exception {
         byte[] result = templateResource;
-        String template = null;
+        String template;
         if (!params.getAllParameters().isEmpty()) {
             template = getTemplate(templateResource, params);
             result = template.getBytes(StandardCharsets.UTF_8);
@@ -54,7 +54,7 @@ public class StringReplaceResponseFormatter implements ResponseFormatter {
     }
 
     private String getTemplate(final byte[] templateResource, final ParameterList params) throws IOException {
-        String template = IOUtils.toString(templateResource, "utf-8");
+        String template = IOUtils.toString(templateResource, String.valueOf(StandardCharsets.UTF_8));
         for (Parameter param : params.getAllParameters()) {
             String name = param.getName();
             String value = param.getValue();

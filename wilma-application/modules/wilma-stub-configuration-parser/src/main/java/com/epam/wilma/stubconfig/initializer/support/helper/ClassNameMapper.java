@@ -46,17 +46,18 @@ public class ClassNameMapper {
     private static final String EXCEPTION = "Failed to process class file: ";
 
     private final Logger logger = LoggerFactory.getLogger(ClassNameMapper.class);
+    private final Map<String, String> simpleNameToFullName;
+
     @Autowired
     private FileUtils fileUtils;
     @Autowired
     private JavaClassFactory javaClassFactory;
-    private final Map<String, String> simpleNameToFullName;
 
     /**
      * Constructs an empty ClassNameMapper object.
      */
     public ClassNameMapper() {
-        simpleNameToFullName = new ConcurrentHashMap<String, String>();
+        simpleNameToFullName = new ConcurrentHashMap<>();
     }
 
     /**

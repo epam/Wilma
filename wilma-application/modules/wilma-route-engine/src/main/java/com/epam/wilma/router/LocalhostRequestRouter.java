@@ -41,7 +41,7 @@ import com.epam.wilma.router.configuration.domain.PropertyDTO;
 @Component
 public class LocalhostRequestRouter implements ApplicationListener<ContextRefreshedEvent> {
 
-    private static final String host = "http://127.0.0.1:%s/local/";
+    private static final String HOST = "http://127.0.0.1:%s/local/";
     private final Logger logger = LoggerFactory.getLogger(LocalhostRequestRouter.class);
     private int internalPort;
 
@@ -69,7 +69,7 @@ public class LocalhostRequestRouter implements ApplicationListener<ContextRefres
     }
 
     private URI createUri() throws URISyntaxException {
-        return new URI(String.format(host, internalPort));
+        return new URI(String.format(HOST, internalPort));
     }
 
 }

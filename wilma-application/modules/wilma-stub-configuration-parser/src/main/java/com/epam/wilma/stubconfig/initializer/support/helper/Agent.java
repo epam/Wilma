@@ -19,6 +19,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.instrument.Instrumentation;
@@ -34,10 +36,15 @@ import java.util.jar.JarFile;
  * This code can be used with Jdk >=9.
  */
 public class Agent {
+    private final static Logger LOGGER = LoggerFactory.getLogger(Agent.class);
     private static Instrumentation inst = null;
 
     // The JRE will call method before launching your main()
-    public static void agentmain(final String a, final Instrumentation inst) {
+    public static void agentmain(final String agentArgs, final Instrumentation inst) {
+        LOGGER.info("Starting Wilma Service Virtualization...");
+        if (agentArgs != null && agentArgs.length() > 0) {
+            LOGGER.info("Received special agent arguments: {}", agentArgs);
+        }
         Agent.inst = inst;
     }
 
@@ -47,9 +54,12 @@ public class Agent {
             if (!(cl instanceof URLClassLoader)) {
                 inst.appendToSystemClassLoaderSearch(new JarFile(file));
             }
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new DescriptorValidationFailedException("Cannot add jar '" + file.getName() + "' to classpath.");
         }
     }
 
+    private Agent() {
+        throw new IllegalStateException("Utility class");
+    }
 }

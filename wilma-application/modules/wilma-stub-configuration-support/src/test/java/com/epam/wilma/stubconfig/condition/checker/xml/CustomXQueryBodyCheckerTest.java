@@ -35,6 +35,8 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -81,7 +83,7 @@ public class CustomXQueryBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -94,7 +96,7 @@ public class CustomXQueryBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -107,7 +109,7 @@ public class CustomXQueryBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -132,7 +134,7 @@ public class CustomXQueryBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -143,7 +145,7 @@ public class CustomXQueryBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test(expected = ConditionEvaluationFailedException.class)

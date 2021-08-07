@@ -44,7 +44,7 @@ public class HeaderUpdateInterceptor implements RequestInterceptor, ResponseInte
             for (Parameter parameter : parameterList) {
                 String name = parameter.getName();
                 String value = parameter.getValue();
-                if (REMOVE_HEADER.equals(name.toUpperCase())) {
+                if (REMOVE_HEADER.equalsIgnoreCase(name)) {
                     // remove header
                     request.addHeaderRemove(value);
                 } else {
@@ -61,7 +61,7 @@ public class HeaderUpdateInterceptor implements RequestInterceptor, ResponseInte
             for (Parameter parameter : parameterList) {
                 String name = parameter.getName();
                 String value = parameter.getValue();
-                if (REMOVE_HEADER.equals(name.toUpperCase())) {
+                if (REMOVE_HEADER.equalsIgnoreCase(name)) {
                     // remove header
                     response.addHeaderRemove(value);
                 } else {

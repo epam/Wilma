@@ -44,6 +44,7 @@ public class MultiPartFileProcessor {
     private static final String OCTET_STREAM_CONTENT_TYPE = "application/octet-stream";
     private static final String JSON_CONTENT_TYPE = "application/json";
     private static final String EXCEPTION_MESSAGE = "Could not upload external resource ";
+    private static final String WAS_UPLOADED_TO_WILMA = "' was uploaded to Wilma.";
 
     @Autowired
     private StubResourcePathProvider stubResourcePathProvider;
@@ -86,7 +87,7 @@ public class MultiPartFileProcessor {
                 result = "New stub configuration was uploaded to Wilma.";
             } else if ("stub-template".equals(fieldName)) {
                 writeResourceToFile(resource, resFileName, stubResourcePathProvider.getTemplatesPathAsString());
-                result = "External template '" + resFileName + "' was uploaded to Wilma.";
+                result = "External template '" + resFileName + WAS_UPLOADED_TO_WILMA;
             } else {
                 result = "Uploading " + fileName + " failed: wrong content type or tried to upload file from unauthorized form!";
                 throw new CannotUploadExternalResourceException(result);
@@ -100,19 +101,19 @@ public class MultiPartFileProcessor {
 
         if ("stub-condition-checker".equals(fieldName) && isContentTypeJava(contentType)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getConditionCheckerPathAsString());
-            result = "External condition checker class '" + resFileName + "' was uploaded to Wilma.";
+            result = "External condition checker class '" + resFileName + WAS_UPLOADED_TO_WILMA;
         } else if ("stub-response-formatter".equals(fieldName) && isContentTypeJava(contentType)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getResponseFormattersPathAsString());
-            result = "External response formatter class '" + resFileName + "' was uploaded to Wilma.";
+            result = "External response formatter class '" + resFileName + WAS_UPLOADED_TO_WILMA;
         } else if ("stub-interceptor".equals(fieldName)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getInterceptorPathAsString());
-            result = "External interceptor '" + resFileName + "' was uploaded to Wilma.";
+            result = "External interceptor '" + resFileName + WAS_UPLOADED_TO_WILMA;
         } else if ("stub-jar".equals(fieldName)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getJarPathAsString());
             result = "External jar '" + resFileName + "' was uploaded to Wilma.";
         } else if ("stub-sequence-handler".equals(fieldName)) {
             writeResourceToFile(resource, resFileName, stubResourcePathProvider.getSequenceHandlerPathAsString());
-            result = "External sequence handler '" + resFileName + "' was uploaded to Wilma.";
+            result = "External sequence handler '" + resFileName + WAS_UPLOADED_TO_WILMA;
         }
 
         return result;

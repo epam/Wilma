@@ -63,8 +63,8 @@ public class StubConfigurationStatusServiceTest {
         //THEN
         ArgumentCaptor<ChangeStatusCommand> argument = ArgumentCaptor.forClass(ChangeStatusCommand.class);
         verify(routingService, times(1)).performModification(argument.capture());
-        Assert.assertEquals(argument.getValue().isNextStatus(), false);
-        Assert.assertEquals(argument.getValue().getGroupName(), GROUPNAME_FIRST);
-        Assert.assertEquals(argument.getValue().getRequest(), request);
+        Assert.assertFalse(argument.getValue().isNextStatus());
+        Assert.assertEquals(GROUPNAME_FIRST, argument.getValue().getGroupName());
+        Assert.assertEquals(request, argument.getValue().getRequest());
     }
 }

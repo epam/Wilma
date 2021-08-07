@@ -42,6 +42,7 @@ public class XmlAttributeChecker implements ConditionChecker {
     private static final String XML_CONTENT = "xml";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
     @Autowired
     private XQueryExpressionEvaluator queryExpressionEvaluator;
 
@@ -74,7 +75,7 @@ public class XmlAttributeChecker implements ConditionChecker {
         String attribute = getAttribute(element);
         String exp = "//*[name()='" + node + "']/@" + attribute + "='" + value + "'";
         String queryResult = queryExpressionEvaluator.evaluateXQuery(xml, exp);
-        result = Boolean.valueOf(removeXmlDecTagFromXQueryResult(queryResult));
+        result = Boolean.parseBoolean(removeXmlDecTagFromXQueryResult(queryResult));
         return result;
     }
 
@@ -99,7 +100,6 @@ public class XmlAttributeChecker implements ConditionChecker {
     }
 
     private String removeXmlDecTagFromXQueryResult(final String xml) {
-        String xmlDeclarationTag = XML_DECLARATION;
-        return xml.replace(xmlDeclarationTag, "");
+        return xml.replace(XML_DECLARATION, "");
     }
 }

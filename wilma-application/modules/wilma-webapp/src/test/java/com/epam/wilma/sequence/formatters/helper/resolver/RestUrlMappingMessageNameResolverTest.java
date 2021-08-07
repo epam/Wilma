@@ -75,7 +75,7 @@ public class RestUrlMappingMessageNameResolverTest {
         //WHEN
         String resolvedType = underTest.resolve(request, parameters);
         //THEN
-        assertEquals(resolvedType, "");
+        assertEquals("", resolvedType);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class RestUrlMappingMessageNameResolverTest {
         //WHEN
         String resolvedType = underTest.resolve(request, parameters);
         //THEN
-        assertEquals(resolvedType, "");
+        assertEquals("", resolvedType);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class RestUrlMappingMessageNameResolverTest {
         //WHEN
         String resolvedType = underTest.resolve(request, parameters);
         //THEN
-        assertEquals(resolvedType, "");
+        assertEquals("", resolvedType);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class RestUrlMappingMessageNameResolverTest {
         //WHEN
         String result = underTest.resolve(new WilmaHttpEntity(), parameters);
         //THEN
-        assertEquals(result, "");
+        assertEquals("", result);
     }
 
     @Test
@@ -116,7 +116,7 @@ public class RestUrlMappingMessageNameResolverTest {
         //WHEN
         String resolvedType = underTest.resolve(request, parameters);
         //THEN
-        assertEquals(resolvedType, "ExactResolvable");
+        assertEquals("ExactResolvable", resolvedType);
     }
 
     @Test
@@ -126,7 +126,7 @@ public class RestUrlMappingMessageNameResolverTest {
         //WHEN
         String resolvedType = underTest.resolve(request, parameters);
         //THEN
-        assertEquals(resolvedType, "RegexResolvable");
+        assertEquals("RegexResolvable", resolvedType);
     }
 
     @Test
@@ -137,7 +137,7 @@ public class RestUrlMappingMessageNameResolverTest {
         //WHEN
         String resolvedType = underTest.resolve(request, parameters);
         //THEN
-        assertEquals(resolvedType, "XpathType");
+        assertEquals("XpathType", resolvedType);
     }
 
     private void givenRequestWithUrl(final String string) throws Exception {

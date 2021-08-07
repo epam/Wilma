@@ -63,50 +63,50 @@ public class FilePathReaderTest {
     public void testGetFilePathsShouldReturnWithEmptyListWhenTargetFolderIsEmpty() {
         //GIVEN
         given(fileFactory.createFile(PATH)).willReturn(file);
-        given(fileUtils.listFiles(file)).willReturn(new ArrayList<File>());
+        given(fileUtils.listFiles(file)).willReturn(new ArrayList<>());
         //WHEN
         List<String> actual = underTest.getFilePaths(PATH);
         //THEN
-        Assert.assertEquals(actual.size(), 0);
+        Assert.assertEquals(0, actual.size());
     }
 
     @Test
     public void testGetFilePathsShouldReturnListWithOneElementWhenTargetFolderContainsOneFile() {
         //GIVEN
         given(fileFactory.createFile(PATH)).willReturn(file);
-        List<File> fileList = new ArrayList<File>();
+        List<File> fileList = new ArrayList<>();
         fileList.add(file);
         given(fileUtils.listFiles(file)).willReturn(fileList);
         given(file.toString()).willReturn(PATH);
         //WHEN
         List<String> actual = underTest.getFilePaths(PATH);
         //THEN
-        Assert.assertEquals(actual.get(0), PATH);
+        Assert.assertEquals(PATH, actual.get(0));
     }
 
     @Test
     public void testGetShortFilePathsShouldReturnWithEmptyListWhenTargetFolderIsEmpty() {
         //GIVEN
         given(fileFactory.createFile(PATH)).willReturn(file);
-        given(fileUtils.listFiles(file)).willReturn(new ArrayList<File>());
+        given(fileUtils.listFiles(file)).willReturn(new ArrayList<>());
         //WHEN
         List<String> actual = underTest.getShortFilePaths(PATH);
         //THEN
-        Assert.assertEquals(actual.size(), 0);
+        Assert.assertEquals(0, actual.size());
     }
 
     @Test
     public void testGetShortFilePathsShouldReturnListWithOneElementWhenTargetFolderContainsOneFile() {
         //GIVEN
         given(fileFactory.createFile(PATH)).willReturn(file);
-        List<File> fileList = new ArrayList<File>();
+        List<File> fileList = new ArrayList<>();
         fileList.add(file);
         given(fileUtils.listFiles(file)).willReturn(fileList);
         given(file.toString()).willReturn(PATH + "\\" + SHORT_PATH);
         //WHEN
         List<String> actual = underTest.getShortFilePaths(PATH);
         //THEN
-        Assert.assertEquals(actual.get(0), SHORT_PATH);
+        Assert.assertEquals(SHORT_PATH, actual.get(0));
     }
 
 }

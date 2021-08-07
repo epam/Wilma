@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.circuitBreaker;
+package com.epam.wilma.extras.circuitbreaker;
 /*==========================================================================
 Copyright since 2013, EPAM Systems
 

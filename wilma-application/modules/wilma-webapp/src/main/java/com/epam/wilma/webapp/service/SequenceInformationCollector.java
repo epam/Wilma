@@ -51,10 +51,10 @@ public class SequenceInformationCollector {
         Map<String, Integer> countOfGroups = new HashMap<>();
         Map<String, SequenceDescriptor> descriptors = sequenceManager.getDescriptors();
         int sumSequenceCount = 0;
-        for (String seqDescriptorKey : descriptors.keySet()) {
-            int countOfSequences = descriptors.get(seqDescriptorKey).getSequences().size();
+        for (Map.Entry<String, SequenceDescriptor> seqDescriptorEntry : descriptors.entrySet()) {
+            int countOfSequences = seqDescriptorEntry.getValue().getSequences().size();
             sumSequenceCount += countOfSequences;
-            countOfGroups.put(seqDescriptorKey, countOfSequences);
+            countOfGroups.put(seqDescriptorEntry.getKey(), countOfSequences);
         }
         result.put(SUM_KEY, sumSequenceCount);
         result.put(GROUPS_KEY, countOfGroups);

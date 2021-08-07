@@ -54,7 +54,7 @@ public class JsonSchemaCheckerTest {
 
     @Test
     public void testCheckConditionShouldPassWhenJsonHasProperParameter() {
-        givenExpectations("JsonSchemaCheckerTestSchema.json", "false");
+        givenExpectations("false");
         givenWilmaRequest("{\"person\":{\"name\":\"Wilma\",\"age\":20}}");
 
         boolean matches = underTest.checkCondition(request, parameters);
@@ -64,7 +64,7 @@ public class JsonSchemaCheckerTest {
 
     @Test
     public void testCheckConditionShouldFailWhenJsonHasNoSuchParameter() {
-        givenExpectations("JsonSchemaCheckerTestSchema.json", "false");
+        givenExpectations("false");
         givenWilmaRequest("{\"person\":{\"name\":\"Wilma\",\"birthDate\":20}}");
 
         boolean matches = underTest.checkCondition(request, parameters);
@@ -74,7 +74,7 @@ public class JsonSchemaCheckerTest {
 
     @Test
     public void testCheckConditionShouldFailWhenJsonHasMoreParameters() {
-        givenExpectations("JsonSchemaCheckerTestSchema.json", "false");
+        givenExpectations("false");
         givenWilmaRequest("{\"person\":{\"name\":\"Wilma\",\"age\":20,\"birthDate\":\"2018-08-23\"}}");
 
         boolean matches = underTest.checkCondition(request, parameters);
@@ -84,7 +84,7 @@ public class JsonSchemaCheckerTest {
 
     @Test
     public void testCheckConditionShouldFailWhenRequestIsNotJson() {
-        givenExpectations("JsonSchemaCheckerTestSchema.json", "false");
+        givenExpectations("false");
         givenWilmaRequest("<request><name>Wilma</name><age>2></age></request>");
 
         boolean matches = underTest.checkCondition(request, parameters);
@@ -97,9 +97,9 @@ public class JsonSchemaCheckerTest {
         request.setBody(body);
     }
 
-    private void givenExpectations(String schemaFile, String logValidationFailure) {
+    private void givenExpectations(String logValidationFailure) {
         parameters = new ParameterList();
-        parameters.addParameter(new Parameter(SCHEMA, schemaFile));
+        parameters.addParameter(new Parameter(SCHEMA, "JsonSchemaCheckerTestSchema.json"));
         parameters.addParameter(new Parameter(LOG_IF_VALIDATION_FAILED, logValidationFailure));
     }
 

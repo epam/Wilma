@@ -200,7 +200,7 @@ public class SequenceAwareXslTransformerTest {
         //WHEN
         byte[] actual = underTest.transform(xslInputStream, requestInputStream, templateInputStream, nameToXml);
         //THEN
-        assertEquals(actual, outputStream.toByteArray());
+        assertEquals(outputStream.toByteArray(), actual);
     }
 
     private void givenParameter(final String parameterName, final QName qName) throws SaxonApiException {

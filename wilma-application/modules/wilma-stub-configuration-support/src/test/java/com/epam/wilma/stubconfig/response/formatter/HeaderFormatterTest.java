@@ -24,6 +24,7 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +33,6 @@ import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
  * Tests for {@link HeaderFormatter}.
@@ -63,8 +63,8 @@ public class HeaderFormatterTest {
         //WHEN
         underTest.formatResponse(request, response, null, parameterMap);
         //THEN
-        verifyZeroInteractions(request);
-        verifyZeroInteractions(response);
+        Mockito.verifyNoInteractions(request);
+        Mockito.verifyNoInteractions(response);
     }
 
     @Test
@@ -74,8 +74,8 @@ public class HeaderFormatterTest {
         //WHEN
         underTest.formatResponse(request, response, null, parameterMap);
         //THEN
-        verifyZeroInteractions(request);
-        verifyZeroInteractions(response);
+        Mockito.verifyNoInteractions(request);
+        Mockito.verifyNoInteractions(response);
     }
 
     @Test
@@ -119,8 +119,8 @@ public class HeaderFormatterTest {
         //WHEN
         underTest.formatResponse(request, response, null, parameterMap);
         //THEN
-        verifyZeroInteractions(request);
-        verifyZeroInteractions(response);
+        Mockito.verifyNoInteractions(request);
+        Mockito.verifyNoInteractions(response);
     }
 
     @Test
@@ -134,8 +134,8 @@ public class HeaderFormatterTest {
         //WHEN
         underTest.formatResponse(request, response, null, parameterMap);
         //THEN
-        verifyZeroInteractions(request);
-        verifyZeroInteractions(response);
+        Mockito.verifyNoInteractions(request);
+        Mockito.verifyNoInteractions(response);
     }
 
     @Test
@@ -149,8 +149,8 @@ public class HeaderFormatterTest {
         //WHEN
         underTest.formatResponse(request, response, null, parameterMap);
         //THEN
-        verifyZeroInteractions(request);
-        verifyZeroInteractions(response);
+        Mockito.verifyNoInteractions(request);
+        Mockito.verifyNoInteractions(response);
     }
 
     @Test
@@ -164,8 +164,8 @@ public class HeaderFormatterTest {
         //WHEN
         underTest.formatResponse(request, response, null, parameterMap);
         //THEN
-        verifyZeroInteractions(request);
-        verifyZeroInteractions(response);
+        Mockito.verifyNoInteractions(request);
+        Mockito.verifyNoInteractions(response);
     }
 
 }

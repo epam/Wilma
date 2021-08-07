@@ -26,7 +26,6 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -111,7 +110,7 @@ public class MultiPartFormUploadServletTest {
         //THEN
         verify(response).setContentType("text/html");
         verify(response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        verify(printWriter).write(Matchers.anyString());
+        verify(printWriter).write(Mockito.anyString());
     }
 
     @Test
@@ -126,7 +125,7 @@ public class MultiPartFormUploadServletTest {
         //THEN
         verify(response).setContentType("text/html");
         verify(response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        verify(printWriter).write(Matchers.anyString());
+        verify(printWriter).write(Mockito.anyString());
     }
 
     @Test

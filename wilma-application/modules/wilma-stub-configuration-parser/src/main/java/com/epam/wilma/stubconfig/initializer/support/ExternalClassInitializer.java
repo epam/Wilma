@@ -76,7 +76,7 @@ public class ExternalClassInitializer extends ClassLoader {
     }
 
     private <T> T initializeBean(final String externalClassName, final String classPath, final Class<T> interfaceToCast, final String className) {
-        logger.info("Initializing class {} of type {}, using classpath {}.", externalClassName + "/" + className, interfaceToCast, classPath);
+        logger.info("Initializing class {}/{} of type {}, using classpath {}.", externalClassName, className, interfaceToCast, classPath);
         T result = instantiateExternalClass(externalClassName, classPath, interfaceToCast);
         beanRegistryService.register(className, result);
         return result;
@@ -84,20 +84,18 @@ public class ExternalClassInitializer extends ClassLoader {
 
     private <T> T instantiateExternalClass(final String externalClassName, final String classPath, final Class<T> interfaceToCast) {
         T result;
+        String partiallyPreparedErrorMessage = "Validation of stub descriptor failed - External class '" + classPath + "/" + externalClassName;
         try {
             Class<T> classToLoad;
             classToLoad = classFactory.getClassToLoad(classPath, externalClassName);
             result = classInstantiator.createClassInstanceOf(classToLoad);
             externalClassValidator.validateInterface(result, interfaceToCast, classPath);
         } catch (SecurityException | IllegalArgumentException | ReflectiveOperationException e) {
-            throw new DescriptorValidationFailedException("Validation of stub descriptor failed - External class '" + classPath + "/"
-                    + externalClassName + "' not found.", e);
+            throw new DescriptorValidationFailedException(partiallyPreparedErrorMessage + "' not found.", e);
         } catch (NoClassDefFoundError e) {
-            throw new DescriptorValidationFailedException("Validation of stub descriptor failed - External class '" + classPath + "/"
-                    + externalClassName + "' cannot be loaded. Issue: " + e.getMessage(), e);
+            throw new DescriptorValidationFailedException(partiallyPreparedErrorMessage + "' cannot be loaded. Issue: " + e.getMessage(), e);
         } catch (ClassFormatError e) {
-            throw new DescriptorValidationFailedException("Validation of stub descriptor failed - External class '" + classPath + "/"
-                    + externalClassName + "' has invalid class format.", e);
+            throw new DescriptorValidationFailedException(partiallyPreparedErrorMessage + "' has invalid class format.", e);
         }
         return result;
     }

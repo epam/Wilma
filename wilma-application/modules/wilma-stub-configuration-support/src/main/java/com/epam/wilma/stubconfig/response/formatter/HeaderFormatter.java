@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * This class adds the necessary header(s) to the stub response.
- * header name/value pairs should be defined as parameters of this template formatter class.
+ * header name/value pairs should be defined as parameters of this response formatter class.
  *
  * @author Tamas_Kohegyi on 2016-02-22.
  */
@@ -50,7 +50,7 @@ public class HeaderFormatter implements ResponseFormatter {
                     resp.addHeader(name, value);
                 }
             } else {
-                logger.warn("Template Formatter issue: specified parameters cannot be used in header: " + p.toString());
+                logger.warn("Response Formatter issue: specified parameters cannot be used in header: {}", p);
             }
         }
         //we don't touch the body part

@@ -56,7 +56,7 @@ public class StringRegexpReplaceResponseFormatter implements ResponseFormatter {
     }
 
     private String getTemplate(final byte[] templateResource, final ParameterList params) throws IOException {
-        String template = IOUtils.toString(templateResource, "utf-8");
+        String template = IOUtils.toString(templateResource, String.valueOf(StandardCharsets.UTF_8));
         for (Parameter param : params.getAllParameters()) {
             String name = param.getName();
             String value = param.getValue();

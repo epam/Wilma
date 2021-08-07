@@ -304,9 +304,9 @@ public class JmsQueueMonitorTaskTest {
         underTest.run();
         // THEN
         long loggerQueueSize = ((QueueSizeProvider) Whitebox.getInternalState(underTest, "queueSizeProvider")).getLoggerQueueSize();
-        Assert.assertEquals(loggerQueueSize, 91);
+        Assert.assertEquals(91, loggerQueueSize);
         long responseQueueSize = ((QueueSizeProvider) Whitebox.getInternalState(underTest, "queueSizeProvider")).getResponseQueueSize();
-        Assert.assertEquals(responseQueueSize, 12);
+        Assert.assertEquals(12, responseQueueSize);
     }
 
     @Test

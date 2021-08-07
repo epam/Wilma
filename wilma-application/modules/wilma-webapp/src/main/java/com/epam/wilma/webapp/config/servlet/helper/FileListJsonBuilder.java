@@ -45,7 +45,10 @@ import com.google.gson.JsonObject;
 public class FileListJsonBuilder {
 
     private static final String FILES = "files";
-    private static Logger logger = LoggerFactory.getLogger(FileListJsonBuilder.class);
+    private static final String DEFAULT_RESULT = "{\"files\":[]}";
+    private static final String COMMON_DEBUG_MESSAGE = "The directory '{}' has not been created yet, or an I/O error occurred.";
+    private final Logger logger = LoggerFactory.getLogger(FileListJsonBuilder.class);
+
     @Autowired
     private FileUtils fileUtilsWrapper;
 
@@ -55,13 +58,13 @@ public class FileListJsonBuilder {
      * @return JSON response as String
      */
     public String buildLogFileListJson(final File directory) {
-        String result = "{\"files\":[]}";
+        String result = DEFAULT_RESULT;
         String[] messageFiles = directory.list();
         if (messageFiles != null) {
             Arrays.sort(messageFiles);
             result = getJson(messageFiles);
         } else {
-            logger.debug("The directory '" + directory + "' has not been created yet, or an I/O error occured.");
+            logger.debug(COMMON_DEBUG_MESSAGE, directory);
         }
         return result;
     }
@@ -73,7 +76,7 @@ public class FileListJsonBuilder {
      * @return JSON response as String
      */
     public String buildMessageFileListJson(final File directory, final int maxValue) {
-        String result = "{\"files\":[]}";
+        String result = DEFAULT_RESULT;
         String[] messageFiles = directory.list();
         if (messageFiles != null) {
             String[] resultFiles = messageFiles;
@@ -83,7 +86,7 @@ public class FileListJsonBuilder {
             }
             result = getJson(resultFiles);
         } else {
-            logger.debug("The directory '" + directory + "' has not been created yet, or an I/O error occured.");
+            logger.debug(COMMON_DEBUG_MESSAGE, directory);
         }
         return result;
     }
@@ -95,14 +98,14 @@ public class FileListJsonBuilder {
      * @return JSON response as a string
      */
     public String buildFileListJson(final File directory) {
-        String result = "{\"files\":[]}";
+        String result = DEFAULT_RESULT;
         Collection<File> messageFiles = fileUtilsWrapper.listFiles(directory);
         if (messageFiles != null) {
             List<String> fileNames = getFileNames(messageFiles);
             Collections.sort(fileNames);
             result = getJson(fileNames);
         } else {
-            logger.debug("The directory '" + directory + "' has not been created yet, or an I/O error occurred.");
+            logger.debug(COMMON_DEBUG_MESSAGE, directory);
         }
         return result;
     }
@@ -120,7 +123,6 @@ public class FileListJsonBuilder {
         Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
         jsonObject.add(FILES, gson.toJsonTree(object));
-        String json = gson.toJson(jsonObject);
-        return json;
+        return gson.toJson(jsonObject);
     }
 }

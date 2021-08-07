@@ -43,7 +43,7 @@ public class WilmaHttpEntityUtilsTest {
     }
 
     @Test
-    public void testIsJsonMessage() throws Exception {
+    public void testIsJsonMessage() {
         //GIVEN
         //WHEN
         boolean jsonResult = underTest.isJsonMessage(requestOf("{\"property\":\"value\"}"));
@@ -60,7 +60,7 @@ public class WilmaHttpEntityUtilsTest {
     }
 
     @Test
-    public void testIsXmlMessage() throws Exception {
+    public void testIsXmlMessage() {
         //GIVEN
         //WHEN
         boolean xmlResult = underTest.isXmlMessage(requestOf("<?xml version=\"1.0\"?><root><child></child></root>"));
@@ -73,7 +73,7 @@ public class WilmaHttpEntityUtilsTest {
     }
 
     @Test
-    public void testIsSoapMessage() throws Exception {
+    public void testIsSoapMessage() {
         //GIVEN
         //WHEN
         boolean soapResult = underTest.isSoapMessage(requestOf(soapMessage()));
@@ -99,21 +99,21 @@ public class WilmaHttpEntityUtilsTest {
     }
 
     @Test
-    public void testGetWilmaMessageIdAtRequest() throws Exception {
+    public void testGetWilmaMessageIdAtRequest() {
         //test the request part
         WilmaHttpRequest request = new WilmaHttpRequest();
         request.setWilmaMessageId("test");
-        assertEquals(request.getWilmaMessageId(), "test");
-        assertEquals(request.getWilmaMessageLoggerId(), "testreq");
+        assertEquals("test", request.getWilmaMessageId());
+        assertEquals("testreq", request.getWilmaMessageLoggerId());
     }
 
     @Test
-    public void testGetWilmaMessageIdAtResponse() throws Exception {
+    public void testGetWilmaMessageIdAtResponse() {
         //test the response part
         WilmaHttpResponse response = new WilmaHttpResponse(false);
         response.setWilmaMessageId("test");
-        assertEquals(response.getWilmaMessageId(), "test");
-        assertEquals(response.getWilmaMessageLoggerId(), "testresp");
+        assertEquals("test", response.getWilmaMessageId());
+        assertEquals("testresp", response.getWilmaMessageLoggerId());
     }
 
 }

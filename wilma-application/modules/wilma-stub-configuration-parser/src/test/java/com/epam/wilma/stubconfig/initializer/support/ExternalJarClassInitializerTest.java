@@ -27,7 +27,6 @@ import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
 import com.epam.wilma.stubconfig.initializer.support.helper.PackageBasedClassFinder;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -38,8 +37,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -97,7 +94,7 @@ public class ExternalJarClassInitializerTest {
     }
 
     @Test
-    public void testLoadExternalClassShouldGetClassAsBeanFirst() throws MalformedURLException {
+    public void testLoadExternalClassShouldGetClassAsBeanFirst() {
         //GIVEN in setup
         //WHEN
         Object result = underTest.loadExternalClass(PACKAGE_NAME, JAR_FOLDER_PATH, INTERFACE_TO_CAST);
@@ -108,8 +105,7 @@ public class ExternalJarClassInitializerTest {
     }
 
     @Test
-    public void testLoadExternalClassShouldInstantiateClassWhenBeanWasNotFound() throws InstantiationException, IllegalAccessException,
-            InvocationTargetException {
+    public void testLoadExternalClassShouldInstantiateClassWhenBeanWasNotFound() {
         //GIVEN
         given(beanRegistryService.getBean(BEAN_NAME, INTERFACE_TO_CAST)).willThrow(new NoSuchBeanDefinitionException("error"));
         Collection<File> jarFiles = new ArrayList<>();
@@ -122,7 +118,7 @@ public class ExternalJarClassInitializerTest {
     }
 
     @Test(expected = DescriptorValidationFailedException.class)
-    public void testLoadExternalClassShouldThrowDescriptorValidationFailedExceptionWhenNeitherBeanNorClassWasFound() throws MalformedURLException {
+    public void testLoadExternalClassShouldThrowDescriptorValidationFailedExceptionWhenNeitherBeanNorClassWasFound() {
         //GIVEN
         given(beanRegistryService.getBean(BEAN_NAME, INTERFACE_TO_CAST)).willThrow(new NoSuchBeanDefinitionException("error"));
         Collection<File> jarFiles = new ArrayList<>();
@@ -133,17 +129,4 @@ public class ExternalJarClassInitializerTest {
         //THEN exception is thrown
     }
 
-    @Ignore
-    @Test(expected = DescriptorValidationFailedException.class)
-    public void testLoadExternalClassShouldThrowDescriptorValidationFailedExceptionWhenBeanWasNotFoundButClassIsAbstract() throws MalformedURLException {
-        //TODO test abstract class load from jar
-        //GIVEN
-        given(beanRegistryService.getBean(BEAN_NAME, INTERFACE_TO_CAST)).willThrow(new NoSuchBeanDefinitionException("error"));
-        Collection<File> jarFiles = new ArrayList<>();
-        given(fileUtils.listFiles(folder, "jar")).willReturn(jarFiles);
-        given(packageBasedClassFinder.findClassInJar(any(), any(), any())).willThrow(new DescriptorValidationFailedException(""));
-        //WHEN
-        underTest.loadExternalClass(PACKAGE_NAME, JAR_FOLDER_PATH, INTERFACE_TO_CAST);
-        //THEN exception is thrown
-    }
 }

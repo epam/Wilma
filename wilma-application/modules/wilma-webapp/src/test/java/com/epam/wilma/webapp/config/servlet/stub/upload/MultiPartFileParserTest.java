@@ -62,7 +62,7 @@ public class MultiPartFileParserTest {
         //WHEN
         String actual = underTest.parseMultiPartFiles(uploadedFiles);
         //THEN
-        assertEquals(actual, "No file uploaded");
+        assertEquals("No file uploaded", actual);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class MultiPartFileParserTest {
         //WHEN
         String actual = underTest.parseMultiPartFiles(uploadedFiles);
         //THEN
-        assertEquals(actual, "");
+        assertEquals("", actual);
     }
 
     @Test
@@ -91,7 +91,7 @@ public class MultiPartFileParserTest {
         //WHEN
         String actual = underTest.parseMultiPartFiles(uploadedFiles);
         //THEN
-        assertEquals(actual, "processing result message");
+        assertEquals("processing result message", actual);
     }
 
     @Test(expected = IOException.class)

@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.circuitBreaker;
+package com.epam.wilma.extras.circuitbreaker;
 
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;

@@ -48,14 +48,14 @@ public class XslResponseGenerator {
      * @return the output xml
      */
     public byte[] generateResponse(final byte[] requestXml, final byte[] xsl, final byte[] template) {
-        byte[] result = null;
+        byte[] result;
         InputStream requestInputStream = inputStreamFactory.createByteArrayInputStream(requestXml);
         InputStream xslInputStream = inputStreamFactory.createByteArrayInputStream(xsl);
         InputStream templateInputStream = inputStreamFactory.createByteArrayInputStream(template);
         try {
             result = transformer.transform(xslInputStream, requestInputStream, templateInputStream);
         } catch (Exception e) {
-            throw new ResponseFormattingFailedException("Template formatting failed with xslt:" + xsl, e);
+            throw new ResponseFormattingFailedException("Response formatting failed with xslt:" + xsl, e);
         }
         return result;
     }

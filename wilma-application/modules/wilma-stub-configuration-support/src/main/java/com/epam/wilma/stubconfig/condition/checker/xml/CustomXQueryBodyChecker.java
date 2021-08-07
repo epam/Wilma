@@ -47,6 +47,7 @@ public class CustomXQueryBodyChecker implements ConditionChecker {
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     private final Logger logger = LoggerFactory.getLogger(CustomXQueryBodyChecker.class);
+
     @Autowired
     private XQueryExpressionEvaluator queryExpressionEvaluator;
 
@@ -58,8 +59,8 @@ public class CustomXQueryBodyChecker implements ConditionChecker {
             String contentType = request.getHeader(CONTENT_TYPE_HEADER);
             if (contentType != null && (contentType.contains(XML_CONTENT) || FASTINFOSET_CONTENT.equals(contentType))) {
                 try {
-                    Parameter paramater = params.iterator().next();
-                    String value = paramater.getValue();
+                    Parameter parameter = params.iterator().next();
+                    String value = parameter.getValue();
                     result = evaluateCondition(request.getBody(), value);
                 } catch (SaxonApiException e) {
                     throw new ConditionEvaluationFailedException("XQuery evaluation failed at request: " + request.getWilmaMessageLoggerId(), e);
@@ -87,7 +88,6 @@ public class CustomXQueryBodyChecker implements ConditionChecker {
     }
 
     private String removeXmlDecTagFromXQueryResult(final String xml) {
-        String xmlDeclarationTag = XML_DECLARATION;
-        return xml.replace(xmlDeclarationTag, "");
+        return xml.replace(XML_DECLARATION, "");
     }
 }

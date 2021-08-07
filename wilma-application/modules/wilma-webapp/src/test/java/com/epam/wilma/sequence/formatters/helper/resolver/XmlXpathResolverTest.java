@@ -49,7 +49,7 @@ public class XmlXpathResolverTest {
         //WHEN
         String value = underTest.getValue("local-name(/*[1])", request());
         //THEN
-        Assert.assertEquals(value, "BOB");
+        Assert.assertEquals("BOB", value);
     }
 
     @Test(expected = XmlXpathResolver.InvalidXPathExpressionException.class)

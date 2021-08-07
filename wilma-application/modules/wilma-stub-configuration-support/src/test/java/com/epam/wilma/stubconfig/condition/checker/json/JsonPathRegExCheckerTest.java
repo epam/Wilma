@@ -48,7 +48,7 @@ public class JsonPathRegExCheckerTest {
 
     @Test
     public void testCheckConditionShouldPassWhenPropertyMatches() {
-        givenExpectations("Wilma.*", "$.name");
+        givenExpectations("$.name");
         givenWilmaRequest("{\"name\":\"Wilma Test\",\"age\":\"20\"}");
 
         boolean matches = underTest.checkCondition(request, parameters);
@@ -61,9 +61,9 @@ public class JsonPathRegExCheckerTest {
         request.setBody(body);
     }
 
-    private void givenExpectations(String expected, String path) {
+    private void givenExpectations(String path) {
         parameters = new ParameterList();
-        parameters.addParameter(new Parameter(EXPECTED_KEY, expected));
+        parameters.addParameter(new Parameter(EXPECTED_KEY, "Wilma.*"));
         parameters.addParameter(new Parameter(JSONPATH_KEY, path));
     }
 }

@@ -26,6 +26,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.LinkedList;
@@ -33,7 +34,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
 
 /**
  * Tests for {@link OrBodyChecker}.
@@ -97,7 +97,7 @@ public class OrBodyCheckerTest {
         //GIVEN
         given(request.getBody()).willReturn("baaacccacacacacaaasdfsfasfasdfafasdf");
         given(paramList.getAllParameters()).willReturn(params);
-        given(operator.checkTarget(anyString(), anyString())).willReturn(true);
+        given(operator.checkTarget(Mockito.anyString(), Mockito.anyString())).willReturn(true);
         params.add(new Parameter("", "aa"));
         //WHEN
         boolean actual = underTest.checkCondition(request, paramList);
@@ -110,7 +110,7 @@ public class OrBodyCheckerTest {
         //GIVEN
         given(request.getBody()).willReturn("baaacccacacacacaaasdfsfasfasdfafasdf");
         given(paramList.getAllParameters()).willReturn(params);
-        given(operator.checkTarget(anyString(), anyString())).willReturn(true);
+        given(operator.checkTarget(Mockito.anyString(), Mockito.anyString())).willReturn(true);
         params.add(new Parameter("", "aa"));
         params.add(new Parameter("", "b"));
         params.add(new Parameter("", "cc"));

@@ -25,11 +25,11 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class HttpHeaderToBeUpdated extends HttpHeaderChange {
     private String originalValue;
-    private String newValue;
+    private final String newValue;
 
     /**
      * Represents a header value that need to be updated. Contains both original and new values.
-     * Original value remains null if it is a brand new header.
+     * Original value remains null if it is a brand-new header.
      *
      * @param newValue is the new value of the header.
      */

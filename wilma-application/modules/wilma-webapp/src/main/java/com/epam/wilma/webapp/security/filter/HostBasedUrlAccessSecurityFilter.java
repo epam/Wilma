@@ -55,7 +55,8 @@ public class HostBasedUrlAccessSecurityFilter implements Filter {
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
+        //nothing to do here
     }
 
     @Override
@@ -84,6 +85,7 @@ public class HostBasedUrlAccessSecurityFilter implements Filter {
 
     @Override
     public void destroy() {
+        //has nothing to do here
     }
 
 }

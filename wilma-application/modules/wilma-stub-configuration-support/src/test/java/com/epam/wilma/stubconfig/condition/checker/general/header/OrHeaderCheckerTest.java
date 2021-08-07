@@ -25,6 +25,7 @@ import com.epam.wilma.stubconfig.condition.checker.general.operator.ConditionChe
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
@@ -35,7 +36,6 @@ import java.util.Map;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
 
 /**
  * Tests for {@link OrHeaderChecker}.
@@ -85,7 +85,7 @@ public class OrHeaderCheckerTest {
     @Test
     public void testCheckConditionShouldReturnFalseWhenHeaderDoesNotContainParam() {
         //GIVEN
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         headers.put("b", "bb");
         headers.put("c", "cc");
         given(request.getHeaders()).willReturn(headers);
@@ -101,11 +101,11 @@ public class OrHeaderCheckerTest {
     @Test
     public void testCheckConditionShouldReturnFalseWhenHeaderContainsJustTheDesiredParam() {
         //GIVEN
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         headers.put("a", "aa");
         given(request.getHeaders()).willReturn(headers);
         given(paramList.getAllParameters()).willReturn(params);
-        given(operator.checkTarget(anyString(), anyString())).willReturn(true);
+        given(operator.checkTarget(Mockito.anyString(), Mockito.anyString())).willReturn(true);
         params.add(new Parameter("", "aa"));
         //WHEN
         boolean actual = underTest.checkCondition(request, paramList);
@@ -116,7 +116,7 @@ public class OrHeaderCheckerTest {
     @Test
     public void testCheckConditionShouldReturnTrueWhenHeaderContainsOneOfTheParams() {
         //GIVEN
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         headers.put("a", "aa");
         headers.put("c", "cc");
         headers.put("b", "bb");
@@ -124,7 +124,7 @@ public class OrHeaderCheckerTest {
         given(paramList.getAllParameters()).willReturn(params);
         params.add(new Parameter("", "aa"));
         params.add(new Parameter("", "dd"));
-        given(operator.checkTarget(anyString(), anyString())).willReturn(true);
+        given(operator.checkTarget(Mockito.anyString(), Mockito.anyString())).willReturn(true);
         //WHEN
         boolean actual = underTest.checkCondition(request, paramList);
         //THEN

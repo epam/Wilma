@@ -19,6 +19,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
@@ -38,7 +39,7 @@ public class ByteArrayConverter {
      * @throws IOException if an I/O error occurs during conversion
      */
     public String toString(final byte[] xml) throws IOException {
-        return IOUtils.toString(xml, "UTF-8");
+        return IOUtils.toString(xml, String.valueOf(StandardCharsets.UTF_8));
     }
 
 }

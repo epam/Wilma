@@ -42,9 +42,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ServiceMap {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceMap.class);
     private final Object o = new Object();
+    private Map<String, ExternalWilmaService> externalWilmaServiceMap = new ConcurrentHashMap<>();
+
     @Autowired
     private RoutingService routingService;
-    private Map<String, ExternalWilmaService> serviceMap = new ConcurrentHashMap<>();
 
     /**
      * Method to call the proper registered external service, based on the request URI.
@@ -61,13 +62,13 @@ public class ServiceMap {
     public String callExternalService(final HttpServletRequest req, final String requestedService, HttpServletResponse resp) {
         ExternalWilmaService service;
         synchronized (o) {
-            service = serviceMap.get(requestedService);
+            service = externalWilmaServiceMap.get(requestedService);
             if (service == null) {
                 //this part allows to use requestService/* type calls
-                for (String key : serviceMap.keySet()) {
-                    String offeredServicePattern = key + "/";
+                for (Map.Entry<String, ExternalWilmaService> serviceEntry : externalWilmaServiceMap.entrySet()) {
+                    String offeredServicePattern = serviceEntry.getKey() + "/";
                     if (requestedService.startsWith(offeredServicePattern)) {
-                        service = serviceMap.get(key);
+                        service = serviceEntry.getValue();
                         break;
                     }
                 }
@@ -86,9 +87,8 @@ public class ServiceMap {
     }
 
     private void logError(final ExternalWilmaService service, final String requestedService, final Exception e) {
-        LOGGER.error("Error during call to external service: " + service.getClass().getCanonicalName()
-                + " with requested service: \"" + requestedService
-                + "\"! Reason:" + e.getMessage(), e);
+        LOGGER.error("Error during call to external service: {} with requested service: \"{}\"! Reason:{}",
+                service.getClass().getCanonicalName(), requestedService, e.getMessage(), e);
     }
 
     /**
@@ -120,8 +120,8 @@ public class ServiceMap {
         }
         //new service map created
         synchronized (o) {
-            serviceMap.clear();
-            serviceMap = newServiceMap;
+            externalWilmaServiceMap.clear();
+            externalWilmaServiceMap = newServiceMap;
         }
     }
 
@@ -132,13 +132,13 @@ public class ServiceMap {
      */
     public String getMapAsResponse() {
         StringBuilder response = new StringBuilder("{\n  \"serviceMap\": [\n");
-        if (!serviceMap.isEmpty()) {
+        if (!externalWilmaServiceMap.isEmpty()) {
             synchronized (o) {
-                String[] keySet = serviceMap.keySet().toArray(new String[serviceMap.size()]);
+                String[] keySet = externalWilmaServiceMap.keySet().toArray(new String[externalWilmaServiceMap.size()]);
                 for (int i = 0; i < keySet.length; i++) {
                     String entryKey = keySet[i];
                     response.append("    { \"").append(entryKey).append("\": \"")
-                            .append(serviceMap.get(entryKey).getClass().getCanonicalName()).append("\" }");
+                            .append(externalWilmaServiceMap.get(entryKey).getClass().getCanonicalName()).append("\" }");
                     if (i < keySet.length - 1) {
                         response.append(",");
                     }

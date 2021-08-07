@@ -30,7 +30,7 @@ public class HttpHeaderChange implements Serializable {
     private boolean applied;
 
     /**
-     * By default the header Change is not applied. Cann this method to reflect,
+     * By default, the header Change is not applied. Call this method to reflect,
      * that the header in the message is updated with this change, ie the change is applied.
      */
     public void setApplied() {

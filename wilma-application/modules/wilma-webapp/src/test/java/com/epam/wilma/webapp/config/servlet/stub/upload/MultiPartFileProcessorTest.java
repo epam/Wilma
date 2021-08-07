@@ -81,7 +81,7 @@ public class MultiPartFileProcessorTest {
         String actual = underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "stub-configuration", FILE_PATH);
         //THEN
         verify(routingService).performModification(Mockito.any(NewStubDescriptorCommand.class));
-        assertEquals(actual, "New stub configuration was uploaded to Wilma.");
+        assertEquals("New stub configuration was uploaded to Wilma.", actual);
     }
 
     @Test(expected = CannotUploadExternalResourceException.class)
@@ -100,7 +100,7 @@ public class MultiPartFileProcessorTest {
         String actual = underTest.processUploadedFile(resource, APPLICATION_JAVA, "stub-condition-checker", FILE_PATH);
         //THEN
         verify(fileWriter).write(resource, "/" + FILE_PATH, EXCEPTION_MESSAGE);
-        assertEquals(actual, "External condition checker class '" + FILE_PATH + "' was uploaded to Wilma.");
+        assertEquals("External condition checker class '" + FILE_PATH + "' was uploaded to Wilma.", actual);
     }
 
     @Test(expected = CannotUploadExternalResourceException.class)
@@ -119,7 +119,7 @@ public class MultiPartFileProcessorTest {
         String actual = underTest.processUploadedFile(resource, OCTET_STREAM_CONTENT_TYPE, "stub-response-formatter", FILE_PATH);
         //THEN
         verify(fileWriter).write(resource, "/" + FILE_PATH, EXCEPTION_MESSAGE);
-        assertEquals(actual, "External response formatter class '" + FILE_PATH + "' was uploaded to Wilma.");
+        assertEquals("External response formatter class '" + FILE_PATH + "' was uploaded to Wilma.", actual);
     }
 
     @Test(expected = CannotUploadExternalResourceException.class)
@@ -138,7 +138,7 @@ public class MultiPartFileProcessorTest {
         String actual = underTest.processUploadedFile(resource, "some-content-type", "stub-template", FILE_PATH);
         //THEN
         verify(fileWriter).write(resource, "/" + FILE_PATH, EXCEPTION_MESSAGE);
-        assertEquals(actual, "External template '" + FILE_PATH + "' was uploaded to Wilma.");
+        assertEquals("External template '" + FILE_PATH + "' was uploaded to Wilma.", actual);
     }
 
     @Test(expected = CannotUploadExternalResourceException.class)
@@ -157,7 +157,7 @@ public class MultiPartFileProcessorTest {
         String actual = underTest.processUploadedFile(resource, "some-content-type", "stub-interceptor", FILE_PATH);
         //THEN
         verify(fileWriter).write(resource, "/" + FILE_PATH, EXCEPTION_MESSAGE);
-        assertEquals(actual, "External interceptor '" + FILE_PATH + "' was uploaded to Wilma.");
+        assertEquals("External interceptor '" + FILE_PATH + "' was uploaded to Wilma.", actual);
     }
 
     @Test
@@ -168,7 +168,7 @@ public class MultiPartFileProcessorTest {
         String actual = underTest.processUploadedFile(resource, "some-content-type", "stub-jar", FILE_PATH);
         //THEN
         verify(fileWriter).write(resource, "/" + FILE_PATH, EXCEPTION_MESSAGE);
-        assertEquals(actual, "External jar '" + FILE_PATH + "' was uploaded to Wilma.");
+        assertEquals("External jar '" + FILE_PATH + "' was uploaded to Wilma.", actual);
     }
 
     @Test

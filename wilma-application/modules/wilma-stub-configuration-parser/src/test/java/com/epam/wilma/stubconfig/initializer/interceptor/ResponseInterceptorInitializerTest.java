@@ -77,7 +77,7 @@ public class ResponseInterceptorInitializerTest {
         //WHEN
         ResponseInterceptor actual = underTest.getExternalClassObject(CLASS_NAME);
         //THEN
-        assertEquals(actual, responseInterceptor);
+        assertEquals(responseInterceptor, actual);
     }
 
     @Test
@@ -88,7 +88,7 @@ public class ResponseInterceptorInitializerTest {
         //WHEN
         ResponseInterceptor actual = underTest.getExternalClassObject(CLASS_NAME);
         //THEN
-        assertEquals(actual, responseInterceptor);
+        assertEquals(responseInterceptor, actual);
     }
 
     @Test
@@ -99,7 +99,7 @@ public class ResponseInterceptorInitializerTest {
         //WHEN
         ResponseInterceptor actual = underTest.getExternalClassObject(CLASS_NAME);
         //THEN
-        assertEquals(actual, responseInterceptor);
+        assertEquals(responseInterceptor, actual);
     }
 
     @Test
@@ -113,7 +113,7 @@ public class ResponseInterceptorInitializerTest {
         //WHEN
         ResponseInterceptor actual = underTest.getExternalClassObject(CLASS_NAME);
         //THEN
-        assertEquals(actual, responseInterceptor1);
+        assertEquals(responseInterceptor1, actual);
     }
 
     @Test
@@ -125,7 +125,7 @@ public class ResponseInterceptorInitializerTest {
         //WHEN
         ResponseInterceptor actual = underTest.getExternalClassObject(CLASS_NAME);
         //THEN
-        assertEquals(actual.getClass(), responseInterceptor.getClass());
+        assertEquals(responseInterceptor.getClass(), actual.getClass());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class ResponseInterceptorInitializerTest {
         //WHEN
         ResponseInterceptor actual = underTest.getExternalClassObject(CLASS_NAME);
         //THEN
-        assertEquals(actual, null);
+        assertEquals(null, actual);
     }
 
     @Test(expected = DescriptorValidationFailedException.class)

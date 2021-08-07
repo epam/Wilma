@@ -85,9 +85,6 @@ public class ResponseFormatterDescriptorJsonParser implements ObjectParser<Set<R
     }
 
     private Set<ResponseFormatterDescriptor> parseResponseFormatterSetInvoker(final String responseFormatterSetName, final JSONObject root, final int depth) {
-        //String expression = "/wilma:wilma-stub/wilma:template-descriptor/wilma:template-formatter-set[@name='" + templateFormatterSetName + "']";
-        //Element templateFormatterSet = xPathEvaluator.getElementByXPath(expression, document);
-        //return parse(templateFormatterSet, document, depth);
         JSONObject formatterSet = null;
         boolean found = false;
         if (root.has("responseFormatterSets")) {

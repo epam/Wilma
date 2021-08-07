@@ -64,9 +64,9 @@ public class SequenceInformationCollectorTest {
         Map<String, Object> result = underTest.collectInformation();
         //THEN
         int sum = (int) result.get(SequenceInformationCollector.SUM_KEY);
-        Assert.assertEquals(sum, 0);
+        Assert.assertEquals(0, sum);
         Map<String, Integer> groups = (Map<String, Integer>) result.get(SequenceInformationCollector.GROUPS_KEY);
-        Assert.assertEquals(groups.size(), 0);
+        Assert.assertEquals(0, groups.size());
     }
 
     @Test
@@ -82,8 +82,8 @@ public class SequenceInformationCollectorTest {
         Map<String, Object> result = underTest.collectInformation();
         //THEN
         int sum = (int) result.get(SequenceInformationCollector.SUM_KEY);
-        Assert.assertEquals(sum, 1);
+        Assert.assertEquals(1, sum);
         Map<String, Integer> groups = (Map<String, Integer>) result.get(SequenceInformationCollector.GROUPS_KEY);
-        Assert.assertEquals(groups.size(), 1);
+        Assert.assertEquals(1, groups.size());
     }
 }

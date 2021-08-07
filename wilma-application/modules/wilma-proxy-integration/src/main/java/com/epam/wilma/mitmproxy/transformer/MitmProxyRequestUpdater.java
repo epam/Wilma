@@ -65,21 +65,24 @@ public class MitmProxyRequestUpdater {
                 String headerKey = headerChangeEntry.getKey();
                 HttpHeaderChange headerChange = headerChangeEntry.getValue();
                 Header header = browserMobHttpRequest.getMethod().getFirstHeader(headerKey);
+                handleSingleHeaderChange(browserMobHttpRequest, headerKey, headerChange, header);
+            }
+        }
+    }
 
-                if (headerChange instanceof HttpHeaderToBeUpdated) {
-                    // it is HttpHeaderToBeChanged, so added, or updated
-                    if (header != null) {
-                        ((HttpHeaderToBeUpdated) headerChange).setOriginalValue(header.getValue());
-                    }
-                    browserMobHttpRequest.getMethod().addHeader(headerKey, ((HttpHeaderToBeUpdated) headerChange).getNewValue());
-                    headerChange.setApplied();
-                } else {
-                    // it is HttpHeaderToBeRemoved
-                    if (header != null) {
-                        browserMobHttpRequest.getMethod().removeHeader(header);
-                        headerChange.setApplied();
-                    }
-                }
+    private void handleSingleHeaderChange(final MitmJavaProxyHttpRequest browserMobHttpRequest, String headerKey, HttpHeaderChange headerChange, Header originalHeader) {
+        if (headerChange instanceof HttpHeaderToBeUpdated) {
+            // it is HttpHeaderToBeChanged, so added, or updated
+            if (originalHeader != null) {
+                ((HttpHeaderToBeUpdated) headerChange).setOriginalValue(originalHeader.getValue());
+            }
+            browserMobHttpRequest.getMethod().addHeader(headerKey, ((HttpHeaderToBeUpdated) headerChange).getNewValue());
+            headerChange.setApplied();
+        } else {
+            // it is HttpHeaderToBeRemoved
+            if (originalHeader != null) {
+                browserMobHttpRequest.getMethod().removeHeader(originalHeader);
+                headerChange.setApplied();
             }
         }
     }

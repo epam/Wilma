@@ -52,7 +52,7 @@ public class XmlMessageTypeChecker implements ConditionChecker {
         boolean result = false;
         String contentType = request.getHeader(CONTENT_TYPE_HEADER);
         if (checkContentTypeIsXml(contentType)) {
-            result = Boolean.valueOf(evaluateQueryWithParamCheck(request, parameterList));
+            result = Boolean.parseBoolean(evaluateQueryWithParamCheck(request, parameterList));
         }
         return result;
     }
@@ -62,7 +62,7 @@ public class XmlMessageTypeChecker implements ConditionChecker {
     }
 
     private String evaluateQueryWithParamCheck(final WilmaHttpRequest request, final ParameterList parameterList) {
-        String result = "";
+        String result;
         List<Parameter> params = parameterList.getAllParameters();
         if (params.size() == 1) {
             String nodeName = params.iterator().next().getValue();
@@ -86,7 +86,6 @@ public class XmlMessageTypeChecker implements ConditionChecker {
     }
 
     private String removeXmlDeclarationTagFromXQueryResult(final String nameSpaceWithXmlDecTag) {
-        String xmlDeclarationTag = XML_DECLARATION_TAG;
-        return nameSpaceWithXmlDecTag.replace(xmlDeclarationTag, "");
+        return nameSpaceWithXmlDecTag.replace(XML_DECLARATION_TAG, "");
     }
 }

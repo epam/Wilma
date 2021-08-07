@@ -69,7 +69,6 @@ public class SequenceInformationServlet extends HttpServlet {
 
     private String getJson(final Object object) {
         Gson gson = new Gson();
-        String json = gson.toJson(object);
-        return json;
+        return gson.toJson(object);
     }
 }

@@ -48,8 +48,8 @@ public class JsonPathCheckerTest {
     }
 
     @Test
-    public void testCheckConditionShouldPassWhenJsonHasProperParameter() throws Exception {
-        givenExpectations("Wilma", "$.name");
+    public void testCheckConditionShouldPassWhenJsonHasProperParameter() {
+        givenExpectations("$.name");
         givenWilmaRequest("{\"name\":\"Wilma\",\"age\":\"20\"}");
 
         boolean matches = underTest.checkCondition(request, parameters);
@@ -58,8 +58,8 @@ public class JsonPathCheckerTest {
     }
 
     @Test
-    public void testCheckConditionShouldFailWhenJsonHasDiffernetParameter() throws Exception {
-        givenExpectations("Wilma", "$.name");
+    public void testCheckConditionShouldFailWhenJsonHasDiffernetParameter() {
+        givenExpectations("$.name");
         givenWilmaRequest("{\"name\":\"Irma\",\"age\":\"20\"}");
 
         boolean matches = underTest.checkCondition(request, parameters);
@@ -68,8 +68,8 @@ public class JsonPathCheckerTest {
     }
 
     @Test
-    public void testCheckConditionShouldFailWhenJsonHasNoSuchParameter() throws Exception {
-        givenExpectations("Wilma", "$.name");
+    public void testCheckConditionShouldFailWhenJsonHasNoSuchParameter() {
+        givenExpectations("$.name");
         givenWilmaRequest("{\"firstName\":\"Wilma\",\"age\":\"20\"}");
 
         boolean matches = underTest.checkCondition(request, parameters);
@@ -78,8 +78,8 @@ public class JsonPathCheckerTest {
     }
 
     @Test
-    public void testCheckConditionShouldFailWhenRequestIsNotJson() throws Exception {
-        givenExpectations("Wilma", "$.name");
+    public void testCheckConditionShouldFailWhenRequestIsNotJson() {
+        givenExpectations("$.name");
         givenWilmaRequest("<request><name>Wilma</name><age>2></age></request>");
 
         boolean matches = underTest.checkCondition(request, parameters);
@@ -92,9 +92,9 @@ public class JsonPathCheckerTest {
         request.setBody(body);
     }
 
-    private void givenExpectations(String expected, String path) {
+    private void givenExpectations(String path) {
         parameters = new ParameterList();
-        parameters.addParameter(new Parameter(EXPECTED_KEY, expected));
+        parameters.addParameter(new Parameter(EXPECTED_KEY, "Wilma"));
         parameters.addParameter(new Parameter(JSONPATH_KEY, path));
     }
 

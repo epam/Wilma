@@ -39,6 +39,7 @@ public class StubResponseWriter {
 
     private static final String ERROR_MESSAGE_FOR_UNWANTED_REQUESTS = "Wilma has declined this request.";
     private final Logger logger = LoggerFactory.getLogger(StubResponseWriter.class);
+
     @Autowired
     private StubResponseGenerator stubResponseGenerator;
     @Autowired
@@ -62,7 +63,7 @@ public class StubResponseWriter {
             writeResponseToOutputStream(resp, responseBody);
         } else {
             writeErrorResponse(resp);
-            logger.warn("Wilma has got an unwanted request from this address: " + req.getRemoteAddr());
+            logger.warn("Wilma has got an unwanted request from this address: {}", req.getRemoteAddr());
         }
     }
 

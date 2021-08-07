@@ -81,13 +81,12 @@ public class StubDescriptorJsonParser {
     private StubDescriptorAttributes getStubDescriptorAttributes(final JSONObject root) {
         String groupName = root.has("groupName") ? root.getString("groupName") : "Default";
         String activeText = root.has("active") ? root.getString("active") : "true";
-        boolean active;
-        active = Boolean.valueOf(activeText);
+        boolean active = Boolean.parseBoolean(activeText);
         return new StubDescriptorAttributes(groupName, active);
     }
 
     private List<DialogDescriptor> getDialogDescriptors(final JSONObject root) {
-        List<DialogDescriptor> dialogDescriptors = new ArrayList<DialogDescriptor>();
+        List<DialogDescriptor> dialogDescriptors = new ArrayList<>();
         if (root.has("dialogDescriptors")) {
             JSONArray dialogDescriptorsArray = root.getJSONArray("dialogDescriptors");
             for (int i = 0; i < dialogDescriptorsArray.length(); i++) {

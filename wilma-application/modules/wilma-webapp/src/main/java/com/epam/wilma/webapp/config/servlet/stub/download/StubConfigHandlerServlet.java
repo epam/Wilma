@@ -97,14 +97,13 @@ public class StubConfigHandlerServlet extends HttpServlet {
     private byte[] getActualUsedJson(final String groupName) {
         //get file from stubResourceHolder and transform it
         JSONObject actualObject = stubResourceHolder.getActualStubConfigJsonObject(groupName);
-        byte[] json = jsonBasedObjectTransformer.transform(actualObject);
-        return json;
+        return jsonBasedObjectTransformer.transform(actualObject);
     }
 
     private void setHeader(final HttpServletRequest req, final HttpServletResponse resp, final String groupname) {
         resp.setCharacterEncoding(ENCODING);
         String sourceParamerter = req.getParameter("source");
-        if (sourceParamerter != null && "true".equalsIgnoreCase(sourceParamerter)) {
+        if ("true".equalsIgnoreCase(sourceParamerter)) {
             resp.setContentType(JSON);
         } else {
             resp.setContentType(TEXT);

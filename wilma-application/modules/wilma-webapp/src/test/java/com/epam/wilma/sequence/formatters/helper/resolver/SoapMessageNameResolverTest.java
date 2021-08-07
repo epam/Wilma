@@ -61,7 +61,7 @@ public class SoapMessageNameResolverTest {
 
         String actual = underTest.resolve(request, parameters);
 
-        assertEquals(actual, "");
+        assertEquals("", actual);
     }
 
     @Test
@@ -71,6 +71,6 @@ public class SoapMessageNameResolverTest {
 
         String actual = underTest.resolve(request, parameters);
 
-        assertEquals(actual, EVALUATED_QUERY);
+        assertEquals(EVALUATED_QUERY, actual);
     }
 }

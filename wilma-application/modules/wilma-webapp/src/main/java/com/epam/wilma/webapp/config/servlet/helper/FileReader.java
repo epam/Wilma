@@ -52,13 +52,11 @@ public class FileReader {
     public InputStream readFile(final String filename, final Path filePath) {
         File requestedFile = getFile(filename, filePath);
         InputStream fileInputStream = null;
-        if (requestedFile.isFile()) {
-            if (requestedFile.exists()) {
-                try {
-                    fileInputStream = fileInputStreamFactory.createFileInputStream(requestedFile);
-                } catch (FileNotFoundException e) {
-                    logger.warn("Message file not found!", e);
-                }
+        if (requestedFile.isFile() && requestedFile.exists()) {
+            try {
+                fileInputStream = fileInputStreamFactory.createFileInputStream(requestedFile);
+            } catch (FileNotFoundException e) {
+                logger.warn("Message file not found!", e);
             }
         }
         return fileInputStream;

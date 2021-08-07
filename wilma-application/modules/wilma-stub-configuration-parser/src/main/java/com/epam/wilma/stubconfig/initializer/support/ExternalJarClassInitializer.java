@@ -32,8 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.util.Collection;
 
 /**
  * Initializes classes from jars.
@@ -88,9 +86,9 @@ public class ExternalJarClassInitializer {
         T result;
         try {
             addJarFilesInFolderPathToClassPath(jarFolderPath);
-            Class clazz = packageBasedClassFinder.findClassInJar(jarFolderPath, interfaceToCast, packageName);
+            var clazz = packageBasedClassFinder.findClassInJar(jarFolderPath, interfaceToCast, packageName);
             result = externalClassInitializer.loadExternalClass(clazz.getCanonicalName(), jarFolderPath, interfaceToCast);
-        } catch (DescriptorValidationFailedException | MalformedURLException dvfe) {
+        } catch (DescriptorValidationFailedException dvfe) {
             logger.info("Couldn't initialize external class: {}", dvfe.getMessage());
             throw new DescriptorValidationFailedException("Cannot load class that implements interface '"
                     + interfaceToCast.getSimpleName() + "' with package or class name '" + packageName + "'");
@@ -99,7 +97,7 @@ public class ExternalJarClassInitializer {
     }
 
     private void addJarFilesInFolderPathToClassPath(final String jarFolderPath) {
-        Collection<File> files = fileUtils.listFiles(fileFactory.createFile(jarFolderPath), "jar");
+        var files = fileUtils.listFiles(fileFactory.createFile(jarFolderPath), "jar");
         for (File fileElement : files) {
             Agent.addClassPath(fileElement);
         }

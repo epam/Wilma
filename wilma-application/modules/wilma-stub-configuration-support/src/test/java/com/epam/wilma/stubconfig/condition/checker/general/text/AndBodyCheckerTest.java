@@ -28,7 +28,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
 
@@ -68,7 +69,7 @@ public class AndBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -82,7 +83,7 @@ public class AndBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, true);
+        assertTrue(actual);
     }
 
     @Test
@@ -95,7 +96,7 @@ public class AndBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -108,7 +109,7 @@ public class AndBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -121,7 +122,7 @@ public class AndBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -131,7 +132,7 @@ public class AndBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
     @Test
@@ -142,7 +143,7 @@ public class AndBodyCheckerTest {
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
         //THEN
-        assertEquals(actual, false);
+        assertFalse(actual);
     }
 
 }

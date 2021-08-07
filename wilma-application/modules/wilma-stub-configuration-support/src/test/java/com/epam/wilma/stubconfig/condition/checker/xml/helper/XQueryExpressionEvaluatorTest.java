@@ -100,7 +100,7 @@ public class XQueryExpressionEvaluatorTest {
         //WHEN
         String actual = underTest.evaluateXQuery(INPUT, QUERY);
         //THEN
-        assertEquals(actual, outputStream.toString());
+        assertEquals(outputStream.toString(), actual);
     }
 
     @Test

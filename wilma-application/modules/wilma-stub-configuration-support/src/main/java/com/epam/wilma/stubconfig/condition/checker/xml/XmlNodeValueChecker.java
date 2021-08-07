@@ -55,9 +55,9 @@ public class XmlNodeValueChecker implements ConditionChecker {
             if (contentType != null && (contentType.contains(XML_CONTENT) || FASTINFOSET_CONTENT.equals(contentType))) {
 
                 try {
-                    Parameter paramater = params.iterator().next();
-                    String element = paramater.getName();
-                    String value = paramater.getValue();
+                    Parameter parameter = params.iterator().next();
+                    String element = parameter.getName();
+                    String value = parameter.getValue();
                     result = evaluateCondition(request.getBody(), element, value);
                 } catch (SaxonApiException e) {
                     throw new ConditionEvaluationFailedException("XQuery evaluation failed at request: " + request.getWilmaMessageLoggerId(), e);
@@ -73,12 +73,11 @@ public class XmlNodeValueChecker implements ConditionChecker {
         boolean result;
         String exp = "(//*[name()='" + element + "'])='" + value + "'";
         String queryResult = queryExpressionEvaluator.evaluateXQuery(xml, exp);
-        result = Boolean.valueOf(removeXmlDecTagFromXQueryResult(queryResult));
+        result = Boolean.parseBoolean(removeXmlDecTagFromXQueryResult(queryResult));
         return result;
     }
 
     private String removeXmlDecTagFromXQueryResult(final String xml) {
-        String xmlDeclarationTag = XML_DECLARATION;
-        return xml.replace(xmlDeclarationTag, "");
+        return xml.replace(XML_DECLARATION, "");
     }
 }

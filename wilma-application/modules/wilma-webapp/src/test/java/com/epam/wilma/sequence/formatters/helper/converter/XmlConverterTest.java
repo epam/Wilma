@@ -44,7 +44,7 @@ public class XmlConverterTest {
         //WHEN
         String json = underTest.convert("empty", NOT_USED);
         //THEN
-        assertEquals(json, "{}");
+        assertEquals("{}", json);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class XmlConverterTest {
         //WHEN
         String json = underTest.convert("<><>", NOT_USED);
         //THEN
-        assertEquals(json, "");
+        assertEquals("", json);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class XmlConverterTest {
         //WHEN
         String json = underTest.convert("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root><field1>value1</field1></root>", NOT_USED);
         //THEN
-        assertEquals(json, "{\"root\":{\"field1\":\"value1\"}}");
+        assertEquals("{\"root\":{\"field1\":\"value1\"}}", json);
     }
 
 }

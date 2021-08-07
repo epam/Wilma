@@ -60,9 +60,8 @@ public class StubConfigurationSaver {
     public void saveAllStubConfigurations(final Map<String, StubDescriptor> descriptors) throws JsonTransformationException {
         getCacheFolderPath();
         int index = 1;
-        for (String groupname : descriptors.keySet()) {
-            StubDescriptor actualDescriptor = descriptors.get(groupname);
-            tryToSaveActualStubConfig(actualDescriptor, index, groupname);
+        for (Map.Entry<String, StubDescriptor> entry : descriptors.entrySet()) {
+            tryToSaveActualStubConfig(entry.getValue(), index, entry.getKey());
             index++;
         }
     }

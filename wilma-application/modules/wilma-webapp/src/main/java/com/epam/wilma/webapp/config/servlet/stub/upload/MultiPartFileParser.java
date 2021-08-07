@@ -54,7 +54,7 @@ public class MultiPartFileParser {
      * @throws IOException was thrown file parsing failed
      */
     public String parseMultiPartFiles(final List<FileItem> fields) throws IOException {
-        String msg = "";
+        StringBuilder msg = new StringBuilder();
         Iterator<FileItem> it = fields.iterator();
         if (!fields.isEmpty() && it.hasNext()) {
             while (it.hasNext()) {
@@ -64,14 +64,14 @@ public class MultiPartFileParser {
                     InputStream uploadedResource = fileItem.getInputStream();
                     String contentType = fileItem.getContentType();
                     String fieldName = fileItem.getFieldName();
-                    msg += multiPartFileProcessor.processUploadedFile(uploadedResource, contentType, fieldName, uploadedFileName);
+                    msg.append(multiPartFileProcessor.processUploadedFile(uploadedResource, contentType, fieldName, uploadedFileName));
                 }
             }
         } else {
-            msg = "No file uploaded";
+            msg = new StringBuilder("No file uploaded");
         }
 
-        return msg;
+        return msg.toString();
     }
 
 }

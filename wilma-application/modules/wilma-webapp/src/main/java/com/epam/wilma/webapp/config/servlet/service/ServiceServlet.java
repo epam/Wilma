@@ -57,7 +57,7 @@ public class ServiceServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         //first identify the requested service
         String requestUri = req.getRequestURI();
-        logger.info("Service call to: " + requestUri + ", method: " + req.getMethod());
+        logger.info("Service call to: {}, method: {}", requestUri, req.getMethod());
         int positionOfLeadingText = requestUri.indexOf(LEADING_TEXT);
         int requestedServicePosition = positionOfLeadingText + LEADING_TEXT.length();
         String requestedService = positionOfLeadingText >= 0 ? requestUri.substring(requestedServicePosition) : "";

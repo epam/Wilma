@@ -76,9 +76,9 @@ public class WebAppConfigurationAccessTest {
         //THEN
         PropertyDTO actual = underTest.getProperties();
         ServerProperties result = actual.getServerProperties();
-        assertEquals(result.getProxyPort(), PROXY_PORT);
-        assertEquals(result.getRequestBufferSize(), REQUEST_BUFFER_SIZE);
-        assertEquals(result.getResponseBufferSize(), RESPONSE_BUFFER_SIZE);
+        assertEquals(PROXY_PORT, result.getProxyPort());
+        assertEquals(REQUEST_BUFFER_SIZE, result.getRequestBufferSize());
+        assertEquals(RESPONSE_BUFFER_SIZE, result.getResponseBufferSize());
     }
 
     @Test
@@ -88,10 +88,10 @@ public class WebAppConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getMaintainerProperties().getCronExpression(), EXPRESSION);
-        assertEquals(actual.getMaintainerProperties().getMaintainerMethod(), MAINTAINER_METHOD);
-        assertEquals(actual.getMaintainerProperties().getFileLimit(), FILE_LIMIT);
-        assertEquals(actual.getMaintainerProperties().getTimeLimit(), EXPRESSION);
+        assertEquals(EXPRESSION, actual.getMaintainerProperties().getCronExpression());
+        assertEquals(MAINTAINER_METHOD, actual.getMaintainerProperties().getMaintainerMethod());
+        assertEquals(FILE_LIMIT, actual.getMaintainerProperties().getFileLimit());
+        assertEquals(EXPRESSION, actual.getMaintainerProperties().getTimeLimit());
     }
 
     @Test
@@ -101,8 +101,8 @@ public class WebAppConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getReadme().getUrl(), EXPRESSION);
-        assertEquals(actual.getReadme().getText(), EXPRESSION);
+        assertEquals(EXPRESSION, actual.getReadme().getUrl());
+        assertEquals(EXPRESSION, actual.getReadme().getText());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class WebAppConfigurationAccessTest {
         underTest.loadProperties();
         //THEN
         PropertyDTO actual = underTest.getProperties();
-        assertEquals(actual.getFileListProperties().getMaximumCountOfMessages(), MAX_SIZE);
+        assertEquals(MAX_SIZE, actual.getFileListProperties().getMaximumCountOfMessages());
     }
 
 }

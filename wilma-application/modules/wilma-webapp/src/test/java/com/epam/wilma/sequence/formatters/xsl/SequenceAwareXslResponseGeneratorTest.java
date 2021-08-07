@@ -76,7 +76,7 @@ public class SequenceAwareXslResponseGeneratorTest {
         //WHEN
         byte[] actual = underTest.generateResponse(requestXml, xsl, templateXml, nameToXml);
         //THEN
-        assertEquals(actual, response);
+        assertEquals(response, actual);
     }
 
     @Test(expected = ResponseFormattingFailedException.class)
