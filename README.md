@@ -64,7 +64,7 @@ There are several ways you can help us:
 * **Write some code.** We would love to see pull requests to this tool. Feel free to contribute (send pull request) on GitHub.
 
 #### Advised working environment
-* OpenJDK 13 for V2.0.x
+* OpenJDK 15 for V2.0.x
 * IntelliJ IDEA Community Edition
 * Gradle (included in source) and Git
 
