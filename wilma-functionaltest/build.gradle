@@ -42,7 +42,7 @@ dependencies {
     implementation 'com.sun.xml.fastinfoset:FastInfoset:2.0.0'
     implementation project(':wilma-service-api')
 //    implementation "com.epam.wilma:wilma-service-api:$version"
-    implementation 'com.github.everit-org.json-schema:org.everit.json.schema:1.12.1'
+    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.12.2'
     implementation 'org.xmlunit:xmlunit-core:2.8.2'
     implementation 'org.xmlunit:xmlunit-matchers:2.8.2'
     implementation "$javaxServletApi"

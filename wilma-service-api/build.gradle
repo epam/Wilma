@@ -36,7 +36,7 @@ dependencies {
     implementation group: 'commons-httpclient', name: 'commons-httpclient', version:'3.1'
     implementation group: 'commons-io', name: 'commons-io', version:'2.4'
     implementation group: 'commons-validator', name: 'commons-validator', version:'1.4.1'
-    implementation group: "com.github.everit-org.json-schema", name: "org.everit.json.schema", version: "1.12.1"
+    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.12.2'
     implementation "$googleGuavaApi"
     implementation "$orgJsonApi"
     testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
