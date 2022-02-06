@@ -21,18 +21,22 @@ apply plugin: 'application'
 repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://maven.bestsolution.at/efxclipse-releases/' }
+    maven {
+        url 'https://repo.maven.apache.org/maven2'
+        name 'Maven Central'
+    }
 }
 
 dependencies {
     implementation project(':wilma-application:wilma-domain')
     implementation project(':wilma-application:wilma-stub-configuration-domain')
     implementation "junit:junit:4.13.2"
-    implementation 'gsbase:gsbase:2.0'
+    implementation 'gsbase:gsbase:2.0.1'
     implementation 'jakarta-regexp:jakarta-regexp:1.4'
-    implementation 'com.sun.mail:javax.mail:1.5.2'
-    implementation 'org.apache.commons:commons-lang3:3.3.2'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'net.sf.opencsv:opencsv:2.3'
-    implementation 'org.springframework:spring-core:4.1.6.RELEASE'
+    implementation 'org.springframework:spring-core:4.1.9.RELEASE'
     implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
     implementation group: 'org.mockito', name: 'mockito-all', version:'1.10.19'
     implementation group: 'at.bestsolution.efxclipse.eclipse', name: 'org.apache.commons.httpclient', version: '3.1.0'
@@ -43,8 +47,8 @@ dependencies {
     implementation project(':wilma-service-api')
 //    implementation "com.epam.wilma:wilma-service-api:$version"
     implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.12.2'
-    implementation 'org.xmlunit:xmlunit-core:2.8.2'
-    implementation 'org.xmlunit:xmlunit-matchers:2.8.2'
+    implementation 'org.xmlunit:xmlunit-core:2.9.0'
+    implementation 'org.xmlunit:xmlunit-matchers:2.9.0'
     implementation "$javaxServletApi"
 }
 
