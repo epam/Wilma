@@ -90,7 +90,7 @@ public class WilmaServiceListenerTest {
     public void testFailedShouldLogError() {
         //GIVEN
         SystemException e = new SystemException(ERR_MSG);
-        State state = Mockito.mock(State.class);
+        State state = State.FAILED;
         //WHEN
         underTest.failed(state, e);
         //THEN
@@ -100,7 +100,7 @@ public class WilmaServiceListenerTest {
     @Test
     public void testFailedWhenSystemExceptionAndErrorCauseExistsShouldLogErrorAtErrorLevel() {
         //GIVEN
-        State state = Mockito.mock(State.class);
+        State state = State.RUNNING;
         SystemException exception = new SystemException(ERR_MSG);
         Throwable cause = new Throwable();
         exception.initCause(cause);
@@ -113,7 +113,7 @@ public class WilmaServiceListenerTest {
     @Test
     public void testTerminatedShouldLogMessage() {
         //GIVEN
-        State state = Mockito.mock(State.class);
+        State state = State.TERMINATED;
         //WHEN
         underTest.terminated(state);
         //THEN

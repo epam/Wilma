@@ -40,8 +40,8 @@ repositories {
 }
 
 // Source and target info
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_15
 
 // checkstyle settings
 // general checkstyle availability:  https://checkstyle.sourceforge.io/releasenotes.html
