@@ -28,8 +28,7 @@ dependencies {
     implementation project(':wilma-application:wilma-common')
     implementation project(':wilma-application:wilma-core')
     implementation project(':wilma-application:wilma-properties')
-//    implementation('website.magyar:mitm-java-proxy:2.1.24.108') {
-    implementation('website.magyar:mitm-java-proxy:2.0.23.105') {
+    implementation('website.magyar:mitm-java-proxy:2.1.24.112') {
         exclude(group: 'ch.qos.logback', module: 'logback-classic')
         exclude(group: 'org.eclipse.jetty', module: 'jetty-io')
         exclude(group: 'org.slf4j', module: 'jcl-over-slf4j')

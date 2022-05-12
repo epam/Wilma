@@ -11,10 +11,10 @@ RUN \
   apt-get upgrade -y && \
   apt-get install -y openjdk-11-jdk && \
   rm -rf /var/libs/apt/lists/* && \
-  wget https://github.com/epam/Wilma/releases/download/V2.2.461/wilma-message-search-2.2.461.zip && \
-  unzip -o wilma-message-search-2.2.461.zip && \
-  mv wilma-message-search-2.2.461.jar wilma-message-search.jar && \
-  rm -f wilma-message-search-2.2.461.zip
+  wget https://github.com/epam/Wilma/releases/download/V2.3.480/wilma-message-search-2.3.480.zip && \
+  unzip -o wilma-message-search-2.3.480.zip && \
+  mv wilma-message-search-2.3.480.jar wilma-message-search.jar && \
+  rm -f wilma-message-search-2.3.480.zip
 
 COPY start_wilma_and_message_search.sh /data/
 RUN \

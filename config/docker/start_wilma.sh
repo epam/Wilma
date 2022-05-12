@@ -10,7 +10,7 @@ WILMA_BUILD=wilma.jar
 if [ -n "$WILMA_JMX_PORT" ]; then
     WILMA_JMX="-Dcom.sun.management.jmxremote.port=$WILMA_JMX_PORT -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
 fi
-WILMA_START_CMD="java $WILMA_JMX $WILMA_MX_SIZE $WILMA_KEYSTORE $WILMA_KEYSTORE_PASSWORD -jar $WILMA_BUILD $WILMA_CONFIGURATION"
+WILMA_START_CMD="java -Djdk.tls.namedGroups=\"secp256r1, secp384r1, ffdhe2048, ffdhe3072\" $WILMA_JMX $WILMA_MX_SIZE $WILMA_KEYSTORE $WILMA_KEYSTORE_PASSWORD -jar $WILMA_BUILD $WILMA_CONFIGURATION"
 
 echo
 echo "Welcome to dockerized Wilma!"
