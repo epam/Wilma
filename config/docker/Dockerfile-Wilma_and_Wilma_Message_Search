@@ -9,7 +9,7 @@ RUN \
   cd /data/wilma-ms && \
   apt-get update && \
   apt-get upgrade -y && \
-  apt-get install -y openjdk-11-jdk && \
+  apt-get install -y openjdk-17-jdk && \
   rm -rf /var/libs/apt/lists/* && \
   wget https://github.com/epam/Wilma/releases/download/V2.3.480/wilma-message-search-2.3.480.zip && \
   unzip -o wilma-message-search-2.3.480.zip && \
@@ -23,7 +23,7 @@ RUN \
 
 WORKDIR /data
 
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
 #ENV WILMA_MS_MX_SIZE - it has no default value
 ENV WILMA_MS_CONFIGURATION message.search.conf.properties
 #ENV WILMA_MS_JMX_PORT 9010 - note, if you use it, the port should be exposed too

@@ -11,7 +11,7 @@ RUN \
   apt-get install -y unzip && \
   apt-get install -y wget && \
   apt-get install -y procps && \
-  apt-get install -y openjdk-11-jre && \
+  apt-get install -y openjdk-17-jre && \
   apt-get upgrade -y && \
   rm -rf /var/lib/apt/lists/* && \
   wget https://github.com/epam/Wilma/releases/download/V2.3.480/wilma-application-2.3.480.zip && \
@@ -26,7 +26,7 @@ RUN \
 
 WORKDIR /data
 
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
 ENV WILMA_CONFIGURATION wilma.conf.properties
 #ENV WILMA_MX_SIZE - it has no default value
 #ENV WILMA_KEYSTORE - it has no default value
