@@ -51,6 +51,8 @@ public class HttpServletRequestTransformer {
         WilmaHttpRequest wilmaRequest = new WilmaHttpRequest();
         copyServletHeadersIntoWilmaRequest(request, wilmaRequest);
         copyUnCompressedBodyIntoWilmaRequest(responseDescriptorDTO, wilmaRequest);
+        wilmaRequest.setUri(responseDescriptorDTO.getRequestUri());
+        wilmaRequest.setRequestLine(responseDescriptorDTO.getRequestLine());
         wilmaRequest.setWilmaMessageId(wilmaLoggerId);
         return requestCloner.cloneRequest(wilmaRequest);
     }

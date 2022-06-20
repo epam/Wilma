@@ -49,6 +49,7 @@ for (subproject in (project(':wilma-application')).children){
 include 'wilma-extras:bulkhead'
 include 'wilma-extras:circuitBreaker'
 include 'wilma-extras:lookAndSayService'
+include 'wilma-extras:mockJsonService'
 include 'wilma-extras:randomErrorGenerator'
 include 'wilma-extras:replicator'
 include 'wilma-extras:reverseProxy'

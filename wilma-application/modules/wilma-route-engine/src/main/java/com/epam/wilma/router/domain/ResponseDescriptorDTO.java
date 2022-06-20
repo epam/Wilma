@@ -20,6 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
 
+import java.net.URI;
+
 /**
  * Data transfer object for response descriptors.
  * @author Tunde_Kovacs
@@ -30,6 +32,9 @@ public class ResponseDescriptorDTO {
     private final ResponseDescriptor responseDescriptor;
     private final String parentName;
     private final String requestBody;
+    private String requestLine;
+    private URI requestUri;
+
 
     /**
      * Constructs a response descriptor DTO.
@@ -56,4 +61,19 @@ public class ResponseDescriptorDTO {
         return requestBody;
     }
 
+    public URI getRequestUri() {
+        return requestUri;
+    }
+
+    public void setRequestUri(URI requestUri) {
+        this.requestUri = requestUri;
+    }
+
+    public String getRequestLine() {
+        return requestLine;
+    }
+
+    public void setRequestLine(String requestLine) {
+        this.requestLine = requestLine;
+    }
 }

@@ -1,0 +1,43 @@
+{
+  "wilmaStubConfiguration": {
+    "groupName": "MockJsonService",
+    "dialogDescriptors": [
+      {
+        "name": "MockJsonService",
+        "usage": "always",
+        "comment": "This handles the requests",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "com.epam.wilma.extras.mockJsonService.MockJsonServiceChecker"
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "application/json",
+          "templateName": "MockJsonServiceTemplate",
+          "responseFormatterSet": [
+            {
+              "responseFormatter": {
+                "class": "com.epam.wilma.extras.mockJsonService.MockJsonServiceResponseGenerator"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "MockJsonServiceTemplate",
+        "type": "external",
+        "resource": "com.epam.wilma.extras.mockJsonService.MockJsonServiceResponseGenerator"
+      }
+    ],
+    "interceptors": [
+      {
+        "name": "Mock Json Service",
+        "class": "com.epam.wilma.extras.mockJsonService.MockJsonServiceInterceptor"
+      }
+    ]
+  }
+}

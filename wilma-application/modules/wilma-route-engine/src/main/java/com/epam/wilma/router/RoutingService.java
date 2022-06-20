@@ -73,6 +73,9 @@ public class RoutingService {
         if (redirect) {
             //need to add this extra header, helping the stub to identify the response
             request.addHeaderUpdate(WilmaHttpEntity.WILMA_LOGGER_ID, request.getWilmaMessageId());
+            //need to preserve the original URI
+            responseDescriptorDTO.setRequestUri(request.getUri());
+            responseDescriptorDTO.setRequestLine(request.getRequestLine());
             saveInResponseDescriptorMap(request, responseDescriptorDTO);
         }
         return redirect;
