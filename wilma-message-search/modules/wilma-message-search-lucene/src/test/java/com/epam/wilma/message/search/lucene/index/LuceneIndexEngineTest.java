@@ -18,7 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.message.search.lucene.index.helper.FileFactory;
+import com.epam.wilma.message.search.lucene.index.helper.FileWrapper;
+import com.epam.wilma.message.search.lucene.index.helper.FileWrapperFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -27,8 +28,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
-
-import java.io.File;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -41,18 +40,20 @@ import static org.mockito.Mockito.verify;
 public class LuceneIndexEngineTest {
 
     private static final String FOLDER_PATH = "src/test/resources/test-folder1";
-    private File docDir;
+
+    @Mock
+    private FileWrapper docDir;
 
     @Mock
     private FolderIndexer folderIndexer;
     @Mock
-    private FileFactory fileFactory;
+    private FileWrapperFactory fileWrapperFactory;
     @Mock
     private Logger logger;
     @Mock
-    private File mockFolder;
+    private FileWrapper mockFolder;
     @Mock
-    private File file;
+    private FileWrapper file;
 
     @InjectMocks
     private LuceneIndexEngine underTest;
@@ -60,14 +61,17 @@ public class LuceneIndexEngineTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        docDir = new File(FOLDER_PATH);
         Whitebox.setInternalState(underTest, "logger", logger);
+        Whitebox.setInternalState(underTest, "fileWrapperFactory", fileWrapperFactory);
     }
 
     @Test
     public void testCreateIndexShouldCallFolderIndexer() {
         //GIVEN
-        given(fileFactory.createFile(FOLDER_PATH)).willReturn(docDir);
+        given(fileWrapperFactory.createFile(FOLDER_PATH)).willReturn(docDir);
+        given(docDir.canRead()).willReturn(true);
+        given(docDir.exists()).willReturn(true);
+        given(docDir.isDirectory()).willReturn(false);
         //WHEN
         underTest.createIndex(FOLDER_PATH);
         //THEN
@@ -77,7 +81,7 @@ public class LuceneIndexEngineTest {
     @Test
     public void testCreateIndexWhenDocDirDoesNotExistShouldLogError() {
         //GIVEN
-        given(fileFactory.createFile(FOLDER_PATH)).willReturn(mockFolder);
+        given(fileWrapperFactory.createFile(FOLDER_PATH)).willReturn(mockFolder);
         //WHEN
         underTest.createIndex(FOLDER_PATH);
         //THEN
@@ -88,7 +92,7 @@ public class LuceneIndexEngineTest {
     public void testCreateIndexWhenDocDirCannotBeReadShouldLogError() {
         //GIVEN
         given(mockFolder.exists()).willReturn(true);
-        given(fileFactory.createFile(FOLDER_PATH)).willReturn(mockFolder);
+        given(fileWrapperFactory.createFile(FOLDER_PATH)).willReturn(mockFolder);
         //WHEN
         underTest.createIndex(FOLDER_PATH);
         //THEN
@@ -98,7 +102,7 @@ public class LuceneIndexEngineTest {
     @Test
     public void testAddFileToIndex() {
         //GIVEN
-        given(fileFactory.createFile(FOLDER_PATH)).willReturn(file);
+        given(fileWrapperFactory.createFile(FOLDER_PATH)).willReturn(file);
         //WHEN
         underTest.addFileToIndex(FOLDER_PATH);
         //THEN

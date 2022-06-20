@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.File;
-
+import com.epam.wilma.message.search.lucene.index.helper.FileWrapperFactory;
+import com.epam.wilma.message.search.lucene.index.helper.FileWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,26 +34,29 @@ public class FolderIndexer {
     @Autowired
     private FileIndexer fileIndexer;
 
+    @Autowired
+    private FileWrapperFactory fileWrapperFactory;
+
     /**
      * Processes through a folder structure and send files to {@link FileIndexer}.
      * @param file is the given file, folder or folder structure which will be processed
      */
-    public void indexFolder(final File file) {
+    public void indexFolder(final FileWrapper file) {
         // do not try to index files that cannot be read
         if (file.canRead()) {
             if (file.isDirectory()) {
-                processFolder(file);
+                processFolder(file, file.list());
             } else {
                 fileIndexer.indexFile(file);
             }
         }
     }
 
-    private void processFolder(final File file) {
-        String[] files = file.list();
-        if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                indexFolder(new File(file, files[i]));
+    private void processFolder(final FileWrapper file, final String[] fileList) {
+        if (fileList != null) {
+            for (int i = 0; i < fileList.length; i++) {
+                FileWrapper newFile = fileWrapperFactory.createFile(file, fileList[i]);
+                indexFolder(newFile);
             }
         }
     }

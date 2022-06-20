@@ -18,14 +18,12 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import java.io.File;
-
+import com.epam.wilma.message.search.lucene.index.helper.FileWrapper;
+import com.epam.wilma.message.search.lucene.index.helper.FileWrapperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.epam.wilma.message.search.lucene.index.helper.FileFactory;
 
 /**
  * Indexes all text files under the given directory to the given folder
@@ -41,7 +39,7 @@ public class LuceneIndexEngine {
     @Autowired
     private FolderIndexer folderIndexer;
     @Autowired
-    private FileFactory fileFactory;
+    private FileWrapperFactory fileWrapperFactory;
 
     /**
      * Indexes all text files under the given directory(if the directory exists) to the given folder
@@ -50,7 +48,7 @@ public class LuceneIndexEngine {
      * @param docsPath the folder containing the files to be indexed
      */
     public void createIndex(final String docsPath) {
-        final File docDir = fileFactory.createFile(docsPath);
+        final FileWrapper docDir = fileWrapperFactory.createFile(docsPath);
         if (!docDir.exists() || !docDir.canRead()) {
             logger.error("Document directory '" + docDir.getAbsolutePath() + "' does not exist or is not readable, please check the path");
         } else {
@@ -64,11 +62,11 @@ public class LuceneIndexEngine {
      * @param fileName the name of the file to be indexed
      */
     public void addFileToIndex(final String fileName) {
-        File file = fileFactory.createFile(fileName);
+        FileWrapper file = fileWrapperFactory.createFile(fileName);
         indexFolder(file);
     }
 
-    private void indexFolder(final File docDir) {
+    private void indexFolder(final FileWrapper docDir) {
         folderIndexer.indexFolder(docDir);
     }
 

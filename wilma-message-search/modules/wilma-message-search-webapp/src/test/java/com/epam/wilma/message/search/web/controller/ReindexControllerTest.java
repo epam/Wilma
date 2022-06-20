@@ -47,8 +47,6 @@ public class ReindexControllerTest {
     private HttpServletResponse response;
     @Mock
     private IndexTaskScheduler indexTaskScheduler;
-    @Mock
-    private PrintWriter writer;
 
     @InjectMocks
     private ReindexController underTest;
@@ -56,7 +54,8 @@ public class ReindexControllerTest {
     @Before
     public void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
-        given(response.getWriter()).willReturn(writer);
+        PrintWriter printWriter = new PrintWriter(System.out);
+        given(response.getWriter()).willReturn(printWriter);
         Whitebox.setInternalState(underTest, "logger", logger);
     }
 

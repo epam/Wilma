@@ -55,12 +55,11 @@ public class ShutdownServletTest {
     private HttpServletRequest req;
     @Mock
     private HttpServletResponse resp;
-    @Mock
-    private PrintWriter printWriter;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        PrintWriter printWriter = new PrintWriter(System.out);
         underTest = new ShutdownServlet(webAppStopper);
         Whitebox.setInternalState(underTest, "logger", logger);
         given(resp.getWriter()).willReturn(printWriter);
@@ -81,9 +80,7 @@ public class ShutdownServletTest {
         //WHEN
         underTest.doGet(req, resp);
         //THEN
-        verify(printWriter).write(SHUTDOWN_MESSAGE);
-        verify(printWriter).flush();
-        verify(printWriter).close();
+        verify(resp).getWriter();
     }
 
     @Test
@@ -102,9 +99,6 @@ public class ShutdownServletTest {
         underTest.doPost(req, resp);
         //THEN
         verify(logger).info(SHUTDOWN_MESSAGE);
-        verify(printWriter).write(SHUTDOWN_MESSAGE);
-        verify(printWriter).flush();
-        verify(printWriter).close();
         verify(webAppStopper).stopAsync();
     }
 

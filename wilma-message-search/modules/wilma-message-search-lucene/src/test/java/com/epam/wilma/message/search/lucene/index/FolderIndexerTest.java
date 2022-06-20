@@ -18,15 +18,18 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import com.epam.wilma.message.search.lucene.index.helper.FileWrapper;
+import com.epam.wilma.message.search.lucene.index.helper.FileWrapperFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.io.File;
+import org.mockito.internal.util.reflection.Whitebox;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -38,15 +41,18 @@ import static org.mockito.Mockito.verify;
 public class FolderIndexerTest {
 
     private static final String FILE_PATH = "src/test/resources/test-folder1/test-file.txt";
-    private static final String FOLDER_PATH = "src/test/resources/test-folder1";
-    private File file;
-    private File folder1;
 
     @Mock
-    private File folder2;
-
+    private FileWrapper file;
+    @Mock
+    private FileWrapper folder1;
+    @Mock
+    private FileWrapper folder2;
     @Mock
     private FileIndexer fileIndexer;
+
+    @Mock
+    private FileWrapperFactory fileWrapperFactory;
 
     @InjectMocks
     private FolderIndexer underTest;
@@ -54,8 +60,20 @@ public class FolderIndexerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        folder1 = new File(FOLDER_PATH);
-        file = new File(FILE_PATH);
+        given(folder1.isDirectory()).willReturn(true);
+        given(folder1.exists()).willReturn(true);
+        given(folder1.canRead()).willReturn(true);
+        String[] list = new String[] {FILE_PATH};
+        given(folder1.list()).willReturn(list);
+        given(folder2.isDirectory()).willReturn(true);
+        given(folder2.exists()).willReturn(true);
+        given(folder2.canRead()).willReturn(true);
+        given(folder2.list()).willReturn(null);
+        given(file.isDirectory()).willReturn(false);
+        given(file.exists()).willReturn(true);
+        given(file.canRead()).willReturn(true);
+        given(fileWrapperFactory.createFile(any(), anyString())).willReturn(file);
+        Whitebox.setInternalState(underTest, "fileWrapperFactory", fileWrapperFactory);
     }
 
     @Test
@@ -70,18 +88,16 @@ public class FolderIndexerTest {
     @Test
     public void testIndexFolderWhenFolderCannotBeReadShouldDoNothing() {
         //GIVEN in setUp
+        given(folder1.canRead()).willReturn(false);
         //WHEN
-        underTest.indexFolder(new File("folder"));
+        underTest.indexFolder(folder1);
         //THEN
-        verify(fileIndexer, never()).indexFile(file);
+        verify(fileIndexer, never()).indexFile(any());
     }
 
     @Test
     public void testIndexFolderWhenFolderEmptyShouldDoNothing() {
         //GIVEN
-        given(folder2.canRead()).willReturn(true);
-        given(folder2.isDirectory()).willReturn(true);
-        given(folder2.list()).willReturn(null);
         //WHEN
         underTest.indexFolder(folder2);
         //THEN

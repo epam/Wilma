@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import com.epam.wilma.message.search.lucene.index.helper.FileWrapper;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LongField;
@@ -71,8 +72,8 @@ public class FileIndexer {
      * Adds a file to index with {@link IndexWriter}.
      * @param file will be indexed by the function
      */
-    public void indexFile(final File file) {
-        FileInputStream fis = getInputStream(file);
+    public void indexFile(final FileWrapper file) {
+        FileInputStream fis = getInputStream(file.getFile());
         Document doc = documentFactory.createDocument();
         // Add the path of the file as a field named "path". Use a field that is indexed (i.e. searchable), but don't tokenize
         // the field into separate words and don't index term frequency or positional information:
@@ -89,7 +90,7 @@ public class FileIndexer {
         try {
             bufferedReader = bufferedReaderFactory.createReader(fis);
             doc.add(new Field("contents", bufferedReader, TextField.TYPE_NOT_STORED));
-            addDocument(file, doc);
+            addDocument(file.getFile(), doc);
             fis.close();
         } catch (IOException e) {
             logger.error(" caught a " + e.getClass() + "\n with message: " + e.getMessage());

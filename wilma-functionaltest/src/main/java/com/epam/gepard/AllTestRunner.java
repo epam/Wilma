@@ -30,15 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epam.gepard.common.Environment;
-import com.epam.gepard.common.GepardConstants;
 import com.epam.gepard.common.helper.ConsoleWriter;
 import com.epam.gepard.common.helper.ReportFinalizer;
 import com.epam.gepard.common.helper.ResultCollector;
 import com.epam.gepard.common.helper.TestFailureReporter;
 import com.epam.gepard.common.threads.ExecutorThreadManager;
-import com.epam.gepard.common.threads.RemoteControlHandlerThread;
 import com.epam.gepard.common.threads.handler.RemoteControlHandler;
-import com.epam.gepard.common.threads.helper.ServerSocketFactory;
 import com.epam.gepard.exception.ComplexGepardException;
 import com.epam.gepard.exception.ShutDownException;
 import com.epam.gepard.filter.ExpressionTestFilter;
@@ -79,8 +76,6 @@ public class AllTestRunner extends TestRunner {
     private static int exitCode; //java exit code
 
     private static String systemUnderTestVersion;
-
-    private static RemoteControlHandlerThread gepardRemote;
 
     private static ExecutorThreadManager executorThreadManager = new ExecutorThreadManager();
 
@@ -151,19 +146,6 @@ public class AllTestRunner extends TestRunner {
             consoleWriter.printParameterInfoBlock(propFileList);
             testListFile = environment.getProperty(Environment.GEPARD_TESTLIST_FILE);
 
-            //initiate the remote control if requested
-            if (environment.getBooleanProperty(Environment.GEPARD_REMOTE_ENABLED)) {
-                int gepardPort = Integer.parseInt(environment.getProperty(Environment.GEPARD_REMOTE_PORT));
-                AllTestRunner.gepardRemote = new RemoteControlHandlerThread(getRemoteControlHandler(), new ServerSocketFactory(), gepardPort);
-                AllTestRunner.gepardRemote.setName("GEPARD Remote Control"); //set its name
-                AllTestRunner.gepardRemote.start(); //start remote control
-            }
-
-            //if full remote control, then wait for the kill sign
-            if (environment.getBooleanProperty(Environment.GEPARD_REMOTE_FULL_CONTROL)) {
-                initiateGepardRemoteControl();
-            }
-            //not remote control driven, so run the tests
         } catch (Throwable exc) {
             exitFromGepardWithCriticalException("\n--- GEPARD EXCEPTION, PLEASE CHECK THE CONFIGURATION! ---", exc, true,
                     ExitCode.EXIT_CODE_BAD_SETUP);
@@ -187,20 +169,6 @@ public class AllTestRunner extends TestRunner {
         }
     }
 
-    private static void initiateGepardRemoteControl() {
-        CONSOLE_LOG.info("Using GEPARD Remote Control on port: " + Environment.GEPARD_REMOTE_PORT);
-        /* PLEASE NOTE THAT THIS PART IS PARTIALLY IMPLEMENTED, DON'T USE NOW */
-        //noinspection InfiniteLoopStatement
-        while (true) { //total remote control driven
-            try {
-                Thread.sleep(GepardConstants.ONE_SECOND_LENGTH.getConstant()); //sleep for a sec, then restart the loop
-            } catch (InterruptedException e) {
-                //this was not expected, but if happens, then time to exit
-                LOG.debug("Thread: MAIN is exiting, as got InterruptedException!");
-            }
-        }
-    }
-
     /**
      * Setter for the exit code.
      *
@@ -208,10 +176,6 @@ public class AllTestRunner extends TestRunner {
      */
     public static void setExitCode(final int exitCode) {
         AllTestRunner.exitCode = exitCode;
-    }
-
-    public static RemoteControlHandlerThread getGepardRemote() {
-        return gepardRemote;
     }
 
     /**

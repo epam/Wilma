@@ -81,9 +81,6 @@ public class ExecutorThreadManager {
      * Closes all running threads in the application except the main thread.
      */
     public void closeRunningThreads() {
-        if (AllTestRunner.getGepardRemote() != null) {
-            AllTestRunner.getGepardRemote().interrupt();
-        }
         for (TestClassExecutionThread testClassExecutionThread : threads) {
             if (testClassExecutionThread != null) {
                 testClassExecutionThread.setEnabled(false);

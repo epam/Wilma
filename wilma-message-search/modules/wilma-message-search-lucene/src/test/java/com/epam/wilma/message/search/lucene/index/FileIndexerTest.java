@@ -23,6 +23,7 @@ import com.epam.wilma.message.search.lucene.helper.TermFactory;
 import com.epam.wilma.message.search.lucene.index.helper.BufferedReaderFactory;
 import com.epam.wilma.message.search.lucene.index.helper.DocumentFactory;
 import com.epam.wilma.message.search.lucene.index.helper.FileInputStreamFactory;
+import com.epam.wilma.message.search.lucene.index.helper.FileWrapper;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
@@ -69,7 +70,7 @@ public class FileIndexerTest {
     @Mock
     private FileInputStreamFactory fileInputStreamFactory;
     @Mock
-    private File file;
+    private FileWrapper fileWrapper;
     @Mock
     private FileInputStream fileInputStream;
     @Mock
@@ -82,12 +83,14 @@ public class FileIndexerTest {
 
     @Before
     public void setUp() throws IOException {
+        File file = new File("path");
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "fieldName", FIELD_NAME);
         document = new Document();
         term = new Term(FIELD_NAME);
+        given(fileWrapper.getFile()).willReturn(file);
         given(fileInputStreamFactory.createFileInputStream(file)).willReturn(fileInputStream);
-        given(file.getAbsolutePath()).willReturn("path");
+        given(fileWrapper.getAbsolutePath()).willReturn("path");
         given(bufferedReaderFactory.createReader(fileInputStream)).willReturn(bufferedReader);
         given(documentFactory.createDocument()).willReturn(document);
     }
@@ -96,10 +99,10 @@ public class FileIndexerTest {
     public void testIndexFileShouldCreateIndexWhenWriterInCreateMode() throws IOException {
         //GIVEN
         given(writer.getConfig().getOpenMode()).willReturn(OpenMode.CREATE);
-        given(file.getPath()).willReturn("path");
+        //given(file.getPath()).willReturn("path");
         given(termFactory.createTerm(FIELD_NAME, "path")).willReturn(term);
         //WHEN
-        underTest.indexFile(file);
+        underTest.indexFile(fileWrapper);
         //THEN
         verify(writer).addDocument(document);
     }
@@ -108,10 +111,10 @@ public class FileIndexerTest {
     public void testIndexFileShouldUpdateIndexWhenWriterInAppendMode() throws IOException {
         //GIVEN
         given(writer.getConfig().getOpenMode()).willReturn(OpenMode.APPEND);
-        given(file.getPath()).willReturn("path");
+        //given(file.getPath()).willReturn("path");
         given(termFactory.createTerm(FIELD_NAME, "path")).willReturn(term);
         //WHEN
-        underTest.indexFile(file);
+        underTest.indexFile(fileWrapper);
         //THEN
         verify(writer).updateDocument(term, document);
     }
@@ -119,9 +122,9 @@ public class FileIndexerTest {
     @Test(expected = SystemException.class)
     public void testIndexFileShouldThrowExceptionWhenFileNotFound() throws IOException {
         //GIVEN
-        given(fileInputStreamFactory.createFileInputStream(file)).willThrow(new FileNotFoundException());
+        given(fileInputStreamFactory.createFileInputStream(fileWrapper.getFile())).willThrow(new FileNotFoundException());
         //WHEN
-        underTest.indexFile(file);
+        underTest.indexFile(fileWrapper);
         //THEN
     }
 
@@ -132,7 +135,7 @@ public class FileIndexerTest {
         given(writer.getConfig().getOpenMode()).willReturn(OpenMode.CREATE);
         willThrow(new IOException()).given(writer).addDocument(document);
         //WHEN
-        underTest.indexFile(file);
+        underTest.indexFile(fileWrapper);
         //THEN
         verify(logger).error(Mockito.anyString());
     }
