@@ -70,7 +70,7 @@ public class MockJsonServiceCore {
             String[] keySet = MOCK_JSON_SERVICE_MAP.keySet().toArray(new String[MOCK_JSON_SERVICE_MAP.size()]);
             for (int i = 0; i < keySet.length; i++) {
                 String entryKey = keySet[i];
-                String info = MOCK_JSON_SERVICE_MAP.get(entryKey);
+                String info = escape(MOCK_JSON_SERVICE_MAP.get(entryKey));
                 response.append("    { \"mockUrl\": \"").append(entryKey)
                         .append("\", \"mockAnswer\": \"").append(info)
                         .append("\" }");
@@ -85,4 +85,22 @@ public class MockJsonServiceCore {
         return response.toString();
     }
 
+    /**
+     * escape()
+     *
+     * Escape a give String to make it safe to be printed or stored.
+     *
+     * @param s The input String.
+     * @return The output String.
+     **/
+    private String escape(String s) {
+        return s.replace("\\", "\\\\")
+                .replace("\t", "\\t")
+                .replace("\b", "\\b")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\f", "\\f")
+                .replace("\'", "\\'")
+                .replace("\"", "\\\"");
+    }
 }
