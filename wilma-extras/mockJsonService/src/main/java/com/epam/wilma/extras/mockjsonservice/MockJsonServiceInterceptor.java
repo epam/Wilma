@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.mockJsonService;
+package com.epam.wilma.extras.mockjsonservice;
 /*==========================================================================
 Copyright since 2022, EPAM Systems
 
@@ -59,11 +59,12 @@ public class MockJsonServiceInterceptor extends MockJsonServiceCore implements R
         if (myCall) {
             //if GET - then list the preserved mocks
             if ("GET".equalsIgnoreCase(myMethod)) {
-                response = getMockContent(httpServletResponse);
+                response = getMockContent();
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             }
-            //if POST - then update a preserved mock - need to get proper message of course
+            //if POST - then update a preserved mock, or save/load it - need to get proper message of course
             if ("POST".equalsIgnoreCase(myMethod)) {
-                response = addMock(httpServletRequest, httpServletResponse);
+                response = handlePostMockRequest(httpServletRequest, httpServletResponse);
             }
             //if DELETE - then clean up all the preserved mocks
             if ("DELETE".equalsIgnoreCase(myMethod)) {
@@ -90,5 +91,6 @@ public class MockJsonServiceInterceptor extends MockJsonServiceCore implements R
      */
     @Override
     public void onRequestReceive(WilmaHttpRequest wilmaHttpRequest, ParameterList parameterList) {
+        // Do nothing because we don't use the interceptor part in this plugin.
     }
 }

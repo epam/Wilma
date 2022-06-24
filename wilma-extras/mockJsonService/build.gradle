@@ -5,6 +5,7 @@ dependencies {
     implementation "$googleGuavaApi"
     implementation "$javaxServletApi"
     implementation "$orgJsonApi"
+    implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
     testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
 }

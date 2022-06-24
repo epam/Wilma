@@ -133,7 +133,8 @@ public class ResponseDescriptorJsonParser implements ObjectParser<ResponseDescri
 
     private byte[] initializeResource(final TemplateType templateType, final String resource) {
         byte[] result;
-        if (templateType == TemplateType.HTML || templateType == TemplateType.TEXT || templateType == TemplateType.XML) {
+        if (templateType == TemplateType.HTML || templateType == TemplateType.TEXT
+                || templateType == TemplateType.XML || templateType == TemplateType.JSON) {
             result = resource.getBytes(StandardCharsets.UTF_8);
         } else if (templateType == TemplateType.EXTERNAL) {
             result = getTemplateFromTemplateGenerator(resource);

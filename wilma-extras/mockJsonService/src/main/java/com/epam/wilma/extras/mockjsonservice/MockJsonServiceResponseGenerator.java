@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.mockJsonService;
+package com.epam.wilma.extras.mockjsonservice;
 /*==========================================================================
 Copyright since 2022, EPAM Systems
 
@@ -49,7 +49,7 @@ public class MockJsonServiceResponseGenerator implements TemplateGenerator, Resp
         if (mockInformation == null) {
             //ups, this may happen when the mock has been deleted after the request has been arrived...
             newBody = "{ \"error\" : \"Cannot find the suitable mock answer.\" }".getBytes(StandardCharsets.UTF_8);
-            logger.error("MockJsonService: Response generator did not find proper response for request with code: " + wilmaHttpRequest.getUri().toString());
+            logger.error("MockJsonService: Response generator did not find proper response for request with code: {}", wilmaHttpRequest.getUri().toString());
         } else {
             newBody = mockInformation.getBytes(StandardCharsets.UTF_8);
         }

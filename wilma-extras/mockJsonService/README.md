@@ -34,7 +34,7 @@ and the plugin jar will be built into the `wilma-extras/mockJsonService/build/li
 + Don't forget to load the External Service (the jar) into Wilma. The easiest way is to use the sample json configuration file, that you may find in `src/main/resources` folder.
 + Don't forget to **enable** the interceptors in Wilma! Without that, the plugin won't work at all.
 
-How to call the Look-And-Say service endpoint of Wilma?
+How to call the Mock JSON service endpoint of Wilma?
 ---------------------------------------
 Note: In order to list the available services, use this call:
 ```
@@ -46,7 +46,7 @@ In case you configured well, you should get this kind of answer for the call abo
 {
   "serviceMap": [
     {
-      "MockJsonServiceInterceptor/mock-json-service": "com.epam.wilma.extras.mockJsonService.MockJsonServiceInterceptor"
+      "MockJsonServiceInterceptor/mock-json-service": "com.epam.wilma.extras.mockjsonservice.MockJsonServiceInterceptor"
     }
   ]
 }
@@ -62,13 +62,43 @@ GET http://localhost:1234/config/public/services/MockJsonServiceInterceptor/mock
 
 This will list the configured mocks.
 
-To create a new mock just need to send a POST message to the same URL, with a JSON body, that has the following content:
+To create a new mock just need to send a **POST** message to the same URL, with a JSON body, that has the following content:
 ```
 { 
-    "mockUrl": "http://test.service.com/a",                  // this is the URL to fire the mock response
-    "mockAnswer": "{ \"answer\": \"something-a\" }"          //  this is the JSON answer that shall be sent back as mocked answer
+    "add" : {
+        "mockUrl": "http://test.vitrualized-service.com/a",
+        "mockAnswer": "{ \"answer\": \"something-a\" }"
+    }
 }
 ```
-If you would like to start from the beginning, just send a DELETE request to the Mock Json Service, and all the stored mocks will be deleted.
+Further parameters can ba added, like:
+```
+        "mockBodyContent": "anystrying"                             //checks if 'anystring' is in the body
+        "mockJsonPath" : { "path" : "$.transactionType", "value": "OT" }   //checks if json "value" can be found at json "path" 
+```
+More than one parameter can be used, and a logical AND method will be used if there is more than one.
+
+Also, the existing service can be saved and loaded as simple JSON file:
+```
+{ 
+    "saveJson" : "resourcename"
+}
+```
+And loaded of course:
+```
+{ 
+    "loadJson" : "resourcename"
+}
+```
+The last **POST** command is the save the mock set as standard WIlma configuration file:
+```
+{ 
+    "saveWilmaConfiguration" : "resourcename",
+    "groupName" : "name of the service and version"
+}
+```
+This file can be loaded to Wilma as configuration, any time. Note that in this case not the Mock Json Service, but Wilma itself will use the mock configurations.
+
+Finally, if you would like to start from the very beginning, just send a DELETE request to the Mock Json Service, and all the stored mocks will be deleted.
 
 So easy! Have fun!
