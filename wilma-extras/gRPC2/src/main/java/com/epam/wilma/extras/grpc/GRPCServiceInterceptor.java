@@ -1,4 +1,4 @@
-package com.epam.wilma.extras.mockjsonservice;
+package com.epam.wilma.extras.grpc;
 /*==========================================================================
 Copyright since 2022, EPAM Systems
 
@@ -34,9 +34,9 @@ import java.util.Set;
  *
  * @author tkohegyi
  */
-public class MockJsonServiceInterceptor extends MockJsonServiceCore implements RequestInterceptor, ExternalWilmaService {
+public class GRPCServiceInterceptor extends GRPCServiceCore implements RequestInterceptor, ExternalWilmaService {
 
-    private static final String HANDLED_SERVICE = "/mock-json-service";
+    private static final String HANDLED_SERVICE = "/grpc-service";
 
     /**
      * ExternalWilmaService method implementation - entry point to handle the request by the external service.
@@ -57,18 +57,10 @@ public class MockJsonServiceInterceptor extends MockJsonServiceCore implements R
 
         //handle the call
         if (myCall) {
-            //if GET - then list the preserved mocks
-            if ("GET".equalsIgnoreCase(myMethod)) {
-                response = getMockContent();
-                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            }
-            //if POST - then update a preserved mock, or save/load it - need to get proper message of course
+            //if POST - then handle it
             if ("POST".equalsIgnoreCase(myMethod)) {
                 response = handlePostMockRequest(httpServletRequest, httpServletResponse);
-            }
-            //if DELETE - then clean up all the preserved mocks
-            if ("DELETE".equalsIgnoreCase(myMethod)) {
-                response = cleanMockContent(httpServletResponse);
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             }
         }
         return response;

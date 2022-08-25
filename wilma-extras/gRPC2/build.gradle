@@ -1,0 +1,111 @@
+plugins {
+    id 'com.google.protobuf' version '0.8.16'
+}
+
+def grpcVersion = '1.44.1'
+def protobufVersion = '3.16.0'
+def protocVersion = protobufVersion
+
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:${protocVersion}" }
+    plugins { grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}" } }
+    generateProtoTasks { all()*.plugins { grpc { outputSubDir = 'java' } } }
+    generatedFilesBaseDir = 'src'
+}
+
+dependencies {
+    implementation project(':wilma-application:wilma-domain')
+    implementation project(':wilma-application:wilma-webapp')
+    implementation project(':wilma-application:wilma-stub-configuration-domain')
+    implementation "$googleGuavaApi"
+    implementation "$javaxServletApi"
+    implementation "$orgJsonApi"
+    implementation "io.grpc:grpc-all:$grpcVersion"
+    implementation 'org.xerial.snappy:snappy-java:1.1.8.4'
+    implementation(group: 'org.springframework', name: 'spring-core', version:'4.1.6.RELEASE')
+    implementation group: 'org.springframework', name: 'spring-aop', version: '4.1.6.RELEASE'
+    implementation group: 'aspectj', name: 'aspectjweaver', version: '1.5.4'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
+    implementation "javax.annotation:javax.annotation-api:1.3.2"
+    testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
+}
+
+sourceSets.main.proto.srcDir "$projectDir/../../proto"
+
+clean {
+    delete fileTree(dir: "$projectDir/src/main/java", exclude: "com/epam/wilma/extras/grpc")
+    delete "$projectDir/src/main/java/com/epam/wilma/extras/grpc/server/Translator.java"
+}
+
+task generateJava(type: Copy) {
+    def decorate_services = ""
+    def import_services = ""
+    def services = ""
+    doFirst {
+        def callDecoratorTemplate = """
+        private final Map<String, Class> @fullServiceName@RespTypes = new HashMap<>(){{
+            @resp_types@
+        }}; 
+        private final Map<String, String> @fullServiceName@MethodTypes = new HashMap<>(){{
+            @method_types@
+        }}; 
+        @Around("execution(* @package@.@serviceName@Grpc.@serviceName@ImplBase.*(..))")
+        public void redirect@fullServiceName@(ProceedingJoinPoint jp) throws Throwable { redirect(jp, "@serviceName@", @fullServiceName@RespTypes, @fullServiceName@MethodTypes); }
+        """
+
+        def importServiceTemplate = "import @package@.@serviceName@Grpc;\n"
+        def serviceTemplate = "@Service class @fullServiceName@ extends @package@.@serviceName@Grpc.@serviceName@ImplBase {}\n"
+        new FileNameFinder().getFileNames("$projectDir/src/main/java", '**/*Grpc.java').forEach {
+            def file = new File(it)
+            def relativePath = file.path.split("src/main/java/")[1]
+            def pkg = relativePath.substring(0, relativePath.lastIndexOf("/")).replace("/", ".")
+            def serviceName = relativePath.substring(relativePath.lastIndexOf("/") + 1).replace("Grpc.java", "")
+            def fullServiceName = pkg.replaceAll( "([\\._])([A-Za-z0-9])", { Object[] s -> s[2].toUpperCase() } ).capitalize() + serviceName
+
+            println "Found $relativePath: "
+            println "Parsed package = [$pkg], serviceName = [$serviceName] and fullServiceName = [$fullServiceName]"
+
+            def text = file.text
+
+            // Even though the file name looked like a grpc service class, don't process it
+            // if you don't find a reference to an abstract class.
+            if (text.indexOf('public static abstract class') == -1) {
+                println "Skipping processing $file.path because its not a Service class."
+                return
+            }
+
+            def rpcMethodAnnotation = "@io.grpc.stub.annotations.RpcMethod("
+            Map<String, String> respTypes = new HashMap<>()
+            Map<String, String> methodTypes = new HashMap<>()
+            while (text.indexOf(rpcMethodAnnotation) >= 0) {
+                def rest = text.substring(text.indexOf(rpcMethodAnnotation) + rpcMethodAnnotation.length())
+                def descriptor = rest.substring(0, rest.indexOf(")")).split(',').inject([:]) { map, token ->
+                    token.split('=').with { map[it[0].trim()] = it[1].trim() }
+                    map
+                }
+                def method = descriptor.fullMethodName.substring("SERVICE_NAME + '/' + \"".length(), descriptor.fullMethodName.length() - 1)
+                respTypes[method] = descriptor.responseType
+                methodTypes[method] = descriptor.methodType.tokenize('.').last()
+                text = rest
+            }
+            decorate_services += callDecoratorTemplate
+                    .replace("@package@", pkg)
+                    .replace("@serviceName@", serviceName)
+                    .replace("@fullServiceName@", fullServiceName)
+                    .replace("@resp_types@", respTypes.collect { k, v -> "put(\"${k.toLowerCase()}\", $v);" }.join("\n"))
+                    .replace("@method_types@", methodTypes.collect { k, v -> "put(\"${k.toLowerCase()}\", \"$v\");" }.join("\n"))
+
+            import_services += importServiceTemplate.replace("@package@", pkg).replace("@serviceName@", serviceName)
+            services += serviceTemplate
+                    .replace("@package@", pkg)
+                    .replace("@serviceName@", serviceName)
+                    .replace("@fullServiceName@", fullServiceName)
+        }
+    }
+    from "$projectDir/src/template/java"
+    into "$projectDir/src/main/java/com/epam/wilma/extras/grpc"
+    filter { it.replace("@import_services@", import_services).replace("@services@", services).replace("@decorate_services@", decorate_services) }
+}
+
+compileJava.dependsOn 'generateJava'
+generateJava.dependsOn 'generateProto'
