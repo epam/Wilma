@@ -1,0 +1,69 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "Test 1",
+        "conditionDescriptor": {
+          "conditionSetInvoker": "alwaysTrueCondition"
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "text/html",
+          "templateName": "htmlTemplate1"
+        }
+      },
+      {
+        "name": "Test 2",
+        "conditionDescriptor": {
+          "conditionSetInvoker": "alwaysTrueCondition"
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "text/html",
+          "templateName": "htmlTemplate2"
+        }
+      },
+      {
+        "name": "Test 3",
+        "conditionDescriptor": {
+          "conditionSetInvoker": "alwaysTrueCondition"
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "delay": 0,
+          "mimeType": "text/html",
+          "templateName": "htmlTemplate3"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "htmlTemplate1",
+        "type": "html",
+        "resource": "<html><head><title>T1</title></head><body> Template 1 </body></html>"
+      },
+      {
+        "name": "htmlTemplate2",
+        "type": "html",
+        "resource": "<html><head><title>T2</title></head><body> Template 2 </body></html>"
+      },
+      {
+        "name": "htmlTemplate3",
+        "type": "html",
+        "resource": "<html><head><title>T3</title></head><body> Template 3 </body></html>"
+      }
+    ],
+    "conditionSets": [
+      {
+        "name": "alwaysTrueCondition",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysTrueChecker"
+          }
+        }
+      }
+    ]
+  }
+}
