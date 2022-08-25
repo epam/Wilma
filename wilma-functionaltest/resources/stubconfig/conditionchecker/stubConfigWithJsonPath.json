@@ -1,0 +1,48 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "RequestBodyBasedAnswer - EQ - POST",
+        "conditionDescriptor": {
+          "and": [
+            {"condition": { "class": "com.epam.wilma.stubconfig.condition.checker.general.header.PostMethodChecker" }},
+            {"condition": { "class": "JsonPathChecker",
+              "parameters": [
+                { "name": "jsonPath", "value": "$.dealType" },
+                { "name": "expected", "value": "EQ" }
+              ]
+            }}
+          ]
+        },
+        "responseDescriptor": { "code": 200, "delay": 0, "templateName": "json-answer-EQ", "mimeType": "application/json" }
+      },
+      {
+        "name": "RequestBodyBasedAnswer - FI - POST",
+        "conditionDescriptor": {
+          "and": [
+            {"condition": { "class": "com.epam.wilma.stubconfig.condition.checker.general.header.PostMethodChecker" }},
+            {"condition": { "class": "JsonPathChecker",
+              "parameters": [
+                { "name": "jsonPath", "value": "$.dealType" },
+                { "name": "expected", "value": "FI" }
+              ]
+            }}
+          ]
+        },
+        "responseDescriptor": { "code": 200, "delay": 0, "templateName": "json-answer-FI", "mimeType": "application/json" }
+      }
+    ],
+    "templates": [
+      {
+        "name": "json-answer-EQ",
+        "resource": "{ \"title\": \"JSON answer\", \"information\": \"EQ dealType is detected\" }",
+        "type": "json"
+      },
+      {
+        "name": "json-answer-FI",
+        "resource": "{ \"title\": \"JSON answer\", \"information\": \"FI dealType is detected\" }",
+        "type": "json"
+      }
+    ]
+  }
+}
