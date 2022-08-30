@@ -1,0 +1,76 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "DealType Check",
+        "conditionDescriptor": {
+          "and": [
+            {
+              "condition": {
+                "class": "com.epam.wilma.stubconfig.condition.checker.general.header.PostMethodChecker"
+              }
+            },
+            {
+              "condition": {
+                "class": "JsonPathChecker",
+                "parameters": [
+                  {
+                    "name": "jsonPath",
+                    "value": "$.dealType"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "mimeType": "application/json",
+          "templateName": "jsonTemplateWithDealType",
+          "responseFormatterSet": [
+            {
+              "responseFormatterSetInvoker": "response-formatter-set1"
+            }
+          ]
+        }
+      },
+      {
+        "name": "AnyOtherCase",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "AlwaysTrueChecker"
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "mimeType": "application/json",
+          "templateName": "jsonTemplateWithoutDealType"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "jsonTemplateWithDealType",
+        "type": "json",
+        "resource": "{ \"dealType\": \"$.dealType\" }"
+      },
+      {
+        "name": "jsonTemplateWithoutDealType",
+        "type": "json",
+        "resource": "{ \"dealType\": \" No dealType detected.\" }"
+      }
+    ],
+    "responseFormatterSets": [
+      {
+        "name": "response-formatter-set1",
+        "responseFormatterSet": [
+          {
+            "responseFormatter": {
+              "class": "JsonResponseFormatter"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

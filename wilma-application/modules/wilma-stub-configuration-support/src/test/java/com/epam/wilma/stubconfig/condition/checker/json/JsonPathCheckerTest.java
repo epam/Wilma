@@ -58,7 +58,17 @@ public class JsonPathCheckerTest {
     }
 
     @Test
-    public void testCheckConditionShouldFailWhenJsonHasDiffernetParameter() {
+    public void testCheckConditionBasicShouldPassWhenJsonHasProperParameter() {
+        givenBasicExpectations("$.name");
+        givenWilmaRequest("{\"name\":\"Wilma\",\"age\":\"20\"}");
+
+        boolean matches = underTest.checkCondition(request, parameters);
+
+        assertTrue(matches);
+    }
+
+    @Test
+    public void testCheckConditionShouldFailWhenJsonHasDifferentParameter() {
         givenExpectations("$.name");
         givenWilmaRequest("{\"name\":\"Irma\",\"age\":\"20\"}");
 
@@ -68,8 +78,28 @@ public class JsonPathCheckerTest {
     }
 
     @Test
+    public void testCheckConditionBasicShouldPassWhenJsonHasTheParameter() {
+        givenBasicExpectations("$.name");
+        givenWilmaRequest("{\"name\":\"Irma\",\"age\":\"20\"}");
+
+        boolean matches = underTest.checkCondition(request, parameters);
+
+        assertTrue(matches);
+    }
+
+    @Test
     public void testCheckConditionShouldFailWhenJsonHasNoSuchParameter() {
         givenExpectations("$.name");
+        givenWilmaRequest("{\"firstName\":\"Wilma\",\"age\":\"20\"}");
+
+        boolean matches = underTest.checkCondition(request, parameters);
+
+        assertFalse(matches);
+    }
+
+    @Test
+    public void testCheckConditionBasicShouldFailWhenJsonHasNoSuchParameter() {
+        givenBasicExpectations("$.name");
         givenWilmaRequest("{\"firstName\":\"Wilma\",\"age\":\"20\"}");
 
         boolean matches = underTest.checkCondition(request, parameters);
@@ -87,6 +117,16 @@ public class JsonPathCheckerTest {
         assertFalse(matches);
     }
 
+    @Test
+    public void testCheckConditionBasicShouldFailWhenRequestIsNotJson() {
+        givenBasicExpectations("$.name");
+        givenWilmaRequest("<request><name>Wilma</name><age>2></age></request>");
+
+        boolean matches = underTest.checkCondition(request, parameters);
+
+        assertFalse(matches);
+    }
+
     private void givenWilmaRequest(String body) {
         request = new WilmaHttpRequest();
         request.setBody(body);
@@ -95,6 +135,11 @@ public class JsonPathCheckerTest {
     private void givenExpectations(String path) {
         parameters = new ParameterList();
         parameters.addParameter(new Parameter(EXPECTED_KEY, "Wilma"));
+        parameters.addParameter(new Parameter(JSONPATH_KEY, path));
+    }
+
+    private void givenBasicExpectations(String path) {
+        parameters = new ParameterList();
         parameters.addParameter(new Parameter(JSONPATH_KEY, path));
     }
 

@@ -31,6 +31,8 @@ import com.jayway.jsonpath.JsonPath;
 /**
  * Checks whether a selected property of the captured Json request equals to the
  * expected value.
+ *
+ * In case the expected value is not given, just checks the availability/existence of the selected property.
  * <ul>
  * <li>Expected parameter key {@link JsonPathChecker#EXPECTED_KEY}.</li>
  * <li>JSON path parameter key {@link JsonPathChecker#JSONPATH_KEY}.</li>
@@ -49,10 +51,15 @@ public class JsonPathChecker implements ConditionChecker {
     public boolean checkCondition(final WilmaHttpRequest request, final ParameterList parameters) {
         String expected = parameters.get(EXPECTED_KEY);
         String path = parameters.get(JSONPATH_KEY);
-        boolean equals;
+        boolean equals = false;
         try {
             String actualValue = JsonPath.read(request.getBody(), path);
-            equals = evaluate(expected, actualValue);
+            if (actualValue != null) {
+                equals = true;
+                if (expected != null) {
+                    equals = evaluate(expected, actualValue);
+                }
+            }
         } catch (Exception e) {
             logger.debug("Request body isn't of JSON format, message:" + request.getWilmaMessageLoggerId(), e);
             equals = false;
