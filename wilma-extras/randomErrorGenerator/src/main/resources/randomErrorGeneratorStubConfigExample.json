@@ -41,7 +41,7 @@
         },
         "responseDescriptor": {
           "code": 500,
-          "delay": 0,
+          "delay": 120000,
           "mimeType": "text/plain",
           "templateName": "timeoutTemplate"
         }
