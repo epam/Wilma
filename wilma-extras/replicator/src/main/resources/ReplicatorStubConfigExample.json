@@ -7,7 +7,7 @@
         "class": "com.epam.wilma.extras.replicator.interceptor.ReplicatorInterceptor",
         "parameters": [
           {
-            "name": "https://github.com/epam/Wilma/tree/master/wilma-extras/replicator",
+            "name": "http://vonatinfo.mav-start.hu/map.aspx/getData",
             "value": "http://localhost:9090/replicator"
           }
         ]

@@ -12,7 +12,7 @@ It is written in Java, and the solution consists of two standalone applications:
 # Quick intro for end users
 ## Wilma application
 #### Requirements
-* JRE 15 for V2.3.x releases of Wilma
+* JRE 15 for V2.3.x releases of Wilma, and above
 * JRE 11 for V2.0.x-V2.2.x releases of Wilma
 * JRE 8 for V1.6.x releases of Wilma
 * JRE 7 in case version earlier than V1.6.x in use
@@ -37,7 +37,10 @@ To run Wilma with simplest configuration, just download the release, extract it 
 See [this page](http://epam.github.io/Wilma/endusers/index.html) for more detailed information on how to configure Wilma, and Component/Service that uses Wilma.
 
 In case you would like to use Wilma with its HTTPS support, it is suggested to start Wilma with additional parameters:
-`java -Djdk.tls.namedGroups="secp256r1, secp384r1, ffdhe2048, ffdhe3072" -jar wilma-x.y.z.jar wilma.conf.properties`
+
+```java -Djdk.tls.namedGroups="secp256r1, secp384r1, ffdhe2048, ffdhe3072" -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2" -jar wilma-x.y.z.jar wilma.conf.properties```
+
+The necessary additional parameters will always depend on the actual environment, for example specifying the protocols might not be necessary in many cases.
 
 
 #### Docker Image of Wilma

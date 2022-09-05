@@ -8,7 +8,7 @@
         "comment": "This handles the requests",
         "conditionDescriptor": {
           "condition": {
-            "class": "com.epam.wilma.extras.mockJsonService.MockJsonServiceChecker"
+            "class": "com.epam.wilma.extras.mockjsonservice.MockJsonServiceChecker"
           }
         },
         "responseDescriptor": {
@@ -19,7 +19,7 @@
           "responseFormatterSet": [
             {
               "responseFormatter": {
-                "class": "com.epam.wilma.extras.mockJsonService.MockJsonServiceResponseGenerator"
+                "class": "com.epam.wilma.extras.mockjsonservice.MockJsonServiceResponseGenerator"
               }
             }
           ]
@@ -30,13 +30,13 @@
       {
         "name": "MockJsonServiceTemplate",
         "type": "external",
-        "resource": "com.epam.wilma.extras.mockJsonService.MockJsonServiceResponseGenerator"
+        "resource": "com.epam.wilma.extras.mockjsonservice.MockJsonServiceResponseGenerator"
       }
     ],
     "interceptors": [
       {
         "name": "Mock Json Service",
-        "class": "com.epam.wilma.extras.mockJsonService.MockJsonServiceInterceptor"
+        "class": "com.epam.wilma.extras.mockjsonservice.MockJsonServiceInterceptor"
       }
     ]
   }

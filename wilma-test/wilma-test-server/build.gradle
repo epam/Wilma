@@ -52,10 +52,10 @@ jar {
 dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: "${logbackVersion}"
-    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version:'9.4.42.v20210604'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version:'9.4.42.v20210604'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-webapp', version:'9.4.42.v20210604'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-servlets', version:'9.4.42.v20210604'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version:"${jettyVersion}"
+    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version:"${jettyVersion}"
+    implementation group: 'org.eclipse.jetty', name: 'jetty-webapp', version:"${jettyVersion}"
+    implementation group: 'org.eclipse.jetty', name: 'jetty-servlets', version:"${jettyVersion}"
     implementation group: 'commons-io', name: 'commons-io', version:'2.4'
     implementation group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'2.0.0'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
@@ -64,6 +64,28 @@ dependencies {
 }
 
 test.useJUnit()
+
+def myCopySpec = project.copySpec {
+    from(rootProject.rootDir.absolutePath + '/wilma-test/wilma-test-server/') {
+        include 'wilma.testserver.properties'
+        include 'certificate/WilmaTestServer.cer'
+        include 'certificate/wilmaTestServer.jks'
+    }
+    from(rootProject.rootDir.absolutePath + '/wilma-test/wilma-test-server/build/libs/') {
+        include "wilma-test-server-$version" + '-all.jar'
+    }
+}
+
+task copyToReleaseRoot (type: Copy) {
+    into(rootProject.rootDir.absolutePath + '/wilma-test/wilma-test-server/release')
+    rename "wilma-test-server-$version" + '-all.jar', "wilma-test-server-" + "$version" + ".jar"
+    with myCopySpec
+}
+
+task release(type: Zip) {
+    dependsOn copyToReleaseRoot
+    from rootProject.rootDir.absolutePath + '/wilma-test/wilma-test-server/release'
+}
 
 run {
     args 'wilma.testserver.properties'
