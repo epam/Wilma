@@ -26,7 +26,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 public interface TemplateGenerator {
 
     /**
-     * Generates a stub template, which can be use for response generation in stub module of Wilma.
+     * Generates a stub response body template, which can be used as initial response body in stub module of Wilma.
      * @return with the generated template as byte array
      */
     byte[] generateTemplate();

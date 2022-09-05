@@ -1,0 +1,39 @@
+{
+  "wilmaStubConfiguration": {
+    "dialogDescriptors": [
+      {
+        "name": "JSON check",
+        "conditionDescriptor": {
+          "condition": {
+            "class": "com.epam.wilma.demo.IsInvalidJSONRequestCondition"
+          }
+        },
+        "responseDescriptor": {
+          "code": 200,
+          "mimeType": "application/json",
+          "templateName": "generatedJson",
+          "responseFormatterSet": [
+            {
+              "responseFormatter": {
+                "class": "com.epam.wilma.demo.JsonBuilderResponseFormatter",
+                "parameters": [
+                  {
+                    "name": "msgId",
+                    "value": "1234"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "generatedJson",
+        "type": "external",
+        "resource": "com.epam.wilma.demo.UuidJsonTemplateGenerator"
+      }
+    ]
+  }
+}

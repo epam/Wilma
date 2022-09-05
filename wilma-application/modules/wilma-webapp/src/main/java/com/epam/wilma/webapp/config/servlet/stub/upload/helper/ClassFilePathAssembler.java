@@ -62,6 +62,12 @@ public class ClassFilePathAssembler {
         String packageName;
         try {
             JavaClass javaClass = javaClassFactory.createJavaClass(classFile, fileName);
+            //check compilation version - if newer than the actual version, throw exception
+            int major = javaClass.getMajor();
+            String version = System.getProperty("java.version").split("\\.")[0]; //like 15.0.2 -> "15"
+            if (major - 44 > Integer.parseInt(version)) {
+                throw new CannotUploadExternalResourceException(exceptionMessage + fileName + " has newer class than expected: " + major);
+            }
             packageName = javaClass.getPackageName();
             String packageAsFolderName = packageName.replace('.', '/');
             String folderStructure = folderPart + FORWARDSLASH + packageAsFolderName;

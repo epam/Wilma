@@ -22,7 +22,7 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 /**
  * Holds response formatter details.
- * @author Tunde_Kovacs, Tamas_Kohegyo
+ * @author Tunde_Kovacs, Tamas_Kohegyi
  *
  */
 public class ResponseFormatterDescriptor {

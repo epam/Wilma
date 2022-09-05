@@ -24,7 +24,7 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Interface for stub response's formatter mechanism. All of the response formatters need to implement this interface.
+ * Interface for stub response's formatter mechanism. All response formatters need to implement this interface.
  *
  * @author Tamas_Kohegyi
  */
