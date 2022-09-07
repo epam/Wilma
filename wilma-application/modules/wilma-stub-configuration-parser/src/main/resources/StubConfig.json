@@ -225,7 +225,7 @@
       ]
     },
     "conditionDescriptorDefinition": {
-      "description": "Describes a complex condition which should be evaluated by the switch engine",
+      "description": "Describes a complex condition which should be evaluated by the route engine",
       "type": "object",
       "oneOf": [
         {
@@ -262,7 +262,7 @@
           ]
         },
         "resource": {
-          "description": "Resource is always a String - meaning depends on the type, for example if that is 'external', then resource is a class name",
+          "description": "Resource is always a String - its meaning depends on the type, for example if that is 'external', then resource is a class name",
           "type": "string",
           "minLength": 1
         }

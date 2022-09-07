@@ -23,12 +23,14 @@ import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecke
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.general.header.helper.MethodCheckOperator;
 import com.epam.wilma.stubconfig.condition.checker.general.header.helper.MethodEnum;
+import org.springframework.stereotype.Component;
 
 /**
  * Checks if the request method is POST or not.
  *
  * @author Tamas_Kohegyi
  */
+@Component
 public class PostMethodChecker extends MethodCheckOperator implements ConditionChecker {
 
     @Override
