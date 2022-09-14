@@ -64,19 +64,23 @@ $(document).ready(
 
 			// event handler for alert window hiding
 			$('#fileupload-result-div .close').on("click", function() {
-				var alertBlock = $('#fileupload-result-div .alert');
-				alertBlock.hide();
+                hideAlert();
 			});
 			
 			setSecuritySettings();
 
 		});
 
+function hideAlert() {
+    var alertBlock = $('#fileupload-result-div .alert');
+    alertBlock.hide();
+}
+
 function getFileTypes(){
 	getDialogDescriptors();
 	getSpecificFileTypes('interceptor','#div-interceptor-files',noFilter);
 	getSpecificFileTypes('condition-checker','#div-condition-checker-files',noFilter);
-	getSpecificFileTypes('template-formatter','#div-template-formatter-files',noFilter);
+	getSpecificFileTypes('response-formatter','#div-response-formatter-files',noFilter);
 	getSpecificFileTypes('template','#div-template-files',noFilter);
 	getSpecificFileTypes('jar','#div-jar-files',jarFilter);
 	getSpecificFileTypes('sequence-handler','#div-sequence-handler-files',noFilter);
