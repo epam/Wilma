@@ -52,7 +52,7 @@ public class WilmaHttpRequestProcessor {
     }
 
     /**
-     * Disabales a processor in the processor chain if the chain contained the processor.
+     * Disables a processor in the processor chain if the chain contained the processor.
      *
      * @param processor the processor that should be removed
      */
@@ -63,7 +63,7 @@ public class WilmaHttpRequestProcessor {
     }
 
     /**
-     * Disabales a processor in the processor chain if the chain contained the processor.
+     * Disables a processor in the processor chain if the chain contained the processor.
      *
      * @param processor the processor that should be removed
      */
