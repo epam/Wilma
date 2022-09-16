@@ -25,21 +25,23 @@ import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class JsonBuilderResponseFormatter implements ResponseFormatter {
     @Override
-    public byte[] formatResponse(WilmaHttpRequest wilmaRequest, HttpServletResponse resp, byte[] responseResource, ParameterList parameters) throws Exception {
+    public byte[] formatResponse(WilmaHttpRequest wilmaRequest, HttpServletResponse resp, byte[] responseResource, ParameterList parameters) {
         //assumption - initial response is a JSON answer already
         String response = new String(responseResource);
         JSONObject o = new JSONObject(response);
 
+        //put a just generated uuid into the template
+        String uuid = UUID.randomUUID().toString();
+        o.put("uuid", uuid);
+
         //go through the parameters and add all the names and values
         List<Parameter> params = parameters.getAllParameters();
-        Iterator<Parameter> iterator = params.iterator();
-        while (iterator.hasNext()) {
-            Parameter parameter = iterator.next();
+        for (Parameter parameter : params) {
             String parameterName = parameter.getName();
             String parameterValue = parameter.getValue();
             o.put(parameterName, parameterValue);

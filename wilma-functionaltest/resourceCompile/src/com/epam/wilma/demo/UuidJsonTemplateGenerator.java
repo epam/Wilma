@@ -21,14 +21,16 @@ import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerat
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
+
+/**
+ * Generates a JSON response body: { "uuid": "toBeFormatted" }
+ */
 
 public class UuidJsonTemplateGenerator implements TemplateGenerator {
 
     @Override
     public byte[] generateTemplate() {
-        String uuid = UUID.randomUUID().toString();
-        JSONObject o = new JSONObject("{ \"uuid\": \"" + uuid + "\" }" );
+        JSONObject o = new JSONObject("{ \"uuid\": \"toBeFormatted\" }" );
         return o.toString().getBytes(StandardCharsets.UTF_8);
     }
 }
