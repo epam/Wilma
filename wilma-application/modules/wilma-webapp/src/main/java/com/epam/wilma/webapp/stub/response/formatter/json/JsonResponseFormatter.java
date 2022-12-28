@@ -103,8 +103,20 @@ public class JsonResponseFormatter implements ResponseFormatter {
          */
         protected void replaceJsonPath(final JsonObject parent, final String key, final JsonPrimitive value) {
             if (isExpression(value.getAsString())) {
-                String requestValue = JsonPath.read(source, value.getAsString());
-                parent.add(key, new JsonPrimitive(requestValue));
+                Object requestValue = JsonPath.read(source, value.getAsString());
+                //can be Object, Boolean, Number, Character, String - we don't handle the Object case
+                if (requestValue instanceof Boolean) {
+                    parent.add(key, new JsonPrimitive((Boolean)requestValue));
+                }
+                if (requestValue instanceof Number) {
+                    parent.add(key, new JsonPrimitive((Number)requestValue));
+                }
+                if (requestValue instanceof String) {
+                    parent.add(key, new JsonPrimitive((String)requestValue));
+                }
+                if (requestValue instanceof Character) {
+                    parent.add(key, new JsonPrimitive((Character) requestValue));
+                }
             }
         }
 
