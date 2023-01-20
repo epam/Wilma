@@ -29,6 +29,6 @@ dependencies {
     implementation(group: 'org.apache.activemq', name: 'activemq-broker', version:'5.11.1')
     implementation(group: 'org.apache.activemq', name: 'activemq-pool', version:'5.11.1')
     implementation group: 'org.apache.derby', name: 'derby', version:'10.11.1.1'
-    implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.6.RELEASE'
+    implementation group: 'org.springframework', name: 'spring-jms', version:"${orgSpringframework}"
     implementation group: 'org.apache.bcel', name: 'bcel', version:'5.2'
 }
