@@ -30,6 +30,6 @@ dependencies {
     implementation group: 'org.reflections', name: 'reflections', version:'0.9.11'
     implementation "$orgJsonApi"
     implementation group: 'org.apache.bcel', name: 'bcel', version:'5.2'
-    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.12.2'
+    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.14.1'
     implementation "$javaxServletApi"
 }
