@@ -54,6 +54,7 @@ include 'wilma-extras:randomErrorGenerator'
 include 'wilma-extras:replicator'
 include 'wilma-extras:reverseProxy'
 include 'wilma-extras:shortCircuit'
+include 'wilma-extras:responseAutoFixer'
 
 for (subproject in (project(':wilma-extras')).children){
 	subproject.projectDir = file("$rootDir/wilma-extras/$subproject.name")
