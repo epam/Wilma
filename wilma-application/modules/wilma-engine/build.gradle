@@ -83,8 +83,6 @@ dependencies {
     implementation project(':wilma-application:wilma-property-validation')
     implementation project(':wilma-application:wilma-properties')
     implementation "$googleGuavaApi"
-    implementation group: 'jetty', name: 'jasper-compiler', version:'4.2.20RC0'
-    implementation group: 'javax.servlet.jsp', name: 'jsp-api', version:'2.2'
     implementation group: 'org.eclipse.jetty', name: 'jetty-webapp', version:"${jettyVersion}"
     implementation group: 'ognl', name: 'ognl', version:'3.0.8'
     implementation "$javaxAnnotationApi"

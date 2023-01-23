@@ -18,7 +18,7 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 // Common local repository info
-ext.wilmaVersion=2.4
+ext.wilmaVersion=2.5
 
 group = 'com.epam.wilma'
 apply plugin: 'idea'
@@ -36,7 +36,7 @@ repositories {
     mavenLocal()
     maven { url "https://repository.jboss.org/nexus/content/groups/public" }
     maven { url "https://repo.maven.apache.org/maven2" }
-    maven { url "https://repository.mulesoft.org/nexus/content/repositories/public/" }
+    maven { url "https://maven.scijava.org/content/repositories/public/" }
 }
 
 // Source and target info
