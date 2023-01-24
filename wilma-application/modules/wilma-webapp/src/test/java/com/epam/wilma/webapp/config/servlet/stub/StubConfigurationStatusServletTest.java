@@ -19,12 +19,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.webapp.service.StubConfigurationStatusService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -42,10 +42,10 @@ import static org.mockito.Mockito.verify;
  */
 public class StubConfigurationStatusServletTest {
 
-    private static final String PARAMETER_CONTANS_NEXTSTATUS = "nextstatus";
-    private static final String DEFAULT_GROUPNAME = "test";
-    private static final String PARAMETER_CONSTANS_STATUS = PARAMETER_CONTANS_NEXTSTATUS;
-    private static final String PARAMETER_CONSTANS_GROUPNAME = "groupname";
+    private static final String PARAMETER_CONTAINS_NEXT_STATUS = "nextstatus";
+    private static final String DEFAULT_GROUP_NAME = "test";
+    private static final String PARAMETER_CONTAINS_STATUS = PARAMETER_CONTAINS_NEXT_STATUS;
+    private static final String PARAMETER_CONTAINS_GROUP_NAME = "groupname";
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -58,12 +58,12 @@ public class StubConfigurationStatusServletTest {
     @InjectMocks
     private StubConfigurationStatusServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "stubConfigurationStatusService", stubConfigurationStatusService);
-        given(request.getParameter(PARAMETER_CONSTANS_GROUPNAME)).willReturn(DEFAULT_GROUPNAME);
-        given(request.getParameter(PARAMETER_CONSTANS_STATUS)).willReturn("true");
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "stubConfigurationStatusService", stubConfigurationStatusService);
+        given(request.getParameter(PARAMETER_CONTAINS_GROUP_NAME)).willReturn(DEFAULT_GROUP_NAME);
+        given(request.getParameter(PARAMETER_CONTAINS_STATUS)).willReturn("true");
     }
 
     @Test
@@ -72,7 +72,7 @@ public class StubConfigurationStatusServletTest {
         //WHEN
         underTest.doGet(request, response);
         //THEN
-        verify(stubConfigurationStatusService).changeStatus(true, DEFAULT_GROUPNAME, request);
+        verify(stubConfigurationStatusService).changeStatus(true, DEFAULT_GROUP_NAME, request);
     }
 
     @Test
@@ -81,13 +81,13 @@ public class StubConfigurationStatusServletTest {
         //WHEN
         underTest.doPost(request, response);
         //THEN
-        verify(stubConfigurationStatusService).changeStatus(true, DEFAULT_GROUPNAME, request);
+        verify(stubConfigurationStatusService).changeStatus(true, DEFAULT_GROUP_NAME, request);
     }
 
     @Test
     public void testDoGetShouldCallWriteErrorToResponseBecauseOfWrongParameter() throws ServletException, IOException {
         //GIVEN
-        given(request.getParameter(PARAMETER_CONTANS_NEXTSTATUS)).willReturn("falseaaa");
+        given(request.getParameter(PARAMETER_CONTAINS_NEXT_STATUS)).willReturn("falseaaa");
         given(response.getWriter()).willReturn(writer);
         //WHEN
         underTest.doGet(request, response);

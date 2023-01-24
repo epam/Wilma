@@ -29,8 +29,8 @@ import org.springframework.stereotype.Component;
 /**
  * Creates a new {@link IndexReader} instance using previously opened {@link IndexWriter}
  * to be able to handle real time changes.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 @Component
 public class IndexReaderFactory {

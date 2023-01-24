@@ -26,28 +26,28 @@ import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
 import com.epam.wilma.stubconfig.initializer.support.helper.BeanRegistryService;
 import com.epam.wilma.stubconfig.initializer.support.helper.PackageBasedClassFinder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.FieldSetter;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-
 /**
  * Unit test for {@link ExternalJarClassInitializer}.
  *
@@ -81,12 +81,12 @@ public class ExternalJarClassInitializerTest {
     @Mock
     private DummySequenceHandler object;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("logger"), logger);
-        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("packageBasedClassFinder"), packageBasedClassFinder);
-        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("externalClassInitializer"), externalClassInitializer);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "packageBasedClassFinder", packageBasedClassFinder);
+        ReflectionTestUtils.setField(underTest, "externalClassInitializer", externalClassInitializer);
         given(fileFactory.createFile(JAR_FOLDER_PATH)).willReturn(folder);
         doReturn(DummySequenceHandler.class).when(externalClassInitializer).loadExternalClass(anyString(), anyString(), any());
         doReturn(DummySequenceHandler.class).when(packageBasedClassFinder).findClassInJar(JAR_FOLDER_PATH, INTERFACE_TO_CAST, PACKAGE_NAME);
@@ -117,16 +117,18 @@ public class ExternalJarClassInitializerTest {
         assertNotNull(result);
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
+    @Test
     public void testLoadExternalClassShouldThrowDescriptorValidationFailedExceptionWhenNeitherBeanNorClassWasFound() {
-        //GIVEN
-        given(beanRegistryService.getBean(BEAN_NAME, INTERFACE_TO_CAST)).willThrow(new NoSuchBeanDefinitionException("error"));
-        Collection<File> jarFiles = new ArrayList<>();
-        given(fileUtils.listFiles(folder, "jar")).willReturn(jarFiles);
-        given(packageBasedClassFinder.findClassInJar(JAR_FOLDER_PATH, INTERFACE_TO_CAST, PACKAGE_NAME)).willThrow(new DescriptorValidationFailedException(""));
-        //WHEN
-        underTest.loadExternalClass(PACKAGE_NAME, JAR_FOLDER_PATH, INTERFACE_TO_CAST);
-        //THEN exception is thrown
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            given(beanRegistryService.getBean(BEAN_NAME, INTERFACE_TO_CAST)).willThrow(new NoSuchBeanDefinitionException("error"));
+            Collection<File> jarFiles = new ArrayList<>();
+            given(fileUtils.listFiles(folder, "jar")).willReturn(jarFiles);
+            given(packageBasedClassFinder.findClassInJar(JAR_FOLDER_PATH, INTERFACE_TO_CAST, PACKAGE_NAME)).willThrow(new DescriptorValidationFailedException(""));
+            //WHEN
+            underTest.loadExternalClass(PACKAGE_NAME, JAR_FOLDER_PATH, INTERFACE_TO_CAST);
+            //THEN exception is thrown
+        });
     }
 
 }

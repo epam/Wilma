@@ -24,14 +24,15 @@ import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.xml.helper.XQueryExpressionEvaluator;
 import net.sf.saxon.s9api.SaxonApiException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
@@ -42,7 +43,7 @@ import static org.mockito.BDDMockito.given;
  */
 public class XmlMessageTypeCheckerTest {
 
-    private static final String HEADER_VAL_FASTINFOSET = "application/fastinfoset";
+    private static final String HEADER_VAL_FAST_INFOSET = "application/fastinfoset";
     private static final String HEADER_VAL_XML = "application/xml";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String TEXT_PLAIN = "text/plain";
@@ -57,9 +58,9 @@ public class XmlMessageTypeCheckerTest {
     @InjectMocks
     private XmlMessageTypeChecker underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         parameterList = new ParameterList();
     }
 
@@ -69,7 +70,7 @@ public class XmlMessageTypeCheckerTest {
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(TEXT_PLAIN);
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
-        //TNEN
+        //THEN
         assertFalse(actual);
     }
 
@@ -79,40 +80,46 @@ public class XmlMessageTypeCheckerTest {
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(null);
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
-        //TNEN
+        //THEN
         assertFalse(actual);
     }
 
-    @Test(expected = ConditionEvaluationFailedException.class)
+    @Test
     public void testCheckConditionShouldThrowExceptionWhenNoParameterIsDefinedInConfig() {
-        //GIVEN
-        given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_XML);
-        //WHEN
-        underTest.checkCondition(request, parameterList);
-        //TNEN exception is thrown
+        Assertions.assertThrows(ConditionEvaluationFailedException.class, () -> {
+            //GIVEN
+            given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_XML);
+            //WHEN
+            underTest.checkCondition(request, parameterList);
+            //THEN exception is thrown
+        });
     }
 
-    @Test(expected = ConditionEvaluationFailedException.class)
+    @Test
     public void testCheckConditionShouldThrowExceptionWhenTooMuchParametersAreDefinedInConfig() {
-        //GIVEN
-        given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_FASTINFOSET);
-        parameterList.addParameter(new Parameter(TEXT_PLAIN, HEADER_VAL_XML));
-        parameterList.addParameter(new Parameter(CONTENT_TYPE_HEADER, HEADER_VAL_XML));
-        //WHEN
-        underTest.checkCondition(request, parameterList);
-        //TNEN exception is thrown
+        Assertions.assertThrows(ConditionEvaluationFailedException.class, () -> {
+            //GIVEN
+            given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_FAST_INFOSET);
+            parameterList.addParameter(new Parameter(TEXT_PLAIN, HEADER_VAL_XML));
+            parameterList.addParameter(new Parameter(CONTENT_TYPE_HEADER, HEADER_VAL_XML));
+            //WHEN
+            underTest.checkCondition(request, parameterList);
+            //THEN exception is thrown
+        });
     }
 
-    @Test(expected = ConditionEvaluationFailedException.class)
-    public void testCheckConditionShouldThrowExceptionWhenXQueryEvaulationFailed() throws SaxonApiException {
-        //GIVEN
-        given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_XML);
-        parameterList.addParameter(new Parameter(TEXT_PLAIN, HEADER_VAL_XML));
-        given(xQueryEvaluator.evaluateXQuery(anyString(), anyString())).willThrow(new SaxonApiException(""));
-        given(request.getBody()).willReturn(TEXT_PLAIN);
-        //WHEN
-        underTest.checkCondition(request, parameterList);
-        //TNEN exception is thrown
+    @Test
+    public void testCheckConditionShouldThrowExceptionWhenXQueryEvaluationFailed() {
+        Assertions.assertThrows(ConditionEvaluationFailedException.class, () -> {
+            //GIVEN
+            given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(HEADER_VAL_XML);
+            parameterList.addParameter(new Parameter(TEXT_PLAIN, HEADER_VAL_XML));
+            given(xQueryEvaluator.evaluateXQuery(anyString(), anyString())).willThrow(new SaxonApiException(""));
+            given(request.getBody()).willReturn(TEXT_PLAIN);
+            //WHEN
+            underTest.checkCondition(request, parameterList);
+            //THEN exception is thrown
+        });
     }
 
     @Test
@@ -124,7 +131,7 @@ public class XmlMessageTypeCheckerTest {
         given(request.getBody()).willReturn(TEXT_PLAIN);
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
-        //TNEN
+        //THEN
         assertFalse(actual);
     }
 
@@ -137,7 +144,7 @@ public class XmlMessageTypeCheckerTest {
         given(request.getBody()).willReturn(TEXT_PLAIN);
         //WHEN
         boolean actual = underTest.checkCondition(request, parameterList);
-        //TNEN
+        //THEN
         assertTrue(actual);
     }
 

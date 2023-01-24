@@ -21,15 +21,15 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.properties.InvalidPropertyException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.BeanCreationException;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -48,9 +48,9 @@ public class SystemExceptionSelectorTest {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private BeanCreationException beanCreationException;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new SystemExceptionSelector();
     }
 

@@ -25,8 +25,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Class creates a ZipOutputStream from an OutputStream.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 @Component
 public class ZipOutputStreamFactory {

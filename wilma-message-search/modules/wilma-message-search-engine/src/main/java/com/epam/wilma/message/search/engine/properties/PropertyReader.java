@@ -31,8 +31,8 @@ import com.epam.wilma.message.search.properties.PropertyHolder;
 /**
  * Reads configuration parameters from a {@link Properties} object and saves them
  * in a key-value store.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class PropertyReader {

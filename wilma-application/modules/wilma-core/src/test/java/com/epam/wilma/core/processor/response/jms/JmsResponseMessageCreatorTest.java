@@ -19,8 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpResponse;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -29,7 +30,7 @@ import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
@@ -51,39 +52,45 @@ public class JmsResponseMessageCreatorTest {
 
     private JmsResponseMessageCreator underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new JmsResponseMessageCreator(response, true);
     }
 
-    @Test(expected = JMSException.class)
-    public void testCreateMessageShouldThrowJmsExceptionWhenCanNotCreateObjectMessageFromSession() throws JMSException {
-        // GIVEN
-        given(session.createObjectMessage()).willThrow(new JMSException(NO_WILMA_LOGGER_ID));
-        // WHEN
-        underTest.createMessage(session);
-        // THEN exception is thrown
+    @Test
+    public void testCreateMessageShouldThrowJmsExceptionWhenCanNotCreateObjectMessageFromSession() {
+        Assertions.assertThrows(JMSException.class, () -> {
+            // GIVEN
+            given(session.createObjectMessage()).willThrow(new JMSException(NO_WILMA_LOGGER_ID));
+            // WHEN
+            underTest.createMessage(session);
+            // THEN exception is thrown
+        });
     }
 
-    @Test(expected = JMSException.class)
-    public void testCreateMessageShouldThrowJmsExceptionWhenSetObjectThrowsJMSException() throws JMSException {
-        // GIVEN
-        given(session.createObjectMessage()).willReturn(objectMessage);
-        willThrow(new JMSException(NO_WILMA_LOGGER_ID)).given(objectMessage).setObject(response);
-        // WHEN
-        underTest.createMessage(session);
-        // THEN exception is thrown
+    @Test
+    public void testCreateMessageShouldThrowJmsExceptionWhenSetObjectThrowsJMSException() {
+        Assertions.assertThrows(JMSException.class, () -> {
+            // GIVEN
+            given(session.createObjectMessage()).willReturn(objectMessage);
+            willThrow(new JMSException(NO_WILMA_LOGGER_ID)).given(objectMessage).setObject(response);
+            // WHEN
+            underTest.createMessage(session);
+            // THEN exception is thrown
+        });
     }
 
-    @Test(expected = JMSException.class)
-    public void testCreateMessageShouldThrowJmsExceptionWhenSetBooleanPropertyThrowsJMSException() throws JMSException {
-        // GIVEN
-        given(session.createObjectMessage()).willReturn(objectMessage);
-        willThrow(new JMSException(NO_WILMA_LOGGER_ID)).given(objectMessage).setBooleanProperty("bodyDecompressed", true);
-        // WHEN
-        underTest.createMessage(session);
-        // THEN exception is thrown
+    @Test
+    public void testCreateMessageShouldThrowJmsExceptionWhenSetBooleanPropertyThrowsJMSException() {
+        Assertions.assertThrows(JMSException.class, () -> {
+            // GIVEN
+            given(session.createObjectMessage()).willReturn(objectMessage);
+            willThrow(new JMSException(NO_WILMA_LOGGER_ID)).given(objectMessage).setBooleanProperty("bodyDecompressed", true);
+            // WHEN
+            underTest.createMessage(session);
+            // THEN exception is thrown
+        });
     }
 
     @Test

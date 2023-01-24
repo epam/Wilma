@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Factory for creating new {@link IndexSearcher} instance.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 @Component
 public class IndexSearcherFactory {

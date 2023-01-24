@@ -24,8 +24,8 @@ import com.epam.wilma.message.search.domain.exception.SystemException;
 
 /**
  * Class for selecting {@link SystemException} from exception causes to be able to get a user-readable exception message.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class SystemExceptionSelector {
 

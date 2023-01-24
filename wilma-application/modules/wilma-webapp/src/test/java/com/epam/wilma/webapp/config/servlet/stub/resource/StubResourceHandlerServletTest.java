@@ -21,12 +21,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.webapp.config.servlet.helper.FileListJsonBuilder;
 import com.epam.wilma.webapp.config.servlet.stub.helper.ResourceFileNameHandler;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -77,12 +77,12 @@ public class StubResourceHandlerServletTest {
     @InjectMocks
     private StubResourceHandlerServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "fileListJsonBuilder", fileListJsonBuilder);
-        Whitebox.setInternalState(underTest, "stubResourcePathProvider", stubResourcePathProvider);
-        Whitebox.setInternalState(underTest, "resourceFileNameHandler", resourceFileNameHandler);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "fileListJsonBuilder", fileListJsonBuilder);
+        ReflectionTestUtils.setField(underTest, "stubResourcePathProvider", stubResourcePathProvider);
+        ReflectionTestUtils.setField(underTest, "resourceFileNameHandler", resourceFileNameHandler);
         given(response.getWriter()).willReturn(writer);
     }
 

@@ -22,8 +22,8 @@ import com.epam.wilma.message.search.domain.exception.SystemException;
 
 /**
  * It is thrown when a property loaded from the configuration while is invalid.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class InvalidPropertyException extends SystemException {
 

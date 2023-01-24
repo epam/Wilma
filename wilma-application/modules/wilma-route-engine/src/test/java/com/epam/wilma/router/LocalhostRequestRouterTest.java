@@ -22,17 +22,17 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.router.configuration.RouteEngineConfigurationAccess;
 import com.epam.wilma.router.configuration.domain.PropertyDTO;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -54,9 +54,9 @@ public class LocalhostRequestRouterTest {
     @Mock
     private WilmaHttpRequest request;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class LocalhostRequestRouterTest {
         //WHEN
         underTest.onApplicationEvent(null);
         //THEN
-        assertEquals(9876, Whitebox.getInternalState(underTest, "internalPort"));
+        assertEquals(9876, ReflectionTestUtils.getField(underTest, "internalPort"));
     }
 
     @Test

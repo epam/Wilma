@@ -24,8 +24,9 @@ import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedExce
 import com.epam.wilma.domain.stubconfig.interceptor.MockRequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -35,7 +36,8 @@ import org.springframework.context.ApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -61,9 +63,9 @@ public class RequestInterceptorInitializerTest {
     @InjectMocks
     private RequestInterceptorInitializer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         requestInterceptors = new ArrayList<>();
         given(stubResourceHolder.getRequestInterceptors()).willReturn(requestInterceptors);
     }
@@ -81,7 +83,7 @@ public class RequestInterceptorInitializerTest {
     }
 
     @Test
-    public void testGetRequestInterceptorShouldReturnRequestInterceptorrWhenTheClassIsManagedBySpring() {
+    public void testGetRequestInterceptorShouldReturnRequestInterceptorWhenTheClassIsManagedBySpring() {
         //GIVEN
         RequestInterceptor requestInterceptor = new MockRequestInterceptor();
         given(appContext.getBean(CLASS_NAME, RequestInterceptor.class)).willReturn(requestInterceptor);
@@ -136,17 +138,19 @@ public class RequestInterceptorInitializerTest {
         //WHEN
         RequestInterceptor actual = underTest.getExternalClassObject(CLASS_NAME);
         //THEN
-        assertEquals(null, actual);
+        assertNull(actual);
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
+    @Test
     public void testRequestInterceptorWhenItDoesNotExistShouldThrowException() {
-        //GIVEN
-        given(stubResourcePathProvider.getInterceptorPathAsString()).willReturn(PATH);
-        given(externalInitializer.loadExternalClass(CLASS_NAME, PATH, RequestInterceptor.class)).willThrow(
-                new DescriptorValidationFailedException(CLASS_NAME));
-        //WHEN
-        underTest.getExternalClassObject(CLASS_NAME);
-        //THEN it should throw exception
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            given(stubResourcePathProvider.getInterceptorPathAsString()).willReturn(PATH);
+            given(externalInitializer.loadExternalClass(CLASS_NAME, PATH, RequestInterceptor.class)).willThrow(
+                    new DescriptorValidationFailedException(CLASS_NAME));
+            //WHEN
+            underTest.getExternalClassObject(CLASS_NAME);
+            //THEN it should throw exception
+        });
     }
 }

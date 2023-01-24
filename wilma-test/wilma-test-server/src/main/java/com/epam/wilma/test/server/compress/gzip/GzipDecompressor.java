@@ -30,8 +30,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Decompresses requests that are encoded with gzip.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class GzipDecompressor {
     private final Logger logger = LoggerFactory.getLogger(GzipDecompressor.class);

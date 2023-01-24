@@ -22,13 +22,14 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import org.springframework.stereotype.Component;
 
 /**
  * Factory for creating new instances of {@link BufferedReader}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class BufferedReaderFactory {
@@ -40,6 +41,6 @@ public class BufferedReaderFactory {
      * @throws UnsupportedEncodingException  If the named charset is not supported
      */
     public BufferedReader createReader(final FileInputStream fis) throws UnsupportedEncodingException {
-        return new BufferedReader(new InputStreamReader(fis, "UTF-8"));
+        return new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
     }
 }

@@ -29,7 +29,7 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 
 public class CompositeHandler extends AbstractHandler {
 
-    private AbstractHandler[] handlers;
+    private final AbstractHandler[] handlers;
 
     public CompositeHandler(AbstractHandler... handlers) {
         this.handlers = handlers;

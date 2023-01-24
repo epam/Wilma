@@ -21,9 +21,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import org.slf4j.Logger;
 
 /**
- * This exception acts as a base class for all types of system exceptions, that can occur when somthing not related to the business logic fails.
- * @author Marton_Sereg
+ * This exception acts as a base class for all types of system exceptions, that can occur when something not related to the business logic fails.
  *
+ * @author Marton_Sereg
  */
 public class SystemException extends RuntimeException {
 

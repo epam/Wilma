@@ -22,9 +22,8 @@ import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptorHolder;
 import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -33,6 +32,7 @@ import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -42,7 +42,7 @@ import static org.mockito.Mockito.verify;
  * @author Tibor_Kovacs
  */
 public class NewStubDescriptorCommandTest {
-    private static final String GROUPNAME_FIRST = "First";
+    private static final String GROUP_NAME_FIRST = "First";
 
     private Map<String, StubDescriptor> normalStubDescriptors;
 
@@ -59,9 +59,9 @@ public class NewStubDescriptorCommandTest {
 
     private NewStubDescriptorCommand underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         normalStubDescriptors = new LinkedHashMap<>();
         given(stubConfigurationJsonBuilder.buildStubDescriptor(inputStream)).willReturn(stubDescriptor);
     }
@@ -70,30 +70,30 @@ public class NewStubDescriptorCommandTest {
     public void testModifyShouldPutANewStubDescriptorIntoTheMap() {
         //GIVEN
         Map<String, StubDescriptor> expected = new LinkedHashMap<>(normalStubDescriptors);
-        expected.put(GROUPNAME_FIRST, stubDescriptor);
+        expected.put(GROUP_NAME_FIRST, stubDescriptor);
         given(stubDescriptor.getAttributes()).willReturn(attributes);
-        given(attributes.getGroupName()).willReturn(GROUPNAME_FIRST);
+        given(attributes.getGroupName()).willReturn(GROUP_NAME_FIRST);
         given(attributes.isValid()).willReturn(true);
         //WHEN
         underTest = new NewStubDescriptorCommand(inputStream, stubConfigurationJsonBuilder, sequenceDescriptorHolder);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);
         //THEN
-        Assert.assertEquals(result, expected);
+        assertEquals(result, expected);
     }
 
     @Test
     public void testModifyShouldReplaceOneStubDescriptor() {
         //GIVEN
-        normalStubDescriptors.put(GROUPNAME_FIRST, stubDescriptor);
+        normalStubDescriptors.put(GROUP_NAME_FIRST, stubDescriptor);
         Map<String, StubDescriptor> expected = new LinkedHashMap<>(normalStubDescriptors);
         given(stubDescriptor.getAttributes()).willReturn(attributes);
-        given(attributes.getGroupName()).willReturn(GROUPNAME_FIRST);
+        given(attributes.getGroupName()).willReturn(GROUP_NAME_FIRST);
         given(attributes.isValid()).willReturn(true);
         //WHEN
         underTest = new NewStubDescriptorCommand(inputStream, stubConfigurationJsonBuilder, sequenceDescriptorHolder);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);
         //THEN
-        Assert.assertEquals(result, expected);
+        assertEquals(result, expected);
     }
 
     @Test

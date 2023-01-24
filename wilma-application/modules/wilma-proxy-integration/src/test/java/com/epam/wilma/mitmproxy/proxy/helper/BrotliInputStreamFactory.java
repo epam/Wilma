@@ -10,6 +10,7 @@ import java.io.InputStream;
 
 /**
  * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ *
  * @author Tamas_Kohegyi
  */
 

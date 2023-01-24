@@ -23,8 +23,8 @@ import static org.mockito.Mockito.verify;
 
 import java.util.concurrent.ExecutorService;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -33,8 +33,8 @@ import com.epam.wilma.message.search.web.WebAppServer;
 
 /**
  * Unit test for {@link WebAppStopper}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 public class WebAppStopperTest {
 
@@ -45,9 +45,9 @@ public class WebAppStopperTest {
 
     private WebAppStopper underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new WebAppStopper(webAppServer, executorService);
     }
 

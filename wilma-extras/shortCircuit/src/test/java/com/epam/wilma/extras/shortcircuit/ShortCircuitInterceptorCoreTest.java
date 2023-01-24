@@ -1,9 +1,10 @@
 package com.epam.wilma.extras.shortcircuit;
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Test code for @ShortCircuitInterceptorCore.
@@ -13,7 +14,7 @@ public class ShortCircuitInterceptorCoreTest {
 
     private ShortCircuitInterceptorCore underTest;
 
-    @Before
+    @BeforeEach
     public void init() {
         underTest = new ShortCircuitInterceptorCore();
     }
@@ -25,6 +26,6 @@ public class ShortCircuitInterceptorCoreTest {
         String requestLine = "GET http://blah.com:1234/gzu?gzu&gzu";
         request.setRequestLine(requestLine);
         String hash = underTest.generateKeyForMap(request);
-        Assert.assertFalse("Generated hash is not usable", hash.contains(" "));
+        assertFalse(hash.contains(" "), "Generated hash is not usable");
     }
 }

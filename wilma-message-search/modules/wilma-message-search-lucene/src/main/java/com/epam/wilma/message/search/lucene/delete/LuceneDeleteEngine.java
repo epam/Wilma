@@ -32,8 +32,8 @@ import com.epam.wilma.message.search.lucene.helper.TermFactory;
 
 /**
  * Responsible for deleting a file from the index.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 @Component
 public class LuceneDeleteEngine {

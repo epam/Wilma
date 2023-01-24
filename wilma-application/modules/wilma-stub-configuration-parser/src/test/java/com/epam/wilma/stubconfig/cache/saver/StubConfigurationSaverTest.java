@@ -26,8 +26,9 @@ import com.epam.wilma.domain.stubconfig.exception.JsonTransformationException;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
 import com.epam.wilma.stubconfig.json.parser.helper.JsonBasedObjectTransformer;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -68,14 +69,14 @@ public class StubConfigurationSaverTest {
     @Mock
     private Logger logger;
 
-    private Map<String, StubDescriptor> descriptors = new HashMap<>();
+    private final Map<String, StubDescriptor> descriptors = new HashMap<>();
 
     @InjectMocks
     private StubConfigurationSaver underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(stubResourcePathProvider.getCachePath()).willReturn(TEST_PATH);
         given(descriptor.getAttributes()).willReturn(attributes);
         given(attributes.isActive()).willReturn(true);
@@ -94,15 +95,16 @@ public class StubConfigurationSaverTest {
         verify(documentTransformer).transformToFile(jsonObject, TEST_PATH + "/" + 1 + STUB_CONFIG_JSON_POSTFIX, true);
     }
 
-    @Test(expected = JsonTransformationException.class)
-    public void testSaveAllStubConfigurationsWhenOccurAnDocumentTransformationException() throws JsonTransformationException,
-            TransformerException {
-        //GIVEN
-        doThrow(new TransformerException("Test")).when(documentTransformer).transformToFile(jsonObject, TEST_PATH + "/" + 1 + STUB_CONFIG_JSON_POSTFIX, true);
-        given(stubResourceHolder.getActualStubConfigJsonObject(TEST_KEY)).willReturn(jsonObject);
-        //WHEN
-        underTest.saveAllStubConfigurations(descriptors);
-        //THEN
-        verify(stubResourceHolder).getActualStubConfigJsonObject(TEST_KEY);
+    @Test
+    public void testSaveAllStubConfigurationsWhenOccurAnDocumentTransformationException() {
+        Assertions.assertThrows(JsonTransformationException.class, () -> {
+            //GIVEN
+            doThrow(new TransformerException("Test")).when(documentTransformer).transformToFile(jsonObject, TEST_PATH + "/" + 1 + STUB_CONFIG_JSON_POSTFIX, true);
+            given(stubResourceHolder.getActualStubConfigJsonObject(TEST_KEY)).willReturn(jsonObject);
+            //WHEN
+            underTest.saveAllStubConfigurations(descriptors);
+            //THEN
+            verify(stubResourceHolder).getActualStubConfigJsonObject(TEST_KEY);
+        });
     }
 }

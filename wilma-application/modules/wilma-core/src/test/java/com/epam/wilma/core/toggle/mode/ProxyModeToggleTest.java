@@ -25,8 +25,8 @@ import com.epam.wilma.core.configuration.CoreConfigurationAccess;
 import com.epam.wilma.core.configuration.domain.PropertyDto;
 import com.epam.wilma.core.processor.entity.ProcessorBase;
 import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -57,9 +57,9 @@ public class ProxyModeToggleTest {
     @InjectMocks
     private ProxyModeToggle underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         builder = new PropertyDto.Builder().blockLocalhostUsage(BlockLocalhostUsage.OFF).interceptorMode("off").messageLogging("off")
                 .sequenceHandlingState(SequenceHandlingState.OFF);
     }

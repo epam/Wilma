@@ -24,14 +24,13 @@ import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
 import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -57,7 +56,7 @@ public class WilmaApplicationTest {
 
     private WilmaApplication wilmaApplication;
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -65,9 +64,11 @@ public class WilmaApplicationTest {
         wilmaApplication = new WilmaApplication(config, client);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowExceptionWhenConfigIsMissing() {
-        new WilmaApplication(null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new WilmaApplication(null);
+        });
     }
 
     @Test
@@ -76,7 +77,7 @@ public class WilmaApplicationTest {
 
         WilmaLoadInformation result = wilmaApplication.getActualLoadInformation();
 
-        assertNull("WilmaLoadInformation is expected to be null.", result);
+        Assertions.assertNull(result, "WilmaLoadInformation is expected to be null.");
         verify(client, never()).sendSetterRequest(anyString());
     }
 
@@ -87,10 +88,10 @@ public class WilmaApplicationTest {
         WilmaLoadInformation result = wilmaApplication.getActualLoadInformation();
 
         verify(client, never()).sendSetterRequest(anyString());
-        Assert.assertTrue("Wilma Load Information content is wrong.", result.getDeletedFilesCount() == 0);
-        Assert.assertTrue("Wilma Load Information content is wrong.", result.getCountOfMessages() == 1);
-        Assert.assertTrue("Wilma Load Information content is wrong.", result.getResponseQueueSize() == 2);
-        Assert.assertTrue("Wilma Load Information content is wrong.", result.getLoggerQueueSize() == 3);
+        Assertions.assertTrue(result.getDeletedFilesCount() == 0, "Wilma Load Information content is wrong.");
+        Assertions.assertTrue(result.getCountOfMessages() == 1, "Wilma Load Information content is wrong.");
+        Assertions.assertTrue(result.getResponseQueueSize() == 2, "Wilma Load Information content is wrong.");
+        Assertions.assertTrue(result.getLoggerQueueSize() == 3, "Wilma Load Information content is wrong.");
     }
 
     @Test
@@ -99,7 +100,7 @@ public class WilmaApplicationTest {
 
         String result = wilmaApplication.getVersionInformation();
 
-        assertNull("WilmaVersionInformation is expected to be null.", result);
+        Assertions.assertNull(result, "WilmaVersionInformation is expected to be null.");
         verify(client, never()).sendSetterRequest(anyString());
     }
 
@@ -110,14 +111,14 @@ public class WilmaApplicationTest {
         String result = wilmaApplication.getVersionInformation();
 
         verify(client, never()).sendSetterRequest(anyString());
-        Assert.assertTrue("Wilma Version Information content is wrong.", VERSION_INFO_JSON_STRING.contains(result));
+        Assertions.assertTrue(VERSION_INFO_JSON_STRING.contains(result), "Wilma Version Information content is wrong.");
     }
 
     @Test
     public void shouldReturnWithProperBooleanValueForShutdownRequest() {
         when(client.sendSetterRequest(SHUTDOWN_URL)).thenReturn(true);
 
-        Assert.assertTrue(wilmaApplication.shutdownApplication());
+        Assertions.assertTrue(wilmaApplication.shutdownApplication());
         verify(client, never()).sendGetterRequest(anyString());
     }
 
@@ -127,7 +128,7 @@ public class WilmaApplicationTest {
         when(client.sendGetterRequest(SERVICE_URL + queryString)).thenReturn(Optional.of("{\"unknownRequest\":\"blah\"}"));
         JSONObject o = wilmaApplication.callGetService(queryString);
         verify(client, never()).sendSetterRequest(anyString());
-        Assert.assertTrue("Wilma Special Service Call is wrong.", o != null);
+        Assertions.assertTrue(o != null, "Wilma Special Service Call is wrong.");
     }
 
     private WilmaServiceConfig createMockConfig() {

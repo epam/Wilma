@@ -22,8 +22,8 @@ import com.epam.wilma.message.search.lucene.configuration.LuceneConfigurationAcc
 import com.epam.wilma.message.search.lucene.configuration.PropertyDto;
 import com.epam.wilma.message.search.lucene.index.scheduler.helper.CronTriggerFactory;
 import com.epam.wilma.message.search.lucene.index.scheduler.helper.DateFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -53,7 +53,7 @@ public class IndexTaskSchedulerTest {
     private DateFactory dateFactory;
 
     @Mock
-    private ReindexerTask luceneReindexerTask;
+    private ReIndexerTask luceneReIndexerTask;
 
     @InjectMocks
     private IndexTaskScheduler underTest;
@@ -63,9 +63,9 @@ public class IndexTaskSchedulerTest {
     @Mock
     private CronTrigger cronTrigger;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class IndexTaskSchedulerTest {
         //WHEN
         underTest.startReindexScheduling();
         //THEN
-        verify(taskScheduler).schedule(luceneReindexerTask, cronTrigger);
+        verify(taskScheduler).schedule(luceneReIndexerTask, cronTrigger);
     }
 
     @Test
@@ -88,7 +88,7 @@ public class IndexTaskSchedulerTest {
         //WHEN
         underTest.runReindexOnDemand();
         //THEN
-        verify(taskScheduler).schedule(luceneReindexerTask, now);
+        verify(taskScheduler).schedule(luceneReIndexerTask, now);
     }
 
 }

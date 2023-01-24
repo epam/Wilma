@@ -26,14 +26,15 @@ import com.epam.wilma.maintainer.domain.MaintainerMethod;
 import com.epam.wilma.maintainer.task.MaintainerTask;
 import com.epam.wilma.maintainer.task.filelimit.FileLimitMaintainerTask;
 import com.epam.wilma.maintainer.task.timelimit.TimeLimitMaintainerTask;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,13 +68,13 @@ public class LogFileMaintainerTest {
     @Mock
     private MaintainerProperties properties;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         Map<MaintainerMethod, MaintainerTask> maintainerTasks = new HashMap<>();
         maintainerTasks.put(MaintainerMethod.FILELIMIT, fileLimitMaintainerTask);
         maintainerTasks.put(MaintainerMethod.TIMELIMIT, timeLimitMaintainerTask);
-        Whitebox.setInternalState(underTest, "maintainerTasks", maintainerTasks);
+        ReflectionTestUtils.setField(underTest, "maintainerTasks", maintainerTasks);
         given(configurationAccess.getProperties()).willReturn(properties);
         given(properties.getCronExpression()).willReturn(CRON_EXPRESSION);
     }
@@ -102,15 +103,17 @@ public class LogFileMaintainerTest {
         verify(taskScheduler).schedule(fileLimitMaintainerTask, cronTrigger);
     }
 
-    @Test(expected = SchedulingCannotBeStartedException.class)
+    @Test
     public void testStartSchedulingShouldThrowExceptionWhenWrongValueIsSetInProperties() {
-        // GIVEN
-        given(properties.getMaintainerMethod()).willReturn("asd");
-        given(cronTriggerFactory.createCronTrigger(CRON_EXPRESSION)).willReturn(cronTrigger);
-        // WHEN
-        underTest.startScheduling();
-        // THEN
-        verify(taskScheduler, never()).schedule(fileLimitMaintainerTask, cronTrigger);
+        Assertions.assertThrows(SchedulingCannotBeStartedException.class, () -> {
+            // GIVEN
+            given(properties.getMaintainerMethod()).willReturn("asd");
+            given(cronTriggerFactory.createCronTrigger(CRON_EXPRESSION)).willReturn(cronTrigger);
+            // WHEN
+            underTest.startScheduling();
+            // THEN
+            verify(taskScheduler, never()).schedule(fileLimitMaintainerTask, cronTrigger);
+        });
     }
 
 }

@@ -20,8 +20,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.properties.InvalidPropertyException;
 import com.epam.wilma.properties.PropertyHolder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -41,69 +42,79 @@ public class SafeguardLimitValidatorTest {
     @InjectMocks
     private SafeguardLimitValidator underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
-    @Test(expected = InvalidPropertyException.class)
+    @Test
     public void testValidateShouldThrowExceptionWhenFiOffLimitLessThanFiOnLimit() {
-        //GIVEN
-        given(getFiOffLimit()).willReturn(2L);
-        given(getFiOnLimit()).willReturn(3L);
-        given(getMwOffLimit()).willReturn(5L);
-        given(getMwOnLimit()).willReturn(4L);
-        //WHEN
-        underTest.validate();
-        //THEN exception was thrown
+        Assertions.assertThrows(InvalidPropertyException.class, () -> {
+            //GIVEN
+            given(getFiOffLimit()).willReturn(2L);
+            given(getFiOnLimit()).willReturn(3L);
+            given(getMwOffLimit()).willReturn(5L);
+            given(getMwOnLimit()).willReturn(4L);
+            //WHEN
+            underTest.validate();
+            //THEN exception was thrown
+        });
     }
 
-    @Test(expected = InvalidPropertyException.class)
+    @Test
     public void testValidateShouldThrowExceptionWhenMwOnLimitLessThanFiOnLimit() {
-        //GIVEN
-        given(getFiOffLimit()).willReturn(4L);
-        given(getFiOnLimit()).willReturn(3L);
-        given(getMwOffLimit()).willReturn(5L);
-        given(getMwOnLimit()).willReturn(2L);
-        //WHEN
-        underTest.validate();
-        //THEN exception was thrown
+        Assertions.assertThrows(InvalidPropertyException.class, () -> {
+            //GIVEN
+            given(getFiOffLimit()).willReturn(4L);
+            given(getFiOnLimit()).willReturn(3L);
+            given(getMwOffLimit()).willReturn(5L);
+            given(getMwOnLimit()).willReturn(2L);
+            //WHEN
+            underTest.validate();
+            //THEN exception was thrown
+        });
     }
 
-    @Test(expected = InvalidPropertyException.class)
+    @Test
     public void testValidateShouldThrowExceptionWhenMwOffLimitLessThanMwOnLimit() {
-        //GIVEN
-        given(getFiOffLimit()).willReturn(4L);
-        given(getFiOnLimit()).willReturn(3L);
-        given(getMwOffLimit()).willReturn(5L);
-        given(getMwOnLimit()).willReturn(6L);
-        //WHEN
-        underTest.validate();
-        //THEN exception was thrown
+        Assertions.assertThrows(InvalidPropertyException.class, () -> {
+            //GIVEN
+            given(getFiOffLimit()).willReturn(4L);
+            given(getFiOnLimit()).willReturn(3L);
+            given(getMwOffLimit()).willReturn(5L);
+            given(getMwOnLimit()).willReturn(6L);
+            //WHEN
+            underTest.validate();
+            //THEN exception was thrown
+        });
     }
 
-    @Test(expected = InvalidPropertyException.class)
+    @Test
     public void testValidateShouldThrowExceptionWhenMwOffLimitLessThanFiOffLimit() {
-        //GIVEN
-        given(getFiOffLimit()).willReturn(4L);
-        given(getFiOnLimit()).willReturn(3L);
-        given(getMwOffLimit()).willReturn(3L);
-        given(getMwOnLimit()).willReturn(5L);
-        //WHEN
-        underTest.validate();
-        //THEN exception was thrown
+        Assertions.assertThrows(InvalidPropertyException.class, () -> {
+            //GIVEN
+            given(getFiOffLimit()).willReturn(4L);
+            given(getFiOnLimit()).willReturn(3L);
+            given(getMwOffLimit()).willReturn(3L);
+            given(getMwOnLimit()).willReturn(5L);
+            //WHEN
+            underTest.validate();
+            //THEN exception was thrown
+        });
     }
 
-    @Test(expected = InvalidPropertyException.class)
+    @Test
     public void testValidateShouldThrowExceptionWhenLimitsAreNull() {
-        //GIVEN
-        given(getFiOffLimit()).willReturn(null);
-        given(getFiOnLimit()).willReturn(null);
-        given(getMwOffLimit()).willReturn(null);
-        given(getMwOnLimit()).willReturn(null);
-        //WHEN
-        underTest.validate();
-        //THEN exception was thrown
+        Assertions.assertThrows(InvalidPropertyException.class, () -> {
+            //GIVEN
+            given(getFiOffLimit()).willReturn(null);
+            given(getFiOnLimit()).willReturn(null);
+            given(getMwOffLimit()).willReturn(null);
+            given(getMwOnLimit()).willReturn(null);
+            //WHEN
+            underTest.validate();
+            //THEN exception was thrown
+        });
     }
 
     @Test

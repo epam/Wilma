@@ -1,9 +1,4 @@
 dependencies {
     implementation project(':wilma-application:wilma-domain')
-//    implementation project(':wilma-application:wilma-webapp')
     implementation project(':wilma-application:wilma-stub-configuration-domain')
-//    implementation "$googleGuavaApi"
-//    implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
-//    implementation "$javaxServletApi"
-//    testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
 }

@@ -22,15 +22,15 @@ import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptorUsage;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -49,13 +49,13 @@ public class DialogDescriptorServiceTest {
     @InjectMocks
     private DialogDescriptorService underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testDecreaseWhenUsageIsHitcountShouldDecreaseHitcount() {
+    public void testDecreaseWhenUsageIsHitCountShouldDecreaseHitCount() {
         //GIVEN
         attributes = new DialogDescriptorAttributes("name", DialogDescriptorUsage.HITCOUNT);
         attributes.setHitcount(2);
@@ -67,7 +67,7 @@ public class DialogDescriptorServiceTest {
     }
 
     @Test
-    public void testDecreaseWhenUsageIsHitcountAndValValueIsOneShouldDisableDD() {
+    public void testDecreaseWhenUsageIsHitCountAndValValueIsOneShouldDisableDD() {
         //GIVEN
         attributes = new DialogDescriptorAttributes("name", DialogDescriptorUsage.HITCOUNT);
         attributes.setHitcount(1);
@@ -79,7 +79,7 @@ public class DialogDescriptorServiceTest {
     }
 
     @Test
-    public void testDecreaseWhenUsageIsNotHitcountShouldDoNothing() {
+    public void testDecreaseWhenUsageIsNotHitCountShouldDoNothing() {
         //GIVEN
         attributes = new DialogDescriptorAttributes("name", DialogDescriptorUsage.ALWAYS);
         dialogDescriptor = new DialogDescriptor(attributes, null, null);

@@ -29,8 +29,8 @@ import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 
 /**
  * Doesn't do anything useful, only used for unit testing.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Component
 public class DummySequenceHandler2 implements SequenceHandler {

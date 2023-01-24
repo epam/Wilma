@@ -21,13 +21,14 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.properties.InvalidPropertyException;
 import com.epam.wilma.properties.PropertyHolder;
 import com.epam.wilma.properties.validation.SafeguardLimitValidator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Properties;
 
@@ -46,13 +47,13 @@ public class PropertyValidatorTest {
     @InjectMocks
     private PropertyValidator underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         properties = new Properties();
         propertyHolder = new PropertyHolder();
         underTest.setProperties(properties);
-        Whitebox.setInternalState(underTest, "propertyHolder", propertyHolder);
+        ReflectionTestUtils.setField(underTest, "propertyHolder", propertyHolder);
     }
 
     @Test
@@ -80,39 +81,45 @@ public class PropertyValidatorTest {
         Mockito.verify(safeguardLimitValidator).validate();
     }
 
-    @Test(expected = InvalidPropertyException.class)
+    @Test
     public void testValidatePropertiesWhenInvalidPropertyShouldThrowException() {
-        //GIVEN
-        String validationExpression = "#this >1";
-        String propertyValue = "0";
-        properties.put("proxy.port", validationExpression);
-        propertyHolder.addProperty("proxy.port", propertyValue);
-        //WHEN
-        underTest.validateProperties();
-        //THEN it should throw exception
+        Assertions.assertThrows(InvalidPropertyException.class, () -> {
+            //GIVEN
+            String validationExpression = "#this >1";
+            String propertyValue = "0";
+            properties.put("proxy.port", validationExpression);
+            propertyHolder.addProperty("proxy.port", propertyValue);
+            //WHEN
+            underTest.validateProperties();
+            //THEN it should throw exception
+        });
     }
 
-    @Test(expected = InvalidPropertyException.class)
+    @Test
     public void testValidatePropertiesWhenNumberFormatExceptionShouldThrowException() {
-        //GIVEN
-        String validationExpression = "#this >1";
-        String propertyValue = "bla";
-        properties.put("proxy.port", validationExpression);
-        propertyHolder.addProperty("proxy.port", propertyValue);
-        //WHEN
-        underTest.validateProperties();
-        //THEN it should throw exception
+        Assertions.assertThrows(InvalidPropertyException.class, () -> {
+            //GIVEN
+            String validationExpression = "#this >1";
+            String propertyValue = "bla";
+            properties.put("proxy.port", validationExpression);
+            propertyHolder.addProperty("proxy.port", propertyValue);
+            //WHEN
+            underTest.validateProperties();
+            //THEN it should throw exception
+        });
     }
 
-    @Test(expected = InvalidPropertyException.class)
+    @Test
     public void testValidatePropertiesWhenOgnlExceptionShouldThrowException() {
-        //GIVEN
-        String validationExpression = "#this >1 bla";
-        String propertyValue = "0";
-        properties.put("proxy.port", validationExpression);
-        propertyHolder.addProperty("proxy.port", propertyValue);
-        //WHEN
-        underTest.validateProperties();
-        //THEN it should throw exception
+        Assertions.assertThrows(InvalidPropertyException.class, () -> {
+            //GIVEN
+            String validationExpression = "#this >1 bla";
+            String propertyValue = "0";
+            properties.put("proxy.port", validationExpression);
+            propertyHolder.addProperty("proxy.port", propertyValue);
+            //WHEN
+            underTest.validateProperties();
+            //THEN it should throw exception
+        });
     }
 }

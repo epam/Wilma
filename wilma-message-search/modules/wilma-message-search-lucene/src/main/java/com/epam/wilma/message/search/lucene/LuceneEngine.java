@@ -22,8 +22,8 @@ import java.util.List;
 
 /**
  * Provides indexing and searching capabilities with lucene.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public interface LuceneEngine {
 

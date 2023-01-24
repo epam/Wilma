@@ -22,15 +22,15 @@ import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.properties.PropertyHolder;
 import com.epam.wilma.stubconfig.configuration.domain.PropertyDto;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassNameMapper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -53,9 +53,9 @@ public class StubConfigurationAccessTest {
     @InjectMocks
     private StubConfigurationAccess underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

@@ -19,12 +19,12 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.sequence.SequenceManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -69,15 +69,15 @@ public class ResponseQueueListenerTest {
     @InjectMocks
     private ResponseQueueListener underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(messageCreatorFactory.create(response, true)).willReturn(jmsResponseMessageCreator);
         given(messageCreatorFactory.create(response, false)).willReturn(jmsResponseMessageCreator);
     }
 
     @Test
-    public void testOnMessageShouldDecompressResponse() throws ApplicationException, JMSException {
+    public void testOnMessageShouldDecompressResponse() throws JMSException {
         //GIVEN
         underTest.setFiDecompressionEnabled(true);
         underTest.setMessageLoggingEnabled(true);
@@ -90,7 +90,7 @@ public class ResponseQueueListenerTest {
     }
 
     @Test
-    public void testOnMessageShouldNotDecompressResponseWhenFISafeguardEnabled() throws ApplicationException, JMSException {
+    public void testOnMessageShouldNotDecompressResponseWhenFISafeguardEnabled() throws JMSException {
         //GIVEN
         underTest.setFiDecompressionEnabled(false);
         underTest.setMessageLoggingEnabled(true);
@@ -114,24 +114,28 @@ public class ResponseQueueListenerTest {
         verify(jmsTemplate).send(loggerQueue, jmsResponseMessageCreator);
     }
 
-    @Test(expected = SystemException.class)
-    public void testOnMessageShouldThrowNewRuntimeExceptionWhenCannotGetWilmaResponseFromMessage() throws JMSException {
-        //GIVEN
-        underTest.setMessageLoggingEnabled(true);
-        given(response.isLoggingEnabled()).willReturn(true);
-        given(objectMessage.getObject()).willThrow(new JMSException("exception"));
-        //WHEN
-        underTest.onMessage(objectMessage);
-        //THEN exception should be thrown
+    @Test
+    public void testOnMessageShouldThrowNewRuntimeExceptionWhenCannotGetWilmaResponseFromMessage() {
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            underTest.setMessageLoggingEnabled(true);
+            given(response.isLoggingEnabled()).willReturn(true);
+            given(objectMessage.getObject()).willThrow(new JMSException("exception"));
+            //WHEN
+            underTest.onMessage(objectMessage);
+            //THEN exception should be thrown
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testOnMessageWhenMessageIsNotObjectMessageShouldThrowIllegalArgumentException() {
-        //GIVEN in setUp
-        underTest.setMessageLoggingEnabled(true);
-        //WHEN
-        underTest.onMessage(message);
-        //THEN it should throw exception
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            //GIVEN in setUp
+            underTest.setMessageLoggingEnabled(true);
+            //WHEN
+            underTest.onMessage(message);
+            //THEN it should throw exception
+        });
     }
 
     @Test

@@ -23,20 +23,20 @@ import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
 import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
 import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
 import com.epam.wilma.maintainer.domain.DeletedFileProvider;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -68,18 +68,18 @@ public class FileLimitMaintainerTaskTest {
     @Mock
     private JmsIndexDeletionProcessor indexDeletionProcessor;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(configurationAccess.getProperties()).willReturn(properties);
     }
 
     @Test
     public void testRunShouldDeleteFilesWhenThereAreMoreFilesInTheFolderThanTheLimit() {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fileLimit", null);
+        ReflectionTestUtils.setField(underTest, "fileLimit", null);
         DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
-        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
+        ReflectionTestUtils.setField(underTest, "deletedFileProvider", deletedFileProvider);
         given(properties.getFileLimit()).willReturn(2);
         File file1 = Mockito.mock(File.class);
         given(file1.getName()).willReturn("20130702151251.0038resp");
@@ -108,9 +108,9 @@ public class FileLimitMaintainerTaskTest {
     @Test
     public void testRunShouldNotDeleteFilesWhenThereAreNotMoreFilesInTheFolderThanTheLimit() {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fileLimit", 4);
+        ReflectionTestUtils.setField(underTest, "fileLimit", 4);
         DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
-        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
+        ReflectionTestUtils.setField(underTest, "deletedFileProvider", deletedFileProvider);
         given(properties.getFileLimit()).willReturn(4);
         File file1 = mock(File.class);
         given(file1.getName()).willReturn("20130702151251.0038resp");
@@ -141,10 +141,10 @@ public class FileLimitMaintainerTaskTest {
     @Test
     public void testRunShouldSendFileForDeletionFromIndex() {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fileLimit", null);
+        ReflectionTestUtils.setField(underTest, "fileLimit", null);
         given(properties.getFileLimit()).willReturn(0);
         DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
-        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
+        ReflectionTestUtils.setField(underTest, "deletedFileProvider", deletedFileProvider);
 
         File file1 = mock(File.class);
         File[] messageFiles = new File[1];
@@ -178,7 +178,7 @@ public class FileLimitMaintainerTaskTest {
     public void testLogParameters() {
         // GIVEN
         given(properties.getFileLimit()).willReturn(4);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         // WHEN
         underTest.logParameters();
         // THEN
@@ -188,7 +188,7 @@ public class FileLimitMaintainerTaskTest {
     @Test
     public void testRunShouldSaveDeleteFilesCountWhenItDeleteFiles() {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fileLimit", null);
+        ReflectionTestUtils.setField(underTest, "fileLimit", null);
         given(properties.getFileLimit()).willReturn(2);
         File file1 = Mockito.mock(File.class);
         given(file1.getName()).willReturn("20130702151251.0038resp");
@@ -209,18 +209,20 @@ public class FileLimitMaintainerTaskTest {
         given(logFolder.listFiles(fileFilter)).willReturn(messageFiles);
 
         DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
-        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
+        ReflectionTestUtils.setField(underTest, "deletedFileProvider", deletedFileProvider);
         // WHEN
         underTest.run();
         // THEN
-        int actual = ((DeletedFileProvider) Whitebox.getInternalState(underTest, "deletedFileProvider")).getDeletedFilesCount();
-        Assert.assertEquals(2, actual);
+        deletedFileProvider = (DeletedFileProvider) ReflectionTestUtils.getField(underTest, "deletedFileProvider");
+        assert deletedFileProvider != null;
+        int actual = deletedFileProvider.getDeletedFilesCount();
+        assertEquals(2, actual);
     }
 
     @Test
     public void testRunShouldSaveZeroWhenItDoNotDeleteFiles() {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fileLimit", null);
+        ReflectionTestUtils.setField(underTest, "fileLimit", null);
         given(properties.getFileLimit()).willReturn(4);
         File file1 = Mockito.mock(File.class);
         given(file1.getName()).willReturn("20130702151251.0038resp");
@@ -241,11 +243,13 @@ public class FileLimitMaintainerTaskTest {
         given(logFolder.listFiles(fileFilter)).willReturn(messageFiles);
 
         DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
-        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
+        ReflectionTestUtils.setField(underTest, "deletedFileProvider", deletedFileProvider);
         // WHEN
         underTest.run();
         // THEN
-        int actual = ((DeletedFileProvider) Whitebox.getInternalState(underTest, "deletedFileProvider")).getDeletedFilesCount();
-        Assert.assertEquals(0, actual);
+        deletedFileProvider = (DeletedFileProvider) ReflectionTestUtils.getField(underTest, "deletedFileProvider");
+        assert deletedFileProvider != null;
+        int actual = deletedFileProvider.getDeletedFilesCount();
+        assertEquals(0, actual);
     }
 }

@@ -25,8 +25,8 @@ import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
 import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
 import com.epam.wilma.webapp.service.command.factory.NewStubDescriptorJsonCommandFactory;
 import com.epam.wilma.webapp.service.external.ServiceMap;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -63,9 +63,9 @@ public class StubDescriptorReaderTest {
     @Mock
     private NewStubDescriptorCommand command;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

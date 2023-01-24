@@ -27,8 +27,8 @@ import com.epam.wilma.domain.stubconfig.interceptor.RequestInterceptor;
 import com.epam.wilma.domain.stubconfig.interceptor.ResponseInterceptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -49,7 +49,7 @@ import static org.mockito.Mockito.verify;
  */
 public class StubResourceHolderUpdaterTest {
 
-    private static final String DEFAULT_GROUPNAME = "test";
+    private static final String DEFAULT_GROUP_NAME = "test";
     @Mock
     private StubResourceHolder stubResourceHolder;
     @Mock
@@ -62,9 +62,9 @@ public class StubResourceHolderUpdaterTest {
     @InjectMocks
     private StubResourceHolderUpdater underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -131,9 +131,9 @@ public class StubResourceHolderUpdaterTest {
     public void testAddDocumentToResourceHolderShouldSetDocument() {
         //GIVEN in setUp
         //WHEN
-        underTest.addDocumentToResourceHolder(DEFAULT_GROUPNAME, jsonObject);
+        underTest.addDocumentToResourceHolder(DEFAULT_GROUP_NAME, jsonObject);
         //THEN
-        verify(stubResourceHolder).setActualStubConfigJsonObject(DEFAULT_GROUPNAME, jsonObject);
+        verify(stubResourceHolder).setActualStubConfigJsonObject(DEFAULT_GROUP_NAME, jsonObject);
     }
 
     @Test

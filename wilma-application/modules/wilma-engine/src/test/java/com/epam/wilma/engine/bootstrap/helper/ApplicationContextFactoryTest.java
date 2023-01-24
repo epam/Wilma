@@ -18,14 +18,16 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Provides unit tests for <tt>ApplicationContextFactory</tt>.
@@ -35,7 +37,7 @@ public class ApplicationContextFactoryTest {
     private static final String SPRING_APP_CONTEXT_PATH = "test-application-context.xml";
     private ApplicationContextFactory underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = ApplicationContextFactory.getInstance();
     }
@@ -46,7 +48,7 @@ public class ApplicationContextFactoryTest {
         //WHEN
         ClassPathXmlApplicationContext actual = underTest.getClassPathXmlApplicationContext(SPRING_APP_CONTEXT_PATH);
         //THEN
-        Assert.assertTrue(actual.containsBean("test"));
+        assertTrue(actual.containsBean("test"));
     }
 
     @Test
@@ -55,10 +57,10 @@ public class ApplicationContextFactoryTest {
         ClassPathXmlApplicationContext expected = new ClassPathXmlApplicationContext(SPRING_APP_CONTEXT_PATH);
         Map<String, ClassPathXmlApplicationContext> appContexts = new HashMap<>();
         appContexts.put(SPRING_APP_CONTEXT_PATH, expected);
-        Whitebox.setInternalState(underTest, "applicationContexts", appContexts);
+        ReflectionTestUtils.setField(underTest, "applicationContexts", appContexts);
         //WHEN
         ClassPathXmlApplicationContext actual = underTest.getClassPathXmlApplicationContext(SPRING_APP_CONTEXT_PATH);
         //THEN
-        Assert.assertEquals(actual, expected);
+        assertEquals(actual, expected);
     }
 }

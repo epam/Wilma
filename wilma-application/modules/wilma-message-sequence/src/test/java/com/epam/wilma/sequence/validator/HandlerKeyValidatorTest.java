@@ -19,7 +19,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.sequence.handler.exception.SequenceHandlerKeyValidationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Provides unit tests for the class {@link HandlerKeyValidator}.
@@ -28,31 +29,37 @@ import org.junit.Test;
  */
 public class HandlerKeyValidatorTest {
     private static final String HANDLER_NAME = "Teszt";
-    private HandlerKeyValidator underTest = new HandlerKeyValidator();
+    private final HandlerKeyValidator underTest = new HandlerKeyValidator();
 
-    @Test(expected = SequenceHandlerKeyValidationException.class)
+    @Test
     public void testCheckRequestShouldThrowValidationExceptionWhenHandlerKeyContainsForbiddenCharacterVerticalbar() {
-        //GIVEN
-        String generatedKey = "test|Key2";
-        //WHEN
-        underTest.validateGeneratedKey(generatedKey, HANDLER_NAME);
-        //THEN except an EXCEPTION
+        Assertions.assertThrows(SequenceHandlerKeyValidationException.class, () -> {
+            //GIVEN
+            String generatedKey = "test|Key2";
+            //WHEN
+            underTest.validateGeneratedKey(generatedKey, HANDLER_NAME);
+            //THEN except an EXCEPTION
+        });
     }
 
-    @Test(expected = SequenceHandlerKeyValidationException.class)
+    @Test
     public void testCheckRequestShouldThrowValidationExceptionWhenHandlerKeyContainsForbiddenCharacterSemicolon() {
-        //GIVEN
-        String generatedKey = "testKey;2";
-        //WHEN
-        underTest.validateGeneratedKey(generatedKey, HANDLER_NAME);
-        //THEN except an EXCEPTION
+        Assertions.assertThrows(SequenceHandlerKeyValidationException.class, () -> {
+            //GIVEN
+            String generatedKey = "testKey;2";
+            //WHEN
+            underTest.validateGeneratedKey(generatedKey, HANDLER_NAME);
+            //THEN except an EXCEPTION
+        });
     }
 
-    @Test(expected = SequenceHandlerKeyValidationException.class)
+    @Test
     public void testCheckRequestShouldThrowValidationExceptionWhenHandlerKeyIsNull() {
-        //GIVEN
-        //WHEN
-        underTest.validateGeneratedKey(null, HANDLER_NAME);
-        //THEN except an EXCEPTION
+        Assertions.assertThrows(SequenceHandlerKeyValidationException.class, () -> {
+            //GIVEN
+            //WHEN
+            underTest.validateGeneratedKey(null, HANDLER_NAME);
+            //THEN except an EXCEPTION
+        });
     }
 }

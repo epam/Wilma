@@ -21,13 +21,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.common.helper.WilmaService;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -65,12 +65,12 @@ public class ShutdownServletTest {
     @Mock
     private PrintWriter printWriter;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logger", logger);
-        Whitebox.setInternalState(underTest, "wilmaService", wilmaService);
-        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "wilmaService", wilmaService);
+        ReflectionTestUtils.setField(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
         given(resp.getWriter()).willReturn(printWriter);
     }
 

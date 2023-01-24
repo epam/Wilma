@@ -26,15 +26,15 @@ import com.epam.wilma.core.configuration.domain.PropertyDto;
 import com.epam.wilma.core.processor.entity.ProcessorBase;
 import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
 import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.context.event.ContextRefreshedEvent;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -63,9 +63,9 @@ public class MessageLoggingToggleTest {
     @Mock
     private ContextRefreshedEvent event;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         builder = new PropertyDto.Builder().blockLocalhostUsage(BlockLocalhostUsage.OFF).interceptorMode("off").operationMode(OperationMode.WILMA)
                 .sequenceHandlingState(SequenceHandlingState.OFF);
     }
@@ -141,7 +141,7 @@ public class MessageLoggingToggleTest {
     }
 
     @Test
-    public final void testIsRequestLoggingOnReturnsFalseIfHandlerDoesntContainProcessor() {
+    public final void testIsRequestLoggingOnReturnsFalseIfHandlerDoesNotContainProcessor() {
         // GIVEN in setup
         given(requestHandler.isProcessorEnabled(jmsRequestLogger)).willReturn(false);
         // WHEN
@@ -164,7 +164,7 @@ public class MessageLoggingToggleTest {
     }
 
     @Test
-    public final void testIsResponseLoggingOnReturnsFalseIfHandlerDoesntContainProcessor() {
+    public final void testIsResponseLoggingOnReturnsFalseIfHandlerDoesNotContainProcessor() {
         // GIVEN in setup
         given(responseHandler.containsProcessor(jmsResponseProcessor)).willReturn(false);
         // WHEN

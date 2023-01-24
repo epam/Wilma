@@ -24,8 +24,9 @@ import com.epam.wilma.common.helper.JavaClassFactory;
 import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
 import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.JavaClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -34,7 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -63,9 +64,9 @@ public class ClassFilePathAssemblerTest {
     @InjectMocks
     private ClassFilePathAssembler underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -89,27 +90,31 @@ public class ClassFilePathAssemblerTest {
         verify(javaClass).getPackageName();
     }
 
-    @Test(expected = CannotUploadExternalResourceException.class)
-    public void testCreateFilePathShouldRethrowIOExceptionAsCannotUploadExternalResourceException() throws IOException {
-        //GIVEN
-        given(fileFactory.createFile(FILE_NAME)).willReturn(file);
-        given(file.getParent()).willReturn(PARENT_DIRECTORY);
-        given(file.getName()).willReturn(SIMPLE_CLASS_NAME);
-        given(javaClassFactory.createJavaClass(classFile, FILE_NAME)).willThrow(new IOException());
-        //WHEN
-        underTest.createFilePath(classFile, FILE_NAME, EXCEPTION_MESSAGE);
-        //THEN error is thrown
+    @Test
+    public void testCreateFilePathShouldRethrowIOExceptionAsCannotUploadExternalResourceException() {
+        Assertions.assertThrows(CannotUploadExternalResourceException.class, () -> {
+            //GIVEN
+            given(fileFactory.createFile(FILE_NAME)).willReturn(file);
+            given(file.getParent()).willReturn(PARENT_DIRECTORY);
+            given(file.getName()).willReturn(SIMPLE_CLASS_NAME);
+            given(javaClassFactory.createJavaClass(classFile, FILE_NAME)).willThrow(new IOException());
+            //WHEN
+            underTest.createFilePath(classFile, FILE_NAME, EXCEPTION_MESSAGE);
+            //THEN error is thrown
+        });
     }
 
-    @Test(expected = CannotUploadExternalResourceException.class)
-    public void testCreateFilePathShouldRethrowClassFormatExceptionAsCannotUploadExternalResourceException() throws IOException {
-        //GIVEN
-        given(fileFactory.createFile(FILE_NAME)).willReturn(file);
-        given(file.getParent()).willReturn(PARENT_DIRECTORY);
-        given(file.getName()).willReturn(SIMPLE_CLASS_NAME);
-        given(javaClassFactory.createJavaClass(classFile, FILE_NAME)).willThrow(new ClassFormatException());
-        //WHEN
-        underTest.createFilePath(classFile, FILE_NAME, EXCEPTION_MESSAGE);
-        //THEN error is thrown
+    @Test
+    public void testCreateFilePathShouldRethrowClassFormatExceptionAsCannotUploadExternalResourceException() {
+        Assertions.assertThrows(CannotUploadExternalResourceException.class, () -> {
+            //GIVEN
+            given(fileFactory.createFile(FILE_NAME)).willReturn(file);
+            given(file.getParent()).willReturn(PARENT_DIRECTORY);
+            given(file.getName()).willReturn(SIMPLE_CLASS_NAME);
+            given(javaClassFactory.createJavaClass(classFile, FILE_NAME)).willThrow(new ClassFormatException());
+            //WHEN
+            underTest.createFilePath(classFile, FILE_NAME, EXCEPTION_MESSAGE);
+            //THEN error is thrown
+        });
     }
 }

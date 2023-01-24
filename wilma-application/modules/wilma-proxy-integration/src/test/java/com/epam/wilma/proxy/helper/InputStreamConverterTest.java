@@ -19,9 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.exception.ApplicationException;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -29,6 +29,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -45,9 +46,9 @@ public class InputStreamConverterTest {
 
     private InputStreamConverter underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new InputStreamConverter();
     }
 
@@ -59,7 +60,7 @@ public class InputStreamConverterTest {
         //WHEN
         String actual = underTest.getStringFromStream(inputStream);
         //THEN
-        Assert.assertEquals(TEST, actual);
+        assertEquals(TEST, actual);
     }
 
     @Test
@@ -69,15 +70,17 @@ public class InputStreamConverterTest {
         //WHEN
         String actual = underTest.getStringFromStream(null);
         //THEN
-        Assert.assertEquals("", actual);
+        assertEquals("", actual);
     }
 
-    @Test(expected = ApplicationException.class)
-    public void testGetStringFromStreamShouldThrowApplicationException() throws ApplicationException, IOException {
-        //GIVEN
-        given(inputStreamMock.available()).willThrow(new IOException());
-        //WHEN
-        underTest.getStringFromStream(inputStreamMock);
-        //THEN it should throws ApplicationException
+    @Test
+    public void testGetStringFromStreamShouldThrowApplicationException() {
+        Assertions.assertThrows(ApplicationException.class, () -> {
+            //GIVEN
+            given(inputStreamMock.available()).willThrow(new IOException());
+            //WHEN
+            underTest.getStringFromStream(inputStreamMock);
+            //THEN it should throw ApplicationException
+        });
     }
 }

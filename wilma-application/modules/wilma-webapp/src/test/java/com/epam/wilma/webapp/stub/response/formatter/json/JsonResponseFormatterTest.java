@@ -19,12 +19,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit test for {@code JsonResponseFormatter}.
@@ -39,14 +39,13 @@ public class JsonResponseFormatterTest {
 
     private HttpServletResponse response;
 
-    @Before
+    @BeforeEach
     public void setup() {
         underTest = new JsonResponseFormatter();
     }
 
-//        return new Object[][]{{refundRequest(), refundTemplate(), refundExpectedResponse()}, {gotRequest(), gotTemplate(), gotExpectedResponse()}};
     @Test
-    public void testFormatTemplate() throws Exception {
+    public void testFormatTemplate() {
         String request = refundRequest();
         String template = refundTemplate();
         String expected = refundExpectedResponse();

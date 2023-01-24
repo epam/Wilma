@@ -22,17 +22,17 @@ import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 import com.epam.wilma.webapp.configuration.domain.ServerProperties;
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.http.HttpServlet;
 
@@ -74,10 +74,10 @@ public class JettyServerTest {
     @Mock
     private ServerProperties serverProperties;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = spy(new JettyServer());
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(configurationAccess.getProperties()).willReturn(properties);
         given(properties.getServerProperties()).willReturn(serverProperties);
         given(serverProperties.getProxyPort()).willReturn(PORT);
@@ -85,8 +85,8 @@ public class JettyServerTest {
         given(serverProperties.getResponseBufferSize()).willReturn(RESPONSE_BUFFER_SIZE);
         //this is necessary because the start method of the jettyServer is final
         doNothing().when(underTest).startJettyServer();
-        Whitebox.setInternalState(underTest, "handlerList", handlerList);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "handlerList", handlerList);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
     }
 
     @Test
@@ -106,20 +106,22 @@ public class JettyServerTest {
         //WHEN
         underTest.start();
         //THEN
-        verify(jettyServer).setHandler((Handler) Mockito.anyObject());
+        verify(jettyServer).setHandler(Mockito.any());
     }
 
-    @Test(expected = SystemException.class)
+    @Test
     public void testStartWhenStartJettyServerThrowsExceptionShouldThrowSystemException() {
-        //GIVEN
-        String exceptionMessage = "exception";
-        SystemException e = new SystemException("Something went wrong :(");
-        willThrow(e).given(underTest).startJettyServer();
-        given(serverFactory.createServer(serverProperties)).willReturn(jettyServer);
-        //WHEN
-        underTest.start();
-        //THEN
-        verify(logger).error(exceptionMessage, e);
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            String exceptionMessage = "exception";
+            SystemException e = new SystemException("Something went wrong :(");
+            willThrow(e).given(underTest).startJettyServer();
+            given(serverFactory.createServer(serverProperties)).willReturn(jettyServer);
+            //WHEN
+            underTest.start();
+            //THEN
+            verify(logger).error(exceptionMessage, e);
+        });
     }
 
     @Test

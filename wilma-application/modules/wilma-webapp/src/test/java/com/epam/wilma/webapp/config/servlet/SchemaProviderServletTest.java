@@ -20,13 +20,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.webapp.config.servlet.helper.BufferedReaderFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.FieldSetter;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -61,9 +61,9 @@ public class SchemaProviderServletTest {
 
     private SchemaProviderServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException, NoSuchFieldException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new SchemaProviderServlet(SCHEMA, bufferedReaderFactory);
         given(response.getWriter()).willReturn(writer);
     }
@@ -71,9 +71,8 @@ public class SchemaProviderServletTest {
     @Test
     public void testDoGetShouldWriteSchemaFile() throws ServletException, IOException {
         //GIVEN
-        String nullString = null;
         given(bufferedReaderFactory.createBufferedReader(SCHEMA)).willReturn(reader);
-        given(reader.readLine()).willReturn("first line", nullString);
+        given(reader.readLine()).willReturn("first line", (String)null);
         //WHEN
         underTest.doGet(request, response);
         //THEN
@@ -83,9 +82,8 @@ public class SchemaProviderServletTest {
     @Test
     public void testDoGetShouldSetContentTypeToJson() throws ServletException, IOException {
         //GIVEN
-        String nullString = null;
         given(bufferedReaderFactory.createBufferedReader(SCHEMA)).willReturn(reader);
-        given(reader.readLine()).willReturn(nullString);
+        given(reader.readLine()).willReturn(null);
         //WHEN
         underTest.doGet(request, response);
         //THEN
@@ -95,9 +93,8 @@ public class SchemaProviderServletTest {
     @Test
     public void testDoGetShouldCloseWriter() throws ServletException, IOException {
         //GIVEN
-        String nullString = null;
         given(bufferedReaderFactory.createBufferedReader(SCHEMA)).willReturn(reader);
-        given(reader.readLine()).willReturn(nullString);
+        given(reader.readLine()).willReturn(null);
         //WHEN
         underTest.doGet(request, response);
         //THEN
@@ -105,12 +102,12 @@ public class SchemaProviderServletTest {
     }
 
     @Test
-    public void testDoGetWhenIOExceptionShouldLogError() throws ServletException, IOException, NoSuchFieldException {
+    public void testDoGetWhenIOExceptionShouldLogError() throws ServletException, IOException {
         //GIVEN
         given(bufferedReaderFactory.createBufferedReader(SCHEMA)).willReturn(reader);
         IOException exception = new IOException();
         given(reader.readLine()).willThrow(exception);
-        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("logger"), logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         //WHEN
         underTest.doGet(request, response);
         //THEN
@@ -120,9 +117,8 @@ public class SchemaProviderServletTest {
     @Test
     public void testDoPostShouldCallDoGet() throws ServletException, IOException {
         //GIVEN
-        String nullString = null;
         given(bufferedReaderFactory.createBufferedReader(SCHEMA)).willReturn(reader);
-        given(reader.readLine()).willReturn("first line", nullString);
+        given(reader.readLine()).willReturn("first line", (String)null);
         //WHEN
         underTest.doPost(request, response);
         //THEN

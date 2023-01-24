@@ -29,8 +29,8 @@ import com.epam.wilma.test.server.SystemException;
 
 /**
  * Responsible for compressing an input stream into gzip.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class GzipCompressor {
 

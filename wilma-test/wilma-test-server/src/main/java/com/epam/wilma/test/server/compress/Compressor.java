@@ -22,8 +22,8 @@ import java.io.InputStream;
 
 /**
  * Interface for compressing plain xml.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public interface Compressor {
 

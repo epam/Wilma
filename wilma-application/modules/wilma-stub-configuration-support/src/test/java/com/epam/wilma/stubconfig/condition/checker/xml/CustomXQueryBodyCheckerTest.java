@@ -25,17 +25,18 @@ import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.xml.helper.XQueryExpressionEvaluator;
 import net.sf.saxon.s9api.SaxonApiException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -46,7 +47,7 @@ import static org.mockito.Mockito.verify;
  */
 public class CustomXQueryBodyCheckerTest {
 
-    private static final String FASTINFOSET_CONTENT = "application/fastinfoset";
+    private static final String FAST_INFOSET_CONTENT = "application/fastinfoset";
     private static final String XML_CONTENT = "xml";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
@@ -65,10 +66,10 @@ public class CustomXQueryBodyCheckerTest {
     @InjectMocks
     private CustomXQueryBodyChecker underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         parameterList = new ParameterList();
     }
 
@@ -86,10 +87,10 @@ public class CustomXQueryBodyCheckerTest {
     }
 
     @Test
-    public void testCheckConditionWhenContentTypeIsFastinfosetShouldReturnTrue() throws SaxonApiException {
+    public void testCheckConditionWhenContentTypeIsFastInfosetShouldReturnTrue() throws SaxonApiException {
         //GIVEN
         parameterList.addParameter(new Parameter("xquery", QUERY));
-        given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(FASTINFOSET_CONTENT);
+        given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(FAST_INFOSET_CONTENT);
         given(request.getBody()).willReturn(BODY);
         given(queryExpressionEvaluator.evaluateXQuery(BODY, QUERY)).willReturn(XML_DECLARATION + "true");
         //WHEN
@@ -118,7 +119,7 @@ public class CustomXQueryBodyCheckerTest {
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(XML_CONTENT);
         given(request.getBody()).willReturn(BODY);
         given(queryExpressionEvaluator.evaluateXQuery(BODY, QUERY)).willReturn(XML_DECLARATION + "<ns5:HotelID >179</ns5:HotelID>");
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         //WHEN
         underTest.checkCondition(request, parameterList);
         //THEN
@@ -147,33 +148,39 @@ public class CustomXQueryBodyCheckerTest {
         assertFalse(actual);
     }
 
-    @Test(expected = ConditionEvaluationFailedException.class)
+    @Test
     public void testCheckConditionWhenParameterSizeIsZeroShouldThrowException() {
-        //GIVEN in setUp
-        //WHEN
-        underTest.checkCondition(request, parameterList);
-        //THEN exception should be thrown
+        Assertions.assertThrows(ConditionEvaluationFailedException.class, () -> {
+            //GIVEN in setUp
+            //WHEN
+            underTest.checkCondition(request, parameterList);
+            //THEN exception should be thrown
+        });
     }
 
-    @Test(expected = ConditionEvaluationFailedException.class)
+    @Test
     public void testCheckConditionWhenParameterSizeIsTwoShouldThrowException() {
-        //GIVEN
-        parameterList.addParameter(new Parameter("xquery", QUERY));
-        parameterList.addParameter(new Parameter("xquery1", QUERY));
-        //WHEN
-        underTest.checkCondition(request, parameterList);
-        //THEN exception should be thrown
+        Assertions.assertThrows(ConditionEvaluationFailedException.class, () -> {
+            //GIVEN
+            parameterList.addParameter(new Parameter("xquery", QUERY));
+            parameterList.addParameter(new Parameter("xquery1", QUERY));
+            //WHEN
+            underTest.checkCondition(request, parameterList);
+            //THEN exception should be thrown
+        });
     }
 
-    @Test(expected = ConditionEvaluationFailedException.class)
-    public void testCheckConditionWhenSyntaxExceptionShouldThrowException() throws SaxonApiException {
-        //GIVEN
-        parameterList.addParameter(new Parameter("xquery", QUERY));
-        given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(FASTINFOSET_CONTENT);
-        given(request.getBody()).willReturn(BODY);
-        given(queryExpressionEvaluator.evaluateXQuery(BODY, QUERY)).willThrow(new SaxonApiException("exception"));
-        //WHEN
-        underTest.checkCondition(request, parameterList);
-        //THEN exception should be thrown
+    @Test
+    public void testCheckConditionWhenSyntaxExceptionShouldThrowException() {
+        Assertions.assertThrows(ConditionEvaluationFailedException.class, () -> {
+            //GIVEN
+            parameterList.addParameter(new Parameter("xquery", QUERY));
+            given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(FAST_INFOSET_CONTENT);
+            given(request.getBody()).willReturn(BODY);
+            given(queryExpressionEvaluator.evaluateXQuery(BODY, QUERY)).willThrow(new SaxonApiException("exception"));
+            //WHEN
+            underTest.checkCondition(request, parameterList);
+            //THEN exception should be thrown
+        });
     }
 }

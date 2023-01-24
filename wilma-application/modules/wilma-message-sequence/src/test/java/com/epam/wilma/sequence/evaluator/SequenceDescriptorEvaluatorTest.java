@@ -27,9 +27,8 @@ import com.epam.wilma.router.evaluation.ConditionEvaluator;
 import com.epam.wilma.router.evaluation.helper.DialogDescriptorService;
 import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
 import com.epam.wilma.sequence.helper.SequenceDescriptorKeyUtil;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -38,6 +37,8 @@ import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -73,9 +74,9 @@ public class SequenceDescriptorEvaluatorTest {
     @InjectMocks
     private SequenceDescriptorEvaluator underTest;
 
-    @Before
+    @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(requestCloner.cloneRequest(request)).willReturn(clonedRequest);
         given(dialogDescriptorService.isEnabled(dialogDescriptor)).willReturn(true);
         given(sequenceDescriptorKeyUtil.createDescriptorKey("TestTeam", "test")).willReturn("TestTeam_test");
@@ -84,12 +85,12 @@ public class SequenceDescriptorEvaluatorTest {
     @Test
     public void testEvaluateWhenThereIsNotAnyConditionAndDialogDescriptor() {
         //GIVEN
-        given(sequenceDescriptor.getConditionDescriptors()).willReturn(new ArrayList<ConditionDescriptor>());
-        given(sequenceDescriptor.getDialogDescriptors()).willReturn(new ArrayList<DialogDescriptor>());
+        given(sequenceDescriptor.getConditionDescriptors()).willReturn(new ArrayList<>());
+        given(sequenceDescriptor.getDialogDescriptors()).willReturn(new ArrayList<>());
         //WHEN
         boolean result = underTest.evaluate(request, sequenceDescriptor);
         //THEN
-        Assert.assertFalse(result);
+        assertFalse(result);
     }
 
     @Test
@@ -108,7 +109,7 @@ public class SequenceDescriptorEvaluatorTest {
         //WHEN
         boolean result = underTest.evaluate(request, sequenceDescriptor);
         //THEN
-        Assert.assertTrue(result);
+        assertTrue(result);
     }
 
     @Test
@@ -123,11 +124,11 @@ public class SequenceDescriptorEvaluatorTest {
         List<ConditionDescriptor> cds = new ArrayList<>();
         cds.add(conditionDescriptor);
         given(sequenceDescriptor.getConditionDescriptors()).willReturn(cds);
-        given(sequenceDescriptor.getDialogDescriptors()).willReturn(new ArrayList<DialogDescriptor>());
+        given(sequenceDescriptor.getDialogDescriptors()).willReturn(new ArrayList<>());
         //WHEN
         boolean result = underTest.evaluate(request, sequenceDescriptor);
         //THEN
-        Assert.assertFalse(result);
+        assertFalse(result);
     }
 
     @Test
@@ -146,7 +147,7 @@ public class SequenceDescriptorEvaluatorTest {
         //WHEN
         boolean result = underTest.evaluate(request, sequenceDescriptor);
         //THEN
-        Assert.assertTrue(result);
+        assertTrue(result);
     }
 
     @Test
@@ -166,7 +167,7 @@ public class SequenceDescriptorEvaluatorTest {
         //WHEN
         boolean result = underTest.evaluate(request, sequenceDescriptor);
         //THEN
-        Assert.assertFalse(result);
+        assertFalse(result);
     }
 
 }

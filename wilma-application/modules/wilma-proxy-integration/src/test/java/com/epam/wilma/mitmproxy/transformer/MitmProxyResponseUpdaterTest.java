@@ -24,8 +24,8 @@ import com.epam.wilma.domain.http.header.HttpHeaderToBeRemoved;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -58,9 +58,9 @@ public class MitmProxyResponseUpdaterTest {
     @InjectMocks
     private MitmProxyResponseUpdater underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

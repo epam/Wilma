@@ -37,7 +37,7 @@ import com.epam.wilma.message.search.properties.helper.MessageFoldersUtil;
  * @author Adam_Csaba_Kiraly
  */
 @Component
-public class ReindexerTask implements Runnable {
+public class ReIndexerTask implements Runnable {
 
     private static final String STARTING_INDEXING = "Starting indexing.";
     private static final String INDEXING_FINISHED = "Indexing finished.";
@@ -47,7 +47,7 @@ public class ReindexerTask implements Runnable {
 
     private static final String ERROR_MESSAGE = "Error occurred while reindexing.";
 
-    private final Logger logger = LoggerFactory.getLogger(ReindexerTask.class);
+    private final Logger logger = LoggerFactory.getLogger(ReIndexerTask.class);
 
     @Autowired
     @Qualifier("indexWriter")

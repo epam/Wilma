@@ -33,8 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Responsible for configuring, starting and
- * stopping the jetty server.
+ * Responsible for configuring, starting and stopping the jetty server.
  *
  * @author Tamas_Bihari, Tamas Kohegyi
  */

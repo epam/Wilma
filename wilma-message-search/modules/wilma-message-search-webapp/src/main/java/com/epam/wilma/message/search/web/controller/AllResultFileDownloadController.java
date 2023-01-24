@@ -35,8 +35,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Controller for downloading previous search result's files in a compressed ZIP.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 @Controller
 public class AllResultFileDownloadController {

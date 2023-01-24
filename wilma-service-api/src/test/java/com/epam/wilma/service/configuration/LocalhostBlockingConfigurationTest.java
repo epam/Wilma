@@ -23,16 +23,14 @@ import com.epam.wilma.service.domain.LocalhostControlStatus;
 import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static com.epam.wilma.service.domain.LocalhostControlStatus.OFF;
 import static com.epam.wilma.service.domain.LocalhostControlStatus.ON;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -57,7 +55,7 @@ public class LocalhostBlockingConfigurationTest {
 
     private LocalhostBlockingConfiguration localhostBlockingConfiguration;
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -65,9 +63,11 @@ public class LocalhostBlockingConfigurationTest {
         localhostBlockingConfiguration = new LocalhostBlockingConfiguration(config, client);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowExceptionWhenConfigIsMissing() {
-        new LocalhostBlockingConfiguration(null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new LocalhostBlockingConfiguration(null);
+        });
     }
 
     @Test
@@ -76,7 +76,7 @@ public class LocalhostBlockingConfigurationTest {
 
         LocalhostControlStatus result = localhostBlockingConfiguration.getLocalhostBlockingStatus();
 
-        assertNull(result);
+        Assertions.assertNull(result);
         verify(client, never()).sendSetterRequest(anyString());
     }
 
@@ -86,7 +86,7 @@ public class LocalhostBlockingConfigurationTest {
 
         LocalhostControlStatus result = localhostBlockingConfiguration.getLocalhostBlockingStatus();
 
-        assertTrue(result == LocalhostControlStatus.ON);
+        Assertions.assertTrue(result == LocalhostControlStatus.ON);
         verify(client, never()).sendSetterRequest(anyString());
     }
 
@@ -95,8 +95,8 @@ public class LocalhostBlockingConfigurationTest {
         when(client.sendSetterRequest(LOCALHOST_BLOCKING_SETTER_URL_ON)).thenReturn(true);
         when(client.sendSetterRequest(LOCALHOST_BLOCKING_SETTER_URL_OFF)).thenReturn(false);
 
-        assertTrue(localhostBlockingConfiguration.setLocalhostBlockingStatus(ON));
-        assertFalse(localhostBlockingConfiguration.setLocalhostBlockingStatus(OFF));
+        Assertions.assertTrue(localhostBlockingConfiguration.setLocalhostBlockingStatus(ON));
+        Assertions.assertFalse(localhostBlockingConfiguration.setLocalhostBlockingStatus(OFF));
         verify(client, never()).sendGetterRequest(anyString());
     }
 

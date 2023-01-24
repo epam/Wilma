@@ -32,19 +32,20 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.IOException;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
@@ -62,7 +63,6 @@ public class LuceneSearchEngineTest {
     private static final String TEXT = "text";
     private static final String FIELD_PATH = "path";
     private static final int TOP_QUERY_HITS = 10000;
-    private ScoreDoc[] scoreDocs;
     private TopDocs queryResult;
     private Document document;
 
@@ -86,12 +86,12 @@ public class LuceneSearchEngineTest {
     @InjectMocks
     private LuceneSearchEngine underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = spy(new LuceneSearchEngine());
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "topQueryHits", TOP_QUERY_HITS);
-        scoreDocs = new ScoreDoc[1];
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "topQueryHits", TOP_QUERY_HITS);
+        ScoreDoc[] scoreDocs = new ScoreDoc[1];
         scoreDocs[0] = new ScoreDoc(12, 12);
         queryResult = new TopDocs(TOP_QUERY_HITS, scoreDocs, 10);
         document = new Document();
@@ -120,33 +120,37 @@ public class LuceneSearchEngineTest {
         //WHEN
         List<String> actual = underTest.searchForText(TEXT);
         //THEN
-        Assert.assertEquals(actual.get(0), TEXT);
-    }
-
-    @Test(expected = QueryCannotBeParsedException.class)
-    public void testSearchForTextWhenCannotParseQueryShouldThrowError() throws IOException, ParseException {
-        //GIVEN
-        given(readerFactory.create(true)).willReturn(indexReader);
-        given(searcherFactory.create(indexReader)).willReturn(indexSearcher);
-        given(queryParser.parse(TEXT)).willThrow(new ParseException());
-        //WHEN
-        underTest.searchForText(TEXT);
-        //THEN it should throw exception
-    }
-
-    @Test(expected = SystemException.class)
-    public void testSearchForTextWhenCannotCreateIndexReadertShouldThrowException() throws IOException {
-        //GIVEN
-        given(readerFactory.create(true)).willThrow(new IOException());
-        //WHEN
-        underTest.searchForText(TEXT);
-        //THEN it should throw exception
+        assertEquals(actual.get(0), TEXT);
     }
 
     @Test
-    public void testSearchForTextWhenCannotCloseIndexReadertShouldLogError() throws IOException, ParseException {
+    public void testSearchForTextWhenCannotParseQueryShouldThrowError() {
+        Assertions.assertThrows(QueryCannotBeParsedException.class, () -> {
+            //GIVEN
+            given(readerFactory.create(true)).willReturn(indexReader);
+            given(searcherFactory.create(indexReader)).willReturn(indexSearcher);
+            given(queryParser.parse(TEXT)).willThrow(new ParseException());
+            //WHEN
+            underTest.searchForText(TEXT);
+            //THEN it should throw exception
+        });
+    }
+
+    @Test
+    public void testSearchForTextWhenCannotCreateIndexReaderShouldThrowException() {
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            given(readerFactory.create(true)).willThrow(new IOException());
+            //WHEN
+            underTest.searchForText(TEXT);
+            //THEN it should throw exception
+        });
+    }
+
+    @Test
+    public void testSearchForTextWhenCannotCloseIndexReaderShouldLogError() throws IOException, ParseException {
         //GIVEN
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         given(readerFactory.create(true)).willReturn(indexReader);
         given(searcherFactory.create(indexReader)).willReturn(indexSearcher);
         given(queryParser.parse(TEXT)).willReturn(query);

@@ -20,9 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.common.helper.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -33,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -46,16 +46,15 @@ public class StubConfigPathProviderTest {
     @Mock
     private FileUtils fileUtils;
 
-    private Collection<File> files;
     private List<String> expectedFilePaths;
 
     @InjectMocks
     private StubConfigPathProvider underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        files = new ArrayList<>();
+        MockitoAnnotations.openMocks(this);
+        Collection<File> files = new ArrayList<>();
         files.add(new File("first.json"));
         files.add(new File("second.json"));
         expectedFilePaths = new ArrayList<>();
@@ -71,7 +70,7 @@ public class StubConfigPathProviderTest {
         List<String> result = underTest.getConfigPathsFromCache("Test");
         //THEN
         verify(fileUtils).listFilesWithFilter(Mockito.any(File.class), Mockito.anyString());
-        Assert.assertEquals(result, expectedFilePaths);
+        assertEquals(result, expectedFilePaths);
     }
 
     @Test
@@ -81,7 +80,7 @@ public class StubConfigPathProviderTest {
         List<String> result = underTest.getConfigPathsFromSpecificFolder("test/path", "*TestPattern");
         //THEN
         verify(fileUtils).listFilesWithFilter(Mockito.any(File.class), Mockito.anyString());
-        Assert.assertEquals(result, expectedFilePaths);
+        assertEquals(result, expectedFilePaths);
     }
 
     @Test
@@ -92,7 +91,7 @@ public class StubConfigPathProviderTest {
         //WHEN
         List<String> result = underTest.getConfigPathsFromSpecificFolder("test/path", "TestPattern");
         //THEN
-        Assert.assertEquals(result, expectedFilePaths);
+        assertEquals(result, expectedFilePaths);
     }
 
     @Test
@@ -103,7 +102,7 @@ public class StubConfigPathProviderTest {
         //WHEN
         List<String> result = underTest.getConfigPathsFromSpecificFolder("", "TestPattern");
         //THEN
-        Assert.assertEquals(result, expectedFilePaths);
+        assertEquals(result, expectedFilePaths);
     }
 
 }

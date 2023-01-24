@@ -21,8 +21,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
 import com.epam.wilma.webapp.stub.servlet.helper.ByteArrayInputStreamFactory;
 import net.sf.saxon.s9api.SaxonApiException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -30,7 +31,7 @@ import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -57,9 +58,9 @@ public class XslResponseGeneratorTest {
     @InjectMocks
     private XslResponseGenerator underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(inputStreamFactory.createByteArrayInputStream(requestXml)).willReturn(requestInputStream);
         given(inputStreamFactory.createByteArrayInputStream(xsl)).willReturn(xslInputStream);
         given(inputStreamFactory.createByteArrayInputStream(templateXml)).willReturn(templateInputStream);
@@ -76,21 +77,25 @@ public class XslResponseGeneratorTest {
         assertEquals(actual, response);
     }
 
-    @Test(expected = ResponseFormattingFailedException.class)
-    public void testGenerateResponseWhenSaxonApiExceptionDuringTransformShouldThrowException() throws SaxonApiException, SAXException {
-        //GIVEN
-        given(transformer.transform(xslInputStream, requestInputStream, templateInputStream)).willThrow(new SaxonApiException("exception"));
-        //WHEN
-        underTest.generateResponse(requestXml, xsl, templateXml);
-        //THEN it should throw excpetion
+    @Test
+    public void testGenerateResponseWhenSaxonApiExceptionDuringTransformShouldThrowException() {
+        Assertions.assertThrows(ResponseFormattingFailedException.class, () -> {
+            //GIVEN
+            given(transformer.transform(xslInputStream, requestInputStream, templateInputStream)).willThrow(new SaxonApiException("exception"));
+            //WHEN
+            underTest.generateResponse(requestXml, xsl, templateXml);
+            //THEN it should throw exception
+        });
     }
 
-    @Test(expected = ResponseFormattingFailedException.class)
-    public void testGenerateResponseWhenSAXExceptionDuringTransformShouldThrowException() throws SaxonApiException, SAXException {
-        //GIVEN
-        given(transformer.transform(xslInputStream, requestInputStream, templateInputStream)).willThrow(new SAXException());
-        //WHEN
-        underTest.generateResponse(requestXml, xsl, templateXml);
-        //THEN it should throw excpetion
+    @Test
+    public void testGenerateResponseWhenSAXExceptionDuringTransformShouldThrowException() {
+        Assertions.assertThrows(ResponseFormattingFailedException.class, () -> {
+            //GIVEN
+            given(transformer.transform(xslInputStream, requestInputStream, templateInputStream)).willThrow(new SAXException());
+            //WHEN
+            underTest.generateResponse(requestXml, xsl, templateXml);
+            //THEN it should throw exception
+        });
     }
 }

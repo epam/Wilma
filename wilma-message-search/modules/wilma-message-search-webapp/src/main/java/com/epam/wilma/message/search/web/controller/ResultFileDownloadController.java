@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controller for downloading a file from the search result.
+ *
  * @author Tamas_Bihari
  *
  */

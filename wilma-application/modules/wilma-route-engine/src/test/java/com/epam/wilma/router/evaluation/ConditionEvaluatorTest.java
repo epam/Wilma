@@ -25,16 +25,16 @@ import com.epam.wilma.domain.stubconfig.dialog.condition.ConditionType;
 import com.epam.wilma.domain.stubconfig.dialog.condition.SimpleCondition;
 import com.epam.wilma.domain.stubconfig.dialog.condition.checker.ConditionChecker;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -64,9 +64,9 @@ public class ConditionEvaluatorTest {
     private ConditionEvaluator underTest;
     private ParameterList parameterMap;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new ConditionEvaluator();
         parameterMap = new ParameterList();
         given(simpleConditionA.getConditionChecker()).willReturn(conditionCheckerA);
@@ -300,7 +300,7 @@ public class ConditionEvaluatorTest {
     }
 
     @Test
-    public void testEvaluateWhenConditionIsNestedAndShouldReturnTrueTTandT() {
+    public void testEvaluateWhenConditionIsNestedAndShouldReturnTrueTTAndT() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
         conditionList.add(simpleConditionA);
@@ -319,7 +319,7 @@ public class ConditionEvaluatorTest {
     }
 
     @Test
-    public void testEvaluateWhenConditionIsNestedAndShouldReturnFalseTFandT() {
+    public void testEvaluateWhenConditionIsNestedAndShouldReturnFalseTFAndT() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
         conditionList.add(simpleConditionA);
@@ -338,7 +338,7 @@ public class ConditionEvaluatorTest {
     }
 
     @Test
-    public void testEvaluateWhenConditionIsNestedAndShouldReturnFalseTTandF() {
+    public void testEvaluateWhenConditionIsNestedAndShouldReturnFalseTTAndF() {
         //GIVEN
         List<Condition> conditionList = new ArrayList<>();
         conditionList.add(simpleConditionA);

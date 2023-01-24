@@ -25,15 +25,14 @@ import com.epam.wilma.domain.exception.SystemException;
 import com.epam.wilma.engine.configuration.EngineConfigurationAccess;
 import com.epam.wilma.engine.configuration.domain.PropertyDTO;
 import com.google.common.util.concurrent.Service.State;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -64,11 +63,11 @@ public class WilmaServiceListenerTest {
     @Mock
     private PropertyDTO properties;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logger", logger);
-        Whitebox.setInternalState(underTest, "wilmaStartMessage", ERR_MSG);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "wilmaStartMessage", ERR_MSG);
         given(configurationAccess.getProperties()).willReturn(properties);
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn("a");
         given(properties.getProxyPort()).willReturn(1234);
@@ -77,7 +76,7 @@ public class WilmaServiceListenerTest {
     @Test
     public void testRunningShouldLogStartMessage() {
         //GIVEN
-        Whitebox.setInternalState(underTest, "wilmaStartMessage", WILMA_START_MESSAGE);
+        ReflectionTestUtils.setField(underTest, "wilmaStartMessage", WILMA_START_MESSAGE);
         given(logFilePath.getLogFilePath().toAbsolutePath().toString()).willReturn(WILMA_START_MESSAGE);
         given(logFilePath.getAppLogFilePath().toAbsolutePath().toString()).willReturn(WILMA_START_MESSAGE);
         //WHEN

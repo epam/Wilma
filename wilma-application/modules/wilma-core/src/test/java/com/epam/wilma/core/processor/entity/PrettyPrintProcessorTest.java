@@ -24,14 +24,14 @@ import com.epam.wilma.common.stream.helper.StreamSourceFactory;
 import com.epam.wilma.core.processor.entity.helper.XmlTransformerFactory;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -40,7 +40,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.Writer;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -79,14 +79,14 @@ public class PrettyPrintProcessorTest {
     @InjectMocks
     private PrettyPrintProcessor underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(request.getBody()).willReturn(BODY);
     }
 
     @Test
-    public void testProcessShouldNotOnEmptyBody() throws ApplicationException, TransformerException {
+    public void testProcessShouldNotOnEmptyBody() throws ApplicationException {
         //GIVEN
         given(request.getBody()).willReturn(null);
         //WHEN
@@ -110,7 +110,7 @@ public class PrettyPrintProcessorTest {
     }
 
     @Test
-    public void testProcessShouldNotCallTransformWhenImageXml() throws ApplicationException, TransformerException {
+    public void testProcessShouldNotCallTransformWhenImageXml() throws ApplicationException {
         //GIVEN
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_SVGXML);
         //WHEN
@@ -157,7 +157,7 @@ public class PrettyPrintProcessorTest {
     @Test
     public void testProcessWhenTransformerFactoryThrowsExceptionShouldLogError() throws ApplicationException, TransformerConfigurationException {
         //GIVEN
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_SOAPXML);
         given(transformerFactory.createTransformer()).willThrow(new TransformerConfigurationException(""));
         //WHEN
@@ -167,7 +167,7 @@ public class PrettyPrintProcessorTest {
     }
 
     @Test
-    public void testProcessShouldSetRequestBodyJSON() throws ApplicationException, TransformerException {
+    public void testProcessShouldSetRequestBodyJSON() throws ApplicationException {
         //GIVEN
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_JSON);
         given(request.getBody()).willReturn("{\"test\":test}");
@@ -178,7 +178,7 @@ public class PrettyPrintProcessorTest {
     }
 
     @Test
-    public void testProcessShouldNotSetRequestBodyJSONWhenBodyIsNull() throws ApplicationException, TransformerException {
+    public void testProcessShouldNotSetRequestBodyJSONWhenBodyIsNull() throws ApplicationException {
         //GIVEN
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_JSON);
         given(request.getBody()).willReturn(null);
@@ -191,7 +191,7 @@ public class PrettyPrintProcessorTest {
     @Test
     public void testProcessWhenJsonParserThrowsExceptionShouldLogError() throws ApplicationException {
         //GIVEN
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         //GIVEN
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_JSON);
         given(request.getBody()).willReturn("{foo: ['bar', 'baz',]*/*-}");
@@ -204,7 +204,7 @@ public class PrettyPrintProcessorTest {
     @Test
     public void testProcessWhenJsonParserThrowsExceptionShouldLeaveOriginalBodyAsItIs() throws ApplicationException {
         //GIVEN
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         //GIVEN
         given(request.getHeader(CONTENT_TYPE_HEADER)).willReturn(CONTENT_TYPE_JSON);
         given(request.getBody()).willReturn("invalidjson{:}");

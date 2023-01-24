@@ -23,12 +23,12 @@ import com.epam.wilma.common.configuration.ConfigurationAccessBase;
 import com.epam.wilma.engine.configuration.parser.WilmaAdminHostsFileParser;
 import com.epam.wilma.engine.properties.PropertyLoader;
 import com.epam.wilma.engine.properties.validation.PropertyValidator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,14 +56,14 @@ public class ConfigurationInitializerTest {
     @InjectMocks
     private ConfigurationInitializer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "configurationAccesses", new ArrayList<ConfigurationAccessBase>());
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "configurationAccesses", new ArrayList<ConfigurationAccessBase>());
     }
 
     @Test
-    public final void testAfterPropertiesSetShouldLoadProperties() throws Exception {
+    public final void testAfterPropertiesSetShouldLoadProperties() {
         //GIVEN in setup
         //WHEN
         underTest.afterPropertiesSet();
@@ -72,7 +72,7 @@ public class ConfigurationInitializerTest {
     }
 
     @Test
-    public final void testAfterPropertiesSetShouldLoadValidationProperties() throws Exception {
+    public final void testAfterPropertiesSetShouldLoadValidationProperties() {
         //GIVEN in setup
         //WHEN
         underTest.afterPropertiesSet();
@@ -82,7 +82,7 @@ public class ConfigurationInitializerTest {
     }
 
     @Test
-    public final void testAfterPropertiesSetShouldLoadReadStubConfig() throws Exception {
+    public final void testAfterPropertiesSetShouldLoadReadStubConfig() {
         //GIVEN in setup
         //WHEN
         underTest.afterPropertiesSet();
@@ -91,7 +91,7 @@ public class ConfigurationInitializerTest {
     }
 
     @Test
-    public final void testAfterPropertiesSetShouldParseWilmaAdminHosts() throws Exception {
+    public final void testAfterPropertiesSetShouldParseWilmaAdminHosts() {
         //GIVEN in setup
         //WHEN
         underTest.afterPropertiesSet();
@@ -100,11 +100,11 @@ public class ConfigurationInitializerTest {
     }
 
     @Test
-    public final void testAfterPropertiesSetShouldCallLoadPropertiesOfConfigurationAccessBase() throws Exception {
+    public final void testAfterPropertiesSetShouldCallLoadPropertiesOfConfigurationAccessBase() {
         //GIVEN
-        List<ConfigurationAccessBase> confAccesses = new ArrayList<ConfigurationAccessBase>();
+        List<ConfigurationAccessBase> confAccesses = new ArrayList<>();
         confAccesses.add(configAccess);
-        Whitebox.setInternalState(underTest, "configurationAccesses", confAccesses);
+        ReflectionTestUtils.setField(underTest, "configurationAccesses", confAccesses);
         //WHEN
         underTest.afterPropertiesSet();
         //THEN

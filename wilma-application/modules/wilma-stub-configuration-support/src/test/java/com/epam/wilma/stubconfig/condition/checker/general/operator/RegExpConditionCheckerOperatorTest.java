@@ -21,8 +21,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.exception.RegularExpressionEvaluationException;
 import com.epam.wilma.stubconfig.condition.checker.general.operator.helper.RegExpPatternFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -30,8 +31,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -49,9 +50,9 @@ public class RegExpConditionCheckerOperatorTest {
     @InjectMocks
     private RegExpConditionCheckerOperator underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -63,13 +64,15 @@ public class RegExpConditionCheckerOperatorTest {
         assertFalse(actual);
     }
 
-    @Test(expected = RegularExpressionEvaluationException.class)
+    @Test
     public void testCheckTargetShouldThrowExceptionWhenRegExpCompilationFailed() {
-        //GIVEN
-        given(patternFactory.createPattern(EX_REG_EXP)).willThrow(new PatternSyntaxException("", "", 0));
-        //WHEN
-        underTest.checkTarget(EX_REG_EXP, EX_TARGET);
-        //THEN exception is thrown
+        Assertions.assertThrows(RegularExpressionEvaluationException.class, () -> {
+            //GIVEN
+            given(patternFactory.createPattern(EX_REG_EXP)).willThrow(new PatternSyntaxException("", "", 0));
+            //WHEN
+            underTest.checkTarget(EX_REG_EXP, EX_TARGET);
+            //THEN exception is thrown
+        });
     }
 
     @Test

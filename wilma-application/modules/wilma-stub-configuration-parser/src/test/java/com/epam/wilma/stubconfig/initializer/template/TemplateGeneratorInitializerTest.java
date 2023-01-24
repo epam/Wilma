@@ -22,14 +22,15 @@ import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateGenerator;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Provides unit tests for the class {@link TemplateGeneratorInitializer}.
@@ -49,9 +50,9 @@ public class TemplateGeneratorInitializerTest {
     @InjectMocks
     private TemplateGeneratorInitializer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -62,17 +63,19 @@ public class TemplateGeneratorInitializerTest {
         //WHEN
         TemplateGenerator actual = underTest.getTemplateGenerator(CLASS);
         //THEN
-        Assert.assertEquals(actual, templateGenerator);
+        assertEquals(actual, templateGenerator);
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
+    @Test
     public void testGetTemplateGeneratorShouldThrowExceptionWhenExternalClassCanNotLoad() {
-        //GIVEN
-        given(stubResourcePathProvider.getTemplatesPathAsString()).willReturn(CLASS);
-        given(externalInitializer.loadExternalClass(CLASS, CLASS, TemplateGenerator.class)).willThrow(
-                new DescriptorValidationFailedException(CLASS));
-        //WHEN
-        underTest.getTemplateGenerator(CLASS);
-        //THEN
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            given(stubResourcePathProvider.getTemplatesPathAsString()).willReturn(CLASS);
+            given(externalInitializer.loadExternalClass(CLASS, CLASS, TemplateGenerator.class)).willThrow(
+                    new DescriptorValidationFailedException(CLASS));
+            //WHEN
+            underTest.getTemplateGenerator(CLASS);
+            //THEN
+        });
     }
 }

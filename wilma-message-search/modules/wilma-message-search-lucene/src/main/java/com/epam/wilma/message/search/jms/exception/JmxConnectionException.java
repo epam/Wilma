@@ -22,8 +22,8 @@ import com.epam.wilma.message.search.domain.exception.SystemException;
 
 /**
  * Exception is thrown when cannot connect to jmx.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public class JmxConnectionException extends SystemException {
 

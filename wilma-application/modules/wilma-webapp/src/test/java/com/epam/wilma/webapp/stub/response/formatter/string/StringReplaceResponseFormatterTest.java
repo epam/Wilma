@@ -21,13 +21,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Provides unit tests for the class {@link StringReplaceResponseFormatter}.
@@ -45,7 +45,7 @@ public class StringReplaceResponseFormatterTest {
     private HttpServletResponse response;
     private StringReplaceResponseFormatter underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         parameterList = new ParameterList();
         underTest = new StringReplaceResponseFormatter();

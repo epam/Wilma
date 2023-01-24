@@ -20,16 +20,16 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.message.search.lucene.index.helper.FileWrapper;
 import com.epam.wilma.message.search.lucene.index.helper.FileWrapperFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -57,9 +57,9 @@ public class FolderIndexerTest {
     @InjectMocks
     private FolderIndexer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(folder1.isDirectory()).willReturn(true);
         given(folder1.exists()).willReturn(true);
         given(folder1.canRead()).willReturn(true);
@@ -73,7 +73,7 @@ public class FolderIndexerTest {
         given(file.exists()).willReturn(true);
         given(file.canRead()).willReturn(true);
         given(fileWrapperFactory.createFile(any(), anyString())).willReturn(file);
-        Whitebox.setInternalState(underTest, "fileWrapperFactory", fileWrapperFactory);
+        ReflectionTestUtils.setField(underTest, "fileWrapperFactory", fileWrapperFactory);
     }
 
     @Test

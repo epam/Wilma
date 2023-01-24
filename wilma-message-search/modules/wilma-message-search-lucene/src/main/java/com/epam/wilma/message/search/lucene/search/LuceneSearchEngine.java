@@ -47,8 +47,8 @@ import com.epam.wilma.message.search.lucene.search.helper.IndexSearcherFactory;
 
 /**
  * Searches for 'Lucene' indexes which match the given pattern.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 @Component
 public class LuceneSearchEngine {

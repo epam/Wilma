@@ -20,8 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.common.helper.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -30,7 +30,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -55,9 +55,9 @@ public class FileListJsonBuilderTest {
     @InjectMocks
     private FileListJsonBuilder underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -99,7 +99,7 @@ public class FileListJsonBuilderTest {
     public final void testBuildFileListJsonShouldCreateProperJsonWhenDirectoryIncluded() {
         //GIVEN
         String expected = "{\"files\":[\"File1.class\",\"File2.class\",\"File3.class\"]}";
-        Collection<File> filesInDirectory = new ArrayList<File>();
+        Collection<File> filesInDirectory = new ArrayList<>();
         filesInDirectory.add(new File("folder/File1.class"));
         filesInDirectory.add(new File("folder/File2.class"));
         filesInDirectory.add(new File("folder/File3.class"));

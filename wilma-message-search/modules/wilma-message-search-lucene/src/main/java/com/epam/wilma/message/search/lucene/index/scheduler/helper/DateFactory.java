@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Factory class for {@link Date}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Component
 public class DateFactory {

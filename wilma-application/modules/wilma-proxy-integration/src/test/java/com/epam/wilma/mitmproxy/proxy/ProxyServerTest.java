@@ -23,13 +23,15 @@ import com.epam.wilma.mitmproxy.proxy.helper.ContentEncoding;
 import com.epam.wilma.mitmproxy.proxy.helper.DefaultRequestInterceptor;
 import com.epam.wilma.mitmproxy.proxy.helper.DefaultResponseInterceptor;
 import com.epam.wilma.mitmproxy.proxy.helper.ResponseInfo;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import website.magyar.mitm.proxy.ProxyServer;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests just a single basic proxy running as a man in the middle.
+ *
+ * @author Tamas_Kohegyi
  */
 public class ProxyServerTest extends AbstractProxyTool {
 

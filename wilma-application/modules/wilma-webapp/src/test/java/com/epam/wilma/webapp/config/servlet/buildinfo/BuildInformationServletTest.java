@@ -22,13 +22,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.common.helper.VersionTitleProvider;
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -62,9 +62,9 @@ public class BuildInformationServletTest {
     @Mock
     private VersionTitleProvider versionTitleProvider;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(configurationAccess.getProperties()).willReturn(properties);
     }
 
@@ -82,7 +82,7 @@ public class BuildInformationServletTest {
     @Test
     public final void testDoPostSetsResponseTypeAndWritesResponseUsingBuildInformation() throws ServletException, IOException {
         // GIVEN
-        Whitebox.setInternalState(underTest, "wilmaBuildInformation", "");
+        ReflectionTestUtils.setField(underTest, "wilmaBuildInformation", "");
         given(response.getWriter()).willReturn(printWriter);
         // WHEN
         underTest.doPost(request, response);

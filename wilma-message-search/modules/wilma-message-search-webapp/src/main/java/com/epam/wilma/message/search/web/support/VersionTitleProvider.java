@@ -22,8 +22,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * This class provides version title for Message-search.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 @Component
 public class VersionTitleProvider {

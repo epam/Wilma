@@ -21,27 +21,27 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.router.configuration.RouteEngineConfigurationAccess;
 import com.epam.wilma.router.configuration.domain.PropertyDTO;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
- * Provides unit tests for the <tt>Rerouter</tt> class.
+ * Provides unit tests for the <tt>Router</tt> class.
  *
  * @author Tunde_Kovacs
  */
@@ -66,15 +66,15 @@ public class RouterTest {
     @InjectMocks
     private Router underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = Mockito.spy(new Router());
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         internalPort = 1234;
         underTest.setHost("http://127.0.0.1:");
         underTest.setPath("/stub/");
-        Whitebox.setInternalState(underTest, "logger", logger);
-        Whitebox.setInternalState(underTest, "internalPort", internalPort);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "internalPort", internalPort);
     }
 
     @Test
@@ -130,7 +130,7 @@ public class RouterTest {
         //WHEN
         underTest.onApplicationEvent(event);
         //THEN
-        Integer actual = (Integer) Whitebox.getInternalState(underTest, "internalPort");
+        Integer actual = (Integer) ReflectionTestUtils.getField(underTest, "internalPort");
         assertEquals(internalPort, actual);
     }
 }

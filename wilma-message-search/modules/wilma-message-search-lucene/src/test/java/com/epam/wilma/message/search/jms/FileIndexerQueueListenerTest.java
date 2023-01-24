@@ -20,9 +20,11 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.indexing.domain.IndexMessage;
 import com.epam.wilma.message.search.domain.exception.SystemException;
+import com.epam.wilma.message.search.jms.exception.JmxConnectionException;
 import com.epam.wilma.message.search.lucene.LuceneEngine;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -56,9 +58,9 @@ public class FileIndexerQueueListenerTest {
     @InjectMocks
     private FileIndexerQueueListener underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -107,14 +109,16 @@ public class FileIndexerQueueListenerTest {
         verify(luceneEngine, never()).deleteFileFromIndex(FILENAME);
     }
 
-    @Test(expected = SystemException.class)
-    public void testOnMessageWhenCannotGetObjectShouldThrowSystemException() throws JMSException {
-        //GIVEN
-        indexMessage = new IndexMessage(FILENAME, IndexingType.ADD.getName());
-        given(objectMessage.getObject()).willThrow(new JMSException("exception"));
-        //WHEN
-        underTest.onMessage(objectMessage);
-        //THEN exception should be thrown
+    @Test
+    public void testOnMessageWhenCannotGetObjectShouldThrowSystemException() {
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            indexMessage = new IndexMessage(FILENAME, IndexingType.ADD.getName());
+            given(objectMessage.getObject()).willThrow(new JMSException("exception"));
+            //WHEN
+            underTest.onMessage(objectMessage);
+            //THEN exception should be thrown
+        });
     }
 
 }

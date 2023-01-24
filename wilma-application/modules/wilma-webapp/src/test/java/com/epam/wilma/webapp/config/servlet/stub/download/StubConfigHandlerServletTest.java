@@ -19,15 +19,15 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.stubconfig.StubResourceHolder;
-import com.epam.wilma.domain.stubconfig.exception.JsonTransformationException;
 import com.epam.wilma.stubconfig.json.parser.helper.JsonBasedObjectTransformer;
 import com.epam.wilma.webapp.config.servlet.stub.download.helper.ByteArrayConverter;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,10 +35,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Tests for {@link StubConfigHandlerServlet}.
@@ -66,12 +65,12 @@ public class StubConfigHandlerServletTest {
     @InjectMocks
     private StubConfigHandlerServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        initMocks(this);
-        Whitebox.setInternalState(underTest, "jsonBasedObjectTransformer", jsonBasedObjectTransformer);
-        Whitebox.setInternalState(underTest, "stubResourceHolder", stubResourceHolder);
-        Whitebox.setInternalState(underTest, "byteArrayConverter", byteArrayConverter);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "jsonBasedObjectTransformer", jsonBasedObjectTransformer);
+        ReflectionTestUtils.setField(underTest, "stubResourceHolder", stubResourceHolder);
+        ReflectionTestUtils.setField(underTest, "byteArrayConverter", byteArrayConverter);
         given(response.getWriter()).willReturn(writer);
         given(request.getParameter("groupname")).willReturn("test");
     }
@@ -89,7 +88,7 @@ public class StubConfigHandlerServletTest {
     }
 
     @Test
-    public void testDoGetShouldWriteActualJsonToResponse() throws ServletException, IOException, JsonTransformationException {
+    public void testDoGetShouldWriteActualJsonToResponse() throws ServletException, IOException {
         //GIVEN
         given(request.getHeader("User-Agent")).willReturn("windows");
         given(stubResourceHolder.getActualStubConfigJsonObject(DEFAULT_GROUPNAME)).willReturn(jsonObject);
@@ -115,7 +114,7 @@ public class StubConfigHandlerServletTest {
     }
 
     @Test
-    public void testDoGetShouldNotReplaceNewLineWhenNotOnWindows() throws ServletException, IOException, JsonTransformationException {
+    public void testDoGetShouldNotReplaceNewLineWhenNotOnWindows() throws ServletException, IOException {
         //GIVEN
         given(request.getHeader("User-Agent")).willReturn("mac");
         given(stubResourceHolder.getActualStubConfigJsonObject(DEFAULT_GROUPNAME)).willReturn(jsonObject);
@@ -129,7 +128,7 @@ public class StubConfigHandlerServletTest {
     }
 
     @Test
-    public void testDoGetShouldNotReplaceNewLineWhenUserAgentIsNull() throws ServletException, IOException, JsonTransformationException {
+    public void testDoGetShouldNotReplaceNewLineWhenUserAgentIsNull() throws ServletException, IOException {
         //GIVEN
         given(request.getHeader("User-Agent")).willReturn(null);
         given(stubResourceHolder.getActualStubConfigJsonObject(DEFAULT_GROUPNAME)).willReturn(jsonObject);
@@ -143,7 +142,7 @@ public class StubConfigHandlerServletTest {
     }
 
     @Test
-    public void testDoGetShouldSetContentTypeToJsonWhenReqParamSourceIsTrue() throws ServletException, IOException, JsonTransformationException {
+    public void testDoGetShouldSetContentTypeToJsonWhenReqParamSourceIsTrue() throws ServletException, IOException {
         //GIVEN
         given(request.getParameter("source")).willReturn("true");
         given(request.getHeader("User-Agent")).willReturn(null);
@@ -158,8 +157,7 @@ public class StubConfigHandlerServletTest {
     }
 
     @Test
-    public void testDoGetShouldSetContentTypeToTextWhenReqParamSourceIsNotTrue() throws ServletException, IOException,
-            JsonTransformationException {
+    public void testDoGetShouldSetContentTypeToTextWhenReqParamSourceIsNotTrue() throws ServletException, IOException {
         //GIVEN
         given(request.getParameter("source")).willReturn("");
         given(request.getHeader("User-Agent")).willReturn(null);
@@ -174,7 +172,7 @@ public class StubConfigHandlerServletTest {
     }
 
     @Test
-    public void testDoGetShouldSetContentTypeToTextWhenReqParamSourceIsNull() throws ServletException, IOException, JsonTransformationException {
+    public void testDoGetShouldSetContentTypeToTextWhenReqParamSourceIsNull() throws ServletException, IOException {
         //GIVEN
         given(request.getParameter("source")).willReturn(null);
         given(request.getHeader("User-Agent")).willReturn(null);

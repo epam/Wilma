@@ -22,8 +22,8 @@ import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.stubconfig.cache.cleaner.helper.StubConfigPathProvider;
 import com.epam.wilma.stubconfig.configuration.StubConfigurationAccess;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -55,9 +55,9 @@ public class CacheCleanerTest {
     @InjectMocks
     private CacheCleaner underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(stubResourcePathProvider.getCachePath()).willReturn("test/path");
     }
 

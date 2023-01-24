@@ -25,8 +25,9 @@ import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -68,31 +69,35 @@ public class XslBasedResponseFormatterTest {
     private ParameterList params;
     private HttpServletResponse response;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         templateResource = new byte[1];
         params = new ParameterList();
     }
 
-    @Test(expected = ResponseFormattingFailedException.class)
-    public void testFormatTemplateShouldThrowExceptionWhenXslFileParamDoesNotExist() throws Exception {
-        //GIVEN in setUp
-        //WHEN
-        underTest.formatResponse(wilmaRequest, response, templateResource, params);
-        //THEN exception is thrown
+    @Test
+    public void testFormatTemplateShouldThrowExceptionWhenXslFileParamDoesNotExist() {
+        Assertions.assertThrows(ResponseFormattingFailedException.class, () -> {
+            //GIVEN in setUp
+            //WHEN
+            underTest.formatResponse(wilmaRequest, response, templateResource, params);
+            //THEN exception is thrown
+        });
     }
 
-    @Test(expected = ResponseFormattingFailedException.class)
-    public void testFormatTemplateShouldThrowExceptionWhenXslFileResourceDoesNotExist() throws Exception {
-        //GIVEN
-        params.addParameter(new Parameter(XSL_PARAM_KEY, XSL_PARAM_KEY));
-        given(stubResourcePathProvider.getTemplatesPathAsString()).willReturn(XSL_PARAM_KEY);
-        given(fileFactory.createFile(Mockito.anyString())).willReturn(file);
-        given(fileUtils.getFileAsByteArray(file)).willThrow(new IOException());
-        //WHEN
-        underTest.formatResponse(wilmaRequest, response, templateResource, params);
-        //THEN exception is thrown
+    @Test
+    public void testFormatTemplateShouldThrowExceptionWhenXslFileResourceDoesNotExist() {
+        Assertions.assertThrows(ResponseFormattingFailedException.class, () -> {
+            //GIVEN
+            params.addParameter(new Parameter(XSL_PARAM_KEY, XSL_PARAM_KEY));
+            given(stubResourcePathProvider.getTemplatesPathAsString()).willReturn(XSL_PARAM_KEY);
+            given(fileFactory.createFile(Mockito.anyString())).willReturn(file);
+            given(fileUtils.getFileAsByteArray(file)).willThrow(new IOException());
+            //WHEN
+            underTest.formatResponse(wilmaRequest, response, templateResource, params);
+            //THEN exception is thrown
+        });
     }
 
     @Test

@@ -14,22 +14,23 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.jetty.server.Server;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import website.magyar.mitm.proxy.ProxyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ *
  * @author Tamas_Kohegyi
  *
- * Base for tests that test the proxy. This base class encapsulates all of the
+ * Base for tests that test the proxy. This base class encapsulates all the
  * testing infrastructure.
  */
 public abstract class AbstractProxyTool {
@@ -63,7 +64,7 @@ public abstract class AbstractProxyTool {
      */
     private Server stubServer;
 
-    @Before
+    @BeforeEach
     public void runSetup() throws Exception {
         initializeCounters();
         startServers();
@@ -118,7 +119,7 @@ public abstract class AbstractProxyTool {
 
     }
 
-    @After
+    @AfterEach
     public void runTearDown() throws Exception {
         try {
             tearDown();
@@ -132,13 +133,13 @@ public abstract class AbstractProxyTool {
                     webServer.stop();
                 }
                 if (this.stubServer != null) {
-                    webServer.stop();
+                    stubServer.stop();
                 }
             }
         }
     }
 
-    protected void tearDown() throws Exception {
+    protected void tearDown() {
     }
 
     protected ResponseInfo httpPostWithApacheClient(HttpHost host, String resourceUrl, boolean isProxied, ContentEncoding allowedContentEncoding) throws Exception {
@@ -170,7 +171,7 @@ public abstract class AbstractProxyTool {
                 }
             }
 
-            String output = EntityUtils.toString(resEntity, Charset.forName("UTF-8").name());
+            String output = EntityUtils.toString(resEntity, StandardCharsets.UTF_8.name());
 
             return new ResponseInfo(response.getStatusLine().getStatusCode(), output, contentEncodingHeader);
         } catch (Exception e) {
@@ -196,9 +197,9 @@ public abstract class AbstractProxyTool {
 
             if (contentLength != null) {
                 assertEquals(
-                        "Content-Length from GET should match that from HEAD",
                         contentLength,
-                        Integer.valueOf(response.getFirstHeader("Content-Length").getValue()));
+                        Integer.valueOf(response.getFirstHeader("Content-Length").getValue()),
+                        "Content-Length from GET should match that from HEAD");
             }
 
             Header contentEncodingHeader = resEntity.getContentEncoding();
@@ -221,7 +222,7 @@ public abstract class AbstractProxyTool {
                 }
             }
 
-            String output = EntityUtils.toString(resEntity, Charset.forName("UTF-8").name());
+            String output = EntityUtils.toString(resEntity, StandardCharsets.UTF_8.name());
 
             return new ResponseInfo(response.getStatusLine().getStatusCode(), output, contentEncodingHeader);
         } catch (Exception e) {

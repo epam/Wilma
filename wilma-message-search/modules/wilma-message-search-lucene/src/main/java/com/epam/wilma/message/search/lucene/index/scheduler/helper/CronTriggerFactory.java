@@ -23,8 +23,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Factory class for {@link CronTrigger}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Component
 public class CronTriggerFactory {

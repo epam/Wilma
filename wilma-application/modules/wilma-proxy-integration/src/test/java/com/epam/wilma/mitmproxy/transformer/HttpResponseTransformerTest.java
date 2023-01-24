@@ -24,8 +24,8 @@ import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
 import com.epam.wilma.proxy.helper.WilmaResponseFactory;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -63,9 +63,9 @@ public class HttpResponseTransformerTest {
     @InjectMocks
     private HttpResponseTransformer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(responseFactory.createNewWilmaHttpResponse(false)).willReturn(response);
         requestHeaders = new Header[1];
         responseHeaders = new Header[1];

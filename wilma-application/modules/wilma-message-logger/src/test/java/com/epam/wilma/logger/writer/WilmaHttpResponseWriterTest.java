@@ -23,14 +23,14 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeRemoved;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -74,11 +74,11 @@ public class WilmaHttpResponseWriterTest {
     @InjectMocks
     private WilmaHttpResponseWriter underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = spy(new WilmaHttpResponseWriter());
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         //original header setup
         Map<String, String> headers = new HashMap<>();
         headers.put(HEADERS, HEADERS);
@@ -125,7 +125,7 @@ public class WilmaHttpResponseWriterTest {
     @Test
     public void testWriteWhenBufferedWriterThrowsIOExceptionShouldLogError() throws IOException {
         //GIVEN
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         IOException e = new IOException();
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willThrow(e);
@@ -139,7 +139,7 @@ public class WilmaHttpResponseWriterTest {
     @Test
     public void testWriteWhenCannotCloseFileShouldLogError() throws IOException {
         //GIVEN
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         IOException e = new IOException();
         doReturn(OUTPUT_FILE).when(underTest).getOutputFileName(MESSAGE_ID, true);
         given(bufferedWriterFactory.createBufferedWriter(OUTPUT_FILE, OUTPUT_BUFFER_SIZE)).willReturn(bufferedWriter);

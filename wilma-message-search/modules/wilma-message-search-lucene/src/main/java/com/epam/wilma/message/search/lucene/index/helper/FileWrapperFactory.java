@@ -24,8 +24,8 @@ import java.io.File;
 
 /**
  * Factory for {@link FileWrapper}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 @Component
 public class FileWrapperFactory {

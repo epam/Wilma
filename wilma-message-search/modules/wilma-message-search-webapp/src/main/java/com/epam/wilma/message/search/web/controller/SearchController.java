@@ -50,6 +50,7 @@ import com.google.gson.JsonObject;
 
 /**
  * Controller for message searching.
+ *
  * @author Tamas_Bihari
  *
  */

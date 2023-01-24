@@ -31,8 +31,8 @@ import com.epam.wilma.message.search.web.support.VersionTitleProvider;
 
 /**
  * Logs the startup message.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class StartUpMessageGenerator {

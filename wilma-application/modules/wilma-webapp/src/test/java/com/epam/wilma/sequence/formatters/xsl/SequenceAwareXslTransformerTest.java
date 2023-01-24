@@ -32,8 +32,8 @@ import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.XdmNode;
 import net.sf.saxon.s9api.XsltExecutable;
 import net.sf.saxon.s9api.XsltTransformer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -50,9 +50,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
@@ -115,10 +114,10 @@ public class SequenceAwareXslTransformerTest {
     @InjectMocks
     private SequenceAwareXslTransformer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws SAXException {
         underTest = Mockito.spy(new SequenceAwareXslTransformer());
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(processorFactory.createProcessor()).willReturn(processor);
         doReturn(xmlReader).when(underTest).createXMLReader();
 
@@ -205,7 +204,7 @@ public class SequenceAwareXslTransformerTest {
 
     private void givenParameter(final String parameterName, final QName qName) throws SaxonApiException {
         given(streamSourceFactory.createStreamSource(requestInputStream)).willReturn(new StreamSource());
-        given(processor.newDocumentBuilder().build(any(StreamSource.class))).willReturn(requestDocument);
+        given(processor.newDocumentBuilder().build(Mockito.any(StreamSource.class))).willReturn(requestDocument);
         given(qNameFactory.createQName(parameterName)).willReturn(qName);
     }
 

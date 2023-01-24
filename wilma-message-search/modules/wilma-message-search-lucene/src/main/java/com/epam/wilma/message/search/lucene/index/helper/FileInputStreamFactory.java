@@ -26,8 +26,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Factory for creating instances of {@link FileInputStream}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class FileInputStreamFactory {

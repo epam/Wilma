@@ -21,8 +21,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Thrown when a lucene search query cannot be parsed.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class QueryCannotBeParsedException extends SystemException {
 

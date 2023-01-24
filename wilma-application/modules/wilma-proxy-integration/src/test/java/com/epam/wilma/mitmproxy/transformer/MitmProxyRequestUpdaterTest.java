@@ -25,8 +25,8 @@ import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -62,13 +62,13 @@ public class MitmProxyRequestUpdaterTest {
     @InjectMocks
     private MitmProxyRequestUpdater underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testUpdateRequestShouldCallBrowsermobRequestsMethods() throws URISyntaxException {
+    public void testUpdateRequestShouldCallBrowserMobRequestsMethods() throws URISyntaxException {
         //GIVEN
         URI uri = new URI("MOCK");
         given(browserMobHttpRequest.getMethod()).willReturn(requestBase);

@@ -25,8 +25,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Holds the application configuration properties in a key-value store.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class PropertyHolder {

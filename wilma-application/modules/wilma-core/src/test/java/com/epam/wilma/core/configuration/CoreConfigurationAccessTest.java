@@ -23,17 +23,18 @@ import com.epam.wilma.common.helper.OperationMode;
 import com.epam.wilma.common.helper.SequenceHandlingState;
 import com.epam.wilma.core.configuration.domain.PropertyDto;
 import com.epam.wilma.properties.PropertyHolder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
  * Provides unit tests for the class {@link CoreConfigurationAccess}.
+ *
  * @author Tunde_Kovacs
  *
  */
@@ -47,9 +48,9 @@ public class CoreConfigurationAccessTest {
     @InjectMocks
     private CoreConfigurationAccess underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(propertyHolder.get("message.logging")).willReturn(messageLogging);
         given(propertyHolder.get("switch")).willReturn("wilma");
         given(propertyHolder.get("block.localhost.usage")).willReturn("on");

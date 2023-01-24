@@ -25,8 +25,8 @@ import org.apache.commons.io.IOUtils;
 
 /**
  * Converts an inputStream to a String with Apache Commons' IOUtils.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class InputStreamConverter {
 

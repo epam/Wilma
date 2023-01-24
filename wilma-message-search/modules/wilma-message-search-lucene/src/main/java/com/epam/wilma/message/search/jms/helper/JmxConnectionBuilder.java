@@ -32,8 +32,8 @@ import com.epam.wilma.message.search.jms.exception.JmxConnectionException;
 
 /**
  * Builds a JMX connection.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 @Component
 public class JmxConnectionBuilder {

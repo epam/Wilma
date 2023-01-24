@@ -19,12 +19,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.webapp.service.StubConfigurationOrderService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -42,9 +42,9 @@ import static org.mockito.Mockito.verify;
  */
 public class StubConfigurationOrderServletTest {
 
-    private static final String DEFAULT_GROUPNAME = "test";
-    private static final String PARAMETER_CONSTANS_DIRECTION = "direction";
-    private static final String PARAMETER_CONSTANS_GROUPNAME = "groupname";
+    private static final String DEFAULT_GROUP_NAME = "test";
+    private static final String PARAMETER_CONTAINS_DIRECTION = "direction";
+    private static final String PARAMETER_CONTAINS_GROUP_NAME = "groupname";
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -57,12 +57,12 @@ public class StubConfigurationOrderServletTest {
     @InjectMocks
     private StubConfigurationOrderServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "stubConfigurationOrderService", stubConfigurationOrderService);
-        given(request.getParameter(PARAMETER_CONSTANS_GROUPNAME)).willReturn(DEFAULT_GROUPNAME);
-        given(request.getParameter(PARAMETER_CONSTANS_DIRECTION)).willReturn("1");
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "stubConfigurationOrderService", stubConfigurationOrderService);
+        given(request.getParameter(PARAMETER_CONTAINS_GROUP_NAME)).willReturn(DEFAULT_GROUP_NAME);
+        given(request.getParameter(PARAMETER_CONTAINS_DIRECTION)).willReturn("1");
     }
 
     @Test
@@ -71,7 +71,7 @@ public class StubConfigurationOrderServletTest {
         //WHEN
         underTest.doGet(request, response);
         //THEN
-        verify(stubConfigurationOrderService).doChange(1, DEFAULT_GROUPNAME, request);
+        verify(stubConfigurationOrderService).doChange(1, DEFAULT_GROUP_NAME, request);
     }
 
     @Test
@@ -80,13 +80,13 @@ public class StubConfigurationOrderServletTest {
         //WHEN
         underTest.doPost(request, response);
         //THEN
-        verify(stubConfigurationOrderService).doChange(1, DEFAULT_GROUPNAME, request);
+        verify(stubConfigurationOrderService).doChange(1, DEFAULT_GROUP_NAME, request);
     }
 
     @Test
     public void testDoGetShouldCallWriteErrorToResponseBecauseOfWrongParameterFormat() throws ServletException, IOException {
         //GIVEN
-        given(request.getParameter(PARAMETER_CONSTANS_DIRECTION)).willReturn("dawdaw");
+        given(request.getParameter(PARAMETER_CONTAINS_DIRECTION)).willReturn("dawdaw");
         given(response.getWriter()).willReturn(writer);
         //WHEN
         underTest.doGet(request, response);

@@ -99,12 +99,11 @@ subprojects {
         implementation group: 'janino', name: 'janino', version:'2.5.10'
         implementation group: 'net.sf.saxon', name: 'Saxon-HE', version:'9.9.0-2'
         testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
-        testImplementation group: 'org.mockito', name: 'mockito-all', version:"${mockitoAllVersion}"
-        testImplementation "junit:junit:${jUnitVersion}"
-        configurations.all{
-        	  exclude(module: 'commons-logging')
-        }
+        testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: "${mockitoCoreVersion}"
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "${jUnitVersion}"
+        testImplementation(group: 'org.springframework', name: 'spring-test', version:"${orgSpringframework}")
+        testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "${jUnitVersion}"
     }
 
-    test.useJUnit()
+    test.useJUnitPlatform()
 }

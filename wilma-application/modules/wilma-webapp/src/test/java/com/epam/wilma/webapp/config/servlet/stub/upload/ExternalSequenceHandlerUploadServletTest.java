@@ -21,13 +21,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
 import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -66,11 +66,11 @@ public class ExternalSequenceHandlerUploadServletTest {
     @InjectMocks
     private ExternalSequenceHandlerUploadServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "stubResourcePathProvider", stubResourcePathProvider);
-        Whitebox.setInternalState(underTest, "fileWriter", fileWriter);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "stubResourcePathProvider", stubResourcePathProvider);
+        ReflectionTestUtils.setField(underTest, "fileWriter", fileWriter);
         given(request.getInputStream()).willReturn(inputStream);
         given(stubResourcePathProvider.getSequenceHandlerPathAsString()).willReturn(PATH);
     }

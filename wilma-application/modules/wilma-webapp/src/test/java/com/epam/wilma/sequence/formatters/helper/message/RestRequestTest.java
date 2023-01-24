@@ -22,14 +22,14 @@ import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.sequence.formatters.helper.converter.Converter;
 import com.epam.wilma.sequence.formatters.helper.resolver.RestUrlMappingMessageNameResolver;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -54,12 +54,12 @@ public class RestRequestTest {
     @Mock
     private ParameterList parameters;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "entity", entity);
-        Whitebox.setInternalState(underTest, "converter", converter);
-        Whitebox.setInternalState(underTest, "restUrlMappingMessageNameResolver", restUrlMappingMessageNameResolver);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "entity", entity);
+        ReflectionTestUtils.setField(underTest, "converter", converter);
+        ReflectionTestUtils.setField(underTest, "restUrlMappingMessageNameResolver", restUrlMappingMessageNameResolver);
     }
 
     @Test

@@ -18,15 +18,17 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Provides unit tests for the class {@link FileChecker}.
@@ -40,13 +42,13 @@ public class FileCheckerTest {
     @InjectMocks
     private FileChecker underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testCheckFilesExistsWithPairsWhenThereAreSomeSearchResultButOneRequestDoesntHavePair() {
+    public void testCheckFilesExistsWithPairsWhenThereAreSomeSearchResultButOneRequestDoesNotHavePair() {
         //GIVEN
         List<String> list = new ArrayList<>();
         list.add("src/test/resources/first_testreq.txt");
@@ -64,7 +66,7 @@ public class FileCheckerTest {
         //WHEN
         List<List<String>> result = underTest.checkFilesExistsWithPairs(list);
         //THEN
-        Assert.assertEquals(result, expected);
+        assertEquals(result, expected);
     }
 
     @Test
@@ -86,7 +88,7 @@ public class FileCheckerTest {
         //WHEN
         List<List<String>> result = underTest.checkFilesExistsWithPairs(list);
         //THEN
-        Assert.assertEquals(result, expected);
+        assertEquals(result, expected);
     }
 
     @Test
@@ -97,14 +99,16 @@ public class FileCheckerTest {
         //WHEN
         List<List<String>> result = underTest.checkFilesExistsWithPairs(list);
         //THEN
-        Assert.assertEquals(result, expected);
+        assertEquals(result, expected);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testCheckFilesExistsWithPairsWhenSearchResultIsNull() {
-        //GIVEN
-        //WHEN
-        underTest.checkFilesExistsWithPairs(null);
-        //THEN
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            //GIVEN
+            //WHEN
+            underTest.checkFilesExistsWithPairs(null);
+            //THEN
+        });
     }
 }

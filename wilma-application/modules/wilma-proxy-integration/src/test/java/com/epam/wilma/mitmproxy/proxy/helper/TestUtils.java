@@ -34,12 +34,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ *
  * @author Tamas_Kohegyi
  */
 
@@ -104,7 +104,7 @@ public class TestUtils {
 
         if (enableHttps) {
             // Add SSL connector
-            SslContextFactory sslContextFactory = new SslContextFactory.Server.Server();
+            SslContextFactory sslContextFactory = new SslContextFactory.Server();
 
             SelfSignedSslEngineSource contextSource = new SelfSignedSslEngineSource();
             SSLContext sslContext = contextSource.getSslContext();
@@ -200,7 +200,7 @@ public class TestUtils {
 
         //set accepted content encodings
         Header header = new BasicHeader(HttpHeaders.ACCEPT_ENCODING, contentEncoding.getValue());
-        List<Header> headers = Arrays.asList(header);
+        List<Header> headers = List.of(header);
         httpClientBuilder.setDefaultHeaders(headers);
 
         CloseableHttpClient httpClient = httpClientBuilder.build();

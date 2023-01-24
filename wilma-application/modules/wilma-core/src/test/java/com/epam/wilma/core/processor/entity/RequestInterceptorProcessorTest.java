@@ -26,8 +26,8 @@ import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.domain.stubconfig.interceptor.InterceptorDescriptor;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.router.RoutingService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -57,9 +57,9 @@ public class RequestInterceptorProcessorTest {
     @InjectMocks
     private RequestInterceptorProcessor underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

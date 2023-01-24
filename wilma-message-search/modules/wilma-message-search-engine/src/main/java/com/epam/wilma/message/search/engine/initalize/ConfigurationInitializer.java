@@ -35,8 +35,8 @@ import com.epam.wilma.message.search.lucene.index.scheduler.IndexTaskScheduler;
 /**
  * After Spring properties are set in Spring managed classes, external message search properties are loaded and classes that need
  * external properties are initialized.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class ConfigurationInitializer {

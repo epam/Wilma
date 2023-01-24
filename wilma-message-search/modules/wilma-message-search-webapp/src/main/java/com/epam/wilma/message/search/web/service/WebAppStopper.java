@@ -25,6 +25,7 @@ import com.epam.wilma.message.search.web.WebAppServer;
 
 /**
  * Service used for stopping the server.
+ *
  * @author Adam_Csaba_Kiraly
  */
 public class WebAppStopper {

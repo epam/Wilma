@@ -23,18 +23,18 @@ import com.epam.wilma.domain.stubconfig.dialog.response.MimeType;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -43,7 +43,6 @@ import static org.mockito.Mockito.verify;
  * @author Tamas_Bihari
  */
 public class StubResponseHeaderConfigurerTest {
-    private static final String WILMA_LOGGER_ID = "wilma-logger-id";
     private static final String DIALOG_DESCRIPTOR_NAME = "DIALOG-DESCRIPTOR-NAME";
     @Mock
     private HttpServletRequest request;
@@ -54,14 +53,14 @@ public class StubResponseHeaderConfigurerTest {
 
     private StubResponseHeaderConfigurer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new StubResponseHeaderConfigurer();
     }
 
     @Test
-    public void testAddWilmaInfoToResponseHeaderShouldAddNewHeadersToResponseWhenWilmaSequencNotExistInRequestHeader() {
+    public void testAddWilmaInfoToResponseHeaderShouldAddNewHeadersToResponseWhenWilmaSequenceNotExistInRequestHeader() {
         //GIVEN
         given(request.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID)).willReturn(null);
         //WHEN
@@ -71,7 +70,7 @@ public class StubResponseHeaderConfigurerTest {
     }
 
     @Test
-    public void testAddWilmaInfoToResponseHeaderShouldAddNewHeadersToResponseWhenWilmaSequencExistsInRequestHeader() {
+    public void testAddWilmaInfoToResponseHeaderShouldAddNewHeadersToResponseWhenWilmaSequenceExistsInRequestHeader() {
         //GIVEN
         given(request.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID)).willReturn(DIALOG_DESCRIPTOR_NAME);
         //WHEN
@@ -91,7 +90,7 @@ public class StubResponseHeaderConfigurerTest {
         //WHEN
         underTest.setResponseContentTypeAndStatus(response, responseDescriptorDTO);
         //THEN
-        verify(response).setStatus(Integer.valueOf(statusCode));
+        verify(response).setStatus(Integer.parseInt(statusCode));
         verify(response).setContentType(MimeType.TEXT.getOfficialMimeType());
     }
 
@@ -102,7 +101,7 @@ public class StubResponseHeaderConfigurerTest {
         underTest.setErrorResponseContentTypeAndStatus(response);
         //THEN
         verify(response).setStatus(anyInt());
-        verify(response).setContentType(Matchers.anyString());
+        verify(response).setContentType(anyString());
     }
 
 }

@@ -24,8 +24,9 @@ import com.epam.wilma.domain.stubconfig.exception.ConditionEvaluationFailedExcep
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -49,9 +50,9 @@ public class CustomXQueryCheckerValidatorTest {
 
     private CustomXQueryCheckerValidator underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = Mockito.spy(new CustomXQueryCheckerValidator());
         parameterList = new ParameterList();
     }
@@ -66,16 +67,18 @@ public class CustomXQueryCheckerValidatorTest {
         //THEN it should not throw exception
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
+    @Test
     public void testValidateWhenXQueryIsSyntacticallyIncorrectShouldThrowException() {
-        //GIVEN
-        parameterList.addParameter(new Parameter("check", "invalid xquery"));
-        doReturn(CUSTOM_BODY_CHECKER).when(underTest).getSimpleName(conditionChecker);
-        willThrow(new ConditionEvaluationFailedException("exception")).given(conditionChecker).checkCondition(Mockito.any(WilmaHttpRequest.class),
-                Mockito.eq(parameterList));
-        //WHEN
-        underTest.validate(conditionChecker, parameterList);
-        //THEN it should throw exception
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            parameterList.addParameter(new Parameter("check", "invalid xquery"));
+            doReturn(CUSTOM_BODY_CHECKER).when(underTest).getSimpleName(conditionChecker);
+            willThrow(new ConditionEvaluationFailedException("exception")).given(conditionChecker).checkCondition(Mockito.any(WilmaHttpRequest.class),
+                    Mockito.eq(parameterList));
+            //WHEN
+            underTest.validate(conditionChecker, parameterList);
+            //THEN it should throw exception
+        });
     }
 
     @Test

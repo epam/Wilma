@@ -21,15 +21,15 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.common.helper.CronTriggerFactory;
 import com.epam.wilma.safeguard.configuration.SafeguardConfigurationAccess;
 import com.epam.wilma.safeguard.configuration.domain.PropertyDTO;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -59,10 +59,10 @@ public class JmsQueueMonitorTest {
     @Mock
     private PropertyDTO properties;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         given(configurationAccess.getProperties()).willReturn(properties);
     }
 

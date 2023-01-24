@@ -30,18 +30,18 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
 import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Provides unit tests for the class {@link ExternalResponseFormatterUploadServlet}.
@@ -72,12 +72,12 @@ public class ExternalResponseFormatterUploadServletTest {
     @InjectMocks
     private ExternalResponseFormatterUploadServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
-        Whitebox.setInternalState(underTest, "stubResourcePathProvider", stubResourcePathProvider);
-        Whitebox.setInternalState(underTest, "fileWriter", fileWriter);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        ReflectionTestUtils.setField(underTest, "stubResourcePathProvider", stubResourcePathProvider);
+        ReflectionTestUtils.setField(underTest, "fileWriter", fileWriter);
         given(request.getInputStream()).willReturn(inputStream);
         given(stubResourcePathProvider.getResponseFormattersPathAsString()).willReturn(PATH);
     }

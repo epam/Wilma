@@ -32,6 +32,7 @@ import com.epam.wilma.message.search.web.support.FileUtils;
 
 /**
  * Provides access to the log files.
+ *
  * @author Adam_Csaba_Kiraly
  */
 @Component

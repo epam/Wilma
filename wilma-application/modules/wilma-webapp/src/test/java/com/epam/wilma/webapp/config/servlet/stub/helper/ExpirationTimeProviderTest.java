@@ -19,13 +19,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.common.helper.CurrentDateProvider;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -40,9 +40,9 @@ public class ExpirationTimeProviderTest {
     @InjectMocks
     private ExpirationTimeProvider underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(currentDateProvider.getCurrentTimeInMillis()).willReturn(10000000L);
     }
 
@@ -53,7 +53,7 @@ public class ExpirationTimeProviderTest {
         //WHEN
         long result = underTest.getExpirationMinutes(10600000L);
         //THEN
-        Assert.assertEquals(result, expected);
+        assertEquals(result, expected);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class ExpirationTimeProviderTest {
         //WHEN
         long result = underTest.getExpirationSeconds(106001000L);
         //THEN
-        Assert.assertEquals(result, expected);
+        assertEquals(result, expected);
     }
 
 }

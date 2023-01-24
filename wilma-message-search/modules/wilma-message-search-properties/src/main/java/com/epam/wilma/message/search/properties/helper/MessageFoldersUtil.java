@@ -22,8 +22,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Utility class for the message.folders property.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Component
 public class MessageFoldersUtil {

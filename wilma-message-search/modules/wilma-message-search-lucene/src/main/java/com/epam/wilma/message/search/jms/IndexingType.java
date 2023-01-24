@@ -20,8 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Determines whether a message should be added to an index, or should be deleted from it.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public enum IndexingType {
 

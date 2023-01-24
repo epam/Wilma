@@ -19,12 +19,14 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit test for {@link XmlXpathResolver}.
@@ -33,14 +35,14 @@ import org.mockito.Spy;
  */
 public class XmlXpathResolverTest {
 
-    @Spy
-    private XPathProvider xPathProvider;
     @InjectMocks
     private XmlXpathResolver underTest;
 
-    @Before
+    @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
+        XPathProvider xPathProvider = new XPathProvider();
+        ReflectionTestUtils.setField(underTest, "xPathProvider", xPathProvider);
     }
 
     @Test
@@ -49,15 +51,17 @@ public class XmlXpathResolverTest {
         //WHEN
         String value = underTest.getValue("local-name(/*[1])", request());
         //THEN
-        Assert.assertEquals("BOB", value);
+        assertEquals("BOB", value);
     }
 
-    @Test(expected = XmlXpathResolver.InvalidXPathExpressionException.class)
+    @Test
     public void testGetValueWithInvalid() {
-        //GIVEN in request
-        //WHEN
-        underTest.getValue("local-name(//***\\\\/*[1])", request());
-        //THEN exception is thrown
+        Assertions.assertThrows(XmlXpathResolver.InvalidXPathExpressionException.class, () -> {
+            //GIVEN in request
+            //WHEN
+            underTest.getValue("local-name(//***\\\\/*[1])", request());
+            //THEN exception is thrown
+        });
     }
 
     private String request() {

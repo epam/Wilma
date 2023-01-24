@@ -25,8 +25,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Processes through a folder structure and sends files files to {@link FileIndexer}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 @Component
 public class FolderIndexer {

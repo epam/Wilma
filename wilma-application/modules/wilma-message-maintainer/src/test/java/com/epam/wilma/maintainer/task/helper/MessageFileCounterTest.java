@@ -19,13 +19,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.properties.PropertyHolder;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -41,9 +41,9 @@ public class MessageFileCounterTest {
     @InjectMocks
     private MessageFileCounter underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(propertyHolder.get("log.folder")).willReturn("src/test/resources/test");
     }
 
@@ -53,7 +53,7 @@ public class MessageFileCounterTest {
         //WHEN
         int result = underTest.getCountOfMessages();
         //THEN
-        Assert.assertEquals(2, result);
+        assertEquals(2, result);
     }
 
     @Test
@@ -63,6 +63,6 @@ public class MessageFileCounterTest {
         //WHEN
         int result = underTest.getCountOfMessages();
         //THEN
-        Assert.assertEquals(0, result);
+        assertEquals(0, result);
     }
 }

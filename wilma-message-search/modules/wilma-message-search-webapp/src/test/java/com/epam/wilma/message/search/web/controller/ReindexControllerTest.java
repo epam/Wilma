@@ -19,13 +19,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.message.search.lucene.index.scheduler.IndexTaskScheduler;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -51,16 +51,16 @@ public class ReindexControllerTest {
     @InjectMocks
     private ReindexController underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         PrintWriter printWriter = new PrintWriter(System.out);
         given(response.getWriter()).willReturn(printWriter);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
     }
 
     @Test
-    public void testReindexShouldRunReindex() throws IOException {
+    public void testReindexShouldRunReindex() {
         //GIVEN
         //WHEN
         underTest.reindex(response);

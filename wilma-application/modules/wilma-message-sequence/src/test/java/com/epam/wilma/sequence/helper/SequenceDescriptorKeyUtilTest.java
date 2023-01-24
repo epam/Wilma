@@ -18,8 +18,9 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Provides unit tests for the class {@link SequenceDescriptorKeyUtil}.
@@ -28,7 +29,7 @@ import org.junit.Test;
  */
 public class SequenceDescriptorKeyUtilTest {
 
-    private SequenceDescriptorKeyUtil underTest = new SequenceDescriptorKeyUtil();
+    private final SequenceDescriptorKeyUtil underTest = new SequenceDescriptorKeyUtil();
 
     @Test
     public void testCreateDescriptorKey() {
@@ -38,7 +39,7 @@ public class SequenceDescriptorKeyUtilTest {
         //WHEN
         String result = underTest.createDescriptorKey(testGroupName, testDescriptorName);
         //THEN
-        Assert.assertEquals(testGroupName + SequenceConstants.DESCRIPTOR_KEY_PART_SEPARATOR.getConstant() + testDescriptorName, result);
+        assertEquals(testGroupName + SequenceConstants.DESCRIPTOR_KEY_PART_SEPARATOR.getConstant() + testDescriptorName, result);
     }
 
 }

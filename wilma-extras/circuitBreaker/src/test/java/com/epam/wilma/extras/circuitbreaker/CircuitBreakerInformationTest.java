@@ -2,9 +2,10 @@ package com.epam.wilma.extras.circuitbreaker;
 
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test code for @CircuitBreakerInformation.
@@ -15,7 +16,7 @@ public class CircuitBreakerInformationTest {
 
     private CircuitBreakerInformation underTest;
 
-    @Before
+    @BeforeEach
     public void init() {
         ParameterList parameterList = new ParameterList();
         parameterList.addParameter(new Parameter("identifier", "TEST"));
@@ -27,15 +28,15 @@ public class CircuitBreakerInformationTest {
     }
 
     @Test
-    public void resetErrorLevel() throws Exception {
+    public void resetErrorLevel() {
     }
 
     @Test
-    public void increaseErrorLevel() throws Exception {
+    public void increaseErrorLevel() {
         int originalValue = underTest.getActualErrorLevel();
         underTest.increaseErrorLevel();
         int newValue = underTest.getActualErrorLevel();
-        Assert.assertTrue(originalValue + 1 == newValue);
+        assertTrue(originalValue + 1 == newValue);
     }
 
 }

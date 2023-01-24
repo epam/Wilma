@@ -1,16 +1,16 @@
 package com.epam.wilma.proxy.helper;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.Instant;
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 public class TimeStampBasedIdGeneratorTest {
@@ -21,13 +21,13 @@ public class TimeStampBasedIdGeneratorTest {
     @InjectMocks
     private TimeStampBasedIdGenerator underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         Instant i = Instant.EPOCH;
         Date d = Date.from(i);
         given(currentDateProvider.getCurrentDate()).willReturn(d);
-        Whitebox.setInternalState(underTest, "currentDateProvider", currentDateProvider);
+        ReflectionTestUtils.setField(underTest, "currentDateProvider", currentDateProvider);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class TimeStampBasedIdGeneratorTest {
             var actual = underTest.nextIdentifier();
             length = actual.length();
         }
-        Assert.assertEquals(10001, count);
-        Assert.assertEquals(expected + 1, length);
+        assertEquals(10001, count);
+        assertEquals(expected + 1, length);
     }
 }

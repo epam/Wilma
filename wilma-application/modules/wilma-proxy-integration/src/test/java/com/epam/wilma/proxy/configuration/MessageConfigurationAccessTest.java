@@ -21,13 +21,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.properties.PropertyHolder;
 import com.epam.wilma.proxy.configuration.domain.MessagePropertyDTO;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -45,9 +45,9 @@ public class MessageConfigurationAccessTest {
     @InjectMocks
     private MessageConfigurationAccess underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(propertyHolder.get("wilma.instance.prefix")).willReturn(PREFIX);
     }
 

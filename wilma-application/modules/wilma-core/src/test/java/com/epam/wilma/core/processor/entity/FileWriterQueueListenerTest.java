@@ -22,11 +22,13 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.logger.writer.WilmaHttpRequestWriter;
 import com.epam.wilma.logger.writer.WilmaHttpResponseWriter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -35,7 +37,6 @@ import javax.jms.ObjectMessage;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Test for {@link FileWriterQueueListener}.
@@ -58,10 +59,10 @@ public class FileWriterQueueListenerTest {
     @InjectMocks
     private FileWriterQueueListener underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = Mockito.spy(new FileWriterQueueListener());
-        initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -88,20 +89,24 @@ public class FileWriterQueueListenerTest {
         verify(responseWriter).write(response, true);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testOnMessageShouldThrowIllegalArgumentExceptionWhenMessageNotInstanceOfObjectMessage() {
-        //GIVEN in setUp
-        //WHEN
-        underTest.onMessage(message);
-        //THEN exception is thrown
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            //GIVEN in setUp
+            //WHEN
+            underTest.onMessage(message);
+            //THEN exception is thrown
+        });
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testOnMessageShouldThrowRuntimeExceptionWhenObjectMessageNotInstanceOfWilmaHttpEntity() throws JMSException {
-        //GIVEN
-        given(objectMessage.getObject()).willThrow(new JMSException("Can't cast to WilmaHttpEntity!"));
-        //WHEN
-        underTest.onMessage(objectMessage);
-        //THEN exception is thrown
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            //GIVEN
+            given(objectMessage.getObject()).willThrow(new JMSException("Can't cast to WilmaHttpEntity!"));
+            //WHEN
+            underTest.onMessage(objectMessage);
+            //THEN exception is thrown
+        });
     }
 }

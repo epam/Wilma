@@ -31,8 +31,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Loads the properties and handles SystemExceptions.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class TestServerBootstrap {
 

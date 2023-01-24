@@ -26,8 +26,9 @@ import com.epam.wilma.webapp.config.servlet.stub.upload.helper.FileWriter;
 import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
 import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
 import com.epam.wilma.webapp.service.external.ServiceMap;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,7 +36,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.InputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -69,9 +70,9 @@ public class MultiPartFileProcessorTest {
     @InjectMocks
     private MultiPartFileProcessor underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -84,12 +85,14 @@ public class MultiPartFileProcessorTest {
         assertEquals("New stub configuration was uploaded to Wilma.", actual);
     }
 
-    @Test(expected = CannotUploadExternalResourceException.class)
+    @Test
     public void testProcessUploadedFileShouldThrowExceptionWhenUploadedStubConfigContentTypeIsWrong() {
-        //GIVEN in setUp
-        //WHEN
-        underTest.processUploadedFile(resource, OCTET_STREAM_CONTENT_TYPE, "stub-configuration", FILE_PATH);
-        //THEN exception is thrown
+        Assertions.assertThrows(CannotUploadExternalResourceException.class, () -> {
+            //GIVEN in setUp
+            //WHEN
+            underTest.processUploadedFile(resource, OCTET_STREAM_CONTENT_TYPE, "stub-configuration", FILE_PATH);
+            //THEN exception is thrown
+        });
     }
 
     @Test
@@ -103,12 +106,14 @@ public class MultiPartFileProcessorTest {
         assertEquals("External condition checker class '" + FILE_PATH + "' was uploaded to Wilma.", actual);
     }
 
-    @Test(expected = CannotUploadExternalResourceException.class)
+    @Test
     public void testProcessUploadedFileShouldThrowExceptionWhenUploadedFileContentTypeNotJavaOrOctetStream() {
-        //GIVEN in setUp
-        //WHEN
-        underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "stub-condition-checker", FILE_PATH);
-        //THEN exception is thrown
+        Assertions.assertThrows(CannotUploadExternalResourceException.class, () -> {
+            //GIVEN in setUp
+            //WHEN
+            underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "stub-condition-checker", FILE_PATH);
+            //THEN exception is thrown
+        });
     }
 
     @Test
@@ -122,12 +127,14 @@ public class MultiPartFileProcessorTest {
         assertEquals("External response formatter class '" + FILE_PATH + "' was uploaded to Wilma.", actual);
     }
 
-    @Test(expected = CannotUploadExternalResourceException.class)
+    @Test
     public void testProcessUploadedFileShouldThrowExceptionWhenUploadedResponseFormatterContentTypeNotJavaOrOctetStream() {
-        //GIVEN in setUp
-        //WHEN
-        underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "stub-response-formatter", FILE_PATH);
-        //THEN exception is thrown
+        Assertions.assertThrows(CannotUploadExternalResourceException.class, () -> {
+            //GIVEN in setUp
+            //WHEN
+            underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "stub-response-formatter", FILE_PATH);
+            //THEN exception is thrown
+        });
     }
 
     @Test
@@ -141,12 +148,14 @@ public class MultiPartFileProcessorTest {
         assertEquals("External template '" + FILE_PATH + "' was uploaded to Wilma.", actual);
     }
 
-    @Test(expected = CannotUploadExternalResourceException.class)
-    public void testProcessUploadedFileShouldReturnWhenUploadedingFileFromUnknownInputField() {
-        //GIVEN in setUp
-        //WHEN
-        underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "asdfasdf", FILE_PATH);
-        //THEN exception is thrown
+    @Test
+    public void testProcessUploadedFileShouldReturnWhenUploadingFileFromUnknownInputField() {
+        Assertions.assertThrows(CannotUploadExternalResourceException.class, () -> {
+            //GIVEN in setUp
+            //WHEN
+            underTest.processUploadedFile(resource, JSON_CONTENT_TYPE, "asdfasdf", FILE_PATH);
+            //THEN exception is thrown
+        });
     }
 
     @Test

@@ -22,12 +22,13 @@ import com.epam.wilma.message.search.domain.exception.SystemException;
 import com.epam.wilma.message.search.lucene.helper.TermFactory;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.IOException;
 
@@ -54,11 +55,11 @@ public class LuceneDeleteEngineTest {
     @InjectMocks
     private LuceneDeleteEngine underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         term = new Term(FIELD_NAME);
-        Whitebox.setInternalState(underTest, "fieldName", FIELD_NAME);
+        ReflectionTestUtils.setField(underTest, "fieldName", FIELD_NAME);
     }
 
     @Test
@@ -71,13 +72,15 @@ public class LuceneDeleteEngineTest {
         verify(indexWriter).deleteDocuments(term);
     }
 
-    @Test(expected = SystemException.class)
-    public void testDeleteDocFromIndexWhenCannotDeleteShouldThrowException() throws IOException {
-        //GIVEN
-        given(termFactory.createTerm(FIELD_NAME, TEXT)).willReturn(term);
-        willThrow(new IOException()).given(indexWriter).deleteDocuments(term);
-        //WHEN
-        underTest.deleteDocFromIndex(TEXT);
-        //THEN it should throw exceptions
+    @Test
+    public void testDeleteDocFromIndexWhenCannotDeleteShouldThrowException() {
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            given(termFactory.createTerm(FIELD_NAME, TEXT)).willReturn(term);
+            willThrow(new IOException()).given(indexWriter).deleteDocuments(term);
+            //WHEN
+            underTest.deleteDocFromIndex(TEXT);
+            //THEN it should throw exceptions
+        });
     }
 }

@@ -13,6 +13,7 @@ import java.util.zip.GZIPOutputStream;
 
 /**
  * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ *
  * @author Tamas_Kohegyi
  */
 

@@ -24,9 +24,8 @@ import com.epam.wilma.message.search.domain.exception.QueryCannotBeParsedExcepti
 import com.epam.wilma.message.search.lucene.LuceneEngine;
 import com.epam.wilma.message.search.web.support.FileChecker;
 import com.epam.wilma.message.search.web.support.FileZipper;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -42,6 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -76,9 +76,9 @@ public class SearchControllerTest {
     @InjectMocks
     private SearchController underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         lucineResult = new ArrayList<>();
         listOfLists = new ArrayList<>();
         given(response.getOutputStream()).willReturn(outputStream);
@@ -87,7 +87,7 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void testSearchAndZipWhenSearchedTextIsNotEmpty() throws IOException {
+    public void testSearchAndZipWhenSearchedTextIsNotEmpty() {
         //GIVEN
         //WHEN
         underTest.searchAndZip("test", response);
@@ -98,7 +98,7 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void testSearchAndZipWhenSearchedTextIsEmptyString() throws IOException {
+    public void testSearchAndZipWhenSearchedTextIsEmptyString() {
         //GIVEN
         //WHEN
         underTest.searchAndZip("", response);
@@ -108,7 +108,7 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void testSearchAndZipWhenSearchedTextIsNull() throws IOException {
+    public void testSearchAndZipWhenSearchedTextIsNull() {
         //GIVEN
         //WHEN
         underTest.searchAndZip(null, response);
@@ -118,17 +118,17 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void testSearchAndZipWhenQueryIsNotValid() throws IOException {
+    public void testSearchAndZipWhenQueryIsNotValid() {
         //GIVEN
         given(luceneEngine.search("test")).willThrow(new QueryCannotBeParsedException("Parse Exception"));
         //WHEN
         underTest.searchAndZip("test", response);
         //THEN
-        verify(fileZipper).createZipWithFiles(new ArrayList<List<String>>(), outputStream);
+        verify(fileZipper).createZipWithFiles(new ArrayList<>(), outputStream);
     }
 
     @Test
-    public void testSearchForFilesWhenSearchedTextIsNotEmpty() throws IOException {
+    public void testSearchForFilesWhenSearchedTextIsNotEmpty() {
         //GIVEN
         //WHEN
         underTest.searchForFiles("test", session);
@@ -139,7 +139,7 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void testSearchForFilesWhenSearchedTextIsEmptyString() throws IOException {
+    public void testSearchForFilesWhenSearchedTextIsEmptyString() {
         //GIVEN
         //WHEN
         underTest.searchForFiles("", session);
@@ -150,7 +150,7 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void testSearchForFilesWhenSearchedTextIsNull() throws IOException {
+    public void testSearchForFilesWhenSearchedTextIsNull() {
         //GIVEN
         //WHEN
         underTest.searchForFiles(null, session);
@@ -161,38 +161,38 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void testSearchForFilesWhenIndexIsNotReady() throws IOException {
+    public void testSearchForFilesWhenIndexIsNotReady() {
         //GIVEN
         given(indexStatus.isReady()).willReturn(false);
         //WHEN
         ResponseEntity<String> result = underTest.searchForFiles("test", session);
         //THEN
-        Assert.assertEquals(result.getStatusCode(), HttpStatus.PARTIAL_CONTENT);
+        assertEquals(result.getStatusCode(), HttpStatus.PARTIAL_CONTENT);
         verify(luceneEngine).search("test");
         verify(fileChecker).checkFilesExistsWithPairs(lucineResult);
         verify(session).setAttribute("searchResult", listOfLists);
     }
 
     @Test
-    public void testSearchForFilesWhenIndexIsReady() throws IOException {
+    public void testSearchForFilesWhenIndexIsReady() {
         //GIVEN
         given(indexStatus.isReady()).willReturn(true);
         //WHEN
         ResponseEntity<String> result = underTest.searchForFiles("test", session);
         //THEN
-        Assert.assertEquals(result.getStatusCode(), HttpStatus.CREATED);
+        assertEquals(result.getStatusCode(), HttpStatus.CREATED);
         verify(luceneEngine).search("test");
         verify(fileChecker).checkFilesExistsWithPairs(lucineResult);
         verify(session).setAttribute("searchResult", listOfLists);
     }
 
     @Test
-    public void testSearchForFilesWhenQueryIsNotValid() throws IOException {
+    public void testSearchForFilesWhenQueryIsNotValid() {
         //GIVEN
         given(luceneEngine.search("test")).willThrow(new QueryCannotBeParsedException("Parse Exception"));
         //WHEN
         ResponseEntity<String> result = underTest.searchForFiles("test", session);
         //THEN
-        Assert.assertEquals(result.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(result.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 }

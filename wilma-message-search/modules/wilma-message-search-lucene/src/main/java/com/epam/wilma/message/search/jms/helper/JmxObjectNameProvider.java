@@ -27,8 +27,8 @@ import com.epam.wilma.message.search.jms.exception.JmxConnectionException;
 
 /**
  * Provides JMX ObjectNames.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 @Component
 public class JmxObjectNameProvider {

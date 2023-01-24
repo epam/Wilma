@@ -20,12 +20,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.domain.stubconfig.StubDescriptorAttributes;
-import com.epam.wilma.domain.stubconfig.dialog.DialogDescriptor;
-import com.epam.wilma.domain.stubconfig.interceptor.InterceptorDescriptor;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -34,13 +31,17 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * Provides unit tests for the class {@link ChangeStatusCommand}.
  *
  * @author Tibor_Kovacs
  */
 public class ChangeStatusCommandTest {
-    private static final String GROUPNAME_FIRST = "First";
+    private static final String GROUP_NAME_FIRST = "First";
     private Map<String, StubDescriptor> normalStubDescriptors;
     private StubDescriptorAttributes attributes;
 
@@ -52,46 +53,46 @@ public class ChangeStatusCommandTest {
 
     private ChangeStatusCommand underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         normalStubDescriptors = new LinkedHashMap<>();
-        attributes = new StubDescriptorAttributes(GROUPNAME_FIRST);
-        stubDescriptor = new StubDescriptor(attributes, new ArrayList<DialogDescriptor>(), new ArrayList<InterceptorDescriptor>(), null);
-        normalStubDescriptors.put(GROUPNAME_FIRST, stubDescriptor);
+        attributes = new StubDescriptorAttributes(GROUP_NAME_FIRST);
+        stubDescriptor = new StubDescriptor(attributes, new ArrayList<>(), new ArrayList<>(), null);
+        normalStubDescriptors.put(GROUP_NAME_FIRST, stubDescriptor);
     }
 
     @Test
     public void testSetStatusShouldDisableTheSelectedStubDescriptor() {
         //GIVEN in setUp
         normalStubDescriptors = new LinkedHashMap<>();
-        attributes = new StubDescriptorAttributes(GROUPNAME_FIRST, true);
-        stubDescriptor = new StubDescriptor(attributes, new ArrayList<DialogDescriptor>(), new ArrayList<InterceptorDescriptor>(), null);
-        normalStubDescriptors.put(GROUPNAME_FIRST, stubDescriptor);
+        attributes = new StubDescriptorAttributes(GROUP_NAME_FIRST, true);
+        stubDescriptor = new StubDescriptor(attributes, new ArrayList<>(), new ArrayList<>(), null);
+        normalStubDescriptors.put(GROUP_NAME_FIRST, stubDescriptor);
         //WHEN
-        underTest = new ChangeStatusCommand(false, GROUPNAME_FIRST, request, urlAccessLogMessageAssembler);
+        underTest = new ChangeStatusCommand(false, GROUP_NAME_FIRST, request, urlAccessLogMessageAssembler);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);
         //THEN
-        StubDescriptor resultDescriptor = result.get(GROUPNAME_FIRST);
-        Assert.assertNotNull(resultDescriptor);
+        StubDescriptor resultDescriptor = result.get(GROUP_NAME_FIRST);
+        assertNotNull(resultDescriptor);
         boolean resultAttribute = resultDescriptor.getAttributes().isActive();
-        Assert.assertFalse(resultAttribute);
+        assertFalse(resultAttribute);
     }
 
     @Test
     public void testSetStatusShouldEnableTheSelectedStubDescriptor() {
         //GIVEN in setUp
         normalStubDescriptors = new LinkedHashMap<>();
-        attributes = new StubDescriptorAttributes(GROUPNAME_FIRST, false);
-        stubDescriptor = new StubDescriptor(attributes, new ArrayList<DialogDescriptor>(), new ArrayList<InterceptorDescriptor>(), null);
-        normalStubDescriptors.put(GROUPNAME_FIRST, stubDescriptor);
+        attributes = new StubDescriptorAttributes(GROUP_NAME_FIRST, false);
+        stubDescriptor = new StubDescriptor(attributes, new ArrayList<>(), new ArrayList<>(), null);
+        normalStubDescriptors.put(GROUP_NAME_FIRST, stubDescriptor);
         //WHEN
-        underTest = new ChangeStatusCommand(true, GROUPNAME_FIRST, request, urlAccessLogMessageAssembler);
+        underTest = new ChangeStatusCommand(true, GROUP_NAME_FIRST, request, urlAccessLogMessageAssembler);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);
         //THEN
-        StubDescriptor resultDescriptor = result.get(GROUPNAME_FIRST);
-        Assert.assertNotNull(resultDescriptor);
+        StubDescriptor resultDescriptor = result.get(GROUP_NAME_FIRST);
+        assertNotNull(resultDescriptor);
         boolean resultAttribute = resultDescriptor.getAttributes().isActive();
-        Assert.assertTrue(resultAttribute);
+        assertTrue(resultAttribute);
     }
 }

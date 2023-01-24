@@ -36,8 +36,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Class for compressing files into one file using ZIP.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 @Component
 public class FileZipper {

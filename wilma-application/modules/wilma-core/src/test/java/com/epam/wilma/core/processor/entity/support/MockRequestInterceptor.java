@@ -24,8 +24,8 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 /**
  * Mock {@link RequestInterceptor} for testing purpose.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class MockRequestInterceptor implements RequestInterceptor {
 

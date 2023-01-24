@@ -20,8 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import com.epam.wilma.webapp.security.HostValidatorService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -62,13 +62,13 @@ public class HostBasedUrlAccessSecurityFilterTest {
     @Mock
     private PrintWriter printWriter;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testdoFilterShouldPassRequestResponseToChainIfIsAdmin() throws IOException, ServletException {
+    public void testDoFilterShouldPassRequestResponseToChainIfIsAdmin() throws IOException, ServletException {
         //GIVEN
         given(hostValidatorService.isRequestFromAdmin(servletRequest)).willReturn(true);
         //WHEN
@@ -78,7 +78,7 @@ public class HostBasedUrlAccessSecurityFilterTest {
     }
 
     @Test
-    public void testdoFilterShouldNotPassRequestResponseToChainIfNotAdmin() throws IOException, ServletException {
+    public void testDoFilterShouldNotPassRequestResponseToChainIfNotAdmin() throws IOException, ServletException {
         //GIVEN
         given(hostValidatorService.isRequestFromAdmin(servletRequest)).willReturn(false);
         given(servletResponse.getWriter()).willReturn(printWriter);
@@ -89,7 +89,7 @@ public class HostBasedUrlAccessSecurityFilterTest {
     }
 
     @Test
-    public void testdoFilterShouldWriteErrorToResponseIfNotAdmin() throws IOException, ServletException {
+    public void testDoFilterShouldWriteErrorToResponseIfNotAdmin() throws IOException, ServletException {
         //GIVEN
         given(hostValidatorService.isRequestFromAdmin(servletRequest)).willReturn(false);
         given(servletResponse.getWriter()).willReturn(printWriter);

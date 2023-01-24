@@ -22,14 +22,15 @@ import com.epam.wilma.common.helper.CronTriggerFactory;
 import com.epam.wilma.domain.exception.SchedulingCannotBeStartedException;
 import com.epam.wilma.sequence.maintainer.configuration.SequenceMaintainerConfigurationAccess;
 import com.epam.wilma.sequence.maintainer.configuration.domain.SequenceProperties;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -57,9 +58,9 @@ public class SequenceMaintainerTest {
     @InjectMocks
     private SequenceMaintainer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(configurationAccess.getProperties()).willReturn(properties);
         given(properties.getCronExpression()).willReturn(CRON_EXPRESSION);
     }
@@ -75,14 +76,16 @@ public class SequenceMaintainerTest {
         verify(taskScheduler).schedule(maintainerTask, cronTrigger);
     }
 
-    @Test(expected = SchedulingCannotBeStartedException.class)
+    @Test
     public void testStartSchedulingShouldThrowException() {
-        // GIVEN
-        given(cronTriggerFactory.createCronTrigger(CRON_EXPRESSION)).willReturn(cronTrigger);
-        Whitebox.setInternalState(underTest, "maintainerTask", null);
-        // WHEN
-        underTest.startScheduling();
-        // THEN EXPECT AN EXCEPTION
+        Assertions.assertThrows(SchedulingCannotBeStartedException.class, () -> {
+            // GIVEN
+            given(cronTriggerFactory.createCronTrigger(CRON_EXPRESSION)).willReturn(cronTrigger);
+            ReflectionTestUtils.setField(underTest, "maintainerTask", null);
+            // WHEN
+            underTest.startScheduling();
+            // THEN EXPECT AN EXCEPTION
+        });
     }
 
 }

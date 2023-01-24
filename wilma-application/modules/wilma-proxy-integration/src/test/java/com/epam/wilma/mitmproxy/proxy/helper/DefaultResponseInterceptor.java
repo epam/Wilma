@@ -12,13 +12,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * It logs every response that is intercepted.
  *
  * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ *
  * @author Tamas_Kohegyi
  */
 public class DefaultResponseInterceptor implements ResponseInterceptor {
 
     private final Logger logger = LoggerFactory.getLogger(DefaultResponseInterceptor.class);
 
-    private AtomicInteger responseCount;
+    private final AtomicInteger responseCount;
 
     public DefaultResponseInterceptor(AtomicInteger responseCount) {
         this.responseCount = responseCount;

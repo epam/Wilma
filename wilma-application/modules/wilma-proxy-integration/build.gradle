@@ -34,8 +34,6 @@ dependencies {
         exclude(group: 'org.slf4j', module: 'jcl-over-slf4j')
         exclude(group: 'org.slf4j', module: 'jul-to-slf4j')
     }
-
-    testImplementation "junit:junit:${jUnitVersion}"
     testImplementation "$googleGuavaApi"
     testImplementation (group: 'io.netty', name: 'netty-all', version:"${nettyVersion}")
     testImplementation group: 'org.eclipse.jetty', name: 'jetty-server', version:"${jettyVersion}"

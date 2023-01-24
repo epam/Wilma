@@ -29,17 +29,18 @@ import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.router.helper.DialogDescriptorFactory;
 import com.epam.wilma.router.helper.ResponseDescriptorDtoFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -78,9 +79,9 @@ public class StubModeEvaluatorTest {
     @InjectMocks
     private StubModeEvaluator underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         stubDescriptors = new LinkedHashMap<>();
         stubDescriptors.put(DEFAULT_GROUPNAME, stubDescriptor);
         StubDescriptorAttributes attributes = new StubDescriptorAttributes(DEFAULT_GROUPNAME, true);
@@ -101,13 +102,13 @@ public class StubModeEvaluatorTest {
         ResponseDescriptorDTO result = underTest.getResponseDescriptorForStubMode(request, OperationMode.STUB);
         //THEN
         verify(responseDescriptorDtoFactory).modifyResponseDescriptorDTOForStubMode(request, responseDescriptorDTO);
-        Assert.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
     public void testGetResponseDescriptorForStubModeShouldReturnTheResponseDescriptorWhenOperationModeIsStubAndAtFirstCall() {
         //GIVEN
-        Whitebox.setInternalState(underTest, "dialogDescriptorForStub", null);
+        ReflectionTestUtils.setField(underTest, "dialogDescriptorForStub", null);
         given(dialogDescriptorFactory.createDialogDescriptorForStubMode(DIALOG_DESCRIPTOR_NAME_FOR_STUB_MODE)).willReturn(dialogDescriptor);
         given(responseDescriptorDtoFactory.createResponseDescriptorDTO(DEFAULT_GROUPNAME, dialogDescriptor)).willReturn(responseDescriptorDTO);
         given(responseDescriptorDTO.getResponseDescriptor()).willReturn(responseDescriptor);
@@ -118,7 +119,7 @@ public class StubModeEvaluatorTest {
         ResponseDescriptorDTO result = underTest.getResponseDescriptorForStubMode(request, OperationMode.STUB);
         //THEN
         verify(responseDescriptorDtoFactory).modifyResponseDescriptorDTOForStubMode(request, responseDescriptorDTO);
-        Assert.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -127,7 +128,7 @@ public class StubModeEvaluatorTest {
         //WHEN
         ResponseDescriptorDTO result = underTest.getResponseDescriptorForStubMode(request, OperationMode.WILMA);
         //THEN
-        Assert.assertNull(result);
+        assertNull(result);
     }
 
     @Test
@@ -136,7 +137,7 @@ public class StubModeEvaluatorTest {
         //WHEN
         ResponseDescriptorDTO result = underTest.getResponseDescriptorForStubMode(request, OperationMode.PROXY);
         //THEN
-        Assert.assertNull(result);
+        assertNull(result);
     }
 
 }

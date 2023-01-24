@@ -21,12 +21,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 import com.epam.wilma.webapp.configuration.domain.Readme;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -59,13 +59,13 @@ public class WilmaReadmeServletTest {
     @InjectMocks
     private WilmaReadmeServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         String readmeUrl = "url";
         String readmeText = "text";
         readme = new Readme(readmeUrl, readmeText);
-        Whitebox.setInternalState(underTest, "webAppConfigurationAccess", webAppConfigurationAccess);
+        ReflectionTestUtils.setField(underTest, "webAppConfigurationAccess", webAppConfigurationAccess);
         given(response.getWriter()).willReturn(writer);
         given(webAppConfigurationAccess.getProperties()).willReturn(properties);
         given(properties.getReadme()).willReturn(readme);

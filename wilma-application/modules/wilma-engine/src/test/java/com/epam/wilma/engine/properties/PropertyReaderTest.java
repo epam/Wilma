@@ -19,15 +19,15 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.properties.PropertyHolder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Properties;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Provides unit tests for the class {@link PropertyReader}.
@@ -41,12 +41,12 @@ public class PropertyReaderTest {
     @InjectMocks
     private PropertyReader underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         properties = new Properties();
         PropertyHolder propertyHolder = new PropertyHolder();
-        Whitebox.setInternalState(underTest, "propertyHolder", propertyHolder);
+        ReflectionTestUtils.setField(underTest, "propertyHolder", propertyHolder);
     }
 
     @Test
@@ -57,7 +57,8 @@ public class PropertyReaderTest {
         //WHEN
         underTest.setProperties(properties);
         //THEN
-        PropertyHolder actual = (PropertyHolder) Whitebox.getInternalState(underTest, "propertyHolder");
+        PropertyHolder actual = (PropertyHolder) ReflectionTestUtils.getField(underTest, "propertyHolder");
+        assert actual != null;
         assertEquals("stub", actual.get("switch"));
         assertEquals(Integer.valueOf(1234), actual.getInt("proxy.port"));
     }

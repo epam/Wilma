@@ -22,9 +22,8 @@ import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.sequence.SequenceManager;
 import com.epam.wilma.webapp.service.command.DropCommand;
 import com.epam.wilma.webapp.service.external.ServiceMap;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -32,6 +31,7 @@ import org.mockito.MockitoAnnotations;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -41,7 +41,7 @@ import static org.mockito.Mockito.verify;
  * @author Tibor_Kovacs
  */
 public class StubConfigurationDropperServiceTest {
-    private static final String GROUPNAME_FIRST = "First";
+    private static final String GROUP_NAME_FIRST = "First";
 
     @Mock
     private SequenceManager sequenceManager;
@@ -55,21 +55,21 @@ public class StubConfigurationDropperServiceTest {
     @InjectMocks
     private StubConfigurationDropperService underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     public void testDropSelectedStubConfigurationShouldCallTheTwoMethod() throws ClassNotFoundException {
         //GIVEN in setUp
         //WHEN
-        underTest.dropSelectedStubConfiguration(GROUPNAME_FIRST, request);
+        underTest.dropSelectedStubConfiguration(GROUP_NAME_FIRST, request);
         //THEN
         ArgumentCaptor<DropCommand> argument = ArgumentCaptor.forClass(DropCommand.class);
-        verify(sequenceManager).removeSequenceDescriptors(GROUPNAME_FIRST);
+        verify(sequenceManager).removeSequenceDescriptors(GROUP_NAME_FIRST);
         verify(routingService, times(1)).performModification(argument.capture());
-        Assert.assertEquals(GROUPNAME_FIRST, argument.getValue().getGroupName());
-        Assert.assertEquals(request, argument.getValue().getRequest());
+        assertEquals(GROUP_NAME_FIRST, argument.getValue().getGroupName());
+        assertEquals(request, argument.getValue().getRequest());
     }
 }

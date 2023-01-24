@@ -23,8 +23,9 @@ import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -34,7 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -61,9 +62,9 @@ public class TemplateFileReaderTest {
     @InjectMocks
     private TemplateFileReader underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -81,7 +82,7 @@ public class TemplateFileReaderTest {
     }
 
     @Test
-    public void testReadTemplateShouldReturnWithResourceWhenStubResourceHolderDoesntContainTemplateYet() throws IOException {
+    public void testReadTemplateShouldReturnWithResourceWhenStubResourceHolderDoesNotContainTemplateYet() throws IOException {
         //GIVEN
         given(stubResourceHolder.getTemplates()).willReturn(templatesMap);
         given(templatesMap.containsKey(RESOURCE_NAME)).willReturn(false);
@@ -96,15 +97,17 @@ public class TemplateFileReaderTest {
         assertEquals(a, expected);
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
-    public void testReadTemplateShouldThrowExceptionWhenTheSpecifiedTemplateDoesntExist() throws IOException {
-        //GIVEN
-        given(stubResourceHolder.getTemplates()).willReturn(templatesMap);
-        given(templatesMap.containsKey(RESOURCE_NAME)).willReturn(false);
-        given(fileFactory.createFile(Mockito.anyString())).willReturn(file);
-        given(fileUtils.getFileAsByteArray(file)).willThrow(new IOException());
-        //WHEN
-        underTest.readTemplate(RESOURCE_NAME);
-        //THEN exception is thrown
+    @Test
+    public void testReadTemplateShouldThrowExceptionWhenTheSpecifiedTemplateDoesNotExist() {
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            given(stubResourceHolder.getTemplates()).willReturn(templatesMap);
+            given(templatesMap.containsKey(RESOURCE_NAME)).willReturn(false);
+            given(fileFactory.createFile(Mockito.anyString())).willReturn(file);
+            given(fileUtils.getFileAsByteArray(file)).willThrow(new IOException());
+            //WHEN
+            underTest.readTemplate(RESOURCE_NAME);
+            //THEN exception is thrown
+        });
     }
 }

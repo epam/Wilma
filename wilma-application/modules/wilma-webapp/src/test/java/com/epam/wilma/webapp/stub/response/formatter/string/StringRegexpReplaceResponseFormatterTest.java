@@ -22,13 +22,14 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.webapp.domain.exception.ResponseFormattingFailedException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Provides unit tests for the class {@link StringRegexpReplaceResponseFormatter}.
@@ -46,7 +47,7 @@ public class StringRegexpReplaceResponseFormatterTest {
     private HttpServletResponse response;
     private StringRegexpReplaceResponseFormatter underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         parameterList = new ParameterList();
         underTest = new StringRegexpReplaceResponseFormatter();
@@ -90,14 +91,16 @@ public class StringRegexpReplaceResponseFormatterTest {
         assertEquals(actual, templateResource);
     }
 
-    @Test(expected = ResponseFormattingFailedException.class)
-    public void testFormatTemplateWhenRegexpSyntaxIncorrectShouldThrowException() throws Exception {
-        //GIVEN
-        templateResource = "123 this is a test template 123".getBytes();
-        parameterList.addParameter(new Parameter("{0-2}+", "HELLO"));
-        //WHEN
-        underTest.formatResponse(request, response, templateResource, parameterList);
-        //THEN
+    @Test
+    public void testFormatTemplateWhenRegexpSyntaxIncorrectShouldThrowException() {
+        Assertions.assertThrows(ResponseFormattingFailedException.class, () -> {
+            //GIVEN
+            templateResource = "123 this is a test template 123".getBytes();
+            parameterList.addParameter(new Parameter("{0-2}+", "HELLO"));
+            //WHEN
+            underTest.formatResponse(request, response, templateResource, parameterList);
+            //THEN
+        });
     }
 
 }

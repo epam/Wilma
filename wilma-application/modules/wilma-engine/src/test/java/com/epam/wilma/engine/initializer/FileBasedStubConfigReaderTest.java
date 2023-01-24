@@ -21,8 +21,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.engine.configuration.EngineConfigurationAccess;
 import com.epam.wilma.engine.configuration.domain.PropertyDTO;
 import com.epam.wilma.stubconfig.cache.cleaner.helper.StubConfigPathProvider;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -52,15 +52,13 @@ public class FileBasedStubConfigReaderTest {
     @Mock
     private StubConfigPathProvider cachePathProvider;
 
-    private List<String> filePaths;
-
     @InjectMocks
     private FileBasedStubConfigReader underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        filePaths = new ArrayList<>();
+        MockitoAnnotations.openMocks(this);
+        List<String> filePaths = new ArrayList<>();
         given(configurationAccess.getProperties()).willReturn(properties);
         given(properties.getStubConfigFolderPath()).willReturn(DESCRIPTOR_PATH);
         given(properties.getStubConfigPattern()).willReturn(DESCRIPTOR_PATTERN);

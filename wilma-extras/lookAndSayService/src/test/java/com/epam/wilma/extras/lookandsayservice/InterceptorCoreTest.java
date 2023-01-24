@@ -18,21 +18,21 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for InterceptorCore class.
  *
- * @author tkohegyi
+ * @author Tamas_Kohegyi
  */
 public class InterceptorCoreTest {
 
     private InterceptorCore underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = new InterceptorCore();
     }
@@ -40,37 +40,37 @@ public class InterceptorCoreTest {
     @Test
     public void testMinimumCall() {
         String response = underTest.handleIteration("");
-        assertTrue(response.length() == 0);
+        assertEquals(0, response.length());
     }
 
     @Test
     public void test1() {
         String response = underTest.handleIteration("1");
-        assertTrue("11".equals(response));
+        assertEquals("11", response);
     }
 
     @Test
     public void test11() {
         String response = underTest.handleIteration("11");
-        assertTrue("21".equals(response));
+        assertEquals("21", response);
     }
 
     @Test
     public void test21() {
         String response = underTest.handleIteration("21");
-        assertTrue("1211".equals(response));
+        assertEquals("1211", response);
     }
 
     @Test
     public void test1211() {
         String response = underTest.handleIteration("1211");
-        assertTrue("111221".equals(response));
+        assertEquals("111221", response);
     }
 
     @Test
     public void test1971() {
         String response = underTest.handleIteration("1971");
-        assertTrue("11191711".equals(response));
+        assertEquals("11191711", response);
     }
 
 }

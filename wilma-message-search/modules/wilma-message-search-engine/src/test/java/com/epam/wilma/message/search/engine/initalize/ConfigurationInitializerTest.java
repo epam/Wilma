@@ -23,13 +23,13 @@ import com.epam.wilma.message.search.configuration.ConfigurationAccessBase;
 import com.epam.wilma.message.search.engine.bootstrap.StartUpMessageGenerator;
 import com.epam.wilma.message.search.engine.properties.PropertyLoader;
 import com.epam.wilma.message.search.lucene.index.scheduler.IndexTaskScheduler;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,11 +61,11 @@ public class ConfigurationInitializerTest {
     @Mock
     private IndexTaskScheduler indexTaskScheduler;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(applicationContext.getBean("indexTaskScheduler", IndexTaskScheduler.class)).willReturn(indexTaskScheduler);
-        Whitebox.setInternalState(underTest, "configurationAccesses", new ArrayList<ConfigurationAccessBase>());
+        ReflectionTestUtils.setField(underTest, "configurationAccesses", new ArrayList<ConfigurationAccessBase>());
     }
 
     @Test
@@ -118,7 +118,7 @@ public class ConfigurationInitializerTest {
         //GIVEN
         List<ConfigurationAccessBase> configAccesses = new ArrayList<>();
         configAccesses.add(configAccess);
-        Whitebox.setInternalState(underTest, "configurationAccesses", configAccesses);
+        ReflectionTestUtils.setField(underTest, "configurationAccesses", configAccesses);
         //WHEN
         underTest.afterPropertiesSet();
         //THEN

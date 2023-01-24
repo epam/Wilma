@@ -20,9 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -31,14 +30,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Provides unit tests for the class {@link DropCommand}.
  *
  * @author Tibor_Kovacs
  */
 public class DropCommandTest {
-    private static final String GROUPNAME_FIRST = "First";
-    private static final String GROUPNAME_SECOND = "Second";
+    private static final String GROUP_NAME_FIRST = "First";
+    private static final String GROUP_NAME_SECOND = "Second";
 
     private Map<String, StubDescriptor> normalStubDescriptors;
 
@@ -51,24 +52,24 @@ public class DropCommandTest {
 
     private DropCommand underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         normalStubDescriptors = new LinkedHashMap<>();
-        normalStubDescriptors.put(GROUPNAME_FIRST, stubDescriptor);
-        normalStubDescriptors.put(GROUPNAME_SECOND, stubDescriptor);
+        normalStubDescriptors.put(GROUP_NAME_FIRST, stubDescriptor);
+        normalStubDescriptors.put(GROUP_NAME_SECOND, stubDescriptor);
     }
 
     @Test
     public void testDropShouldRemoveTheSelectedStubConfiguration() {
         //GIVEN in setUp
         Map<String, StubDescriptor> expected = normalStubDescriptors;
-        expected.remove(GROUPNAME_FIRST);
+        expected.remove(GROUP_NAME_FIRST);
         //WHEN
-        underTest = new DropCommand(GROUPNAME_FIRST, request, urlAccessLogMessageAssembler);
+        underTest = new DropCommand(GROUP_NAME_FIRST, request, urlAccessLogMessageAssembler);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);
         //THEN
-        Assert.assertEquals(result, expected);
+        assertEquals(result, expected);
     }
 
     @Test
@@ -79,6 +80,6 @@ public class DropCommandTest {
         underTest = new DropCommand("test", request, urlAccessLogMessageAssembler);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);
         //THEN
-        Assert.assertEquals(result, expected);
+        assertEquals(result, expected);
     }
 }

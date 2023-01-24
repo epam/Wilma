@@ -23,12 +23,12 @@ import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.mitmproxy.transformer.HttpRequestTransformer;
 import com.epam.wilma.mitmproxy.transformer.MitmProxyRequestUpdater;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import website.magyar.mitm.proxy.http.MitmJavaProxyHttpRequest;
 import org.slf4j.Logger;
 
@@ -67,10 +67,10 @@ public class MitmProxyRequestInterceptorTest {
     @InjectMocks
     private MitmProxyRequestInterceptor underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
     }
 
     @Test

@@ -20,12 +20,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.message.search.web.domain.exception.ServerException;
 import org.eclipse.jetty.server.Server;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -40,17 +41,17 @@ import static org.mockito.Mockito.verify;
  */
 public class WebAppServerTest {
 
-    private static final String EXCPEPTION_MESSAGE = "excpeption message";
+    private static final String EXCEPTION_MESSAGE = "exception message";
 
     @Mock
     private Server server;
 
     private WebAppServer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = Mockito.spy(new WebAppServer());
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -63,31 +64,35 @@ public class WebAppServerTest {
         verify(underTest).startJettyServer();
     }
 
-    @Test(expected = ServerException.class)
-    public void testStartShouldLogErrorWhenCannotStart() throws Exception {
-        //GIVEN
-        doThrow(new Exception()).when(underTest).startJettyServer();
-        //WHEN
-        underTest.start();
-        //THEN it should throw exception
+    @Test
+    public void testStartShouldLogErrorWhenCannotStart() {
+        Assertions.assertThrows(ServerException.class, () -> {
+            //GIVEN
+            doThrow(new Exception()).when(underTest).startJettyServer();
+            //WHEN
+            underTest.start();
+            //THEN it should throw exception
+        });
     }
 
-    @Test(expected = ServerException.class)
-    public void testStopShouldThrowExceptionWhenWebAppCanNotBeStopped() throws Exception {
-        //GIVEN
-        Whitebox.setInternalState(underTest, "server", server);
-        given(server.isStarted()).willReturn(true);
-        Exception e = new Exception(EXCPEPTION_MESSAGE);
-        doThrow(e).when(underTest).stopJettyServer();
-        //WHEN
-        underTest.stop();
-        //THEN it should throw exception
+    @Test
+    public void testStopShouldThrowExceptionWhenWebAppCanNotBeStopped() {
+        Assertions.assertThrows(ServerException.class, () -> {
+            //GIVEN
+            ReflectionTestUtils.setField(underTest, "server", server);
+            given(server.isStarted()).willReturn(true);
+            Exception e = new Exception(EXCEPTION_MESSAGE);
+            doThrow(e).when(underTest).stopJettyServer();
+            //WHEN
+            underTest.stop();
+            //THEN it should throw exception
+        });
     }
 
     @Test
     public void testStopShouldCallStopJettyServer() throws Exception {
         //GIVEN
-        Whitebox.setInternalState(underTest, "server", server);
+        ReflectionTestUtils.setField(underTest, "server", server);
         given(server.isStarted()).willReturn(true);
         doNothing().when(underTest).stopJettyServer();
         //WHEN
@@ -99,7 +104,7 @@ public class WebAppServerTest {
     @Test
     public void testStopShouldDoNothingWhenServerIsNull() throws Exception {
         //GIVEN
-        Whitebox.setInternalState(underTest, "server", null);
+        ReflectionTestUtils.setField(underTest, "server", null);
         //WHEN
         underTest.stop();
         //THEN
@@ -109,7 +114,7 @@ public class WebAppServerTest {
     @Test
     public void testStopShouldDoNothingWhenServerIsNotStarted() throws Exception {
         //GIVEN
-        Whitebox.setInternalState(underTest, "server", server);
+        ReflectionTestUtils.setField(underTest, "server", server);
         given(server.isStarted()).willReturn(false);
         //WHEN
         underTest.stop();

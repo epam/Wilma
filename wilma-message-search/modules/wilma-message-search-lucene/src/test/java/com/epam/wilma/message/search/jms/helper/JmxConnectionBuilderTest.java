@@ -19,8 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.message.search.jms.exception.JmxConnectionException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -31,7 +32,7 @@ import javax.management.remote.JMXServiceURL;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -60,10 +61,10 @@ public class JmxConnectionBuilderTest {
     @InjectMocks
     private JmxConnectionBuilder underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = spy(new JmxConnectionBuilder());
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -89,22 +90,26 @@ public class JmxConnectionBuilderTest {
         assertEquals(actual, serverConnection);
     }
 
-    @Test(expected = JmxConnectionException.class)
-    public void testBuildMBeanServerConnectionShouldThrowExceptionWhenMalformedUrl() throws IOException {
-        //GIVEN
-        given(urlFactory.createJmxServiceUrl(url)).willThrow(new MalformedURLException());
-        //WHEN
-        underTest.buildMBeanServerConnection(url);
-        //THEN it should throw exception
+    @Test
+    public void testBuildMBeanServerConnectionShouldThrowExceptionWhenMalformedUrl() {
+        Assertions.assertThrows(JmxConnectionException.class, () -> {
+            //GIVEN
+            given(urlFactory.createJmxServiceUrl(url)).willThrow(new MalformedURLException());
+            //WHEN
+            underTest.buildMBeanServerConnection(url);
+            //THEN it should throw exception
+        });
     }
 
-    @Test(expected = JmxConnectionException.class)
-    public void testBuildMBeanServerConnectionShouldThrowExceptionWhenCannotGetConnector() throws IOException {
-        //GIVEN
-        given(urlFactory.createJmxServiceUrl(url)).willReturn(jmxServiceUrl);
-        doThrow(new IOException()).when(underTest).getJmxConnector(jmxServiceUrl);
-        //WHEN
-        underTest.buildMBeanServerConnection(url);
-        //THEN it should throw exception
+    @Test
+    public void testBuildMBeanServerConnectionShouldThrowExceptionWhenCannotGetConnector() {
+        Assertions.assertThrows(JmxConnectionException.class, () -> {
+            //GIVEN
+            given(urlFactory.createJmxServiceUrl(url)).willReturn(jmxServiceUrl);
+            doThrow(new IOException()).when(underTest).getJmxConnector(jmxServiceUrl);
+            //WHEN
+            underTest.buildMBeanServerConnection(url);
+            //THEN it should throw exception
+        });
     }
 }

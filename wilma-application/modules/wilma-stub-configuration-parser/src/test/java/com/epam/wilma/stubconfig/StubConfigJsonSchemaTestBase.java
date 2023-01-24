@@ -48,12 +48,14 @@ public class StubConfigJsonSchemaTestBase {
     void loadStubConfigJsonSchemaTest() {
         String jsonSchemaPath = "../../../../StubConfig.json";
         InputStream inputStream = getClass().getResourceAsStream(jsonSchemaPath);
+        assert inputStream != null;
         JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
         underTest = SchemaLoader.load(rawSchema);
     }
 
     String givenStubConfigRequest(String jsonFileName) throws IOException {
         InputStream inputStream = getClass().getResourceAsStream(testFilePath + jsonFileName);
+        assert inputStream != null;
         return IOUtils.toString(inputStream);
     }
 

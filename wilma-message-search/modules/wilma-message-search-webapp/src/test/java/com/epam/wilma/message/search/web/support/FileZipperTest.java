@@ -30,8 +30,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FilenameUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -60,9 +60,9 @@ public class FileZipperTest {
 
     private List<List<String>> filePaths;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         filePaths = new ArrayList<>();
         given(zipOutputStreamFactory.createZipOutputStream(outputStream)).willReturn(zipOutputStream);
         given(entryFactory.createZipEntry(Mockito.anyString())).willReturn(zipEntry);
@@ -71,7 +71,7 @@ public class FileZipperTest {
     @Test
     public void testCreateZipWithFilesWhenFilePathsIsNotEmptyList() throws IOException {
         //GIVEN
-        List<String> pair = new ArrayList<String>();
+        List<String> pair = new ArrayList<>();
         pair.add("src/test/resources/first_testreq.txt");
         pair.add("src/test/resources/first_testresp.txt");
         filePaths.add(pair);
@@ -87,7 +87,7 @@ public class FileZipperTest {
     @Test
     public void testCreateZipWithFilesWhenFilePathContainsBackSlashes() throws IOException {
         //GIVEN
-        List<String> pair = new ArrayList<String>();
+        List<String> pair = new ArrayList<>();
         pair.add(FilenameUtils.separatorsToSystem("src\\test\\resources\\first_testreq.txt"));
         filePaths.add(pair);
         //WHEN
@@ -101,7 +101,7 @@ public class FileZipperTest {
     @Test
     public void testCreateZipWithFilesWhenFileNotExists() throws IOException {
         //GIVEN
-        List<String> pair = new ArrayList<String>();
+        List<String> pair = new ArrayList<>();
         pair.add("src\\test\\resources\\testreq.txt");
         filePaths.add(pair);
         //WHEN

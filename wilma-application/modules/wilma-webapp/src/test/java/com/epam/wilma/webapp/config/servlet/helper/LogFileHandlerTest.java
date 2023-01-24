@@ -22,8 +22,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.FileListJsonProperties;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -75,9 +75,9 @@ public class LogFileHandlerTest {
     @InjectMocks
     private LogFileHandler underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(response.getWriter()).willReturn(printWriter);
         given(inputStreamConverter.toString(fileInputStream)).willReturn(FILE_CONTENT);
     }

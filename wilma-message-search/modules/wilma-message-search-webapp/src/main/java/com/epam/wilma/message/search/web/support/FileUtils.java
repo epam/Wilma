@@ -26,8 +26,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Wrapper for {@link org.apache.commons.io.FileUtils}.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Component
 public class FileUtils {

@@ -2,6 +2,7 @@ package com.epam.wilma.mitmproxy.proxy.helper;
 
 /**
  * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ *
  * @author Tamas_Kohegyi
  */
 

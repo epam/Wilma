@@ -26,27 +26,28 @@ import com.epam.wilma.safeguard.configuration.domain.QueueSizeProvider;
 import com.epam.wilma.safeguard.configuration.domain.SafeguardLimits;
 import com.epam.wilma.safeguard.monitor.helper.JmxConnectionBuilder;
 import com.epam.wilma.safeguard.monitor.helper.JmxObjectNameProvider;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 /**
  * Provides tests for the class {@link JmsQueueMonitorTask}.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class JmsQueueMonitorTaskTest {
 
@@ -77,10 +78,10 @@ public class JmsQueueMonitorTaskTest {
     @Mock
     private QueueSizeProvider queueSizeProvider;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         given(configurationAccess.getProperties()).willReturn(propertyDTO);
         given(propertyDTO.getSafeguardLimits()).willReturn(new SafeguardLimits(100L, 60L, 200L, 80L, "1099"));
     }
@@ -88,8 +89,8 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldSwitchOnlyFIOffWhenFIOffLimitExceededButMWOffLimitNotExceeded() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", true);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", true);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
@@ -106,8 +107,8 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldSwitchFIAndMWOffWhenFIAndMwOffLimitExceeded() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", true);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", true);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(191L);
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
@@ -124,8 +125,8 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldNotSwitchOffAnythingWhenLimitsAreNotExceeded() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", true);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", true);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(11L);
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
@@ -140,10 +141,10 @@ public class JmsQueueMonitorTaskTest {
     }
 
     @Test
-    public final void testRunShouldntSwitchOnAnythingWhenQueueSizeDidntDropBelowAnyLimit() throws Exception {
+    public final void testRunShouldNotSwitchOnAnythingWhenQueueSizeDidNotDropBelowAnyLimit() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", false);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", false);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", false);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", false);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(111L);
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
@@ -160,8 +161,8 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldSwitchMWOnWhenQueueSizeDroppedBelowMWLimit() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", false);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", false);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", false);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", false);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(58L);
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
@@ -178,8 +179,8 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldSwitchMWAndFIOnWhenQueueSizeDroppedBelowFILimit() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", false);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", false);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", false);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", false);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(2L);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(3L);
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
@@ -193,40 +194,44 @@ public class JmsQueueMonitorTaskTest {
         verify(logger).info("Due to Normal load, FI decompression is restored.");
     }
 
-    @Test(expected = SystemException.class)
-    public final void testRunShouldThrowExceptionWhenQueueSizeCannotBeRetrieved() throws Exception {
-        // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willThrow(new AttributeNotFoundException());
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
-        // WHEN
-        underTest.run();
-        // THEN exception is thrown
+    @Test
+    public final void testRunShouldThrowExceptionWhenQueueSizeCannotBeRetrieved() {
+        Assertions.assertThrows(SystemException.class, () -> {
+            // GIVEN
+            ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", true);
+            ReflectionTestUtils.setField(underTest, "messageWritingEnabled", true);
+            given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willThrow(new AttributeNotFoundException());
+            given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
+            given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+            given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willReturn(0);
+            // WHEN
+            underTest.run();
+            // THEN exception is thrown
+        });
     }
 
-    @Test(expected = SystemException.class)
-    public final void testRunShouldThrowExceptionWhenMemoryUsageCannotBeRetrieved() throws Exception {
-        // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
-        given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(2L);
-        given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
-        given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
-        given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willThrow(new AttributeNotFoundException());
-        // WHEN
-        underTest.run();
-        // THEN exception is thrown
+    @Test
+    public final void testRunShouldThrowExceptionWhenMemoryUsageCannotBeRetrieved() {
+        Assertions.assertThrows(SystemException.class, () -> {
+            // GIVEN
+            ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", true);
+            ReflectionTestUtils.setField(underTest, "messageWritingEnabled", true);
+            given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(2L);
+            given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
+            given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
+            given(mBeanServerConnection.getAttribute(amqObject, "MemoryPercentUsage")).willThrow(new AttributeNotFoundException());
+            // WHEN
+            underTest.run();
+            // THEN exception is thrown
+        });
     }
 
     @Test
     public final void testRunShouldInitConnectionWhenLoggerQueueIsNull() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "loggerQueue", null);
+        ReflectionTestUtils.setField(underTest, "loggerQueue", null);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
-        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        ReflectionTestUtils.setField(underTest, "queueSizeProvider", queueSizeProvider);
         givenJmxConnectionBuilder();
         // WHEN
         underTest.run();
@@ -237,9 +242,9 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldInitConnectionWhenResponseQueueIsNull() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "responseQueue", null);
+        ReflectionTestUtils.setField(underTest, "responseQueue", null);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
-        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        ReflectionTestUtils.setField(underTest, "queueSizeProvider", queueSizeProvider);
         givenJmxConnectionBuilder();
         // WHEN
         underTest.run();
@@ -250,9 +255,9 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldInitConnectionWhenMBeanServerConnectionIsNull() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "mBeanServerConnection", null);
+        ReflectionTestUtils.setField(underTest, "mBeanServerConnection", null);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
-        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        ReflectionTestUtils.setField(underTest, "queueSizeProvider", queueSizeProvider);
         givenJmxConnectionBuilder();
         // WHEN
         underTest.run();
@@ -263,9 +268,9 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldInitConnectionWhenAmqObjectIsNull() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "amqObject", null);
+        ReflectionTestUtils.setField(underTest, "amqObject", null);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
-        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        ReflectionTestUtils.setField(underTest, "queueSizeProvider", queueSizeProvider);
         givenJmxConnectionBuilder();
         // WHEN
         underTest.run();
@@ -276,8 +281,8 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldSetQueueSizesIntoQueueSizeProvider() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", true);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", true);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
@@ -292,10 +297,10 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldSaveQueueSizesIntoQueueSizeProvider() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", true);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", true);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
-        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        ReflectionTestUtils.setField(underTest, "queueSizeProvider", queueSizeProvider);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(12L);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(91L);
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(0L);
@@ -303,19 +308,23 @@ public class JmsQueueMonitorTaskTest {
         // WHEN
         underTest.run();
         // THEN
-        long loggerQueueSize = ((QueueSizeProvider) Whitebox.getInternalState(underTest, "queueSizeProvider")).getLoggerQueueSize();
-        Assert.assertEquals(91, loggerQueueSize);
-        long responseQueueSize = ((QueueSizeProvider) Whitebox.getInternalState(underTest, "queueSizeProvider")).getResponseQueueSize();
-        Assert.assertEquals(12, responseQueueSize);
+        queueSizeProvider = (QueueSizeProvider) ReflectionTestUtils.getField(underTest, "queueSizeProvider");
+        assert queueSizeProvider != null;
+        long loggerQueueSize = queueSizeProvider.getLoggerQueueSize();
+        assertEquals(91, loggerQueueSize);
+        queueSizeProvider = (QueueSizeProvider) ReflectionTestUtils.getField(underTest, "queueSizeProvider");
+        assert queueSizeProvider != null;
+        long responseQueueSize = queueSizeProvider.getResponseQueueSize();
+        assertEquals(12, responseQueueSize);
     }
 
     @Test
     public final void testRunShouldPurgeDlqQueue() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", true);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", true);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
-        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        ReflectionTestUtils.setField(underTest, "queueSizeProvider", queueSizeProvider);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(0L);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(0L);
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(1L);
@@ -329,10 +338,10 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldRestartAmqWhenAmqMemoryIsFull() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", true);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", true);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
-        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        ReflectionTestUtils.setField(underTest, "queueSizeProvider", queueSizeProvider);
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(0L);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(0L);
         given(mBeanServerConnection.getAttribute(dlqQueue, "QueueSize")).willReturn(1L);
@@ -346,10 +355,10 @@ public class JmsQueueMonitorTaskTest {
     @Test
     public final void testRunShouldRestartAmqWhenTotalQueueSizeIsTooBig() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "fIDecompressionEnabled", true);
-        Whitebox.setInternalState(underTest, "messageWritingEnabled", true);
+        ReflectionTestUtils.setField(underTest, "fIDecompressionEnabled", true);
+        ReflectionTestUtils.setField(underTest, "messageWritingEnabled", true);
         QueueSizeProvider queueSizeProvider = new QueueSizeProvider();
-        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
+        ReflectionTestUtils.setField(underTest, "queueSizeProvider", queueSizeProvider);
         Long queueSizeIsTooBig = JmsQueueMonitorTask.MAX_MULTIPLIER_OF_MESSAGE_OFF_LIMIT * propertyDTO.getSafeguardLimits().getMwOffLimit() + 1;
         given(mBeanServerConnection.getAttribute(responseQueue, "QueueSize")).willReturn(queueSizeIsTooBig);
         given(mBeanServerConnection.getAttribute(loggerQueue, "QueueSize")).willReturn(0L);

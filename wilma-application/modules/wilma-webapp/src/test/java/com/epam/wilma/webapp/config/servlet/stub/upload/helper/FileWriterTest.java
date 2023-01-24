@@ -22,8 +22,9 @@ import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.webapp.config.servlet.helper.InputStreamUtil;
 import com.epam.wilma.webapp.domain.exception.CannotUploadExternalResourceException;
 import com.epam.wilma.webapp.stub.servlet.helper.ByteArrayInputStreamFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -79,9 +80,9 @@ public class FileWriterTest {
     @InjectMocks
     private FileWriter underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(fileFactory.createFile(FILE_NAME)).willReturn(file);
         given(inputStream.read(Mockito.any(byte[].class))).willReturn(1, -1);
     }
@@ -98,7 +99,7 @@ public class FileWriterTest {
     }
 
     @Test
-    public void testWriteWhenFileExistsShouldNotCreatNewFile() throws IOException {
+    public void testWriteWhenFileExistsShouldNotCreateNewFile() throws IOException {
         //GIVEN
         given(file.getParent()).willReturn(DIRECTORIES);
         given(fileOutputStreamFactory.createFileOutputStream(file)).willReturn(fileOutputStream);
@@ -143,14 +144,16 @@ public class FileWriterTest {
         verify(fileFactory.createFile(Mockito.anyString()), never()).mkdirs();
     }
 
-    @Test(expected = CannotUploadExternalResourceException.class)
-    public void testWriteWhenCannotWriteShouldThrowException() throws IOException {
-        //GIVEN
-        given(file.getParent()).willReturn(DIRECTORIES);
-        given(fileOutputStreamFactory.createFileOutputStream(file)).willThrow(new FileNotFoundException());
-        //WHEN
-        underTest.write(inputStream, FILE_NAME, EXCEPTION_MESSAGE);
-        //THEN it should throw exception
+    @Test
+    public void testWriteWhenCannotWriteShouldThrowException() {
+        Assertions.assertThrows(CannotUploadExternalResourceException.class, () -> {
+            //GIVEN
+            given(file.getParent()).willReturn(DIRECTORIES);
+            given(fileOutputStreamFactory.createFileOutputStream(file)).willThrow(new FileNotFoundException());
+            //WHEN
+            underTest.write(inputStream, FILE_NAME, EXCEPTION_MESSAGE);
+            //THEN it should throw exception
+        });
     }
 
     @Test
@@ -199,26 +202,30 @@ public class FileWriterTest {
         verify(file).exists();
     }
 
-    @Test(expected = CannotUploadExternalResourceException.class)
-    public void testWriteWhenFileIsAnInvalidJarFile() throws IOException {
-        //GIVEN
-        String fileName = "myjar.jar";
-        given(byteArrayInputStream.read(Mockito.any(byte[].class))).willReturn(1, -1);
-        given(inputStreamUtil.transformToByteArray(inputStream)).willReturn(FILE_AS_BYTES);
-        given(byteArrayInputStreamFactory.createByteArrayInputStream(FILE_AS_BYTES)).willReturn(byteArrayInputStream);
-        doThrow(new CannotUploadExternalResourceException(EXCEPTION_MESSAGE)).when(jarValidator).validateInputStream(byteArrayInputStream);
-        //WHEN
-        underTest.write(inputStream, fileName, EXCEPTION_MESSAGE);
-        //THEN error is thrown
+    @Test
+    public void testWriteWhenFileIsAnInvalidJarFile() {
+        Assertions.assertThrows(CannotUploadExternalResourceException.class, () -> {
+            //GIVEN
+            String fileName = "myjar.jar";
+            given(byteArrayInputStream.read(Mockito.any(byte[].class))).willReturn(1, -1);
+            given(inputStreamUtil.transformToByteArray(inputStream)).willReturn(FILE_AS_BYTES);
+            given(byteArrayInputStreamFactory.createByteArrayInputStream(FILE_AS_BYTES)).willReturn(byteArrayInputStream);
+            doThrow(new CannotUploadExternalResourceException(EXCEPTION_MESSAGE)).when(jarValidator).validateInputStream(byteArrayInputStream);
+            //WHEN
+            underTest.write(inputStream, fileName, EXCEPTION_MESSAGE);
+            //THEN error is thrown
+        });
     }
 
-    @Test(expected = CannotUploadExternalResourceException.class)
-    public void testWriteWhenFileIsAClassFileShouldThrowCannotUploadExternalResourceExceptionWhenTransformingFails() throws IOException {
-        //GIVEN
-        String fileName = "MyClass.class";
-        given(inputStreamUtil.transformToByteArray(inputStream)).willThrow(new IOException());
-        //WHEN
-        underTest.write(inputStream, fileName, EXCEPTION_MESSAGE);
-        //THEN error is thrown
+    @Test
+    public void testWriteWhenFileIsAClassFileShouldThrowCannotUploadExternalResourceExceptionWhenTransformingFails() {
+        Assertions.assertThrows(CannotUploadExternalResourceException.class, () -> {
+            //GIVEN
+            String fileName = "MyClass.class";
+            given(inputStreamUtil.transformToByteArray(inputStream)).willThrow(new IOException());
+            //WHEN
+            underTest.write(inputStream, fileName, EXCEPTION_MESSAGE);
+            //THEN error is thrown
+        });
     }
 }

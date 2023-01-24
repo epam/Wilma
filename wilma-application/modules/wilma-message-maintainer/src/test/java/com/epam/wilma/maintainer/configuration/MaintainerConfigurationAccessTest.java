@@ -21,13 +21,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
 import com.epam.wilma.properties.PropertyHolder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -46,9 +46,9 @@ public class MaintainerConfigurationAccessTest {
     @Mock
     private PropertyHolder propertyHolder;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(propertyHolder.get("log.maintainer.cron")).willReturn(EXPRESSION);
         given(propertyHolder.get("log.maintainer.method")).willReturn(MAINTAINER_METHOD);
         given(propertyHolder.getInt("log.maintainer.file.limit")).willReturn(FILE_LIMIT);

@@ -22,15 +22,15 @@ import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.messagemarker.configuration.MessageMarkerConfigurationAccess;
 import com.epam.wilma.messagemarker.configuration.domain.MessageMarkerRequest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 /**
  * Test class for {@link PropertyBasedMessageMarker}.
@@ -51,9 +51,9 @@ public class PropertyBasedMessageMarkerTest {
     @Mock
     private MessageMarkerRequest messageMarkerRequest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class PropertyBasedMessageMarkerTest {
         // WHEN
         underTest.markMessageHeader(request);
         // THEN
-        verifyZeroInteractions(request);
+        verifyNoInteractions(request);
     }
 
 }

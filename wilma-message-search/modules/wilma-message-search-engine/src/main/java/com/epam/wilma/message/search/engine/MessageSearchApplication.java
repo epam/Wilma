@@ -22,8 +22,8 @@ import com.epam.wilma.message.search.engine.bootstrap.MessageSearchBootstrap;
 
 /**
  * Starts the application.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public final class MessageSearchApplication {
 

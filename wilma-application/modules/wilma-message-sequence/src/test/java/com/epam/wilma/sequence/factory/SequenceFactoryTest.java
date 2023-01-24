@@ -22,15 +22,16 @@ import com.epam.wilma.common.helper.CurrentDateProvider;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.sequence.RequestResponsePair;
 import com.epam.wilma.domain.sequence.WilmaSequence;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.sql.Timestamp;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -48,9 +49,9 @@ public class SequenceFactoryTest {
     @InjectMocks
     private SequenceFactory underTest;
 
-    @Before
+    @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(dateProvider.getCurrentTimeInMillis()).willReturn(1000L);
     }
 
@@ -63,9 +64,9 @@ public class SequenceFactoryTest {
         //WHEN
         WilmaSequence result = underTest.createNewSequence(testKey, request, 1000L);
         //THEN
-        Assert.assertEquals(testKey, result.getSequenceKey());
-        Assert.assertFalse(result.isExpired(new Timestamp(1000L)));
+        assertEquals(testKey, result.getSequenceKey());
+        assertFalse(result.isExpired(new Timestamp(1000L)));
         RequestResponsePair firstPair = result.getPairs().get(loggerId);
-        Assert.assertEquals(request, firstPair.getRequest());
+        assertEquals(request, firstPair.getRequest());
     }
 }

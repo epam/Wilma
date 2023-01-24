@@ -20,8 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Holds module specific properties.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class PropertyDto {
 

@@ -25,8 +25,9 @@ import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
 import com.epam.wilma.webapp.configuration.domain.SequenceResponseGuardProperties;
 import com.epam.wilma.webapp.stub.response.exception.ResponseTimeoutException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -57,22 +58,24 @@ public class SequenceResponseGuardTest {
     @InjectMocks
     private SequenceResponseGuard underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         SequenceResponseGuardProperties properties = new SequenceResponseGuardProperties(3, 1);
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(stubbedRequest.getWilmaMessageId()).willReturn(LOGGER_ID);
         given(configurationAccess.getProperties()).willReturn(propertyDto);
         given(propertyDto.getSequenceResponseGuardProperties()).willReturn(properties);
     }
 
-    @Test(expected = ResponseTimeoutException.class)
-    public void testWhenResponsesCannotArriveInTimeThenExceptionIsThrown() throws InterruptedException {
-        //GIVEN
-        given(actualSequence.checkIfAllResponsesArrived(LOGGER_ID)).willReturn(false);
-        //WHEN
-        underTest.waitForResponses(stubbedRequest, actualSequence);
-        //THEN exception is thrown
+    @Test
+    public void testWhenResponsesCannotArriveInTimeThenExceptionIsThrown() {
+        Assertions.assertThrows(ResponseTimeoutException.class, () -> {
+            //GIVEN
+            given(actualSequence.checkIfAllResponsesArrived(LOGGER_ID)).willReturn(false);
+            //WHEN
+            underTest.waitForResponses(stubbedRequest, actualSequence);
+            //THEN exception is thrown
+        });
     }
 
     @Test

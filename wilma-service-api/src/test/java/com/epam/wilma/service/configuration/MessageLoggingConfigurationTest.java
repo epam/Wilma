@@ -23,17 +23,15 @@ import com.epam.wilma.service.domain.MessageLoggingControlStatus;
 import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static com.epam.wilma.service.domain.MessageLoggingControlStatus.OFF;
 import static com.epam.wilma.service.domain.MessageLoggingControlStatus.ON;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -57,7 +55,7 @@ public class MessageLoggingConfigurationTest {
 
     private MessageLoggingConfiguration messageLoggingConfiguration;
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -65,9 +63,11 @@ public class MessageLoggingConfigurationTest {
         messageLoggingConfiguration = new MessageLoggingConfiguration(config, client);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowExceptionWhenConfigIsMissing() {
-        new MessageLoggingConfiguration(null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new MessageLoggingConfiguration(null);
+        });
     }
 
     @Test
@@ -76,7 +76,7 @@ public class MessageLoggingConfigurationTest {
 
         MessageLoggingControlStatus result = messageLoggingConfiguration.getMessageLoggingStatus();
 
-        assertNull(result);
+        Assertions.assertNull(result);
         verify(client, never()).sendSetterRequest(anyString());
     }
 
@@ -86,7 +86,7 @@ public class MessageLoggingConfigurationTest {
 
         MessageLoggingControlStatus result = messageLoggingConfiguration.getMessageLoggingStatus();
 
-        assertTrue(result == MessageLoggingControlStatus.ON);
+        Assertions.assertTrue(result == MessageLoggingControlStatus.ON);
         verify(client, never()).sendSetterRequest(anyString());
     }
 
@@ -95,8 +95,8 @@ public class MessageLoggingConfigurationTest {
         when(client.sendSetterRequest(LOGGING_STATUS_SETTER_URL_ON)).thenReturn(true);
         when(client.sendSetterRequest(LOGGING_STATUS_SETTER_URL_OFF)).thenReturn(false);
 
-        assertTrue(messageLoggingConfiguration.setMessageLoggingStatus(ON));
-        assertFalse(messageLoggingConfiguration.setMessageLoggingStatus(OFF));
+        Assertions.assertTrue(messageLoggingConfiguration.setMessageLoggingStatus(ON));
+        Assertions.assertFalse(messageLoggingConfiguration.setMessageLoggingStatus(OFF));
         verify(client, never()).sendGetterRequest(anyString());
     }
 

@@ -24,22 +24,24 @@ import com.epam.wilma.mitmproxy.proxy.helper.DefaultRequestInterceptor;
 import com.epam.wilma.mitmproxy.proxy.helper.DefaultResponseInterceptor;
 import com.epam.wilma.mitmproxy.proxy.helper.ResponseInfo;
 import org.apache.http.HttpHost;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import website.magyar.mitm.proxy.ProxyServer;
 
 import javax.net.ssl.SSLContext;
 
 import java.security.NoSuchAlgorithmException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Tests just a single basic proxy running as a man in the middle.
+ *
+ * @author Tamas_Kohegyi
  */
 public class ExtraMitmProxyTest extends AbstractProxyTool {
 
-    private HttpHost externalHost = null;
     private final static String EXTERNAL_CALL = "/ok";
 
     @Override
@@ -59,13 +61,13 @@ public class ExtraMitmProxyTest extends AbstractProxyTool {
 
     @Test
     public void testSimpleGetRequestOverHTTPS() throws Exception {
-        externalHost = new HttpHost("127.0.0.1", 8443, "https");
+        HttpHost externalHost = new HttpHost("127.0.0.1", 8443, "https");
         try {
             httpGetWithApacheClient(externalHost, EXTERNAL_CALL, false, false, ContentEncoding.ANY);
         } catch (Exception e) {
             externalHost = null;
         }
-        org.junit.Assume.assumeTrue(externalHost != null);
+        assumeTrue(externalHost != null);
         ResponseInfo proxiedResponse = httpGetWithApacheClient(externalHost, EXTERNAL_CALL, true, false, ContentEncoding.ANY);
         assertEquals(200, proxiedResponse.getStatusCode());
         assertTrue(proxiedResponse.getBody().contains("Wilma Test Server"));

@@ -28,8 +28,8 @@ import org.springframework.stereotype.Component;
 /**
  * Indexes all text files under the given directory to the given folder
  * with using Lucene indexer mechanism.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 @Component
 public class LuceneIndexEngine {

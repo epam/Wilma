@@ -25,8 +25,9 @@ import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedExce
 import com.epam.wilma.stubconfig.condition.checker.general.header.HeaderParameterChecker;
 import com.epam.wilma.stubconfig.condition.checker.json.JsonSchemaChecker;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -37,7 +38,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -63,10 +64,10 @@ public class ConditionCheckerInitializerTest {
     @InjectMocks
     private ConditionCheckerInitializer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = Mockito.spy(new ConditionCheckerInitializer());
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         conditionCheckers = new ArrayList<>();
         given(stubResourceHolder.getConditionCheckers()).willReturn(conditionCheckers);
     }
@@ -130,14 +131,16 @@ public class ConditionCheckerInitializerTest {
         assertEquals(actual.getClass(), conditionChecker.getClass());
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
+    @Test
     public void testGetConditionCheckerWhenItDoesNotExistShouldThrowException() {
-        //GIVEN
-        given(stubResourcePathProvider.getConditionCheckerPathAsString()).willReturn(PATH);
-        given(externalInitializer.loadExternalClass(CHECKER_CLASS, PATH, ConditionChecker.class)).willThrow(
-                new DescriptorValidationFailedException(CHECKER_CLASS));
-        //WHEN
-        underTest.getExternalClassObject(CHECKER_CLASS);
-        //THEN it should throw exception
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            given(stubResourcePathProvider.getConditionCheckerPathAsString()).willReturn(PATH);
+            given(externalInitializer.loadExternalClass(CHECKER_CLASS, PATH, ConditionChecker.class)).willThrow(
+                    new DescriptorValidationFailedException(CHECKER_CLASS));
+            //WHEN
+            underTest.getExternalClassObject(CHECKER_CLASS);
+            //THEN it should throw exception
+        });
     }
 }

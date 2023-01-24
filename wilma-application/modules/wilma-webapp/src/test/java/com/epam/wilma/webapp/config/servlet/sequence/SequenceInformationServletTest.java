@@ -30,14 +30,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import com.epam.wilma.webapp.service.SequenceInformationCollector;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Units test for {@link SequenceInformationServlet}.
@@ -57,17 +57,17 @@ public class SequenceInformationServletTest {
     @Mock
     private PrintWriter printWriter;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "sequenceInformationCollector", sequenceInformationCollector);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "sequenceInformationCollector", sequenceInformationCollector);
     }
 
     @Test
     public void testDoGetShouldWriteJsonMessage() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
-        given(sequenceInformationCollector.collectInformation()).willReturn(new HashMap<String, Object>());
+        given(sequenceInformationCollector.collectInformation()).willReturn(new HashMap<>());
         //WHEN
         underTest.doGet(req, resp);
         //THEN
@@ -81,7 +81,7 @@ public class SequenceInformationServletTest {
     public void testDoPostShouldCallDoGet() throws ServletException, IOException {
         //GIVEN
         given(resp.getWriter()).willReturn(printWriter);
-        given(sequenceInformationCollector.collectInformation()).willReturn(new HashMap<String, Object>());
+        given(sequenceInformationCollector.collectInformation()).willReturn(new HashMap<>());
         //WHEN
         underTest.doPost(req, resp);
         //THEN

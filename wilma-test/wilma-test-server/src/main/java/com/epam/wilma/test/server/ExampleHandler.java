@@ -40,8 +40,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Jetty handler that is able to handle requests coming to /example with one of the given XMLs in the request body.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class ExampleHandler extends AbstractHandler {
     private static final String FIS_RESPONSE = "example.xml.fis";
@@ -74,7 +74,7 @@ public class ExampleHandler extends AbstractHandler {
 
     private final Decompressor fisDecompressor = new FastInfosetDecompressor();
 
-    private final GzipDecompressor gzipDecompresser = new GzipDecompressor();
+    private final GzipDecompressor gzipDecompressor = new GzipDecompressor();
 
     private final GzipCompressor gzipCompressor = new GzipCompressor();
 
@@ -94,7 +94,7 @@ public class ExampleHandler extends AbstractHandler {
             String requestBody = "";
             String contentEncodingHeader = httpServletRequest.getHeader(CONTENT_ENCODING);
             if (contentEncodingHeader != null && contentEncodingHeader.contains(GZIP_TYPE)) {
-                byteArray = gzipDecompresser.decompress(httpServletRequest.getInputStream()).toByteArray();
+                byteArray = gzipDecompressor.decompress(httpServletRequest.getInputStream()).toByteArray();
                 requestBody = IOUtils.toString(byteArray, "utf-8");
             }
             String headerField = httpServletRequest.getHeader(CONTENT_TYPE);

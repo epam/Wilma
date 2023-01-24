@@ -23,8 +23,9 @@ import com.epam.wilma.domain.stubconfig.TemporaryStubResourceHolder;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseFormatter;
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,7 +36,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -63,10 +64,10 @@ public class ResponseFormatterInitializerTest {
     @InjectMocks
     private ResponseFormatterInitializer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = Mockito.spy(new ResponseFormatterInitializer());
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         responseFormatters = new ArrayList<>();
         given(stubResourceHolder.getResponseFormatters()).willReturn(responseFormatters);
     }
@@ -108,14 +109,16 @@ public class ResponseFormatterInitializerTest {
         assertEquals(actual.getClass(), responseFormatter.getClass());
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
+    @Test
     public void testGetResponseFormatterWhenItDoesNotExistShouldThrowException() {
-        //GIVEN
-        given(stubResourcePathProvider.getResponseFormattersPathAsString()).willReturn(PATH);
-        given(externalInitializer.loadExternalClass(CHECKER_CLASS, PATH, ResponseFormatter.class)).willThrow(new DescriptorValidationFailedException(CHECKER_CLASS));
-        //WHEN
-        underTest.getExternalClassObject(CHECKER_CLASS);
-        //THEN it should throw exception
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            given(stubResourcePathProvider.getResponseFormattersPathAsString()).willReturn(PATH);
+            given(externalInitializer.loadExternalClass(CHECKER_CLASS, PATH, ResponseFormatter.class)).willThrow(new DescriptorValidationFailedException(CHECKER_CLASS));
+            //WHEN
+            underTest.getExternalClassObject(CHECKER_CLASS);
+            //THEN it should throw exception
+        });
     }
 
     @Test

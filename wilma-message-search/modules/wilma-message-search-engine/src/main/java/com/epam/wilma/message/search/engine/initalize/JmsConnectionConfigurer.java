@@ -34,8 +34,8 @@ import org.springframework.stereotype.Component;
 /**
  * Configures the {@link JmsConnectionConfigurer} and {@link TransportConnector} with a broker url.
  * The jms queue is used to recieve messages to be indexed by the application.
- * @author Tunde_Kovacs, Tamas Kohegyi
  *
+ * @author Tunde_Kovacs, Tamas Kohegyi
  */
 @Component
 public class JmsConnectionConfigurer {

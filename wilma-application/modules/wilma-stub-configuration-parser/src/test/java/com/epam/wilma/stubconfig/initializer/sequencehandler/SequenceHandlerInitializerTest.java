@@ -25,8 +25,9 @@ import com.epam.wilma.domain.stubconfig.sequence.SequenceHandler;
 import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler;
 import com.epam.wilma.domain.stubconfig.sequencehandler.DummySequenceHandler2;
 import com.epam.wilma.stubconfig.initializer.support.ExternalInitializer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -37,7 +38,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -63,10 +64,10 @@ public class SequenceHandlerInitializerTest {
     @InjectMocks
     private SequenceHandlerInitializer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = Mockito.spy(new SequenceHandlerInitializer());
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         sequenceHandlers = new ArrayList<>();
         given(stubResourceHolder.getSequenceHandlers()).willReturn(sequenceHandlers);
     }
@@ -130,15 +131,17 @@ public class SequenceHandlerInitializerTest {
         assertEquals(actual.getClass(), sequenceHandler.getClass());
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
+    @Test
     public void testGetSequenceHandlerWhenItDoesNotExistShouldThrowException() {
-        //GIVEN
-        given(stubResourcePathProvider.getSequenceHandlerPathAsString()).willReturn(PATH);
-        given(externalInitializer.loadExternalClass(SEQUENCE_HANDLER_CLASS, PATH, SequenceHandler.class)).willThrow(
-                new DescriptorValidationFailedException(SEQUENCE_HANDLER_CLASS));
-        //WHEN
-        underTest.getExternalClassObject(SEQUENCE_HANDLER_CLASS);
-        //THEN it should throw exception
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            given(stubResourcePathProvider.getSequenceHandlerPathAsString()).willReturn(PATH);
+            given(externalInitializer.loadExternalClass(SEQUENCE_HANDLER_CLASS, PATH, SequenceHandler.class)).willThrow(
+                    new DescriptorValidationFailedException(SEQUENCE_HANDLER_CLASS));
+            //WHEN
+            underTest.getExternalClassObject(SEQUENCE_HANDLER_CLASS);
+            //THEN it should throw exception
+        });
     }
 
 }

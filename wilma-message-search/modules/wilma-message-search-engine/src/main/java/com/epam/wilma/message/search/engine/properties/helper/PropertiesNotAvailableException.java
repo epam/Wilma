@@ -22,8 +22,8 @@ import com.epam.wilma.message.search.domain.exception.SystemException;
 
 /**
  * Thrown when the configuration properties cannot be loaded.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class PropertiesNotAvailableException extends SystemException {
 

@@ -47,8 +47,8 @@ import com.epam.wilma.message.search.lucene.index.helper.FileInputStreamFactory;
 
 /**
  * Class for adding files to Lucene index using {@link IndexWriter}.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 @Component
 public class FileIndexer {

@@ -31,12 +31,15 @@ import com.epam.wilma.service.domain.OperationMode;
 import com.epam.wilma.service.domain.StubConfigOrder;
 import com.epam.wilma.service.domain.StubConfigStatus;
 import com.epam.wilma.service.resource.Upload;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 import java.util.Properties;
@@ -52,7 +55,6 @@ import static com.epam.wilma.service.domain.StubConfigOrder.DOWN;
 import static com.epam.wilma.service.domain.StubConfigOrder.UP;
 import static com.epam.wilma.service.domain.StubConfigStatus.DISABLED;
 import static com.epam.wilma.service.domain.StubConfigStatus.ENABLED;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -62,6 +64,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  *
  * @author Tamas_Pinter
  */
+@ExtendWith(MockitoExtension.class)
 public class WilmaServiceTest {
 
     private static final String HOST = "host";
@@ -98,23 +101,27 @@ public class WilmaServiceTest {
     @InjectMocks
     private WilmaService wilmaService;
 
-    @Before
+    @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowExceptionWhenConfigIsMissing() {
-        new WilmaService(null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new WilmaService(null);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowExceptionWhenConfigIsInvalid() {
-        Properties properties = new Properties();
-        properties.put(WILMA_HOST_KEY, HOST);
-        properties.put(WILMA_INTERNAL_PORT_KEY, Long.valueOf("1"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Properties properties = new Properties();
+            properties.put(WILMA_HOST_KEY, HOST);
+            properties.put(WILMA_INTERNAL_PORT_KEY, Long.valueOf("1"));
 
-        new WilmaService(properties);
+            new WilmaService(properties);
+        });
     }
 
     @Test
@@ -316,7 +323,6 @@ public class WilmaServiceTest {
 
     @Test
     public void testUploadStubConfigurationString() {
-        given(wilmaStub.toString()).willReturn(FILE_NAME);
         wilmaService.uploadStubConfiguration(wilmaStub);
 
         verify(fileUpload).uploadStubConfiguration(wilmaStub);

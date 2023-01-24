@@ -24,15 +24,15 @@ import com.epam.wilma.message.search.lucene.configuration.LuceneConfigurationAcc
 import com.epam.wilma.message.search.lucene.configuration.PropertyDto;
 import com.epam.wilma.message.search.properties.helper.MessageFoldersUtil;
 import org.apache.lucene.index.IndexWriter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.IOException;
 
@@ -42,11 +42,11 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 /**
- * Unit test for {@link ReindexerTask}.
+ * Unit test for {@link ReIndexerTask}.
  *
  * @author Adam_Csaba_Kiraly
  */
-public class ReindexerTaskTest {
+public class ReIndexerTaskTest {
 
     @Mock
     private IndexWriter indexWriter;
@@ -61,20 +61,20 @@ public class ReindexerTaskTest {
 
     @Spy
     @InjectMocks
-    private ReindexerTask underTest;
+    private ReIndexerTask underTest;
 
     @Mock
     private Logger logger;
     @Mock
     private PropertyDto properties;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(configurationAccess.getProperties()).willReturn(properties);
         given(properties.getMessageDirectories()).willReturn("something");
         given(messageFoldersUtil.getFolders("something")).willReturn(new String[]{"a"});
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
     }
 
     @Test

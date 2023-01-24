@@ -20,12 +20,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.core.toggle.mode.ProxyModeToggle;
 import com.epam.wilma.router.RoutingService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -57,11 +57,11 @@ public class OperationModeStatusServletTest {
     @InjectMocks
     private OperationModeStatusServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "proxyModeToggle", proxyModeToggle);
-        Whitebox.setInternalState(underTest, "routingService", routingService);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "proxyModeToggle", proxyModeToggle);
+        ReflectionTestUtils.setField(underTest, "routingService", routingService);
         given(response.getWriter()).willReturn(printWriter);
     }
 

@@ -34,6 +34,7 @@ import com.epam.wilma.message.search.web.service.WebAppStopper;
 
 /**
  * Servlet for shutting down Wilma Message Search.
+ *
  * @author Adam_Csaba_Kiraly
  */
 public class ShutdownServlet extends HttpServlet {

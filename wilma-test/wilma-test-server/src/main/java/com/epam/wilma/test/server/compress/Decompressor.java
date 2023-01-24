@@ -21,9 +21,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.io.InputStream;
 
 /**
- * Interface for decompressing packaged xmls to plain xml.
- * @author Marton_Sereg
+ * Interface for decompressing packaged xml to plain xml.
  *
+ * @author Marton_Sereg
  */
 public interface Decompressor {
 

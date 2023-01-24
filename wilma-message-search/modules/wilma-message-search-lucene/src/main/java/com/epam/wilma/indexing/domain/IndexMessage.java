@@ -22,10 +22,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import java.io.Serializable;
 
 /**
- * Object sent to jms queue with information for a file
- * indexing application.
- * @author Tunde_Kovacs
+ * Object sent to jms queue with information for a file indexing application.
  *
+ * @author Tunde_Kovacs
  */
 public class IndexMessage implements Serializable {
 

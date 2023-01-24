@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Factory for creating new instances of {@link Properties}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class PropertiesFactory {

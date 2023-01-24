@@ -25,8 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Initializes {@link IndexWriterConfig} values.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class IndexWriterConfigValueInitializer {
     private static final Double WRITER_BUFFER_SIZE = 1500.0;

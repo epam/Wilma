@@ -29,24 +29,24 @@ import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.router.evaluation.helper.DialogDescriptorService;
 import com.epam.wilma.router.helper.ResponseDescriptorDtoFactory;
 import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -61,7 +61,7 @@ public class StubDescriptorEvaluatorTest {
     private static final String DIALOG_DESCRIPTOR_NAME = "dialog-descriptor";
 
     private static final String REQUEST_BODY = "body";
-    private static final String DEFAULT_GROUPNAME = "test";
+    private static final String DEFAULT_GROUP_NAME = "test";
     private List<DialogDescriptor> dialogDescriptors;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -99,14 +99,14 @@ public class StubDescriptorEvaluatorTest {
     @InjectMocks
     private StubDescriptorEvaluator underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         dialogDescriptors = new ArrayList<>();
         stubDescriptors = new LinkedHashMap<>();
-        stubDescriptors.put(DEFAULT_GROUPNAME, stubDescriptor);
+        stubDescriptors.put(DEFAULT_GROUP_NAME, stubDescriptor);
         dialogDescriptors.add(dialogDescriptor);
-        attributes = new StubDescriptorAttributes(DEFAULT_GROUPNAME, true);
+        attributes = new StubDescriptorAttributes(DEFAULT_GROUP_NAME, true);
         given(stubDescriptor.getAttributes()).willReturn(attributes);
         given(requestCloner.cloneRequest(request)).willReturn(clonedRequest);
         given(dialogDescriptorService.isEnabled(dialogDescriptor)).willReturn(true);
@@ -138,7 +138,7 @@ public class StubDescriptorEvaluatorTest {
         given(conditionDescriptor.getCondition()).willReturn(condition);
         given(conditionEvaluator.evaluate(condition, clonedRequest)).willThrow(nullPointerException);
         given(stackTraceConverter.getStackTraceAsString(nullPointerException)).willReturn("error");
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         //WHEN
         underTest.findResponseDescriptor(stubDescriptors, request);
         //THEN
@@ -159,7 +159,7 @@ public class StubDescriptorEvaluatorTest {
         given(stackTraceConverter.getStackTraceAsString(nullPointerException)).willReturn("error");
         given(responseDescriptorDtoFactory.createResponseDescriptorDTOWithError(dialogDescriptor, REQUEST_BODY, "error".getBytes())).willReturn(
                 responseDescriptorDTOWithError);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         //WHEN
         ResponseDescriptorDTO actual = underTest.findResponseDescriptor(stubDescriptors, request);
         //THEN
@@ -193,7 +193,7 @@ public class StubDescriptorEvaluatorTest {
     @Test
     public void testFindResponseDescriptorShouldReturnNullBecauseTheOneStubDescriptorIsDisabled() {
         //GIVEN
-        attributes = new StubDescriptorAttributes(DEFAULT_GROUPNAME, false);
+        attributes = new StubDescriptorAttributes(DEFAULT_GROUP_NAME, false);
         given(stubDescriptor.getAttributes()).willReturn(attributes);
         //WHEN
         ResponseDescriptorDTO actual = underTest.findResponseDescriptor(stubDescriptors, request);

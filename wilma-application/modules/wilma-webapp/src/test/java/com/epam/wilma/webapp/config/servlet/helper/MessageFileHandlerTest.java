@@ -30,8 +30,8 @@ import java.nio.file.Path;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -70,9 +70,9 @@ public class MessageFileHandlerTest {
     @InjectMocks
     private MessageFileHandler underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(response.getWriter()).willReturn(printWriter);
         given(configurationAccess.getProperties()).willReturn(properties);
         given(properties.getFileListProperties()).willReturn(fileListProperties);

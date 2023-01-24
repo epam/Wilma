@@ -31,8 +31,8 @@ import com.epam.wilma.message.search.lucene.index.scheduler.helper.DateFactory;
 
 /**
  * Schedules and runs the index related tasks.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Component
 public class IndexTaskScheduler {
@@ -47,7 +47,7 @@ public class IndexTaskScheduler {
     private DateFactory dateFactory;
 
     @Autowired
-    private ReindexerTask luceneReindexerTask;
+    private ReIndexerTask luceneReIndexerTask;
 
     /**
      * Schedules the reindexing task.
@@ -55,7 +55,7 @@ public class IndexTaskScheduler {
     public void startReindexScheduling() {
         String cronExpression = configurationAccess.getProperties().getReindexTimer();
         CronTrigger cronTrigger = cronTriggerFactory.create(cronExpression);
-        taskScheduler.schedule(luceneReindexerTask, cronTrigger);
+        taskScheduler.schedule(luceneReIndexerTask, cronTrigger);
     }
 
     /**
@@ -63,7 +63,7 @@ public class IndexTaskScheduler {
      */
     public void runReindexOnDemand() {
         Date now = dateFactory.createNewDate();
-        taskScheduler.schedule(luceneReindexerTask, now);
+        taskScheduler.schedule(luceneReIndexerTask, now);
     }
 
 }

@@ -3,5 +3,6 @@ dependencies {
     implementation project(':wilma-application:wilma-webapp')
     implementation project(':wilma-application:wilma-stub-configuration-domain')
     implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
-    testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "${jUnitVersion}"
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "${jUnitVersion}"
 }

@@ -25,13 +25,13 @@ import com.epam.wilma.stubconfig.StubDescriptorJsonFactory;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import com.epam.wilma.webapp.service.command.NewStubDescriptorCommand;
 import com.epam.wilma.webapp.service.external.ServiceMap;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -76,14 +76,14 @@ public class ExternalStubConfigUploadServletTest {
     @InjectMocks
     private ExternalStubConfigUploadServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
-        Whitebox.setInternalState(underTest, "sequenceDescriptorHolder", sequenceDescriptorHolder);
-        Whitebox.setInternalState(underTest, "stubDescriptorJsonFactory", stubDescriptorJsonFactory);
-        Whitebox.setInternalState(underTest, "routingService", routingService);
-        Whitebox.setInternalState(underTest, "serviceMap", serviceMap);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        ReflectionTestUtils.setField(underTest, "sequenceDescriptorHolder", sequenceDescriptorHolder);
+        ReflectionTestUtils.setField(underTest, "stubDescriptorJsonFactory", stubDescriptorJsonFactory);
+        ReflectionTestUtils.setField(underTest, "routingService", routingService);
+        ReflectionTestUtils.setField(underTest, "serviceMap", serviceMap);
         given(request.getInputStream()).willReturn(inputStream);
         given(request.getParameter("fileName")).willReturn(FILE_NAME);
         given(response.getWriter()).willReturn(writer);

@@ -29,21 +29,21 @@ import com.epam.wilma.sequence.handler.exception.SequenceHandlerKeyValidationExc
 import com.epam.wilma.sequence.helper.SequenceHeaderUtil;
 import com.epam.wilma.sequence.helper.SequenceIdUtil;
 import com.epam.wilma.sequence.service.SequenceService;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -81,9 +81,9 @@ public class SequenceManagerTest {
     @InjectMocks
     private SequenceManager underTest;
 
-    @Before
+    @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(responseCloner.cloneResponse(Mockito.any(WilmaHttpResponse.class))).willReturn(clonedResponse);
     }
 
@@ -94,8 +94,9 @@ public class SequenceManagerTest {
         //WHEN
         underTest.addSequenceDescriptor(descriptorKey, sequenceDescriptor);
         //THEN
-        Map<String, SequenceDescriptor> result = (Map<String, SequenceDescriptor>) Whitebox.getInternalState(underTest, "descriptors");
-        Assert.assertEquals(sequenceDescriptor, result.get(descriptorKey));
+        Map<String, SequenceDescriptor> result = (Map<String, SequenceDescriptor>) ReflectionTestUtils.getField(underTest, "descriptors");
+        assert result != null;
+        assertEquals(sequenceDescriptor, result.get(descriptorKey));
     }
 
     @Test
@@ -103,7 +104,7 @@ public class SequenceManagerTest {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
-        Whitebox.setInternalState(underTest, "descriptors", descriptors);
+        ReflectionTestUtils.setField(underTest, "descriptors", descriptors);
         given(sequenceDescriptor.isActive()).willReturn(true);
         //WHEN
         underTest.handleRequest(request);
@@ -116,7 +117,7 @@ public class SequenceManagerTest {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
-        Whitebox.setInternalState(underTest, "descriptors", descriptors);
+        ReflectionTestUtils.setField(underTest, "descriptors", descriptors);
         given(sequenceDescriptor.isActive()).willReturn(false);
         //WHEN
         underTest.handleRequest(request);
@@ -129,8 +130,8 @@ public class SequenceManagerTest {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
-        Whitebox.setInternalState(underTest, "descriptors", descriptors);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "descriptors", descriptors);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         given(sequenceDescriptor.isActive()).willReturn(true);
         Mockito.doThrow(new SequenceHandlerKeyValidationException("Test message")).when(sequenceService).checkRequest(request, sequenceDescriptor);
         //WHEN
@@ -144,7 +145,7 @@ public class SequenceManagerTest {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
-        Whitebox.setInternalState(underTest, "descriptors", descriptors);
+        ReflectionTestUtils.setField(underTest, "descriptors", descriptors);
         //WHEN
         underTest.cleanUpDescriptors();
         //THEN
@@ -160,8 +161,8 @@ public class SequenceManagerTest {
         requestHeaders.put(WilmaHttpEntity.WILMA_SEQUENCE_ID, sequenceKey);
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
-        Whitebox.setInternalState(response, "requestHeaders", requestHeaders);
-        Whitebox.setInternalState(underTest, "descriptors", descriptors);
+        ReflectionTestUtils.setField(response, "requestHeaders", requestHeaders);
+        ReflectionTestUtils.setField(underTest, "descriptors", descriptors);
         given(headerUtil.resolveSequenceHeader(sequenceKey)).willReturn(new String[]{sequenceKey});
         given(sequenceKeyResolver.getDescriptorKey(sequenceKey)).willReturn("TestTeam-fistDescriptor-TestHandler");
         given(sequenceKeyResolver.getHandlerKey(sequenceKey)).willReturn("Sequence1");
@@ -187,13 +188,14 @@ public class SequenceManagerTest {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
-        Whitebox.setInternalState(underTest, "descriptors", descriptors);
+        ReflectionTestUtils.setField(underTest, "descriptors", descriptors);
         given(sequenceDescriptor.getGroupName()).willReturn("TestTeam");
         //WHEN
         underTest.removeSequenceDescriptors("TestTeam");
         //THEN
-        Map<String, SequenceDescriptor> actualDescriptors = (Map<String, SequenceDescriptor>) Whitebox.getInternalState(underTest, "descriptors");
-        Assert.assertEquals(0, actualDescriptors.size());
+        Map<String, SequenceDescriptor> actualDescriptors = (Map<String, SequenceDescriptor>) ReflectionTestUtils.getField(underTest, "descriptors");
+        assert actualDescriptors != null;
+        assertEquals(0, actualDescriptors.size());
     }
 
     @Test
@@ -201,12 +203,13 @@ public class SequenceManagerTest {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
-        Whitebox.setInternalState(underTest, "descriptors", descriptors);
+        ReflectionTestUtils.setField(underTest, "descriptors", descriptors);
         //WHEN
         underTest.removeSequenceDescriptors("something");
         //THEN
-        Map<String, SequenceDescriptor> actualDescriptors = (Map<String, SequenceDescriptor>) Whitebox.getInternalState(underTest, "descriptors");
-        Assert.assertEquals(1, actualDescriptors.size());
+        Map<String, SequenceDescriptor> actualDescriptors = (Map<String, SequenceDescriptor>) ReflectionTestUtils.getField(underTest, "descriptors");
+        assert actualDescriptors != null;
+        assertEquals(1, actualDescriptors.size());
     }
 
     @Test
@@ -214,7 +217,7 @@ public class SequenceManagerTest {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
-        Whitebox.setInternalState(underTest, "descriptors", descriptors);
+        ReflectionTestUtils.setField(underTest, "descriptors", descriptors);
         given(sequenceDescriptor.getGroupName()).willReturn("TestTeam");
         //WHEN
         underTest.setStatusOfDescriptors("TestTeam", false);
@@ -228,11 +231,11 @@ public class SequenceManagerTest {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
-        Whitebox.setInternalState(underTest, "descriptors", descriptors);
+        ReflectionTestUtils.setField(underTest, "descriptors", descriptors);
         //WHEN
         Map<String, WilmaSequence> actual = underTest.getSequences("TestTeam");
         //THEN
-        Assert.assertEquals(Collections.EMPTY_MAP, actual);
+        assertEquals(Collections.EMPTY_MAP, actual);
     }
 
     @Test
@@ -242,11 +245,11 @@ public class SequenceManagerTest {
         sequences.put("TestKey1", sequence);
         Map<String, SequenceDescriptor> descriptors = new ConcurrentHashMap<>();
         descriptors.put("TestTeam-fistDescriptor-TestHandler", sequenceDescriptor);
-        Whitebox.setInternalState(underTest, "descriptors", descriptors);
+        ReflectionTestUtils.setField(underTest, "descriptors", descriptors);
         given(sequenceDescriptor.getSequences()).willReturn(sequences);
         //WHEN
         Map<String, WilmaSequence> actual = underTest.getSequences("TestTeam-fistDescriptor-TestHandler");
         //THEN
-        Assert.assertEquals(sequences, actual);
+        assertEquals(sequences, actual);
     }
 }

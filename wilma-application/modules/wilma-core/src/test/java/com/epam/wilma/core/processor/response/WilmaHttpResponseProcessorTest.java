@@ -21,20 +21,20 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.core.processor.entity.ProcessorBase;
 import com.epam.wilma.domain.exception.ApplicationException;
 import com.epam.wilma.domain.http.WilmaHttpResponse;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 /**
  * Provides unit tests for the class <tt>WilmaHttpResponseHandler</tt>.
@@ -52,13 +52,13 @@ public class WilmaHttpResponseProcessorTest {
 
     private List<ProcessorBase> processors;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = new WilmaHttpResponseProcessor();
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         processors = new ArrayList<>();
         processors.add(responseProcessor);
-        setInternalState(underTest, "processors", processors);
+        ReflectionTestUtils.setField(underTest, "processors", processors);
     }
 
     @Test

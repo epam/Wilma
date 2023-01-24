@@ -21,8 +21,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.TransportConnector;
 import org.apache.activemq.pool.PooledConnectionFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -54,9 +54,9 @@ public class JmsConnectionConfigurerTest {
     @InjectMocks
     private JmsConnectionConfigurer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

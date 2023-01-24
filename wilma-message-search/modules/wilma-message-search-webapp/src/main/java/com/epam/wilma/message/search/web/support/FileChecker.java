@@ -27,9 +27,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Class for files checking whether they exists or not.
- * @author Tibor_Kovacs
+ * Class for files checking whether they exist or not.
  *
+ * @author Tibor_Kovacs
  */
 @Component
 public class FileChecker {

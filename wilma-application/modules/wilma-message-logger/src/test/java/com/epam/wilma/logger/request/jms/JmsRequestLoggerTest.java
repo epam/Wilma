@@ -19,19 +19,18 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.jms.core.JmsTemplate;
 
-import javax.jms.JMSException;
 import javax.jms.Queue;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 /**
  * Provides unit tests for <tt>JmsRequestLogger</tt> class.
@@ -54,9 +53,9 @@ public class JmsRequestLoggerTest {
     @Mock
     private JmsRequestMessageCreator jmsMessageCreator;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -72,7 +71,7 @@ public class JmsRequestLoggerTest {
     }
 
     @Test
-    public void testLogRequestShouldNotSendMessageToQueueWhenSafeGuarded() throws JMSException {
+    public void testLogRequestShouldNotSendMessageToQueueWhenSafeGuarded() {
         //GIVEN
         given(jmsMessageCreatorFactory.createJmsRequestMessageCreator(request)).willReturn(jmsMessageCreator);
         given(request.isLoggingEnabled()).willReturn(true);
@@ -80,11 +79,11 @@ public class JmsRequestLoggerTest {
         //WHEN
         underTest.logRequest(request);
         //THEN
-        verifyZeroInteractions(jmsTemplate);
+        verifyNoInteractions(jmsTemplate);
     }
 
     @Test
-    public void testLogRequestShouldNotSendMessageToQueueWhenIndividualLoggingDisabled() throws JMSException {
+    public void testLogRequestShouldNotSendMessageToQueueWhenIndividualLoggingDisabled() {
         //GIVEN
         given(jmsMessageCreatorFactory.createJmsRequestMessageCreator(request)).willReturn(jmsMessageCreator);
         given(request.isLoggingEnabled()).willReturn(false);
@@ -92,7 +91,7 @@ public class JmsRequestLoggerTest {
         //WHEN
         underTest.logRequest(request);
         //THEN
-        verifyZeroInteractions(jmsTemplate);
+        verifyNoInteractions(jmsTemplate);
     }
 
 }

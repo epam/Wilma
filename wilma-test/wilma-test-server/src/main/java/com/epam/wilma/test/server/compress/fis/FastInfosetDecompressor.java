@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -37,8 +36,8 @@ import com.epam.wilma.test.server.compress.Decompressor;
 /**
  * FastInfoset implementation of the decompressor interface.
  * Decompresses an InputStream that hold the information compressed with Fast InfoSet.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class FastInfosetDecompressor implements Decompressor {
 
@@ -52,11 +51,7 @@ public class FastInfosetDecompressor implements Decompressor {
             tx.transform(new FastInfosetSource(source), new StreamResult(xmlOutputStream));
             // Transform to convert the FI document to an XML document
             return xmlOutputStream.toString();
-        } catch (TransformerConfigurationException e) {
-            throw new SystemException("error", e);
-        } catch (TransformerFactoryConfigurationError e) {
-            throw new SystemException("error", e);
-        } catch (TransformerException e) {
+        } catch (TransformerFactoryConfigurationError | TransformerException e) {
             throw new SystemException("error", e);
         }
     }

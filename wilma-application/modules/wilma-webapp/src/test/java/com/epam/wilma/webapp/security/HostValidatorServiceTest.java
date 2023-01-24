@@ -20,20 +20,20 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.core.configuration.domain.WilmaAdminHostsDTO;
 import com.epam.wilma.webapp.helper.IpAddressResolver;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -55,9 +55,9 @@ public class HostValidatorServiceTest {
     @Mock
     private HttpServletRequest httpServletRequest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class HostValidatorServiceTest {
         //WHEN
         underTest.onApplicationEvent(null);
         //THEN
-        assertEquals(adminHosts, Whitebox.getInternalState(underTest, "allowedHosts"));
+        assertEquals(adminHosts, ReflectionTestUtils.getField(underTest, "allowedHosts"));
     }
 
     @Test

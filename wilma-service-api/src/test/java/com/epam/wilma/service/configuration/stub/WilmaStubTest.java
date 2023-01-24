@@ -21,13 +21,15 @@ package com.epam.wilma.service.configuration.stub;
 import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameter;
 import com.epam.wilma.service.configuration.stub.helper.common.ConfigurationParameterArray;
 import com.epam.wilma.service.configuration.stub.helper.common.StubConfigurationException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for WilmaStub class.
  * The key point is to create a valid Stub Configuration.
- * If it is composed incorrectly, the build() method will throws @see StubConfigurationException
+ * If it is composed incorrectly, the build() method will throws StubConfigurationException
+ *
+ * @see StubConfigurationException
  *
  * @author Tamas_Kohegyi
  */
@@ -213,7 +215,7 @@ public class WilmaStubTest {
                 .willRespondWith().htmlFileResponse("filename").withStatus(200)
                 .build();
         //then
-        Assert.assertTrue("Bad mime type was set.", wilmaStub.toString().contains("text/html"));
+        Assertions.assertTrue(wilmaStub.toString().contains("text/html"), "Bad mime type was set.");
     }
 
     @Test
@@ -224,7 +226,7 @@ public class WilmaStubTest {
                 .willRespondWith().textFileResponse("filename").withStatus(200)
                 .build();
         //then
-        Assert.assertTrue("Bad mime type was set.", wilmaStub.toString().contains("text/plain"));
+        Assertions.assertTrue(wilmaStub.toString().contains("text/plain"), "Bad mime type was set.");
     }
 
     @Test
@@ -235,7 +237,7 @@ public class WilmaStubTest {
                 .willRespondWith().jsonFileResponse("filename").withStatus(200)
                 .build();
         //then
-        Assert.assertTrue("Bad mime type was set.", wilmaStub.toString().contains("application/json"));
+        Assertions.assertTrue(wilmaStub.toString().contains("application/json"), "Bad mime type was set.");
     }
 
     @Test
@@ -246,20 +248,22 @@ public class WilmaStubTest {
                 .willRespondWith().xmlFileResponse("filename").withStatus(200)
                 .build();
         //then
-        Assert.assertTrue("Bad mime type was set.", wilmaStub.toString().contains("application/xml"));
-        Assert.assertTrue("Should not contain any interceptor related entry.", !wilmaStub.toString().contains("interceptor"));
+        Assertions.assertTrue(wilmaStub.toString().contains("application/xml"), "Bad mime type was set.");
+        Assertions.assertTrue(!wilmaStub.toString().contains("interceptor"), "Should not contain any interceptor related entry.");
     }
 
-    @Test(expected = StubConfigurationException.class)
-    public void testInvalidConfiguration() throws StubConfigurationException {
-        //given, when and then
-        wilmaStub = new WilmaStubBuilder()
-                .forRequestsLike().textInUrl("/blah")
-                .andStart()
-                .willRespondWith().plainTextResponse("body").withStatus(200)
-                .build();
-        //then
-        Assert.fail("We should not reach this.");
+    @Test
+    public void testInvalidConfiguration() {
+        Assertions.assertThrows(StubConfigurationException.class, () -> {
+            //given, when and then
+            wilmaStub = new WilmaStubBuilder()
+                    .forRequestsLike().textInUrl("/blah")
+                    .andStart()
+                    .willRespondWith().plainTextResponse("body").withStatus(200)
+                    .build();
+            //then
+            Assertions.fail("We should not reach this.");
+        });
     }
 
     @Test
@@ -275,7 +279,7 @@ public class WilmaStubTest {
                 .addInterceptor("interceptorName", "interceptorClass", configurationParameterArray)
                 .build();
         //then
-        Assert.assertTrue("Bad mime type was set.", wilmaStub.toString().contains("application/xml"));
+        Assertions.assertTrue(wilmaStub.toString().contains("application/xml"), "Bad mime type was set.");
     }
 
     @Test
@@ -291,7 +295,7 @@ public class WilmaStubTest {
                 .addInterceptor("interceptorName", "interceptorClass")
                 .build();
         //then
-        Assert.assertTrue("Bad mime type was set.", wilmaStub.toString().contains("application/xml"));
+        Assertions.assertTrue(wilmaStub.toString().contains("application/xml"), "Bad mime type was set.");
     }
 
     @Test
@@ -301,7 +305,7 @@ public class WilmaStubTest {
                 .addInterceptor("interceptorName", "interceptorClass")
                 .build();
         //then
-        Assert.assertTrue("Interceptor is missing.", wilmaStub.toString().contains("interceptorName"));
+        Assertions.assertTrue(wilmaStub.toString().contains("interceptorName"), "Interceptor is missing.");
     }
 
     @Test
@@ -315,7 +319,7 @@ public class WilmaStubTest {
                 .addInterceptor("interceptorName", "interceptorClass", configurationParameterArray)
                 .build();
         //then
-        Assert.assertTrue("Interceptor is missing.", wilmaStub.toString().contains("interceptorName"));
+        Assertions.assertTrue(wilmaStub.toString().contains("interceptorName"), "Interceptor is missing.");
     }
 
     @Test
@@ -326,30 +330,34 @@ public class WilmaStubTest {
                 .forAnyRequest()
                 .build();
         //then
-        Assert.assertTrue("Group name is missing", wilmaStub.toString().contains(groupName));
-        Assert.assertTrue("Getting Group name failed", wilmaStub.getGroupName().contentEquals(groupName));
+        Assertions.assertTrue(wilmaStub.toString().contains(groupName), "Group name is missing");
+        Assertions.assertTrue(wilmaStub.getGroupName().contentEquals(groupName), "Getting Group name failed");
     }
 
-    @Test(expected = StubConfigurationException.class)
-    public void testStatusMustBeCorrect() throws StubConfigurationException {
-        //given, when and then
-        wilmaStub = new WilmaStubBuilder()
-                .forAnyRequest()
-                .withStatus(8000)
-                .build();
-        //then
-        Assert.fail("We should not reach this.");
+    @Test
+    public void testStatusMustBeCorrect() {
+        Assertions.assertThrows(StubConfigurationException.class, () -> {
+            //given, when and then
+            wilmaStub = new WilmaStubBuilder()
+                    .forAnyRequest()
+                    .withStatus(8000)
+                    .build();
+            //then
+            Assertions.fail("We should not reach this.");
+        });
     }
 
-    @Test(expected = StubConfigurationException.class)
-    public void testDelayMustBePositive() throws StubConfigurationException {
-        //given, when and then
-        wilmaStub = new WilmaStubBuilder()
-                .forAnyRequest()
-                .withDelay(-1)
-                .build();
-        //then
-        Assert.fail("We should not reach this.");
+    @Test
+    public void testDelayMustBePositive() {
+        Assertions.assertThrows(StubConfigurationException.class, () -> {
+            //given, when and then
+            wilmaStub = new WilmaStubBuilder()
+                    .forAnyRequest()
+                    .withDelay(-1)
+                    .build();
+            //then
+            Assertions.fail("We should not reach this.");
+        });
     }
 
     @Test

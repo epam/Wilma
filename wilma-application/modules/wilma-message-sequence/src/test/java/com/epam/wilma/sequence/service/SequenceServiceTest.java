@@ -32,8 +32,8 @@ import com.epam.wilma.sequence.helper.SequenceDescriptorKeyUtil;
 import com.epam.wilma.sequence.helper.SequenceHeaderUtil;
 import com.epam.wilma.sequence.helper.SequenceIdUtil;
 import com.epam.wilma.sequence.validator.HandlerKeyValidator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -53,7 +53,7 @@ import static org.mockito.Mockito.verify;
  * @author Tibor_Kovacs
  */
 public class SequenceServiceTest {
-    private static final String SEQUENCE_DESCRIPTOR_GROUPNAME = "TestTeam";
+    private static final String SEQUENCE_DESCRIPTOR_GROUP_NAME = "TestTeam";
     private static final String SEQUENCE_DESCRIPTOR_NAME = "sequenceOne";
 
     @Mock
@@ -88,16 +88,16 @@ public class SequenceServiceTest {
     @InjectMocks
     private SequenceService underTest;
 
-    @Before
+    @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(dateProvider.getCurrentTimeInMillis()).willReturn(1000L);
         given(requestCloner.cloneRequest(request)).willReturn(clonedRequest);
         given(request.getSequenceId()).willReturn(null);
-        given(sequenceDescriptor.getGroupName()).willReturn(SEQUENCE_DESCRIPTOR_GROUPNAME);
+        given(sequenceDescriptor.getGroupName()).willReturn(SEQUENCE_DESCRIPTOR_GROUP_NAME);
         given(sequenceDescriptor.getName()).willReturn(SEQUENCE_DESCRIPTOR_NAME);
-        given(sequenceDescriptorKeyUtil.createDescriptorKey(SEQUENCE_DESCRIPTOR_GROUPNAME, SEQUENCE_DESCRIPTOR_NAME)).willReturn(
-                SEQUENCE_DESCRIPTOR_GROUPNAME + SequenceConstants.DESCRIPTOR_KEY_PART_SEPARATOR.getConstant() + SEQUENCE_DESCRIPTOR_NAME);
+        given(sequenceDescriptorKeyUtil.createDescriptorKey(SEQUENCE_DESCRIPTOR_GROUP_NAME, SEQUENCE_DESCRIPTOR_NAME)).willReturn(
+                SEQUENCE_DESCRIPTOR_GROUP_NAME + SequenceConstants.DESCRIPTOR_KEY_PART_SEPARATOR.getConstant() + SEQUENCE_DESCRIPTOR_NAME);
         given(sequenceDescriptor.getHandler()).willReturn(handler);
     }
 

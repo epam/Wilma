@@ -21,9 +21,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.sequence.SequenceManager;
 import com.epam.wilma.sequence.helper.SequenceIdUtil;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -32,6 +31,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -40,7 +41,7 @@ import static org.mockito.BDDMockito.given;
  * @author Tibor_Kovacs
  */
 public class SequenceMatcherTest {
-    private String[] keys = {"Seq1", "Seq2"};
+    private final String[] keys = {"Seq1", "Seq2"};
     @Mock
     private SequenceManager manager;
     @Mock
@@ -53,9 +54,9 @@ public class SequenceMatcherTest {
 
     private Map<String, WilmaSequence> sequences;
 
-    @Before
+    @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         sequences = new HashMap<>();
         sequences.put(keys[1], sequence);
         given(sequenceKeyResolver.getHandlerKey(Mockito.anyString())).willReturn("");
@@ -65,11 +66,11 @@ public class SequenceMatcherTest {
     public void testMatchSequenceKeyWithDescriptorWhenDescriptorNameIsWrong() {
         //GIVEN
         String descriptorName = "something";
-        given(manager.getSequences(descriptorName)).willReturn(new HashMap<String, WilmaSequence>());
+        given(manager.getSequences(descriptorName)).willReturn(new HashMap<>());
         //WHEN
         WilmaSequence result = underTest.matchSequenceKeyWithDescriptor(descriptorName, keys);
         //THEN
-        Assert.assertNull(result);
+        assertNull(result);
     }
 
     @Test
@@ -81,7 +82,7 @@ public class SequenceMatcherTest {
         //WHEN
         WilmaSequence result = underTest.matchSequenceKeyWithDescriptor(descriptorName, keys);
         //THEN
-        Assert.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -94,6 +95,6 @@ public class SequenceMatcherTest {
         //WHEN
         WilmaSequence result = underTest.matchSequenceKeyWithDescriptor(descriptorName, keys);
         //THEN
-        Assert.assertNull(result);
+        assertNull(result);
     }
 }

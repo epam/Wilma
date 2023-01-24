@@ -23,16 +23,17 @@ import com.epam.wilma.service.domain.ResponseMessageVolatilityStatus;
 import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static com.epam.wilma.service.domain.ResponseMessageVolatilityStatus.OFF;
 import static com.epam.wilma.service.domain.ResponseMessageVolatilityStatus.ON;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -57,7 +58,7 @@ public class ResponseMessageVolatilityConfigurationTest {
 
     private ResponseMessageVolatilityConfiguration responseMessageVolatilityConfiguration;
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -65,9 +66,11 @@ public class ResponseMessageVolatilityConfigurationTest {
         responseMessageVolatilityConfiguration = new ResponseMessageVolatilityConfiguration(config, client);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowExceptionWhenConfigIsMissing() {
-        new ResponseMessageVolatilityConfiguration(null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new ResponseMessageVolatilityConfiguration(null);
+        });
     }
 
     @Test

@@ -35,8 +35,8 @@ import com.epam.wilma.message.search.lucene.index.helper.FileInputStreamFactory;
 
 /**
  * Loads properties from a configuration file.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class PropertyLoader {

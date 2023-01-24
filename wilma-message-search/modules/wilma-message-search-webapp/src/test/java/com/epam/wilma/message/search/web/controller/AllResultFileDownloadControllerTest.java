@@ -19,13 +19,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.message.search.web.support.FileZipper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,15 +60,15 @@ public class AllResultFileDownloadControllerTest {
     @InjectMocks
     private AllResultFileDownloadController underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testDownloadFilesWhenThereIsSearchingResult() throws ServletException, IOException {
+    public void testDownloadFilesWhenThereIsSearchingResult() throws IOException {
         //GIVEN
-        List<String> pair = new ArrayList<String>();
+        List<String> pair = new ArrayList<>();
         pair.add("first");
         pair.add("test");
         List<List<String>> list = new ArrayList<>();
@@ -84,7 +83,7 @@ public class AllResultFileDownloadControllerTest {
     }
 
     @Test
-    public void testDownloadFilesWithoutSearchingResult() throws ServletException, IOException {
+    public void testDownloadFilesWithoutSearchingResult() throws IOException {
         //GIVEN
         List<List<String>> list = new ArrayList<>();
         given(session.getAttribute(SEARCH_RESULT_KEY)).willReturn(list);

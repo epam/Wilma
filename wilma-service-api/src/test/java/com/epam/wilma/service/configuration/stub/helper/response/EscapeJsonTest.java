@@ -18,8 +18,8 @@ package com.epam.wilma.service.configuration.stub.helper.response;
  along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
  ===========================================================================*/
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for EscapeJson class.
@@ -33,31 +33,31 @@ public class EscapeJsonTest {
     @Test
     public void testEscapingNullString() {
         String revisedText = escapeJson.escapeJson(null);
-        Assert.assertNull(revisedText);
+        Assertions.assertNull(revisedText);
     }
 
     @Test
     public void testEscapingEmptyString() {
         String text = "";
         String revisedText = escapeJson.escapeJson(text);
-        Assert.assertNotNull(revisedText);
-        Assert.assertEquals(revisedText, text);
+        Assertions.assertNotNull(revisedText);
+        Assertions.assertEquals(revisedText, text);
     }
 
     @Test
     public void testEscapingNonProblematicString() {
         String text = "alma";
         String revisedText = escapeJson.escapeJson(text);
-        Assert.assertNotNull(revisedText);
-        Assert.assertEquals(revisedText, text);
+        Assertions.assertNotNull(revisedText);
+        Assertions.assertEquals(revisedText, text);
     }
 
     @Test
     public void testEscapingProblematicString() {
         String text = "alma<>\"\'&";
         String revisedText = escapeJson.escapeJson(text);
-        Assert.assertNotNull(revisedText);
-        Assert.assertEquals(revisedText, "alma<>\\\"\'&");
+        Assertions.assertNotNull(revisedText);
+        Assertions.assertEquals(revisedText, "alma<>\\\"\'&");
     }
 
 }

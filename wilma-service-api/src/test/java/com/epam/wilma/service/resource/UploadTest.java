@@ -22,15 +22,16 @@ package com.epam.wilma.service.resource;
 import com.epam.wilma.service.configuration.stub.WilmaStub;
 import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -61,7 +62,7 @@ public class UploadTest {
 
     private Upload fileUpload;
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -69,9 +70,11 @@ public class UploadTest {
         fileUpload = new Upload(config, client);
     }
 
-    @Test(expected = IllegalArgumentException.class) //, expectedExceptionsMessageRegExp = "config must not be null!")
+    @Test //, expectedExceptionsMessageRegExp = "config must not be null!")
     public void shouldThrowExceptionWhenConfigIsMissing() {
-        new Upload(null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new Upload(null);
+        });
     }
 
     @Test

@@ -21,8 +21,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * This interface defines a method to load all necessary properties for those classes which implement it.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 public interface ConfigurationAccessBase {
 

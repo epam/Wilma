@@ -22,16 +22,17 @@ import com.epam.wilma.message.search.domain.exception.SystemException;
 import com.epam.wilma.message.search.engine.bootstrap.helper.SystemExceptionSelector;
 import com.epam.wilma.message.search.engine.properties.PropertyLoader;
 import com.epam.wilma.message.search.web.WebAppServer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Properties;
 
@@ -65,13 +66,13 @@ public class MessageSearchBootstrapTest {
     @InjectMocks
     private MessageSearchBootstrap underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = Mockito.spy(new MessageSearchBootstrap());
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "systemExceptionSelector", systemExceptionSelector);
-        Whitebox.setInternalState(underTest, "propertyLoader", propertyLoader);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "systemExceptionSelector", systemExceptionSelector);
+        ReflectionTestUtils.setField(underTest, "propertyLoader", propertyLoader);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         properties = new Properties();
         given(propertyLoader.loadProperties(ARGS[0])).willReturn(properties);
     }
@@ -101,17 +102,18 @@ public class MessageSearchBootstrapTest {
         verify(logger).error(Mockito.anyString());
     }
 
-    @Test(expected = BeanCreationException.class)
+    @Test
     public void testBootstrapShouldThrowException() {
-        //GIVEN
-        properties.setProperty("webapp.port", "8080");
-        BeanCreationException exception = new BeanCreationException("exception");
-        doReturn(webAppServer).when(underTest).createWebAppServer();
-        willThrow(exception).given(webAppServer).createServer(8080);
-        given(systemExceptionSelector.getSystemException(exception)).willReturn(null);
-        //WHEN
-        underTest.bootstrap(ARGS);
-        //THEN it should throw exception
+        Assertions.assertThrows(BeanCreationException.class, () -> {        //GIVEN
+            properties.setProperty("webapp.port", "8080");
+            BeanCreationException exception = new BeanCreationException("exception");
+            doReturn(webAppServer).when(underTest).createWebAppServer();
+            willThrow(exception).given(webAppServer).createServer(8080);
+            given(systemExceptionSelector.getSystemException(exception)).willReturn(null);
+            //WHEN
+            underTest.bootstrap(ARGS);
+            //THEN it should throw exception
+        });
     }
 
     @Test

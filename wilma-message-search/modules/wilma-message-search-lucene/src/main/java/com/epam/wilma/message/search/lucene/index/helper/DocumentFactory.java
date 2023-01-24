@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 /**
  * Factory class for creating new {@link Document}s.
  * Needed for unit testing purposes.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class DocumentFactory {

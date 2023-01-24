@@ -27,14 +27,14 @@ import com.epam.wilma.core.processor.entity.ProcessorBase;
 import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
 import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
 import com.epam.wilma.core.toggle.interceptor.InterceptorModeToggle;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.context.event.ContextRefreshedEvent;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -61,9 +61,9 @@ public class InterceptorModeToggleTest {
     @InjectMocks
     private InterceptorModeToggle underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

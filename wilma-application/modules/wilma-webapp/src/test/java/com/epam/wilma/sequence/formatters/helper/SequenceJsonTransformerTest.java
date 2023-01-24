@@ -27,8 +27,8 @@ import com.epam.wilma.sequence.formatters.helper.converter.NeutralConverter;
 import com.epam.wilma.sequence.formatters.helper.converter.XmlConverter;
 import com.epam.wilma.sequence.formatters.helper.message.Message;
 import com.epam.wilma.sequence.formatters.helper.message.MessageFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -38,8 +38,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -75,9 +75,9 @@ public class SequenceJsonTransformerTest {
     @Mock
     private Message messageResponse;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

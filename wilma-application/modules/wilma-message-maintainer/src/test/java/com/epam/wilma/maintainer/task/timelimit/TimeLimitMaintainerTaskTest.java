@@ -24,15 +24,14 @@ import com.epam.wilma.indexing.jms.delete.JmsIndexDeletionProcessor;
 import com.epam.wilma.maintainer.configuration.MaintainerConfigurationAccess;
 import com.epam.wilma.maintainer.configuration.domain.MaintainerProperties;
 import com.epam.wilma.maintainer.domain.DeletedFileProvider;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -41,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -73,10 +73,10 @@ public class TimeLimitMaintainerTaskTest {
     @Mock
     private JmsIndexDeletionProcessor indexDeletionProcessor;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         properties = new MaintainerProperties("", "timeLimit", 1, "10S");
         given(configurationAccess.getProperties()).willReturn(properties);
     }
@@ -84,9 +84,9 @@ public class TimeLimitMaintainerTaskTest {
     @Test
     public final void testRun() {
         // GIVEN
-        Whitebox.setInternalState(underTest, "simpleDateFormat", new SimpleDateFormat("yyyyMMddHHmmss"));
+        ReflectionTestUtils.setField(underTest, "simpleDateFormat", new SimpleDateFormat("yyyyMMddHHmmss"));
         DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
-        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
+        ReflectionTestUtils.setField(underTest, "deletedFileProvider", deletedFileProvider);
         File file1 = Mockito.mock(File.class);
         given(file1.getName()).willReturn("20130701151510.0000resp.txt");
         File file2 = Mockito.mock(File.class);
@@ -107,7 +107,7 @@ public class TimeLimitMaintainerTaskTest {
 
         Calendar cal = Calendar.getInstance();
         //note: sixth month is jul - starting from 0
-        cal.set(2013, 6, 1, 15, 15, 21);
+        cal.set(2013, Calendar.JULY, 1, 15, 15, 21);
         Date date = cal.getTime();
         given(currentDateProvider.getCurrentDate()).willReturn(date);
         // WHEN
@@ -122,9 +122,9 @@ public class TimeLimitMaintainerTaskTest {
     @Test
     public final void testRunShouldSendMessageToIndexDeletion() {
         // GIVEN
-        Whitebox.setInternalState(underTest, "simpleDateFormat", new SimpleDateFormat("yyyyMMddHHmmss"));
+        ReflectionTestUtils.setField(underTest, "simpleDateFormat", new SimpleDateFormat("yyyyMMddHHmmss"));
         DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
-        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
+        ReflectionTestUtils.setField(underTest, "deletedFileProvider", deletedFileProvider);
 
         File file1 = Mockito.mock(File.class);
         given(file1.getAbsolutePath()).willReturn("20130701151510.0000resp.txt");
@@ -138,7 +138,7 @@ public class TimeLimitMaintainerTaskTest {
         given(file1.delete()).willReturn(true);
 
         Calendar cal = Calendar.getInstance();
-        cal.set(2013, 6, 1, 15, 15, 21);
+        cal.set(2013, Calendar.JULY, 1, 15, 15, 21);
         Date date = cal.getTime();
         given(currentDateProvider.getCurrentDate()).willReturn(date);
         // WHEN
@@ -161,10 +161,10 @@ public class TimeLimitMaintainerTaskTest {
     @Test
     public final void testRunShouldSaveDeleteFilesCountWhenItDeleteFiles() {
         // GIVEN
-        Whitebox.setInternalState(underTest, "timeLimitInSeconds", 10);
-        Whitebox.setInternalState(underTest, "simpleDateFormat", new SimpleDateFormat("yyyyMMddHHmmss"));
+        ReflectionTestUtils.setField(underTest, "timeLimitInSeconds", 10);
+        ReflectionTestUtils.setField(underTest, "simpleDateFormat", new SimpleDateFormat("yyyyMMddHHmmss"));
         DeletedFileProvider deletedFileProvider = new DeletedFileProvider();
-        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
+        ReflectionTestUtils.setField(underTest, "deletedFileProvider", deletedFileProvider);
         File file1 = Mockito.mock(File.class);
         given(file1.getName()).willReturn("20130701151510.0000resp.txt");
         File file2 = Mockito.mock(File.class);
@@ -184,13 +184,15 @@ public class TimeLimitMaintainerTaskTest {
         given(logFolder.listFiles(fileFilter)).willReturn(messageFiles);
 
         Calendar cal = Calendar.getInstance();
-        cal.set(2013, 6, 1, 15, 15, 21);
+        cal.set(2013, Calendar.JULY, 1, 15, 15, 21);
         Date date = cal.getTime();
         given(currentDateProvider.getCurrentDate()).willReturn(date);
         // WHEN
         underTest.run();
         // THEN
-        int actual = ((DeletedFileProvider) Whitebox.getInternalState(underTest, "deletedFileProvider")).getDeletedFilesCount();
-        Assert.assertEquals(2, actual);
+        deletedFileProvider = (DeletedFileProvider) ReflectionTestUtils.getField(underTest, "deletedFileProvider");
+        assert deletedFileProvider != null;
+        int actual = deletedFileProvider.getDeletedFilesCount();
+        assertEquals(2, actual);
     }
 }

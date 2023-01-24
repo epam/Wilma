@@ -24,8 +24,8 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.sequence.RequestResponsePair;
 import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.sequence.WilmaSequencePairs;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.sql.Timestamp;
@@ -33,8 +33,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -49,8 +49,8 @@ public class WilmaSequenceTest {
     private final boolean isVolatile = false;
     private WilmaSequence underTest;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         String sequenceKey = "key";
         Timestamp timestamp = new Timestamp(10);
         underTest = new WilmaSequence(sequenceKey, timestamp, messageStore);

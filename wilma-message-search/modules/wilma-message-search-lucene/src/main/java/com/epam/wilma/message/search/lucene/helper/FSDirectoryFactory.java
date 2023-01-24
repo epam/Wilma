@@ -30,8 +30,8 @@ import com.epam.wilma.message.search.lucene.configuration.PropertyDto;
 
 /**
  * Creates an {@link FSDirectory} instance for Lucene components.
- * @author Tamas_Bihari
  *
+ * @author Tamas_Bihari
  */
 public class FSDirectoryFactory {
 

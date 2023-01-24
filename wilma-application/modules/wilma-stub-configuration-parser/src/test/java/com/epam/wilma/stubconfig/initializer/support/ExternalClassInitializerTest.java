@@ -25,22 +25,23 @@ import com.epam.wilma.stubconfig.initializer.support.helper.ClassFactory;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassInstantiator;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassNameMapper;
 import com.epam.wilma.stubconfig.initializer.support.helper.ClassValidator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Provides unit tests for the class {@link ExternalClassInitializer}.
@@ -65,10 +66,10 @@ public class ExternalClassInitializerTest {
     @InjectMocks
     private ExternalClassInitializer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = new ExternalClassInitializer();
-        initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(classNameMapper.get(SIMPLE_CLASS_NAME)).willReturn(CLASS);
     }
 
@@ -85,7 +86,8 @@ public class ExternalClassInitializerTest {
     }
 
     @Test
-    public void testLoadExternalClassShouldBeRegisteredToApplicationContext() throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public void testLoadExternalClassShouldBeRegisteredToApplicationContext()
+            throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
         //GIVEN
         given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
         given(classFactory.getClassToLoad(PATH, CLASS)).willReturn(Object.class);
@@ -99,7 +101,7 @@ public class ExternalClassInitializerTest {
     }
 
     @Test
-    public void testLoadExternalClassShouldReturnTheClassWhenAlreadyInApplicationContexg() throws ClassNotFoundException {
+    public void testLoadExternalClassShouldReturnTheClassWhenAlreadyInApplicationContext() {
         //GIVEN
         TemplateGenerator generator = new DummyGenerator();
         given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willReturn(generator);
@@ -109,26 +111,30 @@ public class ExternalClassInitializerTest {
         assertEquals(actual, generator);
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
-    public void testLoadExternalClassShouldThrowExceptionWhenClassFactoryThrowException() throws ClassNotFoundException {
-        //GIVEN
-        given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
-        given(classFactory.getClassToLoad(PATH, CLASS)).willThrow(new ClassNotFoundException());
-        //WHEN
-        underTest.loadExternalClass(SIMPLE_CLASS_NAME, PATH, TemplateGenerator.class);
-        //THEN exception is thrown
-        verify(classNameMapper).get(SIMPLE_CLASS_NAME);
+    @Test
+    public void testLoadExternalClassShouldThrowExceptionWhenClassFactoryThrowException() {
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
+            given(classFactory.getClassToLoad(PATH, CLASS)).willThrow(new ClassNotFoundException());
+            //WHEN
+            underTest.loadExternalClass(SIMPLE_CLASS_NAME, PATH, TemplateGenerator.class);
+            //THEN exception is thrown
+            verify(classNameMapper).get(SIMPLE_CLASS_NAME);
+        });
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
-    public void testLoadExternalClassShouldThrowExceptionWhenClassFactoryThrowClassFormatException() throws ClassNotFoundException {
-        //GIVEN
-        given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
-        given(classFactory.getClassToLoad(PATH, CLASS)).willThrow(new ClassFormatError());
-        //WHEN
-        underTest.loadExternalClass(SIMPLE_CLASS_NAME, PATH, TemplateGenerator.class);
-        //THEN exception is thrown
-        verify(classNameMapper).get(SIMPLE_CLASS_NAME);
+    @Test
+    public void testLoadExternalClassShouldThrowExceptionWhenClassFactoryThrowClassFormatException() {
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            given(beanRegistryService.getBean(SIMPLE_CLASS_NAME, TemplateGenerator.class)).willThrow(new NoSuchBeanDefinitionException(""));
+            given(classFactory.getClassToLoad(PATH, CLASS)).willThrow(new ClassFormatError());
+            //WHEN
+            underTest.loadExternalClass(SIMPLE_CLASS_NAME, PATH, TemplateGenerator.class);
+            //THEN exception is thrown
+            verify(classNameMapper).get(SIMPLE_CLASS_NAME);
+        });
     }
 
     @SuppressWarnings("unchecked")

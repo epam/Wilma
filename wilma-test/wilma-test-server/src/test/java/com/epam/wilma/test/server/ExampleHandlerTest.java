@@ -19,9 +19,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import org.eclipse.jetty.server.Request;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,8 +35,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -72,14 +72,14 @@ public class ExampleHandlerTest {
     @Mock
     private PrintWriter writer;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = Mockito.spy(new ExampleHandler(inputStreamConverter));
     }
 
     @Test
-    @Ignore
+    @Disabled
     public final void testHandleShouldReturnResponse() throws IOException, ServletException {
         // GIVEN
         given(inputStreamConverter.getStringFromStream(requestBody)).willReturn("exampleID=\"123\"");

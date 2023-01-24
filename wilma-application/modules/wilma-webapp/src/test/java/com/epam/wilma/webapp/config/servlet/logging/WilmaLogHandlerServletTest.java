@@ -21,12 +21,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.common.helper.LogFilePathProvider;
 import com.epam.wilma.webapp.config.servlet.helper.FileReader;
 import com.epam.wilma.webapp.config.servlet.helper.LogFileHandler;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -60,11 +60,11 @@ public class WilmaLogHandlerServletTest {
     @InjectMocks
     private WilmaLogHandlerServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "filePathProvider", filePathProvider);
-        Whitebox.setInternalState(underTest, "logFileHandler", logFileHandler);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "filePathProvider", filePathProvider);
+        ReflectionTestUtils.setField(underTest, "logFileHandler", logFileHandler);
         given(filePathProvider.getAppLogFilePath()).willReturn(path);
     }
 

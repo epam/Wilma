@@ -18,8 +18,9 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Provides unit tests for the class {@link SequenceHeaderUtil}.
@@ -28,7 +29,7 @@ import org.junit.Test;
  */
 public class SequenceHeaderUtilTest {
 
-    private SequenceHeaderUtil underTest = new SequenceHeaderUtil();
+    private final SequenceHeaderUtil underTest = new SequenceHeaderUtil();
 
     @Test
     public void testCreateSequenceHeaderWhenTheSourceIsEmpty() {
@@ -37,7 +38,7 @@ public class SequenceHeaderUtilTest {
         //WHEN
         String result = underTest.createSequenceHeader(null, testKey);
         //THEN
-        Assert.assertEquals(testKey, result);
+        assertEquals(testKey, result);
     }
 
     @Test
@@ -49,7 +50,7 @@ public class SequenceHeaderUtilTest {
         //WHEN
         String result = underTest.createSequenceHeader(testKeyFirst, testKeySecond);
         //THEN
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -59,8 +60,8 @@ public class SequenceHeaderUtilTest {
         //WHEN
         String[] result = underTest.resolveSequenceHeader(testKey);
         //THEN
-        Assert.assertEquals(1, result.length);
-        Assert.assertEquals(testKey, result[0]);
+        assertEquals(1, result.length);
+        assertEquals(testKey, result[0]);
     }
 
     @Test
@@ -72,8 +73,8 @@ public class SequenceHeaderUtilTest {
         //WHEN
         String[] result = underTest.resolveSequenceHeader(input);
         //THEN
-        Assert.assertEquals(2, result.length);
-        Assert.assertEquals(testKeyFirst, result[0]);
-        Assert.assertEquals(testKeySecond, result[1]);
+        assertEquals(2, result.length);
+        assertEquals(testKeyFirst, result[0]);
+        assertEquals(testKeySecond, result[1]);
     }
 }

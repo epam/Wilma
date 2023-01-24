@@ -22,15 +22,15 @@ import com.epam.wilma.common.saxon.helper.SerializerFactory;
 import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
 import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.s9api.XsltTransformer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.io.ByteArrayOutputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -55,9 +55,9 @@ public class XslOutputProviderTest {
     @InjectMocks
     private XslOutputProvider underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

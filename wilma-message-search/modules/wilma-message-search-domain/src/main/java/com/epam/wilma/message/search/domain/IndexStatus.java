@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Holds the status of the index files.
- * @author Adam_Csaba_Kiraly
  *
+ * @author Adam_Csaba_Kiraly
  */
 @Component
 public class IndexStatus {

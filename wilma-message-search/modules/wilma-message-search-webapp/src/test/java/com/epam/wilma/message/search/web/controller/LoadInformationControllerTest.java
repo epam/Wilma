@@ -20,19 +20,19 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.message.search.jms.helper.JmxConnectionBuilder;
 import com.epam.wilma.message.search.jms.helper.JmxObjectNameProvider;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -54,9 +54,9 @@ public class LoadInformationControllerTest {
     @InjectMocks
     private LoadInformationController underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -73,12 +73,12 @@ public class LoadInformationControllerTest {
     @Test
     public final void testGetLoadInformationShouldInitConnectionWhenJMSQueueIsNull() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "jmsQueue", null);
+        ReflectionTestUtils.setField(underTest, "jmsQueue", null);
         given(jmxConnectionBuilder.buildMBeanServerConnection(LoadInformationController.JMS_SERVICE_URL)).willReturn(mBeanServerConnection);
         given(jmxObjectNameProvider.getObjectName(LoadInformationController.JMS_QUEUE_OBJECT_NAME)).willReturn(jmsQueue);
         given(mBeanServerConnection.getAttribute(jmsQueue, "QueueSize")).willReturn(91L);
         // WHEN
-        Map<String, Long> result = underTest.getLoadInformation();
+        underTest.getLoadInformation();
         // THEN
         verify(jmxConnectionBuilder).buildMBeanServerConnection(LoadInformationController.JMS_SERVICE_URL);
         verify(jmxObjectNameProvider).getObjectName(LoadInformationController.JMS_QUEUE_OBJECT_NAME);
@@ -87,12 +87,12 @@ public class LoadInformationControllerTest {
     @Test
     public final void testGetLoadInformationShouldInitConnectionWhenMBeanServerConnectionJMSIsNull() throws Exception {
         // GIVEN
-        Whitebox.setInternalState(underTest, "jmsQueueConnection", null);
+        ReflectionTestUtils.setField(underTest, "jmsQueueConnection", null);
         given(jmxConnectionBuilder.buildMBeanServerConnection(LoadInformationController.JMS_SERVICE_URL)).willReturn(mBeanServerConnection);
         given(jmxObjectNameProvider.getObjectName(LoadInformationController.JMS_QUEUE_OBJECT_NAME)).willReturn(jmsQueue);
         given(mBeanServerConnection.getAttribute(jmsQueue, "QueueSize")).willReturn(91L);
         // WHEN
-        Map<String, Long> result = underTest.getLoadInformation();
+        underTest.getLoadInformation();
         // THEN
         verify(jmxConnectionBuilder).buildMBeanServerConnection(LoadInformationController.JMS_SERVICE_URL);
         verify(jmxObjectNameProvider).getObjectName(LoadInformationController.JMS_QUEUE_OBJECT_NAME);

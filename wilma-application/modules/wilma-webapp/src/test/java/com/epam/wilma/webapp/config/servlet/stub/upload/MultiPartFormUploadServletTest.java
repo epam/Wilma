@@ -24,12 +24,12 @@ import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -66,16 +66,16 @@ public class MultiPartFormUploadServletTest {
 
     private MultiPartFormUploadServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(response.getWriter()).willReturn(printWriter);
         given(request.getContentType()).willReturn("multipart/");
         given(servletFileUploadFactory.createInstance()).willReturn(servletFileUpload);
         given(urlAccessLogMessageAssembler.assembleMessage(Mockito.any(HttpServletRequest.class), Mockito.anyString())).willReturn("message");
         underTest = new MultiPartFormUploadServlet(servletFileUploadFactory, multiPartFileParser, urlAccessLogMessageAssembler);
-        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
-        Whitebox.setInternalState(underTest, "multiPartFileParser", multiPartFileParser);
+        ReflectionTestUtils.setField(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        ReflectionTestUtils.setField(underTest, "multiPartFileParser", multiPartFileParser);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class MultiPartFormUploadServletTest {
     }
 
     @Test
-    public void testDoGetShouldWriteResopnseWhenGotNotMultiPartRequest() throws ServletException, IOException {
+    public void testDoGetShouldWriteResponseWhenGotNotMultiPartRequest() throws ServletException, IOException {
         //GIVEN
         given(request.getContentType()).willReturn("GET");
         //WHEN

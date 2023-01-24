@@ -4,6 +4,7 @@ import org.apache.http.Header;
 
 /**
  * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ *
  * @author Tamas_Kohegyi
  */
 public class ResponseInfo {

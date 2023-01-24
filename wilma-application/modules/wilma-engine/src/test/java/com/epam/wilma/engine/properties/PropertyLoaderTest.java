@@ -28,23 +28,24 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import com.epam.wilma.common.stream.helper.FileInputStreamFactory;
 import com.epam.wilma.engine.properties.helper.PropertiesFactory;
 import com.epam.wilma.engine.properties.helper.PropertiesNotAvailableException;
 import com.epam.wilma.engine.properties.validation.PropertyValidator;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Provides unit tests for the class {@link PropertyLoader}.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class PropertyLoaderTest {
 
@@ -67,33 +68,37 @@ public class PropertyLoaderTest {
     @InjectMocks
     private PropertyLoader underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         underTest = Mockito.spy(new PropertyLoader());
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(inputStreamFactory.createFileInputStream(configFile)).willReturn(inputStream);
         given(propertiesFactory.createProperties()).willReturn(properties);
-        Whitebox.setInternalState(underTest, "configFile", configFile);
+        ReflectionTestUtils.setField(underTest, "configFile", configFile);
         String validationFile = "wilma.conf.validation.properties";
-        Whitebox.setInternalState(underTest, "validationFile", validationFile);
+        ReflectionTestUtils.setField(underTest, "validationFile", validationFile);
     }
 
-    @Test(expected = PropertiesNotAvailableException.class)
+    @Test
     public void testLoadPropertiesWhenProgramArgumentEmptyShouldThrowException() {
-        //GIVEN
-        Whitebox.setInternalState(underTest, "configFile", "");
-        //WHEN
-        underTest.loadProperties();
-        //THEN excpetion should be thrown
+        Assertions.assertThrows(PropertiesNotAvailableException.class, () -> {
+            //GIVEN
+            ReflectionTestUtils.setField(underTest, "configFile", "");
+            //WHEN
+            underTest.loadProperties();
+            //THEN exception should be thrown
+        });
     }
 
-    @Test(expected = PropertiesNotAvailableException.class)
+    @Test
     public void testLoadPropertiesWhenProgramArgumentInvalidShouldThrowException() {
-        //GIVEN
-        Whitebox.setInternalState(underTest, "configFile", "wilma.conf.prop");
-        //WHEN
-        underTest.loadProperties();
-        //THEN excpetion should be thrown
+        Assertions.assertThrows(PropertiesNotAvailableException.class, () -> {
+            //GIVEN
+            ReflectionTestUtils.setField(underTest, "configFile", "wilma.conf.prop");
+            //WHEN
+            underTest.loadProperties();
+            //THEN exception should be thrown
+        });
     }
 
     @Test
@@ -114,23 +119,26 @@ public class PropertyLoaderTest {
         verify(propertyReader).setProperties(properties);
     }
 
-    @Test(expected = PropertiesNotAvailableException.class)
-    public void testLoadPropertiesWhenFileNotFoundShouldThrowException() throws Exception {
-        //GIVEN
-        given(inputStreamFactory.createFileInputStream(configFile)).willThrow(new FileNotFoundException());
-        //WHEN
-        underTest.loadProperties();
-        //THEN excpetion should be thrown
-
+    @Test
+    public void testLoadPropertiesWhenFileNotFoundShouldThrowException() {
+        Assertions.assertThrows(PropertiesNotAvailableException.class, () -> {
+            //GIVEN
+            given(inputStreamFactory.createFileInputStream(configFile)).willThrow(new FileNotFoundException());
+            //WHEN
+            underTest.loadProperties();
+            //THEN exception should be thrown
+        });
     }
 
-    @Test(expected = PropertiesNotAvailableException.class)
-    public void testLoadPropertiesWhenIOExcpetionShouldThrowException() throws Exception {
-        //GIVEN
-        willThrow(new IOException()).given(properties).load(inputStream);
-        //WHEN
-        underTest.loadProperties();
-        //THEN excpetion should be thrown
+    @Test
+    public void testLoadPropertiesWhenIOExceptionShouldThrowException() {
+        Assertions.assertThrows(PropertiesNotAvailableException.class, () -> {
+            //GIVEN
+            willThrow(new IOException()).given(properties).load(inputStream);
+            //WHEN
+            underTest.loadProperties();
+            //THEN exception should be thrown
+        });
     }
 
     @Test
@@ -143,12 +151,14 @@ public class PropertyLoaderTest {
         verify(propertyValidator).setProperties(validationProperties);
     }
 
-    @Test(expected = PropertiesNotAvailableException.class)
-    public void testLoadValidationPropertiesWhenIOExcpetionShouldThrowException() throws Exception {
-        //GIVEN
-        Mockito.doThrow(new IOException()).when(underTest).createValidationProperties();
-        //WHEN
-        underTest.loadValidationProperties();
-        //THEN excpetion should be thrown
+    @Test
+    public void testLoadValidationPropertiesWhenIOExceptionShouldThrowException() {
+        Assertions.assertThrows(PropertiesNotAvailableException.class, () -> {
+            //GIVEN
+            Mockito.doThrow(new IOException()).when(underTest).createValidationProperties();
+            //WHEN
+            underTest.loadValidationProperties();
+            //THEN exception should be thrown
+        });
     }
 }

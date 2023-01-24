@@ -22,12 +22,12 @@ import com.epam.wilma.webapp.config.servlet.helper.MaintainerPropertiesJsonBuild
 import com.epam.wilma.webapp.configuration.WebAppConfigurationAccess;
 import com.epam.wilma.webapp.configuration.domain.MaintainerProperties;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -63,11 +63,11 @@ public class MaintainerPropertiesServletTest {
     @InjectMocks
     private MaintainerPropertiesServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "maintainerPropertiesJsonBuilder", maintainerPropertiesJsonBuilder);
-        Whitebox.setInternalState(underTest, "webAppConfigurationAccess", webAppConfigurationAccess);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "maintainerPropertiesJsonBuilder", maintainerPropertiesJsonBuilder);
+        ReflectionTestUtils.setField(underTest, "webAppConfigurationAccess", webAppConfigurationAccess);
         given(webAppConfigurationAccess.getProperties()).willReturn(properties);
         given(properties.getMaintainerProperties()).willReturn(maintainerProperties);
     }

@@ -20,9 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.webapp.service.command.ChangeStatusCommand;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -30,6 +29,8 @@ import org.mockito.MockitoAnnotations;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -40,7 +41,7 @@ import static org.mockito.Mockito.verify;
  */
 public class StubConfigurationStatusServiceTest {
 
-    private static final String GROUPNAME_FIRST = "First";
+    private static final String GROUP_NAME_FIRST = "First";
 
     @Mock
     private RoutingService routingService;
@@ -50,21 +51,21 @@ public class StubConfigurationStatusServiceTest {
     @InjectMocks
     private StubConfigurationStatusService underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     public void testChangeStatusShouldCallTheTwoMethod() throws ClassNotFoundException {
         //GIVEN in setUp
         //WHEN
-        underTest.changeStatus(false, GROUPNAME_FIRST, request);
+        underTest.changeStatus(false, GROUP_NAME_FIRST, request);
         //THEN
         ArgumentCaptor<ChangeStatusCommand> argument = ArgumentCaptor.forClass(ChangeStatusCommand.class);
         verify(routingService, times(1)).performModification(argument.capture());
-        Assert.assertFalse(argument.getValue().isNextStatus());
-        Assert.assertEquals(GROUPNAME_FIRST, argument.getValue().getGroupName());
-        Assert.assertEquals(request, argument.getValue().getRequest());
+        assertFalse(argument.getValue().isNextStatus());
+        assertEquals(GROUP_NAME_FIRST, argument.getValue().getGroupName());
+        assertEquals(request, argument.getValue().getRequest());
     }
 }

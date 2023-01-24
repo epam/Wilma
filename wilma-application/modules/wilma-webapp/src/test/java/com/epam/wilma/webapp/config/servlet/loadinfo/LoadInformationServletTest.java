@@ -23,13 +23,13 @@ import com.epam.wilma.maintainer.domain.DeletedFileProvider;
 import com.epam.wilma.maintainer.task.helper.MessageFileCounter;
 import com.epam.wilma.safeguard.configuration.domain.QueueSizeProvider;
 import com.epam.wilma.webapp.configuration.domain.PropertyDTO;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -64,13 +64,12 @@ public class LoadInformationServletTest {
     @Mock
     private MessageFileCounter messageCounter;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "queueSizeProvider", queueSizeProvider);
-        Whitebox.setInternalState(underTest, "deletedFileProvider", deletedFileProvider);
-        Whitebox.setInternalState(underTest, "messageCounter", messageCounter);
-
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "queueSizeProvider", queueSizeProvider);
+        ReflectionTestUtils.setField(underTest, "deletedFileProvider", deletedFileProvider);
+        ReflectionTestUtils.setField(underTest, "messageCounter", messageCounter);
     }
 
     @Test

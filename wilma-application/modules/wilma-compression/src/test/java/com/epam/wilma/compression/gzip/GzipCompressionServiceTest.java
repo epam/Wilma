@@ -22,8 +22,9 @@ import com.epam.wilma.common.stream.helper.ByteArrayOutputStreamFactory;
 import com.epam.wilma.compression.gzip.helper.GzipInputStreamFactory;
 import com.epam.wilma.compression.gzip.helper.GzipOutputStreamFactory;
 import com.epam.wilma.domain.exception.SystemException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,7 +36,7 @@ import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -65,9 +66,9 @@ public class GzipCompressionServiceTest {
     @InjectMocks
     private GzipCompressionService underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(gzipOutpuStreamFactory.createOutputStream(baos)).willReturn(gzipOutputStream);
         given(outputStreamFactory.createByteArrayOutputStream()).willReturn(baos);
     }
@@ -102,23 +103,27 @@ public class GzipCompressionServiceTest {
         verify(gzipOutputStream).close();
     }
 
-    @Test(expected = SystemException.class)
+    @Test
     public void testCompressShouldThrowSystemExceptionWhenIOExceptionIsCatched() throws IOException {
-        //GIVEN
-        given(source.read((byte[]) Mockito.any())).willThrow(new IOException());
-        //WHEN
-        underTest.compress(source);
-        //THEN exception should be thrown
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            given(source.read((byte[]) Mockito.any())).willThrow(new IOException());
+            //WHEN
+            underTest.compress(source);
+            //THEN exception should be thrown
+        });
     }
 
-    @Test(expected = SystemException.class)
+    @Test
     public void testDecompressShouldThrowExceptionWhenStreamCopyThrowsIOException() throws IOException {
-        //GIVEN
-        given(gzipInputStreamFactory.createInputStream(source)).willReturn(gzipInputStream);
-        given(gzipInputStream.read((byte[]) Mockito.any())).willThrow(new IOException());
-        //WHEN
-        underTest.decompress(source);
-        //THEN it should throw exception
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            given(gzipInputStreamFactory.createInputStream(source)).willReturn(gzipInputStream);
+            given(gzipInputStream.read((byte[]) Mockito.any())).willThrow(new IOException());
+            //WHEN
+            underTest.decompress(source);
+            //THEN it should throw exception
+        });
     }
 
     @Test

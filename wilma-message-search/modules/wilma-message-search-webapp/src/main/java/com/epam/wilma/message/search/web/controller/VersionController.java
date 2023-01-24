@@ -33,6 +33,7 @@ import com.epam.wilma.message.search.web.support.VersionTitleProvider;
 
 /**
  * Controller for version information.
+ *
  * @author Adam_Csaba_Kiraly
  *
  */

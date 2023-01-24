@@ -22,6 +22,8 @@ import com.epam.wilma.mitmproxy.proxy.helper.ContentEncoding;
 
 /**
  * Tests just a single basic proxy running as a man in the middle.
+ *
+ * @author Tamas_Kohegyi
  */
 public class ProxyServerTestWithEncodingGzip extends ProxyServerTestWithEncodingBase {
 

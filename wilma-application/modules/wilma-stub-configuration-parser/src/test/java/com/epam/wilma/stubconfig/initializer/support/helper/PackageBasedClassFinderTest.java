@@ -20,8 +20,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.stubconfig.exception.DescriptorValidationFailedException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
@@ -39,17 +40,19 @@ public class PackageBasedClassFinderTest {
     @InjectMocks
     private PackageBasedClassFinder underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
-    @Test(expected = DescriptorValidationFailedException.class)
+    @Test
     public void testFindClassInJarOfShouldThrowDescriptorValidationFailedExceptionExceptionWhenNoClassIsFound() {
-        //GIVEN
-        //WHEN
-        underTest.findClassInJar(JAR_FOLDER_PATH, INTERFACE_OR_CLASS, PACKAGE_NAME);
-        //THEN exception is thrown
+        Assertions.assertThrows(DescriptorValidationFailedException.class, () -> {
+            //GIVEN
+            //WHEN
+            underTest.findClassInJar(JAR_FOLDER_PATH, INTERFACE_OR_CLASS, PACKAGE_NAME);
+            //THEN exception is thrown
+        });
     }
 
 }

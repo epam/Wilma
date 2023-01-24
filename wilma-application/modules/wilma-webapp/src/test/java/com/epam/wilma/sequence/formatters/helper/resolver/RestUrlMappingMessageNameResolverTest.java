@@ -22,15 +22,15 @@ import com.epam.wilma.domain.http.WilmaHttpEntity;
 import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.net.URI;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -51,7 +51,7 @@ public class RestUrlMappingMessageNameResolverTest {
     @InjectMocks
     private RestUrlMappingMessageNameResolver underTest;
 
-    @Before
+    @BeforeEach
     public void setup() {
         initializeMocksAndTestDate();
         parameters.addParameter(new Parameter("type:RegexResolvable", "url:.*/urls/regex.html"));
@@ -62,7 +62,7 @@ public class RestUrlMappingMessageNameResolverTest {
     }
 
     private void initializeMocksAndTestDate() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         parameters = new ParameterList();
         request = new WilmaHttpRequest();
         request.setBody(REQUEST_BODY);

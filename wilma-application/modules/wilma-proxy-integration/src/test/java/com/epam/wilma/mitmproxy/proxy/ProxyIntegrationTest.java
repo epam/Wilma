@@ -24,20 +24,20 @@ import com.epam.wilma.proxy.configuration.ProxyConfigurationAccess;
 import com.epam.wilma.proxy.configuration.domain.ProxyPropertyDTO;
 import com.epam.wilma.proxy.exception.ProxyCannotBeStartedException;
 import net.lightbody.bmp.proxy.jetty.http.SocketListener;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import website.magyar.mitm.proxy.ProxyServer;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
 
@@ -69,11 +69,11 @@ public class ProxyIntegrationTest {
     @Mock
     private Logger logger;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = Mockito.spy(new MitmProxy());
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
     }
 
     @Test
@@ -90,19 +90,21 @@ public class ProxyIntegrationTest {
         Mockito.verify(server).start(requestTimeout);
         Mockito.verify(server).addRequestInterceptor(loggingRequestInterceptor);
         Mockito.verify(server).addResponseInterceptor(loggingResponseInterceptor);
-        Assert.assertTrue("Response volatility status was not set properly.", ProxyServer.getResponseVolatile());
+        assertTrue(ProxyServer.getResponseVolatile(), "Response volatility status was not set properly.");
     }
 
-    @Test(expected = ProxyCannotBeStartedException.class)
-    public void testStartShouldThrowExceptionWhenTheProxyCannotBeStarted() throws Exception {
-        // GIVEN
-        int requestTimeout = 30000;
-        propertiesDTO = new ProxyPropertyDTO(0, requestTimeout, false, false);
-        given(configurationAccess.getProperties()).willReturn(propertiesDTO);
-        Mockito.doThrow(Exception.class).when(server).start(requestTimeout);
-        // WHEN
-        underTest.start();
-        // THEN exception thrown
+    @Test
+    public void testStartShouldThrowExceptionWhenTheProxyCannotBeStarted() {
+        Assertions.assertThrows(ProxyCannotBeStartedException.class, () -> {
+            // GIVEN
+            int requestTimeout = 30000;
+            propertiesDTO = new ProxyPropertyDTO(0, requestTimeout, false, false);
+            given(configurationAccess.getProperties()).willReturn(propertiesDTO);
+            Mockito.doThrow(Exception.class).when(server).start(requestTimeout);
+            // WHEN
+            underTest.start();
+            // THEN exception thrown
+        });
     }
 
     @Test
@@ -112,7 +114,7 @@ public class ProxyIntegrationTest {
         //WHEN
         underTest.stop();
         //THEN
-        Mockito.verify(logger).error(Mockito.eq("Proxy can not be stopped: " + EXCPEPTION_MESSAGE), Matchers.any(Exception.class));
+        Mockito.verify(logger).error(Mockito.eq("Proxy can not be stopped: " + EXCPEPTION_MESSAGE), Mockito.any(Exception.class));
     }
 
     @Test

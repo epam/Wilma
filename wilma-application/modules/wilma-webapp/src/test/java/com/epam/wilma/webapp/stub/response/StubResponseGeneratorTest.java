@@ -39,11 +39,10 @@ import com.epam.wilma.webapp.stub.response.support.HttpServletRequestTransformer
 import com.epam.wilma.webapp.stub.response.support.SequenceResponseGuard;
 import com.epam.wilma.webapp.stub.response.support.StubResponseHeaderConfigurer;
 import com.epam.wilma.webapp.stub.servlet.helper.WaitProvider;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -54,9 +53,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -114,9 +117,9 @@ public class StubResponseGeneratorTest {
 
     private Set<ResponseFormatterDescriptor> responseFormatterDescriptors;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         responseFormatterDescriptors = new HashSet<>();
         given(responseDescriptorAccess.getResponseDescriptor(anyString())).willReturn(responseDescriptorDTO);
         given(responseDescriptorDTO.getResponseDescriptor()).willReturn(responseDescriptor);
@@ -126,7 +129,7 @@ public class StubResponseGeneratorTest {
         given(responseDescriptor.getAttributes()).willReturn(attributes);
         given(responseDescriptor.getResponseFormatters()).willReturn(responseFormatterDescriptors);
         given(requestTransformer.transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO)).willReturn(wilmaRequest);
-        given(stackTraceConverter.getStackTraceAsString(Matchers.any(Exception.class))).willReturn("exception-message");
+        given(stackTraceConverter.getStackTraceAsString(any(Exception.class))).willReturn("exception-message");
         given(request.getHeader(WilmaHttpRequest.WILMA_LOGGER_ID)).willReturn(WILMA_LOGGER_ID);
         given(request.getHeader(WilmaHttpEntity.WILMA_SEQUENCE_ID)).willReturn("Test");
         given(headerCreator.resolveSequenceHeader("Test")).willReturn(new String[]{"Test"});
@@ -190,7 +193,7 @@ public class StubResponseGeneratorTest {
         //THEN
         //verify set response headers
         verify(headerConfigurer).setResponseContentTypeAndStatus(response, responseDescriptorDTO);
-        Assert.assertEquals(actual, templateResource);
+        assertEquals(actual, templateResource);
     }
 
     @Test
@@ -201,7 +204,7 @@ public class StubResponseGeneratorTest {
         byte[] actual = underTest.generateResponse(request, response);
         //THEN
         verify(headerConfigurer).setResponseContentTypeAndStatus(response, responseDescriptorDTO);
-        Assert.assertEquals(actual, templateResource);
+        assertEquals(actual, templateResource);
     }
 
     @Test
@@ -217,7 +220,7 @@ public class StubResponseGeneratorTest {
         byte[] actual = underTest.generateResponse(request, response);
         //THEN
         verify(headerConfigurer).setResponseContentTypeAndStatus(response, responseDescriptorDTO);
-        Assert.assertEquals(actual, templateResource);
+        assertEquals(actual, templateResource);
     }
 
     @Test
@@ -233,19 +236,21 @@ public class StubResponseGeneratorTest {
         //WHEN
         underTest.generateResponse(request, response);
         //THEN
-        verify(stackTraceConverter).getStackTraceAsString(Matchers.any(ResponseFormattingFailedException.class));
+        verify(stackTraceConverter).getStackTraceAsString(any(ResponseFormattingFailedException.class));
         verify(headerConfigurer).setErrorResponseContentTypeAndStatus(response);
     }
 
-    @Test(expected = InterruptedException.class)
+    @Test
     public void testGenerateResponseShouldLogErrorWhenWaitProviderFail() throws Exception {
-        //GIVEN
-        mockTemplateResource();
-        doThrow(new InterruptedException()).when(waitProvider).waitMilliSeconds(anyInt());
-        //WHEN
-        waitProvider.waitMilliSeconds(1);
-        //THEN we should not arrive here
-        Assert.fail();
+        Assertions.assertThrows(InterruptedException.class, () -> {
+            //GIVEN
+            mockTemplateResource();
+            doThrow(new InterruptedException()).when(waitProvider).waitMilliSeconds(anyInt());
+            //WHEN
+            waitProvider.waitMilliSeconds(1);
+            //THEN we should not arrive here
+            fail();
+        });
     }
 
     private void mockTemplateResource() {
@@ -262,7 +267,7 @@ public class StubResponseGeneratorTest {
         //WHEN
         byte[] result = underTest.generateResponse(request, response);
         //THEN
-        Assert.assertNull(result);
+        assertNull(result);
     }
 
     @Test

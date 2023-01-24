@@ -22,11 +22,9 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.router.helper.WilmaHttpRequestCloner;
 import org.apache.tools.ant.util.VectorSet;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -34,8 +32,8 @@ import org.mockito.MockitoAnnotations;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -62,12 +60,12 @@ public class HttpServletRequestTransformerTest {
     private HttpServletRequestTransformer underTest;
 
     @SuppressWarnings("unchecked")
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         headers = new VectorSet();
         enumeration = headers.elements();
-        given(requestCloner.cloneRequest(any(WilmaHttpRequest.class))).willReturn(wilmaRequest);
+        given(requestCloner.cloneRequest(Mockito.any(WilmaHttpRequest.class))).willReturn(wilmaRequest);
     }
 
     @Test
@@ -77,7 +75,7 @@ public class HttpServletRequestTransformerTest {
         //WHEN
         underTest.transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO);
         //THEN
-        verify(request, Mockito.times(0)).getHeader(Matchers.anyString());
+        verify(request, Mockito.times(0)).getHeader(Mockito.anyString());
     }
 
     @Test
@@ -89,7 +87,7 @@ public class HttpServletRequestTransformerTest {
         //WHEN
         underTest.transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO);
         //THEN
-        verify(request, Mockito.times(2)).getHeader(Matchers.anyString());
+        verify(request, Mockito.times(2)).getHeader(Mockito.anyString());
     }
 
     @Test
@@ -100,7 +98,7 @@ public class HttpServletRequestTransformerTest {
         //WHEN
         WilmaHttpRequest actual = underTest.transformToWilmaHttpRequest(WILMA_LOGGER_ID, request, responseDescriptorDTO);
         //THEN
-        Assert.assertEquals(actual, wilmaRequest);
+        assertEquals(actual, wilmaRequest);
     }
 
 }

@@ -27,8 +27,8 @@ import com.epam.wilma.message.search.properties.PropertyHolder;
 
 /**
  * Configures the module with the necessary properties.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class EngineConfigurationAccess implements ConfigurationAccessBase {

@@ -22,8 +22,8 @@ import com.epam.wilma.message.search.domain.exception.SystemException;
 
 /**
  * It is thrown if an internal exception occurs in the jetty server.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class ServerException extends SystemException {
 

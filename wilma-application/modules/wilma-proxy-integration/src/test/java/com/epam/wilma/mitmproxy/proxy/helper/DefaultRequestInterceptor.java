@@ -14,14 +14,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  * It logs every request that is intercepted.
  *
  * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ *
  * @author Tamas_Kohegyi
  */
 public class DefaultRequestInterceptor implements RequestInterceptor {
 
     private final Logger logger = LoggerFactory.getLogger(DefaultRequestInterceptor.class);
 
-    private AtomicInteger requestCount;
-    private String stubRequestPattern;
+    private final AtomicInteger requestCount;
+    private final String stubRequestPattern;
     private URI stubUri;
 
     public DefaultRequestInterceptor(AtomicInteger requestCount, String stubRequestPattern, String stubUrl) {

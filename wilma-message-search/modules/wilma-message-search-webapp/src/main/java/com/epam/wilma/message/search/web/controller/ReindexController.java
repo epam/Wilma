@@ -34,6 +34,7 @@ import com.epam.wilma.message.search.lucene.index.scheduler.IndexTaskScheduler;
 
 /**
  * Provides access to manually call the reindexing functionality.
+ *
  * @author Adam_Csaba_Kiraly
  *
  */

@@ -18,11 +18,11 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
@@ -30,8 +30,8 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import org.eclipse.jetty.server.Server;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -39,8 +39,8 @@ import org.slf4j.Logger;
 
 /**
  * Test class for {@link TestServerBootstrap}.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class TestServerBootstrapTest {
 
@@ -59,9 +59,9 @@ public class TestServerBootstrapTest {
     @Mock
     private JettyServer jettyServer;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest.setLogger(logger);
     }
 

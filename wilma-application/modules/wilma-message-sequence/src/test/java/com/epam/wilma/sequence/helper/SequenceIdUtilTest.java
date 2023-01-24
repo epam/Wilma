@@ -19,13 +19,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -42,9 +42,9 @@ public class SequenceIdUtilTest {
 
     private final SequenceIdUtil underTest = new SequenceIdUtil();
 
-    @Before
+    @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class SequenceIdUtilTest {
         //WHEN
         String result = underTest.getDescriptorKey(sequenceId);
         //THEN
-        Assert.assertEquals("TestGroup_testDescriptor_1", result);
+        assertEquals("TestGroup_testDescriptor_1", result);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class SequenceIdUtilTest {
         //WHEN
         String result = underTest.getHandlerKey(sequenceId);
         //THEN
-        Assert.assertEquals("abc", result);
+        assertEquals("abc", result);
     }
 
     @Test
@@ -74,10 +74,10 @@ public class SequenceIdUtilTest {
         given(sequenceDescriptor.getGroupName()).willReturn("groupname");
         given(sequenceDescriptor.getName()).willReturn("name");
         given(sequenceDescriptorKeyUtil.createDescriptorKey("groupname", "name")).willReturn("groupname_name");
-        Whitebox.setInternalState(underTest, "sequenceDescriptorKeyUtil", sequenceDescriptorKeyUtil);
+        ReflectionTestUtils.setField(underTest, "sequenceDescriptorKeyUtil", sequenceDescriptorKeyUtil);
         //WHEN
         String result = underTest.createSequenceId(handlerKey, sequenceDescriptor);
         //THEN
-        Assert.assertEquals("groupname_name|Key", result);
+        assertEquals("groupname_name|Key", result);
     }
 }

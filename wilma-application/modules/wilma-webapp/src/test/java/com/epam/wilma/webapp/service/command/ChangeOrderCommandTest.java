@@ -20,9 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.domain.stubconfig.StubDescriptor;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -31,14 +30,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 /**
  * Provides unit tests for the class {@link ChangeOrderCommand}.
  *
  * @author Tibor_Kovacs
  */
 public class ChangeOrderCommandTest {
-    private static final String GROUPNAME_FIRST = "First";
-    private static final String GROUPNAME_SECOND = "Second";
+    private static final String GROUP_NAME_FIRST = "First";
+    private static final String GROUP_NAME_SECOND = "Second";
 
     private Map<String, StubDescriptor> normalStubDescriptors;
     private Map<String, StubDescriptor> reverseStubDescriptors;
@@ -52,62 +53,62 @@ public class ChangeOrderCommandTest {
 
     private ChangeOrderCommand underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         normalStubDescriptors = new LinkedHashMap<>();
-        normalStubDescriptors.put(GROUPNAME_FIRST, stubDescriptor);
-        normalStubDescriptors.put(GROUPNAME_SECOND, stubDescriptor);
+        normalStubDescriptors.put(GROUP_NAME_FIRST, stubDescriptor);
+        normalStubDescriptors.put(GROUP_NAME_SECOND, stubDescriptor);
         reverseStubDescriptors = new LinkedHashMap<>();
-        reverseStubDescriptors.put(GROUPNAME_SECOND, stubDescriptor);
-        reverseStubDescriptors.put(GROUPNAME_FIRST, stubDescriptor);
+        reverseStubDescriptors.put(GROUP_NAME_SECOND, stubDescriptor);
+        reverseStubDescriptors.put(GROUP_NAME_FIRST, stubDescriptor);
     }
 
     @Test
     public void testDoChangeShouldMoveTheFirstStubConfigurationToDownByOne() {
         //GIVEN in setUp
-        String[] expectedGroupnames = reverseStubDescriptors.keySet().toArray(new String[reverseStubDescriptors.size()]);
+        String[] expectedGroupNames = reverseStubDescriptors.keySet().toArray(new String[0]);
         //WHEN
-        underTest = new ChangeOrderCommand(-1, GROUPNAME_FIRST, request, urlAccessLogMessageAssembler);
+        underTest = new ChangeOrderCommand(-1, GROUP_NAME_FIRST, request, urlAccessLogMessageAssembler);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);
-        String[] resultGroupnames = result.keySet().toArray(new String[result.size()]);
+        String[] resultGroupNames = result.keySet().toArray(new String[0]);
         //THEN
-        Assert.assertEquals(resultGroupnames, expectedGroupnames);
+        assertArrayEquals(resultGroupNames, expectedGroupNames);
     }
 
     @Test
     public void testDoChangeShouldMoveTheSecondStubConfigurationToUpByOne() {
         //GIVEN in setUp
-        String[] expectedGroupnames = normalStubDescriptors.keySet().toArray(new String[normalStubDescriptors.size()]);
+        String[] expectedGroupNames = normalStubDescriptors.keySet().toArray(new String[0]);
         //WHEN
-        underTest = new ChangeOrderCommand(1, GROUPNAME_FIRST, request, urlAccessLogMessageAssembler);
+        underTest = new ChangeOrderCommand(1, GROUP_NAME_FIRST, request, urlAccessLogMessageAssembler);
         Map<String, StubDescriptor> result = underTest.modify(reverseStubDescriptors);
-        String[] resultGroupnames = result.keySet().toArray(new String[result.size()]);
+        String[] resultGroupNames = result.keySet().toArray(new String[0]);
         //THEN
-        Assert.assertEquals(resultGroupnames, expectedGroupnames);
+        assertArrayEquals(resultGroupNames, expectedGroupNames);
     }
 
     @Test
     public void testDoChangeShouldNotMoveTheFirstStubConfigurationToUpByOne() {
         //GIVEN in setUp
-        String[] expectedGroupnames = normalStubDescriptors.keySet().toArray(new String[normalStubDescriptors.size()]);
+        String[] expectedGroupNames = normalStubDescriptors.keySet().toArray(new String[0]);
         //WHEN
-        underTest = new ChangeOrderCommand(1, GROUPNAME_FIRST, request, urlAccessLogMessageAssembler);
+        underTest = new ChangeOrderCommand(1, GROUP_NAME_FIRST, request, urlAccessLogMessageAssembler);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);
-        String[] resultGroupnames = result.keySet().toArray(new String[result.size()]);
+        String[] resultGroupNames = result.keySet().toArray(new String[0]);
         //THEN
-        Assert.assertEquals(resultGroupnames, expectedGroupnames);
+        assertArrayEquals(resultGroupNames, expectedGroupNames);
     }
 
     @Test
     public void testDoChangeShouldNotMoveTheSecondStubConfigurationToDownByOne() {
         //GIVEN in setUp
-        String[] expectedGroupnames = normalStubDescriptors.keySet().toArray(new String[normalStubDescriptors.size()]);
+        String[] expectedGroupNames = normalStubDescriptors.keySet().toArray(new String[0]);
         //WHEN
-        underTest = new ChangeOrderCommand(-1, GROUPNAME_SECOND, request, urlAccessLogMessageAssembler);
+        underTest = new ChangeOrderCommand(-1, GROUP_NAME_SECOND, request, urlAccessLogMessageAssembler);
         Map<String, StubDescriptor> result = underTest.modify(normalStubDescriptors);
-        String[] resultGroupnames = result.keySet().toArray(new String[result.size()]);
+        String[] resultGroupNames = result.keySet().toArray(new String[0]);
         //THEN
-        Assert.assertEquals(resultGroupnames, expectedGroupnames);
+        assertArrayEquals(resultGroupNames, expectedGroupNames);
     }
 }

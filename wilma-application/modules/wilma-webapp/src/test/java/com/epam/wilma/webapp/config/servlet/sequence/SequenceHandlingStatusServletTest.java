@@ -19,12 +19,12 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.core.toggle.sequence.SequenceHandlingToggle;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -54,10 +54,10 @@ public class SequenceHandlingStatusServletTest {
     @Mock
     private PrintWriter printWriter;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "sequenceHandlingToggle", sequenceHandlingToggle);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "sequenceHandlingToggle", sequenceHandlingToggle);
     }
 
     @Test

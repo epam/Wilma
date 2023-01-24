@@ -25,20 +25,23 @@ import com.epam.wilma.service.domain.WilmaServiceConfig;
 import com.epam.wilma.service.http.WilmaHttpClient;
 import com.google.common.base.Optional;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.epam.wilma.service.domain.StubConfigOrder.DOWN;
 import static com.epam.wilma.service.domain.StubConfigOrder.UP;
 import static com.epam.wilma.service.domain.StubConfigStatus.DISABLED;
 import static com.epam.wilma.service.domain.StubConfigStatus.ENABLED;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -51,6 +54,7 @@ import static org.mockito.Mockito.when;
  * @author Tamas_Pinter
  *
  */
+@ExtendWith(MockitoExtension.class)
 public class StubConfigurationTest {
 
     private static final String HOST = "host";
@@ -69,17 +73,19 @@ public class StubConfigurationTest {
 
     private StubConfiguration stubConfiguration;
 
-    @Before
+    @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         WilmaServiceConfig config = createMockConfig();
         stubConfiguration = new StubConfiguration(config, client);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowExceptionWhenConfigIsMissing() {
-        new StubConfiguration(null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new StubConfiguration(null);
+        });
     }
 
     @Test
@@ -98,13 +104,17 @@ public class StubConfigurationTest {
 
         JSONObject result = stubConfiguration.getStubConfigInformation();
 
-        assertTrue("The two JSON objects should be similar.", new JSONObject(JSON_STRING).similar(result));
+        assertTrue(new JSONObject(JSON_STRING).similar(result), "The two JSON objects should be similar.");
         verify(client, never()).sendSetterRequest(anyString());
     }
 
     @Test
-    public void shouldCallProperUrlForStubConfigurationChangeStatusRequest() {
+    public void shouldCallProperUrlForStubConfigurationChangeStatusRequestEnabled() {
         shouldCallProperUrlForStubConfigurationChangeStatusRequest(ENABLED, "true");
+    }
+
+    @Test
+    public void shouldCallProperUrlForStubConfigurationChangeStatusRequestDisabled() {
         shouldCallProperUrlForStubConfigurationChangeStatusRequest(DISABLED, "false");
     }
 
@@ -123,8 +133,12 @@ public class StubConfigurationTest {
     }
 
     @Test
-    public void shouldCallProperUrlForStubConfigurationChangeOrderRequest() {
+    public void shouldCallProperUrlForStubConfigurationChangeOrderRequestDown() {
         shouldCallProperUrlForStubConfigurationChangeOrderRequest(DOWN, "-1");
+    }
+
+    @Test
+    public void shouldCallProperUrlForStubConfigurationChangeOrderRequestUp() {
         shouldCallProperUrlForStubConfigurationChangeOrderRequest(UP, "1");
     }
 

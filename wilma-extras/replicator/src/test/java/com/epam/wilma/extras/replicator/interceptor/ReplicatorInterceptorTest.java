@@ -18,18 +18,18 @@ You should have received a copy of the GNU General Public License
 along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Test class for ReplicatorInterceptor class.
  *
- * @author tkohegyi
+ * @author Tamas_Kohegyi
  */
 public class ReplicatorInterceptorTest {
 
     private ReplicatorInterceptor underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = new ReplicatorInterceptor();
     }

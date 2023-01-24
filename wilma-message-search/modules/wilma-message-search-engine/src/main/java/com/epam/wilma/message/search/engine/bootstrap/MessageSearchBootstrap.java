@@ -33,8 +33,8 @@ import com.epam.wilma.message.search.web.WebAppServer;
 
 /**
  * Bootstrap class that starts the application engine.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class MessageSearchBootstrap {
 

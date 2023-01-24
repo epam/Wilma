@@ -31,9 +31,9 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.general.operator.ConditionCheckerOperator;
 
 /**
- * Checks all headers in a request and all of the parameters must be contained by the headers.
- * @author Tamas_Bihari
+ * Checks all headers in a request and all the parameters must be contained by the headers.
  *
+ * @author Tamas_Bihari
  */
 public class AndHeaderChecker implements ConditionChecker {
 

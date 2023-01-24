@@ -27,14 +27,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import com.epam.wilma.webapp.service.StubConfigurationDropperService;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Provides unit tests for the class {@link StubConfigurationDropperServlet}.
@@ -43,8 +43,8 @@ import com.epam.wilma.webapp.service.StubConfigurationDropperService;
  */
 public class StubConfigurationDropperServletTest {
 
-    private static final String DEFAULT_GROUPNAME = "test";
-    private static final String PARAMETER_CONSTANS_GROUPNAME = "groupname";
+    private static final String DEFAULT_GROUP_NAME = "test";
+    private static final String PARAMETER_CONTAINS_GROUP_NAME = "groupname";
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -55,11 +55,11 @@ public class StubConfigurationDropperServletTest {
     @InjectMocks
     private StubConfigurationDropperServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "stubConfigurationDropperService", stubConfigurationDropperService);
-        given(request.getParameter(PARAMETER_CONSTANS_GROUPNAME)).willReturn(DEFAULT_GROUPNAME);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "stubConfigurationDropperService", stubConfigurationDropperService);
+        given(request.getParameter(PARAMETER_CONTAINS_GROUP_NAME)).willReturn(DEFAULT_GROUP_NAME);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class StubConfigurationDropperServletTest {
         //WHEN
         underTest.doGet(request, response);
         //THEN
-        verify(stubConfigurationDropperService).dropSelectedStubConfiguration(DEFAULT_GROUPNAME, request);
+        verify(stubConfigurationDropperService).dropSelectedStubConfiguration(DEFAULT_GROUP_NAME, request);
     }
 
     @Test
@@ -77,6 +77,6 @@ public class StubConfigurationDropperServletTest {
         //WHEN
         underTest.doPost(request, response);
         //THEN
-        verify(stubConfigurationDropperService).dropSelectedStubConfiguration(DEFAULT_GROUPNAME, request);
+        verify(stubConfigurationDropperService).dropSelectedStubConfiguration(DEFAULT_GROUP_NAME, request);
     }
 }

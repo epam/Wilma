@@ -22,8 +22,8 @@ import java.util.Properties;
 
 /**
  * Starts the test server. The server can listen on a configurable port and answer to certain requests.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public final class WilmaTestServerApplication {
 
@@ -33,7 +33,6 @@ public final class WilmaTestServerApplication {
     /**
      * Starts the test server.
      * @param args the program arguments. The properties file location is required.
-     * @throws Exception
      */
     public static void main(final String[] args) {
         new TestServerBootstrap().bootstrap(args, new Properties(), new JettyServer());

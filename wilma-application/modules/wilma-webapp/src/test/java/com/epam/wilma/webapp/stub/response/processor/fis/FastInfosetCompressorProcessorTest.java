@@ -19,8 +19,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.compression.fis.FastInfosetCompressionService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -45,7 +45,7 @@ public class FastInfosetCompressorProcessorTest {
     private static final String ACCEPT_VALUE_XML = "application/xml";
     private static final String RESPONSE_BODY = "RESPONSE_BODY";
     private static final String ACCEPT_HEADER_KEY = "Accept";
-    private static final String ACCEPT_VALUE_FASTINFOSET = "application/fastinfoset";
+    private static final String ACCEPT_VALUE_FAST_INFOSET = "application/fastinfoset";
 
     @Mock
     private FastInfosetCompressionService fastInfosetCompressor;
@@ -59,9 +59,9 @@ public class FastInfosetCompressorProcessorTest {
     @InjectMocks
     private FastInfosetCompressorProcessor underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -83,7 +83,7 @@ public class FastInfosetCompressorProcessorTest {
         underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
         verify(fastInfosetCompressor, times(0)).compress(Mockito.any(ByteArrayInputStream.class));
-        verify(resp, times(0)).setHeader(ACCEPT_HEADER_KEY, ACCEPT_VALUE_FASTINFOSET);
+        verify(resp, times(0)).setHeader(ACCEPT_HEADER_KEY, ACCEPT_VALUE_FAST_INFOSET);
     }
 
     @Test
@@ -95,47 +95,47 @@ public class FastInfosetCompressorProcessorTest {
         underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
         verify(fastInfosetCompressor, times(0)).compress(Mockito.any(ByteArrayInputStream.class));
-        verify(resp, times(0)).setHeader(ACCEPT_HEADER_KEY, ACCEPT_VALUE_FASTINFOSET);
+        verify(resp, times(0)).setHeader(ACCEPT_HEADER_KEY, ACCEPT_VALUE_FAST_INFOSET);
     }
 
     @Test
     public void testProcessShouldDoNothingWhenResponseFISCompressionIsNotNeededBecauseOfRespContentType() {
         //GIVEN
         given(resp.getContentType()).willReturn("html");
-        given(req.getHeader(ACCEPT_HEADER_KEY)).willReturn(ACCEPT_VALUE_FASTINFOSET);
+        given(req.getHeader(ACCEPT_HEADER_KEY)).willReturn(ACCEPT_VALUE_FAST_INFOSET);
         //WHEN
         underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
         verify(fastInfosetCompressor, times(0)).compress(Mockito.any(ByteArrayInputStream.class));
-        verify(resp, times(0)).setHeader(ACCEPT_HEADER_KEY, ACCEPT_VALUE_FASTINFOSET);
+        verify(resp, times(0)).setHeader(ACCEPT_HEADER_KEY, ACCEPT_VALUE_FAST_INFOSET);
     }
 
     @Test
     public void testProcessShouldCompressResponseBodyAndSetContentTypeWhenResponseFISCompressionIsNeeded() {
         //GIVEN
         given(resp.getContentType()).willReturn(ACCEPT_VALUE_XML);
-        given(req.getHeader(ACCEPT_HEADER_KEY)).willReturn(ACCEPT_VALUE_FASTINFOSET);
+        given(req.getHeader(ACCEPT_HEADER_KEY)).willReturn(ACCEPT_VALUE_FAST_INFOSET);
         given(fastInfosetCompressor.compress(Mockito.any(ByteArrayInputStream.class))).willReturn(outputStream);
         given(outputStream.toByteArray()).willReturn(RESPONSE_BODY.getBytes());
         //WHEN
         byte[] actual = underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
-        verify(resp).setContentType(ACCEPT_VALUE_FASTINFOSET);
+        verify(resp).setContentType(ACCEPT_VALUE_FAST_INFOSET);
         String actualString = new String(actual);
         assertEquals(RESPONSE_BODY, actualString);
     }
 
     @Test
-    public void testProcessShouldCompressResponseBodyAndSetContentTypeWhenContentTypeIsFastinfoset() {
+    public void testProcessShouldCompressResponseBodyAndSetContentTypeWhenContentTypeIsFastInfoset() {
         //GIVEN
-        given(resp.getContentType()).willReturn(ACCEPT_VALUE_FASTINFOSET);
-        given(req.getHeader(ACCEPT_HEADER_KEY)).willReturn(ACCEPT_VALUE_FASTINFOSET);
+        given(resp.getContentType()).willReturn(ACCEPT_VALUE_FAST_INFOSET);
+        given(req.getHeader(ACCEPT_HEADER_KEY)).willReturn(ACCEPT_VALUE_FAST_INFOSET);
         given(fastInfosetCompressor.compress(Mockito.any(ByteArrayInputStream.class))).willReturn(outputStream);
         given(outputStream.toByteArray()).willReturn(RESPONSE_BODY.getBytes());
         //WHEN
         byte[] actual = underTest.process(req, resp, RESPONSE_BODY.getBytes());
         //THEN
-        verify(resp).setContentType(ACCEPT_VALUE_FASTINFOSET);
+        verify(resp).setContentType(ACCEPT_VALUE_FAST_INFOSET);
         String actualString = new String(actual);
         assertEquals(RESPONSE_BODY, actualString);
     }

@@ -24,8 +24,8 @@ import com.epam.wilma.indexing.domain.IndexingType;
 import com.epam.wilma.indexing.jms.JmsMessageIndexer;
 import com.epam.wilma.indexing.jms.helper.FileNameProvider;
 import com.epam.wilma.indexing.jms.helper.IndexMessageFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -55,9 +55,9 @@ public class JmsRequestIndexingProcessorTest {
     @InjectMocks
     private JmsRequestIndexingProcessor underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

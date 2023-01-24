@@ -23,8 +23,8 @@ import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 
 /**
  * Mock {@link ResponseInterceptor} for testing purpose.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class MockResponseInterceptor implements ResponseInterceptor {
 

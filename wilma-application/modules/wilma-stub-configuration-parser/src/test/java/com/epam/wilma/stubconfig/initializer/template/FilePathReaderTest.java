@@ -20,9 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.common.helper.FileFactory;
 import com.epam.wilma.common.helper.FileUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -54,9 +54,9 @@ public class FilePathReaderTest {
     @InjectMocks
     private FilePathReader underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class FilePathReaderTest {
         //WHEN
         List<String> actual = underTest.getFilePaths(PATH);
         //THEN
-        Assert.assertEquals(0, actual.size());
+        assertEquals(0, actual.size());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class FilePathReaderTest {
         //WHEN
         List<String> actual = underTest.getFilePaths(PATH);
         //THEN
-        Assert.assertEquals(PATH, actual.get(0));
+        assertEquals(PATH, actual.get(0));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class FilePathReaderTest {
         //WHEN
         List<String> actual = underTest.getShortFilePaths(PATH);
         //THEN
-        Assert.assertEquals(0, actual.size());
+        assertEquals(0, actual.size());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class FilePathReaderTest {
         //WHEN
         List<String> actual = underTest.getShortFilePaths(PATH);
         //THEN
-        Assert.assertEquals(SHORT_PATH, actual.get(0));
+        assertEquals(SHORT_PATH, actual.get(0));
     }
 
 }

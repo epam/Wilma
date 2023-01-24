@@ -24,11 +24,11 @@ import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptor;
 import com.epam.wilma.domain.stubconfig.dialog.response.ResponseDescriptorAttributes;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.Template;
 import com.epam.wilma.domain.stubconfig.dialog.response.template.TemplateType;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Unit test for {@link ResponseDescriptorFactory}.
@@ -39,7 +39,7 @@ public class ResponseDescriptorFactoryTest {
 
     private ResponseDescriptorFactory underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         underTest = new ResponseDescriptorFactory();
     }

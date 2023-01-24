@@ -33,8 +33,8 @@ import java.io.FileNotFoundException;
 
 /**
  * Create a new server that listens on the port given in the properties file, and adds the handler to the server.
- * @author Marton_Sereg, Tamas_Kohegyi
  *
+ * @author Marton_Sereg, Tamas_Kohegyi
  */
 public class JettyServer {
 
@@ -79,7 +79,7 @@ public class JettyServer {
             if (!keystoreFile.exists()) {
                 throw new FileNotFoundException(keyStoreFile);
             }
-            SslContextFactory sslContextFactory = new SslContextFactory.Server.Server();
+            SslContextFactory sslContextFactory = new SslContextFactory.Server();
             sslContextFactory.setKeyStorePath(keyStoreFile);
             sslContextFactory.setKeyStorePassword("vvilma");
             sslContextFactory.setKeyManagerPassword("vvilma");

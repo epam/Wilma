@@ -20,20 +20,20 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 import com.epam.wilma.mitmproxy.proxy.MitmProxy;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -55,10 +55,10 @@ public class ResponseMessageVolatilityOnServletTest {
     @Mock
     private UrlAccessLogMessageAssembler urlAccessLogMessageAssembler;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class ResponseMessageVolatilityOnServletTest {
         // WHEN
         underTest.doGet(request, response);
         // THEN
-        Assert.assertTrue(MitmProxy.getResponseVolatile());
+        assertTrue(MitmProxy.getResponseVolatile());
     }
 
 }

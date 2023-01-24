@@ -20,8 +20,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * General exception that wraps all exceptions not related to the business logic.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 public class SystemException extends RuntimeException {
 

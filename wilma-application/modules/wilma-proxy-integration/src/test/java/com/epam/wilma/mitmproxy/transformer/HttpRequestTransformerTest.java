@@ -27,8 +27,8 @@ import com.epam.wilma.proxy.helper.WilmaRequestFactory;
 import org.apache.http.Header;
 import org.apache.http.RequestLine;
 import org.apache.http.message.BasicHeader;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -38,7 +38,7 @@ import website.magyar.mitm.proxy.http.MitmJavaProxyHttpRequest;
 
 import java.io.InputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -70,9 +70,9 @@ public class HttpRequestTransformerTest {
     @InjectMocks
     private HttpRequestTransformer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

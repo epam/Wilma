@@ -19,13 +19,13 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
 import com.epam.wilma.domain.http.WilmaHttpRequest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Provides unit tests for the class {@link WilmaHttpRequestCloner}.
@@ -46,7 +46,7 @@ public class WilmaHttpRequestClonerTest {
 
     private WilmaHttpRequestCloner underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = new WilmaHttpRequestCloner();
         request = new WilmaHttpRequest();

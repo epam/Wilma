@@ -26,15 +26,15 @@ import com.epam.wilma.domain.stubconfig.interceptor.InterceptorDescriptor;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
 import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.webapp.config.servlet.stub.helper.ExpirationTimeProvider;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +55,7 @@ import static org.mockito.BDDMockito.given;
  */
 public class StubDescriptorStatusServletTest {
 
-    private static final String TEST_GROUPNAME = "test";
+    private static final String TEST_GROUP_NAME = "test";
     private static final String NAME = "dialog-descriptor";
     private static final Long VALIDITY_VALUE = 2L;
 
@@ -85,26 +85,26 @@ public class StubDescriptorStatusServletTest {
     @InjectMocks
     private StubDescriptorStatusServlet underTest;
 
-    private StubDescriptorAttributes stubDescriptorAttributes = new StubDescriptorAttributes(TEST_GROUPNAME);
+    private final StubDescriptorAttributes stubDescriptorAttributes = new StubDescriptorAttributes(TEST_GROUP_NAME);
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "routingService", routingService);
-        Whitebox.setInternalState(underTest, "expirationTimeProvider", expirationTimeProvider);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "routingService", routingService);
+        ReflectionTestUtils.setField(underTest, "expirationTimeProvider", expirationTimeProvider);
         sequenceDescriptors = new ArrayList<>();
         dialogDescriptors = new ArrayList<>();
         interceptorDescriptors = new ArrayList<>();
         Map<String, StubDescriptor> stubDescriptors = new LinkedHashMap<>();
-        stubDescriptors.put(TEST_GROUPNAME, stubDescriptor);
-        Whitebox.setInternalState(routingService, "stubDescriptors", stubDescriptors);
+        stubDescriptors.put(TEST_GROUP_NAME, stubDescriptor);
+        ReflectionTestUtils.setField(routingService, "stubDescriptors", stubDescriptors);
         given(routingService.getStubDescriptors()).willReturn(stubDescriptors);
         given(stubDescriptor.getAttributes()).willReturn(stubDescriptorAttributes);
         given(stubDescriptor.getDialogDescriptors()).willReturn(dialogDescriptors);
         given(stubDescriptor.getSequenceDescriptors()).willReturn(sequenceDescriptors);
         given(stubDescriptor.getInterceptorDescriptors()).willReturn(interceptorDescriptors);
         given(response.getWriter()).willReturn(out);
-        Whitebox.setInternalState(stubDescriptor, "attributes", stubDescriptorAttributes);
+        ReflectionTestUtils.setField(stubDescriptor, "attributes", stubDescriptorAttributes);
     }
 
     @Test
@@ -226,7 +226,7 @@ public class StubDescriptorStatusServletTest {
     }
 
     @Test
-    public void testDoGetWhenUsageIsHitcountShouldWriteHitcountInResponse() throws ServletException, IOException {
+    public void testDoGetWhenUsageIsHitCountShouldWriteHitCountInResponse() throws ServletException, IOException {
         //GIVEN
         dialogDescriptors.add(dialogDescriptor);
         given(dialogDescriptor.getAttributes().getName()).willReturn(NAME);

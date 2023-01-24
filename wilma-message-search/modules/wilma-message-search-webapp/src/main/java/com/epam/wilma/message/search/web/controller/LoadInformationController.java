@@ -38,6 +38,7 @@ import com.epam.wilma.message.search.jms.helper.JmxObjectNameProvider;
 
 /**
  * Controller for load information.
+ *
  * @author Tibor_Kovacs
  */
 @Controller

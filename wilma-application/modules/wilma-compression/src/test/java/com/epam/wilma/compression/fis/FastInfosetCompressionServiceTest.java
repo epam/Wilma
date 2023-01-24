@@ -25,9 +25,9 @@ import com.epam.wilma.compression.fis.helper.SAXDocumentSerializerFactory;
 import com.epam.wilma.compression.fis.helper.SAXParserFactoryCreator;
 import com.epam.wilma.domain.exception.SystemException;
 import com.sun.xml.fastinfoset.sax.SAXDocumentSerializer;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.fastinfoset.FastInfosetSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
@@ -89,10 +90,10 @@ public class FastInfosetCompressionServiceTest {
     @InjectMocks
     private FastInfosetCompressionService underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = Mockito.spy(new FastInfosetCompressionService());
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         given(documentSerializerFactory.createSAXDocumentSerializer()).willReturn(saxDocumentSerializer);
         given(saxParserFactoryCreator.createSAXParserFactory()).willReturn(saxParserFactory);
     }
@@ -125,35 +126,41 @@ public class FastInfosetCompressionServiceTest {
         //WHEN
         ByteArrayOutputStream actual = underTest.compress(inputStream);
         //THEN
-        Assert.assertEquals(actual, baos);
+        assertEquals(actual, baos);
     }
 
-    @Test(expected = SystemException.class)
+    @Test
     public void testCompressShouldThrowSystemExceptionWhenParserConfigExceptionIsCatched() throws ParserConfigurationException, SAXException {
-        //GIVEN
-        given(saxParserFactory.newSAXParser()).willThrow(new ParserConfigurationException());
-        //WHEN
-        underTest.compress(inputStream);
-        //THEN exception should be thrown
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            given(saxParserFactory.newSAXParser()).willThrow(new ParserConfigurationException());
+            //WHEN
+            underTest.compress(inputStream);
+            //THEN exception should be thrown
+        });
     }
 
-    @Test(expected = SystemException.class)
+    @Test
     public void testCompressShouldThrowSystemExceptionWhenSAXExceptionIsCatched() throws ParserConfigurationException, SAXException {
-        //GIVEN
-        given(saxParserFactory.newSAXParser()).willThrow(new SAXException());
-        //WHEN
-        underTest.compress(inputStream);
-        //THEN exception should be thrown
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            given(saxParserFactory.newSAXParser()).willThrow(new SAXException());
+            //WHEN
+            underTest.compress(inputStream);
+            //THEN exception should be thrown
+        });
     }
 
-    @Test(expected = SystemException.class)
+    @Test
     public void testCompressShouldThrowSystemExceptionWhenIOExceptionIsCatched() throws ParserConfigurationException, SAXException, IOException {
-        //GIVEN
-        given(saxParserFactory.newSAXParser()).willReturn(saxParser);
-        willThrow(new IOException()).given(saxParser).parse(inputStream, saxDocumentSerializer);
-        //WHEN
-        underTest.compress(inputStream);
-        //THEN exception should be thrown
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            given(saxParserFactory.newSAXParser()).willReturn(saxParser);
+            willThrow(new IOException()).given(saxParser).parse(inputStream, saxDocumentSerializer);
+            //WHEN
+            underTest.compress(inputStream);
+            //THEN exception should be thrown
+        });
     }
 
     @Test
@@ -181,7 +188,7 @@ public class FastInfosetCompressionServiceTest {
         //WHEN
         ByteArrayOutputStream actual = underTest.decompress(inputStream);
         //THEN
-        Assert.assertEquals(actual, baos);
+        assertEquals(actual, baos);
     }
 
     @Test
@@ -198,38 +205,44 @@ public class FastInfosetCompressionServiceTest {
         verify(inputStream).close();
     }
 
-    @Test(expected = SystemException.class)
+    @Test
     public void testDecompressWhenTransformerConfigurationExceptionIsThrownShouldThrowException() throws TransformerConfigurationException {
-        //GIVEN
-        StreamResult result = new StreamResult(new StringWriter());
-        given(transformerFactory.createTransformer()).willThrow(new TransformerConfigurationException());
-        given(streamResultFactory.createStreamResult()).willReturn(result);
-        //WHEN
-        underTest.decompress(inputStream);
-        //THEN it should throw exception
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            StreamResult result = new StreamResult(new StringWriter());
+            given(transformerFactory.createTransformer()).willThrow(new TransformerConfigurationException());
+            given(streamResultFactory.createStreamResult()).willReturn(result);
+            //WHEN
+            underTest.decompress(inputStream);
+            //THEN it should throw exception
+        });
     }
 
-    @Test(expected = SystemException.class)
+    @Test
     public void testDecompressWhenTransformerFactoryConfigurationErrorIsThrownShouldLogError() throws TransformerConfigurationException {
-        //GIVEN
-        StreamResult result = new StreamResult(new StringWriter());
-        given(transformerFactory.createTransformer()).willThrow(new TransformerFactoryConfigurationError());
-        given(streamResultFactory.createStreamResult()).willReturn(result);
-        //WHEN
-        underTest.decompress(inputStream);
-        //THEN it should throw exception
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            StreamResult result = new StreamResult(new StringWriter());
+            given(transformerFactory.createTransformer()).willThrow(new TransformerFactoryConfigurationError());
+            given(streamResultFactory.createStreamResult()).willReturn(result);
+            //WHEN
+            underTest.decompress(inputStream);
+            //THEN it should throw exception
+        });
     }
 
-    @Test(expected = SystemException.class)
+    @Test
     public void testDecompressWhenInputStreamCloseThrowsIOExceptionShouldLogError() throws TransformerConfigurationException, IOException {
-        //GIVEN
-        StreamResult result = new StreamResult(new StringWriter());
-        given(transformerFactory.createTransformer()).willReturn(transformer);
-        given(fastInfosetSourceFactory.createFastInfosetSource(inputStream)).willReturn(fISource);
-        willThrow(new IOException()).given(inputStream).close();
-        given(streamResultFactory.createStreamResult()).willReturn(result);
-        //WHEN
-        underTest.decompress(inputStream);
-        //THEN it should throw exception
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            StreamResult result = new StreamResult(new StringWriter());
+            given(transformerFactory.createTransformer()).willReturn(transformer);
+            given(fastInfosetSourceFactory.createFastInfosetSource(inputStream)).willReturn(fISource);
+            willThrow(new IOException()).given(inputStream).close();
+            given(streamResultFactory.createStreamResult()).willReturn(result);
+            //WHEN
+            underTest.decompress(inputStream);
+            //THEN it should throw exception
+        });
     }
 }

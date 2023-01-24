@@ -28,15 +28,16 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -81,11 +82,11 @@ public class FileIndexerTest {
     @InjectMocks
     private FileIndexer underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         File file = new File("path");
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "fieldName", FIELD_NAME);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "fieldName", FIELD_NAME);
         document = new Document();
         term = new Term(FIELD_NAME);
         given(fileWrapper.getFile()).willReturn(file);
@@ -119,19 +120,21 @@ public class FileIndexerTest {
         verify(writer).updateDocument(term, document);
     }
 
-    @Test(expected = SystemException.class)
-    public void testIndexFileShouldThrowExceptionWhenFileNotFound() throws IOException {
-        //GIVEN
-        given(fileInputStreamFactory.createFileInputStream(fileWrapper.getFile())).willThrow(new FileNotFoundException());
-        //WHEN
-        underTest.indexFile(fileWrapper);
-        //THEN
+    @Test
+    public void testIndexFileShouldThrowExceptionWhenFileNotFound() {
+        Assertions.assertThrows(SystemException.class, () -> {
+            //GIVEN
+            given(fileInputStreamFactory.createFileInputStream(fileWrapper.getFile())).willThrow(new FileNotFoundException());
+            //WHEN
+            underTest.indexFile(fileWrapper);
+            //THEN
+        });
     }
 
     @Test
     public void testIndexFileShouldLogErrorWhenCannotAddDocuments() throws IOException {
         //GIVEN
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         given(writer.getConfig().getOpenMode()).willReturn(OpenMode.CREATE);
         willThrow(new IOException()).given(writer).addDocument(document);
         //WHEN

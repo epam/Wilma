@@ -26,8 +26,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Factory for creating new instance of {@link JMXServiceURL}.
- * @author Tibor_Kovacs
  *
+ * @author Tibor_Kovacs
  */
 @Component
 public class JmxServiceUrlFactory {

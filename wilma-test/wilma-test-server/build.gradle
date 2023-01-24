@@ -59,7 +59,9 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version:'2.4'
     implementation group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'2.0.0'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
-    testImplementation "junit:junit:${jUnitVersion}"
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: "${mockitoCoreVersion}"
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "${jUnitVersion}"
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "${jUnitVersion}"
     testImplementation group: 'cglib', name: 'cglib', version:'3.0'
 }
 

@@ -22,12 +22,12 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.StubResourcePathProvider;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit test for {@link JsonSchemaChecker}.
@@ -44,12 +44,12 @@ public class JsonSchemaCheckerTest {
 
     private JsonSchemaChecker underTest;
 
-    @Before
+    @BeforeEach
     public void setup() {
         underTest = new JsonSchemaChecker();
         StubResourcePathProvider stubResourcePathProvider = new StubResourcePathProvider();
         stubResourcePathProvider.setTemplatesPath(".");
-        Whitebox.setInternalState(underTest, "stubResourcePathProvider", stubResourcePathProvider);
+        ReflectionTestUtils.setField(underTest, "stubResourcePathProvider", stubResourcePathProvider);
     }
 
     @Test

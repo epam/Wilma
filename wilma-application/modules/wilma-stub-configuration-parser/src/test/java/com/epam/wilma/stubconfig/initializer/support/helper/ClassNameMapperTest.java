@@ -23,14 +23,14 @@ import com.epam.wilma.common.helper.FileUtils;
 import com.epam.wilma.common.helper.JavaClassFactory;
 import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.JavaClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,9 +65,9 @@ public class ClassNameMapperTest {
     @InjectMocks
     private ClassNameMapper underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class ClassNameMapperTest {
         //WHEN
         underTest.initialize(emptyList);
         //THEN
-        verify(fileUtils, never()).listFiles((File) Mockito.any());
+        verify(fileUtils, never()).listFiles(Mockito.any());
     }
 
     @Test
@@ -124,7 +124,7 @@ public class ClassNameMapperTest {
         filesInFolder.add(invalidClass);
         given(fileUtils.listFiles(FOLDER)).willReturn(filesInFolder);
         given(javaClassFactory.createJavaClass(invalidClass)).willThrow(new ClassFormatException());
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         //WHEN
         underTest.initialize(list);
         //THEN

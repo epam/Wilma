@@ -26,18 +26,18 @@ import com.epam.wilma.engine.bootstrap.helper.WilmaServiceListener;
 import com.epam.wilma.engine.properties.helper.PropertiesNotAvailableException;
 import com.epam.wilma.properties.InvalidPropertyException;
 import com.google.common.util.concurrent.Service;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.env.MutablePropertySources;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
@@ -75,15 +75,15 @@ public class WilmaBootstrapTest {
     @InjectMocks
     private WilmaBootstrap underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         applicationContextFactory = ApplicationContextFactory.getInstance();
         underTest = spy(new WilmaBootstrap(applicationContextFactory));
         doReturn(applicationContext).when(underTest).getApplicationContext();
-        Whitebox.setInternalState(underTest, "logger", logger);
-        Whitebox.setInternalState(underTest, "systemExceptionSelector", systemExceptionSelector);
-        Whitebox.setInternalState(wilmaEngine, "delegate", Mockito.mock(Service.class));
+        ReflectionTestUtils.setField(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "systemExceptionSelector", systemExceptionSelector);
+        ReflectionTestUtils.setField(wilmaEngine, "delegate", Mockito.mock(Service.class));
     }
 
     @Test

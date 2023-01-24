@@ -22,9 +22,8 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import com.epam.wilma.domain.sequence.WilmaSequence;
 import com.epam.wilma.domain.stubconfig.sequence.SequenceDescriptor;
 import com.epam.wilma.sequence.SequenceManager;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -32,6 +31,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -51,26 +51,26 @@ public class SequenceInformationCollectorTest {
     @InjectMocks
     private SequenceInformationCollector underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testCollectInformationsWhenThereIsNoDescriptor() {
+    public void testCollectInformationWhenThereIsNoDescriptor() {
         //GIVEN
         given(sequenceManager.getDescriptors()).willReturn(new HashMap<String, SequenceDescriptor>());
         //WHEN
         Map<String, Object> result = underTest.collectInformation();
         //THEN
         int sum = (int) result.get(SequenceInformationCollector.SUM_KEY);
-        Assert.assertEquals(0, sum);
+        assertEquals(0, sum);
         Map<String, Integer> groups = (Map<String, Integer>) result.get(SequenceInformationCollector.GROUPS_KEY);
-        Assert.assertEquals(0, groups.size());
+        assertEquals(0, groups.size());
     }
 
     @Test
-    public void testCollectInformationsWhenThereAreDescriptors() {
+    public void testCollectInformationWhenThereAreDescriptors() {
         //GIVEN
         Map<String, SequenceDescriptor> descriptors = new HashMap<>();
         descriptors.put("test", descriptor);
@@ -82,8 +82,8 @@ public class SequenceInformationCollectorTest {
         Map<String, Object> result = underTest.collectInformation();
         //THEN
         int sum = (int) result.get(SequenceInformationCollector.SUM_KEY);
-        Assert.assertEquals(1, sum);
+        assertEquals(1, sum);
         Map<String, Integer> groups = (Map<String, Integer>) result.get(SequenceInformationCollector.GROUPS_KEY);
-        Assert.assertEquals(1, groups.size());
+        assertEquals(1, groups.size());
     }
 }

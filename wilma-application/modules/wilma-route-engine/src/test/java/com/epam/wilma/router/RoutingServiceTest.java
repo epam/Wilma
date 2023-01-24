@@ -29,22 +29,21 @@ import com.epam.wilma.router.configuration.domain.PropertyDTO;
 import com.epam.wilma.router.domain.ResponseDescriptorDTO;
 import com.epam.wilma.router.evaluation.StubDescriptorEvaluator;
 import com.epam.wilma.router.evaluation.StubModeEvaluator;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -80,14 +79,14 @@ public class RoutingServiceTest {
     @InjectMocks
     private RoutingService underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         requestBody = "";
         stubDescriptors = new LinkedHashMap<>();
         stubDescriptors.put("test", stubDescriptor);
-        Whitebox.setInternalState(underTest, "stubDescriptors", stubDescriptors);
-        Whitebox.setInternalState(underTest, "operationMode", null);
+        ReflectionTestUtils.setField(underTest, "stubDescriptors", stubDescriptors);
+        ReflectionTestUtils.setField(underTest, "operationMode", null);
     }
 
     @Test
@@ -116,7 +115,7 @@ public class RoutingServiceTest {
     @Test
     public void testRedirectRequestToStubShouldCallStubModeEvaluatorGetResponseDescriptorForStubModeMethod() {
         //GIVEN
-        Whitebox.setInternalState(underTest, "operationMode", OperationMode.STUB);
+        ReflectionTestUtils.setField(underTest, "operationMode", OperationMode.STUB);
         given(request.getBody()).willReturn(requestBody);
         given(stubDescriptorEvaluator.findResponseDescriptor(stubDescriptors, request)).willReturn(null);
         //WHEN
@@ -131,7 +130,7 @@ public class RoutingServiceTest {
         Map<String, ResponseDescriptorDTO> responseDescriptorMap = new HashMap<>();
         String key = "key";
         responseDescriptorMap.put(key, new ResponseDescriptorDTO(null, "", MSG_ID));
-        Whitebox.setInternalState(underTest, "responseDescriptorMap", responseDescriptorMap);
+        ReflectionTestUtils.setField(underTest, "responseDescriptorMap", responseDescriptorMap);
         //WHEN
         ResponseDescriptorDTO actual = underTest.getResponseDescriptorDTOAndRemove(key);
         //THEN
@@ -143,7 +142,7 @@ public class RoutingServiceTest {
         //GIVEN
         Map<String, ResponseDescriptor> responseDescriptorMap = new HashMap<>();
         String key = "key";
-        Whitebox.setInternalState(underTest, "responseDescriptorMap", responseDescriptorMap);
+        ReflectionTestUtils.setField(underTest, "responseDescriptorMap", responseDescriptorMap);
         //WHEN
         ResponseDescriptorDTO actual = underTest.getResponseDescriptorDTOAndRemove(key);
         //THEN
@@ -156,14 +155,15 @@ public class RoutingServiceTest {
         Map<String, ResponseDescriptorDTO> responseDescriptorMap = new HashMap<>();
         String key = "key";
         responseDescriptorMap.put("someOtherKey", new ResponseDescriptorDTO(null, "", MSG_ID));
-        Whitebox.setInternalState(underTest, "responseDescriptorMap", responseDescriptorMap);
+        ReflectionTestUtils.setField(underTest, "responseDescriptorMap", responseDescriptorMap);
         //WHEN
         underTest.getResponseDescriptorDTOAndRemove(key);
         //THEN
         @SuppressWarnings("unchecked")
-        Map<String, ResponseDescriptorDTO> newDescriptorMap = (Map<String, ResponseDescriptorDTO>) Whitebox.getInternalState(underTest,
+        Map<String, ResponseDescriptorDTO> newDescriptorMap = (Map<String, ResponseDescriptorDTO>) ReflectionTestUtils.getField(underTest,
                 "responseDescriptorMap");
 
+        assert newDescriptorMap != null;
         assertEquals(MSG_ID, newDescriptorMap.get("someOtherKey").getRequestBody());
     }
 
@@ -174,7 +174,7 @@ public class RoutingServiceTest {
         String key = "key";
         ResponseDescriptorDTO expected = new ResponseDescriptorDTO(null, "", MSG_ID);
         responseDescriptorMap.put(key, expected);
-        Whitebox.setInternalState(underTest, "responseDescriptorMap", responseDescriptorMap);
+        ReflectionTestUtils.setField(underTest, "responseDescriptorMap", responseDescriptorMap);
         //WHEN
         ResponseDescriptorDTO actual = underTest.getResponseDescriptorDTOAndRemove(key);
         //THEN
@@ -190,8 +190,8 @@ public class RoutingServiceTest {
         //WHEN
         underTest.setOperationMode(operationMode);
         //THEN
-        OperationMode result = (OperationMode) Whitebox.getInternalState(underTest, "operationMode");
-        Assert.assertEquals(operationMode, result);
+        OperationMode result = (OperationMode) ReflectionTestUtils.getField(underTest, "operationMode");
+        assertEquals(operationMode, result);
     }
 
     @Test
@@ -203,8 +203,8 @@ public class RoutingServiceTest {
         //WHEN
         underTest.setOperationMode(operationMode);
         //THEN
-        OperationMode result = (OperationMode) Whitebox.getInternalState(underTest, "operationMode");
-        Assert.assertEquals(operationMode, result);
+        OperationMode result = (OperationMode) ReflectionTestUtils.getField(underTest, "operationMode");
+        assertEquals(operationMode, result);
     }
 
     @Test
@@ -216,8 +216,8 @@ public class RoutingServiceTest {
         //WHEN
         underTest.setOperationMode(operationMode);
         //THEN
-        OperationMode result = (OperationMode) Whitebox.getInternalState(underTest, "operationMode");
-        Assert.assertEquals(operationMode, result);
+        OperationMode result = (OperationMode) ReflectionTestUtils.getField(underTest, "operationMode");
+        assertEquals(operationMode, result);
     }
 
     @SuppressWarnings("unchecked")
@@ -231,10 +231,10 @@ public class RoutingServiceTest {
         //WHEN
         underTest.performModification(command);
         //THEN
-        Map<String, StubDescriptor> actual = (Map<String, StubDescriptor>) Whitebox.getInternalState(underTest, "stubDescriptors");
+        Map<String, StubDescriptor> actual = (Map<String, StubDescriptor>) ReflectionTestUtils.getField(underTest, "stubDescriptors");
         assertEquals(actual, stubDescriptors);
-        OperationMode result = (OperationMode) Whitebox.getInternalState(underTest, "operationMode");
-        Assert.assertEquals(operationMode, result);
+        OperationMode result = (OperationMode) ReflectionTestUtils.getField(underTest, "operationMode");
+        assertEquals(operationMode, result);
     }
 
     @SuppressWarnings("unchecked")
@@ -248,10 +248,10 @@ public class RoutingServiceTest {
         //WHEN
         underTest.performModification(command);
         //THEN
-        Map<String, StubDescriptor> actual = (Map<String, StubDescriptor>) Whitebox.getInternalState(underTest, "stubDescriptors");
+        Map<String, StubDescriptor> actual = (Map<String, StubDescriptor>) ReflectionTestUtils.getField(underTest, "stubDescriptors");
         assertEquals(actual, stubDescriptors);
-        OperationMode result = (OperationMode) Whitebox.getInternalState(underTest, "operationMode");
-        Assert.assertEquals(operationMode, result);
+        OperationMode result = (OperationMode) ReflectionTestUtils.getField(underTest, "operationMode");
+        assertEquals(operationMode, result);
     }
 
 }

@@ -22,13 +22,13 @@ import com.epam.wilma.common.helper.OperationMode;
 import com.epam.wilma.core.toggle.mode.ProxyModeToggle;
 import com.epam.wilma.router.RoutingService;
 import com.epam.wilma.webapp.helper.UrlAccessLogMessageAssembler;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -58,12 +58,12 @@ public class WilmaModeOnServletTest {
     @InjectMocks
     private WilmaModeOnServlet underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
-        Whitebox.setInternalState(underTest, "proxyModeToggle", proxyModeToggle);
-        Whitebox.setInternalState(underTest, "routingService", routingService);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "urlAccessLogMessageAssembler", urlAccessLogMessageAssembler);
+        ReflectionTestUtils.setField(underTest, "proxyModeToggle", proxyModeToggle);
+        ReflectionTestUtils.setField(underTest, "routingService", routingService);
     }
 
     @Test

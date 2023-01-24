@@ -22,8 +22,8 @@ import com.epam.wilma.domain.http.WilmaHttpRequest;
 import com.epam.wilma.domain.stubconfig.parameter.Parameter;
 import com.epam.wilma.domain.stubconfig.parameter.ParameterList;
 import com.epam.wilma.stubconfig.condition.checker.general.operator.ConditionCheckerOperator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -32,10 +32,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
 
 /**
  * Tests for {@link AndHeaderChecker}.
@@ -55,9 +55,9 @@ public class AndHeaderCheckerTest {
 
     private List<Parameter> params;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new AndHeaderChecker(operator);
         params = new LinkedList<>();
     }
@@ -97,7 +97,7 @@ public class AndHeaderCheckerTest {
     @Test
     public void testCheckConditionShouldReturnFalseWhenHeadersDoesNotContainParameter() {
         //GIVEN
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         String headerValue = "bb";
         headers.put("b", headerValue);
         given(request.getHeaders()).willReturn(headers);
@@ -114,7 +114,7 @@ public class AndHeaderCheckerTest {
     @Test
     public void testCheckConditionShouldReturnTrueWhenHeadersContainsJustTheParameter() {
         //GIVEN
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         String parameterValue = "aa";
         headers.put("a", parameterValue);
         given(request.getHeaders()).willReturn(headers);
@@ -130,7 +130,7 @@ public class AndHeaderCheckerTest {
     @Test
     public void testCheckConditionShouldReturnTrueWhenHeadersContainsParameter() {
         //GIVEN
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         String parameterValue = "aa";
         headers.put("a", parameterValue);
         headers.put("b", "bb");
@@ -147,7 +147,7 @@ public class AndHeaderCheckerTest {
     @Test
     public void testCheckConditionShouldReturnFalseWhenHeadersDoesNotContainSecondParameter() {
         //GIVEN
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         headers.put("a", "aa");
         headers.put("b", "bb");
         given(request.getHeaders()).willReturn(headers);
@@ -164,7 +164,7 @@ public class AndHeaderCheckerTest {
     @Test
     public void testCheckConditionShouldReturnTrueWhenHeadersContainsAllParameter() {
         //GIVEN
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         headers.put("a", "aa");
         headers.put("b", "bb");
         headers.put("c", "aac");

@@ -28,10 +28,9 @@ import com.epam.wilma.message.search.lucene.index.LuceneIndexEngine;
 import com.epam.wilma.message.search.lucene.search.LuceneSearchEngine;
 
 /**
- * Facade that redirects indexing and searching features with
- * a lucene engine.
- * @author Tunde_Kovacs
+ * Facade that redirects indexing and searching features with a lucene engine.
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class LuceneEngineFacade implements LuceneEngine {

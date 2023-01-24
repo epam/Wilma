@@ -22,8 +22,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Class that can provide the current time.
- * @author Tunde_Kovacs
  *
+ * @author Tunde_Kovacs
  */
 @Component
 public class CurrentTimeProvider {

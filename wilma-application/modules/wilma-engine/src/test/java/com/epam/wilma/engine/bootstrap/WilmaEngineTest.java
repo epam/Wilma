@@ -26,8 +26,8 @@ import com.epam.wilma.proxy.Proxy;
 import com.epam.wilma.safeguard.monitor.JmsQueueMonitor;
 import com.epam.wilma.sequence.maintainer.SequenceMaintainer;
 import com.epam.wilma.webapp.jetty.JettyServer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -58,10 +58,10 @@ public class WilmaEngineTest {
     @InjectMocks
     private WilmaEngine underTest;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         underTest = new WilmaEngine();
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
