@@ -4,7 +4,7 @@ dependencies {
     implementation project(':wilma-application:wilma-webapp')
     implementation project(':wilma-application:wilma-stub-configuration-domain')
     implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
-    implementation 'commons-io:commons-io:2.4'
+    implementation 'commons-io:commons-io:2.11.0'
     implementation "$googleGuavaApi"
     implementation "$orgJsonApi"
     implementation group: 'org.springframework', name: 'spring-jms', version:"${orgSpringframework}"

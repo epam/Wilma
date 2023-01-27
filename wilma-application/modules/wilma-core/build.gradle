@@ -30,7 +30,7 @@ dependencies {
     implementation project(':wilma-application:wilma-indexing')
     implementation project(':wilma-application:wilma-message-maintainer')
     implementation project(':wilma-application:wilma-message-sequence')
-    implementation group: 'com.google.code.gson', name: 'gson', version:'2.2.4'
+    implementation group: 'com.google.code.gson', name: 'gson', version:'2.10.1'
     implementation "$googleGuavaApi"
     implementation group: 'javax.jms', name: 'jms', version:'1.1'
     implementation group: 'org.springframework', name: 'spring-jms', version:"${orgSpringframework}"

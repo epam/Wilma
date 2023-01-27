@@ -24,8 +24,8 @@ dependencies {
     implementation project(':wilma-application:wilma-common')
     implementation project(':wilma-application:wilma-proxy-integration')
     implementation "$orgJsonApi"
-    implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
-    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.12.2'
+    implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.7.0'
+    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.14.1'
     implementation 'org.apache.commons:commons-lang3:3.3.2'
     implementation "$javaxServletApi"
 }

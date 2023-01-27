@@ -51,8 +51,8 @@ jar {
 
 dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: "${logbackVersion}"
     implementation group: 'commons-httpclient', name: 'commons-httpclient', version:'3.1'
-    implementation group: 'commons-io', name: 'commons-io', version:'2.4'
-    implementation group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:'2.0.0'
+    implementation group: 'commons-io', name: 'commons-io', version:'2.11.0'
+    implementation group: 'com.sun.xml.fastinfoset', name: 'FastInfoset', version:"${FastInfoSetVersion}"
 }

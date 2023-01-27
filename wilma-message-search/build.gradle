@@ -76,7 +76,7 @@ subprojects {
             exclude(module: 'commons-logging')
         }
         implementation group: 'org.springframework', name: 'spring-webmvc', version:"${orgSpringframework}"
-        implementation group: 'org.aspectj', name: 'aspectjrt', version:'1.6.9'
+        implementation group: 'org.aspectj', name: 'aspectjrt', version:'1.9.19'
         testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
         testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: "${mockitoCoreVersion}"
         testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "${jUnitVersion}"

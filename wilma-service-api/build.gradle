@@ -34,16 +34,16 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: "${orgSfl4jVersion}"
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: "${logbackVersion}"
     implementation group: 'commons-httpclient', name: 'commons-httpclient', version:'3.1'
-    implementation group: 'commons-io', name: 'commons-io', version:'2.4'
-    implementation group: 'commons-validator', name: 'commons-validator', version:'1.4.1'
-    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.12.2'
+//    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.2.1'
+    implementation group: 'commons-io', name: 'commons-io', version:'2.11.0'
+    implementation group: 'commons-validator', name: 'commons-validator', version:'1.7'
+    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.14.1'
     implementation "$googleGuavaApi"
     implementation "$orgJsonApi"
     testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: "${mockitoCoreVersion}"
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "${jUnitVersion}"
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "${jUnitVersion}"
-//    testImplementation group: 'junit', name: 'junit', version: "${jUnitVersion}"
 }
 
 test.useJUnitPlatform()
