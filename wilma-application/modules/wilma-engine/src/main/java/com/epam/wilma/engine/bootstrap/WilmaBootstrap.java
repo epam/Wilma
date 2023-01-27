@@ -31,13 +31,13 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 /**
  * Bootstrap class, that initializes the Spring context, and starts the application engine.
- * @author Marton_Sereg
  *
+ * @author Marton_Sereg
  */
 public class WilmaBootstrap {
 
     private static final String SPRING_APP_CONTEXT_PATH = "conf/spring/engine-application-context.xml";
-    private final Logger logger = LoggerFactory.getLogger(WilmaBootstrap.class);
+    final Logger logger = LoggerFactory.getLogger(WilmaBootstrap.class);
     private final ApplicationContextFactory applicationContextFactory;
     private final SystemExceptionSelector systemExceptionSelector;
 

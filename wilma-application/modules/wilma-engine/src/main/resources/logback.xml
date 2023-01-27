@@ -63,6 +63,8 @@
   <logger name="website.magyar.mitm" level="INFO"/>
   <logger name="net.lightbody.bmp.proxy.selenium" level="INFO"/>
 
+  <statusListener class="ch.qos.logback.core.status.OnFileStatusListener" />
+
   <root level="INFO">
     <appender-ref ref="${logger:-EMPTY}" />
     <appender-ref ref="FILE-APP" />

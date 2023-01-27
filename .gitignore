@@ -33,6 +33,7 @@ wilma-test/wilma-test-client/gradlew*
 wilma-service-api/gradle
 wilma-service-api/gradlew*
 wilma-application/modules/wilma-engine/config
+status.txt
 #ignore .NET specific files
 wilma-service-api-net/wilma-service-api/nuget.exe
 *.snk
