@@ -1,7 +1,7 @@
 # this starts from Wilma base, so just adds the message search related things
-FROM epam/wilma
+FROM epamenterprise/wilma
 
-MAINTAINER Tamas Kohegyi <tkohegyi2@gmail.com>
+MAINTAINER Tamas Kohegyi <tamas_kohegyi@epam.com>
 
 RUN \
   mkdir /data/wilma-ms && \

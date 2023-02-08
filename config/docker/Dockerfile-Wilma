@@ -1,6 +1,6 @@
 FROM debian
 
-MAINTAINER Tamas Kohegyi <tkohegyi2@gmail.com>
+MAINTAINER Tamas Kohegyi <tamas_kohegyi@epam.com>
 
 RUN \
   mkdir /data && \
