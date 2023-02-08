@@ -50,6 +50,7 @@ public class HttpResponseTransformer {
         boolean isResponseVolatile = response.isResponseVolatile();
         WilmaHttpResponse result = responseFactory.createNewWilmaHttpResponse(isResponseVolatile);
         if (response.getRawResponse() != null) {
+            result.setReasonPhrase(response.getRawResponse().getStatusLine().getReasonPhrase());
             for (Header header : response.getRawResponse().getAllHeaders()) {
                 result.addHeader(header.getName(), header.getValue());
             }

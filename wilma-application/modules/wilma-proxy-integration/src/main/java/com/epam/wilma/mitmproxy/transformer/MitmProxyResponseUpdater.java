@@ -22,7 +22,6 @@ import com.epam.wilma.domain.http.WilmaHttpResponse;
 import com.epam.wilma.domain.http.header.HttpHeaderChange;
 import com.epam.wilma.domain.http.header.HttpHeaderToBeUpdated;
 import org.apache.http.Header;
-import org.apache.http.StatusLine;
 import website.magyar.mitm.proxy.http.MitmJavaProxyHttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,8 +94,13 @@ public class MitmProxyResponseUpdater {
         try {
             byte[] newBody = wilmaResponse.getNewBody();
             browserMobHttpResponse.setBody(newBody);
-            browserMobHttpResponse.getRawResponse().setStatusCode(wilmaResponse.getStatusCode());
+            //content-type
             browserMobHttpResponse.setContentType(wilmaResponse.getContentType());
+            //status code
+            browserMobHttpResponse.setStatus(wilmaResponse.getStatusCode());
+            browserMobHttpResponse.getRawResponse().setStatusCode(wilmaResponse.getStatusCode());
+            //reason-phrase
+            browserMobHttpResponse.setReasonPhrase(wilmaResponse.getReasonPhrase());
         } catch (IOException e) {
             //ups, were unable to set new response correctly ...
             logger.warn("Message ont-the-fly update was failed for message: {}", wilmaResponse.getWilmaMessageId(), e);

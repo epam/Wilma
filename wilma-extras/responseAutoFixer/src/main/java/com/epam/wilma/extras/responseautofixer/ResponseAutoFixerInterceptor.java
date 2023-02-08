@@ -62,6 +62,7 @@ public class ResponseAutoFixerInterceptor implements RequestInterceptor, Respons
         String path = parameters.get("path");
         String successCodes = parameters.get("successCodes");
         String responseCode = parameters.get("responseCode");
+        String responseString = parameters.get("reasonPhrase");
         String responseType = parameters.get("responseType");
         String response = parameters.get("response");
         //if this response is for us - if not re-routed and the path can be found in the target
@@ -72,6 +73,7 @@ public class ResponseAutoFixerInterceptor implements RequestInterceptor, Respons
                 //need response replacement
                 wilmaHttpResponse.setContentType(responseType);
                 wilmaHttpResponse.setStatusCode(Integer.parseInt(responseCode));
+                wilmaHttpResponse.setReasonPhrase(responseString);
                 wilmaHttpResponse.setNewBody(response.getBytes(StandardCharsets.UTF_8), response);
             }
         }

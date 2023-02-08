@@ -121,7 +121,32 @@ public class MitmProxyResponseUpdaterTest {
         //WHEN
         underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
         //THEN
+        verify(browserMobHttpResponse).setStatus(0);
         verify(browserMobHttpResponse.getRawResponse()).setStatusCode(0);
     }
+
+    @Test
+    public void testUpdateResponseShouldUpdateContentTypePart() {
+        //GIVEN
+        given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
+        given(wilmaHttpResponse.getContentType()).willReturn("CT");
+        given(wilmaHttpResponse.isVolatile()).willReturn(true);
+        //WHEN
+        underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
+        //THEN
+        verify(browserMobHttpResponse).setContentType(any());
+    }
+    @Test
+    public void testUpdateResponseShouldUpdateReasonPhrasePart() {
+        //GIVEN
+        given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
+        given(wilmaHttpResponse.getStatusCode()).willReturn(0);
+        given(wilmaHttpResponse.isVolatile()).willReturn(true);
+        //WHEN
+        underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
+        //THEN
+        verify(browserMobHttpResponse).setReasonPhrase(any());
+    }
+
 
 }
