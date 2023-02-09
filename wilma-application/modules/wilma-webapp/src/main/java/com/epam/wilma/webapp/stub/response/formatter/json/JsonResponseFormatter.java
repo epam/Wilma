@@ -40,8 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Generates a JSON response from the given template resource by using
  * parameters from the request. Properties in the templates with JsonPath value
- * will be replaces with the evaluated expression value (e.g.
- * {@code"$.persons[0].name"}).
+ * will be replaced with the evaluated expression value (e.g. {@code "$.persons[0].name"}).
  *
  * @author Balazs_Berkes
  */
@@ -51,7 +50,7 @@ public class JsonResponseFormatter implements ResponseFormatter {
     @Override
     public byte[] formatResponse(final WilmaHttpRequest wilmaRequest, final HttpServletResponse resp,
                                  final byte[] templateResource, final ParameterList params) {
-        JsonElement response = new JsonParser().parse(new String(templateResource, StandardCharsets.UTF_8));
+        JsonElement response = JsonParser.parseString(new String(templateResource, StandardCharsets.UTF_8));
 
         new NonRecursiveJsonTreeEvaluator(wilmaRequest.getBody()).replaceAllNonRecursive(response);
 
@@ -96,7 +95,7 @@ public class JsonResponseFormatter implements ResponseFormatter {
         }
 
         /**
-         * Replaces the current node value if needed.
+         * Replaces the current node value if needed. Node type cannot be changed.
          * @param parent parent node
          * @param key name of the current node
          * @param value the current node
@@ -104,7 +103,7 @@ public class JsonResponseFormatter implements ResponseFormatter {
         protected void replaceJsonPath(final JsonObject parent, final String key, final JsonPrimitive value) {
             if (isExpression(value.getAsString())) {
                 Object requestValue = JsonPath.read(source, value.getAsString());
-                //can be Object, Boolean, Number, Character, String - we don't handle the Object case
+                //can be Boolean, Number, String - we don't handle the Object and Character cases
                 if (requestValue instanceof Boolean) {
                     parent.add(key, new JsonPrimitive((Boolean)requestValue));
                 }
@@ -113,9 +112,6 @@ public class JsonResponseFormatter implements ResponseFormatter {
                 }
                 if (requestValue instanceof String) {
                     parent.add(key, new JsonPrimitive((String)requestValue));
-                }
-                if (requestValue instanceof Character) {
-                    parent.add(key, new JsonPrimitive((Character) requestValue));
                 }
             }
         }
