@@ -17,10 +17,10 @@ It is written in Java, and the solution consists of two standalone applications:
 * JRE 8 for V1.6.x releases of Wilma
 * JRE 7 in case version earlier than V1.6.x in use
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma application downloaded and extracted into a folder.
-### Note on V1.6 and V2.0 versions
+#### Note on V1.6 and V2.0 versions
 Please be noted that there were non-backward compatible changes when Wilma is upgraded from V1.6 to V2.0. Configurations used in V1.6 (that was xml based) cannot be used for configuring V2.0 (which is json based). You should also know that V1.6 release works reliable with HTTP only, because the supported HTTPS protocols (SSLv3, TLS1) become obsolete in the meantime. On the other hand, V2.0 can be used for TLS1.1, TLS 1.2 and even for TLS1.3  - however extra configurations may be necessary and unexpected events may occur (like the used jdk does not support some of these protocols fully). HTTP part shall work without issue.
 
-#### Configuring Components/Services to use Wilma
+### Configuring Components/Services to use Wilma
 The most simple way to do this is by configuring the Component/Service to use Wilma **as HTTP(S) proxy**. 
 In case of Java components/services, this can be done by adding a few VM arguments to the run configuration:
 
@@ -29,7 +29,7 @@ JAVA_PROXY_FLAGS=-Dhttp.proxyHost=[wilma-url] -Dhttp.proxyPort=[wilma-proxy-port
 java ${JAVA_PROXY_FLAGS} ...
 ```
 
-#### Configure and run Wilma
+### Configure and run Wilma
 
 To run Wilma with simplest configuration, just download the release, extract it and run:
 `java -jar wilma-x.y.z.jar wilma.conf.properties`
@@ -58,7 +58,7 @@ Feel free to seek for assistance/advise, or discuss usage scenarios by submittin
 * **Docker image** of combined Wilma and Wilma Message Search application is available on DockerHub, see details [here](https://github.com/epam/Wilma/wiki/Docker-image-of-Wilma)
 
 #### Requirements
-* JDK 11 (pls use earlier Wilma [releases](https://github.com/epam/Wilma/releases) than V2.0.x when you need to use Java 8 version)
+* JDK 15 (pls use earlier Wilma [releases](https://github.com/epam/Wilma/releases) than V2.0.x when you need to use Java 8 version)
 * The latest [release](https://github.com/epam/Wilma/releases) of Wilma Message Search application downloaded and extracted into a folder.
 
 #### Running
@@ -72,7 +72,7 @@ There are several ways you can help us:
 * **Write some code.** We would love to see pull requests to this tool. Feel free to contribute (send pull request) on GitHub.
 
 #### Advised working environment
-* OpenJDK 15 for V2.0.x
+* OpenJDK 15 for V2.5.x
 * IntelliJ IDEA Community Edition
 * Gradle (included in source) and Git
 
