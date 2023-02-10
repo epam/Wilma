@@ -35,17 +35,24 @@ namespace wilma_service_api_tests
         [Test]
         public void NoILogger_WilmaServiceCreate_ThrowArgumentNullException()
         {
-            var wsc = new WilmaServiceConfig("host", 1);
+            Assert.Throws<ArgumentNullException>(NoILogger_WilmaServiceCreate_ThrowArgumentNullException_CallMethod);
+        }
 
-            Action ac = () => { new WilmaService(wsc, (ILogger)null); };
-            ac.ShouldThrow<ArgumentNullException>();
+        void NoILogger_WilmaServiceCreate_ThrowArgumentNullException_CallMethod()
+        {
+            var wsc = new WilmaServiceConfig("host", 1);
+            new WilmaService(wsc, (ILogger)null);
         }
 
         [Test]
         public void ConfigIsNull_WilmaServiceCreate_ThrowArgumentNullException()
         {
-            Action ac = () => { new WilmaService(null, new LoggerImpl()); };
-            ac.ShouldThrow<ArgumentNullException>();
+            Assert.Throws<ArgumentNullException>(ConfigIsNull_WilmaServiceCreate_ThrowArgumentNullException_CallMethod);
+        }
+
+        void ConfigIsNull_WilmaServiceCreate_ThrowArgumentNullException_CallMethod()
+        {
+            new WilmaService(null, new LoggerImpl());
         }
 
         [Test]
@@ -87,7 +94,7 @@ namespace wilma_service_api_tests
 
             var res = ws.GetVersionInformationAsync().Result;
 
-            res.ShouldBeEquivalentTo(resStr);
+            res.Should().BeEquivalentTo(resStr);
         }
 
         [Test]
@@ -98,7 +105,7 @@ namespace wilma_service_api_tests
 
             var res = ws.GetVersionInformationAsync().Result;
 
-            res.ShouldBeEquivalentTo(resStr);
+            res.Should().BeEquivalentTo(resStr);
         }
 
         [Test]
@@ -108,7 +115,7 @@ namespace wilma_service_api_tests
 
             var res = ws.ShutdownApplicationAsync().Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -119,7 +126,7 @@ namespace wilma_service_api_tests
 
             var res = ws.GetMessageLoggingStatusAsync().Result;
 
-            res.ShouldBeEquivalentTo(WilmaService.MessageLoggingStatusEnum.Off);
+            Assert.IsTrue(res == WilmaService.MessageLoggingStatusEnum.Off);
         } 
         
         [Test]
@@ -129,7 +136,7 @@ namespace wilma_service_api_tests
 
             var res = ws.SetMessageLoggingStatusAsync(WilmaService.MessageLoggingStatusEnum.On).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -140,7 +147,7 @@ namespace wilma_service_api_tests
 
             var res = ws.GetResponseVolatilityStatusAsync().Result;
 
-            res.ShouldBeEquivalentTo(WilmaService.ResponseVolatilityStatusEnum.Off);
+            Assert.IsTrue(res == WilmaService.ResponseVolatilityStatusEnum.Off);
         }
 
         [Test]
@@ -150,7 +157,7 @@ namespace wilma_service_api_tests
 
             var res = ws.SetResponseVolatilityStatusAsync(WilmaService.ResponseVolatilityStatusEnum.On).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -160,7 +167,7 @@ namespace wilma_service_api_tests
 
             var res = ws.GetOperationModeAsync().Result;
 
-            res.ShouldBeEquivalentTo(WilmaService.OperationModeEnum.ERROR);
+            Assert.IsTrue(res == WilmaService.OperationModeEnum.ERROR);
         }
 
         [Test]
@@ -170,7 +177,7 @@ namespace wilma_service_api_tests
 
             var res = ws.SetOperationModeAsync(WilmaService.OperationModeEnum.STUB).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -180,9 +187,9 @@ namespace wilma_service_api_tests
 
             var res = ws.GetLocalhostBlockingStatusAsync().Result;
 
-            res.ShouldBeEquivalentTo(WilmaService.LocalhostControlStatusEnum.Off);
-        } 
-        
+            Assert.IsTrue(res == WilmaService.LocalhostControlStatusEnum.Off);
+        }
+
         [Test]
         public void CreateWilmaService_CallSetLocalhostBlockingStatusAsync_Success()
         {
@@ -190,7 +197,7 @@ namespace wilma_service_api_tests
 
             var res = ws.SetLocalhostBlockingStatusAsync(WilmaService.LocalhostControlStatusEnum.On).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -200,7 +207,7 @@ namespace wilma_service_api_tests
 
             var res = ws.GetMessageMarkingStatusAsync().Result;
 
-            res.ShouldBeEquivalentTo(WilmaService.MessageMarkingStatusEnum.Off);
+            Assert.IsTrue(res == WilmaService.MessageMarkingStatusEnum.Off);
         }
 
         [Test]
@@ -210,7 +217,7 @@ namespace wilma_service_api_tests
 
             var res = ws.SetMessageMarkingStatusAsync(WilmaService.MessageMarkingStatusEnum.On).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -221,7 +228,7 @@ namespace wilma_service_api_tests
 
             var res = ws.GetStubConfigInformationAsync().Result;
 
-            res.ShouldBeEquivalentTo(retObj);
+            res.Should().BeEquivalentTo(retObj);
         }
         
         [Test]
@@ -231,7 +238,7 @@ namespace wilma_service_api_tests
 
             var res = ws.ChangeStubConfigStatusAsync("", WilmaService.StubConfigStatusEnum.Enabled).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
         
         [Test]
@@ -241,7 +248,7 @@ namespace wilma_service_api_tests
 
             var res = ws.ChangeStubConfigOrderAsync("", WilmaService.StubConfigOrderEnum.Up).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -251,7 +258,7 @@ namespace wilma_service_api_tests
 
             var res = ws.DropStubConfigAsync("").Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -261,7 +268,7 @@ namespace wilma_service_api_tests
 
             var res = ws.PersistActualStubConfigAsync().Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -271,7 +278,7 @@ namespace wilma_service_api_tests
 
             var res = ws.UploadConditionCheckerAsync("", new MemoryStream()).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -281,7 +288,7 @@ namespace wilma_service_api_tests
 
             var res = ws.UploadTemplateAsync("", new MemoryStream()).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -291,7 +298,7 @@ namespace wilma_service_api_tests
 
             var res = ws.UploadResponseFormatterAsync("", new MemoryStream()).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
 
         [Test]
@@ -302,7 +309,7 @@ namespace wilma_service_api_tests
 
             var res = ws.UploadStubConfigurationAsync("test.json", stubConfigContent).Result;
 
-            res.ShouldBeEquivalentTo(true);
+            Assert.IsTrue(res);
         }
     }
 }

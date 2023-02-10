@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wilma-service-api-tests", "wilma-service-api-tests\wilma-service-api-tests.csproj", "{0B9BB52B-4995-4FDB-86F0-2306C7B65CDC}"
 EndProject
@@ -10,19 +10,32 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0B9BB52B-4995-4FDB-86F0-2306C7B65CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0B9BB52B-4995-4FDB-86F0-2306C7B65CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B9BB52B-4995-4FDB-86F0-2306C7B65CDC}.Debug|x64.ActiveCfg = Debug|x64
+		{0B9BB52B-4995-4FDB-86F0-2306C7B65CDC}.Debug|x64.Build.0 = Debug|x64
 		{0B9BB52B-4995-4FDB-86F0-2306C7B65CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B9BB52B-4995-4FDB-86F0-2306C7B65CDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B9BB52B-4995-4FDB-86F0-2306C7B65CDC}.Release|x64.ActiveCfg = Release|x64
+		{0B9BB52B-4995-4FDB-86F0-2306C7B65CDC}.Release|x64.Build.0 = Release|x64
 		{AC17AC7C-BF61-4750-951D-A1C09B32B5A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC17AC7C-BF61-4750-951D-A1C09B32B5A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC17AC7C-BF61-4750-951D-A1C09B32B5A1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AC17AC7C-BF61-4750-951D-A1C09B32B5A1}.Debug|x64.Build.0 = Debug|Any CPU
 		{AC17AC7C-BF61-4750-951D-A1C09B32B5A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC17AC7C-BF61-4750-951D-A1C09B32B5A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC17AC7C-BF61-4750-951D-A1C09B32B5A1}.Release|x64.ActiveCfg = Release|Any CPU
+		{AC17AC7C-BF61-4750-951D-A1C09B32B5A1}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C97BADF2-E8FE-4BDF-A676-661B014E56AA}
 	EndGlobalSection
 EndGlobal
