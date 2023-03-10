@@ -16,7 +16,7 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   wget https://github.com/epam/Wilma/releases/download/V2.5.493/wilma-application-2.5.493.zip && \
   unzip wilma-application-2.5.493.zip && \
-  mv wilma-2.3.480.jar wilma.jar && \
+  mv wilma-2.5.493.jar wilma.jar && \
   rm -f wilma-application-2.5.493.zip
 
 COPY start_wilma.sh /data/
