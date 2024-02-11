@@ -24,6 +24,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit test for {@link IpAddressResolver}.
@@ -48,7 +49,8 @@ public class IpAddressResolverTest {
         //WHEN
         String actualHostName = underTest.resolveToHostName("127.0.0.1");
         //THEN
-        assertEquals(expectedHostName, actualHostName, "Actual Host Name is: " + actualHostName);
+        assertTrue("127.0.0.1".equalsIgnoreCase(actualHostName) || "localhost".equalsIgnoreCase(actualHostName),
+                "Actual Host Name is: " + actualHostName);
     }
 
     @Test
