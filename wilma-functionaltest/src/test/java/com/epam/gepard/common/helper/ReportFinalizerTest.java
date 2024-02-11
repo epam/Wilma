@@ -57,7 +57,7 @@ public class ReportFinalizerTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         environment = new Environment();
         underTest = new ReportFinalizer(environment);
         given(allTestResults.getRunned()).willReturn(10);

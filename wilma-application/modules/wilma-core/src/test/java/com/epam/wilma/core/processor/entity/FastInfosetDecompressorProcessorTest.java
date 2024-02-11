@@ -58,7 +58,7 @@ public class FastInfosetDecompressorProcessorTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

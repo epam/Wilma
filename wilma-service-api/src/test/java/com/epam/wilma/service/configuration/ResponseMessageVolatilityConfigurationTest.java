@@ -60,7 +60,7 @@ public class ResponseMessageVolatilityConfigurationTest {
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         WilmaServiceConfig config = createMockConfig();
         responseMessageVolatilityConfiguration = new ResponseMessageVolatilityConfiguration(config, client);

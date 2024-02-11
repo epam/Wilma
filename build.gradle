@@ -24,7 +24,7 @@ ext {
     nettyVersion = '4.1.87.Final'
     jettyVersion = '9.4.53.v20231009'
     jUnitVersion = '5.9.3'
-    mockitoCoreVersion = '4.6.1'
+    mockitoCoreVersion = '5.10.0' //was '4.6.1'
     orgSfl4jVersion = '2.0.9'
     logbackVersion = '1.4.5'
     googleGuavaApi = 'com.google.guava:guava:32.1.3-jre'

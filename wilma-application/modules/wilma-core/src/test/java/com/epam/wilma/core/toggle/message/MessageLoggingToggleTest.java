@@ -23,6 +23,8 @@ import com.epam.wilma.common.helper.OperationMode;
 import com.epam.wilma.common.helper.SequenceHandlingState;
 import com.epam.wilma.core.configuration.CoreConfigurationAccess;
 import com.epam.wilma.core.configuration.domain.PropertyDto;
+import com.epam.wilma.core.processor.entity.JmsRequestLoggerProcessor;
+import com.epam.wilma.core.processor.entity.JmsResponseProcessor;
 import com.epam.wilma.core.processor.entity.ProcessorBase;
 import com.epam.wilma.core.processor.request.WilmaHttpRequestProcessor;
 import com.epam.wilma.core.processor.response.WilmaHttpResponseProcessor;
@@ -51,9 +53,9 @@ public class MessageLoggingToggleTest {
     @InjectMocks
     private MessageLoggingToggle underTest;
     @Mock
-    private ProcessorBase jmsRequestLogger;
+    private JmsRequestLoggerProcessor jmsRequestLoggerProcessor;
     @Mock
-    private ProcessorBase jmsResponseProcessor;
+    private JmsResponseProcessor jmsResponseProcessor;
     @Mock
     private WilmaHttpRequestProcessor requestHandler;
     @Mock
@@ -79,7 +81,7 @@ public class MessageLoggingToggleTest {
         // WHEN
         underTest.onApplicationEvent(event);
         // THEN
-        verify(requestHandler).disableProcessor(jmsRequestLogger);
+        verify(requestHandler).disableProcessor(jmsRequestLoggerProcessor);
         verify(responseHandler).disableProcessor(jmsResponseProcessor);
     }
 
@@ -92,7 +94,7 @@ public class MessageLoggingToggleTest {
         // WHEN
         underTest.onApplicationEvent(event);
         // THEN
-        verify(requestHandler, never()).disableProcessor(jmsRequestLogger);
+        verify(requestHandler, never()).disableProcessor(jmsRequestLoggerProcessor);
         verify(responseHandler, never()).disableProcessor(jmsResponseProcessor);
     }
 
@@ -104,7 +106,7 @@ public class MessageLoggingToggleTest {
         // WHEN
         underTest.onApplicationEvent(event);
         // THEN
-        verify(requestHandler, never()).disableProcessor(jmsRequestLogger);
+        verify(requestHandler, never()).disableProcessor(jmsRequestLoggerProcessor);
         verify(responseHandler, never()).disableProcessor(jmsResponseProcessor);
     }
 
@@ -114,7 +116,7 @@ public class MessageLoggingToggleTest {
         // WHEN
         underTest.switchOffMessageLogging();
         // THEN
-        verify(requestHandler).disableProcessor(jmsRequestLogger);
+        verify(requestHandler).disableProcessor(jmsRequestLoggerProcessor);
         verify(responseHandler).disableProcessor(jmsResponseProcessor);
     }
 
@@ -124,30 +126,30 @@ public class MessageLoggingToggleTest {
         // WHEN
         underTest.switchOnMessageLogging();
         // THEN
-        verify(requestHandler).enableProcessor(jmsRequestLogger);
+        verify(requestHandler).enableProcessor(jmsRequestLoggerProcessor);
         verify(responseHandler).enableProcessor(jmsResponseProcessor);
     }
 
     @Test
     public final void testIsRequestLoggingOnReturnsTrueIfHandlerContainsProcessor() {
         // GIVEN in setup
-        given(requestHandler.containsProcessor(jmsRequestLogger)).willReturn(true);
-        given(requestHandler.isProcessorEnabled(jmsRequestLogger)).willReturn(true);
+        given(requestHandler.containsProcessor(jmsRequestLoggerProcessor)).willReturn(true);
+        given(requestHandler.isProcessorEnabled(jmsRequestLoggerProcessor)).willReturn(true);
         // WHEN
         boolean actual = underTest.isRequestLoggingOn();
         // THEN
-        verify(requestHandler).isProcessorEnabled(jmsRequestLogger);
+        verify(requestHandler).isProcessorEnabled(jmsRequestLoggerProcessor);
         assertTrue(actual);
     }
 
     @Test
     public final void testIsRequestLoggingOnReturnsFalseIfHandlerDoesNotContainProcessor() {
         // GIVEN in setup
-        given(requestHandler.isProcessorEnabled(jmsRequestLogger)).willReturn(false);
+        given(requestHandler.isProcessorEnabled(jmsRequestLoggerProcessor)).willReturn(false);
         // WHEN
         boolean actual = underTest.isRequestLoggingOn();
         // THEN
-        verify(requestHandler).isProcessorEnabled(jmsRequestLogger);
+        verify(requestHandler).isProcessorEnabled(jmsRequestLoggerProcessor);
         assertFalse(actual);
     }
 

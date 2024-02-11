@@ -64,7 +64,7 @@ public class OperationConfigurationTest {
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         WilmaServiceConfig config = createMockConfig();
         operationConfiguration = new OperationConfiguration(config, client);

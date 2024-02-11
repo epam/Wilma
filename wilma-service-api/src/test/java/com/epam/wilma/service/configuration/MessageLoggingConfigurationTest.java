@@ -57,7 +57,7 @@ public class MessageLoggingConfigurationTest {
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         WilmaServiceConfig config = createMockConfig();
         messageLoggingConfiguration = new MessageLoggingConfiguration(config, client);

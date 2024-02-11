@@ -60,7 +60,7 @@ public class MessageMarkingConfigurationTest {
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         WilmaServiceConfig config = createMockConfig();
         messageMarkingConfiguration = new MessageMarkingConfiguration(config, client);

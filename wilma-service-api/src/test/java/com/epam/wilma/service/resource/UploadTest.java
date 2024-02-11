@@ -64,7 +64,7 @@ public class UploadTest {
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         WilmaServiceConfig config = createMockConfig();
         fileUpload = new Upload(config, client);

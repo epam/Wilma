@@ -57,7 +57,7 @@ public class SequenceConfigurationTest {
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         WilmaServiceConfig config = createMockConfig();
         sequenceConfiguration = new SequenceConfiguration(config, client);

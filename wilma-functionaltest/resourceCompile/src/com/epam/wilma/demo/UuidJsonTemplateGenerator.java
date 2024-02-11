@@ -23,14 +23,14 @@ import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Generates a JSON response body: { "uuid": "toBeFormatted" }
+ * Generates a JSON response body: { "uuid": "toBeFormatted" }.
  */
 
 public class UuidJsonTemplateGenerator implements TemplateGenerator {
 
     @Override
     public byte[] generateTemplate() {
-        JSONObject o = new JSONObject("{ \"uuid\": \"toBeFormatted\" }" );
+        JSONObject o = new JSONObject("{ \"uuid\": \"toBeFormatted\" }");
         return o.toString().getBytes(StandardCharsets.UTF_8);
     }
 }
