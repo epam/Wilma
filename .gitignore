@@ -23,9 +23,6 @@ wilma-functionaltest/resources/src/**/*.class
 wilma-functionaltest/resources/preCompiled/*.class
 wilma-functionaltest/resources/preCompiled/*.jar
 wilma-functionaltest/classes
-browsermob-proxy/gradlew
-browsermob-proxy/gradlew.bat
-browsermob-proxy/gradle
 wilma-test/wilma-test-server/gradle
 wilma-test/wilma-test-server/gradlew*
 wilma-test/wilma-test-client/gradle

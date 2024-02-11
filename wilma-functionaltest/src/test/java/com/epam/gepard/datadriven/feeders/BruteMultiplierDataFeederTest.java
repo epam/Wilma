@@ -25,9 +25,9 @@ import org.junit.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import com.epam.gepard.datadriven.DataDrivenParameterArray;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Unit tests for {@link BruteMultiplierDataFeeder}.
@@ -86,7 +86,7 @@ public class BruteMultiplierDataFeederTest {
     public void testCalculateRuns() {
         //GIVEN
         int expected = 4;
-        Whitebox.setInternalState(underTest, "multiplier", 2);
+        ReflectionTestUtils.setField(underTest, "multiplier", 2);
         //WHEN
         int actual = underTest.calculateRuns("com.epam.test.TestClass", 2);
         //THEN
@@ -96,7 +96,7 @@ public class BruteMultiplierDataFeederTest {
     @Test
     public void testCalculateParameterArrayWhenInputArrayNull() {
         //GIVEN
-        Whitebox.setInternalState(underTest, "multiplier", 2);
+        ReflectionTestUtils.setField(underTest, "multiplier", 2);
         String[] expectedParameterNames = new String[]{"MULTIPLIER"};
         //WHEN
         DataDrivenParameterArray actual = underTest.calculateParameterArray("com.epam.test.TestClass", null);
@@ -113,7 +113,7 @@ public class BruteMultiplierDataFeederTest {
     @Test
     public void testCalculateParameterArray() {
         //GIVEN
-        Whitebox.setInternalState(underTest, "multiplier", 2);
+        ReflectionTestUtils.setField(underTest, "multiplier", 2);
         String[] expectedParameterNames = new String[]{"MULTIPLIER"};
 
         DataDrivenParameterArray testArray = new DataDrivenParameterArray();

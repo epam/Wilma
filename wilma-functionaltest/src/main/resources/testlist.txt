@@ -8,6 +8,7 @@ com.epam.wilma.gepard.test.basic.VersionTest,,STUBCONFIG
 com.epam.wilma.gepard.test.basic.TestServerVersionTest,,STUBCONFIG
 com.epam.wilma.gepard.test.basic.BasicProxyBehaviorTest,4,STUBCONFIG
 com.epam.wilma.gepard.test.basic.BasicProxySslBehaviorTest,4,STUBCONFIG
+com.epam.wilma.gepard.test.basic.ExternalTargetProxySslBehaviorTest,3,STUBCONFIG
 com.epam.wilma.gepard.test.basic.BasicStubBehaviorTest,4,STUBCONFIG
 com.epam.wilma.gepard.test.basic.BasicStubSslBehaviorTest,4,STUBCONFIG
 com.epam.wilma.gepard.test.basic.ServerErrorTest,6,STUBCONFIG
@@ -40,7 +41,7 @@ com.epam.wilma.gepard.test.sequence.handling.MultipleSequencesTest,,STUBCONFIG
 com.epam.wilma.gepard.test.sequence.handling.MultipleSequenceDescriptorsTest,2,STUBCONFIG
 com.epam.wilma.gepard.test.stubconfig.ActualStubConfigTest,,STUBCONFIG
 com.epam.wilma.gepard.test.stubconfig.StubConfigResourceTest,14,STUBCONFIG
-com.epam.wilma.gepard.test.stubconfig.StubConfigBadResourceTest,11,STUBCONFIG
+com.epam.wilma.gepard.test.stubconfig.StubConfigBadResourceTest,8,STUBCONFIG
 com.epam.wilma.gepard.test.stubconfig.StubConfigJarResourceTest,7,STUBCONFIG
 com.epam.wilma.gepard.test.stubconfig.StubConfigTest,8,STUBCONFIG
 com.epam.wilma.gepard.test.stubconfig.multi.DropStubConfigTest,,STUBCONFIG

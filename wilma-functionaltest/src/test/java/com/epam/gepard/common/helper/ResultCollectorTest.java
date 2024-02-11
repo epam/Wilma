@@ -19,7 +19,7 @@ package com.epam.gepard.common.helper;
  along with Gepard.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================*/
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -33,13 +33,13 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import com.epam.gepard.common.Environment;
 import com.epam.gepard.common.TestClassExecutionData;
 import com.epam.gepard.generic.GenericListTestSuite;
 import com.epam.gepard.helper.AllTestResults;
 import com.epam.gepard.logger.LogFileWriter;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Unit tests for {@link ResultCollector}.
@@ -60,7 +60,7 @@ public class ResultCollectorTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         environment = new Environment();
         underTest = new ResultCollector();
     }
@@ -70,12 +70,12 @@ public class ResultCollectorTest {
         //GIVEN
         Map<String, TestClassExecutionData> testClassMap = new LinkedHashMap<>();
         TestClassExecutionData executionData = new TestClassExecutionData("testID", environment);
-        Whitebox.setInternalState(executionData, "lock", -1);
-        Whitebox.setInternalState(executionData, "testURL", "testURL");
-        Whitebox.setInternalState(executionData, "countDummy", 0);
-        Whitebox.setInternalState(executionData, "countPassed", 0);
-        Whitebox.setInternalState(executionData, "countFailed", 0);
-        Whitebox.setInternalState(executionData, "countNA", 0);
+        ReflectionTestUtils.setField(executionData, "lock", -1);
+        ReflectionTestUtils.setField(executionData, "testURL", "testURL");
+        ReflectionTestUtils.setField(executionData, "countDummy", 0);
+        ReflectionTestUtils.setField(executionData, "countPassed", 0);
+        ReflectionTestUtils.setField(executionData, "countFailed", 0);
+        ReflectionTestUtils.setField(executionData, "countNA", 0);
 
         testClassMap.put("test.class", executionData);
         GenericListTestSuite.setTestClassMap(testClassMap);
@@ -84,7 +84,7 @@ public class ResultCollectorTest {
         //THEN
         verify(htmlLog).insertBlock(eq("TestRow"), Mockito.any(Properties.class));
         verify(csvLog).insertBlock(eq("TestRow"), Mockito.any(Properties.class));
-        boolean resultOdd = (boolean) Whitebox.getInternalState(underTest, "odd");
+        boolean resultOdd = (boolean) ReflectionTestUtils.getField(underTest, "odd");
         Assert.assertTrue(resultOdd);
     }
 
@@ -93,12 +93,12 @@ public class ResultCollectorTest {
         //GIVEN
         Map<String, TestClassExecutionData> testClassMap = new LinkedHashMap<>();
         TestClassExecutionData executionData = new TestClassExecutionData("testID", environment);
-        Whitebox.setInternalState(executionData, "lock", -1);
-        Whitebox.setInternalState(executionData, "testURL", "testURL");
-        Whitebox.setInternalState(executionData, "countDummy", 0);
-        Whitebox.setInternalState(executionData, "countPassed", 0);
-        Whitebox.setInternalState(executionData, "countFailed", 0);
-        Whitebox.setInternalState(executionData, "countNA", 0);
+        ReflectionTestUtils.setField(executionData, "lock", -1);
+        ReflectionTestUtils.setField(executionData, "testURL", "testURL");
+        ReflectionTestUtils.setField(executionData, "countDummy", 0);
+        ReflectionTestUtils.setField(executionData, "countPassed", 0);
+        ReflectionTestUtils.setField(executionData, "countFailed", 0);
+        ReflectionTestUtils.setField(executionData, "countNA", 0);
 
         testClassMap.put("test.class.first", executionData);
         testClassMap.put("test.class.second", executionData);
@@ -108,7 +108,7 @@ public class ResultCollectorTest {
         //THEN
         verify(htmlLog, times(2)).insertBlock(eq("TestRow"), Mockito.any(Properties.class));
         verify(csvLog, times(2)).insertBlock(eq("TestRow"), Mockito.any(Properties.class));
-        boolean resultOdd = (boolean) Whitebox.getInternalState(underTest, "odd");
+        boolean resultOdd = (boolean) ReflectionTestUtils.getField(underTest, "odd");
         Assert.assertFalse(resultOdd);
     }
 }

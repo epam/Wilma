@@ -57,7 +57,7 @@ public class LocalhostBlockingConfigurationTest {
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         WilmaServiceConfig config = createMockConfig();
         localhostBlockingConfiguration = new LocalhostBlockingConfiguration(config, client);

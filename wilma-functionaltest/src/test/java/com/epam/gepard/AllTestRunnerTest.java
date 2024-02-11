@@ -34,12 +34,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Properties;
 
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -79,8 +79,8 @@ public class AllTestRunnerTest {
     public void setup() {
         environment = new Environment();
         underTest = new AllTestRunner(environment, reportFinalizer, failureReporter, logFolderCreator);
-        MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logFileWriterFactory", logFileWriterFactory);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(underTest, "logFileWriterFactory", logFileWriterFactory);
         given(
                 logFileWriterFactory.createSpecificLogWriter(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
                         Mockito.any(Environment.class))).willReturn(htmlLog).willReturn(csvLog).willReturn(quickLog);
@@ -92,7 +92,7 @@ public class AllTestRunnerTest {
     public void testRunAllWithEmptyTestlist() throws Exception {
         //GIVEN
         String testListFile = "src/test/resources/testlist_empty.txt";
-        Whitebox.setInternalState(underTest, "executorThreadManager", executorThreadManager);
+        ReflectionTestUtils.setField(underTest, "executorThreadManager", executorThreadManager);
         environment.setProperty(Environment.GEPARD_LOAD_AND_EXIT, "false");
         //WHEN
         underTest.runAll(testListFile);

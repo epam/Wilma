@@ -40,7 +40,7 @@ public class LabelBasedDataFeederTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new LabelBasedDataFeeder();
     }
 

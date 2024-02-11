@@ -27,11 +27,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import com.epam.gepard.common.Environment;
 import com.epam.gepard.datadriven.feeders.GepardDataFeeder;
 import com.epam.gepard.exception.ShutDownException;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Unit tests for {@link DataFeederLoader}.
@@ -54,7 +54,7 @@ public class DataFeederLoaderTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         Environment environment = new Environment();
         underTest = new DataFeederLoader("com.epam.test.TestClass", "", environment);
     }
@@ -65,8 +65,8 @@ public class DataFeederLoaderTest {
         String className = "com.epam.test.TestClass";
         int count = 2;
         int expected = 4;
-        Whitebox.setInternalState(underTest, "feeder", feeder);
-        Whitebox.setInternalState(underTest, "nextDataFeederLoader", null);
+        ReflectionTestUtils.setField(underTest, "feeder", feeder);
+        ReflectionTestUtils.setField(underTest, "nextDataFeederLoader", null);
         given(feeder.calculateRuns(className, count)).willReturn(expected);
         //WHEN
         int actual = underTest.calculateRuns(className, count);
@@ -81,8 +81,8 @@ public class DataFeederLoaderTest {
         int count = 2;
         int partialResult = 4;
         int expected = 5;
-        Whitebox.setInternalState(underTest, "feeder", feeder);
-        Whitebox.setInternalState(underTest, "nextDataFeederLoader", nextFeederLoader);
+        ReflectionTestUtils.setField(underTest, "feeder", feeder);
+        ReflectionTestUtils.setField(underTest, "nextDataFeederLoader", nextFeederLoader);
         given(feeder.calculateRuns(className, count)).willReturn(partialResult);
         given(nextFeederLoader.calculateRuns(className, partialResult)).willReturn(expected);
         //WHEN
@@ -107,7 +107,7 @@ public class DataFeederLoaderTest {
         //GIVEN
         String className = "com.epam.test.TestClass";
         int count = 2;
-        Whitebox.setInternalState(underTest, "feeder", feeder);
+        ReflectionTestUtils.setField(underTest, "feeder", feeder);
         given(feeder.calculateRuns(className, count)).willReturn(-2);
         //WHEN
         underTest.calculateRuns(className, count);
@@ -121,7 +121,7 @@ public class DataFeederLoaderTest {
         int rowNumber = 1;
         String[] arrayElement = new String[]{"something"};
         String[] parameterNames = new String[]{"PAR0"};
-        Whitebox.setInternalState(underTest, "parameterArray", parameterArray);
+        ReflectionTestUtils.setField(underTest, "parameterArray", parameterArray);
         given(parameterArray.get(rowNumber)).willReturn(arrayElement);
         //WHEN
         DataDrivenParameters actual = underTest.getParameterRow(className, rowNumber);
@@ -137,7 +137,7 @@ public class DataFeederLoaderTest {
         int rowNumber = 1;
         String[] arrayElement = new String[]{"something"};
         String[] parameterNames = new String[]{"test"};
-        Whitebox.setInternalState(underTest, "parameterArray", parameterArray);
+        ReflectionTestUtils.setField(underTest, "parameterArray", parameterArray);
         given(parameterArray.get(rowNumber)).willReturn(arrayElement);
         given(parameterArray.getParameterNames()).willReturn(parameterNames);
         //WHEN
@@ -152,8 +152,8 @@ public class DataFeederLoaderTest {
         //GIVEN
         DataDrivenParameterArray expectedArray = new DataDrivenParameterArray();
         String className = "com.epam.test.TestClass";
-        Whitebox.setInternalState(underTest, "feeder", feeder);
-        Whitebox.setInternalState(underTest, "nextDataFeederLoader", null);
+        ReflectionTestUtils.setField(underTest, "feeder", feeder);
+        ReflectionTestUtils.setField(underTest, "nextDataFeederLoader", null);
         given(feeder.calculateParameterArray(className, inputParameterArray)).willReturn(expectedArray);
         //WHEN
         DataDrivenParameterArray actualArray = underTest.calculateParameterArray(className, inputParameterArray);
@@ -166,8 +166,8 @@ public class DataFeederLoaderTest {
         //GIVEN
         DataDrivenParameterArray expectedArray = new DataDrivenParameterArray();
         String className = "com.epam.test.TestClass";
-        Whitebox.setInternalState(underTest, "feeder", feeder);
-        Whitebox.setInternalState(underTest, "nextDataFeederLoader", nextFeederLoader);
+        ReflectionTestUtils.setField(underTest, "feeder", feeder);
+        ReflectionTestUtils.setField(underTest, "nextDataFeederLoader", nextFeederLoader);
         given(feeder.calculateParameterArray(className, inputParameterArray)).willReturn(outputParameterArray);
         given(nextFeederLoader.calculateParameterArray(className, outputParameterArray)).willReturn(expectedArray);
         //WHEN
@@ -181,7 +181,7 @@ public class DataFeederLoaderTest {
     public void testCalculateParameterArrayWhenFeederIsNull() {
         //GIVEN
         String className = "com.epam.test.TestClass";
-        Whitebox.setInternalState(underTest, "feeder", null);
+        ReflectionTestUtils.setField(underTest, "feeder", null);
         //WHEN
         underTest.calculateParameterArray(className, inputParameterArray);
         //THEN
@@ -191,7 +191,7 @@ public class DataFeederLoaderTest {
     public void testCalculateParameterArrayWhenFeederCalculateParameterArrayReturnsWithNull() {
         //GIVEN
         String className = "com.epam.test.TestClass";
-        Whitebox.setInternalState(underTest, "feeder", feeder);
+        ReflectionTestUtils.setField(underTest, "feeder", feeder);
         given(feeder.calculateParameterArray(className, inputParameterArray)).willReturn(null);
         //WHEN
         underTest.calculateParameterArray(className, inputParameterArray);

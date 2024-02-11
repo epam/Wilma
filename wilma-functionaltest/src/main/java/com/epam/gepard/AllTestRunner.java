@@ -285,7 +285,7 @@ public class AllTestRunner extends TestRunner {
     /**
      * Exit from Gepard.
      *
-     * @param exitCode - exit happens with the this exit code.
+     * @param exitCode - exit happens with this exit code.
      */
     public static void exitFromGepard(final int exitCode) {
         //CHECKSTYLE.OFF

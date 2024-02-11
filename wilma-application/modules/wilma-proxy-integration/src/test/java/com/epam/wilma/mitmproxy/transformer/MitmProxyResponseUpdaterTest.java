@@ -124,4 +124,17 @@ public class MitmProxyResponseUpdaterTest {
         verify(browserMobHttpResponse.getRawResponse()).setStatusCode(0);
     }
 
+    @Test
+    public void testUpdateResponseShouldUpdateContentTypePart() {
+        //GIVEN
+        given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
+        given(wilmaHttpResponse.getStatusCode()).willReturn(0);
+        given(wilmaHttpResponse.getContentType()).willReturn("html");
+        given(wilmaHttpResponse.isVolatile()).willReturn(true);
+        //WHEN
+        underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
+        //THEN
+        verify(browserMobHttpResponse).setContentType("html");
+    }
+
 }

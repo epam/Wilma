@@ -37,40 +37,63 @@ import static org.mockito.BDDMockito.given;
  */
 public class IpAddressResolverTest {
 
-    @Mock
-    private InetAddressFactory inetAddressFactory;
-
     @InjectMocks
     private IpAddressResolver underTest;
 
-    @Mock
-    private InetAddress inetAddress;
-
     @BeforeEach
     public void setUp() throws Exception {
+        underTest = new IpAddressResolver();
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testResolveToHostNameShouldReturnHostName() throws UnknownHostException {
+    public void testResolveToHostNameShouldReturnHostNameLocalIp() throws UnknownHostException {
         //GIVEN
-        String expectedHostName = "expectedHostName";
-        given(inetAddressFactory.createByName("anIPAddress")).willReturn(inetAddress);
-        given(inetAddress.getHostName()).willReturn(expectedHostName);
+        String expectedHostName = "127.0.0.1";
         //WHEN
-        String actualHostName = underTest.resolveToHostName("anIPAddress");
+        String actualHostName = underTest.resolveToHostName("127.0.0.1");
         //THEN
         assertEquals(expectedHostName, actualHostName);
     }
 
     @Test
-    public void testResolveToHostNameShouldReturnUnknownHostNameWhenUnknownHostExceptionOccurs() throws UnknownHostException {
+    public void testResolveToHostNameShouldReturnHostNameLocalHost() throws UnknownHostException {
         //GIVEN
-        String expectedHostName = "UNKNOWN HOST(anIPAddress)";
-        given(inetAddressFactory.createByName("anIPAddress")).willThrow(new UnknownHostException());
+        String expectedHostName = "localhost";
         //WHEN
-        String actualHostName = underTest.resolveToHostName("anIPAddress");
+        String actualHostName = underTest.resolveToHostName("localhost");
         //THEN
         assertEquals(expectedHostName, actualHostName);
     }
+
+    @Test
+    public void testResolveToHostNameShouldReturnHostNameGoogleDns() throws UnknownHostException {
+        //GIVEN
+        String expectedHostName = "dns.google";
+        //WHEN
+        String actualHostName = underTest.resolveToHostName("8.8.8.8");
+        //THEN
+        assertEquals(expectedHostName, actualHostName);
+    }
+
+    @Test
+    public void testResolveToHostNameShouldReturnUnknownHostNameWhenUnknownHostExceptionOccursBadString() throws UnknownHostException {
+        //GIVEN
+        String expectedHostName = "UNKNOWN HOST(notgood)";
+        //WHEN
+        String actualHostName = underTest.resolveToHostName("notgood");
+        //THEN
+        assertEquals(expectedHostName, actualHostName);
+    }
+
+    @Test
+    public void testResolveToHostNameShouldReturnUnknownHostNameWhenUnknownHostExceptionOccursBadIp() throws UnknownHostException {
+        //GIVEN
+        String expectedHostName = "UNKNOWN HOST(56.46.45.260)";
+        //WHEN
+        String actualHostName = underTest.resolveToHostName("56.46.45.260");
+        //THEN
+        assertEquals(expectedHostName, actualHostName);
+    }
+
 }

@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  */
 public class ExtraMitmProxyTest extends AbstractProxyTool {
 
-    private final static String EXTERNAL_CALL = "/ok";
+    private static final String EXTERNAL_CALL = "/ok";
 
     @Override
     protected void setUp() throws NoSuchAlgorithmException {

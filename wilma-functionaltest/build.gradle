@@ -36,19 +36,22 @@ dependencies {
     implementation 'com.sun.mail:javax.mail:1.6.2'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'net.sf.opencsv:opencsv:2.3'
-    implementation 'org.springframework:spring-core:4.1.9.RELEASE'
-    implementation group: 'org.springframework', name: 'spring-jms', version:'4.1.9.RELEASE'
-    implementation group: 'org.mockito', name: 'mockito-all', version:'1.10.19'
+    implementation group: 'org.springframework', name: 'spring-core', version:"${orgSpringframework}"
+    implementation group: 'org.springframework', name: 'spring-jms', version:"${orgSpringframework}"
+    implementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
+//    implementation group: 'org.mockito', name: 'mockito-all', version:'1.10.19'
     implementation group: 'at.bestsolution.efxclipse.eclipse', name: 'org.apache.commons.httpclient', version: '3.1.0'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     implementation 'commons-io:commons-io:2.4'
     implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    implementation 'com.sun.xml.fastinfoset:FastInfoset:2.0.0'
+    implementation 'com.sun.xml.fastinfoset:FastInfoset:2.1.0'
     implementation project(':wilma-service-api')
-    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.12.2'
+    implementation group: 'com.github.everit-org.json-schema', name: 'org.everit.json.schema', version: '1.14.1'
     implementation 'org.xmlunit:xmlunit-core:2.9.0'
     implementation 'org.xmlunit:xmlunit-matchers:2.9.0'
     implementation "$javaxServletApi"
+    implementation(group: 'org.springframework', name: 'spring-context', version:"${orgSpringframework}")
+    implementation(group: 'org.springframework', name: 'spring-test', version:"${orgSpringframework}")
 }
 
 sourceSets {

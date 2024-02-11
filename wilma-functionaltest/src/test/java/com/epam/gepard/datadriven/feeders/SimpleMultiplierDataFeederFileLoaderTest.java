@@ -45,7 +45,7 @@ public class SimpleMultiplierDataFeederFileLoaderTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new SimpleMultiplierDataFeederFileLoader();
     }
 

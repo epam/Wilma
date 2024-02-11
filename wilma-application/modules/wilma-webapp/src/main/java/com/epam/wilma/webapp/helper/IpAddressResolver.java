@@ -39,18 +39,15 @@ public class IpAddressResolver {
     private static final String UNKNOWN_HOST_TEMPLATE = "UNKNOWN HOST(%s)";
     private final Logger logger = LoggerFactory.getLogger(IpAddressResolver.class);
 
-    @Autowired
-    private InetAddressFactory inetAddressFactory;
-
     /**
      * Returns the host name that belongs to the given IP address.
      * @param ip the IP address to resolve
-     * @return the host name or if it's not found then the String: UNKNOWN HOST(ip) , where ip is the the given ip to resolve
+     * @return the host name or if it's not found then the String: UNKNOWN HOST(ip) , where ip is the given ip to resolve
      */
     public String resolveToHostName(final String ip) {
         String host = "";
         try {
-            InetAddress address = inetAddressFactory.createByName(ip);
+            InetAddress address = InetAddress.getByName(ip);
             host = address.getHostName();
         } catch (UnknownHostException e) {
             logger.debug(DEBUG_MESSAGE + host, e);

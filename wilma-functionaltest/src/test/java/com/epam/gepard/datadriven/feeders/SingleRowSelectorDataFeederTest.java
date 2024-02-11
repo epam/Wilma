@@ -24,9 +24,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import com.epam.gepard.datadriven.DataDrivenParameterArray;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Unit tests for {@link SingleRowSelectorDataFeeder}.
@@ -38,7 +38,7 @@ public class SingleRowSelectorDataFeederTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         underTest = new SingleRowSelectorDataFeeder();
     }
 
@@ -95,7 +95,7 @@ public class SingleRowSelectorDataFeederTest {
     @Test
     public void testCalculateParameterArrayWhenInputArrayIsNotNull() {
         //GIVEN
-        Whitebox.setInternalState(underTest, "selectedRow", 0);
+        ReflectionTestUtils.setField(underTest, "selectedRow", 0);
         String[] expectedParameterNames = new String[]{"something"};
         DataDrivenParameterArray testArray = new DataDrivenParameterArray();
         String[] parameterNames = new String[1];
@@ -125,7 +125,7 @@ public class SingleRowSelectorDataFeederTest {
     @Test
     public void testCalculateParameterArrayWhenSelectedRowIsGreaterThenInputArraySize() {
         //GIVEN
-        Whitebox.setInternalState(underTest, "selectedRow", 5);
+        ReflectionTestUtils.setField(underTest, "selectedRow", 5);
         DataDrivenParameterArray testArray = new DataDrivenParameterArray();
         String[] parameterNames = new String[1];
         parameterNames[0] = "something";

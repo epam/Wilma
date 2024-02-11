@@ -25,7 +25,7 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'checkstyle'
 apply plugin: 'java'
-apply plugin: 'jacoco'
+//apply plugin: 'jacoco'
 
 if ( !hasProperty('buildNumber') ) {
     rootProject.ext.buildNumber = 'SNAPSHOT'
@@ -46,7 +46,7 @@ targetCompatibility = JavaVersion.VERSION_15
 // checkstyle settings
 // general checkstyle availability:  https://checkstyle.sourceforge.io/releasenotes.html
 // compatibility with sonar https://docs.sonarqube.org/latest/instance-administration/plugin-version-matrix/
-checkstyle.toolVersion = '8.40'
+checkstyle.toolVersion = '8.40'  //should be at least 8.45.1
 checkstyle.ignoreFailures = true
 checkstyle.configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
 checkstyle.configProperties = ['samedir' : "${rootDir}/config/checkstyle"]
@@ -58,12 +58,12 @@ tasks.withType(Checkstyle) {
     }
 }
 
-jacoco {
-    toolVersion = "0.8.7"
-}
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
-}
-test.finalizedBy jacocoTestReport
+//jacoco {
+//    toolVersion = "0.8.7"
+//}
+//jacocoTestReport {
+//    reports {
+//        xml.required
+//    }
+//}
+//test.finalizedBy jacocoTestReport

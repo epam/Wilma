@@ -34,12 +34,10 @@ import com.epam.wilma.service.resource.Upload;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 import java.util.Properties;
@@ -64,7 +62,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  *
  * @author Tamas_Pinter
  */
-@ExtendWith(MockitoExtension.class)
 public class WilmaServiceTest {
 
     private static final String HOST = "host";
@@ -103,6 +100,7 @@ public class WilmaServiceTest {
 
     @BeforeEach
     public void init() {
+        wilmaService = new WilmaService(properties);
         MockitoAnnotations.openMocks(this);
     }
 

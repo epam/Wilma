@@ -79,6 +79,7 @@ def myCopySpec = project.copySpec {
 }
 
 task copyToReleaseRoot (type: Copy) {
+    dependsOn(':wilma-test:wilma-test-server:shadowJar')
     into(rootProject.rootDir.absolutePath + '/wilma-test/wilma-test-server/release')
     rename "wilma-test-server-$version" + '-all.jar', "wilma-test-server-" + "$version" + ".jar"
     with myCopySpec

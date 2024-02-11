@@ -1,0 +1,5 @@
+#NAME,TARGET_URI
+simple_get_reqres.in%https://reqres.in/api/users?page/2
+simple_get_google%https://www.google.com/search?q=Wilma
+simple_get_self_proxy_page%https://mitmjavaproxy.magyar.website
+
