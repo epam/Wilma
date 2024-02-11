@@ -21,14 +21,9 @@ along with Wilma.  If not, see <http://www.gnu.org/licenses/>.
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.given;
 
 /**
  * Unit test for {@link IpAddressResolver}.
@@ -47,53 +42,53 @@ public class IpAddressResolverTest {
     }
 
     @Test
-    public void testResolveToHostNameShouldReturnHostNameLocalIp() throws UnknownHostException {
+    public void testResolveToHostNameShouldReturnHostNameLocalIp() {
         //GIVEN
         String expectedHostName = "127.0.0.1";
         //WHEN
         String actualHostName = underTest.resolveToHostName("127.0.0.1");
         //THEN
-        assertEquals(expectedHostName, actualHostName);
+        assertEquals(expectedHostName, actualHostName, "Actual Host Name is: " + actualHostName);
     }
 
     @Test
-    public void testResolveToHostNameShouldReturnHostNameLocalHost() throws UnknownHostException {
+    public void testResolveToHostNameShouldReturnHostNameLocalHost() {
         //GIVEN
         String expectedHostName = "localhost";
         //WHEN
         String actualHostName = underTest.resolveToHostName("localhost");
         //THEN
-        assertEquals(expectedHostName, actualHostName);
+        assertEquals(expectedHostName, actualHostName, "Actual Host Name is: " + actualHostName);
     }
 
     @Test
-    public void testResolveToHostNameShouldReturnHostNameGoogleDns() throws UnknownHostException {
+    public void testResolveToHostNameShouldReturnHostNameGoogleDns() {
         //GIVEN
         String expectedHostName = "dns.google";
         //WHEN
         String actualHostName = underTest.resolveToHostName("8.8.8.8");
         //THEN
-        assertEquals(expectedHostName, actualHostName);
+        assertEquals(expectedHostName, actualHostName, "Actual Host Name is: " + actualHostName);
     }
 
     @Test
-    public void testResolveToHostNameShouldReturnUnknownHostNameWhenUnknownHostExceptionOccursBadString() throws UnknownHostException {
+    public void testResolveToHostNameShouldReturnUnknownHostNameWhenUnknownHostExceptionOccursBadString() {
         //GIVEN
         String expectedHostName = "UNKNOWN HOST(notgood)";
         //WHEN
         String actualHostName = underTest.resolveToHostName("notgood");
         //THEN
-        assertEquals(expectedHostName, actualHostName);
+        assertEquals(expectedHostName, actualHostName, "Actual Host Name is: " + actualHostName);
     }
 
     @Test
-    public void testResolveToHostNameShouldReturnUnknownHostNameWhenUnknownHostExceptionOccursBadIp() throws UnknownHostException {
+    public void testResolveToHostNameShouldReturnUnknownHostNameWhenUnknownHostExceptionOccursBadIp() {
         //GIVEN
         String expectedHostName = "UNKNOWN HOST(56.46.45.260)";
         //WHEN
         String actualHostName = underTest.resolveToHostName("56.46.45.260");
         //THEN
-        assertEquals(expectedHostName, actualHostName);
+        assertEquals(expectedHostName, actualHostName, "Actual Host Name is: " + actualHostName);
     }
 
 }
