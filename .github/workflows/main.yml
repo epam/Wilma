@@ -23,10 +23,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 15
+      - name: Set up JDK 21
         uses: actions/setup-java@v1
         with:
-          java-version: 15
+          java-version: 21
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
@@ -46,5 +46,5 @@ jobs:
         run: |
           chmod +x gradlew
           java -version
-          ./gradlew build release sonarqube -PbuildNumber=SNAPSHOT
+          ./gradlew build release sonar -PbuildNumber=SNAPSHOT
           

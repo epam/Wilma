@@ -41,7 +41,7 @@ dependencies {
     implementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
     implementation group: 'at.bestsolution.efxclipse.eclipse', name: 'org.apache.commons.httpclient', version: '3.1.0'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-    implementation 'commons-io:commons-io:2.4'
+    implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     implementation 'com.sun.xml.fastinfoset:FastInfoset:2.1.0'
     implementation project(':wilma-service-api')
