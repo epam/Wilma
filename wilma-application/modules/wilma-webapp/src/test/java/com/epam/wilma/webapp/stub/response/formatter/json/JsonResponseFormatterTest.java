@@ -54,7 +54,7 @@ public class JsonResponseFormatterTest {
 
         byte[] formattedResponse = underTest.formatResponse(wilmaRequest, response, template.getBytes(), null);
 
-        assertEquals(whitespaceFree(new String(formattedResponse)), whitespaceFree(expected));
+        assertEquals(whitespaceFree(expected), whitespaceFree(new String(formattedResponse)));
     }
 
     private String whitespaceFree(String string) {
@@ -75,6 +75,8 @@ public class JsonResponseFormatterTest {
                 + "         \"number\":\"1\",\n"
                 + "         \"name\":\"John Smith\",\n"
                 + "         \"pet\":\"cat\",\n"
+                + "         \"bool\":true,\n"
+                + "         \"num\":7,\n"
                 + "         \"email\":\"a@gmail.com\"\n"
                 + "      }"
                 + "   ]\n"
@@ -88,7 +90,9 @@ public class JsonResponseFormatterTest {
                 + "      {\n"
                 + "         \"id\":\"$.request[0].id\",\n"
                 + "         \"number\":\"$.request[0].number\",\n"
-                + "         \"pet\":\"$.request[0].pet\"\n"
+                + "         \"pet\":\"$.request[0].pet\",\n"
+                + "         \"bool2\": \"$.request[0].bool\",\n"
+                + "         \"num2\": \"$.request[0].num\"\n"
                 + "      }\n"
                 + "   ]\n"
                 + "}";
@@ -101,7 +105,9 @@ public class JsonResponseFormatterTest {
                 + "      {\n"
                 + "         \"id\":\"103\",\n"
                 + "         \"number\":\"1\",\n"
-                + "         \"pet\":\"cat\"\n"
+                + "         \"pet\":\"cat\",\n"
+                + "         \"bool2\":true,\n"
+                + "         \"num2\":7\n"
                 + "      }\n"
                 + "   ]"
                 + "}";
@@ -109,6 +115,8 @@ public class JsonResponseFormatterTest {
 
     private String gotRequest() {
         return "{\n" + "   \"characters\":[\n" + "      {\n"
+                + "         \"bool\":true,\n"
+                + "         \"num\": 7,\n"
                 + "         \"name\":\"Jaime Lannister\",\n"
                 + "         \"title\":\"The Kingslayer\",\n"
                 + "         \"location\":\"King's Landing\"\n" + "      },\n"

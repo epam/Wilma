@@ -30,6 +30,7 @@ public class WilmaHttpResponse extends WilmaHttpEntity {
 
     private String contentType;
     private int statusCode;
+    private String reasonPhrase;
     //holder of request headers
     private final Map<String, String> requestHeaders = new HashMap<>();
     //information about the original URI request received to the Wilma (to the proxy)
@@ -104,7 +105,7 @@ public class WilmaHttpResponse extends WilmaHttpEntity {
      * without any compression method).
      *
      * @param newBodyArray is the prepared (gzipped, etc, as necessary) content of the new response
-     * @param newBody is the new message content - the human readable part
+     * @param newBody is the new message content - the human-readable part
      */
     @Override
     public void setNewBody(byte[] newBodyArray, String newBody) {
@@ -119,5 +120,13 @@ public class WilmaHttpResponse extends WilmaHttpEntity {
 
     public void setProxyRequestLine(final String proxyRequestLine) {
         this.proxyRequestLine = proxyRequestLine;
+    }
+
+    public String getReasonPhrase() {
+        return reasonPhrase;
+    }
+
+    public void setReasonPhrase(String reasonPhrase) {
+        this.reasonPhrase = reasonPhrase;
     }
 }

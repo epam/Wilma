@@ -25,7 +25,7 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'checkstyle'
 apply plugin: 'java'
-//apply plugin: 'jacoco'
+apply plugin: 'jacoco'
 
 if ( !hasProperty('buildNumber') ) {
     rootProject.ext.buildNumber = 'SNAPSHOT'
@@ -58,12 +58,12 @@ tasks.withType(Checkstyle) {
     }
 }
 
-//jacoco {
-//    toolVersion = "0.8.7"
-//}
-//jacocoTestReport {
-//    reports {
-//        xml.required
-//    }
-//}
-//test.finalizedBy jacocoTestReport
+jacoco {
+    toolVersion = "0.8.11"
+}
+jacocoTestReport {
+    reports {
+        xml.required
+    }
+}
+test.finalizedBy jacocoTestReport

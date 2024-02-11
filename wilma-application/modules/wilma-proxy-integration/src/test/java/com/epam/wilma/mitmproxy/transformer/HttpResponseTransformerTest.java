@@ -160,6 +160,21 @@ public class HttpResponseTransformerTest {
         verify(response).setProxyRequestLine(REQUEST_PROXY_LINE);
     }
 
+    @Test
+    public void testTransformShouldSetStatusCodeAndReasonPhrase() {
+        //GIVEN
+        int statusCode = 303;
+        String reasonPhrase = "WILMA";
+        setMocksForMessageContent();
+        setMocksForMessageConfiguration();
+        given(browserMobHttpResponse.getStatus()).willReturn(statusCode);
+        given(browserMobHttpResponse.getRawResponse().getStatusLine().getReasonPhrase()).willReturn(reasonPhrase);
+        //WHEN
+        underTest.transformResponse(browserMobHttpResponse);
+        //THEN
+        verify(response).setStatusCode(statusCode);
+        verify(response).setReasonPhrase(reasonPhrase);
+    }
 
     private void setMocksForMessageConfiguration() {
         MessagePropertyDTO propertiesDTO = new MessagePropertyDTO(PREFIX);
@@ -171,6 +186,7 @@ public class HttpResponseTransformerTest {
         given(browserMobHttpResponse.getRequestHeaders()).willReturn(requestHeaders);
         given(browserMobHttpResponse.getBodyString()).willReturn(RESPONSE_BODY);
         given(browserMobHttpResponse.getStatus()).willReturn(200);
+        given(browserMobHttpResponse.getContentType()).willReturn(CONTENT_TYPE);
     }
 
 }

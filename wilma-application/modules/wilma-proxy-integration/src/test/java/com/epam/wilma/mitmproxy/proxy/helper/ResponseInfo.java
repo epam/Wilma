@@ -3,7 +3,7 @@ package com.epam.wilma.mitmproxy.proxy.helper;
 import org.apache.http.Header;
 
 /**
- * This class is originated from project: https://github.com/tkohegyi/mitmJavaProxy
+ * This class is originated from project: <a href="https://github.com/tkohegyi/mitmJavaProxy">tkohegyi/mitmJavaProxy</a>
  *
  * @author Tamas_Kohegyi
  */
@@ -38,25 +38,31 @@ public class ResponseInfo {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ResponseInfo other = (ResponseInfo) obj;
         if (body == null) {
-            if (other.body != null)
+            if (other.body != null) {
                 return false;
-        } else if (!body.equals(other.body))
-            return false;
+            }
+        } else {
+            if (!body.equals(other.body)) {
+                return false;
+            }
+        }
         return statusCode == other.statusCode;
     }
 
     @Override
     public String toString() {
-        return "ResponseInfo [statusCode=" + statusCode + ", body=" + body
-                + "]";
+        return "ResponseInfo [statusCode=" + statusCode + ", body=" + body + "]";
     }
 
     public String getContentEncoding() {

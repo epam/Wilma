@@ -2,18 +2,22 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>2.0</version>
+    <version>2.5.1</version>
     <title>$title$</title>
     <authors>Tamas Kohegyi</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">GPL-3.0-or-later</license>
     <projectUrl>https://github.com/epam/Wilma/wiki/Wilma-Service-API-library-for-.NET</projectUrl>
-    <description>.NET Service API/dll for Wilma V2.0</description>
+    <description>.NET Service API/dll for Wilma V2.5.x</description>
     <releaseNotes>Updated dependencies.</releaseNotes>
     <copyright>Copyright © since 2016, EPAM Systems</copyright>
     <tags>EPAM Wilma Proxy ServiceVirtualization</tags>
     <dependencies>
-      <group targetFramework=".NETFramework4.0" />
+      <group targetFramework=".NETFramework4.8" />
     </dependencies>
+    <readme>README-API.md</readme>
   </metadata>
+  <files>
+    <file src="../README-API.md" target="." />
+    </files>
 </package>

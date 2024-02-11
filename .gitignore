@@ -35,4 +35,7 @@ status.txt
 wilma-service-api-net/wilma-service-api/nuget.exe
 *.snk
 .vs/
+MigrationBackup
+System.*
+
 

@@ -121,6 +121,7 @@ public class MitmProxyResponseUpdaterTest {
         //WHEN
         underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
         //THEN
+        verify(browserMobHttpResponse).setStatus(0);
         verify(browserMobHttpResponse.getRawResponse()).setStatusCode(0);
     }
 
@@ -135,6 +136,19 @@ public class MitmProxyResponseUpdaterTest {
         underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
         //THEN
         verify(browserMobHttpResponse).setContentType("html");
+    }
+
+    @Test
+    public void testUpdateResponseShouldUpdateReasonPhrasePart() {
+        //GIVEN
+        given(browserMobHttpResponse.getRawResponse()).willReturn(httpResponse);
+        given(wilmaHttpResponse.getStatusCode()).willReturn(0);
+        given(wilmaHttpResponse.getReasonPhrase()).willReturn("phrase");
+        given(wilmaHttpResponse.isVolatile()).willReturn(true);
+        //WHEN
+        underTest.updateResponse(browserMobHttpResponse, wilmaHttpResponse);
+        //THEN
+        verify(browserMobHttpResponse).setReasonPhrase("phrase");
     }
 
 }

@@ -1,7 +1,7 @@
 # this starts from Wilma base, so just adds the message search related things
-FROM epam/wilma
+FROM epamenterprise/wilma
 
-MAINTAINER Tamas Kohegyi <tkohegyi2@gmail.com>
+MAINTAINER Tamas Kohegyi <tamas_kohegyi@epam.com>
 
 RUN \
   mkdir /data/wilma-ms && \
@@ -11,10 +11,10 @@ RUN \
   apt-get upgrade -y && \
   apt-get install -y openjdk-17-jdk && \
   rm -rf /var/libs/apt/lists/* && \
-  wget https://github.com/epam/Wilma/releases/download/V2.3.480/wilma-message-search-2.3.480.zip && \
-  unzip -o wilma-message-search-2.3.480.zip && \
-  mv wilma-message-search-2.3.480.jar wilma-message-search.jar && \
-  rm -f wilma-message-search-2.3.480.zip
+  wget https://github.com/epam/Wilma/releases/download/V2.5.493/wilma-message-search-2.5.493.zip && \
+  unzip -o wilma-message-search-2.5.493.zip && \
+  mv wilma-message-search-2.5.493.jar wilma-message-search.jar && \
+  rm -f wilma-message-search-2.5.493.zip
 
 COPY start_wilma_and_message_search.sh /data/
 RUN \

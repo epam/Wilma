@@ -42,5 +42,3 @@ dependencies {
     testImplementation group: 'com.nixxcode.jvmbrotli', name: 'jvmbrotli-win32-x86-amd64', version: '0.2.0'
     testImplementation group: 'com.nixxcode.jvmbrotli', name: 'jvmbrotli-linux-x86-amd64', version: '0.2.0'
 }
-
-test.useJUnit()

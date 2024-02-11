@@ -22,7 +22,7 @@ ext.componentDescription = "Wilma-Service-API"
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'java-library'
-//apply plugin: 'jacoco'
+apply plugin: 'jacoco'
 
 def isSnapshot = project.version.contains('SNAPSHOT')
 
@@ -48,15 +48,15 @@ dependencies {
 
 test.useJUnitPlatform()
 
-//jacoco {
-//    toolVersion = "0.8.7"
-//}
-//jacocoTestReport {
-//    reports {
-//        xml.required
-//    }
-//}
-//test.finalizedBy jacocoTestReport
+jacoco {
+    toolVersion = "0.8.11"
+}
+jacocoTestReport {
+    reports {
+        xml.required
+    }
+}
+test.finalizedBy jacocoTestReport
 
 task docs(type: Javadoc) {
     destinationDir = file("$buildDir/docs/all")

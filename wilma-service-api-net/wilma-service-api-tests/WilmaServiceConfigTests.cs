@@ -36,15 +36,23 @@ namespace wilma_service_api_tests
         [Test]
         public void HostIsNull_CreateWilmaServiceConfig_ThrowArgumentNullException()
         {
-            Action ac = () => { new WilmaServiceConfig(null, 0); };
-            ac.ShouldThrow<ArgumentNullException>();
+            Assert.Throws<ArgumentNullException>(HostIsNull_CreateWilmaServiceConfig_ThrowArgume_CallMethod);
+        }
+
+        void HostIsNull_CreateWilmaServiceConfig_ThrowArgume_CallMethod()
+        {
+            new WilmaServiceConfig(null, 0);
         }
 
         [Test]
         public void HostIsEmpty_CreateWilmaServiceConfig_ThrowArgumentNullException()
         {
-            Action ac = () => { new WilmaServiceConfig("", 0); };
-            ac.ShouldThrow<ArgumentNullException>();
+            Assert.Throws<ArgumentNullException>(HostIsEmpty_CreateWilmaServiceConfig_ThrowArgumentNullE_CallMethod);
+        }
+
+        void HostIsEmpty_CreateWilmaServiceConfig_ThrowArgumentNullE_CallMethod()
+        {
+            new WilmaServiceConfig("", 0);
         }
 
         [Test]
@@ -54,8 +62,8 @@ namespace wilma_service_api_tests
             ushort port = 9875;
             var res = new WilmaServiceConfig(host, port);
 
-            res.Host.ShouldBeEquivalentTo(host);
-            res.Port.ShouldBeEquivalentTo(port);
+            res.Host.Should().BeEquivalentTo(host);
+            Assert.IsTrue(res.Port == port);
         }
     }
 }
